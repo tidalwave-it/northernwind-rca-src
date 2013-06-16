@@ -25,36 +25,42 @@
  * *********************************************************************************************************************
  * #L%
  */
-package it.tidalwave.northernwind.rca.ui.impl;
+package it.tidalwave.northernwind.rca.ui.impl.javafx;
 
+import it.tidalwave.northernwind.rca.ui.ContentExplorerPresentation;
 import javax.annotation.Nonnull;
+import javafx.scene.control.TreeView;
 import it.tidalwave.northernwind.rca.ui.StructureExplorerPresentation;
-import it.tidalwave.northernwind.rca.ui.StructureExplorerPresentationControl;
+import javafx.application.Platform;
+import javafx.scene.control.TreeItem;
 import lombok.RequiredArgsConstructor;
 
 /***********************************************************************************************************************
  *
- * The default implementation for {@link StructureExplorerPresentationControl}.
+ * The JavaFX implementation for {@link ContentExplorerPresentation}.
  *
- * @stereotype Control
+ * @stereotype Presentation
+ *
  * @author  Fabrizio Giudici
  * @version $Id$
  *
  **********************************************************************************************************************/
 @RequiredArgsConstructor
-public class DefaultStructureExplorerPresentationControl implements StructureExplorerPresentationControl
+public class JavaFXStructureExplorerPresentation implements StructureExplorerPresentation
   {
     @Nonnull
-    private final StructureExplorerPresentation presentation;
+    private final TreeView<String> treeView;
 
-    /*******************************************************************************************************************
-     *
-     * {@inheritDoc}
-     *
-     ******************************************************************************************************************/
     @Override
-    public void initialize()
+    public void populate()
       {
-        presentation.populate();
+        Platform.runLater(new Runnable()
+          {
+            @Override
+            public void run()
+              {
+                treeView.setRoot(new TreeItem<>("Content"));
+              }
+          });
       }
   }

@@ -27,6 +27,11 @@
  */
 package it.tidalwave.northernwind.rca.ui.impl.javafx;
 
+import it.tidalwave.northernwind.rca.ui.ContentExplorerPresentation;
+import it.tidalwave.northernwind.rca.ui.ContentExplorerPresentationControl;
+import it.tidalwave.northernwind.rca.ui.StructureExplorerPresentationControl;
+import it.tidalwave.northernwind.rca.ui.impl.DefaultExplorerContentPresentationControl;
+import it.tidalwave.northernwind.rca.ui.impl.DefaultStructureExplorerPresentationControl;
 import javax.annotation.Nonnull;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -47,6 +52,10 @@ public class ApplicationHandler
     @FXML
     private TreeView<String> tvContent;
 
+    private JavaFXStructureExplorerPresentation structureExplorerPresentation;
+
+    private JavaFXContentExplorerPresentation contentExplorerPresentation;
+
     @FXML
     private void onOpen (final @Nonnull ActionEvent event)
       {
@@ -55,7 +64,15 @@ public class ApplicationHandler
 
     public void initialize()
       {
-        tvStructure.setRoot(new TreeItem<>("Structure"));
-        tvContent.setRoot(new TreeItem<>("Content"));
+        structureExplorerPresentation = new JavaFXStructureExplorerPresentation(tvStructure);
+        contentExplorerPresentation = new JavaFXContentExplorerPresentation(tvContent);
+
+        final ContentExplorerPresentationControl contentExplorerPresentationControl =
+                new DefaultExplorerContentPresentationControl(contentExplorerPresentation);
+        final StructureExplorerPresentationControl structureExplorerPresentationControl =
+                new DefaultStructureExplorerPresentationControl(structureExplorerPresentation);
+
+        contentExplorerPresentationControl.initialize();
+        structureExplorerPresentationControl.initialize();
       }
   }

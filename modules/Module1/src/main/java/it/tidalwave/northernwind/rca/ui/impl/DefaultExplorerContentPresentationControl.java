@@ -27,7 +27,10 @@
  */
 package it.tidalwave.northernwind.rca.ui.impl;
 
+import javax.annotation.Nonnull;
+import it.tidalwave.northernwind.rca.ui.ContentExplorerPresentation;
 import it.tidalwave.northernwind.rca.ui.ContentExplorerPresentationControl;
+import lombok.RequiredArgsConstructor;
 
 /***********************************************************************************************************************
  *
@@ -39,6 +42,20 @@ import it.tidalwave.northernwind.rca.ui.ContentExplorerPresentationControl;
  * @version $Id$
  *
  **********************************************************************************************************************/
+@RequiredArgsConstructor
 public class DefaultExplorerContentPresentationControl implements ContentExplorerPresentationControl
   {
+    @Nonnull
+    private final ContentExplorerPresentation presentation;
+
+    /*******************************************************************************************************************
+     *
+     * {@inheritDoc}
+     *
+     ******************************************************************************************************************/
+    @Override
+    public void initialize()
+      {
+        presentation.populate();
+      }
   }
