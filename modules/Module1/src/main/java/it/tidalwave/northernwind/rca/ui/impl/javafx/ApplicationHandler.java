@@ -35,6 +35,7 @@ import javax.annotation.Nonnull;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TreeView;
+import lombok.extern.slf4j.Slf4j;
 
 /***********************************************************************************************************************
  *
@@ -42,6 +43,7 @@ import javafx.scene.control.TreeView;
  * @version $Id$
  *
  **********************************************************************************************************************/
+@Slf4j
 public class ApplicationHandler
   {
     @FXML
@@ -57,7 +59,7 @@ public class ApplicationHandler
     @FXML
     private void onOpen (final @Nonnull ActionEvent event)
       {
-        System.err.println("open: " + event);
+        log.info("open: {}", event);
       }
 
     public void initialize()

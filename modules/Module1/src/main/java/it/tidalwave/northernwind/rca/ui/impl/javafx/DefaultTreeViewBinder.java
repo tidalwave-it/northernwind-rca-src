@@ -39,6 +39,7 @@ import it.tidalwave.util.AsException;
 import it.tidalwave.role.Displayable;
 import it.tidalwave.role.SimpleComposite;
 import it.tidalwave.role.ui.PresentationModel;
+import lombok.extern.slf4j.Slf4j;
 
 /***********************************************************************************************************************
  *
@@ -46,6 +47,7 @@ import it.tidalwave.role.ui.PresentationModel;
  * @version $Id$
  *
  **********************************************************************************************************************/
+@Slf4j
 public class DefaultTreeViewBinder implements TreeViewBinder
   {
     @Override
@@ -61,7 +63,7 @@ public class DefaultTreeViewBinder implements TreeViewBinder
                                  final @Nonnull TreeItem<Object> oldItem,
                                  final @Nonnull TreeItem<Object> item)
               {
-                  System.err.println(item);
+                log.info("selected {}", item);
               }
           });
       }
