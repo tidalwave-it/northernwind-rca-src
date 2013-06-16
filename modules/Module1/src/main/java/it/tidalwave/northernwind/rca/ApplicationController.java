@@ -27,6 +27,12 @@
  */
 package it.tidalwave.northernwind.rca;
 
+import javax.annotation.Nonnull;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.scene.control.TreeItem;
+import javafx.scene.control.TreeView;
+
 /***********************************************************************************************************************
  *
  * @author Fabrizio Giudici
@@ -35,4 +41,21 @@ package it.tidalwave.northernwind.rca;
  **********************************************************************************************************************/
 public class ApplicationController
   {
+    @FXML
+    private TreeView<Object> tvStructure;
+
+    @FXML
+    private TreeView<Object> tvContent;
+
+    @FXML
+    private void onOpen (final @Nonnull ActionEvent event)
+      {
+        System.err.println("open: " + event);
+      }
+
+    public void initialize()
+      {
+        tvStructure.setRoot(new TreeItem<Object>("Structure"));
+        tvContent.setRoot(new TreeItem<Object>("Content"));
+      }
   }
