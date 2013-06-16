@@ -39,7 +39,7 @@ import javafx.scene.control.TreeView;
  * @version $Id$
  *
  **********************************************************************************************************************/
-public class ApplicationController
+public class ApplicationHandler
   {
     @FXML
     private TreeView<Object> tvStructure;
