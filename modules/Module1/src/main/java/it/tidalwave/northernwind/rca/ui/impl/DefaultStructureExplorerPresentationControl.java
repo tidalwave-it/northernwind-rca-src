@@ -56,6 +56,6 @@ public class DefaultStructureExplorerPresentationControl implements StructureExp
     @Override
     public void initialize()
       {
-        presentation.populate(new DefaultPresentationModel());
+        presentation.populate(new DefaultPresentationModel(""));
       }
   }

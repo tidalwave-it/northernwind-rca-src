@@ -29,6 +29,7 @@ package it.tidalwave.northernwind.rca.ui;
 
 import javax.annotation.Nonnull;
 import java.beans.PropertyChangeListener;
+import it.tidalwave.util.AsException;
 import it.tidalwave.role.ui.PresentationModel;
 
 /***********************************************************************************************************************
@@ -39,6 +40,14 @@ import it.tidalwave.role.ui.PresentationModel;
  **********************************************************************************************************************/
 public class DefaultPresentationModel implements PresentationModel
   {
+    private final Object[] roles;
+
+    public DefaultPresentationModel (final @Nonnull Object datum,
+                                     final @Nonnull Object ... roles)
+      {
+        this.roles = roles;
+      }
+
     @Override
     public void addPropertyChangeListener (final @Nonnull PropertyChangeListener listener)
       {
@@ -84,9 +93,17 @@ public class DefaultPresentationModel implements PresentationModel
       }
 
     @Override
-    public <T> T as (Class<T> clazz)
+    public <T> T as (final @Nonnull Class<T> type)
       {
-        throw new UnsupportedOperationException("Not supported yet.");
+        for (final Object role : roles)
+          {
+            if (type.isAssignableFrom(role.getClass()))
+              {
+                return (T)role;
+            }
+          }
+
+        throw new AsException(type);
       }
 
     @Override
