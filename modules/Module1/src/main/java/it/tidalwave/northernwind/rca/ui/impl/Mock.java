@@ -25,12 +25,12 @@
  * *********************************************************************************************************************
  * #L%
  */
-package it.tidalwave.northernwind.rca.ui;
+package it.tidalwave.northernwind.rca.ui.impl;
 
 import javax.annotation.Nonnull;
-import java.beans.PropertyChangeListener;
+import it.tidalwave.util.As;
 import it.tidalwave.util.AsException;
-import it.tidalwave.role.ui.PresentationModel;
+import it.tidalwave.role.spi.DefaultDisplayable;
 
 /***********************************************************************************************************************
  *
@@ -38,58 +38,13 @@ import it.tidalwave.role.ui.PresentationModel;
  * @version $Id$
  *
  **********************************************************************************************************************/
-public class DefaultPresentationModel implements PresentationModel
+class Mock implements As
   {
     private final Object[] roles;
 
-    public DefaultPresentationModel (final @Nonnull Object datum,
-                                     final @Nonnull Object ... roles)
+    public Mock (final @Nonnull String displayName)
       {
-        this.roles = roles;
-      }
-
-    @Override
-    public void addPropertyChangeListener (final @Nonnull PropertyChangeListener listener)
-      {
-        throw new UnsupportedOperationException("Not supported yet.");
-      }
-
-    @Override
-    public void addPropertyChangeListener (final @Nonnull String propertyName,
-                                           final @Nonnull PropertyChangeListener listener)
-      {
-        throw new UnsupportedOperationException("Not supported yet.");
-      }
-
-    @Override
-    public void removePropertyChangeListener (final @Nonnull PropertyChangeListener listener)
-      {
-        throw new UnsupportedOperationException("Not supported yet.");
-      }
-
-    @Override
-    public void removePropertyChangeListener (final @Nonnull String propertyName,
-                                              final @Nonnull PropertyChangeListener listener)
-      {
-        throw new UnsupportedOperationException("Not supported yet.");
-      }
-
-    @Override
-    public boolean hasListeners(String propertyName)
-      {
-        throw new UnsupportedOperationException("Not supported yet.");
-      }
-
-    @Override
-    public PropertyChangeListener[] getPropertyChangeListeners()
-      {
-        throw new UnsupportedOperationException("Not supported yet.");
-      }
-
-    @Override
-    public PropertyChangeListener[] getPropertyChangeListeners (final @Nonnull String propertyName)
-      {
-        throw new UnsupportedOperationException("Not supported yet.");
+        roles = new Object[]{new DefaultDisplayable(displayName)};
       }
 
     @Override
@@ -99,7 +54,7 @@ public class DefaultPresentationModel implements PresentationModel
           {
             if (type.isAssignableFrom(role.getClass()))
               {
-                return (T)role;
+                return (T) role;
               }
           }
 

@@ -27,50 +27,18 @@
  */
 package it.tidalwave.northernwind.rca.ui.impl.javafx;
 
-import it.tidalwave.northernwind.rca.ui.ContentExplorerPresentationControl;
-import it.tidalwave.northernwind.rca.ui.StructureExplorerPresentationControl;
-import it.tidalwave.northernwind.rca.ui.impl.DefaultContentExplorerPresentationControl;
-import it.tidalwave.northernwind.rca.ui.impl.DefaultStructureExplorerPresentationControl;
 import javax.annotation.Nonnull;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.scene.control.TreeView;
+import javafx.scene.control.TreeItem;
+import it.tidalwave.role.ui.PresentationModel;
 
 /***********************************************************************************************************************
  *
- * @author Fabrizio Giudici
+ * @author  Fabrizio Giudici
  * @version $Id$
  *
  **********************************************************************************************************************/
-public class ApplicationHandler
+public interface TreeItemFactory
   {
-    @FXML
-    private TreeView<Object> tvStructure;
-
-    @FXML
-    private TreeView<Object> tvContent;
-
-    private JavaFXStructureExplorerPresentation structureExplorerPresentation;
-
-    private JavaFXContentExplorerPresentation contentExplorerPresentation;
-
-    @FXML
-    private void onOpen (final @Nonnull ActionEvent event)
-      {
-        System.err.println("open: " + event);
-      }
-
-    public void initialize()
-      {
-        structureExplorerPresentation = new JavaFXStructureExplorerPresentation(tvStructure);
-        contentExplorerPresentation = new JavaFXContentExplorerPresentation(tvContent);
-
-        final ContentExplorerPresentationControl contentExplorerPresentationControl =
-                new DefaultContentExplorerPresentationControl(contentExplorerPresentation);
-        final StructureExplorerPresentationControl structureExplorerPresentationControl =
-                new DefaultStructureExplorerPresentationControl(structureExplorerPresentation);
-
-        contentExplorerPresentationControl.initialize();
-        structureExplorerPresentationControl.initialize();
-      }
+    @Nonnull
+    public TreeItem<Object> createTreeItem (@Nonnull PresentationModel pm);
   }

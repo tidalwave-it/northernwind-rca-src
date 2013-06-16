@@ -28,15 +28,10 @@
 package it.tidalwave.northernwind.rca.ui.impl.javafx;
 
 import javax.annotation.Nonnull;
-import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.application.Platform;
 import it.tidalwave.role.ui.PresentationModel;
 import it.tidalwave.northernwind.rca.ui.ContentExplorerPresentation;
-import it.tidalwave.role.Displayable;
-import it.tidalwave.role.SimpleComposite;
-import it.tidalwave.util.As;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 
 /***********************************************************************************************************************
@@ -53,8 +48,10 @@ import lombok.RequiredArgsConstructor;
 public class JavaFXContentExplorerPresentation implements ContentExplorerPresentation
   {
     @Nonnull
-    private final TreeView<String> treeView;
+    private final TreeView<Object> treeView;
 
+    private final TreeItemFactory treeItemFactory = new DefaultTreeItemFactory();
+    
     @Override
     public void populate (final @Nonnull PresentationModel pm)
       {
@@ -63,17 +60,7 @@ public class JavaFXContentExplorerPresentation implements ContentExplorerPresent
             @Override
             public void run()
               {
-                final TreeItem<String> rootItem = new TreeItem<>("Structure");
-                final SimpleComposite<? extends As> composite = pm.as(SimpleComposite.class);
-                final List<? extends As> objects = composite.findChildren().results();
-
-                for (final As object : objects)
-                  {
-                    final TreeItem<String> item = new TreeItem<>(object.as(Displayable.class).getDisplayName());
-                    rootItem.getChildren().add(item);
-                  }
-
-                treeView.setRoot(rootItem);
+                treeView.setRoot(treeItemFactory.createTreeItem(pm));
               }
           });
       }

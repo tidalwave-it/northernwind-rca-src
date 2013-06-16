@@ -28,6 +28,12 @@
 package it.tidalwave.northernwind.rca.ui.impl;
 
 import javax.annotation.Nonnull;
+import java.util.Arrays;
+import java.util.List;
+import it.tidalwave.util.Finder;
+import it.tidalwave.util.spi.SimpleFinderSupport;
+import it.tidalwave.role.SimpleComposite;
+import it.tidalwave.role.spi.DefaultSimpleComposite;
 import it.tidalwave.northernwind.rca.ui.DefaultPresentationModel;
 import it.tidalwave.northernwind.rca.ui.StructureExplorerPresentation;
 import it.tidalwave.northernwind.rca.ui.StructureExplorerPresentationControl;
@@ -56,6 +62,16 @@ public class DefaultStructureExplorerPresentationControl implements StructureExp
     @Override
     public void initialize()
       {
-        presentation.populate(new DefaultPresentationModel(""));
+        final Finder<Mock> finder = new SimpleFinderSupport<Mock>()
+          {
+            @Override
+            protected List<? extends Mock> computeResults()
+              {
+                return Arrays.asList(new Mock("structure 1"), new Mock("structure 2"));
+              }
+          };
+
+        final SimpleComposite<Mock> composite = new DefaultSimpleComposite<>(finder);
+        presentation.populate(new DefaultPresentationModel("", new Mock("structure"), composite));
       }
   }
