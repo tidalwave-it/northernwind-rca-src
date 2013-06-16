@@ -33,6 +33,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /***********************************************************************************************************************
  *
@@ -42,10 +43,13 @@ import javafx.stage.Stage;
  **********************************************************************************************************************/
 public class Main extends Application
   {
+    private ClassPathXmlApplicationContext applicationContext;
+
     @Override
     public void start (final @Nonnull Stage stage)
       throws Exception
       {
+        applicationContext = new ClassPathXmlApplicationContext("classpath*:/META-INF/*AutoBeans.xml");
         final Parent application = FXMLLoader.load(getClass().getResource("Application.fxml"));
         final Scene scene = new Scene(application);
         stage.setScene(scene);

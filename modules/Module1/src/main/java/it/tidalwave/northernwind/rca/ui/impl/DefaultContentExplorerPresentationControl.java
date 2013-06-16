@@ -52,16 +52,13 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class DefaultContentExplorerPresentationControl implements ContentExplorerPresentationControl
   {
-    @Nonnull
-    private final ContentExplorerPresentation presentation;
-
     /*******************************************************************************************************************
      *
      * {@inheritDoc}
      *
      ******************************************************************************************************************/
     @Override
-    public void initialize()
+    public void initialize (final @Nonnull ContentExplorerPresentation presentation)
       {
         final Finder<Mock> finder = new SimpleFinderSupport<Mock>()
           {

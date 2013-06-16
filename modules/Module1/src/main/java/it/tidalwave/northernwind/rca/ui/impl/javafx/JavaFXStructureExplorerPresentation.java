@@ -28,11 +28,12 @@
 package it.tidalwave.northernwind.rca.ui.impl.javafx;
 
 import javax.annotation.Nonnull;
+import javax.inject.Inject;
 import javafx.scene.control.TreeView;
 import javafx.application.Platform;
+import org.springframework.beans.factory.annotation.Configurable;
 import it.tidalwave.role.ui.PresentationModel;
 import it.tidalwave.northernwind.rca.ui.StructureExplorerPresentation;
-import lombok.RequiredArgsConstructor;
 
 /***********************************************************************************************************************
  *
@@ -44,13 +45,19 @@ import lombok.RequiredArgsConstructor;
  * @version $Id$
  *
  **********************************************************************************************************************/
-@RequiredArgsConstructor
+@Configurable
 public class JavaFXStructureExplorerPresentation implements StructureExplorerPresentation
   {
+    @Inject @Nonnull
+    private TreeViewBinder treeViewBinder;
+
     @Nonnull
     private final TreeView<Object> treeView;
 
-    private final TreeViewBinder treeViewBinder = new DefaultTreeViewBinder();
+    public JavaFXStructureExplorerPresentation (final @Nonnull TreeView<Object> treeView)
+      {
+        this.treeView = treeView;
+      }
 
     @Override
     public void populate (final @Nonnull PresentationModel pm)

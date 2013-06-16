@@ -27,14 +27,14 @@
  */
 package it.tidalwave.northernwind.rca.ui.impl.javafx;
 
-import it.tidalwave.northernwind.rca.ui.ContentExplorerPresentationControl;
-import it.tidalwave.northernwind.rca.ui.StructureExplorerPresentationControl;
-import it.tidalwave.northernwind.rca.ui.impl.DefaultContentExplorerPresentationControl;
-import it.tidalwave.northernwind.rca.ui.impl.DefaultStructureExplorerPresentationControl;
 import javax.annotation.Nonnull;
+import javax.inject.Inject;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TreeView;
+import org.springframework.beans.factory.annotation.Configurable;
+import it.tidalwave.northernwind.rca.ui.ContentExplorerPresentationControl;
+import it.tidalwave.northernwind.rca.ui.StructureExplorerPresentationControl;
 import lombok.extern.slf4j.Slf4j;
 
 /***********************************************************************************************************************
@@ -43,6 +43,7 @@ import lombok.extern.slf4j.Slf4j;
  * @version $Id$
  *
  **********************************************************************************************************************/
+@Configurable
 @Slf4j
 public class ApplicationHandler
   {
@@ -52,9 +53,11 @@ public class ApplicationHandler
     @FXML
     private TreeView<Object> tvContent;
 
-    private JavaFXStructureExplorerPresentation structureExplorerPresentation;
+    @Inject @Nonnull
+    private StructureExplorerPresentationControl structureExplorerPresentationControl;
 
-    private JavaFXContentExplorerPresentation contentExplorerPresentation;
+    @Inject @Nonnull
+    private ContentExplorerPresentationControl contentExplorerPresentationControl;
 
     @FXML
     private void onOpen (final @Nonnull ActionEvent event)
@@ -64,15 +67,7 @@ public class ApplicationHandler
 
     public void initialize()
       {
-        structureExplorerPresentation = new JavaFXStructureExplorerPresentation(tvStructure);
-        contentExplorerPresentation = new JavaFXContentExplorerPresentation(tvContent);
-
-        final ContentExplorerPresentationControl contentExplorerPresentationControl =
-                new DefaultContentExplorerPresentationControl(contentExplorerPresentation);
-        final StructureExplorerPresentationControl structureExplorerPresentationControl =
-                new DefaultStructureExplorerPresentationControl(structureExplorerPresentation);
-
-        contentExplorerPresentationControl.initialize();
-        structureExplorerPresentationControl.initialize();
+        contentExplorerPresentationControl.initialize(new JavaFXContentExplorerPresentation(tvContent));
+        structureExplorerPresentationControl.initialize(new JavaFXStructureExplorerPresentation(tvStructure));
       }
   }
