@@ -50,8 +50,8 @@ public class JavaFXContentExplorerPresentation implements ContentExplorerPresent
     @Nonnull
     private final TreeView<Object> treeView;
 
-    private final TreeItemFactory treeItemFactory = new DefaultTreeItemFactory();
-    
+    private final TreeViewBinder treeViewBinder = new DefaultTreeViewBinder();
+
     @Override
     public void populate (final @Nonnull PresentationModel pm)
       {
@@ -60,7 +60,7 @@ public class JavaFXContentExplorerPresentation implements ContentExplorerPresent
             @Override
             public void run()
               {
-                treeView.setRoot(treeItemFactory.createTreeItem(pm));
+                treeViewBinder.bind(pm, treeView);
               }
           });
       }

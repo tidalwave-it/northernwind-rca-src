@@ -29,13 +29,16 @@ package it.tidalwave.northernwind.rca.ui.impl.javafx;
 
 import javax.annotation.Nonnull;
 import java.util.List;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.scene.control.TreeItem;
+import javafx.scene.control.TreeView;
+import javafx.application.Platform;
 import it.tidalwave.util.As;
 import it.tidalwave.util.AsException;
 import it.tidalwave.role.Displayable;
 import it.tidalwave.role.SimpleComposite;
 import it.tidalwave.role.ui.PresentationModel;
-import javafx.application.Platform;
 
 /***********************************************************************************************************************
  *
@@ -43,10 +46,28 @@ import javafx.application.Platform;
  * @version $Id$
  *
  **********************************************************************************************************************/
-public class DefaultTreeItemFactory implements TreeItemFactory
+public class DefaultTreeViewBinder implements TreeViewBinder
   {
-    @Override @Nonnull
-    public TreeItem<Object> createTreeItem (final @Nonnull PresentationModel pm)
+    @Override
+    public void bind (final @Nonnull PresentationModel pm,
+                      final @Nonnull TreeView<Object> treeView)
+      {
+        treeView.setRoot(createTreeItem(pm));
+
+        treeView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<TreeItem<Object>>()
+          {
+            @Override
+            public void changed (final @Nonnull ObservableValue<? extends TreeItem<Object>> ov,
+                                 final @Nonnull TreeItem<Object> oldItem,
+                                 final @Nonnull TreeItem<Object> item)
+              {
+                  System.err.println(item);
+              }
+          });
+      }
+
+    @Nonnull
+    private TreeItem<Object> createTreeItem (final @Nonnull PresentationModel pm)
       {
         assert Platform.isFxApplicationThread() : "Must run in the JavaFX Application Thread";
 

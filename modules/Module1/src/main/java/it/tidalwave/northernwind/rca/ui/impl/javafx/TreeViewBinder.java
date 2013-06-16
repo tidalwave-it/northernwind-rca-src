@@ -28,7 +28,7 @@
 package it.tidalwave.northernwind.rca.ui.impl.javafx;
 
 import javax.annotation.Nonnull;
-import javafx.scene.control.TreeItem;
+import javafx.scene.control.TreeView;
 import it.tidalwave.role.ui.PresentationModel;
 
 /***********************************************************************************************************************
@@ -37,8 +37,7 @@ import it.tidalwave.role.ui.PresentationModel;
  * @version $Id$
  *
  **********************************************************************************************************************/
-public interface TreeItemFactory
+public interface TreeViewBinder
   {
-    @Nonnull
-    public TreeItem<Object> createTreeItem (@Nonnull PresentationModel pm);
+    public void bind (@Nonnull PresentationModel pm, @Nonnull TreeView<Object> treeView);
   }
