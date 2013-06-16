@@ -28,9 +28,10 @@
 package it.tidalwave.northernwind.rca.ui.impl.javafx;
 
 import javax.annotation.Nonnull;
-import javafx.scene.control.TreeView;
 import javafx.scene.control.TreeItem;
+import javafx.scene.control.TreeView;
 import javafx.application.Platform;
+import it.tidalwave.role.ui.PresentationModel;
 import it.tidalwave.northernwind.rca.ui.ContentExplorerPresentation;
 import lombok.RequiredArgsConstructor;
 
@@ -51,7 +52,7 @@ public class JavaFXContentExplorerPresentation implements ContentExplorerPresent
     private final TreeView<String> treeView;
 
     @Override
-    public void populate()
+    public void populate (final @Nonnull PresentationModel pm)
       {
         Platform.runLater(new Runnable()
           {

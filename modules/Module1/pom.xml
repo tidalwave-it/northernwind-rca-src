@@ -53,6 +53,20 @@
             <groupId>com.oracle</groupId>
             <artifactId>javafx-embedded</artifactId>
         </dependency>
+        <dependency>
+            <groupId>it.tidalwave.thesefoolishthings</groupId>
+            <artifactId>it-tidalwave-util</artifactId>
+            <exclusions>
+                <exclusion>
+                    <artifactId>org-slf4j-jdk14</artifactId>
+                    <groupId>com.kenai.nbpwr</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>org-openide-util</artifactId>
+                    <groupId>org.netbeans.api</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
     </dependencies>
 
 </project>

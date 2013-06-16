@@ -28,6 +28,7 @@
 package it.tidalwave.northernwind.rca.ui.impl;
 
 import javax.annotation.Nonnull;
+import it.tidalwave.northernwind.rca.ui.DefaultPresentationModel;
 import it.tidalwave.northernwind.rca.ui.StructureExplorerPresentation;
 import it.tidalwave.northernwind.rca.ui.StructureExplorerPresentationControl;
 import lombok.RequiredArgsConstructor;
@@ -55,6 +56,6 @@ public class DefaultStructureExplorerPresentationControl implements StructureExp
     @Override
     public void initialize()
       {
-        presentation.populate();
+        presentation.populate(new DefaultPresentationModel());
       }
   }

@@ -27,6 +27,9 @@
  */
 package it.tidalwave.northernwind.rca.ui;
 
+import javax.annotation.Nonnull;
+import it.tidalwave.role.ui.PresentationModel;
+
 /***********************************************************************************************************************
  *
  * The presentation for the content explorer.
@@ -44,5 +47,5 @@ public interface ContentExplorerPresentation
      * Populates the presentation with the given content.
      *
      ******************************************************************************************************************/
-    public void populate();
+    public void populate (@Nonnull PresentationModel pm);
   }

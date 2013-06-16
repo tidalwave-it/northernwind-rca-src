@@ -27,17 +27,17 @@
  */
 package it.tidalwave.northernwind.rca.ui.impl.javafx;
 
-import it.tidalwave.northernwind.rca.ui.ContentExplorerPresentation;
 import javax.annotation.Nonnull;
-import javafx.scene.control.TreeView;
-import it.tidalwave.northernwind.rca.ui.StructureExplorerPresentation;
-import javafx.application.Platform;
 import javafx.scene.control.TreeItem;
+import javafx.scene.control.TreeView;
+import javafx.application.Platform;
+import it.tidalwave.role.ui.PresentationModel;
+import it.tidalwave.northernwind.rca.ui.StructureExplorerPresentation;
 import lombok.RequiredArgsConstructor;
 
 /***********************************************************************************************************************
  *
- * The JavaFX implementation for {@link ContentExplorerPresentation}.
+ * The JavaFX implementation for {@link StructureExplorerPresentation}.
  *
  * @stereotype Presentation
  *
@@ -52,7 +52,7 @@ public class JavaFXStructureExplorerPresentation implements StructureExplorerPre
     private final TreeView<String> treeView;
 
     @Override
-    public void populate()
+    public void populate (final @Nonnull PresentationModel pm)
       {
         Platform.runLater(new Runnable()
           {

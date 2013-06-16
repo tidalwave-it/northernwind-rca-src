@@ -30,6 +30,7 @@ package it.tidalwave.northernwind.rca.ui.impl;
 import javax.annotation.Nonnull;
 import it.tidalwave.northernwind.rca.ui.ContentExplorerPresentation;
 import it.tidalwave.northernwind.rca.ui.ContentExplorerPresentationControl;
+import it.tidalwave.northernwind.rca.ui.DefaultPresentationModel;
 import lombok.RequiredArgsConstructor;
 
 /***********************************************************************************************************************
@@ -56,6 +57,6 @@ public class DefaultExplorerContentPresentationControl implements ContentExplore
     @Override
     public void initialize()
       {
-        presentation.populate();
+        presentation.populate(new DefaultPresentationModel());
       }
   }
