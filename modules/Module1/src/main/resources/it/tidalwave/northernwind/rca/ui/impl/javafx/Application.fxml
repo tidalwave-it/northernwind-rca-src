@@ -62,7 +62,7 @@
       <top>
         <FlowPane fx:id="pnToolBar" prefHeight="32.0" prefWidth="346.0">
           <children>
-            <Button fx:id="btOpen" maxHeight="32.0" maxWidth="32.0" minHeight="32.0" minWidth="32.0" mnemonicParsing="false" onAction="#onOpen" prefHeight="32.0" prefWidth="32.0" text="Open" />
+            <Button fx:id="btOpen" focusTraversable="false" maxHeight="32.0" maxWidth="32.0" minHeight="32.0" minWidth="32.0" mnemonicParsing="false" onAction="#onOpen" prefHeight="32.0" prefWidth="32.0" text="Open" />
           </children>
           <BorderPane.margin>
             <Insets bottom="4.0" left="4.0" right="4.0" top="4.0" />
