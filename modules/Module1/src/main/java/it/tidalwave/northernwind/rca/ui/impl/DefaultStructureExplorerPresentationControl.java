@@ -34,7 +34,7 @@ import it.tidalwave.util.Finder;
 import it.tidalwave.util.spi.SimpleFinderSupport;
 import it.tidalwave.role.SimpleComposite;
 import it.tidalwave.role.spi.DefaultSimpleComposite;
-import it.tidalwave.northernwind.rca.ui.DefaultPresentationModel;
+import it.tidalwave.northernwind.rca.ui.PresentationModelUtil;
 import it.tidalwave.northernwind.rca.ui.StructureExplorerPresentation;
 import it.tidalwave.northernwind.rca.ui.StructureExplorerPresentationControl;
 import lombok.RequiredArgsConstructor;
@@ -72,6 +72,6 @@ public class DefaultStructureExplorerPresentationControl implements StructureExp
           };
 
         final SimpleComposite<Mock> composite = new DefaultSimpleComposite<>(finder);
-        presentation.populate(new DefaultPresentationModel("", new Mock("structure"), composite));
+        presentation.populate(new PresentationModelUtil().createPresentationModel(composite));
       }
   }

@@ -36,7 +36,7 @@ import it.tidalwave.role.SimpleComposite;
 import it.tidalwave.role.spi.DefaultSimpleComposite;
 import it.tidalwave.northernwind.rca.ui.ContentExplorerPresentation;
 import it.tidalwave.northernwind.rca.ui.ContentExplorerPresentationControl;
-import it.tidalwave.northernwind.rca.ui.DefaultPresentationModel;
+import it.tidalwave.northernwind.rca.ui.PresentationModelUtil;
 import lombok.RequiredArgsConstructor;
 
 /***********************************************************************************************************************
@@ -73,6 +73,6 @@ public class DefaultContentExplorerPresentationControl implements ContentExplore
           };
 
         final SimpleComposite<Mock> composite = new DefaultSimpleComposite<>(finder);
-        presentation.populate(new DefaultPresentationModel("", new Mock("content"), composite));
+        presentation.populate(new PresentationModelUtil().createPresentationModel(composite));
       }
   }

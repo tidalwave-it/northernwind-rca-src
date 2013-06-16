@@ -31,6 +31,7 @@ import javax.annotation.Nonnull;
 import java.beans.PropertyChangeListener;
 import it.tidalwave.util.AsException;
 import it.tidalwave.role.ui.PresentationModel;
+import it.tidalwave.util.As;
 
 /***********************************************************************************************************************
  *
@@ -40,11 +41,16 @@ import it.tidalwave.role.ui.PresentationModel;
  **********************************************************************************************************************/
 public class DefaultPresentationModel implements PresentationModel
   {
+    @Nonnull
+    private final Object datum;
+
+    @Nonnull
     private final Object[] roles;
 
     public DefaultPresentationModel (final @Nonnull Object datum,
                                      final @Nonnull Object ... roles)
       {
+        this.datum = datum;
         this.roles = roles;
       }
 
@@ -101,6 +107,11 @@ public class DefaultPresentationModel implements PresentationModel
               {
                 return (T)role;
               }
+          }
+
+        if (datum instanceof As)
+          {
+            return ((As)datum).as(type);
           }
 
         throw new AsException(type);
