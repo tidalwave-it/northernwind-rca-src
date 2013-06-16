@@ -30,7 +30,7 @@ package it.tidalwave.northernwind.rca.ui.impl.javafx;
 import it.tidalwave.northernwind.rca.ui.ContentExplorerPresentation;
 import it.tidalwave.northernwind.rca.ui.ContentExplorerPresentationControl;
 import it.tidalwave.northernwind.rca.ui.StructureExplorerPresentationControl;
-import it.tidalwave.northernwind.rca.ui.impl.DefaultExplorerContentPresentationControl;
+import it.tidalwave.northernwind.rca.ui.impl.DefaultContentExplorerPresentationControl;
 import it.tidalwave.northernwind.rca.ui.impl.DefaultStructureExplorerPresentationControl;
 import javax.annotation.Nonnull;
 import javafx.event.ActionEvent;
@@ -68,7 +68,7 @@ public class ApplicationHandler
         contentExplorerPresentation = new JavaFXContentExplorerPresentation(tvContent);
 
         final ContentExplorerPresentationControl contentExplorerPresentationControl =
-                new DefaultExplorerContentPresentationControl(contentExplorerPresentation);
+                new DefaultContentExplorerPresentationControl(contentExplorerPresentation);
         final StructureExplorerPresentationControl structureExplorerPresentationControl =
                 new DefaultStructureExplorerPresentationControl(structureExplorerPresentation);
 

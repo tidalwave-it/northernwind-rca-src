@@ -53,7 +53,7 @@ import lombok.RequiredArgsConstructor;
  *
  **********************************************************************************************************************/
 @RequiredArgsConstructor
-public class DefaultExplorerContentPresentationControl implements ContentExplorerPresentationControl
+public class DefaultContentExplorerPresentationControl implements ContentExplorerPresentationControl
   {
     @Nonnull
     private final ContentExplorerPresentation presentation;
