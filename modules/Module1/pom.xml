@@ -44,4 +44,15 @@
     <version>1.0-ALPHA-1-SNAPSHOT</version>
     <name>Zephyr - Module 1</name>
 
+    <properties>
+        <tft.mainClass>it.tidalwave.northernwind.rca.Main</tft.mainClass>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.oracle</groupId>
+            <artifactId>javafx-embedded</artifactId>
+        </dependency>
+    </dependencies>
+
 </project>

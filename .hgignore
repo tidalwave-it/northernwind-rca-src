@@ -2,6 +2,7 @@ target
 release\.properties
 .idea
 .*\.iml
+.*\.bak
 \.repository
 \.description
 \.classpath
