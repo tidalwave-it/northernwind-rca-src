@@ -45,7 +45,7 @@
     <name>Zephyr - Module 1</name>
 
     <properties>
-        <tft.mainClass>it.tidalwave.northernwind.rca.Main</tft.mainClass>
+        <tft.mainClass>it.tidalwave.northernwind.rca.ui.impl.javafx.Main</tft.mainClass>
     </properties>
 
     <dependencies>
