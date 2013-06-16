@@ -42,10 +42,10 @@ import javafx.scene.control.TreeView;
 public class ApplicationHandler
   {
     @FXML
-    private TreeView<Object> tvStructure;
+    private TreeView<String> tvStructure;
 
     @FXML
-    private TreeView<Object> tvContent;
+    private TreeView<String> tvContent;
 
     @FXML
     private void onOpen (final @Nonnull ActionEvent event)
@@ -55,7 +55,7 @@ public class ApplicationHandler
 
     public void initialize()
       {
-        tvStructure.setRoot(new TreeItem<Object>("Structure"));
-        tvContent.setRoot(new TreeItem<Object>("Content"));
+        tvStructure.setRoot(new TreeItem<>("Structure"));
+        tvContent.setRoot(new TreeItem<>("Content"));
       }
   }
