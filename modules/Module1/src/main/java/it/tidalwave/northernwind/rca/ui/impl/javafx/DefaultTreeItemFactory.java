@@ -49,7 +49,7 @@ public class DefaultTreeItemFactory implements TreeItemFactory
     public TreeItem<Object> createTreeItem (final @Nonnull PresentationModel pm)
       {
         assert Platform.isFxApplicationThread() : "Must run in the JavaFX Application Thread";
-        
+
         final TreeItem<Object> rootItem = new TreeItem<Object>(getRootName(pm));
         final SimpleComposite<? extends As> composite = pm.as(SimpleComposite.class);
         final List<? extends As> objects = composite.findChildren().results();
