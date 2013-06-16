@@ -47,7 +47,7 @@
     ================================================================================================================ -->
 
     <groupId>it.tidalwave.northernwind.rca</groupId>
-    <artifactId>Zephyr</artifactId>
+    <artifactId>northernwind-rca</artifactId>
     <version>1.0-ALPHA-1-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>Zephyr (master)</name>
