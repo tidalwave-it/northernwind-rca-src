@@ -81,7 +81,7 @@ public class DefaultStructureExplorerPresentationControl implements StructureExp
                 @Override
                 public void select()
                   {
-                    log.info("Selected {}", siteNode);
+                    log.debug("Selected {}", siteNode);
                     messageBus.publish(new SiteNodeSelectedEvent(siteNode));
                   }
               };
