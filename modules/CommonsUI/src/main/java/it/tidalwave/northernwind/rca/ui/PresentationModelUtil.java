@@ -27,8 +27,6 @@
  */
 package it.tidalwave.northernwind.rca.ui;
 
-import it.tidalwave.northernwind.core.model.Content;
-import it.tidalwave.northernwind.model.impl.admin.ResourceWithAs;
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
@@ -41,20 +39,16 @@ import it.tidalwave.role.ui.PresentationModel;
 
 /***********************************************************************************************************************
  *
- * @author  fritz
+ * @author  Fabrizio Giudici
  * @version $Id$
  *
  **********************************************************************************************************************/
 public class PresentationModelUtil
   {
     @Nonnull
-    // FIXME: Content should be parameterized SimpleComposite<T>
-//    public <T extends As & SimpleComposite<T>> PresentationModel createPresentationModel (
-//    public <T extends As & Resource & SimpleComposite<T>> PresentationModel createPresentationModel (
-    public <T extends As & ResourceWithAs & SimpleComposite<Content>> PresentationModel createPresentationModel (
-            final @Nonnull T datum,
-            final @Nonnull RoleFactory<T> roleFactory,
-            final @Nonnull Object ... roles)
+    public <T extends As> PresentationModel createPresentationModel (final @Nonnull T datum,
+                                                                     final @Nonnull RoleFactory<T> roleFactory,
+                                                                     final @Nonnull Object ... roles)
       {
         return new DefaultPresentationModel(datum, roleFactory.createRoleFor(datum),
                 new SimpleComposite<PresentationModel>()
@@ -68,12 +62,11 @@ public class PresentationModelUtil
                     protected List<? extends PresentationModel> computeResults()
                       {
                         final List<PresentationModel> results = new ArrayList<>();
+                        final SimpleComposite<T> composite = datum.as(SimpleComposite.class);
 
-//                        for (final T object : datum.findChildren().results())
-                        for (final Object object : datum.findChildren().results())
+                        for (final T object : composite.findChildren().results())
                           {
-//                            results.add(createPresentationModel(object, roleFactory, roles));
-                            results.add(createPresentationModel((T)object, roleFactory, roles));
+                            results.add(createPresentationModel(object, roleFactory, roles));
                           }
 
                         return results;
