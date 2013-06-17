@@ -51,6 +51,10 @@
     <dependencies>
         <dependency>
             <groupId>it.tidalwave.northernwind.rca</groupId>
+            <artifactId>it-tidalwave-northernwind-rca-commons-ui</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>it.tidalwave.northernwind.rca</groupId>
             <artifactId>it-tidalwave-northernwind-rca-contentexplorer</artifactId>
         </dependency>
         <dependency>
@@ -59,7 +63,7 @@
         </dependency>
         <dependency>
             <groupId>it.tidalwave.northernwind.rca</groupId>
-            <artifactId>it-tidalwave-northernwind-rca-commons-ui</artifactId>
+            <artifactId>it-tidalwave-northernwind-rca-contenteditor</artifactId>
         </dependency>
 
         <dependency>
