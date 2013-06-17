@@ -39,10 +39,10 @@
     </parent>
 
     <groupId>it.tidalwave.northernwind.rca</groupId>
-    <artifactId>it.tidalwave.northernwind.rca.module1</artifactId>
+    <artifactId>it-tidalwave-northernwind-rca-application-javafx</artifactId>
     <packaging>jar</packaging>
     <version>1.0-ALPHA-1-SNAPSHOT</version>
-    <name>Zephyr - Module 1</name>
+    <name>Zephyr - Application (JavaFX)</name>
 
     <properties>
         <tft.mainClass>it.tidalwave.northernwind.rca.ui.impl.javafx.Main</tft.mainClass>

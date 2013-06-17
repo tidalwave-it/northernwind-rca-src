@@ -37,10 +37,10 @@
     </parent>
 
     <groupId>it.tidalwave.northernwind.rca</groupId>
-    <artifactId>it-tidalwave-northernwind-rca-commons-ui</artifactId>
+    <artifactId>it-tidalwave-northernwind-rca-ui-commons</artifactId>
     <packaging>jar</packaging>
     <version>1.0-ALPHA-1-SNAPSHOT</version>
-    <name>Zephyr - Commons UI</name>
+    <name>Zephyr - UI Commons</name>
 
     <dependencies>
         <dependency>

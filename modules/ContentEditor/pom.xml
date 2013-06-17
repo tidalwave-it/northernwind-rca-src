@@ -37,15 +37,15 @@
     </parent>
 
     <groupId>it.tidalwave.northernwind.rca</groupId>
-    <artifactId>it-tidalwave-northernwind-rca-contenteditor</artifactId>
+    <artifactId>it-tidalwave-northernwind-rca-ui-content-editor</artifactId>
     <packaging>jar</packaging>
     <version>1.0-ALPHA-1-SNAPSHOT</version>
-    <name>Zephyr - Content Editor</name>
+    <name>Zephyr - UI Content Editor</name>
 
     <dependencies>
         <dependency>
             <groupId>it.tidalwave.northernwind.rca</groupId>
-            <artifactId>it-tidalwave-northernwind-rca-commons-ui</artifactId>
+            <artifactId>it-tidalwave-northernwind-rca-ui-commons</artifactId>
         </dependency>
         <dependency>
             <groupId>it.tidalwave.northernwind</groupId>

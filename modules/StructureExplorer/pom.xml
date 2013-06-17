@@ -37,15 +37,15 @@
     </parent>
 
     <groupId>it.tidalwave.northernwind.rca</groupId>
-    <artifactId>it-tidalwave-northernwind-rca-structureexplorer</artifactId>
+    <artifactId>it-tidalwave-northernwind-rca-ui-structure-explorer</artifactId>
     <packaging>jar</packaging>
     <version>1.0-ALPHA-1-SNAPSHOT</version>
-    <name>Zephyr - Structure Explorer</name>
+    <name>Zephyr - UI Structure Explorer</name>
 
     <dependencies>
         <dependency>
             <groupId>it.tidalwave.northernwind.rca</groupId>
-            <artifactId>it-tidalwave-northernwind-rca-commons-ui</artifactId>
+            <artifactId>it-tidalwave-northernwind-rca-ui-commons</artifactId>
         </dependency>
         <dependency>
             <groupId>it.tidalwave.northernwind</groupId>

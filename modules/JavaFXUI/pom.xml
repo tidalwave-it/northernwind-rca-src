@@ -40,24 +40,24 @@
     <artifactId>it-tidalwave-northernwind-rca-ui-javafx</artifactId>
     <packaging>jar</packaging>
     <version>1.0-ALPHA-1-SNAPSHOT</version>
-    <name>Zephyr - JavaFX UI</name>
+    <name>Zephyr - UI (JavaFX)</name>
 
     <dependencies>
         <dependency>
             <groupId>it.tidalwave.northernwind.rca</groupId>
-            <artifactId>it-tidalwave-northernwind-rca-commons-ui</artifactId>
+            <artifactId>it-tidalwave-northernwind-rca-ui-commons</artifactId>
         </dependency>
         <dependency>
             <groupId>it.tidalwave.northernwind.rca</groupId>
-            <artifactId>it-tidalwave-northernwind-rca-contentexplorer</artifactId>
+            <artifactId>it-tidalwave-northernwind-rca-ui-content-explorer</artifactId>
         </dependency>
         <dependency>
             <groupId>it.tidalwave.northernwind.rca</groupId>
-            <artifactId>it-tidalwave-northernwind-rca-structureexplorer</artifactId>
+            <artifactId>it-tidalwave-northernwind-rca-ui-structure-explorer</artifactId>
         </dependency>
         <dependency>
             <groupId>it.tidalwave.northernwind.rca</groupId>
-            <artifactId>it-tidalwave-northernwind-rca-contenteditor</artifactId>
+            <artifactId>it-tidalwave-northernwind-rca-ui-content-editor</artifactId>
         </dependency>
 
         <dependency>
