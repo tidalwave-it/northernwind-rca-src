@@ -92,11 +92,11 @@ public class DefaultContentEditorPresentationControl implements ContentEditorPre
 
             try
               {
-                presentation.setTitle(properties.getProperty(PROPERTY_TITLE, ""));
+                presentation.populateTitle(properties.getProperty(PROPERTY_TITLE, ""));
               }
             catch (IOException e)
               {
-                presentation.setTitle(e.toString());
+                presentation.populateTitle(e.toString());
                 log.warn("", e);
               }
 

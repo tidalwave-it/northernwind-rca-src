@@ -41,5 +41,5 @@ public interface ContentEditorPresentation
 
     public void populate (@Nonnull String text);
 
-    public void setTitle (@Nonnull String title);
+    public void populateTitle (@Nonnull String title);
   }

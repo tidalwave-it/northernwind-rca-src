@@ -66,7 +66,7 @@ public class JavaFXContentEditorPresentation implements ContentEditorPresentatio
       }
 
     @Override
-    public void setTitle (final @Nonnull String title)
+    public void populateTitle (final @Nonnull String title)
       {
         Platform.runLater(new Runnable()
           {
