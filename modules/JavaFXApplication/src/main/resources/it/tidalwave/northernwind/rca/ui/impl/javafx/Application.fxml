@@ -58,17 +58,49 @@
             </AnchorPane>
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" style="-fx-background-color:#bfbfbf;">
               <children>
-                <VBox id="VBox" alignment="CENTER" spacing="5.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                <StackPane id="StackPane" fx:id="paEditors" prefHeight="503.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                   <children>
-                    <WebView fx:id="wpHtmlEditor" prefHeight="503.0" prefWidth="592.0" />
-                    <TableView prefHeight="200.0" prefWidth="200.0">
-                      <columns>
-                        <TableColumn prefWidth="75.0" text="Column X" />
-                        <TableColumn prefWidth="75.0" text="Column X" />
-                      </columns>
-                    </TableView>
+                    <VBox id="VBox" fx:id="contentEditorContainer" alignment="CENTER" spacing="5.0">
+                      <children>
+                        <WebView id="wpHtmlEditor" fx:id="contentWebView" prefHeight="200.0" prefWidth="592.0" VBox.vgrow="ALWAYS">
+                          <VBox.margin>
+                            <Insets fx:id="x1" />
+                          </VBox.margin>
+                        </WebView>
+                        <TableView prefHeight="140.0" prefWidth="592.0" VBox.vgrow="NEVER">
+                          <columns>
+                            <TableColumn prefWidth="75.0" text="Column X" />
+                            <TableColumn prefWidth="75.0" text="Column X" />
+                          </columns>
+                          <VBox.margin>
+                            <Insets fx:id="x1" />
+                          </VBox.margin>
+                        </TableView>
+                      </children>
+                      <StackPane.margin>
+                        <Insets fx:id="x1" />
+                      </StackPane.margin>
+                    </VBox>
+                    <VBox id="VBox" fx:id="structureEditorContainer" alignment="CENTER" spacing="5.0">
+                      <children>
+                        <WebView fx:id="structureWebView" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+                          <VBox.margin>
+                            <Insets fx:id="x1" />
+                          </VBox.margin>
+                        </WebView>
+                        <TableView prefHeight="200.0" prefWidth="200.0" VBox.vgrow="NEVER">
+                          <columns>
+                            <TableColumn prefWidth="75.0" text="Column X" />
+                            <TableColumn prefWidth="75.0" text="Column X" />
+                          </columns>
+                          <VBox.margin>
+                            <Insets fx:id="x1" />
+                          </VBox.margin>
+                        </TableView>
+                      </children>
+                    </VBox>
                   </children>
-                </VBox>
+                </StackPane>
               </children>
             </AnchorPane>
           </items>

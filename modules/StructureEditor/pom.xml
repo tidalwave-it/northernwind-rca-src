@@ -37,10 +37,10 @@
     </parent>
 
     <groupId>it.tidalwave.northernwind.rca</groupId>
-    <artifactId>it-tidalwave-northernwind-rca-ui-javafx</artifactId>
+    <artifactId>it-tidalwave-northernwind-rca-ui-structure-editor</artifactId>
     <packaging>jar</packaging>
     <version>1.0-ALPHA-1-SNAPSHOT</version>
-    <name>Zephyr - UI (JavaFX)</name>
+    <name>Zephyr - UI Structure Editor</name>
 
     <dependencies>
         <dependency>
@@ -48,25 +48,12 @@
             <artifactId>it-tidalwave-northernwind-rca-ui-commons</artifactId>
         </dependency>
         <dependency>
-            <groupId>it.tidalwave.northernwind.rca</groupId>
-            <artifactId>it-tidalwave-northernwind-rca-ui-content-explorer</artifactId>
+            <groupId>it.tidalwave.northernwind</groupId>
+            <artifactId>it-tidalwave-northernwind-core</artifactId>
         </dependency>
         <dependency>
-            <groupId>it.tidalwave.northernwind.rca</groupId>
-            <artifactId>it-tidalwave-northernwind-rca-ui-structure-explorer</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>it.tidalwave.northernwind.rca</groupId>
-            <artifactId>it-tidalwave-northernwind-rca-ui-content-editor</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>it.tidalwave.northernwind.rca</groupId>
-            <artifactId>it-tidalwave-northernwind-rca-ui-structure-editor</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.oracle</groupId>
-            <artifactId>javafx-embedded</artifactId>
+            <groupId>it.tidalwave.thesefoolishthings</groupId>
+            <artifactId>it-tidalwave-messagebus-spring</artifactId>
         </dependency>
     </dependencies>
 </project>

@@ -25,21 +25,19 @@
  * *********************************************************************************************************************
  * #L%
  */
-package it.tidalwave.northernwind.rca.ui.contenteditor.spi;
+package it.tidalwave.northernwind.rca.ui.structureeditor.spi;
 
 import javax.annotation.Nonnull;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.inject.Inject;
 import javax.inject.Named;
-import java.io.IOException;
 import org.springframework.beans.factory.annotation.Configurable;
 import it.tidalwave.messagebus.MessageBus;
 import it.tidalwave.messagebus.MessageBus.Listener;
-import it.tidalwave.northernwind.core.model.ResourceFile;
-import it.tidalwave.northernwind.rca.ui.event.ContentSelectedEvent;
-import it.tidalwave.northernwind.rca.ui.contenteditor.ContentEditorPresentation;
-import it.tidalwave.northernwind.rca.ui.contenteditor.ContentEditorPresentationControl;
+import it.tidalwave.northernwind.rca.ui.event.SiteNodeSelectedEvent;
+import it.tidalwave.northernwind.rca.ui.structureeditor.StructureEditorPresentation;
+import it.tidalwave.northernwind.rca.ui.structureeditor.StructureEditorPresentationControl;
 import lombok.extern.slf4j.Slf4j;
 
 /***********************************************************************************************************************
@@ -49,44 +47,43 @@ import lombok.extern.slf4j.Slf4j;
  *
  **********************************************************************************************************************/
 @Configurable @Slf4j
-public class DefaultContentEditorPresentationControl implements ContentEditorPresentationControl
+public class DefaultStructureEditorPresentationControl implements StructureEditorPresentationControl
   {
     @Inject @Named("applicationMessageBus") @Nonnull
     private MessageBus messageBus;
 
     @Nonnull
-    private ContentEditorPresentation presentation;
+    private StructureEditorPresentation presentation;
 
     /*******************************************************************************************************************
      *
      * TODO: refactor with @ListensTo
      *
      ******************************************************************************************************************/
-    private final Listener<ContentSelectedEvent> siteNodeSelectionListener =
-            new Listener<ContentSelectedEvent>()
+    private final Listener<SiteNodeSelectedEvent> siteNodeSelectionListener =
+            new Listener<SiteNodeSelectedEvent>()
       {
         @Override
-        public void notify (final @Nonnull ContentSelectedEvent event)
+        public void notify (final @Nonnull SiteNodeSelectedEvent event)
           {
             // FIXME: should rather use Properties and read FULLTEXT
-            try
+//            try
               {
                 log.debug("notify({})", event);
-                final ResourceFile child = event.getContent().getFile().getChildByName("fullText_en.xhtml");
                 presentation.showUp();
-                presentation.populate(child == null ? "" : child.asText("UTF-8"));
+                presentation.populate("Viewer not implemented for " + event.getSiteNode().getFile());
               }
-            catch (IOException e)
-              {
-                log.warn("", e);
-              }
+//            catch (IOException e)
+//              {
+//                log.warn("", e);
+//              }
           }
       };
 
     @PostConstruct
     private void initialize()
       {
-        messageBus.subscribe(ContentSelectedEvent.class, siteNodeSelectionListener);
+        messageBus.subscribe(SiteNodeSelectedEvent.class, siteNodeSelectionListener);
       }
 
     @PreDestroy
@@ -96,7 +93,7 @@ public class DefaultContentEditorPresentationControl implements ContentEditorPre
       }
 
     @Override
-    public void initialize (final @Nonnull ContentEditorPresentation presentation)
+    public void initialize (final @Nonnull StructureEditorPresentation presentation)
       {
         this.presentation = presentation;
       }

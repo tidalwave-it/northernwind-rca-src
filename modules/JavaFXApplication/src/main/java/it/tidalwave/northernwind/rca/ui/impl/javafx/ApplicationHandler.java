@@ -29,14 +29,16 @@ package it.tidalwave.northernwind.rca.ui.impl.javafx;
 
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.event.ActionEvent;
+import javafx.scene.layout.Pane;
 import javafx.scene.control.TreeView;
 import javafx.scene.web.WebView;
 import org.springframework.beans.factory.annotation.Configurable;
 import it.tidalwave.util.As;
 import it.tidalwave.northernwind.rca.ui.contentexplorer.ContentExplorerPresentationControl;
 import it.tidalwave.northernwind.rca.ui.contenteditor.ContentEditorPresentationControl;
+import it.tidalwave.northernwind.rca.ui.structureeditor.StructureEditorPresentationControl;
 import it.tidalwave.northernwind.rca.ui.structureexplorer.StructureExplorerPresentationControl;
 import lombok.extern.slf4j.Slf4j;
 
@@ -57,7 +59,16 @@ public class ApplicationHandler
     private TreeView<As> tvContent;
 
     @FXML
-    private WebView wpHtmlEditor;
+    private WebView contentWebView;
+
+    @FXML
+    private WebView structureWebView;
+
+    @FXML
+    private Pane contentEditorContainer;
+
+    @FXML
+    private Pane structureEditorContainer;
 
     @Inject @Nonnull
     private StructureExplorerPresentationControl structureExplorerPresentationControl;
@@ -68,6 +79,9 @@ public class ApplicationHandler
     @Inject @Nonnull
     private ContentEditorPresentationControl contentEditorPresentationControl;
 
+    @Inject @Nonnull
+    private StructureEditorPresentationControl structureEditorPresentationControl;
+
     @FXML
     private void onOpen (final @Nonnull ActionEvent event)
       {
@@ -76,8 +90,12 @@ public class ApplicationHandler
 
     public void initialize()
       {
+        contentEditorContainer.setVisible(false);
+        structureEditorContainer.setVisible(false);
+
         contentExplorerPresentationControl.initialize(new JavaFXContentExplorerPresentation(tvContent));
         structureExplorerPresentationControl.initialize(new JavaFXStructureExplorerPresentation(tvStructure));
-        contentEditorPresentationControl.initialize(new JavaFXPageEditorPresentation(wpHtmlEditor));
+        contentEditorPresentationControl.initialize(new JavaFXPageEditorPresentation(contentEditorContainer, structureEditorContainer, contentWebView));
+        structureEditorPresentationControl.initialize(new JavaFXStructureEditorPresentation(structureEditorContainer, contentEditorContainer, structureWebView));
       }
   }

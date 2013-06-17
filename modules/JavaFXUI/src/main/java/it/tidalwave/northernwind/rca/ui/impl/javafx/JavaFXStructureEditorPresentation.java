@@ -8,10 +8,10 @@
 package it.tidalwave.northernwind.rca.ui.impl.javafx;
 
 import javax.annotation.Nonnull;
-import javafx.scene.web.WebView;
 import javafx.scene.layout.Pane;
+import javafx.scene.web.WebView;
 import javafx.application.Platform;
-import it.tidalwave.northernwind.rca.ui.contenteditor.ContentEditorPresentation;
+import it.tidalwave.northernwind.rca.ui.structureeditor.StructureEditorPresentation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -22,7 +22,7 @@ import lombok.extern.slf4j.Slf4j;
  *
  **********************************************************************************************************************/
 @RequiredArgsConstructor @Slf4j
-public class JavaFXPageEditorPresentation implements ContentEditorPresentation
+public class JavaFXStructureEditorPresentation implements StructureEditorPresentation
   {
     @Nonnull
     private final Pane myContainer;

@@ -25,7 +25,7 @@
  * *********************************************************************************************************************
  * #L%
  */
-package it.tidalwave.northernwind.rca.ui.contenteditor;
+package it.tidalwave.northernwind.rca.ui.structureeditor;
 
 import javax.annotation.Nonnull;
 
@@ -35,9 +35,7 @@ import javax.annotation.Nonnull;
  * @version $Id$
  *
  **********************************************************************************************************************/
-public interface ContentEditorPresentation
+public interface StructureEditorPresentationControl
   {
-    public void showUp();
-
-    public void populate (@Nonnull String text);
+    public void initialize (@Nonnull StructureEditorPresentation presentation);
   }

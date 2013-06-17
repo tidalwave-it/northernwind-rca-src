@@ -83,6 +83,8 @@
 
     <bean class="it.tidalwave.northernwind.rca.ui.contenteditor.spi.DefaultContentEditorPresentationControl" />
 
+    <bean class="it.tidalwave.northernwind.rca.ui.structureeditor.spi.DefaultStructureEditorPresentationControl" />
+
     <bean class="it.tidalwave.northernwind.rca.ui.impl.ServletContextSurrogate" />
 
     <bean id="fileSystemProvider" class="it.tidalwave.northernwind.frontend.filesystem.basic.LocalFileSystemProvider" >
