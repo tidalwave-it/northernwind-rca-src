@@ -33,9 +33,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.io.IOException;
 import org.springframework.beans.factory.annotation.Configurable;
+import it.tidalwave.util.As;
 import it.tidalwave.util.Finder;
 import it.tidalwave.util.NotFoundException;
 import it.tidalwave.util.spi.SimpleFinderSupport;
+import it.tidalwave.role.SimpleComposite;
 import it.tidalwave.role.spring.SpringAsSupport;
 import it.tidalwave.northernwind.core.model.Content;
 import it.tidalwave.northernwind.core.model.ModelFactory;
@@ -51,7 +53,7 @@ import lombok.Delegate;
  *
  **********************************************************************************************************************/
 @Configurable(preConstruction = true)
-public class AdminContent extends SpringAsSupport implements Content, ResourceWithAs
+public class AdminContent extends SpringAsSupport implements Content, As, SimpleComposite<Content>
   {
     @Inject @Nonnull
     private ModelFactory modelFactory;

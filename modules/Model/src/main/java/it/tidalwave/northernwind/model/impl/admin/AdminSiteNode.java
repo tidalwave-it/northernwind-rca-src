@@ -29,9 +29,16 @@ package it.tidalwave.northernwind.model.impl.admin;
 
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
+import java.util.ArrayList;
+import java.util.List;
+import java.io.IOException;
 import org.springframework.beans.factory.annotation.Configurable;
+import it.tidalwave.util.As;
 import it.tidalwave.util.Finder;
-import it.tidalwave.northernwind.core.model.Content;
+import it.tidalwave.util.NotFoundException;
+import it.tidalwave.util.spi.SimpleFinderSupport;
+import it.tidalwave.role.SimpleComposite;
+import it.tidalwave.role.spring.SpringAsSupport;
 import it.tidalwave.northernwind.core.model.ModelFactory;
 import it.tidalwave.northernwind.core.model.Resource;
 import it.tidalwave.northernwind.core.model.ResourceFile;
@@ -47,7 +54,7 @@ import lombok.Delegate;
  *
  **********************************************************************************************************************/
 @Configurable(preConstruction = true)
-public class AdminSiteNode implements SiteNode, ResourceWithAs
+public class AdminSiteNode extends SpringAsSupport implements SiteNode, As, SimpleComposite<SiteNode>
   {
     @Inject @Nonnull
     private ModelFactory modelFactory;
@@ -70,18 +77,34 @@ public class AdminSiteNode implements SiteNode, ResourceWithAs
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    @Override
-    public <T> T as(Class<T> clazz) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
+    @Override @Nonnull
+    public Finder<SiteNode> findChildren()
+      {
+        return new SimpleFinderSupport<SiteNode>()
+          {
+            @Override
+            protected List<? extends SiteNode> computeResults()
+              {
+                // FIXME: it's not flyweight
+                final List<SiteNode> results = new ArrayList<>();
 
-    @Override
-    public <T> T as(Class<T> clazz, NotFoundBehaviour<T> notFoundBehaviour) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
+                for (final ResourceFile childFile : resource.getFile().getChildren())
+                  {
+                    if (childFile.isFolder())
+                      {
+                        try
+                          {
+                            results.add(modelFactory.createSiteNode(null, childFile));
+                          }
+                        catch (IOException | NotFoundException e)
+                          {
+                            throw new RuntimeException(e);
+                          }
+                      }
+                  }
 
-    @Override
-    public Finder<Content> findChildren() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
+                return results;
+              }
+          };
+      }
   }

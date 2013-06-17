@@ -27,19 +27,37 @@
  */
 package it.tidalwave.northernwind.model.impl.admin;
 
-import it.tidalwave.util.As;
-import it.tidalwave.role.SimpleComposite;
-import it.tidalwave.northernwind.core.model.Content;
-import it.tidalwave.northernwind.core.model.Resource;
+import javax.annotation.Nonnull;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import it.tidalwave.role.Displayable;
+import it.tidalwave.dci.annotation.DciRole;
+import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 
 /***********************************************************************************************************************
- *
- * FIXME: Resource should extend As
  *
  * @author  Fabrizio Giudici
  * @version $Id$
  *
  **********************************************************************************************************************/
-public interface ResourceWithAs extends Resource, As, SimpleComposite<Content>
+@DciRole(datum = AdminSiteNode.class)
+@RequiredArgsConstructor @ToString
+public class AdminSiteNodeDisplayable implements Displayable
   {
+    @Nonnull
+    private final AdminSiteNode content;
+
+    @Override
+    public String getDisplayName()
+      {
+        try
+          {
+            return URLDecoder.decode(content.getFile().getName(), "UTF-8") ;
+          }
+        catch (UnsupportedEncodingException e)
+          {
+            throw new RuntimeException(e); // never happens
+          }
+      }
   }

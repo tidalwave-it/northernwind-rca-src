@@ -28,9 +28,9 @@
 package it.tidalwave.northernwind.model.impl.admin;
 
 import javax.annotation.Nonnull;
-import it.tidalwave.util.Finder;
+import it.tidalwave.util.As;
 import it.tidalwave.util.Id;
-import it.tidalwave.northernwind.core.model.Content;
+import it.tidalwave.northernwind.core.model.Resource;
 import it.tidalwave.northernwind.core.model.ResourceFile;
 import it.tidalwave.northernwind.core.model.ResourceProperties;
 import lombok.Getter;
@@ -43,7 +43,7 @@ import lombok.RequiredArgsConstructor;
  *
  **********************************************************************************************************************/
 @RequiredArgsConstructor
-public class AdminResource implements ResourceWithAs
+public class AdminResource implements Resource, As//, SimpleComposite<Content>
   {
     @Getter @Nonnull
     private final ResourceFile file;
@@ -73,11 +73,6 @@ public class AdminResource implements ResourceWithAs
 
     @Override
     public <T> T as(Class<T> clazz, NotFoundBehaviour<T> notFoundBehaviour) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Finder<Content> findChildren() { // FIXME: useless
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
   }
