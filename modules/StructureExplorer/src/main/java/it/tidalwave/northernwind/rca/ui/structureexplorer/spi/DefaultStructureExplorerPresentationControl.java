@@ -29,18 +29,21 @@ package it.tidalwave.northernwind.rca.ui.structureexplorer.spi;
 
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
+import javax.inject.Named;
 import java.io.IOException;
 import org.springframework.beans.factory.annotation.Configurable;
+import it.tidalwave.util.NotFoundException;
 import it.tidalwave.util.RoleFactory;
 import it.tidalwave.role.ui.Selectable;
+import it.tidalwave.messagebus.MessageBus;
 import it.tidalwave.northernwind.core.model.ResourceFile;
 import it.tidalwave.northernwind.core.model.ResourceFileSystemProvider;
 import it.tidalwave.northernwind.model.impl.admin.AdminModelFactory;
 import it.tidalwave.northernwind.model.impl.admin.AdminSiteNode;
 import it.tidalwave.northernwind.rca.ui.PresentationModelUtil;
+import it.tidalwave.northernwind.rca.ui.event.SiteNodeSelectedEvent;
 import it.tidalwave.northernwind.rca.ui.structureexplorer.StructureExplorerPresentation;
 import it.tidalwave.northernwind.rca.ui.structureexplorer.StructureExplorerPresentationControl;
-import it.tidalwave.util.NotFoundException;
 import lombok.extern.slf4j.Slf4j;
 
 /***********************************************************************************************************************
@@ -61,6 +64,12 @@ public class DefaultStructureExplorerPresentationControl implements StructureExp
     @Inject @Nonnull
     private AdminModelFactory modelFactory;
 
+    @Inject @Named("applicationMessageBus") @Nonnull
+    private MessageBus messageBus;
+
+    /*******************************************************************************************************************
+     *
+     ******************************************************************************************************************/
     private final RoleFactory<AdminSiteNode> roleFactory = new RoleFactory<AdminSiteNode>()
       {
         @Override
@@ -72,6 +81,7 @@ public class DefaultStructureExplorerPresentationControl implements StructureExp
                 public void select()
                   {
                     log.info("Selected {}", datum);
+                    messageBus.publish(new SiteNodeSelectedEvent(datum));
                   }
               };
           }
