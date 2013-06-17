@@ -36,11 +36,12 @@ import it.tidalwave.role.ui.Selectable;
 import it.tidalwave.messagebus.MessageBus;
 import it.tidalwave.northernwind.core.model.ResourceFile;
 import it.tidalwave.northernwind.core.model.ResourceFileSystemProvider;
+import it.tidalwave.northernwind.model.impl.admin.AdminContent;
+import it.tidalwave.northernwind.model.impl.admin.AdminModelFactory;
 import it.tidalwave.northernwind.rca.ui.event.ContentSelectedEvent;
 import it.tidalwave.northernwind.rca.ui.contentexplorer.ContentExplorerPresentation;
 import it.tidalwave.northernwind.rca.ui.contentexplorer.ContentExplorerPresentationControl;
 import it.tidalwave.northernwind.rca.ui.PresentationModelUtil;
-import it.tidalwave.northernwind.rca.ui.impl.ResourceFileWrapper;
 import lombok.extern.slf4j.Slf4j;
 
 /***********************************************************************************************************************
@@ -59,16 +60,19 @@ public class DefaultContentExplorerPresentationControl implements ContentExplore
     @Inject @Nonnull
     private ResourceFileSystemProvider fileSystemProvider;
 
+    @Inject @Nonnull
+    private AdminModelFactory modelFactory;
+
     @Inject @Named("applicationMessageBus") @Nonnull
     private MessageBus messageBus;
 
     /*******************************************************************************************************************
      *
      ******************************************************************************************************************/
-    private final RoleFactory<ResourceFileWrapper> roleFactory = new RoleFactory<ResourceFileWrapper>()
+    private final RoleFactory<AdminContent> roleFactory = new RoleFactory<AdminContent>()
       {
         @Override
-        public Object createRoleFor (final @Nonnull ResourceFileWrapper datum)
+        public Object createRoleFor (final @Nonnull AdminContent datum)
           {
             return new Selectable()
               {
@@ -76,7 +80,7 @@ public class DefaultContentExplorerPresentationControl implements ContentExplore
                 public void select()
                   {
                     log.debug("Selected {}", datum);
-                    messageBus.publish(new ContentSelectedEvent(datum.getFile()));
+                    messageBus.publish(new ContentSelectedEvent(datum));
                   }
               };
           }
@@ -93,8 +97,8 @@ public class DefaultContentExplorerPresentationControl implements ContentExplore
         try
           {
             final ResourceFile root = fileSystemProvider.getFileSystem().findFileByPath("/content/document");
-            final ResourceFileWrapper wrapper = new ResourceFileWrapper(root);
-            presentation.populate(new PresentationModelUtil().createPresentationModel(wrapper, roleFactory));
+            final AdminContent content = (AdminContent)modelFactory.createContent(root);
+            presentation.populate(new PresentationModelUtil().createPresentationModel(content, roleFactory));
           }
         catch (IOException ex)
           {

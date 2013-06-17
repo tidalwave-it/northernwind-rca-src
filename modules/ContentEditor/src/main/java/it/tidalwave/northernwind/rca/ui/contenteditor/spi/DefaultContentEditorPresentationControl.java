@@ -32,6 +32,7 @@ import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.io.IOException;
 import org.springframework.beans.factory.annotation.Configurable;
 import it.tidalwave.messagebus.MessageBus;
 import it.tidalwave.messagebus.MessageBus.Listener;
@@ -66,8 +67,15 @@ public class DefaultContentEditorPresentationControl implements ContentEditorPre
         @Override
         public void notify (final @Nonnull ContentSelectedEvent event)
           {
-            log.info("notified {}", event);
-            presentation.open(event.getFile());
+            try
+              {
+                log.info("notified {}", event);
+                presentation.populate(event.getContent().getFile().getChildByName("fullText_en.xhtml").asText("UTF-8"));
+              }
+            catch (IOException e)
+              {
+                e.printStackTrace();
+              }
           }
       };
 

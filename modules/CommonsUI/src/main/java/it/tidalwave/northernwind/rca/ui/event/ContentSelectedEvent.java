@@ -8,7 +8,7 @@
 package it.tidalwave.northernwind.rca.ui.event;
 
 import javax.annotation.Nonnull;
-import it.tidalwave.northernwind.core.model.ResourceFile;
+import it.tidalwave.northernwind.core.model.Content;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
@@ -23,5 +23,5 @@ import lombok.ToString;
 public class ContentSelectedEvent
   {
     @Nonnull
-    private final ResourceFile file;
+    private final Content content;
   }

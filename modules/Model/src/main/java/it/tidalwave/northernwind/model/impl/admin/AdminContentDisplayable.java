@@ -25,9 +25,15 @@
  * *********************************************************************************************************************
  * #L%
  */
-package it.tidalwave.northernwind.rca.ui.contenteditor;
+package it.tidalwave.northernwind.model.impl.admin;
 
 import javax.annotation.Nonnull;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import it.tidalwave.role.Displayable;
+import it.tidalwave.dci.annotation.DciRole;
+import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 
 /***********************************************************************************************************************
  *
@@ -35,7 +41,23 @@ import javax.annotation.Nonnull;
  * @version $Id$
  *
  **********************************************************************************************************************/
-public interface ContentEditorPresentation
+@DciRole(datum = AdminContent.class)
+@RequiredArgsConstructor @ToString
+public class AdminContentDisplayable implements Displayable
   {
-    public void populate (@Nonnull String text);
+    @Nonnull
+    private final AdminContent content;
+
+    @Override
+    public String getDisplayName()
+      {
+        try
+          {
+            return URLDecoder.decode(content.getFile().getName(), "UTF-8") ;
+          }
+        catch (UnsupportedEncodingException e)
+          {
+            throw new RuntimeException(e); // never happens
+          }
+      }
   }

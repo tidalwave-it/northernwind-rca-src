@@ -35,10 +35,12 @@ import it.tidalwave.util.RoleFactory;
 import it.tidalwave.role.ui.Selectable;
 import it.tidalwave.northernwind.core.model.ResourceFile;
 import it.tidalwave.northernwind.core.model.ResourceFileSystemProvider;
+import it.tidalwave.northernwind.model.impl.admin.AdminModelFactory;
+import it.tidalwave.northernwind.model.impl.admin.AdminSiteNode;
 import it.tidalwave.northernwind.rca.ui.PresentationModelUtil;
 import it.tidalwave.northernwind.rca.ui.structureexplorer.StructureExplorerPresentation;
 import it.tidalwave.northernwind.rca.ui.structureexplorer.StructureExplorerPresentationControl;
-import it.tidalwave.northernwind.rca.ui.impl.ResourceFileWrapper;
+import it.tidalwave.util.NotFoundException;
 import lombok.extern.slf4j.Slf4j;
 
 /***********************************************************************************************************************
@@ -56,10 +58,13 @@ public class DefaultStructureExplorerPresentationControl implements StructureExp
     @Inject @Nonnull
     private ResourceFileSystemProvider fileSystemProvider;
 
-    private final RoleFactory<ResourceFileWrapper> roleFactory = new RoleFactory<ResourceFileWrapper>()
+    @Inject @Nonnull
+    private AdminModelFactory modelFactory;
+
+    private final RoleFactory<AdminSiteNode> roleFactory = new RoleFactory<AdminSiteNode>()
       {
         @Override
-        public Object createRoleFor (final @Nonnull ResourceFileWrapper datum)
+        public Object createRoleFor (final @Nonnull AdminSiteNode datum)
           {
             return new Selectable()
               {
@@ -83,10 +88,10 @@ public class DefaultStructureExplorerPresentationControl implements StructureExp
         try
           {
             final ResourceFile root = fileSystemProvider.getFileSystem().findFileByPath("/structure");
-            final ResourceFileWrapper wrapper = new ResourceFileWrapper(root);
-            presentation.populate(new PresentationModelUtil().createPresentationModel(wrapper, roleFactory));
+            final AdminSiteNode siteNode = (AdminSiteNode)modelFactory.createSiteNode(null, root);
+            presentation.populate(new PresentationModelUtil().createPresentationModel(siteNode, roleFactory));
           }
-        catch (IOException ex)
+        catch (IOException | NotFoundException ex)
           {
             ex.printStackTrace();
           }

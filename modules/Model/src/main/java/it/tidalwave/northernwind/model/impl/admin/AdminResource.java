@@ -25,9 +25,16 @@
  * *********************************************************************************************************************
  * #L%
  */
-package it.tidalwave.northernwind.rca.ui.contenteditor;
+package it.tidalwave.northernwind.model.impl.admin;
 
 import javax.annotation.Nonnull;
+import it.tidalwave.util.Finder;
+import it.tidalwave.util.Id;
+import it.tidalwave.northernwind.core.model.Content;
+import it.tidalwave.northernwind.core.model.ResourceFile;
+import it.tidalwave.northernwind.core.model.ResourceProperties;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 /***********************************************************************************************************************
  *
@@ -35,7 +42,42 @@ import javax.annotation.Nonnull;
  * @version $Id$
  *
  **********************************************************************************************************************/
-public interface ContentEditorPresentation
+@RequiredArgsConstructor
+public class AdminResource implements ResourceWithAs
   {
-    public void populate (@Nonnull String text);
+    @Getter @Nonnull
+    private final ResourceFile file;
+
+    @Override
+    public ResourceProperties getProperties()
+      {
+        throw new UnsupportedOperationException("Not supported yet.");
+      }
+
+    @Override
+    public ResourceProperties getPropertyGroup(Id id)
+      {
+        throw new UnsupportedOperationException("Not supported yet.");
+      }
+
+    @Override
+    public boolean isPlaceHolder()
+      {
+        throw new UnsupportedOperationException("Not supported yet.");
+      }
+
+    @Override
+    public <T> T as(Class<T> clazz) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public <T> T as(Class<T> clazz, NotFoundBehaviour<T> notFoundBehaviour) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Finder<Content> findChildren() { // FIXME: useless
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
   }

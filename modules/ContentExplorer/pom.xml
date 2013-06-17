@@ -48,6 +48,10 @@
             <artifactId>it-tidalwave-northernwind-rca-ui-commons</artifactId>
         </dependency>
         <dependency>
+            <groupId>it.tidalwave.northernwind.rca</groupId>
+            <artifactId>it-tidalwave-northernwind-rca-model</artifactId>
+        </dependency>
+        <dependency>
             <groupId>it.tidalwave.northernwind</groupId>
             <artifactId>it-tidalwave-northernwind-core</artifactId>
         </dependency>

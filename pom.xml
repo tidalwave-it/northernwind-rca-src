@@ -139,6 +139,11 @@
             </dependency>
             <dependency>
                 <groupId>it.tidalwave.northernwind.rca</groupId>
+                <artifactId>it-tidalwave-northernwind-rca-model</artifactId>
+                <version>1.0-ALPHA-1-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>it.tidalwave.northernwind.rca</groupId>
                 <artifactId>it-tidalwave-northernwind-rca-ui-content-explorer</artifactId>
                 <version>1.0-ALPHA-1-SNAPSHOT</version>
             </dependency>

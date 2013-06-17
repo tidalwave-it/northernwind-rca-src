@@ -25,17 +25,21 @@
  * *********************************************************************************************************************
  * #L%
  */
-package it.tidalwave.northernwind.rca.ui.contenteditor;
+package it.tidalwave.northernwind.model.impl.admin;
 
-import javax.annotation.Nonnull;
+import it.tidalwave.util.As;
+import it.tidalwave.role.SimpleComposite;
+import it.tidalwave.northernwind.core.model.Content;
+import it.tidalwave.northernwind.core.model.Resource;
 
 /***********************************************************************************************************************
+ *
+ * FIXME: Resource should extend As
  *
  * @author  Fabrizio Giudici
  * @version $Id$
  *
  **********************************************************************************************************************/
-public interface ContentEditorPresentation
+public interface ResourceWithAs extends Resource, As, SimpleComposite<Content>
   {
-    public void populate (@Nonnull String text);
   }

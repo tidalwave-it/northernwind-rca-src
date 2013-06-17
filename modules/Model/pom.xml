@@ -37,27 +37,36 @@
     </parent>
 
     <groupId>it.tidalwave.northernwind.rca</groupId>
-    <artifactId>it-tidalwave-northernwind-rca-ui-structure-explorer</artifactId>
+    <artifactId>it-tidalwave-northernwind-rca-model</artifactId>
     <packaging>jar</packaging>
     <version>1.0-ALPHA-1-SNAPSHOT</version>
-    <name>Zephyr - UI Structure Explorer</name>
+    <name>Zephyr - Model</name>
 
     <dependencies>
-        <dependency>
-            <groupId>it.tidalwave.northernwind.rca</groupId>
-            <artifactId>it-tidalwave-northernwind-rca-model</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>it.tidalwave.northernwind.rca</groupId>
-            <artifactId>it-tidalwave-northernwind-rca-ui-commons</artifactId>
-        </dependency>
         <dependency>
             <groupId>it.tidalwave.northernwind</groupId>
             <artifactId>it-tidalwave-northernwind-core</artifactId>
         </dependency>
+
         <dependency>
             <groupId>it.tidalwave.thesefoolishthings</groupId>
-            <artifactId>it-tidalwave-messagebus-spring</artifactId>
+            <artifactId>it-tidalwave-util</artifactId>
+            <exclusions>
+                <exclusion>
+                    <artifactId>org-slf4j-jdk14</artifactId>
+                    <groupId>com.kenai.nbpwr</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>org-openide-util</artifactId>
+                    <groupId>org.netbeans.api</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
         </dependency>
     </dependencies>
+
 </project>
