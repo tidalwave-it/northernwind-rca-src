@@ -134,11 +134,19 @@
         <dependencies>
             <dependency>
                 <groupId>it.tidalwave.northernwind.rca</groupId>
+                <artifactId>it-tidalwave-northernwind-rca-commons-ui</artifactId>
+                <version>1.0-ALPHA-1-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>it.tidalwave.northernwind.rca</groupId>
+                <artifactId>it-tidalwave-northernwind-rca-contentexplorer</artifactId>
+                <version>1.0-ALPHA-1-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>it.tidalwave.northernwind.rca</groupId>
                 <artifactId>it.tidalwave.northernwind.rca.module1</artifactId>
                 <version>1.0-ALPHA-1-SNAPSHOT</version>
             </dependency>
-
-            <!-- TODO: ADD YOUR PROJECT MODULES HERE -->
         </dependencies>
     </dependencyManagement>
 

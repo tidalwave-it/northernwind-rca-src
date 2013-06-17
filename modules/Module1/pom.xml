@@ -50,6 +50,15 @@
 
     <dependencies>
         <dependency>
+            <groupId>it.tidalwave.northernwind.rca</groupId>
+            <artifactId>it-tidalwave-northernwind-rca-contentexplorer</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>it.tidalwave.northernwind.rca</groupId>
+            <artifactId>it-tidalwave-northernwind-rca-commons-ui</artifactId>
+        </dependency>
+        
+        <dependency>
             <groupId>com.oracle</groupId>
             <artifactId>javafx-embedded</artifactId>
         </dependency>

@@ -7,8 +7,8 @@
 
 package it.tidalwave.northernwind.rca.ui.event;
 
-import it.tidalwave.northernwind.core.model.ResourceFile;
 import javax.annotation.Nonnull;
+import it.tidalwave.northernwind.core.model.ResourceFile;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;

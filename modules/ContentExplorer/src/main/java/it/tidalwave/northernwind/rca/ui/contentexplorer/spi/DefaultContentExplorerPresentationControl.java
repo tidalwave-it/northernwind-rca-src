@@ -31,7 +31,6 @@ import javax.annotation.Nonnull;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.IOException;
-import org.springframework.beans.factory.annotation.Configurable;
 import it.tidalwave.util.RoleFactory;
 import it.tidalwave.role.ui.Selectable;
 import it.tidalwave.messagebus.MessageBus;
@@ -54,7 +53,7 @@ import lombok.extern.slf4j.Slf4j;
  * @version $Id$
  *
  **********************************************************************************************************************/
-@Configurable @Slf4j
+@Slf4j
 public class DefaultContentExplorerPresentationControl implements ContentExplorerPresentationControl
   {
     @Inject @Nonnull
