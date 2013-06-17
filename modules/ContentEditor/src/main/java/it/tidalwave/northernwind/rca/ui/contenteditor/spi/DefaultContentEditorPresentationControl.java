@@ -57,6 +57,7 @@ public class DefaultContentEditorPresentationControl implements ContentEditorPre
 
     /*******************************************************************************************************************
      *
+     * TODO: refactor with @ListensTo
      *
      ******************************************************************************************************************/
     private final Listener<ContentSelectedEvent> siteNodeSelectionListener =
@@ -65,7 +66,7 @@ public class DefaultContentEditorPresentationControl implements ContentEditorPre
         @Override
         public void notify (final @Nonnull ContentSelectedEvent event)
           {
-              log.info("notified {}", event);
+            log.info("notified {}", event);
             presentation.open(event.getFile());
           }
       };
