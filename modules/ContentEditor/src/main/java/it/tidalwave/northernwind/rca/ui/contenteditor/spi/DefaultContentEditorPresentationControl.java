@@ -42,8 +42,6 @@ import it.tidalwave.northernwind.rca.ui.event.ContentSelectedEvent;
 import it.tidalwave.northernwind.rca.ui.contenteditor.ContentEditorPresentation;
 import it.tidalwave.northernwind.rca.ui.contenteditor.ContentEditorPresentationControl;
 import it.tidalwave.util.Key;
-import it.tidalwave.util.NotFoundException;
-import java.util.Properties;
 import lombok.extern.slf4j.Slf4j;
 
 /***********************************************************************************************************************
