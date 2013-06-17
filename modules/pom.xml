@@ -280,7 +280,8 @@
         <module>ContentExplorer</module>
         <module>CommonsUI</module>
         <module>StructureExplorer</module>
-    <module>ContentEditor</module>
-  </modules>
+        <module>ContentEditor</module>
+        <module>JavaFXUI</module>
+    </modules>
 
 </project>
