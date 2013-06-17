@@ -69,18 +69,19 @@ public class DefaultContentExplorerPresentationControl implements ContentExplore
     /*******************************************************************************************************************
      *
      ******************************************************************************************************************/
-    private final RoleFactory<AdminContent> roleFactory = new RoleFactory<AdminContent>()
+    // FIXME: use Content
+    private final RoleFactory<AdminContent> publisherRoleFactory = new RoleFactory<AdminContent>()
       {
         @Override
-        public Object createRoleFor (final @Nonnull AdminContent datum)
+        public Object createRoleFor (final @Nonnull AdminContent content)
           {
             return new Selectable()
               {
                 @Override
                 public void select()
                   {
-                    log.debug("Selected {}", datum);
-                    messageBus.publish(new ContentSelectedEvent(datum));
+                    log.debug("Selected {}", content);
+                    messageBus.publish(new ContentSelectedEvent(content));
                   }
               };
           }
@@ -98,7 +99,7 @@ public class DefaultContentExplorerPresentationControl implements ContentExplore
           {
             final ResourceFile root = fileSystemProvider.getFileSystem().findFileByPath("/content/document");
             final AdminContent content = (AdminContent)modelFactory.createContent(root);
-            presentation.populate(new PresentationModelUtil().createPresentationModel(content, roleFactory));
+            presentation.populate(new PresentationModelUtil().createPresentationModel(content, publisherRoleFactory));
           }
         catch (IOException e)
           {

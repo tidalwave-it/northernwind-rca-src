@@ -70,18 +70,19 @@ public class DefaultStructureExplorerPresentationControl implements StructureExp
     /*******************************************************************************************************************
      *
      ******************************************************************************************************************/
-    private final RoleFactory<AdminSiteNode> roleFactory = new RoleFactory<AdminSiteNode>()
+    // FIXME: use SiteNode
+    private final RoleFactory<AdminSiteNode> publisherRoleFactory = new RoleFactory<AdminSiteNode>()
       {
         @Override
-        public Object createRoleFor (final @Nonnull AdminSiteNode datum)
+        public Object createRoleFor (final @Nonnull AdminSiteNode siteNode)
           {
             return new Selectable()
               {
                 @Override
                 public void select()
                   {
-                    log.info("Selected {}", datum);
-                    messageBus.publish(new SiteNodeSelectedEvent(datum));
+                    log.info("Selected {}", siteNode);
+                    messageBus.publish(new SiteNodeSelectedEvent(siteNode));
                   }
               };
           }
@@ -99,7 +100,7 @@ public class DefaultStructureExplorerPresentationControl implements StructureExp
           {
             final ResourceFile root = fileSystemProvider.getFileSystem().findFileByPath("/structure");
             final AdminSiteNode siteNode = (AdminSiteNode)modelFactory.createSiteNode(null, root);
-            presentation.populate(new PresentationModelUtil().createPresentationModel(siteNode, roleFactory));
+            presentation.populate(new PresentationModelUtil().createPresentationModel(siteNode, publisherRoleFactory));
           }
         catch (IOException | NotFoundException e)
           {
