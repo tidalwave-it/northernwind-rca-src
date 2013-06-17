@@ -144,6 +144,11 @@
             </dependency>
             <dependency>
                 <groupId>it.tidalwave.northernwind.rca</groupId>
+                <artifactId>it-tidalwave-northernwind-rca-structureexplorer</artifactId>
+                <version>1.0-ALPHA-1-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>it.tidalwave.northernwind.rca</groupId>
                 <artifactId>it.tidalwave.northernwind.rca.module1</artifactId>
                 <version>1.0-ALPHA-1-SNAPSHOT</version>
             </dependency>

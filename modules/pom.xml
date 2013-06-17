@@ -279,6 +279,7 @@
         <module>Module1</module>
         <module>ContentExplorer</module>
         <module>CommonsUI</module>
+        <module>StructureExplorer</module>
     </modules>
 
 </project>
