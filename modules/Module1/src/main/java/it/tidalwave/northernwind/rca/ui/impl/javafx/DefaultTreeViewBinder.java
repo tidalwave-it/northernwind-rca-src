@@ -93,6 +93,7 @@ public class DefaultTreeViewBinder implements TreeViewBinder
           }
       }
 
+    // FIXME: add on demand, upon node expansion
     private void addChildren (final @Nonnull As datum,
                               final @Nonnull TreeItem<Object> parentItem)
       {
