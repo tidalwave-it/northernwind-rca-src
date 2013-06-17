@@ -25,7 +25,7 @@
  * *********************************************************************************************************************
  * #L%
  */
-package it.tidalwave.northernwind.rca.ui;
+package it.tidalwave.northernwind.rca.ui.contenteditor;
 
 import javax.annotation.Nonnull;
 
@@ -35,7 +35,7 @@ import javax.annotation.Nonnull;
  * @version $Id$
  *
  **********************************************************************************************************************/
-public interface PageEditorPresentationControl
+public interface ContentEditorPresentationControl
   {
-    public void initialize (@Nonnull PageEditorPresentation presentation);
+    public void initialize (@Nonnull ContentEditorPresentation presentation);
   }

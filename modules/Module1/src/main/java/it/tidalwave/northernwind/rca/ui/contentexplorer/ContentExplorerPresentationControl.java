@@ -25,66 +25,26 @@
  * *********************************************************************************************************************
  * #L%
  */
-package it.tidalwave.northernwind.rca.ui.impl;
+package it.tidalwave.northernwind.rca.ui.contentexplorer;
 
 import javax.annotation.Nonnull;
-import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
-import javax.inject.Inject;
-import javax.inject.Named;
-import org.springframework.beans.factory.annotation.Configurable;
-import it.tidalwave.messagebus.MessageBus;
-import it.tidalwave.messagebus.MessageBus.Listener;
-import it.tidalwave.northernwind.rca.ui.PageEditorPresentation;
-import it.tidalwave.northernwind.rca.ui.PageEditorPresentationControl;
-import it.tidalwave.northernwind.rca.ui.event.ContentSelectedEvent;
-import lombok.extern.slf4j.Slf4j;
 
 /***********************************************************************************************************************
+ *
+ * The control for the {@link ContentExplorerPresentation}.
+ *
+ * @stereotype Control
  *
  * @author  Fabrizio Giudici
  * @version $Id$
  *
  **********************************************************************************************************************/
-@Configurable @Slf4j
-public class DefaultPageEditorPresentationControl implements PageEditorPresentationControl
+public interface ContentExplorerPresentationControl
   {
-    @Inject @Named("applicationMessageBus") @Nonnull
-    private MessageBus messageBus;
-
-    @Nonnull
-    private PageEditorPresentation presentation;
-
     /*******************************************************************************************************************
      *
      *
+     *
      ******************************************************************************************************************/
-    private final Listener<ContentSelectedEvent> siteNodeSelectionListener =
-            new Listener<ContentSelectedEvent>()
-      {
-        @Override
-        public void notify (final @Nonnull ContentSelectedEvent event)
-          {
-              log.info("notified {}", event);
-            presentation.open(event.getFile());
-          }
-      };
-
-    @PostConstruct
-    private void initialize()
-      {
-        messageBus.subscribe(ContentSelectedEvent.class, siteNodeSelectionListener);
-      }
-
-    @PreDestroy
-    private void destroy()
-      {
-        messageBus.unsubscribe(siteNodeSelectionListener);
-      }
-
-    @Override
-    public void initialize (final @Nonnull PageEditorPresentation presentation)
-      {
-        this.presentation = presentation;
-      }
+    public void initialize (@Nonnull ContentExplorerPresentation presentation);
   }

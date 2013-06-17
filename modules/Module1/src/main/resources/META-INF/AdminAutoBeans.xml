@@ -77,11 +77,11 @@
     <bean id="defaultTreeViewBinder"
           class="it.tidalwave.northernwind.rca.ui.impl.javafx.DefaultTreeViewBinder" />
 
-    <bean class="it.tidalwave.northernwind.rca.ui.impl.DefaultContentExplorerPresentationControl" />
+    <bean class="it.tidalwave.northernwind.rca.ui.contentexplorer.spi.DefaultContentExplorerPresentationControl" />
 
-    <bean class="it.tidalwave.northernwind.rca.ui.impl.DefaultStructureExplorerPresentationControl" />
+    <bean class="it.tidalwave.northernwind.rca.ui.structureexplorer.spi.DefaultStructureExplorerPresentationControl" />
 
-    <bean class="it.tidalwave.northernwind.rca.ui.impl.DefaultPageEditorPresentationControl" />
+    <bean class="it.tidalwave.northernwind.rca.ui.contenteditor.spi.DefaultContentEditorPresentationControl" />
 
     <bean class="it.tidalwave.northernwind.rca.ui.impl.ServletContextSurrogate" />
 

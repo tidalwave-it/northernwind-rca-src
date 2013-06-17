@@ -25,27 +25,20 @@
  * *********************************************************************************************************************
  * #L%
  */
-package it.tidalwave.northernwind.rca.ui;
+package it.tidalwave.northernwind.rca.ui.application.spi;
 
-import javax.annotation.Nonnull;
-import it.tidalwave.role.ui.PresentationModel;
+import it.tidalwave.northernwind.rca.ui.application.ApplicationPresentationControl;
 
 /***********************************************************************************************************************
  *
- * The presentation for the content explorer.
+ * The default implementation for {@link ApplicationPresentationControl}.
  *
- * @stereotype Presentation
+ * @stereotype Control
  *
  * @author  Fabrizio Giudici
  * @version $Id$
  *
  **********************************************************************************************************************/
-public interface ContentExplorerPresentation
+public class DefaultApplicationPresentationControl implements ApplicationPresentationControl
   {
-    /*******************************************************************************************************************
-     *
-     * Populates the presentation with the given content.
-     *
-     ******************************************************************************************************************/
-    public void populate (@Nonnull PresentationModel pm);
   }

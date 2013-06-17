@@ -25,26 +25,18 @@
  * *********************************************************************************************************************
  * #L%
  */
-package it.tidalwave.northernwind.rca.ui;
-
-import javax.annotation.Nonnull;
+package it.tidalwave.northernwind.rca.ui.application;
 
 /***********************************************************************************************************************
  *
- * The control for the {@link StructureExplorerPresentation}.
+ * The presentation for the whole application.
  *
- * @stereotype Control
+ * @stereotype Presentation
  *
  * @author  Fabrizio Giudici
  * @version $Id$
  *
  **********************************************************************************************************************/
-public interface StructureExplorerPresentationControl
+public interface ApplicationPresentation
   {
-    /*******************************************************************************************************************
-     *
-     *
-     *
-     ******************************************************************************************************************/
-    public void initialize (@Nonnull StructureExplorerPresentation presentation);
   }

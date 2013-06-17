@@ -25,19 +25,20 @@
  * *********************************************************************************************************************
  * #L%
  */
-package it.tidalwave.northernwind.rca.ui.impl;
+package it.tidalwave.northernwind.rca.ui.structureexplorer.spi;
 
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
 import java.io.IOException;
 import org.springframework.beans.factory.annotation.Configurable;
+import it.tidalwave.util.RoleFactory;
+import it.tidalwave.role.ui.Selectable;
 import it.tidalwave.northernwind.core.model.ResourceFile;
 import it.tidalwave.northernwind.core.model.ResourceFileSystemProvider;
 import it.tidalwave.northernwind.rca.ui.PresentationModelUtil;
-import it.tidalwave.northernwind.rca.ui.StructureExplorerPresentation;
-import it.tidalwave.northernwind.rca.ui.StructureExplorerPresentationControl;
-import it.tidalwave.role.ui.Selectable;
-import it.tidalwave.util.RoleFactory;
+import it.tidalwave.northernwind.rca.ui.structureexplorer.StructureExplorerPresentation;
+import it.tidalwave.northernwind.rca.ui.structureexplorer.StructureExplorerPresentationControl;
+import it.tidalwave.northernwind.rca.ui.impl.ResourceFileWrapper;
 import lombok.extern.slf4j.Slf4j;
 
 /***********************************************************************************************************************

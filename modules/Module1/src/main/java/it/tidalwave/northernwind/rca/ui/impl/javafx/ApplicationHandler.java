@@ -35,9 +35,9 @@ import javafx.scene.control.TreeView;
 import javafx.scene.web.WebView;
 import org.springframework.beans.factory.annotation.Configurable;
 import it.tidalwave.util.As;
-import it.tidalwave.northernwind.rca.ui.ContentExplorerPresentationControl;
-import it.tidalwave.northernwind.rca.ui.PageEditorPresentationControl;
-import it.tidalwave.northernwind.rca.ui.StructureExplorerPresentationControl;
+import it.tidalwave.northernwind.rca.ui.contentexplorer.ContentExplorerPresentationControl;
+import it.tidalwave.northernwind.rca.ui.contenteditor.ContentEditorPresentationControl;
+import it.tidalwave.northernwind.rca.ui.structureexplorer.StructureExplorerPresentationControl;
 import lombok.extern.slf4j.Slf4j;
 
 /***********************************************************************************************************************
@@ -66,7 +66,7 @@ public class ApplicationHandler
     private ContentExplorerPresentationControl contentExplorerPresentationControl;
 
     @Inject @Nonnull
-    private PageEditorPresentationControl pageEditorPresentationControl;
+    private ContentEditorPresentationControl contentEditorPresentationControl;
 
     @FXML
     private void onOpen (final @Nonnull ActionEvent event)
@@ -78,6 +78,6 @@ public class ApplicationHandler
       {
         contentExplorerPresentationControl.initialize(new JavaFXContentExplorerPresentation(tvContent));
         structureExplorerPresentationControl.initialize(new JavaFXStructureExplorerPresentation(tvStructure));
-        pageEditorPresentationControl.initialize(new JavaFXPageEditorPresentation(wpHtmlEditor));
+        contentEditorPresentationControl.initialize(new JavaFXPageEditorPresentation(wpHtmlEditor));
       }
   }

@@ -34,7 +34,7 @@ import javafx.application.Platform;
 import org.springframework.beans.factory.annotation.Configurable;
 import it.tidalwave.util.As;
 import it.tidalwave.role.ui.PresentationModel;
-import it.tidalwave.northernwind.rca.ui.StructureExplorerPresentation;
+import it.tidalwave.northernwind.rca.ui.structureexplorer.StructureExplorerPresentation;
 
 /***********************************************************************************************************************
  *

@@ -12,7 +12,7 @@ import java.io.IOException;
 import javafx.application.Platform;
 import javafx.scene.web.WebView;
 import it.tidalwave.northernwind.core.model.ResourceFile;
-import it.tidalwave.northernwind.rca.ui.PageEditorPresentation;
+import it.tidalwave.northernwind.rca.ui.contenteditor.ContentEditorPresentation;
 import lombok.RequiredArgsConstructor;
 
 /***********************************************************************************************************************
@@ -22,7 +22,7 @@ import lombok.RequiredArgsConstructor;
  *
  **********************************************************************************************************************/
 @RequiredArgsConstructor
-public class JavaFXPageEditorPresentation implements PageEditorPresentation
+public class JavaFXPageEditorPresentation implements ContentEditorPresentation
   {
     @Nonnull
     private final WebView wpHtmlEditor;

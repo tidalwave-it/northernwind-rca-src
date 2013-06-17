@@ -33,7 +33,7 @@ import javafx.scene.control.TreeView;
 import javafx.application.Platform;
 import it.tidalwave.util.As;
 import it.tidalwave.role.ui.PresentationModel;
-import it.tidalwave.northernwind.rca.ui.ContentExplorerPresentation;
+import it.tidalwave.northernwind.rca.ui.contentexplorer.ContentExplorerPresentation;
 import org.springframework.beans.factory.annotation.Configurable;
 
 /***********************************************************************************************************************

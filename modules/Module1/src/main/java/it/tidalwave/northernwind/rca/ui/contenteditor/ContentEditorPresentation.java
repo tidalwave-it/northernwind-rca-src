@@ -25,7 +25,7 @@
  * *********************************************************************************************************************
  * #L%
  */
-package it.tidalwave.northernwind.rca.ui;
+package it.tidalwave.northernwind.rca.ui.contenteditor;
 
 import javax.annotation.Nonnull;
 import it.tidalwave.northernwind.core.model.ResourceFile;
@@ -36,7 +36,7 @@ import it.tidalwave.northernwind.core.model.ResourceFile;
  * @version $Id$
  *
  **********************************************************************************************************************/
-public interface PageEditorPresentation
+public interface ContentEditorPresentation
   {
     public void open (@Nonnull ResourceFile file);
   }

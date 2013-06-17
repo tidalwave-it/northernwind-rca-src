@@ -25,26 +25,27 @@
  * *********************************************************************************************************************
  * #L%
  */
-package it.tidalwave.northernwind.rca.ui;
+package it.tidalwave.northernwind.rca.ui.structureexplorer;
 
 import javax.annotation.Nonnull;
+import it.tidalwave.role.ui.PresentationModel;
 
 /***********************************************************************************************************************
  *
- * The control for the {@link ContentExplorerPresentation}.
+ * The presentation for the structure explorer.
  *
- * @stereotype Control
+ * @stereotype Presentation
  *
  * @author  Fabrizio Giudici
  * @version $Id$
  *
  **********************************************************************************************************************/
-public interface ContentExplorerPresentationControl
+public interface StructureExplorerPresentation
   {
     /*******************************************************************************************************************
      *
-     *
+     * Populates the presentation with the given content.
      *
      ******************************************************************************************************************/
-    public void initialize (@Nonnull ContentExplorerPresentation presentation);
+    public void populate (@Nonnull PresentationModel pm);
   }
