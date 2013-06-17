@@ -1,4 +1,4 @@
-/*
+    /*
  * #%L
  * *********************************************************************************************************************
  *
@@ -29,16 +29,21 @@ package it.tidalwave.northernwind.rca.ui.impl.javafx;
 
 import javax.annotation.Nonnull;
 import java.util.List;
+import javafx.util.Callback;
+import javafx.util.StringConverter;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.scene.control.TreeCell;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
+import javafx.scene.control.cell.TextFieldTreeCell;
 import javafx.application.Platform;
 import it.tidalwave.util.As;
 import it.tidalwave.util.AsException;
 import it.tidalwave.role.Displayable;
 import it.tidalwave.role.SimpleComposite;
 import it.tidalwave.role.ui.PresentationModel;
+import it.tidalwave.role.ui.Selectable;
 import lombok.extern.slf4j.Slf4j;
 
 /***********************************************************************************************************************
@@ -50,59 +55,87 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class DefaultTreeViewBinder implements TreeViewBinder
   {
+    private final Callback<TreeView<As>, TreeCell<As>> cellFactory = new Callback<TreeView<As>, TreeCell<As>>()
+      {
+        @Override @Nonnull
+        public TreeCell<As> call (final @Nonnull TreeView<As> p)
+          {
+            final TextFieldTreeCell<As> cell = new TextFieldTreeCell<>();
+            cell.setConverter(new StringConverter<As>()
+              {
+                @Override
+                public String toString (final @Nonnull As object)
+                  {
+                    try
+                      {
+                        return object.as(Displayable.class).getDisplayName();
+                      }
+                    catch (AsException e)
+                      {
+                        return object.toString();
+                      }
+                  }
+
+                @Override
+                public As fromString (final @Nonnull String string)
+                  {
+                    throw new UnsupportedOperationException("Not supported yet.");
+                  }
+              });
+
+            return cell;
+          }
+      };
+
+    private final ChangeListener<TreeItem<As>> changeListener = new ChangeListener<TreeItem<As>>()
+      {
+        @Override
+        public void changed (final @Nonnull ObservableValue<? extends TreeItem<As>> ov,
+                             final @Nonnull TreeItem<As> oldItem,
+                             final @Nonnull TreeItem<As> item)
+          {
+            try
+              {
+                item.getValue().as(Selectable.class).select();
+              }
+            catch (AsException e)
+              {
+                // ok, do nothing
+              }
+          }
+      };
+
     @Override
     public void bind (final @Nonnull PresentationModel pm,
-                      final @Nonnull TreeView<Object> treeView)
-      {
-        treeView.setRoot(createTreeItem(pm));
-
-        treeView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<TreeItem<Object>>()
-          {
-            @Override
-            public void changed (final @Nonnull ObservableValue<? extends TreeItem<Object>> ov,
-                                 final @Nonnull TreeItem<Object> oldItem,
-                                 final @Nonnull TreeItem<Object> item)
-              {
-                log.info("selected {}", item);
-              }
-          });
-      }
-
-    @Nonnull
-    private TreeItem<Object> createTreeItem (final @Nonnull PresentationModel pm)
+                      final @Nonnull TreeView<As> treeView)
       {
         assert Platform.isFxApplicationThread() : "Must run in the JavaFX Application Thread";
 
-        final TreeItem<Object> rootItem = new TreeItem<Object>(getRootName(pm));
+        treeView.setRoot(createTreeItem(pm));
+        treeView.setCellFactory(cellFactory);
+        treeView.getSelectionModel().selectedItemProperty().addListener(changeListener);
+     }
+
+    @Nonnull
+    private TreeItem<As> createTreeItem (final @Nonnull PresentationModel pm)
+      {
+        final TreeItem<As> rootItem = new TreeItem<As>(pm);
 
         addChildren(pm, rootItem);
 
         return rootItem;
       }
 
-    @Nonnull
-    private String getRootName (final @Nonnull PresentationModel pm)
-      {
-        try
-          {
-            return pm.as(Displayable.class).getDisplayName();
-          }
-        catch (AsException e)
-          {
-            return "root";
-          }
-      }
-
     // FIXME: add on demand, upon node expansion
     private void addChildren (final @Nonnull As datum,
-                              final @Nonnull TreeItem<Object> parentItem)
+                              final @Nonnull TreeItem<As> parentItem)
       {
         final SimpleComposite<? extends As> composite = datum.as(SimpleComposite.class);
         final List<? extends As> objects = composite.findChildren().results();
 
         for (final As object : objects)
           {
-            final TreeItem<Object> item = new TreeItem<Object>(object.as(Displayable.class).getDisplayName());
+            final TreeItem<As> item = new TreeItem<>(object);
             addChildren(object, item);
             parentItem.getChildren().add(item);
           }

@@ -14,6 +14,7 @@ import it.tidalwave.util.Finder;
 import it.tidalwave.util.spi.SimpleFinderSupport;
 import it.tidalwave.role.SimpleComposite;
 import it.tidalwave.role.ui.PresentationModel;
+import it.tidalwave.util.RoleFactory;
 
 /***********************************************************************************************************************
  *
@@ -24,7 +25,8 @@ import it.tidalwave.role.ui.PresentationModel;
 public class PresentationModelUtil
   {
     @Nonnull
-    public <T> PresentationModel createPresentationModel (final @Nonnull SimpleComposite<T> composite)
+    public <T> PresentationModel createPresentationModel (final @Nonnull SimpleComposite<T> composite,
+                                                          final @Nonnull RoleFactory<T> roleFactory)
       {
         return new DefaultPresentationModel("",  new SimpleComposite<PresentationModel>()
           {
@@ -40,7 +42,8 @@ public class PresentationModelUtil
 
                         for (final T object : composite.findChildren().results())
                           {
-                            results.add(new DefaultPresentationModel(object));
+                            results.add(new DefaultPresentationModel(object,
+                                    new Object[] { roleFactory.createRoleFor(object) } ));
                           }
 
                         return results;

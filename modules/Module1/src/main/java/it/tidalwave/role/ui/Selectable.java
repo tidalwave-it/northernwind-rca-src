@@ -25,50 +25,17 @@
  * *********************************************************************************************************************
  * #L%
  */
-package it.tidalwave.northernwind.rca.ui.impl.javafx;
-
-import javax.annotation.Nonnull;
-import javax.inject.Inject;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.scene.control.TreeView;
-import org.springframework.beans.factory.annotation.Configurable;
-import it.tidalwave.util.As;
-import it.tidalwave.northernwind.rca.ui.ContentExplorerPresentationControl;
-import it.tidalwave.northernwind.rca.ui.StructureExplorerPresentationControl;
-import lombok.extern.slf4j.Slf4j;
+package it.tidalwave.role.ui;
 
 /***********************************************************************************************************************
  *
- * @author Fabrizio Giudici
+ * @author  Fabrizio Giudici
  * @version $Id$
  *
  **********************************************************************************************************************/
-@Configurable
-@Slf4j
-public class ApplicationHandler
+public interface Selectable
   {
-    @FXML
-    private TreeView<As> tvStructure;
+    public static final Class<Selectable> Selectable = Selectable.class;
 
-    @FXML
-    private TreeView<As> tvContent;
-
-    @Inject @Nonnull
-    private StructureExplorerPresentationControl structureExplorerPresentationControl;
-
-    @Inject @Nonnull
-    private ContentExplorerPresentationControl contentExplorerPresentationControl;
-
-    @FXML
-    private void onOpen (final @Nonnull ActionEvent event)
-      {
-        log.info("open: {}", event);
-      }
-
-    public void initialize()
-      {
-        contentExplorerPresentationControl.initialize(new JavaFXContentExplorerPresentation(tvContent));
-        structureExplorerPresentationControl.initialize(new JavaFXStructureExplorerPresentation(tvStructure));
-      }
+    public void select();
   }

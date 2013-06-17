@@ -27,15 +27,18 @@
  */
 package it.tidalwave.northernwind.rca.ui.impl;
 
-import it.tidalwave.northernwind.core.model.ResourceFile;
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
 import java.io.IOException;
 import org.springframework.beans.factory.annotation.Configurable;
+import it.tidalwave.role.ui.Selectable;
+import it.tidalwave.util.RoleFactory;
+import it.tidalwave.northernwind.core.model.ResourceFile;
 import it.tidalwave.northernwind.core.model.ResourceFileSystemProvider;
 import it.tidalwave.northernwind.rca.ui.ContentExplorerPresentation;
 import it.tidalwave.northernwind.rca.ui.ContentExplorerPresentationControl;
 import it.tidalwave.northernwind.rca.ui.PresentationModelUtil;
+import lombok.extern.slf4j.Slf4j;
 
 /***********************************************************************************************************************
  *
@@ -47,11 +50,27 @@ import it.tidalwave.northernwind.rca.ui.PresentationModelUtil;
  * @version $Id$
  *
  **********************************************************************************************************************/
-@Configurable
+@Configurable @Slf4j
 public class DefaultContentExplorerPresentationControl implements ContentExplorerPresentationControl
   {
     @Inject @Nonnull
     private ResourceFileSystemProvider fileSystemProvider;
+
+    private final RoleFactory<ResourceFileWrapper> roleFactory = new RoleFactory<ResourceFileWrapper>()
+      {
+        @Override
+        public Object createRoleFor (final @Nonnull ResourceFileWrapper datum)
+          {
+            return new Selectable()
+              {
+                @Override
+                public void select()
+                  {
+                    log.info("Selected {}", datum);
+                  }
+              };
+          }
+      };
 
     /*******************************************************************************************************************
      *
@@ -65,7 +84,7 @@ public class DefaultContentExplorerPresentationControl implements ContentExplore
           {
             final ResourceFile root = fileSystemProvider.getFileSystem().findFileByPath("/content/document");
             final ResourceFileWrapper wrapper = new ResourceFileWrapper(root);
-            presentation.populate(new PresentationModelUtil().createPresentationModel(wrapper));
+            presentation.populate(new PresentationModelUtil().createPresentationModel(wrapper, roleFactory));
           }
         catch (IOException ex)
           {

@@ -36,6 +36,9 @@ import it.tidalwave.northernwind.core.model.ResourceFileSystemProvider;
 import it.tidalwave.northernwind.rca.ui.PresentationModelUtil;
 import it.tidalwave.northernwind.rca.ui.StructureExplorerPresentation;
 import it.tidalwave.northernwind.rca.ui.StructureExplorerPresentationControl;
+import it.tidalwave.role.ui.Selectable;
+import it.tidalwave.util.RoleFactory;
+import lombok.extern.slf4j.Slf4j;
 
 /***********************************************************************************************************************
  *
@@ -46,11 +49,27 @@ import it.tidalwave.northernwind.rca.ui.StructureExplorerPresentationControl;
  * @version $Id$
  *
  **********************************************************************************************************************/
-@Configurable
+@Configurable @Slf4j
 public class DefaultStructureExplorerPresentationControl implements StructureExplorerPresentationControl
   {
     @Inject @Nonnull
     private ResourceFileSystemProvider fileSystemProvider;
+
+    private final RoleFactory<ResourceFileWrapper> roleFactory = new RoleFactory<ResourceFileWrapper>()
+      {
+        @Override
+        public Object createRoleFor (final @Nonnull ResourceFileWrapper datum)
+          {
+            return new Selectable()
+              {
+                @Override
+                public void select()
+                  {
+                    log.info("Selected {}", datum);
+                  }
+              };
+          }
+      };
 
     /*******************************************************************************************************************
      *
@@ -64,7 +83,7 @@ public class DefaultStructureExplorerPresentationControl implements StructureExp
           {
             final ResourceFile root = fileSystemProvider.getFileSystem().findFileByPath("/structure");
             final ResourceFileWrapper wrapper = new ResourceFileWrapper(root);
-            presentation.populate(new PresentationModelUtil().createPresentationModel(wrapper));
+            presentation.populate(new PresentationModelUtil().createPresentationModel(wrapper, roleFactory));
           }
         catch (IOException ex)
           {
