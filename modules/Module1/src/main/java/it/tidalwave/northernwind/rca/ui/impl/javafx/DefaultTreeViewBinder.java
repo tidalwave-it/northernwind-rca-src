@@ -74,14 +74,8 @@ public class DefaultTreeViewBinder implements TreeViewBinder
         assert Platform.isFxApplicationThread() : "Must run in the JavaFX Application Thread";
 
         final TreeItem<Object> rootItem = new TreeItem<Object>(getRootName(pm));
-        final SimpleComposite<? extends As> composite = pm.as(SimpleComposite.class);
-        final List<? extends As> objects = composite.findChildren().results();
 
-        for (final As object : objects)
-          {
-            final TreeItem<Object> item = new TreeItem<Object>(object.as(Displayable.class).getDisplayName());
-            rootItem.getChildren().add(item);
-          }
+        addChildren(pm, rootItem);
 
         return rootItem;
       }
@@ -96,6 +90,20 @@ public class DefaultTreeViewBinder implements TreeViewBinder
         catch (AsException e)
           {
             return "root";
+          }
+      }
+
+    private void addChildren (final @Nonnull As datum,
+                              final @Nonnull TreeItem<Object> parentItem)
+      {
+        final SimpleComposite<? extends As> composite = datum.as(SimpleComposite.class);
+        final List<? extends As> objects = composite.findChildren().results();
+
+        for (final As object : objects)
+          {
+            final TreeItem<Object> item = new TreeItem<Object>(object.as(Displayable.class).getDisplayName());
+            addChildren(object, item);
+            parentItem.getChildren().add(item);
           }
       }
   }
