@@ -101,9 +101,9 @@ public class DefaultStructureExplorerPresentationControl implements StructureExp
             final AdminSiteNode siteNode = (AdminSiteNode)modelFactory.createSiteNode(null, root);
             presentation.populate(new PresentationModelUtil().createPresentationModel(siteNode, roleFactory));
           }
-        catch (IOException | NotFoundException ex)
+        catch (IOException | NotFoundException e)
           {
-            ex.printStackTrace();
+            log.warn("", e);
           }
       }
   }

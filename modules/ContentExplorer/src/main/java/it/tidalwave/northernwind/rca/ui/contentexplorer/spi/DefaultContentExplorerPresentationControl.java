@@ -100,9 +100,9 @@ public class DefaultContentExplorerPresentationControl implements ContentExplore
             final AdminContent content = (AdminContent)modelFactory.createContent(root);
             presentation.populate(new PresentationModelUtil().createPresentationModel(content, roleFactory));
           }
-        catch (IOException ex)
+        catch (IOException e)
           {
-            ex.printStackTrace();
+            log.warn("", e);
           }
       }
   }
