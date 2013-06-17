@@ -36,6 +36,7 @@ import java.io.IOException;
 import org.springframework.beans.factory.annotation.Configurable;
 import it.tidalwave.messagebus.MessageBus;
 import it.tidalwave.messagebus.MessageBus.Listener;
+import it.tidalwave.northernwind.core.model.ResourceFile;
 import it.tidalwave.northernwind.rca.ui.event.ContentSelectedEvent;
 import it.tidalwave.northernwind.rca.ui.contenteditor.ContentEditorPresentation;
 import it.tidalwave.northernwind.rca.ui.contenteditor.ContentEditorPresentationControl;
@@ -67,14 +68,16 @@ public class DefaultContentEditorPresentationControl implements ContentEditorPre
         @Override
         public void notify (final @Nonnull ContentSelectedEvent event)
           {
+            // FIXME: should rather use Properties and read FULLTEXT
             try
               {
-                log.info("notified {}", event);
-                presentation.populate(event.getContent().getFile().getChildByName("fullText_en.xhtml").asText("UTF-8"));
+                log.debug("notify({})", event);
+                final ResourceFile child = event.getContent().getFile().getChildByName("fullText_en.xhtml");
+                presentation.populate(child == null ? "" : child.asText("UTF-8"));
               }
             catch (IOException e)
               {
-                e.printStackTrace();
+                log.warn("", e);
               }
           }
       };
