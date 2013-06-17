@@ -99,6 +99,20 @@
             <groupId>javax.inject</groupId>
             <artifactId>javax.inject</artifactId>
         </dependency>
+        <dependency>
+            <groupId>it.tidalwave.northernwind</groupId>
+            <artifactId>it-tidalwave-northernwind-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>it.tidalwave.northernwind</groupId>
+            <artifactId>it-tidalwave-northernwind-core-filesystem-basic</artifactId>
+        </dependency>
+        <!-- FIXME: temporary dependency -->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+            <version>2.5</version> <!-- FIXME -->
+        </dependency>
     </dependencies>
 
 </project>

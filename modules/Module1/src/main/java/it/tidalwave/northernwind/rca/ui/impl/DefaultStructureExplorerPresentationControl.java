@@ -28,16 +28,14 @@
 package it.tidalwave.northernwind.rca.ui.impl;
 
 import javax.annotation.Nonnull;
-import java.util.Arrays;
-import java.util.List;
-import it.tidalwave.util.Finder;
-import it.tidalwave.util.spi.SimpleFinderSupport;
-import it.tidalwave.role.SimpleComposite;
-import it.tidalwave.role.spi.DefaultSimpleComposite;
+import javax.inject.Inject;
+import java.io.IOException;
+import org.springframework.beans.factory.annotation.Configurable;
+import it.tidalwave.northernwind.core.model.ResourceFile;
+import it.tidalwave.northernwind.core.model.ResourceFileSystemProvider;
 import it.tidalwave.northernwind.rca.ui.PresentationModelUtil;
 import it.tidalwave.northernwind.rca.ui.StructureExplorerPresentation;
 import it.tidalwave.northernwind.rca.ui.StructureExplorerPresentationControl;
-import lombok.RequiredArgsConstructor;
 
 /***********************************************************************************************************************
  *
@@ -48,9 +46,12 @@ import lombok.RequiredArgsConstructor;
  * @version $Id$
  *
  **********************************************************************************************************************/
-@RequiredArgsConstructor
+@Configurable
 public class DefaultStructureExplorerPresentationControl implements StructureExplorerPresentationControl
   {
+    @Inject @Nonnull
+    private ResourceFileSystemProvider fileSystemProvider;
+
     /*******************************************************************************************************************
      *
      * {@inheritDoc}
@@ -59,16 +60,15 @@ public class DefaultStructureExplorerPresentationControl implements StructureExp
     @Override
     public void initialize (final @Nonnull StructureExplorerPresentation presentation)
       {
-        final Finder<Mock> finder = new SimpleFinderSupport<Mock>()
+        try
           {
-            @Override
-            protected List<? extends Mock> computeResults()
-              {
-                return Arrays.asList(new Mock("structure 1"), new Mock("structure 2"));
-              }
-          };
-
-        final SimpleComposite<Mock> composite = new DefaultSimpleComposite<>(finder);
-        presentation.populate(new PresentationModelUtil().createPresentationModel(composite));
+            final ResourceFile root = fileSystemProvider.getFileSystem().findFileByPath("/structure");
+            final ResourceFileWrapper wrapper = new ResourceFileWrapper(root);
+            presentation.populate(new PresentationModelUtil().createPresentationModel(wrapper));
+          }
+        catch (IOException ex)
+          {
+            ex.printStackTrace();
+          }
       }
   }

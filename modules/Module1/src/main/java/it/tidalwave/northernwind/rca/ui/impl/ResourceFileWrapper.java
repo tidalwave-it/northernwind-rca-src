@@ -28,23 +28,45 @@
 package it.tidalwave.northernwind.rca.ui.impl;
 
 import javax.annotation.Nonnull;
+import java.util.ArrayList;
+import java.util.List;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import it.tidalwave.util.As;
 import it.tidalwave.util.AsException;
+import it.tidalwave.util.Finder;
+import it.tidalwave.util.spi.SimpleFinderSupport;
+import it.tidalwave.role.SimpleComposite;
 import it.tidalwave.role.spi.DefaultDisplayable;
+import it.tidalwave.northernwind.core.model.ResourceFile;
 
 /***********************************************************************************************************************
+ *
+ * FIXME: temporary wrapper, until ResourceFileSystem implements As, Composite
  *
  * @author  Fabrizio Giudici
  * @version $Id$
  *
  **********************************************************************************************************************/
-class Mock implements As
+public class ResourceFileWrapper implements As, SimpleComposite<ResourceFileWrapper>
   {
-    private final Object[] roles;
+    @Nonnull
+    private final ResourceFile file;
 
-    public Mock (final @Nonnull String displayName)
+    private final List<Object> roles = new ArrayList<>();
+
+    public ResourceFileWrapper (final @Nonnull ResourceFile file)
       {
-        roles = new Object[]{new DefaultDisplayable(displayName)};
+        try
+          {
+            this.file = file;
+            roles.add(this);
+            roles.add(new DefaultDisplayable(URLDecoder.decode(file.getName(), "UTF-8")));
+          }
+        catch (UnsupportedEncodingException e)
+          {
+            throw new RuntimeException(e);
+          }
       }
 
     @Override
@@ -65,5 +87,25 @@ class Mock implements As
     public <T> T as (Class<T> clazz, NotFoundBehaviour<T> notFoundBehaviour)
       {
         throw new UnsupportedOperationException("Not supported yet.");
+      }
+
+    @Override @Nonnull
+    public Finder<ResourceFileWrapper> findChildren()
+      {
+        return new SimpleFinderSupport<ResourceFileWrapper>()
+          {
+            @Override @Nonnull
+            protected List<? extends ResourceFileWrapper> computeResults()
+              {
+                final List<ResourceFileWrapper> result = new ArrayList<>();
+
+                for (final ResourceFile child : file.getChildren())
+                  {
+                    result.add(new ResourceFileWrapper(child));
+                  }
+
+                return result;
+              }
+          };
       }
   }

@@ -27,17 +27,15 @@
  */
 package it.tidalwave.northernwind.rca.ui.impl;
 
+import it.tidalwave.northernwind.core.model.ResourceFile;
 import javax.annotation.Nonnull;
-import java.util.Arrays;
-import java.util.List;
-import it.tidalwave.util.Finder;
-import it.tidalwave.util.spi.SimpleFinderSupport;
-import it.tidalwave.role.SimpleComposite;
-import it.tidalwave.role.spi.DefaultSimpleComposite;
+import javax.inject.Inject;
+import java.io.IOException;
+import org.springframework.beans.factory.annotation.Configurable;
+import it.tidalwave.northernwind.core.model.ResourceFileSystemProvider;
 import it.tidalwave.northernwind.rca.ui.ContentExplorerPresentation;
 import it.tidalwave.northernwind.rca.ui.ContentExplorerPresentationControl;
 import it.tidalwave.northernwind.rca.ui.PresentationModelUtil;
-import lombok.RequiredArgsConstructor;
 
 /***********************************************************************************************************************
  *
@@ -49,9 +47,12 @@ import lombok.RequiredArgsConstructor;
  * @version $Id$
  *
  **********************************************************************************************************************/
-@RequiredArgsConstructor
+@Configurable
 public class DefaultContentExplorerPresentationControl implements ContentExplorerPresentationControl
   {
+    @Inject @Nonnull
+    private ResourceFileSystemProvider fileSystemProvider;
+
     /*******************************************************************************************************************
      *
      * {@inheritDoc}
@@ -60,16 +61,15 @@ public class DefaultContentExplorerPresentationControl implements ContentExplore
     @Override
     public void initialize (final @Nonnull ContentExplorerPresentation presentation)
       {
-        final Finder<Mock> finder = new SimpleFinderSupport<Mock>()
+        try
           {
-            @Override
-            protected List<? extends Mock> computeResults()
-              {
-                return Arrays.asList(new Mock("content 1"), new Mock("content 2"));
-              }
-          };
-
-        final SimpleComposite<Mock> composite = new DefaultSimpleComposite<>(finder);
-        presentation.populate(new PresentationModelUtil().createPresentationModel(composite));
+            final ResourceFile root = fileSystemProvider.getFileSystem().findFileByPath("/content/document");
+            final ResourceFileWrapper wrapper = new ResourceFileWrapper(root);
+            presentation.populate(new PresentationModelUtil().createPresentationModel(wrapper));
+          }
+        catch (IOException ex)
+          {
+            ex.printStackTrace();
+          }
       }
   }

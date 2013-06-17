@@ -65,5 +65,11 @@
     <bean class="it.tidalwave.northernwind.rca.ui.impl.DefaultContentExplorerPresentationControl" />
 
     <bean class="it.tidalwave.northernwind.rca.ui.impl.DefaultStructureExplorerPresentationControl" />
+
+    <bean class="it.tidalwave.northernwind.rca.ui.impl.ServletContextSurrogate" />
     
+    <bean id="fileSystemProvider" class="it.tidalwave.northernwind.frontend.filesystem.basic.LocalFileSystemProvider" >
+        <property name="rootPath" value="/Users/fritz/Personal/WebSites/StoppingDown.net" />
+    </bean>
+
 </beans>

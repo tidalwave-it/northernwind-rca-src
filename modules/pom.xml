@@ -64,6 +64,7 @@
         <!-- netbeans.version>RELEASE72</netbeans.version -->
         <slf4j.version>1.7.5</slf4j.version>
         <logback.version>1.0.12</logback.version>
+        <northernwind.version>1.1-ALPHA-23</northernwind.version>
         <spring.version>3.1.0.RELEASE</spring.version>
         <tft.jsr305.version>2.0.1</tft.jsr305.version>
         <tft.jsr330.version>1</tft.jsr330.version>
@@ -98,6 +99,13 @@
                 <groupId>it.tidalwave.thesefoolishthings</groupId>
                 <artifactId>thesefoolishthings</artifactId>
                 <version>${thesefoolishthings.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>it.tidalwave.northernwind</groupId>
+                <artifactId>it-tidalwave-northernwind</artifactId>
+                <version>${northernwind.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
