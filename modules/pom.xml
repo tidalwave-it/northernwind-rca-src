@@ -276,12 +276,12 @@
 
     ================================================================================================================ -->
     <modules>
-        <module>Module1</module>
         <module>ContentExplorer</module>
         <module>CommonsUI</module>
         <module>StructureExplorer</module>
         <module>ContentEditor</module>
         <module>JavaFXUI</module>
+        <module>JavaFXApplication</module>
     </modules>
 
 </project>
