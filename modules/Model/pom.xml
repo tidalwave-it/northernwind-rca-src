@@ -47,6 +47,16 @@
             <groupId>it.tidalwave.northernwind</groupId>
             <artifactId>it-tidalwave-northernwind-core</artifactId>
         </dependency>
+        <dependency>
+            <groupId>it.tidalwave.northernwind.rca</groupId>
+            <artifactId>it-tidalwave-northernwind-model-core-stripped</artifactId>
+            <exclusions>
+                <exclusion>
+                    <artifactId>it-tidalwave-northernwind-core-default</artifactId>
+                    <groupId>it.tidalwave.northernwind</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
 
         <dependency>
             <groupId>it.tidalwave.thesefoolishthings</groupId>

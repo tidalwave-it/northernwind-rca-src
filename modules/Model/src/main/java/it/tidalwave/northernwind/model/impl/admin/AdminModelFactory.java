@@ -93,10 +93,18 @@ public class AdminModelFactory implements ModelFactory
         throw new UnsupportedOperationException("Not supported yet.");
       }
 
-    @Override
+    @Override @Nonnull
     public ResourceProperties.Builder createProperties()
       {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return new ResourceProperties.Builder().withCallBack(new ResourceProperties.Builder.CallBack()
+          {
+            @Override @Nonnull
+            public ResourceProperties build (final @Nonnull ResourceProperties.Builder builder)
+              {
+                // FIXME: this is a patched copy, needs public constructor for builder
+                return new it.tidalwave.northernwind.model.impl.admin.DefaultResourceProperties(builder);
+              }
+          });
       }
 
     @Override

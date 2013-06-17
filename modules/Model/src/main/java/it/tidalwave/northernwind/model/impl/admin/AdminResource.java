@@ -28,13 +28,21 @@
 package it.tidalwave.northernwind.model.impl.admin;
 
 import javax.annotation.Nonnull;
+import javax.inject.Inject;
+import java.io.IOException;
+import java.io.InputStream;
+import org.springframework.beans.factory.annotation.Configurable;
 import it.tidalwave.util.As;
 import it.tidalwave.util.Id;
+import it.tidalwave.northernwind.core.model.ModelFactory;
 import it.tidalwave.northernwind.core.model.Resource;
 import it.tidalwave.northernwind.core.model.ResourceFile;
 import it.tidalwave.northernwind.core.model.ResourceProperties;
+import it.tidalwave.northernwind.core.impl.model.TextResourcePropertyResolver;
+import lombok.Cleanup;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import static it.tidalwave.role.Unmarshallable.*;
 
 /***********************************************************************************************************************
  *
@@ -42,22 +50,51 @@ import lombok.RequiredArgsConstructor;
  * @version $Id$
  *
  **********************************************************************************************************************/
-@RequiredArgsConstructor
+@Configurable @Slf4j
 public class AdminResource implements Resource, As//, SimpleComposite<Content>
   {
+    @Inject @Nonnull
+    private ModelFactory modelFactory;
+
     @Getter @Nonnull
     private final ResourceFile file;
 
-    @Override
-    public ResourceProperties getProperties()
+    @Nonnull
+    private final PatchedTextResourcePropertyResolver propertyResolver;
+
+    public AdminResource(ResourceFile file)
       {
-        throw new UnsupportedOperationException("Not supported yet.");
+        this.file = file;
+        propertyResolver = new PatchedTextResourcePropertyResolver(file);
       }
 
-    @Override
-    public ResourceProperties getPropertyGroup(Id id)
+    /*******************************************************************************************************************
+     *
+     * {@inheritDoc}
+     *
+     ******************************************************************************************************************/
+    @Override @Nonnull
+    public ResourceProperties getProperties()
       {
-        throw new UnsupportedOperationException("Not supported yet.");
+        try
+          {
+            return loadProperties();
+          }
+        catch (IOException e)
+          {
+            throw new RuntimeException(e);
+          }
+      }
+
+    /*******************************************************************************************************************
+     *
+     * {@inheritDoc}
+     *
+     ******************************************************************************************************************/
+    @Override @Nonnull
+    public ResourceProperties getPropertyGroup (final @Nonnull Id id)
+      {
+        return getProperties().getGroup(id);
       }
 
     @Override
@@ -67,12 +104,38 @@ public class AdminResource implements Resource, As//, SimpleComposite<Content>
       }
 
     @Override
-    public <T> T as(Class<T> clazz) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    public <T> T as(Class<T> clazz)
+      {
+        throw new UnsupportedOperationException("Not supported yet.");
+      }
 
     @Override
-    public <T> T as(Class<T> clazz, NotFoundBehaviour<T> notFoundBehaviour) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    public <T> T as(Class<T> clazz, NotFoundBehaviour<T> notFoundBehaviour)
+      {
+        throw new UnsupportedOperationException("Not supported yet.");
+      }
+
+    /*******************************************************************************************************************
+     *
+     *
+     ******************************************************************************************************************/
+    @Nonnull
+    private ResourceProperties loadProperties()
+      throws IOException
+      {
+        log.debug("loadProperties() for {}", file.getPath().asString());
+
+        final ResourceFile propertyFile = file.getChildByName("Properties.xml"); // FIXME reuse the inheritance helper
+
+        ResourceProperties properties = modelFactory.createProperties().withPropertyResolver(propertyResolver).build();
+
+//        log.trace(">>>> reading properties from {} ({})...", propertyFile.getPath().asString(), locale);
+        @Cleanup final InputStream is = propertyFile.getInputStream();
+        final ResourceProperties tempProperties =
+//            modelFactory.createProperties().build().as(Unmarshallable).unmarshal(is);
+                modelFactory.createProperties().withPropertyResolver(propertyResolver).build().as(Unmarshallable).unmarshal(is);
+//        log.trace(">>>>>>>> read properties: {} ({})", tempProperties, locale);
+        properties = properties.merged(tempProperties);
+        return properties;
+      }
   }

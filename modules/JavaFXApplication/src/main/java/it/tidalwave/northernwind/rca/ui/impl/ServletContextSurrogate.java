@@ -36,6 +36,7 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.Servlet;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
+import lombok.extern.slf4j.Slf4j;
 
 /***********************************************************************************************************************
  *
@@ -45,8 +46,16 @@ import javax.servlet.ServletException;
  * @version $Id$
  *
  **********************************************************************************************************************/
+@Slf4j
 public class ServletContextSurrogate implements ServletContext
   {
+    @Override
+    public String getMimeType(String file)
+      {
+        log.warn("Returning fixed MIME type: text/xhtml");
+        return "text/xhtml";
+      }
+
     @Override
     public String getContextPath() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -64,11 +73,6 @@ public class ServletContextSurrogate implements ServletContext
 
     @Override
     public int getMinorVersion() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public String getMimeType(String file) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
