@@ -59,6 +59,21 @@
 
     <aop:aspectj-autoproxy/>
 
+    <!-- MessageBus stuff -->
+    <bean id="applicationMessageBusTaskExecutor"
+          class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor"
+          autowire-candidate="false">
+        <!-- FIXME use properties -->
+        <property name="corePoolSize" value="10" />
+        <property name="maxPoolSize" value="10" />
+        <property name="queueCapacity" value="10" />
+    </bean>
+
+    <bean id="applicationMessageBus"
+          class="it.tidalwave.messagebus.impl.spring.SpringMessageBus">
+        <property name="taskExecutor" ref="applicationMessageBusTaskExecutor"/>
+    </bean>
+
     <bean id="defaultTreeViewBinder"
           class="it.tidalwave.northernwind.rca.ui.impl.javafx.DefaultTreeViewBinder" />
 
@@ -66,8 +81,10 @@
 
     <bean class="it.tidalwave.northernwind.rca.ui.impl.DefaultStructureExplorerPresentationControl" />
 
+    <bean class="it.tidalwave.northernwind.rca.ui.impl.DefaultPageEditorPresentationControl" />
+
     <bean class="it.tidalwave.northernwind.rca.ui.impl.ServletContextSurrogate" />
-    
+
     <bean id="fileSystemProvider" class="it.tidalwave.northernwind.frontend.filesystem.basic.LocalFileSystemProvider" >
         <property name="rootPath" value="/Users/fritz/Personal/WebSites/StoppingDown.net" />
     </bean>

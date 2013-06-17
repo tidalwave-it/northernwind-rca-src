@@ -113,6 +113,10 @@
             <artifactId>servlet-api</artifactId>
             <version>2.5</version> <!-- FIXME -->
         </dependency>
+        <dependency>
+            <groupId>it.tidalwave.thesefoolishthings</groupId>
+            <artifactId>it-tidalwave-messagebus-spring</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

@@ -28,77 +28,63 @@
 package it.tidalwave.northernwind.rca.ui.impl;
 
 import javax.annotation.Nonnull;
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.inject.Inject;
 import javax.inject.Named;
-import java.io.IOException;
 import org.springframework.beans.factory.annotation.Configurable;
-import it.tidalwave.util.RoleFactory;
-import it.tidalwave.role.ui.Selectable;
 import it.tidalwave.messagebus.MessageBus;
-import it.tidalwave.northernwind.core.model.ResourceFile;
-import it.tidalwave.northernwind.core.model.ResourceFileSystemProvider;
-import it.tidalwave.northernwind.rca.ui.ContentExplorerPresentation;
-import it.tidalwave.northernwind.rca.ui.ContentExplorerPresentationControl;
-import it.tidalwave.northernwind.rca.ui.PresentationModelUtil;
+import it.tidalwave.messagebus.MessageBus.Listener;
+import it.tidalwave.northernwind.rca.ui.PageEditorPresentation;
+import it.tidalwave.northernwind.rca.ui.PageEditorPresentationControl;
 import it.tidalwave.northernwind.rca.ui.event.ContentSelectedEvent;
 import lombok.extern.slf4j.Slf4j;
 
 /***********************************************************************************************************************
- *
- * The default implementation for {@link ContentExplorerPresentationControl}.
- *
- * @stereotype Control
  *
  * @author  Fabrizio Giudici
  * @version $Id$
  *
  **********************************************************************************************************************/
 @Configurable @Slf4j
-public class DefaultContentExplorerPresentationControl implements ContentExplorerPresentationControl
+public class DefaultPageEditorPresentationControl implements PageEditorPresentationControl
   {
-    @Inject @Nonnull
-    private ResourceFileSystemProvider fileSystemProvider;
-
     @Inject @Named("applicationMessageBus") @Nonnull
     private MessageBus messageBus;
 
-    /*******************************************************************************************************************
-     *
-     ******************************************************************************************************************/
-    private final RoleFactory<ResourceFileWrapper> roleFactory = new RoleFactory<ResourceFileWrapper>()
-      {
-        @Override
-        public Object createRoleFor (final @Nonnull ResourceFileWrapper datum)
-          {
-            return new Selectable()
-              {
-                @Override
-                public void select()
-                  {
-                    log.debug("Selected {}", datum);
-                    messageBus.publish(new ContentSelectedEvent(datum.getFile()));
-                  }
-              };
-          }
-      };
+    @Nonnull
+    private PageEditorPresentation presentation;
 
     /*******************************************************************************************************************
      *
-     * {@inheritDoc}
      *
      ******************************************************************************************************************/
-    @Override
-    public void initialize (final @Nonnull ContentExplorerPresentation presentation)
+    private final Listener<ContentSelectedEvent> siteNodeSelectionListener =
+            new Listener<ContentSelectedEvent>()
       {
-        try
+        @Override
+        public void notify (final @Nonnull ContentSelectedEvent event)
           {
-            final ResourceFile root = fileSystemProvider.getFileSystem().findFileByPath("/content/document");
-            final ResourceFileWrapper wrapper = new ResourceFileWrapper(root);
-            presentation.populate(new PresentationModelUtil().createPresentationModel(wrapper, roleFactory));
+              log.info("notified {}", event);
+            presentation.open(event.getFile());
           }
-        catch (IOException ex)
-          {
-            ex.printStackTrace();
-          }
+      };
+
+    @PostConstruct
+    private void initialize()
+      {
+        messageBus.subscribe(ContentSelectedEvent.class, siteNodeSelectionListener);
+      }
+
+    @PreDestroy
+    private void destroy()
+      {
+        messageBus.unsubscribe(siteNodeSelectionListener);
+      }
+
+    @Override
+    public void initialize (final @Nonnull PageEditorPresentation presentation)
+      {
+        this.presentation = presentation;
       }
   }

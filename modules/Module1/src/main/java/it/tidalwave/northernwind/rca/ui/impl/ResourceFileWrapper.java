@@ -39,6 +39,8 @@ import it.tidalwave.util.spi.SimpleFinderSupport;
 import it.tidalwave.role.SimpleComposite;
 import it.tidalwave.role.spi.DefaultDisplayable;
 import it.tidalwave.northernwind.core.model.ResourceFile;
+import lombok.Getter;
+import lombok.ToString;
 
 /***********************************************************************************************************************
  *
@@ -48,9 +50,10 @@ import it.tidalwave.northernwind.core.model.ResourceFile;
  * @version $Id$
  *
  **********************************************************************************************************************/
+@ToString(of = "file")
 public class ResourceFileWrapper implements As, SimpleComposite<ResourceFileWrapper>
   {
-    @Nonnull
+    @Getter @Nonnull
     private final ResourceFile file;
 
     private final List<Object> roles = new ArrayList<>();

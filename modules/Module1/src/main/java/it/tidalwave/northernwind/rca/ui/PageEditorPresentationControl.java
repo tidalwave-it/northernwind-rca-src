@@ -25,59 +25,17 @@
  * *********************************************************************************************************************
  * #L%
  */
-package it.tidalwave.northernwind.rca.ui.impl.javafx;
+package it.tidalwave.northernwind.rca.ui;
 
 import javax.annotation.Nonnull;
-import javax.inject.Inject;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.scene.control.TreeView;
-import javafx.scene.web.WebView;
-import org.springframework.beans.factory.annotation.Configurable;
-import it.tidalwave.util.As;
-import it.tidalwave.northernwind.rca.ui.ContentExplorerPresentationControl;
-import it.tidalwave.northernwind.rca.ui.PageEditorPresentationControl;
-import it.tidalwave.northernwind.rca.ui.StructureExplorerPresentationControl;
-import lombok.extern.slf4j.Slf4j;
 
 /***********************************************************************************************************************
  *
- * @author Fabrizio Giudici
+ * @author  Fabrizio Giudici
  * @version $Id$
  *
  **********************************************************************************************************************/
-@Configurable
-@Slf4j
-public class ApplicationHandler
+public interface PageEditorPresentationControl
   {
-    @FXML
-    private TreeView<As> tvStructure;
-
-    @FXML
-    private TreeView<As> tvContent;
-
-    @FXML
-    private WebView wpHtmlEditor;
-
-    @Inject @Nonnull
-    private StructureExplorerPresentationControl structureExplorerPresentationControl;
-
-    @Inject @Nonnull
-    private ContentExplorerPresentationControl contentExplorerPresentationControl;
-
-    @Inject @Nonnull
-    private PageEditorPresentationControl pageEditorPresentationControl;
-
-    @FXML
-    private void onOpen (final @Nonnull ActionEvent event)
-      {
-        log.info("open: {}", event);
-      }
-
-    public void initialize()
-      {
-        contentExplorerPresentationControl.initialize(new JavaFXContentExplorerPresentation(tvContent));
-        structureExplorerPresentationControl.initialize(new JavaFXStructureExplorerPresentation(tvStructure));
-        pageEditorPresentationControl.initialize(new JavaFXPageEditorPresentation(wpHtmlEditor));
-      }
+    public void initialize (@Nonnull PageEditorPresentation presentation);
   }

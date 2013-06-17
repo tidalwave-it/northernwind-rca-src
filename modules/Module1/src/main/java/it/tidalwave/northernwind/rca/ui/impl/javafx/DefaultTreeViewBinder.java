@@ -100,6 +100,7 @@ public class DefaultTreeViewBinder implements TreeViewBinder
               }
             catch (AsException e)
               {
+                e.printStackTrace();
                 // ok, do nothing
               }
           }
