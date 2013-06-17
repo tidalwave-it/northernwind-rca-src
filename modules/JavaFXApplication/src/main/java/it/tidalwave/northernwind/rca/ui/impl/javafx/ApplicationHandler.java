@@ -95,7 +95,7 @@ public class ApplicationHandler
 
         contentExplorerPresentationControl.initialize(new JavaFXContentExplorerPresentation(tvContent));
         structureExplorerPresentationControl.initialize(new JavaFXStructureExplorerPresentation(tvStructure));
-        contentEditorPresentationControl.initialize(new JavaFXPageEditorPresentation(contentEditorContainer, structureEditorContainer, contentWebView));
+        contentEditorPresentationControl.initialize(new JavaFXContentEditorPresentation(contentEditorContainer, structureEditorContainer, contentWebView));
         structureEditorPresentationControl.initialize(new JavaFXStructureEditorPresentation(structureEditorContainer, contentEditorContainer, structureWebView));
       }
   }
