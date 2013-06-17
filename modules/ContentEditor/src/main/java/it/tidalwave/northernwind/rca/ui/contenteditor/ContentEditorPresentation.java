@@ -40,4 +40,6 @@ public interface ContentEditorPresentation
     public void showUp();
 
     public void populate (@Nonnull String text);
+
+    public void setTitle (@Nonnull String title);
   }

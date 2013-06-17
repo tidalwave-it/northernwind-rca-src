@@ -10,6 +10,7 @@ package it.tidalwave.northernwind.rca.ui.impl.javafx;
 import javax.annotation.Nonnull;
 import javafx.scene.web.WebView;
 import javafx.scene.layout.Pane;
+import javafx.scene.control.TextField;
 import javafx.application.Platform;
 import it.tidalwave.northernwind.rca.ui.contenteditor.ContentEditorPresentation;
 import lombok.RequiredArgsConstructor;
@@ -32,6 +33,9 @@ public class JavaFXContentEditorPresentation implements ContentEditorPresentatio
 
     @Nonnull
     private final WebView webView;
+
+    @Nonnull
+    private final TextField contentTitle;
 
     @Override
     public void showUp()
@@ -57,6 +61,19 @@ public class JavaFXContentEditorPresentation implements ContentEditorPresentatio
             public void run()
               {
                 webView.getEngine().loadContent(text);
+              }
+          });
+      }
+
+    @Override
+    public void setTitle (final @Nonnull String title)
+      {
+        Platform.runLater(new Runnable()
+          {
+            @Override
+            public void run()
+              {
+                contentTitle.setText(title);
               }
           });
       }

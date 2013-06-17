@@ -40,6 +40,7 @@ import it.tidalwave.northernwind.rca.ui.contentexplorer.ContentExplorerPresentat
 import it.tidalwave.northernwind.rca.ui.contenteditor.ContentEditorPresentationControl;
 import it.tidalwave.northernwind.rca.ui.structureeditor.StructureEditorPresentationControl;
 import it.tidalwave.northernwind.rca.ui.structureexplorer.StructureExplorerPresentationControl;
+import javafx.scene.control.TextField;
 import lombok.extern.slf4j.Slf4j;
 
 /***********************************************************************************************************************
@@ -57,6 +58,9 @@ public class ApplicationHandler
 
     @FXML
     private TreeView<As> tvContent;
+
+    @FXML
+    private TextField contentTitle;
 
     @FXML
     private WebView contentWebView;
@@ -95,7 +99,7 @@ public class ApplicationHandler
 
         contentExplorerPresentationControl.initialize(new JavaFXContentExplorerPresentation(tvContent));
         structureExplorerPresentationControl.initialize(new JavaFXStructureExplorerPresentation(tvStructure));
-        contentEditorPresentationControl.initialize(new JavaFXContentEditorPresentation(contentEditorContainer, structureEditorContainer, contentWebView));
+        contentEditorPresentationControl.initialize(new JavaFXContentEditorPresentation(contentEditorContainer, structureEditorContainer, contentWebView, contentTitle));
         structureEditorPresentationControl.initialize(new JavaFXStructureEditorPresentation(structureEditorContainer, contentEditorContainer, structureWebView));
       }
   }

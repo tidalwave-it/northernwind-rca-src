@@ -36,10 +36,14 @@ import java.io.IOException;
 import org.springframework.beans.factory.annotation.Configurable;
 import it.tidalwave.messagebus.MessageBus;
 import it.tidalwave.messagebus.MessageBus.Listener;
-import it.tidalwave.northernwind.core.model.ResourceFile;
+import it.tidalwave.northernwind.core.model.Content;
+import it.tidalwave.northernwind.core.model.ResourceProperties;
 import it.tidalwave.northernwind.rca.ui.event.ContentSelectedEvent;
 import it.tidalwave.northernwind.rca.ui.contenteditor.ContentEditorPresentation;
 import it.tidalwave.northernwind.rca.ui.contenteditor.ContentEditorPresentationControl;
+import it.tidalwave.util.Key;
+import it.tidalwave.util.NotFoundException;
+import java.util.Properties;
 import lombok.extern.slf4j.Slf4j;
 
 /***********************************************************************************************************************
@@ -57,6 +61,9 @@ public class DefaultContentEditorPresentationControl implements ContentEditorPre
     @Nonnull
     private ContentEditorPresentation presentation;
 
+    public static final Key<String> PROPERTY_FULL_TEXT = new Key<>("fullText"); // FIXME copied
+    public static final Key<String> PROPERTY_TITLE = new Key<>("title"); // FIXME copied
+
     /*******************************************************************************************************************
      *
      * TODO: refactor with @ListensTo
@@ -68,18 +75,32 @@ public class DefaultContentEditorPresentationControl implements ContentEditorPre
         @Override
         public void notify (final @Nonnull ContentSelectedEvent event)
           {
-            // FIXME: should rather use Properties and read FULLTEXT
+            log.debug("notify({})", event);
+            final Content content = event.getContent();
+            final ResourceProperties properties = content.getProperties();
+            log.info("PROPERTIES {}", properties);
+
             try
               {
-                log.debug("notify({})", event);
-                final ResourceFile child = event.getContent().getFile().getChildByName("fullText_en.xhtml");
-                presentation.showUp();
-                presentation.populate(child == null ? "" : child.asText("UTF-8"));
+                presentation.populate(properties.getProperty(PROPERTY_FULL_TEXT, ""));
               }
             catch (IOException e)
               {
+                presentation.populate(e.toString());
                 log.warn("", e);
               }
+
+            try
+              {
+                presentation.setTitle(properties.getProperty(PROPERTY_TITLE, ""));
+              }
+            catch (IOException e)
+              {
+                presentation.setTitle(e.toString());
+                log.warn("", e);
+              }
+
+            presentation.showUp();
           }
       };
 
