@@ -32,6 +32,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import it.tidalwave.role.Displayable;
 import it.tidalwave.dci.annotation.DciRole;
+import it.tidalwave.northernwind.core.model.Content;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 
@@ -41,12 +42,12 @@ import lombok.ToString;
  * @version $Id$
  *
  **********************************************************************************************************************/
-@DciRole(datum = AdminSiteNode.class)
+@DciRole(datum = Content.class)
 @RequiredArgsConstructor @ToString
-public class AdminSiteNodeDisplayable implements Displayable
+public class ContentDisplayable implements Displayable
   {
     @Nonnull
-    private final AdminSiteNode content;
+    private final Content content;
 
     @Override
     public String getDisplayName()
