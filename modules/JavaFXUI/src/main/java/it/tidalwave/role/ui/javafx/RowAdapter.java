@@ -28,6 +28,7 @@
 package it.tidalwave.role.ui.javafx;
 
 import javax.annotation.Nonnull;
+import javax.annotation.concurrent.Immutable;
 import javafx.util.Callback;
 import javafx.beans.value.ObservableValue;
 import javafx.beans.value.ObservableValueBase;
@@ -43,6 +44,7 @@ import static it.tidalwave.role.ui.Row.*;
  * @version $Id$
  *
  **********************************************************************************************************************/
+@Immutable
 public class RowAdapter<T> implements Callback<CellDataFeatures<PresentationModel, T>, ObservableValue<T>>
   {
     @Override @Nonnull
