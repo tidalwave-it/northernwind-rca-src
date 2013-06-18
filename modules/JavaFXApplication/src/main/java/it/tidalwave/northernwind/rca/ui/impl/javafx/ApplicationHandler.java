@@ -98,6 +98,14 @@ public class ApplicationHandler
     @Inject @Nonnull
     private StructureEditorPresentationControl structureEditorPresentationControl;
 
+    private ContentExplorerPresentation contentExplorerPresentation;
+
+    private StructureExplorerPresentation explorerPresentation;
+
+    private ContentEditorPresentation contentEditorPresentation;
+
+    private StructureEditorPresentation structureEditorPresentation;
+
     @FXML
     private void onOpen (final @Nonnull ActionEvent event)
       {
@@ -109,22 +117,14 @@ public class ApplicationHandler
         contentEditorContainer.setVisible(false);
         structureEditorContainer.setVisible(false);
 
-        final ContentExplorerPresentation p1 = builderFor(ContentExplorerPresentation.class,
-                                                          JavaFXContentExplorerPresentation.class)
-                                                    .createInstance(this);
-        final StructureExplorerPresentation p2 = builderFor(StructureExplorerPresentation.class,
-                                                            JavaFXStructureExplorerPresentation.class)
-                                                    .createInstance(this);
-        final ContentEditorPresentation p3 = builderFor(ContentEditorPresentation.class,
-                                                        JavaFXContentEditorPresentation.class)
-                                                    .createInstance(this);
-        final StructureEditorPresentation p4 = builderFor(StructureEditorPresentation.class,
-                                                          JavaFXStructureEditorPresentation.class)
-                                                    .createInstance(this);
+        contentExplorerPresentation = createInstance(JavaFXContentExplorerPresentation.class, this);
+        explorerPresentation = createInstance(JavaFXStructureExplorerPresentation.class, this);
+        contentEditorPresentation = createInstance(JavaFXContentEditorPresentation.class, this);
+        structureEditorPresentation = createInstance(JavaFXStructureEditorPresentation.class, this);
 
-        contentExplorerPresentationControl.initialize(p1);
-        structureExplorerPresentationControl.initialize(p2);
-        contentEditorPresentationControl.initialize(p3);
-        structureEditorPresentationControl.initialize(p4);
+        contentExplorerPresentationControl.initialize(contentExplorerPresentation);
+        structureExplorerPresentationControl.initialize(explorerPresentation);
+        contentEditorPresentationControl.initialize(contentEditorPresentation);
+        structureEditorPresentationControl.initialize(structureEditorPresentation);
       }
   }

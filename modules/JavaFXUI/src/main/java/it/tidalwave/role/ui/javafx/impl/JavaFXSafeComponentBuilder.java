@@ -62,12 +62,26 @@ public class JavaFXSafeComponentBuilder<I, T extends I>
 
     private WeakReference<T> presentationRef = new WeakReference<>(null);
 
-    // FIXME: infer the interfaceClass?
+    @Nonnull
+    public static <J, X extends J> JavaFXSafeComponentBuilder<J, X> builderFor (final @Nonnull Class<X> componentClass)
+      {
+        final Class<J> interfaceClass = (Class<J>)componentClass.getInterfaces()[0]; // FIXME: guess
+        return new JavaFXSafeComponentBuilder<>(componentClass, interfaceClass);
+      }
+
     @Nonnull
     public static <J, X extends J> JavaFXSafeComponentBuilder<J, X> builderFor (final @Nonnull Class<J> interfaceClass,
                                                                                 final @Nonnull Class<X> componentClass)
       {
         return new JavaFXSafeComponentBuilder<>(componentClass, interfaceClass);
+      }
+
+    @Nonnull
+    public static <J, X extends J> X createInstance (final @Nonnull Class<X> componentClass,
+                                                     final @Nonnull Object referenceHolder)
+      {
+        final JavaFXSafeComponentBuilder<J, X> builder = builderFor(componentClass);
+        return builder.createInstance(referenceHolder);
       }
 
     @Nonnull
