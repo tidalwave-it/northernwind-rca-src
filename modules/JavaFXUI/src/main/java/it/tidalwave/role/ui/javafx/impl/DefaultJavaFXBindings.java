@@ -61,21 +61,6 @@ public class DefaultJavaFXBindings implements JavaFXBindings
      *
      *
      ******************************************************************************************************************/
-    @Override
-    public void bind (final @Nonnull TableView<PresentationModel> tableView,
-                      final @Nonnull PresentationModel pm)
-      {
-        final SimpleComposite<PresentationModel> composite = pm.as(SimpleComposite.class);
-        final ObservableList<PresentationModel> pms =
-                FXCollections.observableArrayList(composite.findChildren().results());
-        tableView.setItems(pms);
-      }
-
-    /*******************************************************************************************************************
-     *
-     *
-     *
-     ******************************************************************************************************************/
     private final Callback<TreeView<PresentationModel>, TreeCell<PresentationModel>> cellFactory =
             new Callback<TreeView<PresentationModel>, TreeCell<PresentationModel>>()
       {
@@ -133,6 +118,21 @@ public class DefaultJavaFXBindings implements JavaFXBindings
               }
           }
       };
+
+    /*******************************************************************************************************************
+     *
+     *
+     *
+     ******************************************************************************************************************/
+    @Override
+    public void bind (final @Nonnull TableView<PresentationModel> tableView,
+                      final @Nonnull PresentationModel pm)
+      {
+        final SimpleComposite<PresentationModel> composite = pm.as(SimpleComposite.class);
+        final ObservableList<PresentationModel> pms =
+                FXCollections.observableArrayList(composite.findChildren().results());
+        tableView.setItems(pms);
+      }
 
     /*******************************************************************************************************************
      *
