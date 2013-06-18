@@ -56,6 +56,11 @@ import it.tidalwave.role.ui.javafx.JavaFXBindings;
  **********************************************************************************************************************/
 public class DefaultJavaFXBindings implements JavaFXBindings
   {
+    /*******************************************************************************************************************
+     *
+     *
+     *
+     ******************************************************************************************************************/
     @Override
     public void bind (final @Nonnull TableView<PresentationModel> tableView,
                       final @Nonnull PresentationModel pm)
@@ -66,6 +71,11 @@ public class DefaultJavaFXBindings implements JavaFXBindings
         tableView.setItems(pms);
       }
 
+    /*******************************************************************************************************************
+     *
+     *
+     *
+     ******************************************************************************************************************/
     private final Callback<TreeView<PresentationModel>, TreeCell<PresentationModel>> cellFactory =
             new Callback<TreeView<PresentationModel>, TreeCell<PresentationModel>>()
       {
@@ -99,6 +109,11 @@ public class DefaultJavaFXBindings implements JavaFXBindings
           }
       };
 
+    /*******************************************************************************************************************
+     *
+     *
+     *
+     ******************************************************************************************************************/
     private final ChangeListener<TreeItem<PresentationModel>> changeListener =
             new ChangeListener<TreeItem<PresentationModel>>()
       {
@@ -119,6 +134,11 @@ public class DefaultJavaFXBindings implements JavaFXBindings
           }
       };
 
+    /*******************************************************************************************************************
+     *
+     *
+     *
+     ******************************************************************************************************************/
     @Override
     public void bind (final @Nonnull TreeView<PresentationModel> treeView,
                       final @Nonnull PresentationModel pm)
@@ -130,6 +150,11 @@ public class DefaultJavaFXBindings implements JavaFXBindings
         treeView.getSelectionModel().selectedItemProperty().addListener(changeListener);
      }
 
+    /*******************************************************************************************************************
+     *
+     *
+     *
+     ******************************************************************************************************************/
     @Nonnull
     private TreeItem<PresentationModel> createTreeItem (final @Nonnull PresentationModel pm)
       {
@@ -140,6 +165,11 @@ public class DefaultJavaFXBindings implements JavaFXBindings
         return rootItem;
       }
 
+    /*******************************************************************************************************************
+     *
+     *
+     *
+     ******************************************************************************************************************/
     // FIXME: add on demand, upon node expansion
     private void addChildren (final @Nonnull PresentationModel datum,
                               final @Nonnull TreeItem<PresentationModel> parentItem)
