@@ -128,6 +128,8 @@ public class DefaultJavaFXBindings implements JavaFXBindings
     public void bind (final @Nonnull TableView<PresentationModel> tableView,
                       final @Nonnull PresentationModel pm)
       {
+        assert Platform.isFxApplicationThread() : "Must run in the JavaFX Application Thread";
+
         final SimpleComposite<PresentationModel> composite = pm.as(SimpleComposite.class);
         final ObservableList<PresentationModel> pms =
                 FXCollections.observableArrayList(composite.findChildren().results());
