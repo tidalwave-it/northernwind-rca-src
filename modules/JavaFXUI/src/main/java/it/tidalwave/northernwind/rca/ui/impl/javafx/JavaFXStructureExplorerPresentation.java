@@ -54,9 +54,9 @@ public class JavaFXStructureExplorerPresentation implements StructureExplorerPre
     private JavaFXBindings bindings;
 
     @Nonnull
-    private final TreeView<As> treeView;
+    private final TreeView<PresentationModel> treeView;
 
-    public JavaFXStructureExplorerPresentation (final @Nonnull TreeView<As> treeView)
+    public JavaFXStructureExplorerPresentation (final @Nonnull TreeView<PresentationModel> treeView)
       {
         this.treeView = treeView;
       }

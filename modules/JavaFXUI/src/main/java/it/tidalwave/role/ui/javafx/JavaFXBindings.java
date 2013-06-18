@@ -43,5 +43,5 @@ public interface JavaFXBindings
   {
     public void bind (@Nonnull TableView<PresentationModel> tableView, @Nonnull PresentationModel pm);
 
-    public void bind (@Nonnull TreeView<As> treeView, @Nonnull PresentationModel pm);
+    public void bind (@Nonnull TreeView<PresentationModel> treeView, @Nonnull PresentationModel pm);
   }
