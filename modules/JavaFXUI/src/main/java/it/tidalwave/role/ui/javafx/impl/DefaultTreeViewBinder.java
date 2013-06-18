@@ -108,8 +108,8 @@ public class DefaultTreeViewBinder implements TreeViewBinder
       };
 
     @Override
-    public void bind (final @Nonnull PresentationModel pm,
-                      final @Nonnull TreeView<As> treeView)
+    public void bind (final @Nonnull TreeView<As> treeView,
+                      final @Nonnull PresentationModel pm)
       {
         assert Platform.isFxApplicationThread() : "Must run in the JavaFX Application Thread";
 

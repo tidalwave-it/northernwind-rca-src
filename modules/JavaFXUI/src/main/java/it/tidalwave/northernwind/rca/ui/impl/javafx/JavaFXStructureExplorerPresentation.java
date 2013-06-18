@@ -69,7 +69,7 @@ public class JavaFXStructureExplorerPresentation implements StructureExplorerPre
             @Override
             public void run()
               {
-                treeViewBinder.bind(pm, treeView);
+                treeViewBinder.bind(treeView, pm);
               }
           });
       }

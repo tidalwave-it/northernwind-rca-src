@@ -40,5 +40,5 @@ import it.tidalwave.role.ui.PresentationModel;
  **********************************************************************************************************************/
 public interface TreeViewBinder
   {
-    public void bind (@Nonnull PresentationModel pm, @Nonnull TreeView<As> treeView);
+    public void bind (@Nonnull TreeView<As> treeView, @Nonnull PresentationModel pm);
   }

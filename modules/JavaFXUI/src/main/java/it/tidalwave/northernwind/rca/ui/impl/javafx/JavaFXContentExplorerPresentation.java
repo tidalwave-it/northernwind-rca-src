@@ -69,7 +69,7 @@ public class JavaFXContentExplorerPresentation implements ContentExplorerPresent
             @Override
             public void run()
               {
-                treeViewBinder.bind(pm, treeView);
+                treeViewBinder.bind(treeView, pm);
               }
           });
       }
