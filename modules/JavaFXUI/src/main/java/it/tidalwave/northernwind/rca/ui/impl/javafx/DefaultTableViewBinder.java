@@ -25,43 +25,29 @@
  * *********************************************************************************************************************
  * #L%
  */
-package it.tidalwave.northernwind.rca.ui.structureeditor;
+package it.tidalwave.northernwind.rca.ui.impl.javafx;
 
 import javax.annotation.Nonnull;
+import javafx.scene.control.TableView;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import it.tidalwave.role.SimpleComposite;
 import it.tidalwave.role.ui.PresentationModel;
 
 /***********************************************************************************************************************
- *
- * The Presentation of the Structure Editor.
  *
  * @author  Fabrizio Giudici
  * @version $Id$
  *
  **********************************************************************************************************************/
-public interface StructureEditorPresentation
+public class DefaultTableViewBinder implements TableViewBinder
   {
-    /*******************************************************************************************************************
-     *
-     * Makes sure this presentation is visible on the UI.
-     *
-     ******************************************************************************************************************/
-    public void showUp();
-
-    /*******************************************************************************************************************
-     *
-     * Populates the text of the {@link Content}.
-     *
-     * @param  text  the text
-     *
-     ******************************************************************************************************************/
-    public void populate (@Nonnull String text);
-
-    /*******************************************************************************************************************
-     *
-     * Populates the {@link ResourceProperties} of the {@link Content}.
-     *
-     * @param  pmProperties  the {@link PresentationModel} of the properties
-     *
-     ******************************************************************************************************************/
-    public void populateProperties (@Nonnull PresentationModel pmProperties);
+    @Override
+    public void bind (final @Nonnull PresentationModel pm, final @Nonnull TableView<PresentationModel> tableView)
+      {
+        final SimpleComposite<PresentationModel> composite = pm.as(SimpleComposite.class);
+        final ObservableList<PresentationModel> pms =
+                FXCollections.observableArrayList(composite.findChildren().results());
+        tableView.setItems(pms);
+      }
   }

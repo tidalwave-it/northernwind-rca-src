@@ -79,6 +79,9 @@ public class ApplicationHandler
     @FXML
     private TableView<PresentationModel> contentEditorProperties;
 
+    @FXML
+    private TableView<PresentationModel> structureEditorProperties;
+
     @Inject @Nonnull
     private StructureExplorerPresentationControl structureExplorerPresentationControl;
 
@@ -105,6 +108,6 @@ public class ApplicationHandler
         contentExplorerPresentationControl.initialize(new JavaFXContentExplorerPresentation(tvContent));
         structureExplorerPresentationControl.initialize(new JavaFXStructureExplorerPresentation(tvStructure));
         contentEditorPresentationControl.initialize(new JavaFXContentEditorPresentation(contentEditorContainer, structureEditorContainer, contentWebView, contentTitle, contentEditorProperties));
-        structureEditorPresentationControl.initialize(new JavaFXStructureEditorPresentation(structureEditorContainer, contentEditorContainer, structureWebView));
+        structureEditorPresentationControl.initialize(new JavaFXStructureEditorPresentation(structureEditorContainer, contentEditorContainer, structureWebView, structureEditorProperties));
       }
   }

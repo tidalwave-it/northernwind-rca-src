@@ -39,7 +39,9 @@ import javafx.application.Platform;
 import it.tidalwave.northernwind.rca.ui.contenteditor.ContentEditorPresentation;
 import it.tidalwave.role.SimpleComposite;
 import it.tidalwave.role.ui.PresentationModel;
+import javax.inject.Inject;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Configurable;
 
 /***********************************************************************************************************************
  *
@@ -47,9 +49,12 @@ import lombok.extern.slf4j.Slf4j;
  * @version $Id$
  *
  **********************************************************************************************************************/
-@Slf4j
+@Configurable @Slf4j
 public class JavaFXContentEditorPresentation implements ContentEditorPresentation
   {
+    @Inject @Nonnull
+    private TableViewBinder tableViewBinder;
+
     // FIXME: have them injected instead than being passed on the constructor
     @Nonnull
     private final Pane myContainer;
@@ -163,10 +168,7 @@ public class JavaFXContentEditorPresentation implements ContentEditorPresentatio
             @Override
             public void run()
               {
-                final SimpleComposite<PresentationModel> composite = pm.as(SimpleComposite.class);
-                final ObservableList<PresentationModel> pms =
-                        FXCollections.observableArrayList(composite.findChildren().results());
-                tableView.setItems(pms);
+                tableViewBinder.bind(pm, tableView);
               }
           });
       }

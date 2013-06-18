@@ -77,6 +77,9 @@
     <bean id="defaultTreeViewBinder"
           class="it.tidalwave.northernwind.rca.ui.impl.javafx.DefaultTreeViewBinder" />
 
+    <bean id="defaultTableViewBinder"
+          class="it.tidalwave.northernwind.rca.ui.impl.javafx.DefaultTableViewBinder" />
+
     <bean class="it.tidalwave.northernwind.rca.ui.contentexplorer.spi.DefaultContentExplorerPresentationControl" />
 
     <bean class="it.tidalwave.northernwind.rca.ui.structureexplorer.spi.DefaultStructureExplorerPresentationControl" />

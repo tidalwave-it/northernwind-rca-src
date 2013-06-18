@@ -97,7 +97,7 @@
                             <Insets fx:id="x1" />
                           </VBox.margin>
                         </WebView>
-                        <TableView prefHeight="200.0" prefWidth="200.0" VBox.vgrow="NEVER">
+                        <TableView fx:id="structureEditorProperties" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="NEVER">
                           <columns>
                             <TableColumn prefWidth="75.0" text="Column X" />
                             <TableColumn prefWidth="75.0" text="Column X" />

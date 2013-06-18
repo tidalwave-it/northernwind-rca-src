@@ -25,43 +25,19 @@
  * *********************************************************************************************************************
  * #L%
  */
-package it.tidalwave.northernwind.rca.ui.structureeditor;
+package it.tidalwave.northernwind.rca.ui.impl.javafx;
 
 import javax.annotation.Nonnull;
+import javafx.scene.control.TableView;
 import it.tidalwave.role.ui.PresentationModel;
 
 /***********************************************************************************************************************
- *
- * The Presentation of the Structure Editor.
  *
  * @author  Fabrizio Giudici
  * @version $Id$
  *
  **********************************************************************************************************************/
-public interface StructureEditorPresentation
+public interface TableViewBinder
   {
-    /*******************************************************************************************************************
-     *
-     * Makes sure this presentation is visible on the UI.
-     *
-     ******************************************************************************************************************/
-    public void showUp();
-
-    /*******************************************************************************************************************
-     *
-     * Populates the text of the {@link Content}.
-     *
-     * @param  text  the text
-     *
-     ******************************************************************************************************************/
-    public void populate (@Nonnull String text);
-
-    /*******************************************************************************************************************
-     *
-     * Populates the {@link ResourceProperties} of the {@link Content}.
-     *
-     * @param  pmProperties  the {@link PresentationModel} of the properties
-     *
-     ******************************************************************************************************************/
-    public void populateProperties (@Nonnull PresentationModel pmProperties);
+    public void bind (@Nonnull PresentationModel pm, @Nonnull TableView<PresentationModel> tableView);
   }

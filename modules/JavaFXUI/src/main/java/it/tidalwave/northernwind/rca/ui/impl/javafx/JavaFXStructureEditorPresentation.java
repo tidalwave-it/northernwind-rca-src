@@ -8,11 +8,15 @@
 package it.tidalwave.northernwind.rca.ui.impl.javafx;
 
 import javax.annotation.Nonnull;
+import javax.inject.Inject;
 import javafx.scene.layout.Pane;
+import javafx.scene.control.TableView;
 import javafx.scene.web.WebView;
 import javafx.application.Platform;
+import org.springframework.beans.factory.annotation.Configurable;
+import it.tidalwave.role.ui.PresentationModel;
 import it.tidalwave.northernwind.rca.ui.structureeditor.StructureEditorPresentation;
-import lombok.RequiredArgsConstructor;
+import javafx.scene.control.TableColumn;
 import lombok.extern.slf4j.Slf4j;
 
 /***********************************************************************************************************************
@@ -21,9 +25,12 @@ import lombok.extern.slf4j.Slf4j;
  * @version $Id$
  *
  **********************************************************************************************************************/
-@RequiredArgsConstructor @Slf4j
+@Configurable @Slf4j
 public class JavaFXStructureEditorPresentation implements StructureEditorPresentation
   {
+    @Inject @Nonnull
+    private TableViewBinder tableViewBinder;
+
     @Nonnull
     private final Pane myContainer;
 
@@ -32,6 +39,35 @@ public class JavaFXStructureEditorPresentation implements StructureEditorPresent
 
     @Nonnull
     private final WebView webView;
+
+    @Nonnull
+    private final TableView<PresentationModel> tableView;
+
+    private final TableColumn<PresentationModel, String> nameColumn = new TableColumn<>("Name");
+
+    private final TableColumn<PresentationModel, String> valueColumn = new TableColumn<>("Value");
+
+    /*******************************************************************************************************************
+     *
+     *
+     *
+     ******************************************************************************************************************/
+    public JavaFXStructureEditorPresentation (final @Nonnull Pane myContainer,
+                                              final @Nonnull Pane otherContainer,
+                                              final @Nonnull WebView webView,
+                                              final @Nonnull TableView<PresentationModel> tableView)
+      {
+        this.myContainer = myContainer;
+        this.otherContainer = otherContainer;
+        this.webView = webView;
+        this.tableView = tableView;
+
+        nameColumn.setId("name");
+        valueColumn.setId("value");
+        nameColumn.setCellValueFactory(new RowAdapter<String>());
+        valueColumn.setCellValueFactory(new RowAdapter<String>());
+        tableView.getColumns().setAll(nameColumn, valueColumn);
+      }
 
     /*******************************************************************************************************************
      *
@@ -67,6 +103,24 @@ public class JavaFXStructureEditorPresentation implements StructureEditorPresent
             public void run()
               {
                 webView.getEngine().loadContent(text);
+              }
+          });
+      }
+
+    /*******************************************************************************************************************
+     *
+     * {@inheritDoc}
+     *
+     ******************************************************************************************************************/
+    @Override
+    public void populateProperties (final @Nonnull PresentationModel pm)
+      {
+        Platform.runLater(new Runnable()
+          {
+            @Override
+            public void run()
+              {
+                tableViewBinder.bind(pm, tableView);
               }
           });
       }

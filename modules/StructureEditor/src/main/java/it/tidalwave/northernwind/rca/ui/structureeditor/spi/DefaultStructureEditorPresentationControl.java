@@ -35,10 +35,13 @@ import javax.inject.Named;
 import org.springframework.beans.factory.annotation.Configurable;
 import it.tidalwave.messagebus.MessageBus;
 import it.tidalwave.messagebus.MessageBus.Listener;
+import it.tidalwave.northernwind.core.model.ResourceProperties;
+import it.tidalwave.northernwind.core.model.SiteNode;
 import it.tidalwave.northernwind.rca.ui.event.SiteNodeSelectedEvent;
 import it.tidalwave.northernwind.rca.ui.structureeditor.StructureEditorPresentation;
 import it.tidalwave.northernwind.rca.ui.structureeditor.StructureEditorPresentationControl;
 import lombok.extern.slf4j.Slf4j;
+import static it.tidalwave.role.ui.PresentationModelProvider.PresentationModelProvider;
 
 /***********************************************************************************************************************
  *
@@ -66,12 +69,15 @@ public class DefaultStructureEditorPresentationControl implements StructureEdito
         @Override
         public void notify (final @Nonnull SiteNodeSelectedEvent event)
           {
-            // FIXME: should rather use Properties and read FULLTEXT
 //            try
               {
                 log.debug("notify({})", event);
+                final SiteNode siteNode = event.getSiteNode();
+                final ResourceProperties properties = siteNode.getProperties();
+                log.debug(">>>> properties: {}", properties);
+                presentation.populate("Viewer not implemented for " + siteNode.getFile());
+                presentation.populateProperties(properties.as(PresentationModelProvider).createPresentationModel());
                 presentation.showUp();
-                presentation.populate("Viewer not implemented for " + event.getSiteNode().getFile());
               }
 //            catch (IOException e)
 //              {
