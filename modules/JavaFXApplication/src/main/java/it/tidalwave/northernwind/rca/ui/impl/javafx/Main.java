@@ -33,6 +33,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /***********************************************************************************************************************
@@ -41,6 +42,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  * @version $Id$
  *
  **********************************************************************************************************************/
+@Slf4j
 public class Main extends Application
   {
     private ClassPathXmlApplicationContext applicationContext;
@@ -65,6 +67,14 @@ public class Main extends Application
      */
     public static void main (final @Nonnull String ... args)
       {
-        launch(args);
+        try
+          {
+            launch(args);
+          }
+        catch (Throwable t)
+          {
+            log.error("", t);
+            System.exit(-1);
+          }
       }
   }
