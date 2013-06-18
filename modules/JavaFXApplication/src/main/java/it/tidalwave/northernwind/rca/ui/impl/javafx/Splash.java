@@ -29,10 +29,15 @@ package it.tidalwave.northernwind.rca.ui.impl.javafx;
 
 import javax.annotation.Nonnull;
 import java.io.IOException;
+import javafx.util.Duration;
+import javafx.animation.FadeTransition;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.application.Platform;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import javafx.scene.Scene;
+import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import lombok.extern.slf4j.Slf4j;
 
 /***********************************************************************************************************************
@@ -42,34 +47,53 @@ import lombok.extern.slf4j.Slf4j;
  *
  **********************************************************************************************************************/
 @Slf4j
-public class Main extends ApplicationWithSplash
+public class Splash
   {
-    private ClassPathXmlApplicationContext applicationContext;
+    private Pane splashPane;
 
-    @Override @Nonnull
-    protected Parent createParent()
-      throws IOException
-      {
-        return FXMLLoader.load(getClass().getResource("Application.fxml"));
-      }
+    private Stage splashStage;
 
-    @Override
-    protected void initializeInBackground()
-      {
-        applicationContext = new ClassPathXmlApplicationContext("classpath*:/META-INF/*AutoBeans.xml");
-      }
-
-    public static void main (final @Nonnull String ... args)
+    public void init()
       {
         try
           {
-            Platform.setImplicitExit(true);
-            launch(args);
+            splashPane = FXMLLoader.load(getClass().getResource("Splash.fxml"));
           }
-        catch (Throwable t)
+        catch (IOException e)
           {
-            log.error("", t);
-            System.exit(-1);
+            log.warn("", e);
           }
+      }
+
+    public void show()
+      {
+        splashStage = new Stage(StageStyle.UNDECORATED);
+        final Scene splashScene = new Scene(splashPane);
+        splashStage.setScene(splashScene);
+//        final Rectangle2D bounds = Screen.getPrimary().getBounds();
+//        splashStage.setX(bounds.getMinX() + bounds.getWidth() / 2 - splashPane.getWidth() / 2);
+//        splashStage.setY(bounds.getMinY() + bounds.getHeight() / 2 - splashPane.getHeight() / 2);
+        splashStage.show();
+      }
+
+    public void dismiss()
+      {
+//        loadProgress.progressProperty().unbind();
+//        loadProgress.setProgress(1);
+//        progressText.setText("Done.");
+        splashStage.toFront();
+        final FadeTransition fadeSplash = new FadeTransition(Duration.seconds(0.5), splashPane);
+        fadeSplash.setFromValue(1.0);
+        fadeSplash.setToValue(0.0);
+        fadeSplash.setOnFinished(new EventHandler<ActionEvent>()
+          {
+            @Override
+            public void handle (final @Nonnull ActionEvent actionEvent)
+              {
+                splashStage.hide();
+              }
+          });
+
+        fadeSplash.play();
       }
   }
