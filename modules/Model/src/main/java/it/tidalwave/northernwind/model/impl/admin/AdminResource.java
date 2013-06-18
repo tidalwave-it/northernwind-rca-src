@@ -38,7 +38,6 @@ import it.tidalwave.northernwind.core.model.ModelFactory;
 import it.tidalwave.northernwind.core.model.Resource;
 import it.tidalwave.northernwind.core.model.ResourceFile;
 import it.tidalwave.northernwind.core.model.ResourceProperties;
-import it.tidalwave.northernwind.core.impl.model.TextResourcePropertyResolver;
 import lombok.Cleanup;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
@@ -129,13 +128,17 @@ public class AdminResource implements Resource, As//, SimpleComposite<Content>
 
         ResourceProperties properties = modelFactory.createProperties().withPropertyResolver(propertyResolver).build();
 
-//        log.trace(">>>> reading properties from {} ({})...", propertyFile.getPath().asString(), locale);
-        @Cleanup final InputStream is = propertyFile.getInputStream();
-        final ResourceProperties tempProperties =
-//            modelFactory.createProperties().build().as(Unmarshallable).unmarshal(is);
-                modelFactory.createProperties().withPropertyResolver(propertyResolver).build().as(Unmarshallable).unmarshal(is);
-//        log.trace(">>>>>>>> read properties: {} ({})", tempProperties, locale);
-        properties = properties.merged(tempProperties);
+        if (propertyFile != null)
+          {
+    //        log.trace(">>>> reading properties from {} ({})...", propertyFile.getPath().asString(), locale);
+            @Cleanup final InputStream is = propertyFile.getInputStream();
+            final ResourceProperties tempProperties =
+    //            modelFactory.createProperties().build().as(Unmarshallable).unmarshal(is);
+                    modelFactory.createProperties().withPropertyResolver(propertyResolver).build().as(Unmarshallable).unmarshal(is);
+    //        log.trace(">>>>>>>> read properties: {} ({})", tempProperties, locale);
+            properties = properties.merged(tempProperties);
+          }
+
         return properties;
       }
   }
