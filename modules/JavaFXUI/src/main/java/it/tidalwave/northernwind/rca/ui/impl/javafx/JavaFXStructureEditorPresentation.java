@@ -10,13 +10,15 @@ package it.tidalwave.northernwind.rca.ui.impl.javafx;
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
 import javafx.scene.layout.Pane;
+import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.web.WebView;
 import javafx.application.Platform;
 import org.springframework.beans.factory.annotation.Configurable;
 import it.tidalwave.role.ui.PresentationModel;
+import it.tidalwave.role.ui.javafx.RowAdapter;
+import it.tidalwave.role.ui.javafx.TableViewBinder;
 import it.tidalwave.northernwind.rca.ui.structureeditor.StructureEditorPresentation;
-import javafx.scene.control.TableColumn;
 import lombok.extern.slf4j.Slf4j;
 
 /***********************************************************************************************************************

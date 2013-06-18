@@ -25,7 +25,7 @@
  * *********************************************************************************************************************
  * #L%
  */
-package it.tidalwave.northernwind.rca.ui.impl.javafx;
+package it.tidalwave.role.ui.javafx.impl;
 
 import javax.annotation.Nonnull;
 import java.util.List;
@@ -44,6 +44,7 @@ import it.tidalwave.role.Displayable;
 import it.tidalwave.role.SimpleComposite;
 import it.tidalwave.role.ui.PresentationModel;
 import it.tidalwave.role.ui.Selectable;
+import it.tidalwave.role.ui.javafx.TreeViewBinder;
 import lombok.extern.slf4j.Slf4j;
 
 /***********************************************************************************************************************

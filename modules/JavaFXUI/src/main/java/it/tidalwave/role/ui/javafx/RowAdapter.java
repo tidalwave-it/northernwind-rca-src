@@ -25,7 +25,7 @@
  * *********************************************************************************************************************
  * #L%
  */
-package it.tidalwave.northernwind.rca.ui.impl.javafx;
+package it.tidalwave.role.ui.javafx;
 
 import javax.annotation.Nonnull;
 import javafx.util.Callback;

@@ -31,10 +31,11 @@ import javax.annotation.Nonnull;
 import javax.inject.Inject;
 import javafx.scene.control.TreeView;
 import javafx.application.Platform;
+import org.springframework.beans.factory.annotation.Configurable;
 import it.tidalwave.util.As;
 import it.tidalwave.role.ui.PresentationModel;
+import it.tidalwave.role.ui.javafx.TreeViewBinder;
 import it.tidalwave.northernwind.rca.ui.contentexplorer.ContentExplorerPresentation;
-import org.springframework.beans.factory.annotation.Configurable;
 
 /***********************************************************************************************************************
  *

@@ -75,10 +75,10 @@
     </bean>
 
     <bean id="defaultTreeViewBinder"
-          class="it.tidalwave.northernwind.rca.ui.impl.javafx.DefaultTreeViewBinder" />
+          class="it.tidalwave.role.ui.javafx.impl.DefaultTreeViewBinder" />
 
     <bean id="defaultTableViewBinder"
-          class="it.tidalwave.northernwind.rca.ui.impl.javafx.DefaultTableViewBinder" />
+          class="it.tidalwave.role.ui.javafx.impl.DefaultTableViewBinder" />
 
     <bean class="it.tidalwave.northernwind.rca.ui.contentexplorer.spi.DefaultContentExplorerPresentationControl" />
 

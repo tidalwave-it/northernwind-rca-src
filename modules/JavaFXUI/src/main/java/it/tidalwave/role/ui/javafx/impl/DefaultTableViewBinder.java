@@ -25,11 +25,15 @@
  * *********************************************************************************************************************
  * #L%
  */
-package it.tidalwave.northernwind.rca.ui.impl.javafx;
+package it.tidalwave.role.ui.javafx.impl;
 
 import javax.annotation.Nonnull;
 import javafx.scene.control.TableView;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import it.tidalwave.role.SimpleComposite;
 import it.tidalwave.role.ui.PresentationModel;
+import it.tidalwave.role.ui.javafx.TableViewBinder;
 
 /***********************************************************************************************************************
  *
@@ -37,7 +41,14 @@ import it.tidalwave.role.ui.PresentationModel;
  * @version $Id$
  *
  **********************************************************************************************************************/
-public interface TableViewBinder
+public class DefaultTableViewBinder implements TableViewBinder
   {
-    public void bind (@Nonnull PresentationModel pm, @Nonnull TableView<PresentationModel> tableView);
+    @Override
+    public void bind (final @Nonnull PresentationModel pm, final @Nonnull TableView<PresentationModel> tableView)
+      {
+        final SimpleComposite<PresentationModel> composite = pm.as(SimpleComposite.class);
+        final ObservableList<PresentationModel> pms =
+                FXCollections.observableArrayList(composite.findChildren().results());
+        tableView.setItems(pms);
+      }
   }
