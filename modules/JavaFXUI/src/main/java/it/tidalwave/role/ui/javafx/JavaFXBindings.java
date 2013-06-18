@@ -30,7 +30,6 @@ package it.tidalwave.role.ui.javafx;
 import javax.annotation.Nonnull;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TreeView;
-import it.tidalwave.util.As;
 import it.tidalwave.role.ui.PresentationModel;
 
 /***********************************************************************************************************************
@@ -41,7 +40,17 @@ import it.tidalwave.role.ui.PresentationModel;
  **********************************************************************************************************************/
 public interface JavaFXBindings
   {
+    /*******************************************************************************************************************
+     *
+     *
+     *
+     ******************************************************************************************************************/
     public void bind (@Nonnull TableView<PresentationModel> tableView, @Nonnull PresentationModel pm);
 
+    /*******************************************************************************************************************
+     *
+     *
+     *
+     ******************************************************************************************************************/
     public void bind (@Nonnull TreeView<PresentationModel> treeView, @Nonnull PresentationModel pm);
   }
