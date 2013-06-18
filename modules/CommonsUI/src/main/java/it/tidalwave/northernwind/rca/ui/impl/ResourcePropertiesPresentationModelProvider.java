@@ -27,6 +27,7 @@ import lombok.extern.slf4j.Slf4j;
 
 /***********************************************************************************************************************
  *
+ * A provider of a {@link PresentationModel} for {@link ResourceProperties}.
  *
  * @stereotype Role
  *
