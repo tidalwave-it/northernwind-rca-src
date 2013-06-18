@@ -120,7 +120,7 @@ public class JavaFXContentEditorPresentation implements ContentEditorPresentatio
      *
      ******************************************************************************************************************/
     @Override
-    public void populate (final @Nonnull String text)
+    public void populateText (final @Nonnull String text)
       {
         Platform.runLater(new Runnable()
           {

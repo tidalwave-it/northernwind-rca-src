@@ -51,12 +51,12 @@ public interface ContentEditorPresentation
 
     /*******************************************************************************************************************
      *
-     * Populates the presentation with some {@link Content}.
+     * Populates the text of the {@link Content}.
      *
      * @param  text  the contents
      *
      ******************************************************************************************************************/
-    public void populate (@Nonnull String text);
+    public void populateText (@Nonnull String text);
 
     /*******************************************************************************************************************
      *
