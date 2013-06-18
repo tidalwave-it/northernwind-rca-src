@@ -33,6 +33,11 @@ public class JavaFXStructureEditorPresentation implements StructureEditorPresent
     @Nonnull
     private final WebView webView;
 
+    /*******************************************************************************************************************
+     *
+     * {@inheritDoc}
+     *
+     ******************************************************************************************************************/
     @Override
     public void showUp()
       {
@@ -48,6 +53,11 @@ public class JavaFXStructureEditorPresentation implements StructureEditorPresent
           });
       }
 
+    /*******************************************************************************************************************
+     *
+     * {@inheritDoc}
+     *
+     ******************************************************************************************************************/
     @Override
     public void populate (final @Nonnull String text)
       {
