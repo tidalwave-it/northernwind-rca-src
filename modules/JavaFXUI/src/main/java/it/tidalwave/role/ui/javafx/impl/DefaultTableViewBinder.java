@@ -44,7 +44,8 @@ import it.tidalwave.role.ui.javafx.TableViewBinder;
 public class DefaultTableViewBinder implements TableViewBinder
   {
     @Override
-    public void bind (final @Nonnull PresentationModel pm, final @Nonnull TableView<PresentationModel> tableView)
+    public void bind (final @Nonnull TableView<PresentationModel> tableView,
+                      final @Nonnull PresentationModel pm)
       {
         final SimpleComposite<PresentationModel> composite = pm.as(SimpleComposite.class);
         final ObservableList<PresentationModel> pms =

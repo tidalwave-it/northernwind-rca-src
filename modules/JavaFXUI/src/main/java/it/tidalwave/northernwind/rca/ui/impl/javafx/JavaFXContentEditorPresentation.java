@@ -167,7 +167,7 @@ public class JavaFXContentEditorPresentation implements ContentEditorPresentatio
             @Override
             public void run()
               {
-                tableViewBinder.bind(pm, tableView);
+                tableViewBinder.bind(tableView, pm);
               }
           });
       }

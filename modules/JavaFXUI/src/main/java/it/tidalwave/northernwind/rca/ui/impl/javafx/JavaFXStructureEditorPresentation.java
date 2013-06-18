@@ -122,7 +122,7 @@ public class JavaFXStructureEditorPresentation implements StructureEditorPresent
             @Override
             public void run()
               {
-                tableViewBinder.bind(pm, tableView);
+                tableViewBinder.bind(tableView, pm);
               }
           });
       }

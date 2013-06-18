@@ -39,5 +39,5 @@ import it.tidalwave.role.ui.PresentationModel;
  **********************************************************************************************************************/
 public interface TableViewBinder
   {
-    public void bind (@Nonnull PresentationModel pm, @Nonnull TableView<PresentationModel> tableView);
+    public void bind (@Nonnull TableView<PresentationModel> tableView, @Nonnull PresentationModel pm);
   }
