@@ -30,7 +30,6 @@ package it.tidalwave.northernwind.rca.ui.impl.javafx;
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
 import javafx.scene.layout.Pane;
-import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.web.WebView;
 import javafx.application.Platform;
@@ -63,10 +62,6 @@ public class JavaFXStructureEditorPresentation implements StructureEditorPresent
 
     @Nonnull
     private final TableView<PresentationModel> tableView;
-
-    private final TableColumn<PresentationModel, String> nameColumn = new TableColumn<>("Name");
-
-    private final TableColumn<PresentationModel, String> valueColumn = new TableColumn<>("Value");
 
     /*******************************************************************************************************************
      *
