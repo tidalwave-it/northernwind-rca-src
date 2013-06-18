@@ -25,16 +25,11 @@
  * *********************************************************************************************************************
  * #L%
  */
-package it.tidalwave.northernwind.model.impl.admin;
+package it.tidalwave.northernwind.model.impl.admin.role;
 
 import javax.annotation.Nonnull;
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
-import it.tidalwave.role.Displayable;
 import it.tidalwave.dci.annotation.DciRole;
-import it.tidalwave.northernwind.core.model.Content;
-import lombok.RequiredArgsConstructor;
-import lombok.ToString;
+import it.tidalwave.northernwind.model.impl.admin.AdminSiteNode;
 
 /***********************************************************************************************************************
  *
@@ -42,23 +37,11 @@ import lombok.ToString;
  * @version $Id$
  *
  **********************************************************************************************************************/
-@DciRole(datum = Content.class)
-@RequiredArgsConstructor @ToString
-public class ContentDisplayable implements Displayable
+@DciRole(datum = AdminSiteNode.class) // FIXME: use SiteNode when it extends As
+public class SiteNodePresentationModelProvider extends CompositePresentationModelProvider<AdminSiteNode>
   {
-    @Nonnull
-    private final Content content;
-
-    @Override
-    public String getDisplayName()
+    public SiteNodePresentationModelProvider (final @Nonnull AdminSiteNode siteNode)
       {
-        try
-          {
-            return URLDecoder.decode(content.getFile().getName(), "UTF-8") ;
-          }
-        catch (UnsupportedEncodingException e)
-          {
-            throw new RuntimeException(e); // never happens
-          }
+        super(siteNode);
       }
   }

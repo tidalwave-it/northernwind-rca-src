@@ -25,11 +25,11 @@
  * *********************************************************************************************************************
  * #L%
  */
-package it.tidalwave.northernwind.rca.ui;
+package it.tidalwave.northernwind.model.impl.admin.role;
 
 import javax.annotation.Nonnull;
 import it.tidalwave.dci.annotation.DciRole;
-import it.tidalwave.northernwind.model.impl.admin.AdminSiteNode;
+import it.tidalwave.northernwind.model.impl.admin.AdminContent;
 
 /***********************************************************************************************************************
  *
@@ -37,11 +37,11 @@ import it.tidalwave.northernwind.model.impl.admin.AdminSiteNode;
  * @version $Id$
  *
  **********************************************************************************************************************/
-@DciRole(datum = AdminSiteNode.class) // FIXME: use SiteNode when it extends As
-public class SiteNodePresentationModelProvider extends CompositePresentationModelProvider<AdminSiteNode>
+@DciRole(datum = AdminContent.class) // FIXME: use Context when it extends As
+public class ContentPresentationModelProvider extends CompositePresentationModelProvider<AdminContent>
   {
-    public SiteNodePresentationModelProvider (final @Nonnull AdminSiteNode siteNode)
+    public ContentPresentationModelProvider (final @Nonnull AdminContent content)
       {
-        super(siteNode);
+        super(content);
       }
   }

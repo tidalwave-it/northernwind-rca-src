@@ -25,14 +25,14 @@
  * *********************************************************************************************************************
  * #L%
  */
-package it.tidalwave.northernwind.model.impl.admin;
+package it.tidalwave.northernwind.model.impl.admin.role;
 
 import javax.annotation.Nonnull;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import it.tidalwave.role.Displayable;
 import it.tidalwave.dci.annotation.DciRole;
-import it.tidalwave.northernwind.core.model.SiteNode;
+import it.tidalwave.northernwind.core.model.Content;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 
@@ -42,19 +42,19 @@ import lombok.ToString;
  * @version $Id$
  *
  **********************************************************************************************************************/
-@DciRole(datum = SiteNode.class)
+@DciRole(datum = Content.class)
 @RequiredArgsConstructor @ToString
-public class SiteNodeDisplayable implements Displayable
+public class ContentDisplayable implements Displayable
   {
     @Nonnull
-    private final SiteNode siteNode;
+    private final Content content;
 
     @Override
     public String getDisplayName()
       {
         try
           {
-            return URLDecoder.decode(siteNode.getFile().getName(), "UTF-8") ;
+            return URLDecoder.decode(content.getFile().getName(), "UTF-8") ;
           }
         catch (UnsupportedEncodingException e)
           {

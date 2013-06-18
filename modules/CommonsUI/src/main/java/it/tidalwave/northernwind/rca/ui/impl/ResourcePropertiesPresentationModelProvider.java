@@ -43,7 +43,7 @@ import it.tidalwave.role.ui.PresentationModelProvider;
 import it.tidalwave.role.ui.RowHashMap;
 import it.tidalwave.dci.annotation.DciRole;
 import it.tidalwave.northernwind.core.model.ResourceProperties;
-import it.tidalwave.northernwind.rca.ui.DefaultPresentationModel;
+import it.tidalwave.northernwind.model.impl.admin.role.DefaultPresentationModel;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 

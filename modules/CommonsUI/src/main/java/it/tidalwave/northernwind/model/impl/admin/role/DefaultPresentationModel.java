@@ -25,13 +25,13 @@
  * *********************************************************************************************************************
  * #L%
  */
-package it.tidalwave.northernwind.rca.ui;
+package it.tidalwave.northernwind.model.impl.admin.role;
 
 import javax.annotation.Nonnull;
 import java.beans.PropertyChangeListener;
+import it.tidalwave.util.As;
 import it.tidalwave.util.AsException;
 import it.tidalwave.role.ui.PresentationModel;
-import it.tidalwave.util.As;
 
 /***********************************************************************************************************************
  *
