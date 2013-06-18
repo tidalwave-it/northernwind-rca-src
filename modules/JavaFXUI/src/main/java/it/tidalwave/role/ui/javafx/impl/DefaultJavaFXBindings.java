@@ -171,16 +171,16 @@ public class DefaultJavaFXBindings implements JavaFXBindings
      *
      ******************************************************************************************************************/
     // FIXME: add on demand, upon node expansion
-    private void addChildren (final @Nonnull PresentationModel datum,
+    private void addChildren (final @Nonnull PresentationModel pm,
                               final @Nonnull TreeItem<PresentationModel> parentItem)
       {
-        final SimpleComposite<PresentationModel> composite = datum.as(SimpleComposite.class);
-        final List<? extends PresentationModel> objects = composite.findChildren().results();
+        final SimpleComposite<PresentationModel> composite = pm.as(SimpleComposite.class);
+        final List<? extends PresentationModel> childrenPms = composite.findChildren().results();
 
-        for (final PresentationModel object : objects)
+        for (final PresentationModel childPm : childrenPms)
           {
-            final TreeItem<PresentationModel> item = new TreeItem<>(object);
-            addChildren(object, item);
+            final TreeItem<PresentationModel> item = new TreeItem<>(childPm);
+            addChildren(childPm, item);
             parentItem.getChildren().add(item);
           }
       }
