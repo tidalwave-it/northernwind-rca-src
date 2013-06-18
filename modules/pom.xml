@@ -285,6 +285,8 @@
         <module>CommonsUI</module>
         <module>ContentEditor</module>
         <module>ContentExplorer</module>
+        <module>Installers/MacOSX</module>
+        <module>Installers/MacOSXEmbeddedJRE</module>
         <module>Model</module>
         <module>JavaFXApplication</module>
         <module>JavaFXUI</module>

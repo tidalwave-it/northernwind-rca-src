@@ -63,10 +63,17 @@
     <properties>
         <tft.project.url>http://northernwind.tidalwave.it</tft.project.url>
         <tft.project.description>NorthernWind - lightweight CMS, Rich Admin Client</tft.project.description>
+        <tft.appbundle.name>Zephyr</tft.appbundle.name>
+        <tft.appbundle.signature>TDLW</tft.appbundle.signature>
 
         <tft.maven.requiredJdk>[1.7.0-11,1.7.0-99)</tft.maven.requiredJdk>
         <tft.javac.source>1.7</tft.javac.source>
         <tft.javac.target>1.7</tft.javac.target>
+
+        <tft.embedded-jdk-artifactId>it-tidalwave-oraclejdk7</tft.embedded-jdk-artifactId>
+        <tft.embedded-jdk-classifier>macosx-intel</tft.embedded-jdk-classifier>
+        <tft.embedded-jdk-name>jdk1.7.0u17</tft.embedded-jdk-name>
+        <tft.embedded-jdk-version>1.7.0_17-1</tft.embedded-jdk-version>
 
         <netbeans.hint.jdkPlatform>JDK_1.7.0</netbeans.hint.jdkPlatform>
         <netbeans.hint.license>Tidalwave-ASF</netbeans.hint.license>
@@ -177,6 +184,16 @@
                 <artifactId>it-tidalwave-northernwind-rca-application-javafx</artifactId>
                 <version>1.0-ALPHA-1-SNAPSHOT</version>
             </dependency>
+            <dependency>
+                <groupId>it.tidalwave.northernwind.rca</groupId>
+                <artifactId>zephyr-macosx-embedded-jre</artifactId>
+                <version>1.0-ALPHA-1-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>it.tidalwave.northernwind.rca</groupId>
+                <artifactId>zephyr-macosx</artifactId>
+                <version>1.0-ALPHA-1-SNAPSHOT</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -186,6 +203,289 @@
         <developerConnection>scm:${tft.scm}:${scm.repo.effective.url}</developerConnection>
         <url>${scm.repo.browse.url}</url>
     </scm>
+
+    <!-- FIXME: push profiles to Super POM -->
+    <profiles>
+    <!--================================================================================================================
+
+    This profile configures the jarbundler for the build. Create an empty file in
+    activate-it.tidalwave-javafx-embedded-appbundle-v1-profile to activate it.
+
+    =================================================================================================================-->
+        <profile>
+            <id>it.tidalwave-javafx-appbundle-embedded-v1</id>
+            <activation>
+                <file>
+                    <exists>src/config/activate-it.tidalwave-javafx-appbundle-embedded-v1-profile</exists>
+                </file>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-dependency-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>unpack-embedded-jdk</id>
+                                <phase>generate-resources</phase>
+                                <goals>
+                                    <goal>unpack</goal>
+                                </goals>
+                                <configuration>
+                                    <artifactItems>
+                                        <artifactItem>
+                                            <groupId>${tft.embedded-jdk-groupId}</groupId>
+                                            <artifactId>${tft.embedded-jdk-artifactId}</artifactId>
+                                            <version>${tft.embedded-jdk-version}</version>
+                                            <type>tgz</type>
+                                            <classifier>${tft.embedded-jdk-classifier}</classifier>
+                                            <overWrite>true</overWrite>
+                                            <outputDirectory>${project.basedir}/target/jdk/${tft.embedded-jdk-name}</outputDirectory>
+                                        </artifactItem>
+                                    </artifactItems>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>copy-application</id>
+                                <phase>generate-resources</phase>
+                                <goals>
+                                    <goal>copy-dependencies</goal>
+                                </goals>
+                                <configuration>
+                                    <excludeTransitive>false</excludeTransitive>
+                                    <excludeArtifactIds>javafx-embedded</excludeArtifactIds>
+                                    <outputDirectory>${project.build.directory}/application</outputDirectory>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-antrun-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>create-app-bundle</id>
+                                <phase>pre-integration-test</phase>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                                <configuration>
+                                    <target>
+                                        <taskdef name="bundleapp"
+                                                 classname="com.oracle.appbundler.AppBundlerTask"
+                                                 classpath="src/main/app-resources/appbundler-${tft.appbundler.version}.jar" />
+
+                                        <!-- FIXME applicationCategory="public.app-category.developer-tools"-->
+                                        <!-- FIXME: way to specify min Java version? -->
+                                        <bundleapp outputdirectory="${project.build.directory}"
+                                                   name="${tft.appbundle.name}" displayname="${tft.appbundle.name}"
+                                                   icon="src/main/app-resources/${tft.appbundle.name}.icns"
+                                                   identifier="${project.groupId}"
+                                                   shortversion="${project.version}"
+                                                   mainclassname="${tft.mainClass}"
+                                                   signature="${tft.appbundle.signature}">
+                                            <runtime dir="${project.build.directory}/jdk/${tft.embedded-jdk-name}/Contents/Home" />
+                                            <classpath dir="${project.basedir}" casesensitive="yes">
+                                                <include name="target/application/*.jar" />
+                                            </classpath>
+                                            <option value="-Dcom.apple.mrj.application.apple.menu.about.name=${tft.appbundle.name}" />
+                                            <option value="-Xdock:name=${tft.appbundle.name}" />
+                                            <option value="-Xbootclasspath/a:$APP_ROOT/Contents/PlugIns/${tft.embedded-jdk-name}/Contents/Home/jre/lib/jfxrt.jar" />
+                                        </bundleapp>
+
+                                        <exec dir="${project.build.directory}" os="Mac OS X" executable="hdiutil">
+                                            <arg value="create" />
+                                            <arg value="-noanyowners" />
+                                            <arg value="-imagekey" />
+                                            <arg value="zlib-level=1" />
+                                            <arg value="-srcfolder" />
+                                            <arg value="${tft.appbundle.name}.app" />
+                                            <arg value="${tft.appbundle.name}.dmg" />
+                                        </exec>
+
+                                        <exec dir="${project.build.directory}" os="Linux" executable="mkisofs">
+                                            <arg value="-V" />
+                                            <arg value="${tft.appbundle.name}" />
+                                            <arg value="-U" />
+                                            <arg value="-f" />
+                                            <arg value="-D" />
+                                            <arg value="-l" />
+                                            <arg value="-L" />
+                                            <arg value="-allow-multidot" />
+                                            <arg value="-max-iso9660-filenames" />
+                                            <arg value="-relaxed-filenames" />
+                                            <arg value="-no-iso-translate" />
+                                            <arg value="-r" />
+                                            <arg value="-o" />
+                                            <arg value="${tft.appbundle.name}.dmg" />
+                                            <arg value="-root" />
+                                            <arg value="${tft.appbundle.name}.app" />
+                                            <arg value="${tft.appbundle.name}.app" />
+                                        </exec>
+
+                                        <gzip src="${project.build.directory}/${tft.appbundle.name}.dmg"
+                                              destfile="${project.build.directory}/${tft.appbundle.name}.dmg.gz" />
+                                    </target>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>build-helper-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>attach-app-bundle</id>
+                                <phase>pre-integration-test</phase>
+                                <goals>
+                                    <goal>attach-artifact</goal>
+                                </goals>
+                                <configuration>
+                                    <artifacts>
+                                        <artifact>
+                                            <file>${project.build.directory}/${tft.appbundle.name}.dmg.gz</file>
+                                            <type>dmg.gz</type>
+                                            <classifier>executable</classifier>
+                                        </artifact>
+                                    </artifacts>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+    <!--================================================================================================================
+
+    This profile configures the jarbundler for the build. Create an empty file in
+    src/config/activate-it.tidalwave-javafx-appbundle-v1-profile to activate it.
+
+    =================================================================================================================-->
+        <profile>
+            <id>it.tidalwave-javafx-appbundle-v1</id>
+            <activation>
+                <file>
+                    <exists>src/config/activate-it.tidalwave-javafx-appbundle-v1-profile</exists>
+                </file>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-dependency-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>copy-application</id>
+                                <phase>generate-resources</phase>
+                                <goals>
+                                    <goal>copy-dependencies</goal>
+                                </goals>
+                                <configuration>
+                                    <excludeTransitive>false</excludeTransitive>
+                                    <excludeArtifactIds>javafx-embedded</excludeArtifactIds>
+                                    <outputDirectory>${project.build.directory}/application</outputDirectory>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-antrun-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>create-app-bundle</id>
+                                <phase>pre-integration-test</phase>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                                <configuration>
+                                    <target>
+                                        <taskdef name="bundleapp"
+                                                 classname="com.oracle.appbundler.AppBundlerTask"
+                                                 classpath="src/main/app-resources/appbundler-${tft.appbundler.version}.jar" />
+
+                                        <!-- FIXME applicationCategory="public.app-category.developer-tools"-->
+                                        <!-- FIXME: way to specify min Java version? -->
+                                        <bundleapp outputdirectory="${project.build.directory}"
+                                                   name="${tft.appbundle.name}" displayname="${tft.appbundle.name}"
+                                                   icon="src/main/app-resources/${tft.appbundle.name}.icns"
+                                                   identifier="${project.groupId}"
+                                                   shortversion="${project.version}"
+                                                   mainclassname="${tft.mainClass}"
+                                                   signature="${tft.appbundle.signature}">
+                                            <classpath dir="${project.basedir}" casesensitive="yes">
+                                                <include name="target/application/*.jar" />
+                                            </classpath>
+                                            <option value="-Dcom.apple.mrj.application.apple.menu.about.name=${tft.appbundle.name}" />
+                                            <option value="-Xdock:name=${tft.appbundle.name}" />
+                                        </bundleapp>
+
+                                        <exec dir="${project.build.directory}" os="Mac OS X" executable="hdiutil">
+                                            <arg value="create" />
+                                            <arg value="-noanyowners" />
+                                            <arg value="-imagekey" />
+                                            <arg value="zlib-level=1" />
+                                            <arg value="-srcfolder" />
+                                            <arg value="${tft.appbundle.name}.app" />
+                                            <arg value="${tft.appbundle.name}.dmg" />
+                                        </exec>
+
+                                        <exec dir="${project.build.directory}" os="Linux" executable="mkisofs">
+                                            <arg value="-V" />
+                                            <arg value="${tft.appbundle.name}" />
+                                            <arg value="-U" />
+                                            <arg value="-f" />
+                                            <arg value="-D" />
+                                            <arg value="-l" />
+                                            <arg value="-L" />
+                                            <arg value="-allow-multidot" />
+                                            <arg value="-max-iso9660-filenames" />
+                                            <arg value="-relaxed-filenames" />
+                                            <arg value="-no-iso-translate" />
+                                            <arg value="-r" />
+                                            <arg value="-o" />
+                                            <arg value="${tft.appbundle.name}.dmg" />
+                                            <arg value="-root" />
+                                            <arg value="${tft.appbundle.name}.app" />
+                                            <arg value="${tft.appbundle.name}.app" />
+                                        </exec>
+
+                                        <gzip src="${project.build.directory}/${tft.appbundle.name}.dmg"
+                                              destfile="${project.build.directory}/${tft.appbundle.name}.dmg.gz" />
+                                    </target>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>build-helper-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>attach-app-bundle</id>
+                                <phase>pre-integration-test</phase>
+                                <goals>
+                                    <goal>attach-artifact</goal>
+                                </goals>
+                                <configuration>
+                                    <artifacts>
+                                        <artifact>
+                                            <file>${project.build.directory}/${tft.appbundle.name}.dmg.gz</file>
+                                            <type>dmg.gz</type>
+                                            <classifier>executable</classifier>
+                                        </artifact>
+                                    </artifacts>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 
     <modules>
         <module>modules</module>
