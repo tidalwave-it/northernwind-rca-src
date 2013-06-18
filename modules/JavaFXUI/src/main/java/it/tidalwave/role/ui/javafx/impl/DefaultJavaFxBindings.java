@@ -1,4 +1,4 @@
-    /*
+/*
  * #%L
  * *********************************************************************************************************************
  *
@@ -29,10 +29,13 @@ package it.tidalwave.role.ui.javafx.impl;
 
 import javax.annotation.Nonnull;
 import java.util.List;
-import javafx.util.Callback;
-import javafx.util.StringConverter;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.util.Callback;
+import javafx.util.StringConverter;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TreeCell;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
@@ -44,8 +47,7 @@ import it.tidalwave.role.Displayable;
 import it.tidalwave.role.SimpleComposite;
 import it.tidalwave.role.ui.PresentationModel;
 import it.tidalwave.role.ui.Selectable;
-import it.tidalwave.role.ui.javafx.TreeViewBinder;
-import lombok.extern.slf4j.Slf4j;
+import it.tidalwave.role.ui.javafx.JavaFXBindings;
 
 /***********************************************************************************************************************
  *
@@ -53,9 +55,18 @@ import lombok.extern.slf4j.Slf4j;
  * @version $Id$
  *
  **********************************************************************************************************************/
-@Slf4j
-public class DefaultTreeViewBinder implements TreeViewBinder
+public class DefaultJavaFXBindings implements JavaFXBindings
   {
+    @Override
+    public void bind (final @Nonnull TableView<PresentationModel> tableView,
+                      final @Nonnull PresentationModel pm)
+      {
+        final SimpleComposite<PresentationModel> composite = pm.as(SimpleComposite.class);
+        final ObservableList<PresentationModel> pms =
+                FXCollections.observableArrayList(composite.findChildren().results());
+        tableView.setItems(pms);
+      }
+
     private final Callback<TreeView<As>, TreeCell<As>> cellFactory = new Callback<TreeView<As>, TreeCell<As>>()
       {
         @Override @Nonnull

@@ -74,11 +74,8 @@
         <property name="taskExecutor" ref="applicationMessageBusTaskExecutor"/>
     </bean>
 
-    <bean id="defaultTreeViewBinder"
-          class="it.tidalwave.role.ui.javafx.impl.DefaultTreeViewBinder" />
-
-    <bean id="defaultTableViewBinder"
-          class="it.tidalwave.role.ui.javafx.impl.DefaultTableViewBinder" />
+    <bean id="javaFXBindings"
+          class="it.tidalwave.role.ui.javafx.impl.DefaultJavaFXBindings" />
 
     <bean class="it.tidalwave.northernwind.rca.ui.contentexplorer.spi.DefaultContentExplorerPresentationControl" />
 

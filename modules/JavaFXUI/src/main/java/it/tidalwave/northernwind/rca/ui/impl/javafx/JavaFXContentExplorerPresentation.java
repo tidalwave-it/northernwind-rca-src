@@ -34,7 +34,7 @@ import javafx.application.Platform;
 import org.springframework.beans.factory.annotation.Configurable;
 import it.tidalwave.util.As;
 import it.tidalwave.role.ui.PresentationModel;
-import it.tidalwave.role.ui.javafx.TreeViewBinder;
+import it.tidalwave.role.ui.javafx.JavaFXBindings;
 import it.tidalwave.northernwind.rca.ui.contentexplorer.ContentExplorerPresentation;
 
 /***********************************************************************************************************************
@@ -51,7 +51,7 @@ import it.tidalwave.northernwind.rca.ui.contentexplorer.ContentExplorerPresentat
 public class JavaFXContentExplorerPresentation implements ContentExplorerPresentation
   {
     @Inject @Nonnull
-    private TreeViewBinder treeViewBinder;
+    private JavaFXBindings bindings;
 
     @Nonnull
     private final TreeView<As> treeView;
@@ -69,7 +69,7 @@ public class JavaFXContentExplorerPresentation implements ContentExplorerPresent
             @Override
             public void run()
               {
-                treeViewBinder.bind(treeView, pm);
+                bindings.bind(treeView, pm);
               }
           });
       }

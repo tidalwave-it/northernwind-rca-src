@@ -38,7 +38,7 @@ import javafx.application.Platform;
 import org.springframework.beans.factory.annotation.Configurable;
 import it.tidalwave.role.ui.PresentationModel;
 import it.tidalwave.role.ui.javafx.RowAdapter;
-import it.tidalwave.role.ui.javafx.TableViewBinder;
+import it.tidalwave.role.ui.javafx.JavaFXBindings;
 import it.tidalwave.northernwind.rca.ui.contenteditor.ContentEditorPresentation;
 import lombok.extern.slf4j.Slf4j;
 
@@ -52,7 +52,7 @@ import lombok.extern.slf4j.Slf4j;
 public class JavaFXContentEditorPresentation implements ContentEditorPresentation
   {
     @Inject @Nonnull
-    private TableViewBinder tableViewBinder;
+    private JavaFXBindings tableViewBinder;
 
     // FIXME: have them injected instead than being passed on the constructor
     @Nonnull
