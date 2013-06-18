@@ -28,6 +28,7 @@
 package it.tidalwave.northernwind.rca.ui.contenteditor;
 
 import javax.annotation.Nonnull;
+import it.tidalwave.role.ui.BoundProperty;
 import it.tidalwave.role.ui.PresentationModel;
 
 /***********************************************************************************************************************
@@ -42,6 +43,13 @@ import it.tidalwave.role.ui.PresentationModel;
  **********************************************************************************************************************/
 public interface ContentEditorPresentation
   {
+    public static class Fields
+      {
+        public final BoundProperty<String> title = new BoundProperty<>("");
+
+        public final BoundProperty<String> document = new BoundProperty<>("");
+      }
+
     /*******************************************************************************************************************
      *
      * Makes sure this presentation is visible on the UI.
@@ -51,21 +59,12 @@ public interface ContentEditorPresentation
 
     /*******************************************************************************************************************
      *
-     * Populates the text of the {@link Content}.
+     * Populates the fields of the presentation.
      *
      * @param  text  the text
      *
      ******************************************************************************************************************/
-    public void populateText (@Nonnull String text);
-
-    /*******************************************************************************************************************
-     *
-     * Populates the title of the {@link Content}.
-     *
-     * @param  title  the title
-     *
-     ******************************************************************************************************************/
-    public void populateTitle (@Nonnull String title);
+    public void bind (@Nonnull Fields bean);
 
     /*******************************************************************************************************************
      *

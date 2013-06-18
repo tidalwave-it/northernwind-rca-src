@@ -27,11 +27,13 @@
  */
 package it.tidalwave.role.ui.javafx;
 
+import javax.annotation.Nonnegative;
 import javax.annotation.Nonnull;
+import javafx.beans.property.Property;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TreeView;
 import it.tidalwave.role.ui.PresentationModel;
-import javax.annotation.Nonnegative;
+import it.tidalwave.role.ui.BoundProperty;
 
 /***********************************************************************************************************************
  *
@@ -63,4 +65,11 @@ public interface JavaFXBindings
     public void bindColumn (@Nonnull TableView<PresentationModel> tableView,
                             @Nonnegative int columnIndex,
                             @Nonnull String id);
+
+    /*******************************************************************************************************************
+     *
+     *
+     *
+     ******************************************************************************************************************/
+    public <T> void bindBidirectionally (@Nonnull Property<T> property1, @Nonnull BoundProperty<T> property2);
   }

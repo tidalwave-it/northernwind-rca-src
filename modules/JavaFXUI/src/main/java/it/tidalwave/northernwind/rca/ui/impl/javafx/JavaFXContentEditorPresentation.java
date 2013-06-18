@@ -29,6 +29,10 @@ package it.tidalwave.northernwind.rca.ui.impl.javafx;
 
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.scene.web.WebView;
 import javafx.scene.layout.Pane;
 import javafx.scene.control.TableView;
@@ -36,8 +40,8 @@ import javafx.scene.control.TextField;
 import org.springframework.beans.factory.annotation.Configurable;
 import it.tidalwave.role.ui.PresentationModel;
 import it.tidalwave.role.ui.javafx.JavaFXBindings;
-import it.tidalwave.northernwind.rca.ui.contenteditor.ContentEditorPresentation;
 import it.tidalwave.role.ui.javafx.Widget;
+import it.tidalwave.northernwind.rca.ui.contenteditor.ContentEditorPresentation;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 
@@ -68,11 +72,27 @@ public class JavaFXContentEditorPresentation implements ContentEditorPresentatio
     @Widget("contentEditorProperties")
     private TableView<PresentationModel> tableView;
 
+    private final StringProperty document = new SimpleStringProperty();
+
+    // WebView doesn't offer a writable String bound property for the document.
+    private final ChangeListener<String> documentListener = new ChangeListener<String>()
+      {
+        @Override
+        public void changed (final @Nonnull ObservableValue<? extends String> observable,
+                             final @Nonnull String oldValue,
+                             final @Nonnull String newValue)
+          {
+            webView.getEngine().loadContent(newValue);
+          }
+      };
+
 //    @PostConstruct FIXME: when Spring calls, it's too early; this is called by JavaFXSafeComponentBuilder
     public void initialize()
       {
         bindings.bindColumn(tableView, 0, "name");
         bindings.bindColumn(tableView, 1, "value");
+
+        document.addListener(documentListener);
       }
 
     @Override
@@ -84,15 +104,10 @@ public class JavaFXContentEditorPresentation implements ContentEditorPresentatio
       }
 
     @Override
-    public void populateText (final @Nonnull String text)
+    public void bind (final @Nonnull Fields fields)
       {
-        webView.getEngine().loadContent(text);
-      }
-
-    @Override
-    public void populateTitle (final @Nonnull String title)
-      {
-        contentTitle.setText(title);
+        bindings.bindBidirectionally(contentTitle.textProperty(), fields.title);
+        bindings.bindBidirectionally(document, fields.document);
       }
 
     @Override

@@ -29,6 +29,7 @@ package it.tidalwave.role.ui.javafx.impl;
 
 import javax.annotation.Nonnegative;
 import javax.annotation.Nonnull;
+import javafx.beans.property.Property;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.util.Callback;
@@ -45,6 +46,7 @@ import javafx.application.Platform;
 import it.tidalwave.util.AsException;
 import it.tidalwave.role.Displayable;
 import it.tidalwave.role.SimpleComposite;
+import it.tidalwave.role.ui.BoundProperty;
 import it.tidalwave.role.ui.PresentationModel;
 import it.tidalwave.role.ui.Selectable;
 import it.tidalwave.role.ui.javafx.JavaFXBindings;
@@ -167,6 +169,17 @@ public class DefaultJavaFXBindings implements JavaFXBindings
                 (ObservableList<TableColumn<PresentationModel, String>>)rawColumns;
         columns.get(columnIndex).setId(id); // FIXME: is it correct to use Id?
         columns.get(columnIndex).setCellValueFactory(new RowAdapter<String>());
+      }
+
+    /*******************************************************************************************************************
+     *
+     * {@inheritDoc}
+     *
+     ******************************************************************************************************************/
+    @Override
+    public <T> void bindBidirectionally (final @Nonnull Property<T> property1, final @Nonnull BoundProperty<T> property2)
+      {
+        property1.bindBidirectional(new PropertyAdapter<>(property2));
       }
 
     /*******************************************************************************************************************

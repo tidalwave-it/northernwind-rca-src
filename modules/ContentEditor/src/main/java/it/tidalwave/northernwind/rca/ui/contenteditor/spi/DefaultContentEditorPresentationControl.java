@@ -32,6 +32,8 @@ import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import org.springframework.beans.factory.annotation.Configurable;
 import it.tidalwave.util.Key;
@@ -60,8 +62,19 @@ public class DefaultContentEditorPresentationControl implements ContentEditorPre
     @Nonnull
     private ContentEditorPresentation presentation;
 
+    private final ContentEditorPresentation.Fields fields = new ContentEditorPresentation.Fields();
+
     public static final Key<String> PROPERTY_FULL_TEXT = new Key<>("fullText"); // FIXME copied
     public static final Key<String> PROPERTY_TITLE = new Key<>("title"); // FIXME copied
+
+    private final PropertyChangeListener propertyChangeListener = new PropertyChangeListener()
+      {
+        @Override
+        public void propertyChange (final @Nonnull PropertyChangeEvent event)
+          {
+            log.info("TODO: changed title {}", event.getNewValue());
+          }
+      };
 
     /*******************************************************************************************************************
      *
@@ -81,21 +94,21 @@ public class DefaultContentEditorPresentationControl implements ContentEditorPre
 
             try
               {
-                presentation.populateText(properties.getProperty(PROPERTY_FULL_TEXT, ""));
+                fields.document.set(properties.getProperty(PROPERTY_FULL_TEXT, ""));
               }
             catch (IOException e)
               {
-                presentation.populateText(e.toString());
+                fields.document.set(e.toString());
                 log.warn("", e);
               }
 
             try
               {
-                presentation.populateTitle(properties.getProperty(PROPERTY_TITLE, ""));
+                fields.title.set(properties.getProperty(PROPERTY_TITLE, ""));
               }
             catch (IOException e)
               {
-                presentation.populateTitle(e.toString());
+                fields.document.set(e.toString());
                 log.warn("", e);
               }
 
@@ -114,11 +127,14 @@ public class DefaultContentEditorPresentationControl implements ContentEditorPre
     private void destroy()
       {
         messageBus.unsubscribe(siteNodeSelectionListener);
+        // TODO: unsuscribe?
       }
 
     @Override
     public void initialize (final @Nonnull ContentEditorPresentation presentation)
       {
         this.presentation = presentation;
+        fields.title.addPropertyChangeListener(propertyChangeListener);
+        presentation.bind(fields);
       }
   }
