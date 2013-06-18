@@ -175,9 +175,8 @@ public class DefaultJavaFXBindings implements JavaFXBindings
                               final @Nonnull PresentationModel pm)
       {
         final SimpleComposite<PresentationModel> composite = pm.as(SimpleComposite.class);
-        final List<? extends PresentationModel> childrenPms = composite.findChildren().results();
 
-        for (final PresentationModel childPm : childrenPms)
+        for (final PresentationModel childPm : composite.findChildren().results())
           {
             final TreeItem<PresentationModel> childItem = new TreeItem<>(childPm);
             addChildren(childItem, childPm);
