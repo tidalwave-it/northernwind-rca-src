@@ -53,7 +53,7 @@ public interface ContentEditorPresentation
      *
      * Populates the text of the {@link Content}.
      *
-     * @param  text  the contents
+     * @param  text  the text
      *
      ******************************************************************************************************************/
     public void populateText (@Nonnull String text);
