@@ -29,6 +29,7 @@ package it.tidalwave.northernwind.rca.ui.impl.javafx;
 
 import javax.annotation.Nonnull;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -69,6 +70,7 @@ public class Main extends Application
       {
         try
           {
+            Platform.setImplicitExit(true);
             launch(args);
           }
         catch (Throwable t)
