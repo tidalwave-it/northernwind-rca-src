@@ -32,26 +32,18 @@ import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.inject.Inject;
 import javax.inject.Named;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 import java.io.IOException;
 import org.springframework.beans.factory.annotation.Configurable;
-import it.tidalwave.util.Id;
 import it.tidalwave.util.Key;
-import it.tidalwave.util.spi.SimpleFinderSupport;
-import it.tidalwave.role.spi.DefaultSimpleComposite;
-import it.tidalwave.role.ui.PresentationModel;
-import it.tidalwave.role.ui.RowHashMap;
 import it.tidalwave.messagebus.MessageBus;
 import it.tidalwave.messagebus.MessageBus.Listener;
 import it.tidalwave.northernwind.core.model.Content;
 import it.tidalwave.northernwind.core.model.ResourceProperties;
-import it.tidalwave.northernwind.rca.ui.DefaultPresentationModel;
 import it.tidalwave.northernwind.rca.ui.event.ContentSelectedEvent;
 import it.tidalwave.northernwind.rca.ui.contenteditor.ContentEditorPresentation;
 import it.tidalwave.northernwind.rca.ui.contenteditor.ContentEditorPresentationControl;
 import lombok.extern.slf4j.Slf4j;
+import static it.tidalwave.role.ui.PresentationModelProvider.*;
 
 /***********************************************************************************************************************
  *
@@ -107,40 +99,7 @@ public class DefaultContentEditorPresentationControl implements ContentEditorPre
                 log.warn("", e);
               }
 
-            final PresentationModel pmProperties = new DefaultPresentationModel(properties,
-                    new DefaultSimpleComposite<>(new SimpleFinderSupport<PresentationModel>()
-              {
-                @Override
-                protected List<? extends PresentationModel> computeResults()
-                  {
-                    final List<PresentationModel> results = new ArrayList<>();
-                    final Collection<Id> groupIds = properties.getGroupIds();
-                    groupIds.add(new Id(""));
-
-                    for (final Id groupId : groupIds)
-                      {
-                        final ResourceProperties p2 = groupId.equals(new Id("")) ? properties : properties.getGroup(groupId);
-
-                        for (final Key<?> key : p2.getKeys())
-                          {
-                            try
-                              {
-                                results.add(new DefaultPresentationModel(properties,
-                                            RowHashMap.create().withColumn("name", key.stringValue())
-                                                               .withColumn("value", p2.getProperty(key, null))));
-                              }
-                            catch (IOException e)
-                              {
-                                log.warn("", e);
-                              }
-                          }
-                       }
-
-                     return results;
-                   }
-                }));
-
-            presentation.populateProperties(pmProperties);
+            presentation.populateProperties(properties.as(PresentationModelProvider).createPresentationModel());
             presentation.showUp();
           }
       };
