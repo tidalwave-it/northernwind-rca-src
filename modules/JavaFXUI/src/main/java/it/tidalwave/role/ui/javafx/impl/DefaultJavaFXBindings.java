@@ -34,7 +34,6 @@ import javafx.beans.value.ObservableValue;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TreeCell;
 import javafx.scene.control.TreeItem;
@@ -132,9 +131,7 @@ public class DefaultJavaFXBindings implements JavaFXBindings
         assert Platform.isFxApplicationThread() : "Must run in the JavaFX Application Thread";
 
         final SimpleComposite<PresentationModel> composite = pm.as(SimpleComposite.class);
-        final ObservableList<PresentationModel> pms =
-                FXCollections.observableArrayList(composite.findChildren().results());
-        tableView.setItems(pms);
+        tableView.setItems(FXCollections.observableArrayList(composite.findChildren().results()));
       }
 
     /*******************************************************************************************************************
