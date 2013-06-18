@@ -68,11 +68,6 @@ public class JavaFXContentEditorPresentation implements ContentEditorPresentatio
     @Widget("contentEditorProperties")
     private TableView<PresentationModel> tableView;
 
-    /*******************************************************************************************************************
-     *
-     *
-     *
-     ******************************************************************************************************************/
 //    @PostConstruct FIXME: when Spring calls, it's too early; this is called by JavaFXSafeComponentBuilder
     public void initialize()
       {
@@ -80,11 +75,6 @@ public class JavaFXContentEditorPresentation implements ContentEditorPresentatio
         bindings.bindColumn(tableView, 1, "value");
       }
 
-    /*******************************************************************************************************************
-     *
-     * {@inheritDoc}
-     *
-     ******************************************************************************************************************/
     @Override
     public void showUp()
       {
@@ -93,33 +83,18 @@ public class JavaFXContentEditorPresentation implements ContentEditorPresentatio
         myContainer.setVisible(true);
       }
 
-    /*******************************************************************************************************************
-     *
-     * {@inheritDoc}
-     *
-     ******************************************************************************************************************/
     @Override
     public void populateText (final @Nonnull String text)
       {
         webView.getEngine().loadContent(text);
       }
 
-    /*******************************************************************************************************************
-     *
-     * {@inheritDoc}
-     *
-     ******************************************************************************************************************/
     @Override
     public void populateTitle (final @Nonnull String title)
       {
         contentTitle.setText(title);
       }
 
-    /*******************************************************************************************************************
-     *
-     * {@inheritDoc}
-     *
-     ******************************************************************************************************************/
     @Override
     public void populateProperties (final @Nonnull PresentationModel pm)
       {
