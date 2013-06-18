@@ -25,24 +25,23 @@
  * *********************************************************************************************************************
  * #L%
  */
-package it.tidalwave.role.ui;
+package it.tidalwave.northernwind.rca.ui;
 
 import javax.annotation.Nonnull;
+import it.tidalwave.dci.annotation.DciRole;
+import it.tidalwave.northernwind.model.impl.admin.AdminSiteNode;
 
 /***********************************************************************************************************************
- *
- * A role providing a new {@link PresentationModel} for a datum.
- *
- * @stereotype Role
  *
  * @author  Fabrizio Giudici
  * @version $Id$
  *
  **********************************************************************************************************************/
-public interface PresentationModelProvider
+@DciRole(datum = AdminSiteNode.class) // FIXME: use SiteNode when it extends As
+public class SiteNodePresentationModelProvider extends CompositePresentationModelProvider<AdminSiteNode>
   {
-    public static final Class<PresentationModelProvider> PresentationModelProvider = PresentationModelProvider.class;
-
-    @Nonnull
-    public PresentationModel createPresentationModel (@Nonnull Object ... localRoles);
+    public SiteNodePresentationModelProvider (final @Nonnull AdminSiteNode siteNode)
+      {
+        super(siteNode);
+      }
   }

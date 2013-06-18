@@ -28,14 +28,8 @@
 package it.tidalwave.northernwind.rca.ui;
 
 import javax.annotation.Nonnull;
-import java.util.ArrayList;
-import java.util.List;
-import it.tidalwave.util.As;
-import it.tidalwave.util.Finder;
-import it.tidalwave.util.RoleFactory;
-import it.tidalwave.util.spi.SimpleFinderSupport;
-import it.tidalwave.role.SimpleComposite;
-import it.tidalwave.role.ui.PresentationModel;
+import it.tidalwave.dci.annotation.DciRole;
+import it.tidalwave.northernwind.model.impl.admin.AdminContent;
 
 /***********************************************************************************************************************
  *
@@ -43,36 +37,11 @@ import it.tidalwave.role.ui.PresentationModel;
  * @version $Id$
  *
  **********************************************************************************************************************/
-public class PresentationModelUtil
+@DciRole(datum = AdminContent.class) // FIXME: use Context when it extends As
+public class ContentPresentationModelProvider extends CompositePresentationModelProvider<AdminContent>
   {
-    @Nonnull
-    public <T extends As> PresentationModel createPresentationModel (final @Nonnull T datum,
-                                                                     final @Nonnull RoleFactory<T> roleFactory,
-                                                                     final @Nonnull Object ... roles)
+    public ContentPresentationModelProvider (final @Nonnull AdminContent content)
       {
-        return new DefaultPresentationModel(datum, roleFactory.createRoleFor(datum),
-                new SimpleComposite<PresentationModel>()
-          {
-            @Override @Nonnull
-            public Finder<PresentationModel> findChildren()
-              {
-                return new SimpleFinderSupport<PresentationModel>()
-                  {
-                    @Override
-                    protected List<? extends PresentationModel> computeResults()
-                      {
-                        final List<PresentationModel> results = new ArrayList<>();
-                        final SimpleComposite<T> composite = datum.as(SimpleComposite.class);
-
-                        for (final T object : composite.findChildren().results())
-                          {
-                            results.add(createPresentationModel(object, roleFactory, roles));
-                          }
-
-                        return results;
-                      }
-                  };
-              }
-          });
+        super(content);
       }
   }

@@ -29,12 +29,14 @@ package it.tidalwave.northernwind.rca.ui.impl;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.io.IOException;
 import it.tidalwave.util.Id;
 import it.tidalwave.util.Key;
 import it.tidalwave.util.spi.SimpleFinderSupport;
+import it.tidalwave.role.SimpleComposite;
 import it.tidalwave.role.spi.DefaultSimpleComposite;
 import it.tidalwave.role.ui.PresentationModel;
 import it.tidalwave.role.ui.PresentationModelProvider;
@@ -62,9 +64,9 @@ public class ResourcePropertiesPresentationModelProvider implements Presentation
     private final ResourceProperties properties;
 
     @Override @Nonnull
-    public PresentationModel createPresentationModel()
+    public PresentationModel createPresentationModel (final @Nonnull Object ... localRoles)
       {
-        final PresentationModel pmProperties = new DefaultPresentationModel(properties,
+        final SimpleComposite<PresentationModel> composite =
                 new DefaultSimpleComposite<>(new SimpleFinderSupport<PresentationModel>()
           {
             @Override
@@ -95,8 +97,11 @@ public class ResourcePropertiesPresentationModelProvider implements Presentation
 
                  return results;
                }
-          }));
+          });
 
-        return pmProperties;
+        final List<Object> roles = new ArrayList<>(Arrays.asList(localRoles));
+        roles.add(composite);
+
+        return new DefaultPresentationModel(properties, roles.toArray());
       }
   }

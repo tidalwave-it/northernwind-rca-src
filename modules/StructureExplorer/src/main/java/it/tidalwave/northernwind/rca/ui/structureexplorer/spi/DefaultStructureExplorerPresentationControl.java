@@ -35,12 +35,12 @@ import org.springframework.beans.factory.annotation.Configurable;
 import it.tidalwave.util.NotFoundException;
 import it.tidalwave.util.RoleFactory;
 import it.tidalwave.role.ui.Selectable;
+import it.tidalwave.role.ui.PresentationModelProvider;
 import it.tidalwave.messagebus.MessageBus;
 import it.tidalwave.northernwind.core.model.ResourceFile;
 import it.tidalwave.northernwind.core.model.ResourceFileSystemProvider;
 import it.tidalwave.northernwind.model.impl.admin.AdminModelFactory;
 import it.tidalwave.northernwind.model.impl.admin.AdminSiteNode;
-import it.tidalwave.northernwind.rca.ui.PresentationModelUtil;
 import it.tidalwave.northernwind.rca.ui.event.SiteNodeSelectedEvent;
 import it.tidalwave.northernwind.rca.ui.structureexplorer.StructureExplorerPresentation;
 import it.tidalwave.northernwind.rca.ui.structureexplorer.StructureExplorerPresentationControl;
@@ -100,7 +100,7 @@ public class DefaultStructureExplorerPresentationControl implements StructureExp
           {
             final ResourceFile root = fileSystemProvider.getFileSystem().findFileByPath("/structure");
             final AdminSiteNode siteNode = (AdminSiteNode)modelFactory.createSiteNode(null, root);
-            presentation.populate(new PresentationModelUtil().createPresentationModel(siteNode, publisherRoleFactory));
+            presentation.populate(siteNode.as(PresentationModelProvider.class).createPresentationModel(publisherRoleFactory));
           }
         catch (IOException | NotFoundException e)
           {

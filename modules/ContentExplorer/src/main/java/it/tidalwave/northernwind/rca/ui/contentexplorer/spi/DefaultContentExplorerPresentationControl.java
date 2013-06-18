@@ -32,6 +32,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.IOException;
 import it.tidalwave.util.RoleFactory;
+import it.tidalwave.role.ui.PresentationModelProvider;
 import it.tidalwave.role.ui.Selectable;
 import it.tidalwave.messagebus.MessageBus;
 import it.tidalwave.northernwind.core.model.ResourceFile;
@@ -41,7 +42,6 @@ import it.tidalwave.northernwind.model.impl.admin.AdminModelFactory;
 import it.tidalwave.northernwind.rca.ui.event.ContentSelectedEvent;
 import it.tidalwave.northernwind.rca.ui.contentexplorer.ContentExplorerPresentation;
 import it.tidalwave.northernwind.rca.ui.contentexplorer.ContentExplorerPresentationControl;
-import it.tidalwave.northernwind.rca.ui.PresentationModelUtil;
 import lombok.extern.slf4j.Slf4j;
 
 /***********************************************************************************************************************
@@ -99,7 +99,7 @@ public class DefaultContentExplorerPresentationControl implements ContentExplore
           {
             final ResourceFile root = fileSystemProvider.getFileSystem().findFileByPath("/content/document");
             final AdminContent content = (AdminContent)modelFactory.createContent(root);
-            presentation.populate(new PresentationModelUtil().createPresentationModel(content, publisherRoleFactory));
+            presentation.populate(content.as(PresentationModelProvider.class).createPresentationModel(publisherRoleFactory));
           }
         catch (IOException e)
           {
