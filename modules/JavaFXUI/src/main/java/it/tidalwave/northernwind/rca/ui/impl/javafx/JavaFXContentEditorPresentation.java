@@ -28,8 +28,6 @@
 package it.tidalwave.northernwind.rca.ui.impl.javafx;
 
 import javax.annotation.Nonnull;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.scene.web.WebView;
 import javafx.scene.layout.Pane;
 import javafx.scene.control.TableView;
@@ -37,7 +35,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TableColumn;
 import javafx.application.Platform;
 import it.tidalwave.northernwind.rca.ui.contenteditor.ContentEditorPresentation;
-import it.tidalwave.role.SimpleComposite;
 import it.tidalwave.role.ui.PresentationModel;
 import javax.inject.Inject;
 import lombok.extern.slf4j.Slf4j;
