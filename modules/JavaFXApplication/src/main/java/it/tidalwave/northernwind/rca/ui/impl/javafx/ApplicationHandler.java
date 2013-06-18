@@ -104,9 +104,19 @@ public class ApplicationHandler
         contentEditorContainer.setVisible(false);
         structureEditorContainer.setVisible(false);
 
-        contentExplorerPresentationControl.initialize(new JavaFXContentExplorerPresentation(tvContent));
-        structureExplorerPresentationControl.initialize(new JavaFXStructureExplorerPresentation(tvStructure));
-        contentEditorPresentationControl.initialize(new JavaFXContentEditorPresentation(contentEditorContainer, structureEditorContainer, contentWebView, contentTitle, contentEditorProperties));
-        structureEditorPresentationControl.initialize(new JavaFXStructureEditorPresentation(structureEditorContainer, contentEditorContainer, structureWebView, structureEditorProperties));
+        final JavaFXContentExplorerPresentation p1 = new JavaFXContentExplorerPresentation();
+        final JavaFXStructureExplorerPresentation p2 = new JavaFXStructureExplorerPresentation();
+        final JavaFXContentEditorPresentation p3 = new JavaFXContentEditorPresentation();
+        final JavaFXStructureEditorPresentation p4 = new JavaFXStructureEditorPresentation();
+
+        p1.initialize(tvContent);
+        p2.initialize(tvStructure);
+        p3.initialize(contentEditorContainer, structureEditorContainer, contentWebView, contentTitle, contentEditorProperties);
+        p4.initialize(structureEditorContainer, contentEditorContainer, structureWebView, structureEditorProperties);
+
+        contentExplorerPresentationControl.initialize(p1);
+        structureExplorerPresentationControl.initialize(p2);
+        contentEditorPresentationControl.initialize(p3);
+        structureEditorPresentationControl.initialize(p4);
       }
   }

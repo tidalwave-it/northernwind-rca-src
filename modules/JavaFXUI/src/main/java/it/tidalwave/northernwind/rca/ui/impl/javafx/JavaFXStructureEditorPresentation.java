@@ -45,33 +45,33 @@ import lombok.extern.slf4j.Slf4j;
  * @version $Id$
  *
  **********************************************************************************************************************/
-@Configurable(preConstruction = true) @Slf4j
+@Configurable @Slf4j
 public class JavaFXStructureEditorPresentation implements StructureEditorPresentation
   {
     @Inject @Nonnull
     private JavaFXBindings bindings;
 
     @Nonnull
-    private final Pane myContainer;
+    private Pane myContainer;
 
     @Nonnull
-    private final Pane otherContainer;
+    private Pane otherContainer;
 
     @Nonnull
-    private final WebView webView;
+    private WebView webView;
 
     @Nonnull
-    private final TableView<PresentationModel> tableView;
+    private TableView<PresentationModel> tableView;
 
     /*******************************************************************************************************************
      *
      *
      *
      ******************************************************************************************************************/
-    public JavaFXStructureEditorPresentation (final @Nonnull Pane myContainer,
-                                              final @Nonnull Pane otherContainer,
-                                              final @Nonnull WebView webView,
-                                              final @Nonnull TableView<PresentationModel> tableView)
+    public void initialize (final @Nonnull Pane myContainer,
+                            final @Nonnull Pane otherContainer,
+                            final @Nonnull WebView webView,
+                            final @Nonnull TableView<PresentationModel> tableView)
       {
         this.myContainer = myContainer;
         this.otherContainer = otherContainer;

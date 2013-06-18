@@ -46,7 +46,7 @@ import lombok.extern.slf4j.Slf4j;
  * @version $Id$
  *
  **********************************************************************************************************************/
-@Configurable(preConstruction = true) @Slf4j
+@Configurable @Slf4j
 public class JavaFXContentEditorPresentation implements ContentEditorPresentation
   {
     @Inject @Nonnull
@@ -54,30 +54,30 @@ public class JavaFXContentEditorPresentation implements ContentEditorPresentatio
 
     // FIXME: have them injected instead than being passed on the constructor
     @Nonnull
-    private final Pane myContainer;
+    private Pane myContainer;
 
     @Nonnull
-    private final Pane otherContainer;
+    private Pane otherContainer;
 
     @Nonnull
-    private final WebView webView;
+    private WebView webView;
 
     @Nonnull
-    private final TextField contentTitle;
+    private TextField contentTitle;
 
     @Nonnull
-    private final TableView<PresentationModel> tableView;
+    private TableView<PresentationModel> tableView;
 
     /*******************************************************************************************************************
      *
      *
      *
      ******************************************************************************************************************/
-    public JavaFXContentEditorPresentation (final @Nonnull Pane myContainer,
-                                            final @Nonnull Pane otherContainer,
-                                            final @Nonnull WebView webView,
-                                            final @Nonnull TextField contentTitle,
-                                            final @Nonnull TableView<PresentationModel> tableView)
+    public void initialize (final @Nonnull Pane myContainer,
+                            final @Nonnull Pane otherContainer,
+                            final @Nonnull WebView webView,
+                            final @Nonnull TextField contentTitle,
+                            final @Nonnull TableView<PresentationModel> tableView)
       {
         this.myContainer = myContainer;
         this.otherContainer = otherContainer;
