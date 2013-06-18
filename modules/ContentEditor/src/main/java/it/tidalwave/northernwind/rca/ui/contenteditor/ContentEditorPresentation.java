@@ -28,8 +28,13 @@
 package it.tidalwave.northernwind.rca.ui.contenteditor;
 
 import javax.annotation.Nonnull;
+import it.tidalwave.role.ui.PresentationModel;
 
 /***********************************************************************************************************************
+ *
+ * The Presentation of the {@link Content} Editor.
+ *
+ * @stereotype Presentation
  *
  * @author  Fabrizio Giudici
  * @version $Id$
@@ -37,9 +42,37 @@ import javax.annotation.Nonnull;
  **********************************************************************************************************************/
 public interface ContentEditorPresentation
   {
+    /*******************************************************************************************************************
+     *
+     * Makes sure this presentation is visible on the UI.
+     *
+     ******************************************************************************************************************/
     public void showUp();
 
+    /*******************************************************************************************************************
+     *
+     * Populates the presentation with some {@link Content}.
+     *
+     * @param  text  the contents
+     *
+     ******************************************************************************************************************/
     public void populate (@Nonnull String text);
 
+    /*******************************************************************************************************************
+     *
+     * Populates the title of the {@link Content}.
+     *
+     * @param  title  the title
+     *
+     ******************************************************************************************************************/
     public void populateTitle (@Nonnull String title);
+
+    /*******************************************************************************************************************
+     *
+     * Populates the {@link ResourceProperties} of the {@link Content}.
+     *
+     * @param  pmProperties  the {@link PresentationModel} of the properties
+     *
+     ******************************************************************************************************************/
+    public void populateProperties (@Nonnull PresentationModel pmProperties);
   }

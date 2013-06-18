@@ -33,14 +33,16 @@ import javafx.fxml.FXML;
 import javafx.event.ActionEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.control.TreeView;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.web.WebView;
 import org.springframework.beans.factory.annotation.Configurable;
 import it.tidalwave.util.As;
+import it.tidalwave.role.ui.PresentationModel;
 import it.tidalwave.northernwind.rca.ui.contentexplorer.ContentExplorerPresentationControl;
 import it.tidalwave.northernwind.rca.ui.contenteditor.ContentEditorPresentationControl;
 import it.tidalwave.northernwind.rca.ui.structureeditor.StructureEditorPresentationControl;
 import it.tidalwave.northernwind.rca.ui.structureexplorer.StructureExplorerPresentationControl;
-import javafx.scene.control.TextField;
 import lombok.extern.slf4j.Slf4j;
 
 /***********************************************************************************************************************
@@ -74,6 +76,9 @@ public class ApplicationHandler
     @FXML
     private Pane structureEditorContainer;
 
+    @FXML
+    private TableView<PresentationModel> contentEditorProperties;
+
     @Inject @Nonnull
     private StructureExplorerPresentationControl structureExplorerPresentationControl;
 
@@ -99,7 +104,7 @@ public class ApplicationHandler
 
         contentExplorerPresentationControl.initialize(new JavaFXContentExplorerPresentation(tvContent));
         structureExplorerPresentationControl.initialize(new JavaFXStructureExplorerPresentation(tvStructure));
-        contentEditorPresentationControl.initialize(new JavaFXContentEditorPresentation(contentEditorContainer, structureEditorContainer, contentWebView, contentTitle));
+        contentEditorPresentationControl.initialize(new JavaFXContentEditorPresentation(contentEditorContainer, structureEditorContainer, contentWebView, contentTitle, contentEditorProperties));
         structureEditorPresentationControl.initialize(new JavaFXStructureEditorPresentation(structureEditorContainer, contentEditorContainer, structureWebView));
       }
   }
