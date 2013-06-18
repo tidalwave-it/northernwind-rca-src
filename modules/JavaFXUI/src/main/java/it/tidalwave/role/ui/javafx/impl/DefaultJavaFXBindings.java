@@ -61,7 +61,7 @@ public class DefaultJavaFXBindings implements JavaFXBindings
      *
      *
      ******************************************************************************************************************/
-    private final Callback<TreeView<PresentationModel>, TreeCell<PresentationModel>> cellFactory =
+    private final Callback<TreeView<PresentationModel>, TreeCell<PresentationModel>> treeCellFactory =
             new Callback<TreeView<PresentationModel>, TreeCell<PresentationModel>>()
       {
         @Override @Nonnull
@@ -99,7 +99,7 @@ public class DefaultJavaFXBindings implements JavaFXBindings
      *
      *
      ******************************************************************************************************************/
-    private final ChangeListener<TreeItem<PresentationModel>> changeListener =
+    private final ChangeListener<TreeItem<PresentationModel>> treeItemChangeListener =
             new ChangeListener<TreeItem<PresentationModel>>()
       {
         @Override
@@ -148,8 +148,8 @@ public class DefaultJavaFXBindings implements JavaFXBindings
         assert Platform.isFxApplicationThread() : "Must run in the JavaFX Application Thread";
 
         treeView.setRoot(createTreeItem(pm));
-        treeView.setCellFactory(cellFactory);
-        treeView.getSelectionModel().selectedItemProperty().addListener(changeListener);
+        treeView.setCellFactory(treeCellFactory);
+        treeView.getSelectionModel().selectedItemProperty().addListener(treeItemChangeListener);
      }
 
     /*******************************************************************************************************************
