@@ -41,7 +41,6 @@ import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.scene.control.cell.TextFieldTreeCell;
 import javafx.application.Platform;
-import it.tidalwave.util.As;
 import it.tidalwave.util.AsException;
 import it.tidalwave.role.Displayable;
 import it.tidalwave.role.SimpleComposite;
@@ -67,29 +66,30 @@ public class DefaultJavaFXBindings implements JavaFXBindings
         tableView.setItems(pms);
       }
 
-    private final Callback<TreeView<As>, TreeCell<As>> cellFactory = new Callback<TreeView<As>, TreeCell<As>>()
+    private final Callback<TreeView<PresentationModel>, TreeCell<PresentationModel>> cellFactory =
+            new Callback<TreeView<PresentationModel>, TreeCell<PresentationModel>>()
       {
         @Override @Nonnull
-        public TreeCell<As> call (final @Nonnull TreeView<As> p)
+        public TreeCell<PresentationModel> call (final @Nonnull TreeView<PresentationModel> p)
           {
-            final TextFieldTreeCell<As> cell = new TextFieldTreeCell<>();
-            cell.setConverter(new StringConverter<As>()
+            final TextFieldTreeCell<PresentationModel> cell = new TextFieldTreeCell<>();
+            cell.setConverter(new StringConverter<PresentationModel>()
               {
                 @Override
-                public String toString (final @Nonnull As object)
+                public String toString (final @Nonnull PresentationModel pm)
                   {
                     try
                       {
-                        return object.as(Displayable.class).getDisplayName();
+                        return pm.as(Displayable.class).getDisplayName();
                       }
                     catch (AsException e)
                       {
-                        return object.toString();
+                        return pm.toString();
                       }
                   }
 
                 @Override
-                public As fromString (final @Nonnull String string)
+                public PresentationModel fromString (final @Nonnull String string)
                   {
                     throw new UnsupportedOperationException("Not supported yet.");
                   }
@@ -99,12 +99,13 @@ public class DefaultJavaFXBindings implements JavaFXBindings
           }
       };
 
-    private final ChangeListener<TreeItem<As>> changeListener = new ChangeListener<TreeItem<As>>()
+    private final ChangeListener<TreeItem<PresentationModel>> changeListener =
+            new ChangeListener<TreeItem<PresentationModel>>()
       {
         @Override
-        public void changed (final @Nonnull ObservableValue<? extends TreeItem<As>> ov,
-                             final @Nonnull TreeItem<As> oldItem,
-                             final @Nonnull TreeItem<As> item)
+        public void changed (final @Nonnull ObservableValue<? extends TreeItem<PresentationModel>> ov,
+                             final @Nonnull TreeItem<PresentationModel> oldItem,
+                             final @Nonnull TreeItem<PresentationModel> item)
           {
             try
               {
@@ -119,7 +120,7 @@ public class DefaultJavaFXBindings implements JavaFXBindings
       };
 
     @Override
-    public void bind (final @Nonnull TreeView<As> treeView,
+    public void bind (final @Nonnull TreeView<PresentationModel> treeView,
                       final @Nonnull PresentationModel pm)
       {
         assert Platform.isFxApplicationThread() : "Must run in the JavaFX Application Thread";
@@ -130,9 +131,9 @@ public class DefaultJavaFXBindings implements JavaFXBindings
      }
 
     @Nonnull
-    private TreeItem<As> createTreeItem (final @Nonnull PresentationModel pm)
+    private TreeItem<PresentationModel> createTreeItem (final @Nonnull PresentationModel pm)
       {
-        final TreeItem<As> rootItem = new TreeItem<As>(pm);
+        final TreeItem<PresentationModel> rootItem = new TreeItem<>(pm);
 
         addChildren(pm, rootItem);
 
@@ -140,15 +141,15 @@ public class DefaultJavaFXBindings implements JavaFXBindings
       }
 
     // FIXME: add on demand, upon node expansion
-    private void addChildren (final @Nonnull As datum,
-                              final @Nonnull TreeItem<As> parentItem)
+    private void addChildren (final @Nonnull PresentationModel datum,
+                              final @Nonnull TreeItem<PresentationModel> parentItem)
       {
-        final SimpleComposite<? extends As> composite = datum.as(SimpleComposite.class);
-        final List<? extends As> objects = composite.findChildren().results();
+        final SimpleComposite<PresentationModel> composite = datum.as(SimpleComposite.class);
+        final List<? extends PresentationModel> objects = composite.findChildren().results();
 
-        for (final As object : objects)
+        for (final PresentationModel object : objects)
           {
-            final TreeItem<As> item = new TreeItem<>(object);
+            final TreeItem<PresentationModel> item = new TreeItem<>(object);
             addChildren(object, item);
             parentItem.getChildren().add(item);
           }
