@@ -31,6 +31,8 @@ import javax.annotation.Nonnull;
 
 /***********************************************************************************************************************
  *
+ * A role providing a new {@link PresentationModel} for a datum.
+ * 
  * @stereotype Role
  *
  * @author  Fabrizio Giudici
