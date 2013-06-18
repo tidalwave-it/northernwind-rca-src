@@ -32,10 +32,10 @@ import javax.inject.Inject;
 import javafx.scene.layout.Pane;
 import javafx.scene.control.TableView;
 import javafx.scene.web.WebView;
-import javafx.application.Platform;
 import org.springframework.beans.factory.annotation.Configurable;
 import it.tidalwave.role.ui.PresentationModel;
 import it.tidalwave.role.ui.javafx.JavaFXBindings;
+import it.tidalwave.role.ui.javafx.Widget;
 import it.tidalwave.northernwind.rca.ui.structureeditor.StructureEditorPresentation;
 import lombok.extern.slf4j.Slf4j;
 
@@ -51,16 +51,16 @@ public class JavaFXStructureEditorPresentation implements StructureEditorPresent
     @Inject @Nonnull
     private JavaFXBindings bindings;
 
-    @Nonnull
+    @Widget("structureEditorContainer")
     private Pane myContainer;
 
-    @Nonnull
+    @Widget("contentEditorContainer")
     private Pane otherContainer;
 
-    @Nonnull
+    @Widget("structureWebView")
     private WebView webView;
 
-    @Nonnull
+    @Widget("structureEditorProperties")
     private TableView<PresentationModel> tableView;
 
     /*******************************************************************************************************************
@@ -68,16 +68,9 @@ public class JavaFXStructureEditorPresentation implements StructureEditorPresent
      *
      *
      ******************************************************************************************************************/
-    public void initialize (final @Nonnull Pane myContainer,
-                            final @Nonnull Pane otherContainer,
-                            final @Nonnull WebView webView,
-                            final @Nonnull TableView<PresentationModel> tableView)
+//    @PostConstruct FIXME: when Spring calls, it's too early; this is called by JavaFXSafeComponentBuilder
+    public void initialize()
       {
-        this.myContainer = myContainer;
-        this.otherContainer = otherContainer;
-        this.webView = webView;
-        this.tableView = tableView;
-
         bindings.bindColumn(tableView, 0, "name");
         bindings.bindColumn(tableView, 1, "value");
       }
@@ -90,16 +83,9 @@ public class JavaFXStructureEditorPresentation implements StructureEditorPresent
     @Override
     public void showUp()
       {
-        Platform.runLater(new Runnable()
-          {
-            @Override
-            public void run()
-              {
-                log.info("setting visible: {} setting not visible: {}", myContainer, otherContainer);
-                otherContainer.setVisible(false);
-                myContainer.setVisible(true);
-              }
-          });
+        log.info("setting visible: {} setting not visible: {}", myContainer, otherContainer);
+        otherContainer.setVisible(false);
+        myContainer.setVisible(true);
       }
 
     /*******************************************************************************************************************
@@ -110,14 +96,7 @@ public class JavaFXStructureEditorPresentation implements StructureEditorPresent
     @Override
     public void populate (final @Nonnull String text)
       {
-        Platform.runLater(new Runnable()
-          {
-            @Override
-            public void run()
-              {
-                webView.getEngine().loadContent(text);
-              }
-          });
+        webView.getEngine().loadContent(text);
       }
 
     /*******************************************************************************************************************
@@ -128,13 +107,6 @@ public class JavaFXStructureEditorPresentation implements StructureEditorPresent
     @Override
     public void populateProperties (final @Nonnull PresentationModel pm)
       {
-        Platform.runLater(new Runnable()
-          {
-            @Override
-            public void run()
-              {
-                bindings.bind(tableView, pm);
-              }
-          });
+        bindings.bind(tableView, pm);
       }
   }

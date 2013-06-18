@@ -33,11 +33,12 @@ import javafx.scene.web.WebView;
 import javafx.scene.layout.Pane;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.application.Platform;
 import org.springframework.beans.factory.annotation.Configurable;
 import it.tidalwave.role.ui.PresentationModel;
 import it.tidalwave.role.ui.javafx.JavaFXBindings;
 import it.tidalwave.northernwind.rca.ui.contenteditor.ContentEditorPresentation;
+import it.tidalwave.role.ui.javafx.Widget;
+import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 
 /***********************************************************************************************************************
@@ -46,26 +47,25 @@ import lombok.extern.slf4j.Slf4j;
  * @version $Id$
  *
  **********************************************************************************************************************/
-@Configurable @Slf4j
+@Configurable @Slf4j @ToString
 public class JavaFXContentEditorPresentation implements ContentEditorPresentation
   {
     @Inject @Nonnull
     private JavaFXBindings bindings;
 
-    // FIXME: have them injected instead than being passed on the constructor
-    @Nonnull
+    @Widget("contentEditorContainer")
     private Pane myContainer;
 
-    @Nonnull
+    @Widget("structureEditorContainer")
     private Pane otherContainer;
 
-    @Nonnull
+    @Widget("contentWebView")
     private WebView webView;
 
-    @Nonnull
+    @Widget("contentTitle")
     private TextField contentTitle;
 
-    @Nonnull
+    @Widget("contentEditorProperties")
     private TableView<PresentationModel> tableView;
 
     /*******************************************************************************************************************
@@ -73,18 +73,9 @@ public class JavaFXContentEditorPresentation implements ContentEditorPresentatio
      *
      *
      ******************************************************************************************************************/
-    public void initialize (final @Nonnull Pane myContainer,
-                            final @Nonnull Pane otherContainer,
-                            final @Nonnull WebView webView,
-                            final @Nonnull TextField contentTitle,
-                            final @Nonnull TableView<PresentationModel> tableView)
+//    @PostConstruct FIXME: when Spring calls, it's too early; this is called by JavaFXSafeComponentBuilder
+    public void initialize()
       {
-        this.myContainer = myContainer;
-        this.otherContainer = otherContainer;
-        this.webView = webView;
-        this.contentTitle = contentTitle;
-        this.tableView = tableView;
-
         bindings.bindColumn(tableView, 0, "name");
         bindings.bindColumn(tableView, 1, "value");
       }
@@ -97,16 +88,9 @@ public class JavaFXContentEditorPresentation implements ContentEditorPresentatio
     @Override
     public void showUp()
       {
-        Platform.runLater(new Runnable()
-          {
-            @Override
-            public void run()
-              {
-                log.info("setting visible: {} setting not visible: {}", myContainer, otherContainer);
-                otherContainer.setVisible(false);
-                myContainer.setVisible(true);
-              }
-          });
+        log.info("setting visible: {} setting not visible: {}", myContainer, otherContainer);
+        otherContainer.setVisible(false);
+        myContainer.setVisible(true);
       }
 
     /*******************************************************************************************************************
@@ -117,14 +101,7 @@ public class JavaFXContentEditorPresentation implements ContentEditorPresentatio
     @Override
     public void populateText (final @Nonnull String text)
       {
-        Platform.runLater(new Runnable()
-          {
-            @Override
-            public void run()
-              {
-                webView.getEngine().loadContent(text);
-              }
-          });
+        webView.getEngine().loadContent(text);
       }
 
     /*******************************************************************************************************************
@@ -135,14 +112,7 @@ public class JavaFXContentEditorPresentation implements ContentEditorPresentatio
     @Override
     public void populateTitle (final @Nonnull String title)
       {
-        Platform.runLater(new Runnable()
-          {
-            @Override
-            public void run()
-              {
-                contentTitle.setText(title);
-              }
-          });
+        contentTitle.setText(title);
       }
 
     /*******************************************************************************************************************
@@ -153,13 +123,6 @@ public class JavaFXContentEditorPresentation implements ContentEditorPresentatio
     @Override
     public void populateProperties (final @Nonnull PresentationModel pm)
       {
-        Platform.runLater(new Runnable()
-          {
-            @Override
-            public void run()
-              {
-                bindings.bind(tableView, pm);
-              }
-          });
+        bindings.bind(tableView, pm);
       }
   }

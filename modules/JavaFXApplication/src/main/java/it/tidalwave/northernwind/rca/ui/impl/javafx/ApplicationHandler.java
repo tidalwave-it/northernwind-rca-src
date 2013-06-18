@@ -38,11 +38,16 @@ import javafx.scene.control.TextField;
 import javafx.scene.web.WebView;
 import org.springframework.beans.factory.annotation.Configurable;
 import it.tidalwave.role.ui.PresentationModel;
+import it.tidalwave.northernwind.rca.ui.contentexplorer.ContentExplorerPresentation;
 import it.tidalwave.northernwind.rca.ui.contentexplorer.ContentExplorerPresentationControl;
+import it.tidalwave.northernwind.rca.ui.contenteditor.ContentEditorPresentation;
 import it.tidalwave.northernwind.rca.ui.contenteditor.ContentEditorPresentationControl;
-import it.tidalwave.northernwind.rca.ui.structureeditor.StructureEditorPresentationControl;
+import it.tidalwave.northernwind.rca.ui.structureexplorer.StructureExplorerPresentation;
 import it.tidalwave.northernwind.rca.ui.structureexplorer.StructureExplorerPresentationControl;
+import it.tidalwave.northernwind.rca.ui.structureeditor.StructureEditorPresentation;
+import it.tidalwave.northernwind.rca.ui.structureeditor.StructureEditorPresentationControl;
 import lombok.extern.slf4j.Slf4j;
+import static it.tidalwave.role.ui.javafx.impl.JavaFXSafeComponentBuilder.*;
 
 /***********************************************************************************************************************
  *
@@ -104,15 +109,18 @@ public class ApplicationHandler
         contentEditorContainer.setVisible(false);
         structureEditorContainer.setVisible(false);
 
-        final JavaFXContentExplorerPresentation p1 = new JavaFXContentExplorerPresentation();
-        final JavaFXStructureExplorerPresentation p2 = new JavaFXStructureExplorerPresentation();
-        final JavaFXContentEditorPresentation p3 = new JavaFXContentEditorPresentation();
-        final JavaFXStructureEditorPresentation p4 = new JavaFXStructureEditorPresentation();
-
-        p1.initialize(tvContent);
-        p2.initialize(tvStructure);
-        p3.initialize(contentEditorContainer, structureEditorContainer, contentWebView, contentTitle, contentEditorProperties);
-        p4.initialize(structureEditorContainer, contentEditorContainer, structureWebView, structureEditorProperties);
+        final ContentExplorerPresentation p1 = builderFor(ContentExplorerPresentation.class,
+                                                          JavaFXContentExplorerPresentation.class)
+                                                    .createInstance(this);
+        final StructureExplorerPresentation p2 = builderFor(StructureExplorerPresentation.class,
+                                                            JavaFXStructureExplorerPresentation.class)
+                                                    .createInstance(this);
+        final ContentEditorPresentation p3 = builderFor(ContentEditorPresentation.class,
+                                                        JavaFXContentEditorPresentation.class)
+                                                    .createInstance(this);
+        final StructureEditorPresentation p4 = builderFor(StructureEditorPresentation.class,
+                                                          JavaFXStructureEditorPresentation.class)
+                                                    .createInstance(this);
 
         contentExplorerPresentationControl.initialize(p1);
         structureExplorerPresentationControl.initialize(p2);

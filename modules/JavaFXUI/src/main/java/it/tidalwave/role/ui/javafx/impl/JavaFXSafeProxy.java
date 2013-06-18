@@ -25,39 +25,58 @@
  * *********************************************************************************************************************
  * #L%
  */
-package it.tidalwave.northernwind.rca.ui.impl.javafx;
+package it.tidalwave.role.ui.javafx.impl;
 
 import javax.annotation.Nonnull;
-import javax.inject.Inject;
-import javafx.scene.control.TreeView;
-import org.springframework.beans.factory.annotation.Configurable;
-import it.tidalwave.role.ui.PresentationModel;
-import it.tidalwave.role.ui.javafx.JavaFXBindings;
-import it.tidalwave.role.ui.javafx.Widget;
-import it.tidalwave.northernwind.rca.ui.structureexplorer.StructureExplorerPresentation;
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Method;
+import java.util.concurrent.atomic.AtomicReference;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 
 /***********************************************************************************************************************
- *
- * The JavaFX implementation for {@link StructureExplorerPresentation}.
- *
- * @stereotype Presentation
  *
  * @author  Fabrizio Giudici
  * @version $Id$
  *
  **********************************************************************************************************************/
-@Configurable
-public class JavaFXStructureExplorerPresentation implements StructureExplorerPresentation
+@RequiredArgsConstructor @Slf4j
+public class JavaFXSafeProxy<T> implements InvocationHandler
   {
-    @Inject @Nonnull
-    private JavaFXBindings bindings;
-
-    @Widget("tvStructure")
-    private TreeView<PresentationModel> treeView;
+    @Nonnull @Getter @Setter
+    private T delegate;
 
     @Override
-    public void populate (final @Nonnull PresentationModel pm)
+    public Object invoke (final @Nonnull Object proxy, final @Nonnull Method method, final @Nonnull Object[] args)
+      throws Throwable
       {
-        bindings.bind(treeView, pm);
+        final AtomicReference<Object> result = new AtomicReference<>();
+        final AtomicReference<Throwable> throwable = new AtomicReference<>();
+
+        JavaFXSafeRunner.runSafely(new Runnable()
+          {
+            @Override
+            public void run()
+              {
+                try
+                  {
+                    log.trace(">>>> safely invoking {}", method);
+                    result.set(method.invoke(delegate, args));
+                  }
+                catch (Throwable t)
+                  {
+                    throwable.set(t);
+                  }
+              }
+          });
+
+        if (throwable.get() != null)
+          {
+            throw throwable.get();
+          }
+
+        return result.get();
       }
   }

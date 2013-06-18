@@ -25,39 +25,52 @@
  * *********************************************************************************************************************
  * #L%
  */
-package it.tidalwave.northernwind.rca.ui.impl.javafx;
+package it.tidalwave.role.ui.javafx.impl;
 
 import javax.annotation.Nonnull;
-import javax.inject.Inject;
-import javafx.scene.control.TreeView;
-import org.springframework.beans.factory.annotation.Configurable;
-import it.tidalwave.role.ui.PresentationModel;
-import it.tidalwave.role.ui.javafx.JavaFXBindings;
-import it.tidalwave.role.ui.javafx.Widget;
-import it.tidalwave.northernwind.rca.ui.structureexplorer.StructureExplorerPresentation;
+import javafx.application.Platform;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 /***********************************************************************************************************************
- *
- * The JavaFX implementation for {@link StructureExplorerPresentation}.
- *
- * @stereotype Presentation
  *
  * @author  Fabrizio Giudici
  * @version $Id$
  *
  **********************************************************************************************************************/
-@Configurable
-public class JavaFXStructureExplorerPresentation implements StructureExplorerPresentation
+@Slf4j @NoArgsConstructor(access=AccessLevel.PRIVATE)
+public final class JavaFXSafeRunner
   {
-    @Inject @Nonnull
-    private JavaFXBindings bindings;
-
-    @Widget("tvStructure")
-    private TreeView<PresentationModel> treeView;
-
-    @Override
-    public void populate (final @Nonnull PresentationModel pm)
+    /*******************************************************************************************************************
+     *
+     *
+     ******************************************************************************************************************/
+    public static void runSafely (final @Nonnull Runnable runnable)
       {
-        bindings.bind(treeView, pm);
+        final Runnable guardedRunnable = new Runnable()
+          {
+            @Override
+            public void run()
+              {
+                try
+                  {
+                    runnable.run();
+                  }
+                catch (Throwable t)
+                  {
+                    log.warn("", t);
+                  }
+              }
+          };
+
+        if (Platform.isFxApplicationThread())
+          {
+            guardedRunnable.run();
+          }
+        else
+          {
+            Platform.runLater(guardedRunnable);
+          }
       }
   }

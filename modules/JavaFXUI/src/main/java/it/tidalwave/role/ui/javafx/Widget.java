@@ -25,39 +25,21 @@
  * *********************************************************************************************************************
  * #L%
  */
-package it.tidalwave.northernwind.rca.ui.impl.javafx;
+package it.tidalwave.role.ui.javafx;
 
-import javax.annotation.Nonnull;
-import javax.inject.Inject;
-import javafx.scene.control.TreeView;
-import org.springframework.beans.factory.annotation.Configurable;
-import it.tidalwave.role.ui.PresentationModel;
-import it.tidalwave.role.ui.javafx.JavaFXBindings;
-import it.tidalwave.role.ui.javafx.Widget;
-import it.tidalwave.northernwind.rca.ui.structureexplorer.StructureExplorerPresentation;
+import java.lang.annotation.Documented;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 
 /***********************************************************************************************************************
- *
- * The JavaFX implementation for {@link StructureExplorerPresentation}.
- *
- * @stereotype Presentation
  *
  * @author  Fabrizio Giudici
  * @version $Id$
  *
  **********************************************************************************************************************/
-@Configurable
-public class JavaFXStructureExplorerPresentation implements StructureExplorerPresentation
+@Documented
+@Retention(RetentionPolicy.RUNTIME)
+public @interface Widget
   {
-    @Inject @Nonnull
-    private JavaFXBindings bindings;
-
-    @Widget("tvStructure")
-    private TreeView<PresentationModel> treeView;
-
-    @Override
-    public void populate (final @Nonnull PresentationModel pm)
-      {
-        bindings.bind(treeView, pm);
-      }
+    String value();
   }

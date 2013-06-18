@@ -25,39 +25,32 @@
  * *********************************************************************************************************************
  * #L%
  */
-package it.tidalwave.northernwind.rca.ui.impl.javafx;
+package it.tidalwave.role.ui.javafx.impl;
 
 import javax.annotation.Nonnull;
-import javax.inject.Inject;
-import javafx.scene.control.TreeView;
-import org.springframework.beans.factory.annotation.Configurable;
-import it.tidalwave.role.ui.PresentationModel;
-import it.tidalwave.role.ui.javafx.JavaFXBindings;
-import it.tidalwave.role.ui.javafx.Widget;
-import it.tidalwave.northernwind.rca.ui.structureexplorer.StructureExplorerPresentation;
+import java.util.List;
+import static it.tidalwave.role.ui.javafx.impl.JavaFXSafeComponentBuilder.*;
 
 /***********************************************************************************************************************
- *
- * The JavaFX implementation for {@link StructureExplorerPresentation}.
- *
- * @stereotype Presentation
  *
  * @author  Fabrizio Giudici
  * @version $Id$
  *
  **********************************************************************************************************************/
-@Configurable
-public class JavaFXStructureExplorerPresentation implements StructureExplorerPresentation
+public abstract class JavaFXPresentationBuilder<I, T extends I>
   {
-    @Inject @Nonnull
-    private JavaFXBindings bindings;
+    @Nonnull
+    private final JavaFXSafeComponentBuilder<I, T> builder;
 
-    @Widget("tvStructure")
-    private TreeView<PresentationModel> treeView;
-
-    @Override
-    public void populate (final @Nonnull PresentationModel pm)
+    public JavaFXPresentationBuilder()
       {
-        bindings.bind(treeView, pm);
+        final List<Class<?>> t = ReflectionUtils.getTypeArguments(JavaFXPresentationBuilder.class, getClass());
+        builder = builderFor((Class<I>)t.get(0), (Class<T>)t.get(1));
+      }
+
+    @Nonnull
+    public final synchronized T create (final @Nonnull Object referenceHolder)
+      {
+        return builder.createInstance(referenceHolder);
       }
   }
