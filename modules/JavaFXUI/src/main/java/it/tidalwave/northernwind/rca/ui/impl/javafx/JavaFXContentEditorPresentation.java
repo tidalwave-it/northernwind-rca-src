@@ -33,11 +33,9 @@ import javafx.scene.web.WebView;
 import javafx.scene.layout.Pane;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.TableColumn;
 import javafx.application.Platform;
 import org.springframework.beans.factory.annotation.Configurable;
 import it.tidalwave.role.ui.PresentationModel;
-import it.tidalwave.role.ui.javafx.RowAdapter;
 import it.tidalwave.role.ui.javafx.JavaFXBindings;
 import it.tidalwave.northernwind.rca.ui.contenteditor.ContentEditorPresentation;
 import lombok.extern.slf4j.Slf4j;
@@ -48,7 +46,7 @@ import lombok.extern.slf4j.Slf4j;
  * @version $Id$
  *
  **********************************************************************************************************************/
-@Configurable @Slf4j
+@Configurable(preConstruction = true) @Slf4j
 public class JavaFXContentEditorPresentation implements ContentEditorPresentation
   {
     @Inject @Nonnull
@@ -70,10 +68,6 @@ public class JavaFXContentEditorPresentation implements ContentEditorPresentatio
     @Nonnull
     private final TableView<PresentationModel> tableView;
 
-    private final TableColumn<PresentationModel, String> nameColumn = new TableColumn<>("Name");
-
-    private final TableColumn<PresentationModel, String> valueColumn = new TableColumn<>("Value");
-
     /*******************************************************************************************************************
      *
      *
@@ -91,11 +85,8 @@ public class JavaFXContentEditorPresentation implements ContentEditorPresentatio
         this.contentTitle = contentTitle;
         this.tableView = tableView;
 
-        nameColumn.setId("name");
-        valueColumn.setId("value");
-        nameColumn.setCellValueFactory(new RowAdapter<String>());
-        valueColumn.setCellValueFactory(new RowAdapter<String>());
-        tableView.getColumns().setAll(nameColumn, valueColumn);
+        bindings.bindColumn(tableView, 0, "name");
+        bindings.bindColumn(tableView, 1, "value");
       }
 
     /*******************************************************************************************************************

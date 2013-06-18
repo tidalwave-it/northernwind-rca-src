@@ -27,12 +27,15 @@
  */
 package it.tidalwave.role.ui.javafx.impl;
 
+import javax.annotation.Nonnegative;
 import javax.annotation.Nonnull;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TreeCell;
 import javafx.scene.control.TreeItem;
@@ -148,6 +151,23 @@ public class DefaultJavaFXBindings implements JavaFXBindings
         treeView.setCellFactory(treeCellFactory);
         treeView.getSelectionModel().selectedItemProperty().addListener(treeItemChangeListener);
      }
+
+    /*******************************************************************************************************************
+     *
+     * {@inheritDoc}
+     *
+     ******************************************************************************************************************/
+    @Override
+    public void bindColumn (final @Nonnull TableView<PresentationModel> tableView,
+                            final @Nonnegative int columnIndex,
+                            final @Nonnull String id)
+      {
+        final ObservableList rawColumns = tableView.getColumns(); // FIXME
+        final ObservableList<TableColumn<PresentationModel, String>> columns =
+                (ObservableList<TableColumn<PresentationModel, String>>)rawColumns;
+        columns.get(columnIndex).setId(id); // FIXME: is it correct to use Id?
+        columns.get(columnIndex).setCellValueFactory(new RowAdapter<String>());
+      }
 
     /*******************************************************************************************************************
      *

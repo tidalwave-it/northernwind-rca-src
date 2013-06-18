@@ -25,7 +25,7 @@
  * *********************************************************************************************************************
  * #L%
  */
-package it.tidalwave.role.ui.javafx;
+package it.tidalwave.role.ui.javafx.impl;
 
 import javax.annotation.Nonnull;
 import javax.annotation.concurrent.Immutable;

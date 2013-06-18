@@ -16,7 +16,6 @@ import javafx.scene.web.WebView;
 import javafx.application.Platform;
 import org.springframework.beans.factory.annotation.Configurable;
 import it.tidalwave.role.ui.PresentationModel;
-import it.tidalwave.role.ui.javafx.RowAdapter;
 import it.tidalwave.role.ui.javafx.JavaFXBindings;
 import it.tidalwave.northernwind.rca.ui.structureeditor.StructureEditorPresentation;
 import lombok.extern.slf4j.Slf4j;
@@ -27,7 +26,7 @@ import lombok.extern.slf4j.Slf4j;
  * @version $Id$
  *
  **********************************************************************************************************************/
-@Configurable @Slf4j
+@Configurable(preConstruction = true) @Slf4j
 public class JavaFXStructureEditorPresentation implements StructureEditorPresentation
   {
     @Inject @Nonnull
@@ -64,11 +63,8 @@ public class JavaFXStructureEditorPresentation implements StructureEditorPresent
         this.webView = webView;
         this.tableView = tableView;
 
-        nameColumn.setId("name");
-        valueColumn.setId("value");
-        nameColumn.setCellValueFactory(new RowAdapter<String>());
-        valueColumn.setCellValueFactory(new RowAdapter<String>());
-        tableView.getColumns().setAll(nameColumn, valueColumn);
+        bindings.bindColumn(tableView, 0, "name");
+        bindings.bindColumn(tableView, 1, "value");
       }
 
     /*******************************************************************************************************************
