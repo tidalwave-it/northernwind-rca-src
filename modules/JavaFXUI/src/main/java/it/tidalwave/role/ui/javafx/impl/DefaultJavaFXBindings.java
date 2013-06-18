@@ -47,6 +47,7 @@ import it.tidalwave.role.SimpleComposite;
 import it.tidalwave.role.ui.PresentationModel;
 import it.tidalwave.role.ui.Selectable;
 import it.tidalwave.role.ui.javafx.JavaFXBindings;
+import lombok.extern.slf4j.Slf4j;
 
 /***********************************************************************************************************************
  *
@@ -54,6 +55,7 @@ import it.tidalwave.role.ui.javafx.JavaFXBindings;
  * @version $Id$
  *
  **********************************************************************************************************************/
+@Slf4j
 public class DefaultJavaFXBindings implements JavaFXBindings
   {
     /*******************************************************************************************************************
@@ -113,8 +115,7 @@ public class DefaultJavaFXBindings implements JavaFXBindings
               }
             catch (AsException e)
               {
-                e.printStackTrace();
-                // ok, do nothing
+                log.debug("No Selectable role for {}", item); // ok, do nothing
               }
           }
       };
