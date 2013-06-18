@@ -52,7 +52,7 @@ import lombok.extern.slf4j.Slf4j;
 public class JavaFXContentEditorPresentation implements ContentEditorPresentation
   {
     @Inject @Nonnull
-    private JavaFXBindings tableViewBinder;
+    private JavaFXBindings bindings;
 
     // FIXME: have them injected instead than being passed on the constructor
     @Nonnull
@@ -167,7 +167,7 @@ public class JavaFXContentEditorPresentation implements ContentEditorPresentatio
             @Override
             public void run()
               {
-                tableViewBinder.bind(tableView, pm);
+                bindings.bind(tableView, pm);
               }
           });
       }

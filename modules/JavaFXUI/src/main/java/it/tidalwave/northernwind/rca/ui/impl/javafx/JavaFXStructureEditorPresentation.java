@@ -31,7 +31,7 @@ import lombok.extern.slf4j.Slf4j;
 public class JavaFXStructureEditorPresentation implements StructureEditorPresentation
   {
     @Inject @Nonnull
-    private JavaFXBindings tableViewBinder;
+    private JavaFXBindings bindings;
 
     @Nonnull
     private final Pane myContainer;
@@ -122,7 +122,7 @@ public class JavaFXStructureEditorPresentation implements StructureEditorPresent
             @Override
             public void run()
               {
-                tableViewBinder.bind(tableView, pm);
+                bindings.bind(tableView, pm);
               }
           });
       }
