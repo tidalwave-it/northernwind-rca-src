@@ -27,14 +27,14 @@
  */
 package it.tidalwave.northernwind.rca.ui.impl;
 
-import javax.annotation.Nonnull;
-import javax.inject.Provider;
 import java.lang.reflect.Method;
+import javax.annotation.Nonnull;
+import javax.inject.Inject;
+import javax.inject.Named;
+import javax.inject.Provider;
 import it.tidalwave.messagebus.MessageBus;
 import it.tidalwave.messagebus.MessageBusHelper;
 import it.tidalwave.messagebus.MessageBusHelper.MethodAdapter;
-import javax.inject.Inject;
-import javax.inject.Named;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import static lombok.AccessLevel.*;
