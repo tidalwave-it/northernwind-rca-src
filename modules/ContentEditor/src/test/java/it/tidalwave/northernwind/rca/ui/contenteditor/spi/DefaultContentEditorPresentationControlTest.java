@@ -28,11 +28,12 @@
 package it.tidalwave.northernwind.rca.ui.contenteditor.spi;
 
 import it.tidalwave.messagebus.annotation.SimpleMessageSubscriber;
+import it.tidalwave.northernwind.rca.ui.contenteditor.ContentEditorPresentation;
 import org.testng.annotations.Test;
 import org.testng.annotations.BeforeMethod;
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.CoreMatchers.*;
-import static org.testng.Assert.*;
+import static org.mockito.Mockito.*;
 
 /***********************************************************************************************************************
  *
@@ -44,6 +45,8 @@ public class DefaultContentEditorPresentationControlTest
   {
     private DefaultContentEditorPresentationControl fixture;
 
+    private ContentEditorPresentation presentation;
+
     /*******************************************************************************************************************
      *
      ******************************************************************************************************************/
@@ -51,6 +54,8 @@ public class DefaultContentEditorPresentationControlTest
     public void setupFixture()
       {
         fixture = new DefaultContentEditorPresentationControl();
+        presentation = mock(ContentEditorPresentation.class);
+        fixture.initialize(presentation);
       }
 
     /*******************************************************************************************************************
@@ -61,4 +66,13 @@ public class DefaultContentEditorPresentationControlTest
       {
         assertThat(fixture.getClass().getAnnotation(SimpleMessageSubscriber.class), is(not(nullValue())));
       }
-}
+
+    /*******************************************************************************************************************
+     *
+     ******************************************************************************************************************/
+    @Test
+    public void must_bind()
+      {
+        verify(presentation).bind(same(fixture.fields));
+      }
+  }

@@ -61,7 +61,7 @@ public class DefaultContentEditorPresentationControl extends SpringMessageBusLis
     @Nonnull
     private ContentEditorPresentation presentation;
 
-    private final ContentEditorPresentation.Fields fields = new ContentEditorPresentation.Fields();
+    @VisibleForTesting final ContentEditorPresentation.Fields fields = new ContentEditorPresentation.Fields();
 
     public static final Key<String> PROPERTY_FULL_TEXT = new Key<>("fullText"); // FIXME copied
     public static final Key<String> PROPERTY_TITLE = new Key<>("title"); // FIXME copied
