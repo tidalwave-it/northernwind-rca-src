@@ -37,9 +37,9 @@ import it.tidalwave.role.ui.Selectable;
 import it.tidalwave.messagebus.MessageBus;
 import it.tidalwave.messagebus.annotation.ListensTo;
 import it.tidalwave.messagebus.annotation.SimpleMessageSubscriber;
+import it.tidalwave.northernwind.core.model.ModelFactory;
 import it.tidalwave.northernwind.core.model.ResourceFile;
 import it.tidalwave.northernwind.model.impl.admin.AdminContent;
-import it.tidalwave.northernwind.model.impl.admin.AdminModelFactory;
 import it.tidalwave.northernwind.rca.ui.event.ContentSelectedEvent;
 import it.tidalwave.northernwind.rca.ui.contentexplorer.ContentExplorerPresentation;
 import it.tidalwave.northernwind.rca.ui.contentexplorer.ContentExplorerPresentationControl;
@@ -65,7 +65,7 @@ public class DefaultContentExplorerPresentationControl extends SpringMessageBusL
     protected MessageBus messageBus;
 
     @Inject @Nonnull
-    private AdminModelFactory modelFactory;
+    @VisibleForTesting ModelFactory modelFactory;
 
     private ContentExplorerPresentation presentation;
 

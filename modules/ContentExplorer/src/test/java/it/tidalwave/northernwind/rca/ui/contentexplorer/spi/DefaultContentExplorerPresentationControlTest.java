@@ -27,14 +27,26 @@
  */
 package it.tidalwave.northernwind.rca.ui.contentexplorer.spi;
 
+import it.tidalwave.messagebus.MessageBus;
 import it.tidalwave.messagebus.annotation.SimpleMessageSubscriber;
+import it.tidalwave.northernwind.core.model.ModelFactory;
+import it.tidalwave.northernwind.core.model.ResourceFile;
+import it.tidalwave.northernwind.core.model.ResourceFileSystem;
+import it.tidalwave.northernwind.model.impl.admin.AdminContent;
+import it.tidalwave.northernwind.rca.ui.contentexplorer.ContentExplorerPresentation;
+import it.tidalwave.northernwind.rca.ui.event.ContentSelectedEvent;
+import it.tidalwave.northernwind.rca.ui.event.OpenSiteEvent;
+import it.tidalwave.role.ui.PresentationModel;
+import it.tidalwave.role.ui.PresentationModelProvider;
+import java.io.IOException;
+import javax.annotation.Nonnull;
+import org.hamcrest.BaseMatcher;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.not;
-import static org.hamcrest.CoreMatchers.nullValue;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.testng.Assert.*;
+import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.CoreMatchers.*;
+import org.hamcrest.Description;
+import static org.mockito.Mockito.*;
 
 /***********************************************************************************************************************
  *
@@ -46,6 +58,24 @@ public class DefaultContentExplorerPresentationControlTest
   {
     private DefaultContentExplorerPresentationControl fixture;
 
+    private ContentExplorerPresentation presentation;
+
+    private MessageBus messageBus;
+
+    private ResourceFileSystem fileSystem;
+
+    private ResourceFile root;
+
+    private OpenSiteEvent event;
+
+    private ModelFactory modelFactory;
+
+    private AdminContent content; // FIXME: use Content
+
+    private PresentationModelProvider pmProvider;
+
+    private PresentationModel pm;
+
     /*******************************************************************************************************************
      *
      ******************************************************************************************************************/
@@ -53,6 +83,27 @@ public class DefaultContentExplorerPresentationControlTest
     public void setupFixture()
       {
         fixture = new DefaultContentExplorerPresentationControl();
+
+        presentation = mock(ContentExplorerPresentation.class);
+        messageBus = mock(MessageBus.class);
+        event = mock(OpenSiteEvent.class);
+        fileSystem = mock(ResourceFileSystem.class);
+        root = mock(ResourceFile.class);
+        content = mock(AdminContent.class);
+        modelFactory = mock(ModelFactory.class);
+        pmProvider = mock(PresentationModelProvider.class);
+        pm = mock(PresentationModel.class);
+
+        when(fileSystem.findFileByPath(eq("/content/document"))).thenReturn(root);
+        when(event.getFileSystem()).thenReturn(fileSystem);
+        when(modelFactory.createContent(eq(root))).thenReturn(content);
+        when(content.as(eq(PresentationModelProvider.class))).thenReturn(pmProvider);
+        when(pmProvider.createPresentationModel(anyVararg())).thenReturn(pm);
+
+        fixture.messageBus = messageBus; // FIXME
+        fixture.modelFactory = modelFactory; // FIXME
+
+        fixture.initialize(presentation);
       }
 
     /*******************************************************************************************************************
@@ -62,5 +113,38 @@ public class DefaultContentExplorerPresentationControlTest
     public void must_be_a_MessageSubscriber()
       {
         assertThat(fixture.getClass().getAnnotation(SimpleMessageSubscriber.class), is(not(nullValue())));
+      }
+
+    /*******************************************************************************************************************
+     *
+     ******************************************************************************************************************/
+    @Test
+    public void when_a_Site_has_been_opened_must_properly_populate_the_presentation_and_publish_an_empty_selection()
+      throws IOException
+      {
+        fixture.onOpenSite(event);
+
+        verify(presentation).populate(same(pm));
+        verify(messageBus).publish(argThat(emptyContentSelectedEvent()));
+      }
+
+    /*******************************************************************************************************************
+     *
+     ******************************************************************************************************************/
+    @Nonnull
+    private static BaseMatcher<ContentSelectedEvent> emptyContentSelectedEvent()
+      {
+        return new BaseMatcher<ContentSelectedEvent>()
+          {
+            @Override public boolean matches (Object item)
+              {
+                return (item instanceof ContentSelectedEvent) &&
+                       ((ContentSelectedEvent)item).isEmptySelection();
+              }
+
+            @Override public void describeTo (Description description)
+              {
+              }
+          };
       }
   }
