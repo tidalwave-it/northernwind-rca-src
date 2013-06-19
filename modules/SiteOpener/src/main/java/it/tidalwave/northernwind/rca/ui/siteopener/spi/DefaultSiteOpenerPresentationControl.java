@@ -65,9 +65,9 @@ public class DefaultSiteOpenerPresentationControl implements SiteOpenerPresentat
       {
         @Override public void actionPerformed()
           {
-            presentation.selectFolderToOpen(notificationWithFeedback()
-                                           .withCaption("Select the site to open")
-                                           .withFeedback(new Feedback()
+            presentation.notifyFolderSelectionNeeded(notificationWithFeedback()
+                                                    .withCaption("Select the site to open")
+                                                    .withFeedback(new Feedback()
               {
                 @Override public void onConfirm()
                   throws IOException

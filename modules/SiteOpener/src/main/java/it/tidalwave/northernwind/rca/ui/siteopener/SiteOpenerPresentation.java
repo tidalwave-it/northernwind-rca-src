@@ -45,5 +45,5 @@ public interface SiteOpenerPresentation
   {
     public void bind (@Nonnull UserAction userAction, @Nonnull BoundProperty<Path> folderToOpen);
 
-    public void selectFolderToOpen (@Nonnull UserNotificationWithFeedback notification);
+    public void notifyFolderSelectionNeeded (@Nonnull UserNotificationWithFeedback notification);
   }

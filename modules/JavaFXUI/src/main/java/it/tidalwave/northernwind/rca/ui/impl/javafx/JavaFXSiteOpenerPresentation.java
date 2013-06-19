@@ -66,7 +66,7 @@ public class JavaFXSiteOpenerPresentation implements SiteOpenerPresentation
       }
 
     @Override
-    public void selectFolderToOpen (final @Nonnull UserNotificationWithFeedback notification)
+    public void notifyFolderSelectionNeeded (final @Nonnull UserNotificationWithFeedback notification)
       {
         bindings.openDirectoryChooserFor(notification, folderToOpen, button.getScene().getWindow());
       }
