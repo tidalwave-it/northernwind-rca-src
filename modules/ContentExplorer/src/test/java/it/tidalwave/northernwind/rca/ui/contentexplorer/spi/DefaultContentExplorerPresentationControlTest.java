@@ -82,10 +82,10 @@ public class DefaultContentExplorerPresentationControlTest
       {
         context = new ClassPathXmlApplicationContext("DefaultContextExplorerPresentationControlTestBeans.xml");
 
+        fixture = context.getBean(DefaultContentExplorerPresentationControl.class);
         presentation = context.getBean(ContentExplorerPresentation.class);
         messageBus = context.getBean(MessageBus.class);
         modelFactory = context.getBean(ModelFactory.class);
-        fixture = context.getBean(DefaultContentExplorerPresentationControl.class);
 
         event = mock(OpenSiteEvent.class);
         fileSystem = mock(ResourceFileSystem.class);
