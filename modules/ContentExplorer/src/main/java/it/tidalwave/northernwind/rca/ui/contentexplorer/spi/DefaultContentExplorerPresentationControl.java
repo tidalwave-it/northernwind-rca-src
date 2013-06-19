@@ -27,10 +27,10 @@
  */
 package it.tidalwave.northernwind.rca.ui.contentexplorer.spi;
 
-import com.google.common.annotations.VisibleForTesting;
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
 import javax.inject.Named;
+import com.google.common.annotations.VisibleForTesting;
 import it.tidalwave.util.RoleFactory;
 import it.tidalwave.role.ui.PresentationModelProvider;
 import it.tidalwave.role.ui.Selectable;
@@ -45,7 +45,6 @@ import it.tidalwave.northernwind.rca.ui.contentexplorer.ContentExplorerPresentat
 import it.tidalwave.northernwind.rca.ui.contentexplorer.ContentExplorerPresentationControl;
 import it.tidalwave.northernwind.rca.ui.event.OpenSiteEvent;
 import it.tidalwave.northernwind.rca.ui.impl.SpringMessageBusListenerSupport;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 /***********************************************************************************************************************
