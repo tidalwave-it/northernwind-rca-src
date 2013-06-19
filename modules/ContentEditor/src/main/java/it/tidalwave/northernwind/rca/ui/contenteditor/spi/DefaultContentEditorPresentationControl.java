@@ -123,7 +123,7 @@ public class DefaultContentEditorPresentationControl extends SpringMessageBusLis
               }
             catch (IOException e)
               {
-                fields.document.set(e.toString());
+                fields.title.set(e.toString());
                 log.warn("", e);
               }
 
