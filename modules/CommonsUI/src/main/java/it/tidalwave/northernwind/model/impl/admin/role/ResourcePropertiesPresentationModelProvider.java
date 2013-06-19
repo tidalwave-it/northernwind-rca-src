@@ -25,7 +25,7 @@
  * *********************************************************************************************************************
  * #L%
  */
-package it.tidalwave.northernwind.rca.ui.impl;
+package it.tidalwave.northernwind.model.impl.admin.role;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
@@ -43,7 +43,6 @@ import it.tidalwave.role.ui.PresentationModelProvider;
 import it.tidalwave.role.ui.spi.RowHashMap;
 import it.tidalwave.dci.annotation.DciRole;
 import it.tidalwave.northernwind.core.model.ResourceProperties;
-import it.tidalwave.northernwind.model.impl.admin.role.DefaultPresentationModel;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
