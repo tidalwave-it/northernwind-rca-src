@@ -27,6 +27,7 @@
  */
 package it.tidalwave.northernwind.rca.ui.contentexplorer.spi;
 
+import com.google.common.annotations.VisibleForTesting;
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -92,7 +93,7 @@ public class DefaultContentExplorerPresentationControl extends SpringMessageBusL
     /*******************************************************************************************************************
      *
      ******************************************************************************************************************/
-    public void onOpenSite (final @ListensTo @Nonnull OpenSiteEvent event)
+    @VisibleForTesting void onOpenSite (final @ListensTo @Nonnull OpenSiteEvent event)
       {
         log.debug("onOpenSite({})", event);
         final ResourceFile root = event.getFileSystem().findFileByPath("/content/document");
