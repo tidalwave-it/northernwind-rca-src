@@ -93,17 +93,17 @@ public class DefaultContentEditorPresentationControl extends SpringMessageBusLis
      * {@inheritDoc}
      *
      ******************************************************************************************************************/
-    @VisibleForTesting void onContentSelected (final @ListensTo @Nonnull ContentSelectedEvent event)
+    @VisibleForTesting void onContentSelected (final @ListensTo @Nonnull ContentSelectedEvent selectionEvent)
       {
-        log.debug("onContentSelected({})", event);
+        log.debug("onContentSelected({})", selectionEvent);
 
-        if (event.isEmptySelection())
+        if (selectionEvent.isEmptySelection())
           {
             presentation.clear();
           }
         else
           {
-            final Content content = event.getContent();
+            final Content content = selectionEvent.getContent();
             final ResourceProperties properties = content.getProperties();
             log.info("PROPERTIES {}", properties);
 
