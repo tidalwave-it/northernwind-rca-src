@@ -34,6 +34,8 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TreeView;
 import it.tidalwave.role.ui.PresentationModel;
 import it.tidalwave.role.ui.BoundProperty;
+import it.tidalwave.role.ui.UserAction;
+import javafx.scene.control.Button;
 
 /***********************************************************************************************************************
  *
@@ -43,6 +45,13 @@ import it.tidalwave.role.ui.BoundProperty;
  **********************************************************************************************************************/
 public interface JavaFXBindings
   {
+    /*******************************************************************************************************************
+     *
+     *
+     *
+     ******************************************************************************************************************/
+    public void bind (@Nonnull Button button, @Nonnull UserAction action);
+
     /*******************************************************************************************************************
      *
      *
@@ -72,4 +81,5 @@ public interface JavaFXBindings
      *
      ******************************************************************************************************************/
     public <T> void bindBidirectionally (@Nonnull Property<T> property1, @Nonnull BoundProperty<T> property2);
+
   }

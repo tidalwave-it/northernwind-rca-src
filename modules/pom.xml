@@ -290,6 +290,7 @@
         <module>Model</module>
         <module>JavaFXApplication</module>
         <module>JavaFXUI</module>
+        <module>SiteOpener</module>
         <module>StrippedCoreImplementation</module>
         <module>StructureExplorer</module>
         <module>StructureEditor</module>

@@ -29,20 +29,17 @@ package it.tidalwave.northernwind.rca.ui.impl.javafx;
 
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
-import javax.inject.Named;
-import java.io.File;
-import java.io.IOException;
 import javafx.fxml.FXML;
 import javafx.event.ActionEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.control.Button;
 import javafx.scene.control.TreeView;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.web.WebView;
 import org.springframework.beans.factory.annotation.Configurable;
 import it.tidalwave.role.ui.PresentationModel;
-import it.tidalwave.messagebus.MessageBus;
-import it.tidalwave.northernwind.rca.ui.event.OpenSiteEvent;
+import it.tidalwave.northernwind.rca.ui.opensite.OpenSitePresentationControl;
 import it.tidalwave.northernwind.rca.ui.contentexplorer.ContentExplorerPresentationControl;
 import it.tidalwave.northernwind.rca.ui.contenteditor.ContentEditorPresentationControl;
 import it.tidalwave.northernwind.rca.ui.structureexplorer.StructureExplorerPresentationControl;
@@ -61,6 +58,9 @@ import static it.tidalwave.role.ui.javafx.impl.JavaFXSafeComponentBuilder.*;
 public class ApplicationHandler
   {
     @Inject @Nonnull
+    private OpenSitePresentationControl openSitePresentationControl;
+
+    @Inject @Nonnull
     private StructureExplorerPresentationControl structureExplorerPresentationControl;
 
     @Inject @Nonnull
@@ -72,8 +72,8 @@ public class ApplicationHandler
     @Inject @Nonnull
     private StructureEditorPresentationControl structureEditorPresentationControl;
 
-    @Inject @Named("applicationMessageBus") @Nonnull
-    private MessageBus messageBus;
+    @FXML
+    private Button btOpen;
 
     @FXML
     private TreeView<PresentationModel> tvStructure;
@@ -106,15 +106,7 @@ public class ApplicationHandler
     private void onOpen (final @Nonnull ActionEvent event)
       {
         log.info("open: {}", event);
-        
-        try
-          {
-            messageBus.publish(new OpenSiteEvent(new File("/Users/fritz/Personal/WebSites/StoppingDown.net").toPath()));
-          }
-        catch (IOException e)
-          {
-            log.error("", e);
-          }
+
       }
 
     public void initialize()
@@ -123,6 +115,7 @@ public class ApplicationHandler
         structureEditorContainer.setVisible(false);
 
         // FIXME: could this be done by Spring?
+        openSitePresentationControl.initialize(createInstance(JavaFXOpenSitePresentation.class, this));
         contentExplorerPresentationControl.initialize(createInstance(JavaFXContentExplorerPresentation.class, this));
         structureExplorerPresentationControl.initialize(createInstance(JavaFXStructureExplorerPresentation.class, this));
         contentEditorPresentationControl.initialize(createInstance(JavaFXContentEditorPresentation.class, this));
