@@ -92,6 +92,17 @@ public class DefaultContentExplorerPresentationControl extends SpringMessageBusL
 
     /*******************************************************************************************************************
      *
+     * {@inheritDoc}
+     *
+     ******************************************************************************************************************/
+    @Override
+    public void initialize (final @Nonnull ContentExplorerPresentation presentation)
+      {
+        this.presentation = presentation;
+      }
+
+    /*******************************************************************************************************************
+     *
      ******************************************************************************************************************/
     @VisibleForTesting void onOpenSite (final @ListensTo @Nonnull OpenSiteEvent event)
       {
@@ -100,16 +111,5 @@ public class DefaultContentExplorerPresentationControl extends SpringMessageBusL
         final AdminContent content = (AdminContent)modelFactory.createContent(root);
         presentation.populate(content.as(PresentationModelProvider.class).createPresentationModel(publisherRoleFactory));
         messageBus.publish(new ContentSelectedEvent());
-      }
-
-    /*******************************************************************************************************************
-     *
-     * {@inheritDoc}
-     *
-     ******************************************************************************************************************/
-    @Override
-    public void initialize (final @Nonnull ContentExplorerPresentation presentation)
-      {
-        this.presentation = presentation;
       }
   }
