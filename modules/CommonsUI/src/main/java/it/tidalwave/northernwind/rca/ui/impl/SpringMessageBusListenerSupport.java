@@ -36,7 +36,7 @@ import lombok.extern.slf4j.Slf4j;
 
 /***********************************************************************************************************************
  *
- * FIXME: this should be made useless by means of a proper Spring annotation processor!
+ * FIXME: replace this with an aspect.
  *
  * @author  Fabrizio Giudici
  * @version $Id$
