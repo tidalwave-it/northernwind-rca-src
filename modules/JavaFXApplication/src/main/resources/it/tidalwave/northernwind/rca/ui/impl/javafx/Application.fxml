@@ -19,7 +19,7 @@
           <items>
             <AnchorPane minHeight="0.0" minWidth="200.0" prefHeight="160.0" prefWidth="100.0">
               <children>
-                <SplitPane fx:id="pnVerticalSplit" dividerPositions="0.499001996007984" focusTraversable="true" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0" style="-fx-background-color:#bfbfbf;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                <SplitPane fx:id="pnVerticalSplit" dividerPositions="0.49901768172888017" focusTraversable="true" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0" style="-fx-background-color:#bfbfbf;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                   <items>
                     <AnchorPane minHeight="100.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                       <children>
@@ -116,10 +116,13 @@
         </SplitPane>
       </center>
       <top>
-        <FlowPane fx:id="pnToolBar" prefHeight="32.0" prefWidth="346.0">
+        <FlowPane fx:id="pnToolBar" prefHeight="48.0" prefWidth="346.0">
           <children>
             <Button fx:id="btOpen" focusTraversable="false" maxHeight="32.0" maxWidth="32.0" minHeight="32.0" minWidth="32.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="32.0" text="Open" />
           </children>
+          <padding>
+            <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+          </padding>
           <BorderPane.margin>
             <Insets bottom="4.0" left="4.0" right="4.0" top="4.0" />
           </BorderPane.margin>
@@ -127,15 +130,4 @@
       </top>
     </BorderPane>
   </center>
-  <top>
-    <MenuBar>
-      <menus>
-        <Menu mnemonicParsing="false" text="File">
-          <items>
-            <MenuItem mnemonicParsing="false" text="Open" />
-          </items>
-        </Menu>
-      </menus>
-    </MenuBar>
-  </top>
 </BorderPane>
