@@ -192,6 +192,8 @@ public class DefaultJavaFXBindings implements JavaFXBindings
                             final @Nonnegative int columnIndex,
                             final @Nonnull String id)
       {
+        assert Platform.isFxApplicationThread() : "Must run in the JavaFX Application Thread";
+
         final ObservableList rawColumns = tableView.getColumns(); // FIXME
         final ObservableList<TableColumn<PresentationModel, String>> columns =
                 (ObservableList<TableColumn<PresentationModel, String>>)rawColumns;
@@ -207,6 +209,8 @@ public class DefaultJavaFXBindings implements JavaFXBindings
     @Override
     public <T> void bindBidirectionally (final @Nonnull Property<T> property1, final @Nonnull BoundProperty<T> property2)
       {
+        assert Platform.isFxApplicationThread() : "Must run in the JavaFX Application Thread";
+
         property1.bindBidirectional(new PropertyAdapter<>(property2));
       }
 
@@ -220,6 +224,8 @@ public class DefaultJavaFXBindings implements JavaFXBindings
                                     final @Nonnull BoundProperty<Path> selectedFile,
                                     final @Nonnull Window window)
       {
+        assert Platform.isFxApplicationThread() : "Must run in the JavaFX Application Thread";
+
         try
           {
             final FileChooser fileChooser = new FileChooser();
@@ -253,6 +259,8 @@ public class DefaultJavaFXBindings implements JavaFXBindings
                                          final @Nonnull BoundProperty<Path> selectedFolder,
                                          final @Nonnull Window window)
       {
+        assert Platform.isFxApplicationThread() : "Must run in the JavaFX Application Thread";
+
         try
           {
             final DirectoryChooser directoryChooser = new DirectoryChooser();
