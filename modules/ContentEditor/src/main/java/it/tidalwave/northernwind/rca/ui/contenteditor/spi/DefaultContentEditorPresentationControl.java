@@ -103,32 +103,24 @@ public class DefaultContentEditorPresentationControl extends SpringMessageBusLis
           }
         else
           {
-            final Content content = selectionEvent.getContent();
-            final ResourceProperties properties = content.getProperties();
-            log.info("PROPERTIES {}", properties);
-
             try
               {
+                final Content content = selectionEvent.getContent();
+                final ResourceProperties properties = content.getProperties();
+                log.info("PROPERTIES {}", properties);
+
                 fields.document.set(properties.getProperty(PROPERTY_FULL_TEXT, ""));
-              }
-            catch (IOException e)
-              {
-                fields.document.set(e.toString());
-                log.warn("", e);
-              }
 
-            try
-              {
                 fields.title.set(properties.getProperty(PROPERTY_TITLE, ""));
+                presentation.populateProperties(properties.as(PresentationModelProvider).createPresentationModel());
+                presentation.showUp();
               }
             catch (IOException e)
               {
-                fields.title.set(e.toString());
+                presentation.clear(); // FIXME: should notify error
                 log.warn("", e);
               }
 
-            presentation.populateProperties(properties.as(PresentationModelProvider).createPresentationModel());
-            presentation.showUp();
           }
       }
   }
