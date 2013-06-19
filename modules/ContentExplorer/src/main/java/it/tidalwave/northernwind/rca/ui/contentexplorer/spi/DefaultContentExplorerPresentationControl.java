@@ -30,18 +30,17 @@ package it.tidalwave.northernwind.rca.ui.contentexplorer.spi;
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
 import javax.inject.Named;
-import java.io.IOException;
 import it.tidalwave.util.RoleFactory;
 import it.tidalwave.role.ui.PresentationModelProvider;
 import it.tidalwave.role.ui.Selectable;
 import it.tidalwave.messagebus.MessageBus;
 import it.tidalwave.northernwind.core.model.ResourceFile;
-import it.tidalwave.northernwind.core.model.ResourceFileSystemProvider;
 import it.tidalwave.northernwind.model.impl.admin.AdminContent;
 import it.tidalwave.northernwind.model.impl.admin.AdminModelFactory;
 import it.tidalwave.northernwind.rca.ui.event.ContentSelectedEvent;
 import it.tidalwave.northernwind.rca.ui.contentexplorer.ContentExplorerPresentation;
 import it.tidalwave.northernwind.rca.ui.contentexplorer.ContentExplorerPresentationControl;
+import it.tidalwave.northernwind.rca.ui.event.OpenSiteEvent;
 import lombok.extern.slf4j.Slf4j;
 
 /***********************************************************************************************************************
@@ -58,13 +57,12 @@ import lombok.extern.slf4j.Slf4j;
 public class DefaultContentExplorerPresentationControl implements ContentExplorerPresentationControl
   {
     @Inject @Nonnull
-    private ResourceFileSystemProvider fileSystemProvider;
-
-    @Inject @Nonnull
     private AdminModelFactory modelFactory;
 
     @Inject @Named("applicationMessageBus") @Nonnull
     private MessageBus messageBus;
+
+    private ContentExplorerPresentation presentation;
 
     /*******************************************************************************************************************
      *
@@ -89,21 +87,29 @@ public class DefaultContentExplorerPresentationControl implements ContentExplore
 
     /*******************************************************************************************************************
      *
+     ******************************************************************************************************************/
+    private final MessageBus.Listener<OpenSiteEvent> listener = new MessageBus.Listener<OpenSiteEvent>()
+      {
+        @Override
+        public void notify (final @Nonnull OpenSiteEvent event)
+          {
+            log.debug("notify({})", event);
+            final ResourceFile root = event.getFileSystem().findFileByPath("/content/document");
+            final AdminContent content = (AdminContent)modelFactory.createContent(root);
+            presentation.populate(content.as(PresentationModelProvider.class).createPresentationModel(publisherRoleFactory));
+          }
+      };
+
+    /*******************************************************************************************************************
+     *
      * {@inheritDoc}
      *
      ******************************************************************************************************************/
     @Override
     public void initialize (final @Nonnull ContentExplorerPresentation presentation)
       {
-        try
-          {
-            final ResourceFile root = fileSystemProvider.getFileSystem().findFileByPath("/content/document");
-            final AdminContent content = (AdminContent)modelFactory.createContent(root);
-            presentation.populate(content.as(PresentationModelProvider.class).createPresentationModel(publisherRoleFactory));
-          }
-        catch (IOException e)
-          {
-            log.warn("", e);
-          }
+          // FIXME: unsubscribe?
+        messageBus.subscribe(OpenSiteEvent.class, listener);
+        this.presentation = presentation;
       }
   }

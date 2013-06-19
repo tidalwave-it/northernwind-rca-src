@@ -29,6 +29,9 @@ package it.tidalwave.northernwind.rca.ui.impl.javafx;
 
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
+import javax.inject.Named;
+import java.io.File;
+import java.io.IOException;
 import javafx.fxml.FXML;
 import javafx.event.ActionEvent;
 import javafx.scene.layout.Pane;
@@ -38,6 +41,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.web.WebView;
 import org.springframework.beans.factory.annotation.Configurable;
 import it.tidalwave.role.ui.PresentationModel;
+import it.tidalwave.messagebus.MessageBus;
+import it.tidalwave.northernwind.rca.ui.event.OpenSiteEvent;
 import it.tidalwave.northernwind.rca.ui.contentexplorer.ContentExplorerPresentation;
 import it.tidalwave.northernwind.rca.ui.contentexplorer.ContentExplorerPresentationControl;
 import it.tidalwave.northernwind.rca.ui.contenteditor.ContentEditorPresentation;
@@ -98,6 +103,9 @@ public class ApplicationHandler
     @Inject @Nonnull
     private StructureEditorPresentationControl structureEditorPresentationControl;
 
+    @Inject @Named("applicationMessageBus") @Nonnull
+    private MessageBus messageBus;
+
     private ContentExplorerPresentation contentExplorerPresentation;
 
     private StructureExplorerPresentation explorerPresentation;
@@ -126,5 +134,14 @@ public class ApplicationHandler
         structureExplorerPresentationControl.initialize(explorerPresentation);
         contentEditorPresentationControl.initialize(contentEditorPresentation);
         structureEditorPresentationControl.initialize(structureEditorPresentation);
+
+        try
+          {
+            messageBus.publish(new OpenSiteEvent(new File("/Users/fritz/Personal/WebSites/StoppingDown.net").toPath()));
+          }
+        catch (IOException e)
+          {
+            log.error("", e);
+          }
       }
   }

@@ -38,9 +38,9 @@ import it.tidalwave.role.ui.Selectable;
 import it.tidalwave.role.ui.PresentationModelProvider;
 import it.tidalwave.messagebus.MessageBus;
 import it.tidalwave.northernwind.core.model.ResourceFile;
-import it.tidalwave.northernwind.core.model.ResourceFileSystemProvider;
 import it.tidalwave.northernwind.model.impl.admin.AdminModelFactory;
 import it.tidalwave.northernwind.model.impl.admin.AdminSiteNode;
+import it.tidalwave.northernwind.rca.ui.event.OpenSiteEvent;
 import it.tidalwave.northernwind.rca.ui.event.SiteNodeSelectedEvent;
 import it.tidalwave.northernwind.rca.ui.structureexplorer.StructureExplorerPresentation;
 import it.tidalwave.northernwind.rca.ui.structureexplorer.StructureExplorerPresentationControl;
@@ -59,13 +59,13 @@ import lombok.extern.slf4j.Slf4j;
 public class DefaultStructureExplorerPresentationControl implements StructureExplorerPresentationControl
   {
     @Inject @Nonnull
-    private ResourceFileSystemProvider fileSystemProvider;
-
-    @Inject @Nonnull
     private AdminModelFactory modelFactory;
 
     @Inject @Named("applicationMessageBus") @Nonnull
     private MessageBus messageBus;
+
+    @Nonnull
+    private StructureExplorerPresentation presentation;
 
     /*******************************************************************************************************************
      *
@@ -90,21 +90,36 @@ public class DefaultStructureExplorerPresentationControl implements StructureExp
 
     /*******************************************************************************************************************
      *
+     ******************************************************************************************************************/
+    private final MessageBus.Listener<OpenSiteEvent> listener = new MessageBus.Listener<OpenSiteEvent>()
+      {
+        @Override
+        public void notify (final @Nonnull OpenSiteEvent event)
+          {
+            try
+              {
+                log.debug("notify({})", event);
+                final ResourceFile root = event.getFileSystem().findFileByPath("/structure");
+                final AdminSiteNode siteNode = (AdminSiteNode)modelFactory.createSiteNode(null, root);
+                presentation.populate(siteNode.as(PresentationModelProvider.class).createPresentationModel(publisherRoleFactory));
+              }
+            catch (IOException | NotFoundException e)
+              {
+                log.warn("", e);
+              }
+          }
+      };
+
+    /*******************************************************************************************************************
+     *
      * {@inheritDoc}
      *
      ******************************************************************************************************************/
     @Override
     public void initialize (final @Nonnull StructureExplorerPresentation presentation)
       {
-        try
-          {
-            final ResourceFile root = fileSystemProvider.getFileSystem().findFileByPath("/structure");
-            final AdminSiteNode siteNode = (AdminSiteNode)modelFactory.createSiteNode(null, root);
-            presentation.populate(siteNode.as(PresentationModelProvider.class).createPresentationModel(publisherRoleFactory));
-          }
-        catch (IOException | NotFoundException e)
-          {
-            log.warn("", e);
-          }
+          // FIXME: unsubscribe?
+        messageBus.subscribe(OpenSiteEvent.class, listener);
+        this.presentation = presentation;
       }
   }
