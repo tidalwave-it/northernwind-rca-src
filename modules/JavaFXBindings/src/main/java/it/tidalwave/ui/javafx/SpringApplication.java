@@ -55,6 +55,13 @@ public class SpringApplication extends ApplicationWithSplash
     @Override
     protected void initializeInBackground()
       {
-        applicationContext = new ClassPathXmlApplicationContext("classpath*:/META-INF/*AutoBeans.xml");
+        try
+          {
+            applicationContext = new ClassPathXmlApplicationContext("classpath*:/META-INF/*AutoBeans.xml");
+          }
+        catch (Throwable t)
+          {
+            log.error("", t);
+          }
       }
   }

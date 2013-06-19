@@ -52,6 +52,7 @@ public abstract class ApplicationWithSplash extends Application
     @Override
     public void init()
       {
+        log.info("init()");
         splash.init();
       }
 
@@ -59,6 +60,7 @@ public abstract class ApplicationWithSplash extends Application
     public void start (final @Nonnull Stage stage)
       throws Exception
       {
+        log.info("start({})", stage);
         splash.show();
 
         final ExecutorService executorService = Executors.newSingleThreadExecutor();

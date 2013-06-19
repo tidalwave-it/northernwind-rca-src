@@ -61,7 +61,6 @@ public class Splash
       {
         try
           {
-              System.err.println(application.getClass());
             splashPane = FXMLLoader.load(application.getClass().getResource("Splash.fxml"));
           }
         catch (IOException e)
