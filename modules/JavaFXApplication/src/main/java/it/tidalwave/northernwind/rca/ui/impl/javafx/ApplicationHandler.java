@@ -30,7 +30,6 @@ package it.tidalwave.northernwind.rca.ui.impl.javafx;
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
 import javafx.fxml.FXML;
-import javafx.event.ActionEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.control.Button;
 import javafx.scene.control.TreeView;
