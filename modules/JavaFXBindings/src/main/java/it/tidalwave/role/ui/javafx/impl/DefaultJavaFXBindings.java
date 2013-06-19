@@ -57,6 +57,7 @@ import it.tidalwave.role.ui.javafx.JavaFXBindings;
 import it.tidalwave.util.ui.UserNotificationWithFeedback;
 import java.io.File;
 import java.nio.file.Path;
+import javafx.beans.binding.Bindings;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Window;
@@ -144,6 +145,7 @@ public class DefaultJavaFXBindings implements JavaFXBindings
       {
         assertIsFxApplicationThread();
 
+//        button.disableProperty().not().bind(new PropertyAdapter<>(action.enabled())); // FIXME: not
         button.setOnAction(new EventHandler<ActionEvent>()
           {
             @Override
