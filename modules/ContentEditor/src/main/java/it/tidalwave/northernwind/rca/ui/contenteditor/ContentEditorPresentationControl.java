@@ -31,6 +31,10 @@ import javax.annotation.Nonnull;
 
 /***********************************************************************************************************************
  *
+ * The Control of the {@link Content} Editor.
+ *
+ * @stereotype Control
+ *
  * @author  Fabrizio Giudici
  * @version $Id$
  *
