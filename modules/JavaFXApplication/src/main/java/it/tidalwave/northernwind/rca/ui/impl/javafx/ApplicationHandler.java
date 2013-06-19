@@ -64,6 +64,21 @@ import static it.tidalwave.role.ui.javafx.impl.JavaFXSafeComponentBuilder.*;
 @Slf4j
 public class ApplicationHandler
   {
+    @Inject @Nonnull
+    private StructureExplorerPresentationControl structureExplorerPresentationControl;
+
+    @Inject @Nonnull
+    private ContentExplorerPresentationControl contentExplorerPresentationControl;
+
+    @Inject @Nonnull
+    private ContentEditorPresentationControl contentEditorPresentationControl;
+
+    @Inject @Nonnull
+    private StructureEditorPresentationControl structureEditorPresentationControl;
+
+    @Inject @Named("applicationMessageBus") @Nonnull
+    private MessageBus messageBus;
+
     @FXML
     private TreeView<PresentationModel> tvStructure;
 
@@ -90,21 +105,6 @@ public class ApplicationHandler
 
     @FXML
     private TableView<PresentationModel> structureEditorProperties;
-
-    @Inject @Nonnull
-    private StructureExplorerPresentationControl structureExplorerPresentationControl;
-
-    @Inject @Nonnull
-    private ContentExplorerPresentationControl contentExplorerPresentationControl;
-
-    @Inject @Nonnull
-    private ContentEditorPresentationControl contentEditorPresentationControl;
-
-    @Inject @Nonnull
-    private StructureEditorPresentationControl structureEditorPresentationControl;
-
-    @Inject @Named("applicationMessageBus") @Nonnull
-    private MessageBus messageBus;
 
     private ContentExplorerPresentation contentExplorerPresentation;
 
