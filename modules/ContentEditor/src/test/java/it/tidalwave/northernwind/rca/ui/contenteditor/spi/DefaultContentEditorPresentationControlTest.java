@@ -134,4 +134,21 @@ public class DefaultContentEditorPresentationControlTest
         assertThat(fixture.fields.document.get(), is("full text"));
         assertThat(fixture.fields.title.get(), is("title"));
       }
+
+    /*******************************************************************************************************************
+     *
+     ******************************************************************************************************************/
+    @Test
+    public void must_clear_the_presentation_on_error()
+      throws IOException
+      {
+        when(properties.getProperty(eq(PROPERTY_FULL_TEXT), anyString())).thenThrow(new IOException("test"));
+
+        reset(presentation);
+
+        fixture.onContentSelected(new ContentSelectedEvent(content));
+
+        verify(presentation).clear();
+        verifyNoMoreInteractions(presentation);
+      }
   }
