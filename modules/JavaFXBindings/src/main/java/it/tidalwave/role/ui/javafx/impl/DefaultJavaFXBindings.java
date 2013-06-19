@@ -142,7 +142,7 @@ public class DefaultJavaFXBindings implements JavaFXBindings
     @Override
     public void bind (final @Nonnull Button button, final @Nonnull UserAction action)
       {
-        assert Platform.isFxApplicationThread() : "Must run in the JavaFX Application Thread";
+        assertIsFxApplicationThread();
 
         button.setOnAction(new EventHandler<ActionEvent>()
           {
@@ -163,7 +163,7 @@ public class DefaultJavaFXBindings implements JavaFXBindings
     public void bind (final @Nonnull TableView<PresentationModel> tableView,
                       final @Nonnull PresentationModel pm)
       {
-        assert Platform.isFxApplicationThread() : "Must run in the JavaFX Application Thread";
+        assertIsFxApplicationThread();
 
         final SimpleComposite<PresentationModel> composite = pm.as(SimpleComposite.class);
         tableView.setItems(FXCollections.observableArrayList(composite.findChildren().results()));
@@ -178,7 +178,7 @@ public class DefaultJavaFXBindings implements JavaFXBindings
     public void bind (final @Nonnull TreeView<PresentationModel> treeView,
                       final @Nonnull PresentationModel pm)
       {
-        assert Platform.isFxApplicationThread() : "Must run in the JavaFX Application Thread";
+        assertIsFxApplicationThread();
 
         treeView.setRoot(createTreeItem(pm));
         treeView.setCellFactory(treeCellFactory);
@@ -195,7 +195,7 @@ public class DefaultJavaFXBindings implements JavaFXBindings
                             final @Nonnegative int columnIndex,
                             final @Nonnull String id)
       {
-        assert Platform.isFxApplicationThread() : "Must run in the JavaFX Application Thread";
+        assertIsFxApplicationThread();
 
         final ObservableList rawColumns = tableView.getColumns(); // FIXME
         final ObservableList<TableColumn<PresentationModel, String>> columns =
@@ -212,7 +212,7 @@ public class DefaultJavaFXBindings implements JavaFXBindings
     @Override
     public <T> void bindBidirectionally (final @Nonnull Property<T> property1, final @Nonnull BoundProperty<T> property2)
       {
-        assert Platform.isFxApplicationThread() : "Must run in the JavaFX Application Thread";
+        assertIsFxApplicationThread();
 
         property1.bindBidirectional(new PropertyAdapter<>(property2));
       }
@@ -227,7 +227,7 @@ public class DefaultJavaFXBindings implements JavaFXBindings
                                     final @Nonnull BoundProperty<Path> selectedFile,
                                     final @Nonnull Window window)
       {
-        assert Platform.isFxApplicationThread() : "Must run in the JavaFX Application Thread";
+        assertIsFxApplicationThread();
 
         final FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle(notification.getCaption());
@@ -246,7 +246,7 @@ public class DefaultJavaFXBindings implements JavaFXBindings
                                          final @Nonnull BoundProperty<Path> selectedFolder,
                                          final @Nonnull Window window)
       {
-        assert Platform.isFxApplicationThread() : "Must run in the JavaFX Application Thread";
+        assertIsFxApplicationThread();
 
         final DirectoryChooser directoryChooser = new DirectoryChooser();
         directoryChooser.setTitle(notification.getCaption());
@@ -321,5 +321,18 @@ public class DefaultJavaFXBindings implements JavaFXBindings
                   }
               }
           });
+      }
+
+    /*******************************************************************************************************************
+     *
+     *
+     *
+     ******************************************************************************************************************/
+    private void assertIsFxApplicationThread()
+      {
+        if (!Platform.isFxApplicationThread())
+          {
+            throw new AssertionError("Must run in the JavaFX Application Thread");
+          }
       }
   }
