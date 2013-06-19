@@ -25,19 +25,17 @@
  * *********************************************************************************************************************
  * #L%
  */
-package it.tidalwave.northernwind.rca.ui.impl.javafx;
+package it.tidalwave.ui.javafx;
 
 import javax.annotation.Nonnull;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.io.IOException;
-import javafx.util.Duration;
-import javafx.animation.FadeTransition;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
+import javafx.application.Application;
+import javafx.application.Platform;
 import lombok.extern.slf4j.Slf4j;
 
 /***********************************************************************************************************************
@@ -47,53 +45,56 @@ import lombok.extern.slf4j.Slf4j;
  *
  **********************************************************************************************************************/
 @Slf4j
-public class Splash
+public abstract class ApplicationWithSplash extends Application
   {
-    private Pane splashPane;
+    private Splash splash;
 
-    private Stage splashStage;
-
+    @Override
     public void init()
       {
-        try
-          {
-            splashPane = FXMLLoader.load(getClass().getResource("Splash.fxml"));
-          }
-        catch (IOException e)
-          {
-            log.warn("", e);
-          }
+        splash = new Splash();
+        splash.init();
       }
 
-    public void show()
+    @Override
+    public void start (final @Nonnull Stage stage)
+      throws Exception
       {
-        splashStage = new Stage(StageStyle.UNDECORATED);
-        final Scene splashScene = new Scene(splashPane);
-        splashStage.setScene(splashScene);
-//        final Rectangle2D bounds = Screen.getPrimary().getBounds();
-//        splashStage.setX(bounds.getMinX() + bounds.getWidth() / 2 - splashPane.getWidth() / 2);
-//        splashStage.setY(bounds.getMinY() + bounds.getHeight() / 2 - splashPane.getHeight() / 2);
-        splashStage.show();
-      }
+        splash.show();
 
-    public void dismiss()
-      {
-//        loadProgress.progressProperty().unbind();
-//        loadProgress.setProgress(1);
-//        progressText.setText("Done.");
-        splashStage.toFront();
-        final FadeTransition fadeSplash = new FadeTransition(Duration.seconds(0.5), splashPane);
-        fadeSplash.setFromValue(1.0);
-        fadeSplash.setToValue(0.0);
-        fadeSplash.setOnFinished(new EventHandler<ActionEvent>()
+        final ExecutorService executorService = Executors.newSingleThreadExecutor();
+        executorService.submit(new Runnable()
           {
             @Override
-            public void handle (final @Nonnull ActionEvent actionEvent)
+            public void run()
               {
-                splashStage.hide();
+                initializeInBackground();
+                Platform.runLater(new Runnable()
+                  {
+                    @Override
+                    public void run()
+                      {
+                        try
+                          {
+                            final Parent application = createParent();
+                            final Scene scene = new Scene(application);
+                            stage.setScene(scene);
+                            stage.show();
+                            splash.dismiss();
+                          }
+                        catch (IOException e)
+                          {
+                            log.error("", e);
+                          }
+                      }
+                  });
               }
           });
-
-        fadeSplash.play();
       }
+
+    @Nonnull
+    protected abstract Parent createParent()
+      throws IOException;
+
+    protected abstract void initializeInBackground();
   }

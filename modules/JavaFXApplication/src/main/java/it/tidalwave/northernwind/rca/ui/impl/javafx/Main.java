@@ -33,6 +33,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.application.Platform;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import it.tidalwave.ui.javafx.ApplicationWithSplash;
 import lombok.extern.slf4j.Slf4j;
 
 /***********************************************************************************************************************
