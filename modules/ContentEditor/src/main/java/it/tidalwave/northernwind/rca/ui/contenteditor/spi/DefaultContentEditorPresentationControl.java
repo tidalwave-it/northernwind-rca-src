@@ -31,6 +31,7 @@ import javax.annotation.Nonnull;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.IOException;
+import com.google.common.annotations.VisibleForTesting;
 import it.tidalwave.util.Key;
 import it.tidalwave.messagebus.annotation.ListensTo;
 import it.tidalwave.messagebus.annotation.SimpleMessageSubscriber;
@@ -92,7 +93,7 @@ public class DefaultContentEditorPresentationControl extends SpringMessageBusLis
      * {@inheritDoc}
      *
      ******************************************************************************************************************/
-    public void onContentSelected (final @ListensTo @Nonnull ContentSelectedEvent event)
+    @VisibleForTesting void onContentSelected (final @ListensTo @Nonnull ContentSelectedEvent event)
       {
         log.debug("onContentSelected({})", event);
 
