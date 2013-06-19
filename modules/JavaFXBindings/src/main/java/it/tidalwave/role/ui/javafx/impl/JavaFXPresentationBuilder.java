@@ -49,7 +49,7 @@ public abstract class JavaFXPresentationBuilder<I, T extends I>
       }
 
     @Nonnull
-    public final synchronized T create (final @Nonnull Object referenceHolder)
+    public final synchronized I create (final @Nonnull Object referenceHolder)
       {
         return builder.createInstance(referenceHolder);
       }
