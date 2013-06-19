@@ -106,6 +106,15 @@ public class ApplicationHandler
     private void onOpen (final @Nonnull ActionEvent event)
       {
         log.info("open: {}", event);
+        
+        try
+          {
+            messageBus.publish(new OpenSiteEvent(new File("/Users/fritz/Personal/WebSites/StoppingDown.net").toPath()));
+          }
+        catch (IOException e)
+          {
+            log.error("", e);
+          }
       }
 
     public void initialize()
@@ -118,14 +127,5 @@ public class ApplicationHandler
         structureExplorerPresentationControl.initialize(createInstance(JavaFXStructureExplorerPresentation.class, this));
         contentEditorPresentationControl.initialize(createInstance(JavaFXContentEditorPresentation.class, this));
         structureEditorPresentationControl.initialize(createInstance(JavaFXStructureEditorPresentation.class, this));
-
-        try
-          {
-            messageBus.publish(new OpenSiteEvent(new File("/Users/fritz/Personal/WebSites/StoppingDown.net").toPath()));
-          }
-        catch (IOException e)
-          {
-            log.error("", e);
-          }
       }
   }
