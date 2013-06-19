@@ -34,7 +34,6 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -57,12 +56,12 @@ import it.tidalwave.role.ui.javafx.JavaFXBindings;
 import it.tidalwave.util.ui.UserNotificationWithFeedback;
 import java.io.File;
 import java.nio.file.Path;
-import javafx.beans.binding.Bindings;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Window;
 import javax.annotation.Nullable;
 import lombok.extern.slf4j.Slf4j;
+import static javafx.collections.FXCollections.*;
 
 /***********************************************************************************************************************
  *
@@ -168,7 +167,7 @@ public class DefaultJavaFXBindings implements JavaFXBindings
         assertIsFxApplicationThread();
 
         final SimpleComposite<PresentationModel> composite = pm.as(SimpleComposite.class);
-        tableView.setItems(FXCollections.observableArrayList(composite.findChildren().results()));
+        tableView.setItems(observableArrayList(composite.findChildren().results()));
       }
 
     /*******************************************************************************************************************
