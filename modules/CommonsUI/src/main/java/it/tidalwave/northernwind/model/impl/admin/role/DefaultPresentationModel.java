@@ -29,9 +29,14 @@ package it.tidalwave.northernwind.model.impl.admin.role;
 
 import javax.annotation.Nonnull;
 import java.beans.PropertyChangeListener;
+import java.util.Arrays;
+import java.util.List;
 import it.tidalwave.util.As;
 import it.tidalwave.util.AsException;
 import it.tidalwave.role.ui.PresentationModel;
+import it.tidalwave.util.RoleFactory;
+import java.util.ArrayList;
+import lombok.ToString;
 
 /***********************************************************************************************************************
  *
@@ -39,19 +44,20 @@ import it.tidalwave.role.ui.PresentationModel;
  * @version $Id$
  *
  **********************************************************************************************************************/
+@ToString
 public class DefaultPresentationModel implements PresentationModel
   {
     @Nonnull
     private final Object datum;
 
     @Nonnull
-    private final Object[] roles;
+    private final List<Object> roles;
 
     public DefaultPresentationModel (final @Nonnull Object datum,
-                                     final @Nonnull Object ... roles)
+                                     final @Nonnull Object ... rolesOrFactories)
       {
         this.datum = datum;
-        this.roles = roles;
+        this.roles = resolveRoles(Arrays.asList(rolesOrFactories));
       }
 
     @Override
@@ -111,7 +117,12 @@ public class DefaultPresentationModel implements PresentationModel
 
         if (datum instanceof As)
           {
-            return ((As)datum).as(type);
+            final T as = ((As)datum).as(type);
+
+            if (as != null) // do check it for improper implementations or partial mocks
+              {
+                return as;
+              }
           }
 
         throw new AsException(type);
@@ -121,5 +132,25 @@ public class DefaultPresentationModel implements PresentationModel
     public <T> T as (Class<T> clazz, NotFoundBehaviour<T> notFoundBehaviour)
       {
         throw new UnsupportedOperationException("Not supported yet.");
+      }
+
+    @Nonnull
+    private List<Object> resolveRoles (final @Nonnull List<Object> rolesOrFactories)
+      {
+        final List<Object> roles = new ArrayList<>();
+
+        for (final Object roleOrFactory : rolesOrFactories)
+          {
+            if (roleOrFactory instanceof RoleFactory)
+              {
+                roles.add(((RoleFactory<Object>)roleOrFactory).createRoleFor(datum));
+              }
+            else
+              {
+                roles.add(roleOrFactory);
+              }
+          }
+
+        return roles;
       }
   }
