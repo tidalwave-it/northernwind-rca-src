@@ -29,6 +29,7 @@ package it.tidalwave.northernwind.rca.ui.contenteditor.spi;
 
 import it.tidalwave.messagebus.annotation.SimpleMessageSubscriber;
 import it.tidalwave.northernwind.rca.ui.contenteditor.ContentEditorPresentation;
+import it.tidalwave.northernwind.rca.ui.event.ContentSelectedEvent;
 import org.testng.annotations.Test;
 import org.testng.annotations.BeforeMethod;
 import static org.hamcrest.MatcherAssert.*;
@@ -74,5 +75,19 @@ public class DefaultContentEditorPresentationControlTest
     public void must_bind()
       {
         verify(presentation).bind(same(fixture.fields));
+      }
+
+    /*******************************************************************************************************************
+     *
+     ******************************************************************************************************************/
+    @Test
+    public void must_clear_the_presentation_on_reception_of_an_empty_selection()
+      {
+        reset(presentation);
+        
+        fixture.onContentSelected(new ContentSelectedEvent());
+
+        verify(presentation).clear();
+        verifyNoMoreInteractions(presentation);
       }
   }
