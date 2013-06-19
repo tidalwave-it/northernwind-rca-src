@@ -53,6 +53,10 @@
             <groupId>it.tidalwave.northernwind.rca</groupId>
             <artifactId>it-tidalwave-northernwind-rca-ui-javafx</artifactId>
         </dependency>
+        <dependency>
+            <groupId>it.tidalwave.northernwind.rca</groupId>
+            <artifactId>it-tidalwave-role-ui-javafx</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>com.oracle</groupId>
