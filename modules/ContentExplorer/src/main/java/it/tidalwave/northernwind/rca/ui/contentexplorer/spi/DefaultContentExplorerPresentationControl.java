@@ -57,7 +57,8 @@ import lombok.extern.slf4j.Slf4j;
  *
  **********************************************************************************************************************/
 @SimpleMessageSubscriber @Slf4j
-public class DefaultContentExplorerPresentationControl extends SpringMessageBusListenerSupport implements ContentExplorerPresentationControl
+public class DefaultContentExplorerPresentationControl extends SpringMessageBusListenerSupport
+                                                       implements ContentExplorerPresentationControl
   {
     @Inject @Named("applicationMessageBus") @Nonnull
     protected MessageBus messageBus;
