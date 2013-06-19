@@ -124,7 +124,7 @@ public class DefaultContentExplorerPresentationControlTest
      *
      ******************************************************************************************************************/
     @Test
-    public void must_have_injected_a_Selectable_that_fires_the_proper_message()
+    public void must_have_injected_a_Selectable_that_fires_the_proper_selection_message()
       {
         final Object role = fixture.publisherRoleFactory.createRoleFor(content);
         assertThat(role, is(instanceOf(Selectable.class)));
