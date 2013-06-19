@@ -45,12 +45,17 @@ import static it.tidalwave.role.ui.PresentationModelProvider.*;
 
 /***********************************************************************************************************************
  *
+ * A default implementation of the {@link ContentEditorPresentationControl}.
+ *
+ * @stereotype Control
+ *
  * @author  Fabrizio Giudici
  * @version $Id$
  *
  **********************************************************************************************************************/
 @SimpleMessageSubscriber @Slf4j
-public class DefaultContentEditorPresentationControl extends SpringMessageBusListenerSupport implements ContentEditorPresentationControl
+public class DefaultContentEditorPresentationControl extends SpringMessageBusListenerSupport
+                                                     implements ContentEditorPresentationControl
   {
     @Nonnull
     private ContentEditorPresentation presentation;
@@ -69,6 +74,24 @@ public class DefaultContentEditorPresentationControl extends SpringMessageBusLis
           }
       };
 
+    /*******************************************************************************************************************
+     *
+     * {@inheritDoc}
+     *
+     ******************************************************************************************************************/
+    @Override
+    public void initialize (final @Nonnull ContentEditorPresentation presentation)
+      {
+        this.presentation = presentation;
+        fields.title.addPropertyChangeListener(propertyChangeListener);
+        presentation.bind(fields);
+      }
+
+    /*******************************************************************************************************************
+     *
+     * {@inheritDoc}
+     *
+     ******************************************************************************************************************/
     public void onContentSelected (final @ListensTo @Nonnull ContentSelectedEvent event)
       {
         log.debug("onContentSelected({})", event);
@@ -106,13 +129,5 @@ public class DefaultContentEditorPresentationControl extends SpringMessageBusLis
             presentation.populateProperties(properties.as(PresentationModelProvider).createPresentationModel());
             presentation.showUp();
           }
-      }
-
-    @Override
-    public void initialize (final @Nonnull ContentEditorPresentation presentation)
-      {
-        this.presentation = presentation;
-        fields.title.addPropertyChangeListener(propertyChangeListener);
-        presentation.bind(fields);
       }
   }
