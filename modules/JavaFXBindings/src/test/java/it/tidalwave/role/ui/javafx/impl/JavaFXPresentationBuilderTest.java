@@ -36,8 +36,8 @@ public class JavaFXPresentationBuilderTest
       {
       }
 
-    @Test
-    public void testSomeMethod()
+    @Test(enabled = false)
+    public void must_properly_create_a_presentation_instance()
       {
         final MockProvider fixture = new MockProvider();
 
