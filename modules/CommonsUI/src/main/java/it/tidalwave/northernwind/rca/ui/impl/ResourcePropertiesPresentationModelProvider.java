@@ -84,8 +84,9 @@ public class ResourcePropertiesPresentationModelProvider implements Presentation
                       {
                         try
                           {
+                            final String prefix = groupId.stringValue().equals("") ? "" : groupId.stringValue() + ".";
                             results.add(new DefaultPresentationModel(properties,
-                                        RowHashMap.create().withColumn("name", key.stringValue())
+                                        RowHashMap.create().withColumn("name", prefix + key.stringValue())
                                                            .withColumn("value", p2.getProperty(key, null))));
                           }
                         catch (IOException e)
