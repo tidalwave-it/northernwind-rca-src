@@ -37,6 +37,7 @@ import it.tidalwave.role.ui.PresentationModel;
 import it.tidalwave.role.ui.javafx.JavaFXBindings;
 import it.tidalwave.role.ui.javafx.Widget;
 import it.tidalwave.northernwind.rca.ui.structureeditor.StructureEditorPresentation;
+import javafx.collections.FXCollections;
 import lombok.extern.slf4j.Slf4j;
 
 /***********************************************************************************************************************
@@ -63,11 +64,6 @@ public class JavaFXStructureEditorPresentation implements StructureEditorPresent
     @Widget("structureEditorProperties")
     private TableView<PresentationModel> tableView;
 
-    /*******************************************************************************************************************
-     *
-     *
-     *
-     ******************************************************************************************************************/
 //    @PostConstruct FIXME: when Spring calls, it's too early; this is called by JavaFXSafeComponentBuilder
     public void initialize()
       {
@@ -75,11 +71,6 @@ public class JavaFXStructureEditorPresentation implements StructureEditorPresent
         bindings.bindColumn(tableView, 1, "value");
       }
 
-    /*******************************************************************************************************************
-     *
-     * {@inheritDoc}
-     *
-     ******************************************************************************************************************/
     @Override
     public void showUp()
       {
@@ -88,22 +79,19 @@ public class JavaFXStructureEditorPresentation implements StructureEditorPresent
         myContainer.setVisible(true);
       }
 
-    /*******************************************************************************************************************
-     *
-     * {@inheritDoc}
-     *
-     ******************************************************************************************************************/
+    @Override
+    public void clear()
+      {
+        webView.getEngine().loadContent("");
+        tableView.setItems(FXCollections.<PresentationModel>emptyObservableList());
+      }
+
     @Override
     public void populate (final @Nonnull String text)
       {
         webView.getEngine().loadContent(text);
       }
 
-    /*******************************************************************************************************************
-     *
-     * {@inheritDoc}
-     *
-     ******************************************************************************************************************/
     @Override
     public void populateProperties (final @Nonnull PresentationModel pm)
       {

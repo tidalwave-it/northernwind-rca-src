@@ -54,12 +54,20 @@ public class DefaultStructureEditorPresentationControl extends SpringMessageBusL
     public void onSiteNodeSelected (final @ListensTo @Nonnull SiteNodeSelectedEvent event)
       {
         log.debug("onSiteNodeSelected({})", event);
-        final SiteNode siteNode = event.getSiteNode();
-        final ResourceProperties properties = siteNode.getProperties();
-        log.debug(">>>> properties: {}", properties);
-        presentation.populate("Viewer not implemented for " + siteNode.getFile());
-        presentation.populateProperties(properties.as(PresentationModelProvider).createPresentationModel());
-        presentation.showUp();
+
+        if (event.isEmptySelection())
+          {
+            presentation.clear();
+          }
+        else
+          {
+            final SiteNode siteNode = event.getSiteNode();
+            final ResourceProperties properties = siteNode.getProperties();
+            log.debug(">>>> properties: {}", properties);
+            presentation.populate("Viewer not implemented for " + siteNode.getFile());
+            presentation.populateProperties(properties.as(PresentationModelProvider).createPresentationModel());
+            presentation.showUp();
+          }
       }
 
     @Override

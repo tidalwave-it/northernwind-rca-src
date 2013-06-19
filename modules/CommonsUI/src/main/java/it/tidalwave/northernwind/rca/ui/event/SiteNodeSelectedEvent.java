@@ -28,6 +28,8 @@
 package it.tidalwave.northernwind.rca.ui.event;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import com.google.common.base.Preconditions;
 import it.tidalwave.northernwind.core.model.SiteNode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -39,9 +41,30 @@ import lombok.ToString;
  * @version $Id$
  *
  **********************************************************************************************************************/
-@RequiredArgsConstructor @Getter @ToString
+@RequiredArgsConstructor @ToString(doNotUseGetters = true)
 public class SiteNodeSelectedEvent
   {
-    @Nonnull
+    @Nullable
     private final SiteNode siteNode;
+
+    @Getter
+    private final boolean emptySelection;
+
+    public SiteNodeSelectedEvent()
+      {
+        this.siteNode = null;
+        this.emptySelection = true;
+      }
+
+    public SiteNodeSelectedEvent (final @Nonnull SiteNode siteNode)
+      {
+        this.siteNode = siteNode;
+        this.emptySelection = false;
+      }
+
+    @Nonnull
+    public SiteNode getSiteNode()
+      {
+        return Preconditions.checkNotNull(siteNode);
+      }
   }

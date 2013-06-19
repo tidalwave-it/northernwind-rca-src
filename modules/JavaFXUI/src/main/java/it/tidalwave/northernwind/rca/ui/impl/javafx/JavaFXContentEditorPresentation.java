@@ -42,6 +42,7 @@ import it.tidalwave.role.ui.PresentationModel;
 import it.tidalwave.role.ui.javafx.JavaFXBindings;
 import it.tidalwave.role.ui.javafx.Widget;
 import it.tidalwave.northernwind.rca.ui.contenteditor.ContentEditorPresentation;
+import javafx.collections.FXCollections;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 
@@ -101,6 +102,13 @@ public class JavaFXContentEditorPresentation implements ContentEditorPresentatio
         log.info("setting visible: {} setting not visible: {}", myContainer, otherContainer);
         otherContainer.setVisible(false);
         myContainer.setVisible(true);
+      }
+
+    @Override
+    public void clear()
+      {
+        webView.getEngine().loadContent("");
+        tableView.setItems(FXCollections.<PresentationModel>emptyObservableList());
       }
 
     @Override

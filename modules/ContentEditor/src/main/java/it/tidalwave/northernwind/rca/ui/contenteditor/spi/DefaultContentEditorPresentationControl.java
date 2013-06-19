@@ -72,32 +72,40 @@ public class DefaultContentEditorPresentationControl extends SpringMessageBusLis
     public void onContentSelected (final @ListensTo @Nonnull ContentSelectedEvent event)
       {
         log.debug("onContentSelected({})", event);
-        final Content content = event.getContent();
-        final ResourceProperties properties = content.getProperties();
-        log.info("PROPERTIES {}", properties);
 
-        try
+        if (event.isEmptySelection())
           {
-            fields.document.set(properties.getProperty(PROPERTY_FULL_TEXT, ""));
+            presentation.clear();
           }
-        catch (IOException e)
+        else
           {
-            fields.document.set(e.toString());
-            log.warn("", e);
-          }
+            final Content content = event.getContent();
+            final ResourceProperties properties = content.getProperties();
+            log.info("PROPERTIES {}", properties);
 
-        try
-          {
-            fields.title.set(properties.getProperty(PROPERTY_TITLE, ""));
-          }
-        catch (IOException e)
-          {
-            fields.document.set(e.toString());
-            log.warn("", e);
-          }
+            try
+              {
+                fields.document.set(properties.getProperty(PROPERTY_FULL_TEXT, ""));
+              }
+            catch (IOException e)
+              {
+                fields.document.set(e.toString());
+                log.warn("", e);
+              }
 
-        presentation.populateProperties(properties.as(PresentationModelProvider).createPresentationModel());
-        presentation.showUp();
+            try
+              {
+                fields.title.set(properties.getProperty(PROPERTY_TITLE, ""));
+              }
+            catch (IOException e)
+              {
+                fields.document.set(e.toString());
+                log.warn("", e);
+              }
+
+            presentation.populateProperties(properties.as(PresentationModelProvider).createPresentationModel());
+            presentation.showUp();
+          }
       }
 
     @Override
