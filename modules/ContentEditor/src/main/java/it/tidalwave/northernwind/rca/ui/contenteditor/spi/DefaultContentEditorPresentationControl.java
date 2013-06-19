@@ -107,10 +107,7 @@ public class DefaultContentEditorPresentationControl extends SpringMessageBusLis
               {
                 final Content content = selectionEvent.getContent();
                 final ResourceProperties properties = content.getProperties();
-                log.info("PROPERTIES {}", properties);
-
                 fields.document.set(properties.getProperty(PROPERTY_FULL_TEXT, ""));
-
                 fields.title.set(properties.getProperty(PROPERTY_TITLE, ""));
                 presentation.populateProperties(properties.as(PresentationModelProvider).createPresentationModel());
                 presentation.showUp();
