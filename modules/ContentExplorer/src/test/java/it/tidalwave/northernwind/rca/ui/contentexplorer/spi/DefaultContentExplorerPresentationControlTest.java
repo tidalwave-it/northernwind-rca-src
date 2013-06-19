@@ -27,6 +27,9 @@
  */
 package it.tidalwave.northernwind.rca.ui.contentexplorer.spi;
 
+import java.io.IOException;
+import it.tidalwave.role.ui.PresentationModelProvider;
+import it.tidalwave.role.ui.Selectable;
 import it.tidalwave.messagebus.MessageBus;
 import it.tidalwave.messagebus.annotation.SimpleMessageSubscriber;
 import it.tidalwave.northernwind.core.model.ModelFactory;
@@ -34,19 +37,14 @@ import it.tidalwave.northernwind.core.model.ResourceFile;
 import it.tidalwave.northernwind.core.model.ResourceFileSystem;
 import it.tidalwave.northernwind.model.impl.admin.AdminContent;
 import it.tidalwave.northernwind.rca.ui.contentexplorer.ContentExplorerPresentation;
-import it.tidalwave.northernwind.rca.ui.event.ContentSelectedEvent;
 import it.tidalwave.northernwind.rca.ui.event.OpenSiteEvent;
-import it.tidalwave.role.ui.PresentationModel;
-import it.tidalwave.role.ui.PresentationModelProvider;
-import java.io.IOException;
-import javax.annotation.Nonnull;
-import org.hamcrest.BaseMatcher;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.CoreMatchers.*;
-import org.hamcrest.Description;
 import static org.mockito.Mockito.*;
+import static it.tidalwave.northernwind.rca.ui.contentexplorer.spi.PresentationModelMatcher.*;
+import static it.tidalwave.northernwind.rca.ui.contentexplorer.spi.ContentSelectedEventMatcher.*;
 
 /***********************************************************************************************************************
  *
@@ -72,10 +70,6 @@ public class DefaultContentExplorerPresentationControlTest
 
     private AdminContent content; // FIXME: use Content
 
-    private PresentationModelProvider pmProvider;
-
-    private PresentationModel pm;
-
     /*******************************************************************************************************************
      *
      ******************************************************************************************************************/
@@ -91,14 +85,11 @@ public class DefaultContentExplorerPresentationControlTest
         root = mock(ResourceFile.class);
         content = mock(AdminContent.class);
         modelFactory = mock(ModelFactory.class);
-        pmProvider = mock(PresentationModelProvider.class);
-        pm = mock(PresentationModel.class);
 
         when(fileSystem.findFileByPath(eq("/content/document"))).thenReturn(root);
         when(event.getFileSystem()).thenReturn(fileSystem);
         when(modelFactory.createContent(eq(root))).thenReturn(content);
-        when(content.as(eq(PresentationModelProvider.class))).thenReturn(pmProvider);
-        when(pmProvider.createPresentationModel(anyVararg())).thenReturn(pm);
+        when(content.as(eq(PresentationModelProvider.class))).thenReturn(new SimplePresentationModelProvider(content));
 
         fixture.messageBus = messageBus; // FIXME
         fixture.modelFactory = modelFactory; // FIXME
@@ -124,27 +115,23 @@ public class DefaultContentExplorerPresentationControlTest
       {
         fixture.onOpenSite(event);
 
-        verify(presentation).populate(same(pm));
-        verify(messageBus).publish(argThat(emptyContentSelectedEvent()));
+        verify(presentation).populate(argThat(presentationModel().withRole(Selectable.class)));
+        verify(messageBus).publish(emptyEvent());
       }
 
     /*******************************************************************************************************************
      *
      ******************************************************************************************************************/
-    @Nonnull
-    private static BaseMatcher<ContentSelectedEvent> emptyContentSelectedEvent()
+    @Test
+    public void must_have_injected_a_Selectable_that_fires_the_proper_message()
       {
-        return new BaseMatcher<ContentSelectedEvent>()
-          {
-            @Override public boolean matches (Object item)
-              {
-                return (item instanceof ContentSelectedEvent) &&
-                       ((ContentSelectedEvent)item).isEmptySelection();
-              }
+        final Object role = fixture.publisherRoleFactory.createRoleFor(content);
+        assertThat(role, is(instanceOf(Selectable.class)));
 
-            @Override public void describeTo (Description description)
-              {
-              }
-          };
+        final Selectable selectable = (Selectable)role;
+        selectable.select();
+
+        verify(messageBus).publish(eventWith(content));
       }
+
   }

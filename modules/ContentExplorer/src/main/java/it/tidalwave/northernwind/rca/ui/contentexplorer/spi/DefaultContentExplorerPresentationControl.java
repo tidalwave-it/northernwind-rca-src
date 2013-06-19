@@ -45,6 +45,7 @@ import it.tidalwave.northernwind.rca.ui.contentexplorer.ContentExplorerPresentat
 import it.tidalwave.northernwind.rca.ui.contentexplorer.ContentExplorerPresentationControl;
 import it.tidalwave.northernwind.rca.ui.event.OpenSiteEvent;
 import it.tidalwave.northernwind.rca.ui.impl.SpringMessageBusListenerSupport;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 /***********************************************************************************************************************
@@ -73,15 +74,14 @@ public class DefaultContentExplorerPresentationControl extends SpringMessageBusL
      *
      ******************************************************************************************************************/
     // FIXME: use Content
-    private final RoleFactory<AdminContent> publisherRoleFactory = new RoleFactory<AdminContent>()
+    @VisibleForTesting final RoleFactory<AdminContent> publisherRoleFactory = new RoleFactory<AdminContent>()
       {
         @Override
         public Object createRoleFor (final @Nonnull AdminContent content)
           {
             return new Selectable()
               {
-                @Override
-                public void select()
+                @Override public void select()
                   {
                     log.debug("Selected {}", content);
                     messageBus.publish(new ContentSelectedEvent(content));
