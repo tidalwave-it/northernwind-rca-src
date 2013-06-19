@@ -43,13 +43,9 @@ import org.springframework.beans.factory.annotation.Configurable;
 import it.tidalwave.role.ui.PresentationModel;
 import it.tidalwave.messagebus.MessageBus;
 import it.tidalwave.northernwind.rca.ui.event.OpenSiteEvent;
-import it.tidalwave.northernwind.rca.ui.contentexplorer.ContentExplorerPresentation;
 import it.tidalwave.northernwind.rca.ui.contentexplorer.ContentExplorerPresentationControl;
-import it.tidalwave.northernwind.rca.ui.contenteditor.ContentEditorPresentation;
 import it.tidalwave.northernwind.rca.ui.contenteditor.ContentEditorPresentationControl;
-import it.tidalwave.northernwind.rca.ui.structureexplorer.StructureExplorerPresentation;
 import it.tidalwave.northernwind.rca.ui.structureexplorer.StructureExplorerPresentationControl;
-import it.tidalwave.northernwind.rca.ui.structureeditor.StructureEditorPresentation;
 import it.tidalwave.northernwind.rca.ui.structureeditor.StructureEditorPresentationControl;
 import lombok.extern.slf4j.Slf4j;
 import static it.tidalwave.role.ui.javafx.impl.JavaFXSafeComponentBuilder.*;
@@ -106,14 +102,6 @@ public class ApplicationHandler
     @FXML
     private TableView<PresentationModel> structureEditorProperties;
 
-    private ContentExplorerPresentation contentExplorerPresentation;
-
-    private StructureExplorerPresentation explorerPresentation;
-
-    private ContentEditorPresentation contentEditorPresentation;
-
-    private StructureEditorPresentation structureEditorPresentation;
-
     @FXML
     private void onOpen (final @Nonnull ActionEvent event)
       {
@@ -125,15 +113,11 @@ public class ApplicationHandler
         contentEditorContainer.setVisible(false);
         structureEditorContainer.setVisible(false);
 
-        contentExplorerPresentation = createInstance(JavaFXContentExplorerPresentation.class, this);
-        explorerPresentation = createInstance(JavaFXStructureExplorerPresentation.class, this);
-        contentEditorPresentation = createInstance(JavaFXContentEditorPresentation.class, this);
-        structureEditorPresentation = createInstance(JavaFXStructureEditorPresentation.class, this);
-
-        contentExplorerPresentationControl.initialize(contentExplorerPresentation);
-        structureExplorerPresentationControl.initialize(explorerPresentation);
-        contentEditorPresentationControl.initialize(contentEditorPresentation);
-        structureEditorPresentationControl.initialize(structureEditorPresentation);
+        // FIXME: could this be done by Spring?
+        contentExplorerPresentationControl.initialize(createInstance(JavaFXContentExplorerPresentation.class, this));
+        structureExplorerPresentationControl.initialize(createInstance(JavaFXStructureExplorerPresentation.class, this));
+        contentEditorPresentationControl.initialize(createInstance(JavaFXContentEditorPresentation.class, this));
+        structureEditorPresentationControl.initialize(createInstance(JavaFXStructureEditorPresentation.class, this));
 
         try
           {
