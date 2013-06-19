@@ -166,8 +166,7 @@ public class DefaultJavaFXBindings implements JavaFXBindings
       {
         assertIsFxApplicationThread();
 
-        final SimpleComposite<PresentationModel> composite = pm.as(SimpleComposite.class);
-        tableView.setItems(observableArrayList(composite.findChildren().results()));
+        tableView.setItems(observableArrayList(pm.as(SimpleComposite.class).findChildren().results()));
       }
 
     /*******************************************************************************************************************
