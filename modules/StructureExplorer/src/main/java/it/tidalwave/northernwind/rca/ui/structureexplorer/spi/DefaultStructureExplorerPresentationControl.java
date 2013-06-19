@@ -31,6 +31,7 @@ import javax.annotation.Nonnull;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.IOException;
+import com.google.common.annotations.VisibleForTesting;
 import it.tidalwave.util.NotFoundException;
 import it.tidalwave.util.RoleFactory;
 import it.tidalwave.role.ui.Selectable;
@@ -38,8 +39,8 @@ import it.tidalwave.role.ui.PresentationModelProvider;
 import it.tidalwave.messagebus.MessageBus;
 import it.tidalwave.messagebus.annotation.ListensTo;
 import it.tidalwave.messagebus.annotation.SimpleMessageSubscriber;
+import it.tidalwave.northernwind.core.model.ModelFactory;
 import it.tidalwave.northernwind.core.model.ResourceFile;
-import it.tidalwave.northernwind.model.impl.admin.AdminModelFactory;
 import it.tidalwave.northernwind.model.impl.admin.AdminSiteNode;
 import it.tidalwave.northernwind.rca.ui.event.OpenSiteEvent;
 import it.tidalwave.northernwind.rca.ui.event.SiteNodeSelectedEvent;
@@ -61,7 +62,7 @@ import lombok.extern.slf4j.Slf4j;
 public class DefaultStructureExplorerPresentationControl extends SpringMessageBusListenerSupport implements StructureExplorerPresentationControl
   {
     @Inject @Nonnull
-    private AdminModelFactory modelFactory;
+    private ModelFactory modelFactory;
 
     @Inject @Named("applicationMessageBus") @Nonnull
     private MessageBus messageBus;
@@ -73,7 +74,7 @@ public class DefaultStructureExplorerPresentationControl extends SpringMessageBu
      *
      ******************************************************************************************************************/
     // FIXME: use SiteNode
-    private final RoleFactory<AdminSiteNode> publisherRoleFactory = new RoleFactory<AdminSiteNode>()
+    @VisibleForTesting final RoleFactory<AdminSiteNode> publisherRoleFactory = new RoleFactory<AdminSiteNode>()
       {
         @Override
         public Object createRoleFor (final @Nonnull AdminSiteNode siteNode)
@@ -92,8 +93,19 @@ public class DefaultStructureExplorerPresentationControl extends SpringMessageBu
 
     /*******************************************************************************************************************
      *
+     * {@inheritDoc}
+     *
      ******************************************************************************************************************/
-    public void onOpenSite (final @ListensTo @Nonnull OpenSiteEvent event)
+    @Override
+    public void initialize (final @Nonnull StructureExplorerPresentation presentation)
+      {
+        this.presentation = presentation;
+      }
+
+    /*******************************************************************************************************************
+     *
+     ******************************************************************************************************************/
+    @VisibleForTesting void onOpenSite (final @ListensTo @Nonnull OpenSiteEvent event)
       {
         try
           {
@@ -107,16 +119,5 @@ public class DefaultStructureExplorerPresentationControl extends SpringMessageBu
           {
             log.warn("", e);
           }
-      }
-
-    /*******************************************************************************************************************
-     *
-     * {@inheritDoc}
-     *
-     ******************************************************************************************************************/
-    @Override
-    public void initialize (final @Nonnull StructureExplorerPresentation presentation)
-      {
-        this.presentation = presentation;
       }
   }
