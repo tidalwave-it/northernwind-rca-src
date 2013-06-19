@@ -28,6 +28,7 @@
 package it.tidalwave.northernwind.rca.ui.structureeditor.spi;
 
 import javax.annotation.Nonnull;
+import com.google.common.annotations.VisibleForTesting;
 import it.tidalwave.messagebus.annotation.ListensTo;
 import it.tidalwave.messagebus.annotation.SimpleMessageSubscriber;
 import it.tidalwave.northernwind.core.model.ResourceProperties;
@@ -46,12 +47,19 @@ import static it.tidalwave.role.ui.PresentationModelProvider.PresentationModelPr
  *
  **********************************************************************************************************************/
 @SimpleMessageSubscriber @Slf4j
-public class DefaultStructureEditorPresentationControl extends SpringMessageBusListenerSupport implements StructureEditorPresentationControl
+public class DefaultStructureEditorPresentationControl extends SpringMessageBusListenerSupport
+                                                       implements StructureEditorPresentationControl
   {
     @Nonnull
     private StructureEditorPresentation presentation;
 
-    public void onSiteNodeSelected (final @ListensTo @Nonnull SiteNodeSelectedEvent event)
+    @Override
+    public void initialize (final @Nonnull StructureEditorPresentation presentation)
+      {
+        this.presentation = presentation;
+      }
+
+    @VisibleForTesting void onSiteNodeSelected (final @ListensTo @Nonnull SiteNodeSelectedEvent event)
       {
         log.debug("onSiteNodeSelected({})", event);
 
@@ -68,11 +76,5 @@ public class DefaultStructureEditorPresentationControl extends SpringMessageBusL
             presentation.populateProperties(properties.as(PresentationModelProvider).createPresentationModel());
             presentation.showUp();
           }
-      }
-
-    @Override
-    public void initialize (final @Nonnull StructureEditorPresentation presentation)
-      {
-        this.presentation = presentation;
       }
   }
