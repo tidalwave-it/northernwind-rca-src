@@ -28,13 +28,10 @@
 package it.tidalwave.northernwind.rca.ui.impl.javafx;
 
 import javax.annotation.Nonnull;
-import java.io.IOException;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.application.Platform;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-import it.tidalwave.ui.javafx.ApplicationWithSplash;
+import it.tidalwave.ui.javafx.SpringApplication;
 import lombok.extern.slf4j.Slf4j;
+import static javafx.application.Application.launch;
 
 /***********************************************************************************************************************
  *
@@ -43,23 +40,8 @@ import lombok.extern.slf4j.Slf4j;
  *
  **********************************************************************************************************************/
 @Slf4j
-public class Main extends ApplicationWithSplash
+public class Main extends SpringApplication
   {
-    private ClassPathXmlApplicationContext applicationContext;
-
-    @Override @Nonnull
-    protected Parent createParent()
-      throws IOException
-      {
-        return FXMLLoader.load(getClass().getResource("Application.fxml"));
-      }
-
-    @Override
-    protected void initializeInBackground()
-      {
-        applicationContext = new ClassPathXmlApplicationContext("classpath*:/META-INF/*AutoBeans.xml");
-      }
-
     public static void main (final @Nonnull String ... args)
       {
         try
