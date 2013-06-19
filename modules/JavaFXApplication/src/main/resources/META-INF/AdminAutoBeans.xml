@@ -87,8 +87,6 @@
 
     <bean class="it.tidalwave.northernwind.rca.ui.structureeditor.spi.DefaultStructureEditorPresentationControl" />
 
-    <bean class="it.tidalwave.northernwind.rca.ui.impl.ServletContextSurrogate" />
-
     <bean class="it.tidalwave.northernwind.rca.ui.impl.MessageBusAdapterFactory" />
 
 </beans>

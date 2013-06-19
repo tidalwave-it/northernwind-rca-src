@@ -65,8 +65,10 @@
 
     <bean id="contextManager"
          class="it.tidalwave.role.spring.SpringContextManager" />
-    
+
     <bean id="modelFactory"
           class="it.tidalwave.northernwind.model.impl.admin.AdminModelFactory" />
+
+    <bean class="it.tidalwave.northernwind.model.impl.admin.ServletContextSurrogate" />
 
 </beans>
