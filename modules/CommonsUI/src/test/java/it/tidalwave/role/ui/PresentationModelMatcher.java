@@ -25,7 +25,7 @@
  * *********************************************************************************************************************
  * #L%
  */
-package it.tidalwave.northernwind.rca.ui.contentexplorer.spi;
+package it.tidalwave.role.ui;
 
 import javax.annotation.Nonnull;
 import javax.annotation.concurrent.NotThreadSafe;

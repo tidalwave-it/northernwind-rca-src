@@ -59,10 +59,11 @@
             <groupId>it.tidalwave.thesefoolishthings</groupId>
             <artifactId>it-tidalwave-messagebus-spring</artifactId>
         </dependency>
+        
         <dependency>
-            <groupId>org.testng</groupId>
-            <artifactId>testng</artifactId>
-            <version>6.5.2</version>
+            <groupId>it.tidalwave.northernwind.rca</groupId>
+            <artifactId>it-tidalwave-northernwind-rca-ui-commons</artifactId>
+            <classifier>tests</classifier>
             <scope>test</scope>
         </dependency>
     </dependencies>

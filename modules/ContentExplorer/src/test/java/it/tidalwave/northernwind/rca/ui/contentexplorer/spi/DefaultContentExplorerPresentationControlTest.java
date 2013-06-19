@@ -42,8 +42,8 @@ import it.tidalwave.northernwind.rca.ui.contentexplorer.ContentExplorerPresentat
 import it.tidalwave.northernwind.rca.ui.event.OpenSiteEvent;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import static it.tidalwave.northernwind.rca.ui.contentexplorer.spi.PresentationModelMatcher.*;
-import static it.tidalwave.northernwind.rca.ui.contentexplorer.spi.ContentSelectedEventMatcher.*;
+import static it.tidalwave.role.ui.PresentationModelMatcher.*;
+import static it.tidalwave.northernwind.rca.ui.event.ContentSelectedEventMatcher.*;
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.CoreMatchers.*;
 import static org.mockito.Mockito.*;

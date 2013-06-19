@@ -151,6 +151,12 @@
             </dependency>
             <dependency>
                 <groupId>it.tidalwave.northernwind.rca</groupId>
+                <artifactId>it-tidalwave-northernwind-rca-ui-commons</artifactId>
+                <version>1.0-ALPHA-1-SNAPSHOT</version>
+                <classifier>tests</classifier>
+            </dependency>
+            <dependency>
+                <groupId>it.tidalwave.northernwind.rca</groupId>
                 <artifactId>it-tidalwave-northernwind-model-core-stripped</artifactId>
                 <version>1.0-ALPHA-1-SNAPSHOT</version>
             </dependency>
