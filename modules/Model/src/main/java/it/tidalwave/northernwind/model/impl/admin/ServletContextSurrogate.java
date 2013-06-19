@@ -25,7 +25,7 @@
  * *********************************************************************************************************************
  * #L%
  */
-package it.tidalwave.northernwind.rca.ui.impl;
+package it.tidalwave.northernwind.model.impl.admin;
 
 import java.io.InputStream;
 import java.net.MalformedURLException;
