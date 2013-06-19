@@ -28,14 +28,10 @@
 package it.tidalwave.ui.javafx;
 
 import javax.annotation.Nonnull;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.io.IOException;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
-import javafx.application.Application;
-import javafx.application.Platform;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import lombok.extern.slf4j.Slf4j;
 
 /***********************************************************************************************************************
@@ -45,55 +41,20 @@ import lombok.extern.slf4j.Slf4j;
  *
  **********************************************************************************************************************/
 @Slf4j
-public abstract class ApplicationWithSplash extends Application
+public class SpringApplication extends ApplicationWithSplash
   {
-    private Splash splash = new Splash(this);
+    private ClassPathXmlApplicationContext applicationContext;
 
-    @Override
-    public void init()
+    @Override @Nonnull
+    protected Parent createParent()
+      throws IOException
       {
-        splash.init();
+        return FXMLLoader.load(getClass().getResource("Application.fxml"));
       }
 
     @Override
-    public void start (final @Nonnull Stage stage)
-      throws Exception
+    protected void initializeInBackground()
       {
-        splash.show();
-
-        final ExecutorService executorService = Executors.newSingleThreadExecutor();
-        executorService.submit(new Runnable()
-          {
-            @Override
-            public void run()
-              {
-                initializeInBackground();
-                Platform.runLater(new Runnable()
-                  {
-                    @Override
-                    public void run()
-                      {
-                        try
-                          {
-                            final Parent application = createParent();
-                            final Scene scene = new Scene(application);
-                            stage.setScene(scene);
-                            stage.show();
-                            splash.dismiss();
-                          }
-                        catch (IOException e)
-                          {
-                            log.error("", e);
-                          }
-                      }
-                  });
-              }
-          });
+        applicationContext = new ClassPathXmlApplicationContext("classpath*:/META-INF/*AutoBeans.xml");
       }
-
-    @Nonnull
-    protected abstract Parent createParent()
-      throws IOException;
-
-    protected abstract void initializeInBackground();
   }

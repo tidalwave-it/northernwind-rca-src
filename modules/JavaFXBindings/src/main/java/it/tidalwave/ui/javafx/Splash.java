@@ -38,6 +38,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 /***********************************************************************************************************************
@@ -46,9 +47,12 @@ import lombok.extern.slf4j.Slf4j;
  * @version $Id$
  *
  **********************************************************************************************************************/
-@Slf4j
+@RequiredArgsConstructor @Slf4j
 public class Splash
   {
+    @Nonnull
+    private final Object application;
+
     private Pane splashPane;
 
     private Stage splashStage;
@@ -57,7 +61,8 @@ public class Splash
       {
         try
           {
-            splashPane = FXMLLoader.load(getClass().getResource("Splash.fxml"));
+              System.err.println(application.getClass());
+            splashPane = FXMLLoader.load(application.getClass().getResource("Splash.fxml"));
           }
         catch (IOException e)
           {
