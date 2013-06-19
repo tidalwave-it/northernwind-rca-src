@@ -65,7 +65,7 @@ public class DefaultContentExplorerPresentationControl extends SpringMessageBusL
     protected MessageBus messageBus;
 
     @Inject @Nonnull
-    @VisibleForTesting ModelFactory modelFactory;
+    private ModelFactory modelFactory;
 
     private ContentExplorerPresentation presentation;
 
