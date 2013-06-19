@@ -74,7 +74,6 @@ public class DefaultSiteOpenerPresentationControl implements SiteOpenerPresentat
                 public void onConfirm()
                   throws IOException
                   {
-                    // FIXME: thread?
                     messageBus.publish(new OpenSiteEvent(folderToOpen.get()));
                   }
               }));
