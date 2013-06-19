@@ -28,6 +28,7 @@
 package it.tidalwave.northernwind.rca.ui.contentexplorer.spi;
 
 import java.io.IOException;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import it.tidalwave.role.ui.PresentationModelProvider;
 import it.tidalwave.role.ui.Selectable;
 import it.tidalwave.role.ui.spi.SimplePresentationModelProvider;
@@ -41,11 +42,11 @@ import it.tidalwave.northernwind.rca.ui.contentexplorer.ContentExplorerPresentat
 import it.tidalwave.northernwind.rca.ui.event.OpenSiteEvent;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import static it.tidalwave.northernwind.rca.ui.contentexplorer.spi.PresentationModelMatcher.*;
+import static it.tidalwave.northernwind.rca.ui.contentexplorer.spi.ContentSelectedEventMatcher.*;
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.CoreMatchers.*;
 import static org.mockito.Mockito.*;
-import static it.tidalwave.northernwind.rca.ui.contentexplorer.spi.PresentationModelMatcher.*;
-import static it.tidalwave.northernwind.rca.ui.contentexplorer.spi.ContentSelectedEventMatcher.*;
 
 /***********************************************************************************************************************
  *
@@ -56,6 +57,8 @@ import static it.tidalwave.northernwind.rca.ui.contentexplorer.spi.ContentSelect
 public class DefaultContentExplorerPresentationControlTest
   {
     private DefaultContentExplorerPresentationControl fixture;
+
+    private ClassPathXmlApplicationContext context;
 
     private ContentExplorerPresentation presentation;
 
@@ -77,26 +80,33 @@ public class DefaultContentExplorerPresentationControlTest
     @BeforeMethod
     public void setupFixture()
       {
-        fixture = new DefaultContentExplorerPresentationControl();
+        context = new ClassPathXmlApplicationContext("DefaultContextExplorerPresentationControlTestBeans.xml");
 
-        presentation = mock(ContentExplorerPresentation.class);
-        messageBus = mock(MessageBus.class);
+        presentation = context.getBean(ContentExplorerPresentation.class);
+        messageBus = context.getBean(MessageBus.class);
+        modelFactory = context.getBean(ModelFactory.class);
+        fixture = context.getBean(DefaultContentExplorerPresentationControl.class);
+
         event = mock(OpenSiteEvent.class);
         fileSystem = mock(ResourceFileSystem.class);
         root = mock(ResourceFile.class);
         content = mock(AdminContent.class);
-        modelFactory = mock(ModelFactory.class);
 
         when(fileSystem.findFileByPath(eq("/content/document"))).thenReturn(root);
         when(event.getFileSystem()).thenReturn(fileSystem);
         when(modelFactory.createContent(eq(root))).thenReturn(content);
         when(content.as(eq(PresentationModelProvider.class))).thenReturn(new SimplePresentationModelProvider(content));
 
-        fixture.messageBus = messageBus; // FIXME
-        fixture.modelFactory = modelFactory; // FIXME
-
         fixture.initialize(presentation);
       }
+
+//    private void registerMock (final @Nonnull DefaultListableBeanFactory context,
+//                               final @Nonnull String name,
+//                               final @Nonnull Class<?> mockClass)
+//      {
+//        context.registerBeanDefinition(name, BeanDefinitionBuilder.rootBeanDefinition(Mockito.class)
+//                .setFactoryMethod("mock").addConstructorArgValue(mockClass.getName()).getBeanDefinition());
+//      }
 
     /*******************************************************************************************************************
      *
