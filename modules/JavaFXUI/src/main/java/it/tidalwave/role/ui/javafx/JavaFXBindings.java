@@ -29,13 +29,16 @@ package it.tidalwave.role.ui.javafx;
 
 import javax.annotation.Nonnegative;
 import javax.annotation.Nonnull;
+import java.nio.file.Path;
 import javafx.beans.property.Property;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TreeView;
+import javafx.stage.Window;
+import it.tidalwave.util.ui.UserNotificationWithFeedback;
 import it.tidalwave.role.ui.PresentationModel;
 import it.tidalwave.role.ui.BoundProperty;
 import it.tidalwave.role.ui.UserAction;
-import javafx.scene.control.Button;
 
 /***********************************************************************************************************************
  *
@@ -82,4 +85,21 @@ public interface JavaFXBindings
      ******************************************************************************************************************/
     public <T> void bindBidirectionally (@Nonnull Property<T> property1, @Nonnull BoundProperty<T> property2);
 
+    /*******************************************************************************************************************
+     *
+     *
+     *
+     ******************************************************************************************************************/
+    public void openFileChooserFor (@Nonnull UserNotificationWithFeedback notification,
+                                    @Nonnull BoundProperty<Path> selectedFile,
+                                    @Nonnull Window window);
+
+    /*******************************************************************************************************************
+     *
+     *
+     *
+     ******************************************************************************************************************/
+    public void openDirectoryChooserFor (@Nonnull UserNotificationWithFeedback notification,
+                                         @Nonnull BoundProperty<Path> selectedFolder,
+                                         @Nonnull Window window);
   }

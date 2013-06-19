@@ -29,8 +29,11 @@ package it.tidalwave.northernwind.rca.ui.impl.javafx;
 
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
+import java.nio.file.Path;
 import javafx.scene.control.Button;
+import it.tidalwave.role.ui.BoundProperty;
 import it.tidalwave.role.ui.UserAction;
+import it.tidalwave.util.ui.UserNotificationWithFeedback;
 import it.tidalwave.role.ui.javafx.JavaFXBindings;
 import it.tidalwave.role.ui.javafx.Widget;
 import it.tidalwave.northernwind.rca.ui.siteopener.SiteOpenerPresentation;
@@ -53,9 +56,18 @@ public class JavaFXSiteOpenerPresentation implements SiteOpenerPresentation
     @Widget("btOpen")
     private Button button;
 
+    private BoundProperty<Path> folderToOpen;
+
     @Override
-    public void bind (final @Nonnull UserAction action)
+    public void bind (final @Nonnull UserAction action, final @Nonnull BoundProperty<Path> folderToOpen)
       {
         bindings.bind(button, action);
+        this.folderToOpen = folderToOpen;
+      }
+
+    @Override
+    public void selectFolderToOpen (final @Nonnull UserNotificationWithFeedback notification)
+      {
+        bindings.openDirectoryChooserFor(notification, folderToOpen, button.getScene().getWindow());
       }
   }

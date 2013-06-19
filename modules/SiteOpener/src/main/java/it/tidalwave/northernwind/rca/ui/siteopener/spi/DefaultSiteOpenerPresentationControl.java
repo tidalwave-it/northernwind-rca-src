@@ -30,8 +30,9 @@ package it.tidalwave.northernwind.rca.ui.siteopener.spi;
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
 import javax.inject.Named;
-import java.io.File;
+import java.nio.file.Path;
 import java.io.IOException;
+import it.tidalwave.role.ui.BoundProperty;
 import it.tidalwave.role.ui.UserActionSupport;
 import it.tidalwave.role.ui.UserAction;
 import it.tidalwave.messagebus.MessageBus;
@@ -39,6 +40,8 @@ import it.tidalwave.northernwind.rca.ui.event.OpenSiteEvent;
 import it.tidalwave.northernwind.rca.ui.siteopener.SiteOpenerPresentation;
 import it.tidalwave.northernwind.rca.ui.siteopener.SiteOpenerPresentationControl;
 import lombok.extern.slf4j.Slf4j;
+import static it.tidalwave.util.ui.UserNotificationWithFeedback.*;
+import java.io.File;
 
 /***********************************************************************************************************************
  *
@@ -56,19 +59,25 @@ public class DefaultSiteOpenerPresentationControl implements SiteOpenerPresentat
 
     private SiteOpenerPresentation presentation;
 
+    private final BoundProperty<Path> folderToOpen = new BoundProperty<>();
+
     private final UserAction action = new UserActionSupport()
       {
         @Override
         public void actionPerformed()
           {
-            try
+            presentation.selectFolderToOpen(notificationWithFeedback()
+                                            .withCaption("Select the site to open")
+                                            .withFeedback(new Feedback()
               {
-                messageBus.publish(new OpenSiteEvent(new File("/Users/fritz/Personal/WebSites/StoppingDown.net").toPath()));
-              }
-            catch (IOException e)
-              {
-                log.error("", e);
-              }
+                @Override
+                public void onConfirm()
+                  throws IOException
+                  {
+                    // FIXME: thread?
+                    messageBus.publish(new OpenSiteEvent(folderToOpen.get()));
+                  }
+              }));
           }
       };
 
@@ -76,6 +85,7 @@ public class DefaultSiteOpenerPresentationControl implements SiteOpenerPresentat
     public void initialize (final @Nonnull SiteOpenerPresentation presentation)
       {
         this.presentation = presentation;
-        presentation.bind(action);
+        folderToOpen.set(new File(System.getProperty("user.home")).toPath());
+        presentation.bind(action, folderToOpen);
       }
   }

@@ -54,6 +54,12 @@ import it.tidalwave.role.ui.PresentationModel;
 import it.tidalwave.role.ui.Selectable;
 import it.tidalwave.role.ui.UserAction;
 import it.tidalwave.role.ui.javafx.JavaFXBindings;
+import it.tidalwave.util.ui.UserNotificationWithFeedback;
+import java.io.File;
+import java.nio.file.Path;
+import javafx.stage.DirectoryChooser;
+import javafx.stage.FileChooser;
+import javafx.stage.Window;
 import lombok.extern.slf4j.Slf4j;
 
 /***********************************************************************************************************************
@@ -202,6 +208,72 @@ public class DefaultJavaFXBindings implements JavaFXBindings
     public <T> void bindBidirectionally (final @Nonnull Property<T> property1, final @Nonnull BoundProperty<T> property2)
       {
         property1.bindBidirectional(new PropertyAdapter<>(property2));
+      }
+
+    /*******************************************************************************************************************
+     *
+     * {@inheritDoc}
+     *
+     ******************************************************************************************************************/
+    @Override
+    public void openFileChooserFor (final @Nonnull UserNotificationWithFeedback notification,
+                                    final @Nonnull BoundProperty<Path> selectedFile,
+                                    final @Nonnull Window window)
+      {
+        try
+          {
+            final FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle(notification.getCaption());
+            fileChooser.setInitialDirectory(selectedFile.get().toFile());
+            final File file = fileChooser.showOpenDialog(window);
+
+            if (file == null)
+              {
+                notification.cancel();
+              }
+            else
+              {
+                selectedFile.set(file.toPath());
+                notification.confirm();
+              }
+          }
+        catch (Exception e)
+          {
+            log.warn("", e);
+          }
+      }
+
+    /*******************************************************************************************************************
+     *
+     * {@inheritDoc}
+     *
+     ******************************************************************************************************************/
+    @Override
+    public void openDirectoryChooserFor (final @Nonnull UserNotificationWithFeedback notification,
+                                         final @Nonnull BoundProperty<Path> selectedFolder,
+                                         final @Nonnull Window window)
+      {
+        try
+          {
+            final DirectoryChooser directoryChooser = new DirectoryChooser();
+            directoryChooser.setTitle(notification.getCaption());
+            directoryChooser.setInitialDirectory(selectedFolder.get().toFile());
+            final File file = directoryChooser.showDialog(window);
+
+            if (file == null)
+              {
+                notification.cancel();
+              }
+            else
+              {
+                selectedFolder.set(file.toPath());
+                notification.confirm();
+              }
+          }
+        catch (Exception e)
+          {
+            log.warn("", e);
+          }
       }
 
     /*******************************************************************************************************************

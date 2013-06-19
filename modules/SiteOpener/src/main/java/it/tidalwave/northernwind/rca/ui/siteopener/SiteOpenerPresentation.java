@@ -28,7 +28,10 @@
 package it.tidalwave.northernwind.rca.ui.siteopener;
 
 import javax.annotation.Nonnull;
+import java.nio.file.Path;
+import it.tidalwave.role.ui.BoundProperty;
 import it.tidalwave.role.ui.UserAction;
+import it.tidalwave.util.ui.UserNotificationWithFeedback;
 
 /***********************************************************************************************************************
  *
@@ -40,5 +43,7 @@ import it.tidalwave.role.ui.UserAction;
  **********************************************************************************************************************/
 public interface SiteOpenerPresentation
   {
-    public void bind (@Nonnull UserAction callback);
+    public void bind (@Nonnull UserAction userAction, @Nonnull BoundProperty<Path> folderToOpen);
+
+    public void selectFolderToOpen (@Nonnull UserNotificationWithFeedback notification);
   }
