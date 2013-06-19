@@ -39,7 +39,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.web.WebView;
 import org.springframework.beans.factory.annotation.Configurable;
 import it.tidalwave.role.ui.PresentationModel;
-import it.tidalwave.northernwind.rca.ui.opensite.OpenSitePresentationControl;
+import it.tidalwave.northernwind.rca.ui.siteopener.SiteOpenerPresentationControl;
 import it.tidalwave.northernwind.rca.ui.contentexplorer.ContentExplorerPresentationControl;
 import it.tidalwave.northernwind.rca.ui.contenteditor.ContentEditorPresentationControl;
 import it.tidalwave.northernwind.rca.ui.structureexplorer.StructureExplorerPresentationControl;
@@ -58,7 +58,7 @@ import static it.tidalwave.role.ui.javafx.impl.JavaFXSafeComponentBuilder.*;
 public class ApplicationHandler
   {
     @Inject @Nonnull
-    private OpenSitePresentationControl openSitePresentationControl;
+    private SiteOpenerPresentationControl siteOpenerPresentationControl;
 
     @Inject @Nonnull
     private StructureExplorerPresentationControl structureExplorerPresentationControl;
@@ -115,7 +115,7 @@ public class ApplicationHandler
         structureEditorContainer.setVisible(false);
 
         // FIXME: could this be done by Spring?
-        openSitePresentationControl.initialize(createInstance(JavaFXOpenSitePresentation.class, this));
+        siteOpenerPresentationControl.initialize(createInstance(JavaFXSiteOpenerPresentation.class, this));
         contentExplorerPresentationControl.initialize(createInstance(JavaFXContentExplorerPresentation.class, this));
         structureExplorerPresentationControl.initialize(createInstance(JavaFXStructureExplorerPresentation.class, this));
         contentEditorPresentationControl.initialize(createInstance(JavaFXContentEditorPresentation.class, this));

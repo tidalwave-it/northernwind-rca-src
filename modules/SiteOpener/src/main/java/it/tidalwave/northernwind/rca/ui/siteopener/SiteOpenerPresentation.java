@@ -25,16 +25,10 @@
  * *********************************************************************************************************************
  * #L%
  */
-package it.tidalwave.northernwind.rca.ui.impl.javafx;
+package it.tidalwave.northernwind.rca.ui.siteopener;
 
 import javax.annotation.Nonnull;
-import javax.inject.Inject;
-import javafx.scene.control.Button;
 import it.tidalwave.role.ui.UserAction;
-import it.tidalwave.role.ui.javafx.JavaFXBindings;
-import it.tidalwave.role.ui.javafx.Widget;
-import it.tidalwave.northernwind.rca.ui.opensite.OpenSitePresentation;
-import org.springframework.beans.factory.annotation.Configurable;
 
 /***********************************************************************************************************************
  *
@@ -44,18 +38,7 @@ import org.springframework.beans.factory.annotation.Configurable;
  * @version $Id$
  *
  **********************************************************************************************************************/
-@Configurable
-public class JavaFXOpenSitePresentation implements OpenSitePresentation
+public interface SiteOpenerPresentation
   {
-    @Inject @Nonnull
-    private JavaFXBindings bindings;
-
-    @Widget("btOpen")
-    private Button button;
-
-    @Override
-    public void bind (final @Nonnull UserAction action)
-      {
-        bindings.bind(button, action);
-      }
+    public void bind (@Nonnull UserAction callback);
   }

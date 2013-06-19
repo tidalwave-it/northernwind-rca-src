@@ -25,20 +25,57 @@
  * *********************************************************************************************************************
  * #L%
  */
-package it.tidalwave.northernwind.rca.ui.opensite;
+package it.tidalwave.northernwind.rca.ui.siteopener.spi;
 
 import javax.annotation.Nonnull;
+import javax.inject.Inject;
+import javax.inject.Named;
+import java.io.File;
+import java.io.IOException;
+import it.tidalwave.role.ui.UserActionSupport;
 import it.tidalwave.role.ui.UserAction;
+import it.tidalwave.messagebus.MessageBus;
+import it.tidalwave.northernwind.rca.ui.event.OpenSiteEvent;
+import it.tidalwave.northernwind.rca.ui.siteopener.SiteOpenerPresentation;
+import it.tidalwave.northernwind.rca.ui.siteopener.SiteOpenerPresentationControl;
+import lombok.extern.slf4j.Slf4j;
 
 /***********************************************************************************************************************
  *
- * @stereotype Presentation
+ * @stereotype Control
  *
  * @author  Fabrizio Giudici
  * @version $Id$
  *
  **********************************************************************************************************************/
-public interface OpenSitePresentation
+@Slf4j
+public class DefaultSiteOpenerPresentationControl implements SiteOpenerPresentationControl
   {
-    public void bind (@Nonnull UserAction callback);
+    @Inject @Named("applicationMessageBus") @Nonnull
+    private MessageBus messageBus;
+
+    private SiteOpenerPresentation presentation;
+
+    private final UserAction action = new UserActionSupport()
+      {
+        @Override
+        public void actionPerformed()
+          {
+            try
+              {
+                messageBus.publish(new OpenSiteEvent(new File("/Users/fritz/Personal/WebSites/StoppingDown.net").toPath()));
+              }
+            catch (IOException e)
+              {
+                log.error("", e);
+              }
+          }
+      };
+
+    @Override
+    public void initialize (final @Nonnull SiteOpenerPresentation presentation)
+      {
+        this.presentation = presentation;
+        presentation.bind(action);
+      }
   }

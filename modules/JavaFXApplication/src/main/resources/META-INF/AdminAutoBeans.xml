@@ -77,7 +77,7 @@
     <bean id="javaFXBindings"
           class="it.tidalwave.role.ui.javafx.impl.DefaultJavaFXBindings" />
 
-    <bean class="it.tidalwave.northernwind.rca.ui.opensite.spi.DefaultOpenSitePresentationControl" />
+    <bean class="it.tidalwave.northernwind.rca.ui.siteopener.spi.DefaultSiteOpenerPresentationControl" />
 
     <bean class="it.tidalwave.northernwind.rca.ui.contentexplorer.spi.DefaultContentExplorerPresentationControl" />
 

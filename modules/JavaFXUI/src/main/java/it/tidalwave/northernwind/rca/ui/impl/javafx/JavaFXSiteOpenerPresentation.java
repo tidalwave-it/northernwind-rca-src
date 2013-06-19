@@ -25,57 +25,37 @@
  * *********************************************************************************************************************
  * #L%
  */
-package it.tidalwave.northernwind.rca.ui.opensite.spi;
+package it.tidalwave.northernwind.rca.ui.impl.javafx;
 
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
-import javax.inject.Named;
-import java.io.File;
-import java.io.IOException;
-import it.tidalwave.role.ui.UserActionSupport;
+import javafx.scene.control.Button;
 import it.tidalwave.role.ui.UserAction;
-import it.tidalwave.messagebus.MessageBus;
-import it.tidalwave.northernwind.rca.ui.event.OpenSiteEvent;
-import it.tidalwave.northernwind.rca.ui.opensite.OpenSitePresentation;
-import it.tidalwave.northernwind.rca.ui.opensite.OpenSitePresentationControl;
-import lombok.extern.slf4j.Slf4j;
+import it.tidalwave.role.ui.javafx.JavaFXBindings;
+import it.tidalwave.role.ui.javafx.Widget;
+import it.tidalwave.northernwind.rca.ui.siteopener.SiteOpenerPresentation;
+import org.springframework.beans.factory.annotation.Configurable;
 
 /***********************************************************************************************************************
  *
- * @stereotype Control
+ * @stereotype Presentation
  *
  * @author  Fabrizio Giudici
  * @version $Id$
  *
  **********************************************************************************************************************/
-@Slf4j
-public class DefaultOpenSitePresentationControl implements OpenSitePresentationControl
+@Configurable
+public class JavaFXSiteOpenerPresentation implements SiteOpenerPresentation
   {
-    @Inject @Named("applicationMessageBus") @Nonnull
-    private MessageBus messageBus;
+    @Inject @Nonnull
+    private JavaFXBindings bindings;
 
-    private OpenSitePresentation presentation;
-
-    private final UserAction action = new UserActionSupport()
-      {
-        @Override
-        public void actionPerformed()
-          {
-            try
-              {
-                messageBus.publish(new OpenSiteEvent(new File("/Users/fritz/Personal/WebSites/StoppingDown.net").toPath()));
-              }
-            catch (IOException e)
-              {
-                log.error("", e);
-              }
-          }
-      };
+    @Widget("btOpen")
+    private Button button;
 
     @Override
-    public void initialize (final @Nonnull OpenSitePresentation presentation)
+    public void bind (final @Nonnull UserAction action)
       {
-        this.presentation = presentation;
-        presentation.bind(action);
+        bindings.bind(button, action);
       }
   }

@@ -25,7 +25,7 @@
  * *********************************************************************************************************************
  * #L%
  */
-package it.tidalwave.northernwind.rca.ui.opensite;
+package it.tidalwave.northernwind.rca.ui.siteopener;
 
 import javax.annotation.Nonnull;
 
@@ -37,7 +37,7 @@ import javax.annotation.Nonnull;
  * @version $Id$
  *
  **********************************************************************************************************************/
-public interface OpenSitePresentationControl
+public interface SiteOpenerPresentationControl
   {
-    public void initialize (@Nonnull OpenSitePresentation presentation);
+    public void initialize (@Nonnull SiteOpenerPresentation presentation);
   }
