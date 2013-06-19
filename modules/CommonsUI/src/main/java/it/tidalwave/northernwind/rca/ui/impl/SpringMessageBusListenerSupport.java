@@ -25,46 +25,43 @@
  * *********************************************************************************************************************
  * #L%
  */
-package it.tidalwave.northernwind.rca.ui.structureeditor.spi;
+package it.tidalwave.northernwind.rca.ui.impl;
 
 import javax.annotation.Nonnull;
-import it.tidalwave.messagebus.annotation.ListensTo;
-import it.tidalwave.messagebus.annotation.SimpleMessageSubscriber;
-import it.tidalwave.northernwind.core.model.ResourceProperties;
-import it.tidalwave.northernwind.core.model.SiteNode;
-import it.tidalwave.northernwind.rca.ui.event.SiteNodeSelectedEvent;
-import it.tidalwave.northernwind.rca.ui.impl.SpringMessageBusListenerSupport;
-import it.tidalwave.northernwind.rca.ui.structureeditor.StructureEditorPresentation;
-import it.tidalwave.northernwind.rca.ui.structureeditor.StructureEditorPresentationControl;
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
+import javax.inject.Inject;
+import it.tidalwave.messagebus.MessageBusHelper;
 import lombok.extern.slf4j.Slf4j;
-import static it.tidalwave.role.ui.PresentationModelProvider.PresentationModelProvider;
 
 /***********************************************************************************************************************
+ *
+ * FIXME: this should be made useless by means of a proper Spring annotation processor!
  *
  * @author  Fabrizio Giudici
  * @version $Id$
  *
  **********************************************************************************************************************/
-@SimpleMessageSubscriber @Slf4j
-public class DefaultStructureEditorPresentationControl extends SpringMessageBusListenerSupport implements StructureEditorPresentationControl
+@Slf4j
+public abstract class SpringMessageBusListenerSupport
   {
-    @Nonnull
-    private StructureEditorPresentation presentation;
+    @Inject @Nonnull
+    private MessageBusHelper.Adapter adapter;
 
-    public void onSiteNodeSelected (final @ListensTo @Nonnull SiteNodeSelectedEvent event)
+    private MessageBusHelper busHelper;
+
+    @PostConstruct
+    public void subscribeAll()
       {
-        log.debug("onSiteNodeSelected({})", event);
-        final SiteNode siteNode = event.getSiteNode();
-        final ResourceProperties properties = siteNode.getProperties();
-        log.debug(">>>> properties: {}", properties);
-        presentation.populate("Viewer not implemented for " + siteNode.getFile());
-        presentation.populateProperties(properties.as(PresentationModelProvider).createPresentationModel());
-        presentation.showUp();
+        busHelper = new MessageBusHelper(this, adapter);
+        log.debug("subscribeAll() for {}", getClass());
+        busHelper.subscribeAll();
       }
 
-    @Override
-    public void initialize (final @Nonnull StructureEditorPresentation presentation)
+    @PreDestroy
+    public void unsubscribeAll()
       {
-        this.presentation = presentation;
+        log.debug("unsubscribeAll() for {}", getClass());
+        busHelper.unsubscribeAll();
       }
   }

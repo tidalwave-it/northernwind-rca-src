@@ -28,22 +28,18 @@
 package it.tidalwave.northernwind.rca.ui.contenteditor.spi;
 
 import javax.annotation.Nonnull;
-import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
-import javax.inject.Inject;
-import javax.inject.Named;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.IOException;
-import org.springframework.beans.factory.annotation.Configurable;
 import it.tidalwave.util.Key;
-import it.tidalwave.messagebus.MessageBus;
-import it.tidalwave.messagebus.MessageBus.Listener;
+import it.tidalwave.messagebus.annotation.ListensTo;
+import it.tidalwave.messagebus.annotation.SimpleMessageSubscriber;
 import it.tidalwave.northernwind.core.model.Content;
 import it.tidalwave.northernwind.core.model.ResourceProperties;
 import it.tidalwave.northernwind.rca.ui.event.ContentSelectedEvent;
 import it.tidalwave.northernwind.rca.ui.contenteditor.ContentEditorPresentation;
 import it.tidalwave.northernwind.rca.ui.contenteditor.ContentEditorPresentationControl;
+import it.tidalwave.northernwind.rca.ui.impl.SpringMessageBusListenerSupport;
 import lombok.extern.slf4j.Slf4j;
 import static it.tidalwave.role.ui.PresentationModelProvider.*;
 
@@ -53,12 +49,9 @@ import static it.tidalwave.role.ui.PresentationModelProvider.*;
  * @version $Id$
  *
  **********************************************************************************************************************/
-@Configurable @Slf4j
-public class DefaultContentEditorPresentationControl implements ContentEditorPresentationControl
+@SimpleMessageSubscriber @Slf4j
+public class DefaultContentEditorPresentationControl extends SpringMessageBusListenerSupport implements ContentEditorPresentationControl
   {
-    @Inject @Named("applicationMessageBus") @Nonnull
-    private MessageBus messageBus;
-
     @Nonnull
     private ContentEditorPresentation presentation;
 
@@ -76,58 +69,35 @@ public class DefaultContentEditorPresentationControl implements ContentEditorPre
           }
       };
 
-    /*******************************************************************************************************************
-     *
-     * TODO: refactor with @ListensTo
-     *
-     ******************************************************************************************************************/
-    private final Listener<ContentSelectedEvent> siteNodeSelectionListener =
-            new Listener<ContentSelectedEvent>()
+    public void onContentSelected (final @ListensTo @Nonnull ContentSelectedEvent event)
       {
-        @Override
-        public void notify (final @Nonnull ContentSelectedEvent event)
+        log.debug("onContentSelected({})", event);
+        final Content content = event.getContent();
+        final ResourceProperties properties = content.getProperties();
+        log.info("PROPERTIES {}", properties);
+
+        try
           {
-            log.debug("notify({})", event);
-            final Content content = event.getContent();
-            final ResourceProperties properties = content.getProperties();
-            log.info("PROPERTIES {}", properties);
-
-            try
-              {
-                fields.document.set(properties.getProperty(PROPERTY_FULL_TEXT, ""));
-              }
-            catch (IOException e)
-              {
-                fields.document.set(e.toString());
-                log.warn("", e);
-              }
-
-            try
-              {
-                fields.title.set(properties.getProperty(PROPERTY_TITLE, ""));
-              }
-            catch (IOException e)
-              {
-                fields.document.set(e.toString());
-                log.warn("", e);
-              }
-
-            presentation.populateProperties(properties.as(PresentationModelProvider).createPresentationModel());
-            presentation.showUp();
+            fields.document.set(properties.getProperty(PROPERTY_FULL_TEXT, ""));
           }
-      };
+        catch (IOException e)
+          {
+            fields.document.set(e.toString());
+            log.warn("", e);
+          }
 
-    @PostConstruct
-    private void initialize()
-      {
-        messageBus.subscribe(ContentSelectedEvent.class, siteNodeSelectionListener);
-      }
+        try
+          {
+            fields.title.set(properties.getProperty(PROPERTY_TITLE, ""));
+          }
+        catch (IOException e)
+          {
+            fields.document.set(e.toString());
+            log.warn("", e);
+          }
 
-    @PreDestroy
-    private void destroy()
-      {
-        messageBus.unsubscribe(siteNodeSelectionListener);
-        // TODO: unsuscribe?
+        presentation.populateProperties(properties.as(PresentationModelProvider).createPresentationModel());
+        presentation.showUp();
       }
 
     @Override

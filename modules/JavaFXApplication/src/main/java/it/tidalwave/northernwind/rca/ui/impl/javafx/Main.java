@@ -65,6 +65,7 @@ public class Main extends ApplicationWithSplash
           {
             Platform.setImplicitExit(true);
             launch(args);
+            Thread.sleep(2000);
           }
         catch (Throwable t)
           {
