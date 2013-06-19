@@ -80,7 +80,7 @@ public class DefaultContentExplorerPresentationControlTest
     @BeforeMethod
     public void setupFixture()
       {
-        context = new ClassPathXmlApplicationContext("DefaultContextExplorerPresentationControlTestBeans.xml");
+        context = new ClassPathXmlApplicationContext("DefaultContentExplorerPresentationControlTestBeans.xml");
 
         fixture = context.getBean(DefaultContentExplorerPresentationControl.class);
         presentation = context.getBean(ContentExplorerPresentation.class);
