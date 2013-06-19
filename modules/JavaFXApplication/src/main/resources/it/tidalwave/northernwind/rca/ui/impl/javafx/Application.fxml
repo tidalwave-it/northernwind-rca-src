@@ -33,7 +33,7 @@
                                 <Insets fx:id="x1" />
                               </VBox.margin>
                             </FlowPane>
-                            <TreeView id="trNode" fx:id="tvStructure" prefHeight="247.0" prefWidth="325.0" showRoot="false" VBox.margin="$x1" VBox.vgrow="ALWAYS" />
+                            <TreeView id="trNode" fx:id="tvStructure" prefHeight="247.0" prefWidth="325.0" VBox.margin="$x1" VBox.vgrow="ALWAYS" />
                           </children>
                         </VBox>
                       </children>
@@ -47,7 +47,7 @@
                                 <Label prefHeight="32.0" prefWidth="86.0" text="Content" />
                               </children>
                             </FlowPane>
-                            <TreeView id="trContent" fx:id="tvContent" prefHeight="247.0" prefWidth="325.0" showRoot="false" VBox.margin="$x1" VBox.vgrow="ALWAYS" />
+                            <TreeView id="trContent" fx:id="tvContent" prefHeight="247.0" prefWidth="325.0" VBox.margin="$x1" VBox.vgrow="ALWAYS" />
                           </children>
                         </VBox>
                       </children>
