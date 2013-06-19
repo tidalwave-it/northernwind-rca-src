@@ -27,6 +27,7 @@
  */
 package it.tidalwave.northernwind.rca.ui.siteopener.spi;
 
+import com.google.common.annotations.VisibleForTesting;
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -59,9 +60,9 @@ public class DefaultSiteOpenerPresentationControl implements SiteOpenerPresentat
 
     private SiteOpenerPresentation presentation;
 
-    private final BoundProperty<Path> folderToOpen = new BoundProperty<>();
+    @VisibleForTesting final BoundProperty<Path> folderToOpen = new BoundProperty<>();
 
-    private final UserAction action = new UserActionSupport()
+    @VisibleForTesting final UserAction action = new UserActionSupport()
       {
         @Override public void actionPerformed()
           {
