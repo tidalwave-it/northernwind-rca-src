@@ -142,6 +142,8 @@ public class DefaultJavaFXBindings implements JavaFXBindings
     @Override
     public void bind (final @Nonnull Button button, final @Nonnull UserAction action)
       {
+        assert Platform.isFxApplicationThread() : "Must run in the JavaFX Application Thread";
+
         button.setOnAction(new EventHandler<ActionEvent>()
           {
             @Override
