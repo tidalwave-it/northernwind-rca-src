@@ -76,6 +76,8 @@
 
         <netbeans.hint.jdkPlatform>JDK_1.7.0</netbeans.hint.jdkPlatform>
         <netbeans.hint.license>Tidalwave-ASF</netbeans.hint.license>
+        <netbeans.checkstyle.format>true</netbeans.checkstyle.format>
+        <netbeans.compile.on.save>test</netbeans.compile.on.save>
 
         <scm.repo.url>ssh://hg@bitbucket.org/tidalwave/northernwind-rca-src</scm.repo.url>
         <scm.repo.readonly.url>https://bitbucket.org/tidalwave/northernwind-rca-src</scm.repo.readonly.url>
@@ -91,7 +93,6 @@
 
         <tft.UmlGraphDoc.version>5.4</tft.UmlGraphDoc.version>
         <tft.UmlGraphDoc.additionalParam>-views -attributes -operations -types -postfixpackage -nodefontpackagesize 6 -nodefontclasssize 8 -nodefontsize 7 -edgefontsize 7 -nodesep 0.05 -ranksep 0.1 -visibility -inferdep -inferrel -inferdepinpackage -hide java.*|javax.*|android.*</tft.UmlGraphDoc.additionalParam>
-
     </properties>
 
     <mailingLists>

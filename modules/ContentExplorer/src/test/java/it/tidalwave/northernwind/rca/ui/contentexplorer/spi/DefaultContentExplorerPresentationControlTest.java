@@ -30,6 +30,7 @@ package it.tidalwave.northernwind.rca.ui.contentexplorer.spi;
 import java.io.IOException;
 import it.tidalwave.role.ui.PresentationModelProvider;
 import it.tidalwave.role.ui.Selectable;
+import it.tidalwave.role.ui.spi.SimplePresentationModelProvider;
 import it.tidalwave.messagebus.MessageBus;
 import it.tidalwave.messagebus.annotation.SimpleMessageSubscriber;
 import it.tidalwave.northernwind.core.model.ModelFactory;

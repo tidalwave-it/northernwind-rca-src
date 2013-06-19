@@ -31,9 +31,10 @@ import javax.annotation.Nonnull;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.nio.file.Path;
+import java.io.File;
 import java.io.IOException;
 import it.tidalwave.role.ui.BoundProperty;
-import it.tidalwave.role.ui.UserActionSupport;
+import it.tidalwave.role.ui.spi.UserActionSupport;
 import it.tidalwave.role.ui.UserAction;
 import it.tidalwave.messagebus.MessageBus;
 import it.tidalwave.northernwind.rca.ui.event.OpenSiteEvent;
@@ -41,7 +42,6 @@ import it.tidalwave.northernwind.rca.ui.siteopener.SiteOpenerPresentation;
 import it.tidalwave.northernwind.rca.ui.siteopener.SiteOpenerPresentationControl;
 import lombok.extern.slf4j.Slf4j;
 import static it.tidalwave.util.ui.UserNotificationWithFeedback.*;
-import java.io.File;
 
 /***********************************************************************************************************************
  *

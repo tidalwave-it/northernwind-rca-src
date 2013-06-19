@@ -5,12 +5,12 @@
  * #L%
  */
 
-package it.tidalwave.northernwind.rca.ui.contentexplorer.spi;
+package it.tidalwave.role.ui.spi;
 
-import it.tidalwave.northernwind.model.impl.admin.role.DefaultPresentationModel;
+import javax.annotation.Nonnull;
 import it.tidalwave.role.ui.PresentationModel;
 import it.tidalwave.role.ui.PresentationModelProvider;
-import javax.annotation.Nonnull;
+import it.tidalwave.northernwind.model.impl.admin.role.DefaultPresentationModel;
 import lombok.RequiredArgsConstructor;
 
 /***********************************************************************************************************************

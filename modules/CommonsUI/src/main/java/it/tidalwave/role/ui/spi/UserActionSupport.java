@@ -25,67 +25,25 @@
  * *********************************************************************************************************************
  * #L%
  */
-package it.tidalwave.role.ui;
+package it.tidalwave.role.ui.spi;
 
 import javax.annotation.Nonnull;
-import javax.annotation.concurrent.Immutable;
-import java.util.Collections;
-import java.util.Map;
-import it.tidalwave.util.Key;
-import it.tidalwave.util.NotFoundException;
-import it.tidalwave.util.TypeSafeHashMap;
-import lombok.ToString;
+import it.tidalwave.role.ui.BoundProperty;
+import it.tidalwave.role.ui.UserAction;
 
 /***********************************************************************************************************************
- *
- * An implementation of {@link Row} based on a Map.
- *
- * @stereotype Role
  *
  * @author  Fabrizio Giudici
  * @version $Id$
  *
  **********************************************************************************************************************/
-@ToString @Immutable
-public class RowHashMap implements Row
+public abstract class UserActionSupport implements UserAction
   {
-    private final TypeSafeHashMap hashMap;
+    private final BoundProperty<Boolean> enabled = new BoundProperty<>(true);
 
     @Nonnull
-    public static RowHashMap create()
+    public BoundProperty<Boolean> enabled()
       {
-        return new RowHashMap();
-      }
-
-    private RowHashMap()
-      {
-        hashMap = new TypeSafeHashMap(Collections.<Key<?>, Object>emptyMap());
-      }
-
-    private RowHashMap (final @Nonnull Map<Key<?>, Object> values)
-      {
-        hashMap = new TypeSafeHashMap(values);
-      }
-
-    @Override
-    public <T> T getValue (final @Nonnull Key<T> key)
-      throws NotFoundException
-      {
-        return hashMap.get(key);
-      }
-
-    @Nonnull
-    public RowHashMap withColumn (final @Nonnull String keyName, final @Nonnull Object value)
-      {
-        return withColumn(new Key<>(keyName), value);
-      }
-
-    @Nonnull
-    public RowHashMap withColumn (final @Nonnull Key<?> key, final @Nonnull Object value)
-      {
-        final Map<Key<?>, Object> map = hashMap.asMap();
-        map.put(key, value);
-
-        return new RowHashMap(map);
+        return enabled;
       }
   }
