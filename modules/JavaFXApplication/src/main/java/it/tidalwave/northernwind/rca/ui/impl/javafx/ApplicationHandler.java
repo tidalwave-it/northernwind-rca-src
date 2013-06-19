@@ -102,12 +102,11 @@ public class ApplicationHandler
     @FXML
     private TableView<PresentationModel> structureEditorProperties;
 
-    @FXML
-    private void onOpen (final @Nonnull ActionEvent event)
-      {
-        log.info("open: {}", event);
-
-      }
+//    @FXML
+//    private void onOpen (final @Nonnull ActionEvent event)
+//      {
+//        log.info("open: {}", event);
+//      }
 
     public void initialize()
       {
