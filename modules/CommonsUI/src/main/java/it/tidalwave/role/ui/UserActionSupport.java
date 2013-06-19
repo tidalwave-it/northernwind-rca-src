@@ -27,6 +27,8 @@
  */
 package it.tidalwave.role.ui;
 
+import javax.annotation.Nonnull;
+
 /***********************************************************************************************************************
  *
  * @author  Fabrizio Giudici
@@ -35,4 +37,11 @@ package it.tidalwave.role.ui;
  **********************************************************************************************************************/
 public abstract class UserActionSupport implements UserAction
   {
+    private final BoundProperty<Boolean> enabled = new BoundProperty<>(true);
+
+    @Nonnull
+    public BoundProperty<Boolean> enabled()
+      {
+        return enabled;
+      }
   }

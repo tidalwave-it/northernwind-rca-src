@@ -27,6 +27,8 @@
  */
 package it.tidalwave.role.ui;
 
+import javax.annotation.Nonnull;
+
 /***********************************************************************************************************************
  *
  * @author  Fabrizio Giudici
@@ -38,4 +40,7 @@ public interface UserAction
     public static final Class<UserAction> UserAction = UserAction.class;
 
     public void actionPerformed();
+
+    @Nonnull
+    public BoundProperty<Boolean> enabled();
   }
