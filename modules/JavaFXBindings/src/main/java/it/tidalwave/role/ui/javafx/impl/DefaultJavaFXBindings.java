@@ -62,6 +62,7 @@ import it.tidalwave.role.ui.UserAction;
 import it.tidalwave.role.ui.javafx.JavaFXBindings;
 import lombok.extern.slf4j.Slf4j;
 import static javafx.collections.FXCollections.*;
+import javafx.scene.control.MenuItem;
 
 /***********************************************************************************************************************
  *
@@ -146,6 +147,27 @@ public class DefaultJavaFXBindings implements JavaFXBindings
 
 //        button.disableProperty().not().bind(new PropertyAdapter<>(action.enabled())); // FIXME: not
         button.setOnAction(new EventHandler<ActionEvent>()
+          {
+            @Override
+            public void handle (final @Nonnull ActionEvent event)
+              {
+                action.actionPerformed();
+              }
+          });
+      }
+
+    /*******************************************************************************************************************
+     *
+     * {@inheritDoc}
+     *
+     ******************************************************************************************************************/
+    @Override
+    public void bind (final @Nonnull MenuItem menuItem, final @Nonnull UserAction action)
+      {
+        assertIsFxApplicationThread();
+
+//        button.disableProperty().not().bind(new PropertyAdapter<>(action.enabled())); // FIXME: not
+        menuItem.setOnAction(new EventHandler<ActionEvent>()
           {
             @Override
             public void handle (final @Nonnull ActionEvent event)

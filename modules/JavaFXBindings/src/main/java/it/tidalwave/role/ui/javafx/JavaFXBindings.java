@@ -32,6 +32,7 @@ import javax.annotation.Nonnull;
 import java.nio.file.Path;
 import javafx.beans.property.Property;
 import javafx.scene.control.Button;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TreeView;
 import javafx.stage.Window;
@@ -54,6 +55,13 @@ public interface JavaFXBindings
      *
      ******************************************************************************************************************/
     public void bind (@Nonnull Button button, @Nonnull UserAction action);
+
+    /*******************************************************************************************************************
+     *
+     *
+     *
+     ******************************************************************************************************************/
+    public void bind (@Nonnull MenuItem menuItem, @Nonnull UserAction action);
 
     /*******************************************************************************************************************
      *
