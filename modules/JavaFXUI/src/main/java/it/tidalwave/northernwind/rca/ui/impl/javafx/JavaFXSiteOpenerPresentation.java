@@ -37,6 +37,7 @@ import it.tidalwave.util.ui.UserNotificationWithFeedback;
 import it.tidalwave.role.ui.javafx.JavaFXBindings;
 import it.tidalwave.role.ui.javafx.Widget;
 import it.tidalwave.northernwind.rca.ui.siteopener.SiteOpenerPresentation;
+import javafx.scene.control.MenuItem;
 import org.springframework.beans.factory.annotation.Configurable;
 
 /***********************************************************************************************************************
@@ -56,12 +57,16 @@ public class JavaFXSiteOpenerPresentation implements SiteOpenerPresentation
     @Widget("btOpen")
     private Button button;
 
+    @Widget("openSiteMenu")
+    private MenuItem menuItem;
+
     private BoundProperty<Path> folderToOpen;
 
     @Override
     public void bind (final @Nonnull UserAction action, final @Nonnull BoundProperty<Path> folderToOpen)
       {
         bindings.bind(button, action);
+        bindings.bind(menuItem, action);
         this.folderToOpen = folderToOpen;
       }
 

@@ -45,6 +45,7 @@ import it.tidalwave.northernwind.rca.ui.structureexplorer.StructureExplorerPrese
 import it.tidalwave.northernwind.rca.ui.structureeditor.StructureEditorPresentationControl;
 import lombok.extern.slf4j.Slf4j;
 import static it.tidalwave.role.ui.javafx.impl.JavaFXSafeComponentBuilder.*;
+import javafx.scene.control.MenuItem;
 
 /***********************************************************************************************************************
  *
@@ -100,6 +101,9 @@ public class ApplicationHandler
 
     @FXML
     private TableView<PresentationModel> structureEditorProperties;
+
+    @FXML
+    private MenuItem openSiteMenu;
 
 //    @FXML
 //    private void onOpen (final @Nonnull ActionEvent event)
