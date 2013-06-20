@@ -55,14 +55,30 @@
             <groupId>it.tidalwave.northernwind</groupId>
             <artifactId>it-tidalwave-northernwind-core</artifactId>
         </dependency>
+
         <dependency>
             <groupId>it.tidalwave.thesefoolishthings</groupId>
             <artifactId>it-tidalwave-messagebus-spring</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>it.tidalwave.northernwind.rca</groupId>
+            <artifactId>it-tidalwave-util-supplement</artifactId>
         </dependency>
 
         <dependency>
             <groupId>it.tidalwave.northernwind.rca</groupId>
             <artifactId>it-tidalwave-northernwind-rca-ui-commons</artifactId>
+            <classifier>tests</classifier>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>it.tidalwave.thesefoolishthings</groupId>
+            <artifactId>it-tidalwave-util-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>it.tidalwave.northernwind.rca</groupId>
+            <artifactId>it-tidalwave-util-supplement</artifactId>
             <classifier>tests</classifier>
             <scope>test</scope>
         </dependency>

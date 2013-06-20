@@ -49,10 +49,16 @@
             <groupId>it.tidalwave.northernwind.rca</groupId>
             <artifactId>it-tidalwave-northernwind-rca-ui-commons</artifactId>
         </dependency>
+        
         <dependency>
             <groupId>it.tidalwave.thesefoolishthings</groupId>
             <artifactId>it-tidalwave-util</artifactId>
         </dependency>
+        <dependency>
+            <groupId>it.tidalwave.northernwind.rca</groupId>
+            <artifactId>it-tidalwave-util-supplement</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>com.oracle</groupId>
             <artifactId>javafx-embedded</artifactId>

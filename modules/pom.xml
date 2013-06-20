@@ -282,6 +282,8 @@
 
     ================================================================================================================ -->
     <modules>
+        <module>TFTSupplement</module>
+
         <module>CommonsUI</module>
         <module>ContentEditor</module>
         <module>ContentExplorer</module>
@@ -295,6 +297,6 @@
         <module>StrippedCoreImplementation</module>
         <module>StructureExplorer</module>
         <module>StructureEditor</module>
-    </modules>
+  </modules>
 
 </project>

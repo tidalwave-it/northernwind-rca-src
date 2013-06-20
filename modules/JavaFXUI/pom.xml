@@ -67,9 +67,14 @@
             <groupId>it.tidalwave.northernwind.rca</groupId>
             <artifactId>it-tidalwave-northernwind-rca-ui-structure-editor</artifactId>
         </dependency>
+        
         <dependency>
             <groupId>it.tidalwave.northernwind.rca</groupId>
             <artifactId>it-tidalwave-role-ui-javafx</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>it.tidalwave.northernwind.rca</groupId>
+            <artifactId>it-tidalwave-util-supplement</artifactId>
         </dependency>
 
         <dependency>

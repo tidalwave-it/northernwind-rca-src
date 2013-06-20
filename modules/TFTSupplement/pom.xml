@@ -25,8 +25,10 @@
 *********************************************************************************************************************
 #L%
 -->
-<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
@@ -37,28 +39,26 @@
     </parent>
 
     <groupId>it.tidalwave.northernwind.rca</groupId>
-    <artifactId>it-tidalwave-northernwind-rca-ui-content-editor</artifactId>
+    <artifactId>it-tidalwave-util-supplement</artifactId>
     <packaging>jar</packaging>
     <version>1.0-ALPHA-1-SNAPSHOT</version>
-    <name>Zephyr - UI Content Editor</name>
+    <name>TheseFoolishThings - Supplements</name>
 
     <dependencies>
         <dependency>
-            <groupId>it.tidalwave.northernwind.rca</groupId>
-            <artifactId>it-tidalwave-northernwind-rca-ui-commons</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>it.tidalwave.northernwind</groupId>
-            <artifactId>it-tidalwave-northernwind-core</artifactId>
-        </dependency>
-        <dependency>
             <groupId>it.tidalwave.thesefoolishthings</groupId>
-            <artifactId>it-tidalwave-messagebus-spring</artifactId>
-        </dependency>
-        
-        <dependency>
-            <groupId>it.tidalwave.northernwind.rca</groupId>
-            <artifactId>it-tidalwave-util-supplement</artifactId>
+            <artifactId>it-tidalwave-util</artifactId>
+            <exclusions>
+                <exclusion>
+                    <artifactId>org-slf4j-jdk14</artifactId>
+                    <groupId>com.kenai.nbpwr</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>org-openide-util</artifactId>
+                    <groupId>org.netbeans.api</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
     </dependencies>
+
 </project>

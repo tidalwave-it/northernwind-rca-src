@@ -40,6 +40,7 @@ import it.tidalwave.role.SimpleComposite;
 import it.tidalwave.role.spi.DefaultSimpleComposite;
 import it.tidalwave.role.ui.PresentationModel;
 import it.tidalwave.role.ui.PresentationModelProvider;
+import it.tidalwave.role.ui.spi.DefaultPresentationModel;
 import it.tidalwave.role.ui.spi.RowHashMap;
 import it.tidalwave.dci.annotation.DciRole;
 import it.tidalwave.northernwind.core.model.ResourceProperties;
