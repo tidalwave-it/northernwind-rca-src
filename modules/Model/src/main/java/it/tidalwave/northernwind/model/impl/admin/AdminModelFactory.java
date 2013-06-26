@@ -101,7 +101,6 @@ public class AdminModelFactory implements ModelFactory
             @Override @Nonnull
             public ResourceProperties build (final @Nonnull ResourceProperties.Builder builder)
               {
-                // FIXME: this is a patched copy, needs public constructor for builder
                 return new it.tidalwave.northernwind.model.impl.admin.DefaultResourceProperties(builder);
               }
           });

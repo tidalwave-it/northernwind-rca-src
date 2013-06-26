@@ -51,6 +51,7 @@ import lombok.extern.slf4j.Slf4j;
  * @version $Id$
  *
  **********************************************************************************************************************/
+// FIXME: this is a patched copy, needs public constructor for builder - see NW-180
 @Slf4j @ToString(exclude={"propertyResolver"})
 public class DefaultResourceProperties extends SpringAsSupport implements ResourceProperties
   {

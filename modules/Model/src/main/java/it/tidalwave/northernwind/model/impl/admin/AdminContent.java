@@ -97,7 +97,7 @@ public class AdminContent extends SpringAsSupport implements Content, As, Simple
           };
       }
 
-    // FIXME: this should be done by SpringAsSupport
+    // FIXME: this should be done by SpringAsSupport - see THESEFOOLISHTHINGS-100
     @Override @Nonnull
     public <T> T as (final @Nonnull Class<T> roleType)
       {

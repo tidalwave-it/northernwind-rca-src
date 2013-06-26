@@ -40,7 +40,7 @@ import lombok.extern.slf4j.Slf4j;
 
 /***********************************************************************************************************************
  *
- * FIXME: required by the ResourceFileSystem - only for getMimeType(). Introduce a simple MimeTypeResolver.
+ * FIXME: required by the ResourceFileSystem - only for getMimeType(). Introduce a simple MimeTypeResolver. See NW-184
  *
  * @author  Fabrizio Giudici
  * @version $Id$

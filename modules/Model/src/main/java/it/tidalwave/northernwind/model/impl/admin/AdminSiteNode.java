@@ -108,7 +108,7 @@ public class AdminSiteNode extends SpringAsSupport implements SiteNode, As, Simp
           };
       }
 
-    // FIXME: this should be done by SpringAsSupport
+    // FIXME: this should be done by SpringAsSupport - see THESEFOOLISHTHINGS-100
     @Override @Nonnull
     public <T> T as (final @Nonnull Class<T> roleType)
       {

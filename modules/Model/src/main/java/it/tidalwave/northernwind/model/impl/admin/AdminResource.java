@@ -34,6 +34,7 @@ import java.io.InputStream;
 import org.springframework.beans.factory.annotation.Configurable;
 import it.tidalwave.util.As;
 import it.tidalwave.util.Id;
+import it.tidalwave.role.spring.SpringAsSupport;
 import it.tidalwave.northernwind.core.model.ModelFactory;
 import it.tidalwave.northernwind.core.model.Resource;
 import it.tidalwave.northernwind.core.model.ResourceFile;
@@ -50,7 +51,7 @@ import static it.tidalwave.role.Unmarshallable.*;
  *
  **********************************************************************************************************************/
 @Configurable @Slf4j
-public class AdminResource implements Resource, As//, SimpleComposite<Content>
+public class AdminResource extends SpringAsSupport implements Resource, As
   {
     @Inject @Nonnull
     private ModelFactory modelFactory;
@@ -61,7 +62,7 @@ public class AdminResource implements Resource, As//, SimpleComposite<Content>
     @Nonnull
     private final PatchedTextResourcePropertyResolver propertyResolver;
 
-    public AdminResource(ResourceFile file)
+    public AdminResource (final @Nonnull ResourceFile file)
       {
         this.file = file;
         propertyResolver = new PatchedTextResourcePropertyResolver(file);
@@ -98,18 +99,6 @@ public class AdminResource implements Resource, As//, SimpleComposite<Content>
 
     @Override
     public boolean isPlaceHolder()
-      {
-        throw new UnsupportedOperationException("Not supported yet.");
-      }
-
-    @Override
-    public <T> T as(Class<T> clazz)
-      {
-        throw new UnsupportedOperationException("Not supported yet.");
-      }
-
-    @Override
-    public <T> T as(Class<T> clazz, NotFoundBehaviour<T> notFoundBehaviour)
       {
         throw new UnsupportedOperationException("Not supported yet.");
       }
