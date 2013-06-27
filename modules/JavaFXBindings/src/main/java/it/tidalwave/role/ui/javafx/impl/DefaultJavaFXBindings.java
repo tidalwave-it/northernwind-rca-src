@@ -27,6 +27,7 @@
  */
 package it.tidalwave.role.ui.javafx.impl;
 
+import com.google.common.annotations.VisibleForTesting;
 import javax.annotation.Nonnegative;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -78,7 +79,7 @@ public class DefaultJavaFXBindings implements JavaFXBindings
      *
      *
      ******************************************************************************************************************/
-    private final Callback<TreeView<PresentationModel>, TreeCell<PresentationModel>> treeCellFactory =
+    @VisibleForTesting final Callback<TreeView<PresentationModel>, TreeCell<PresentationModel>> treeCellFactory =
             new Callback<TreeView<PresentationModel>, TreeCell<PresentationModel>>()
       {
         @Override @Nonnull
