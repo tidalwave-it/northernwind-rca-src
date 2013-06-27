@@ -94,10 +94,10 @@ public class ResourcePropertiesPresentationModelProvider implements Presentation
                             log.warn("", e);
                           }
                       }
-                   }
+                  }
 
-                 return results;
-               }
+                return results;
+              }
           });
 
         final List<Object> roles = new ArrayList<>(Arrays.asList(localRoles));
