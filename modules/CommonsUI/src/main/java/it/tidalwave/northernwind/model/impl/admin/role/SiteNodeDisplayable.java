@@ -28,12 +28,8 @@
 package it.tidalwave.northernwind.model.impl.admin.role;
 
 import javax.annotation.Nonnull;
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
-import it.tidalwave.role.Displayable;
 import it.tidalwave.dci.annotation.DciRole;
 import it.tidalwave.northernwind.core.model.SiteNode;
-import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 
 /***********************************************************************************************************************
@@ -42,23 +38,11 @@ import lombok.ToString;
  * @version $Id$
  *
  **********************************************************************************************************************/
-@DciRole(datum = SiteNode.class)
-@RequiredArgsConstructor @ToString
-public class SiteNodeDisplayable implements Displayable
+@DciRole(datum = SiteNode.class) @ToString
+public class SiteNodeDisplayable extends ResourceDisplayable
   {
-    @Nonnull
-    private final SiteNode siteNode;
-
-    @Override
-    public String getDisplayName()
+    public SiteNodeDisplayable (final @Nonnull SiteNode siteNode)
       {
-        try
-          {
-            return URLDecoder.decode(siteNode.getFile().getName(), "UTF-8") ;
-          }
-        catch (UnsupportedEncodingException e)
-          {
-            throw new RuntimeException(e); // never happens
-          }
+        super(siteNode);
       }
   }
