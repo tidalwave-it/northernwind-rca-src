@@ -46,6 +46,8 @@
 
     <properties>
         <tft.mainClass>it.tidalwave.northernwind.rca.ui.impl.javafx.Main</tft.mainClass>
+        <!-- Otherwise can't be released because of missing javadocs -->
+        <tft.javadoc.excludePackageNames />
     </properties>
 
     <dependencies>

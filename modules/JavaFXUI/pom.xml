@@ -42,6 +42,11 @@
     <version>1.0-ALPHA-1-SNAPSHOT</version>
     <name>Zephyr - UI (JavaFX)</name>
 
+    <properties>
+        <!-- Otherwise can't be released because of missing javadocs -->
+        <tft.javadoc.excludePackageNames />
+    </properties>
+    
     <dependencies>
         <dependency>
             <groupId>it.tidalwave.northernwind.rca</groupId>
@@ -67,7 +72,7 @@
             <groupId>it.tidalwave.northernwind.rca</groupId>
             <artifactId>it-tidalwave-northernwind-rca-ui-structure-editor</artifactId>
         </dependency>
-        
+
         <dependency>
             <groupId>it.tidalwave.northernwind.rca</groupId>
             <artifactId>it-tidalwave-role-ui-javafx</artifactId>
