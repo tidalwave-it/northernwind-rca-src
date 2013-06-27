@@ -32,6 +32,7 @@ import it.tidalwave.role.spi.DefaultDisplayable;
 import it.tidalwave.role.ui.PresentationModel;
 import it.tidalwave.role.ui.Selectable;
 import it.tidalwave.role.ui.javafx.JavaFXBindings;
+import it.tidalwave.role.ui.spi.DefaultPresentationModel;
 import javafx.scene.control.TreeCell;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
@@ -86,13 +87,28 @@ public class DefaultJavaFXBindingsTest
     public void treeItemChangeListener_must_callback_a_Selectable_on_selection_change()
       {
         final Selectable selectable = mock(Selectable.class);
-        final PresentationModel oldPm = mock(PresentationModel.class);
-        final PresentationModel pm = mock(PresentationModel.class);
-        when(pm.as(eq(Selectable.class))).thenReturn(selectable);
+        final Object datum = new Object();
+        final PresentationModel oldPm = new DefaultPresentationModel(datum, selectable);
+        final PresentationModel pm = new DefaultPresentationModel(datum, selectable);
 
         fixture.treeItemChangeListener.changed(null, new TreeItem<>(oldPm), new TreeItem<>(pm));
 
         verify(selectable, times(1)).select();
         verifyNoMoreInteractions(selectable);
+      }
+
+    /*******************************************************************************************************************
+     *
+     ******************************************************************************************************************/
+    @Test
+    public void treeItemChangeListener_must_do_nothing_when_there_is_no_Selectable_role()
+      {
+        final Object datum = new Object();
+        final PresentationModel oldPm = new DefaultPresentationModel(datum);
+        final PresentationModel pm = new DefaultPresentationModel(datum);
+
+        fixture.treeItemChangeListener.changed(null, new TreeItem<>(oldPm), new TreeItem<>(pm));
+
+        // we're testing that no exceptions are thrown
       }
   }
