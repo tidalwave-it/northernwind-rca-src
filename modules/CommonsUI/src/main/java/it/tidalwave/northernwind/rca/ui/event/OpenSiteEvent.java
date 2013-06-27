@@ -37,8 +37,8 @@ import lombok.ToString;
 
 /***********************************************************************************************************************
  *
- * An event which represents the opening of a {@link Site}.
- * 
+ * An event that represents the opening of a {@link Site}.
+ *
  * @author  Fabrizio Giudici
  * @version $Id$
  *
