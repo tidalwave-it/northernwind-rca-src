@@ -25,21 +25,20 @@
 *********************************************************************************************************************
 #L%
 -->
-<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
         <groupId>it.tidalwave.northernwind.rca</groupId>
         <artifactId>northernwind-rca-modules</artifactId>
-        <version>1.0-ALPHA-1-SNAPSHOT</version>
+        <version>1.0-ALPHA-1</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
     <groupId>it.tidalwave.northernwind.rca</groupId>
     <artifactId>it-tidalwave-northernwind-rca-ui-structure-editor</artifactId>
     <packaging>jar</packaging>
-    <version>1.0-ALPHA-1-SNAPSHOT</version>
+    <version>1.0-ALPHA-1</version>
     <name>Zephyr - UI Structure Editor</name>
 
     <dependencies>
