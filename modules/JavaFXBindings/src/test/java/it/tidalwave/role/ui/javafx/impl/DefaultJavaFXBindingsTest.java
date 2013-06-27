@@ -30,8 +30,10 @@ package it.tidalwave.role.ui.javafx.impl;
 import it.tidalwave.role.Displayable;
 import it.tidalwave.role.spi.DefaultDisplayable;
 import it.tidalwave.role.ui.PresentationModel;
+import it.tidalwave.role.ui.Selectable;
 import it.tidalwave.role.ui.javafx.JavaFXBindings;
 import javafx.scene.control.TreeCell;
+import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.scene.control.cell.TextFieldTreeCell;
 import javafx.util.StringConverter;
@@ -41,6 +43,7 @@ import org.testng.annotations.Test;
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.CoreMatchers.*;
 import static org.mockito.Mockito.*;
+import org.mockito.verification.VerificationMode;
 
 /***********************************************************************************************************************
  *
@@ -58,6 +61,9 @@ public class DefaultJavaFXBindingsTest
         fixture = new DefaultJavaFXBindings();
       }
 
+    /*******************************************************************************************************************
+     *
+     ******************************************************************************************************************/
     @Test
     public void treeCellFactory_must_create_a_TextFieldTreeCell_whose_converter_uses_Displayable()
       {
@@ -71,5 +77,22 @@ public class DefaultJavaFXBindingsTest
         when(pm.as(eq(Displayable.class))).thenReturn(new DefaultDisplayable("foo"));
 
         assertThat(stringConverter.toString(pm), is("foo"));
+      }
+
+    /*******************************************************************************************************************
+     *
+     ******************************************************************************************************************/
+    @Test
+    public void treeItemChangeListener_must_callback_a_Selectable_on_selection_change()
+      {
+        final Selectable selectable = mock(Selectable.class);
+        final PresentationModel oldPm = mock(PresentationModel.class);
+        final PresentationModel pm = mock(PresentationModel.class);
+        when(pm.as(eq(Selectable.class))).thenReturn(selectable);
+
+        fixture.treeItemChangeListener.changed(null, new TreeItem<>(oldPm), new TreeItem<>(pm));
+
+        verify(selectable, times(1)).select();
+        verifyNoMoreInteractions(selectable);
       }
   }

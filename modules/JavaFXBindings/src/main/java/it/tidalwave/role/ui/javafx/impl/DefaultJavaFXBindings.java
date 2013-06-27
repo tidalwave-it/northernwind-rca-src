@@ -117,7 +117,7 @@ public class DefaultJavaFXBindings implements JavaFXBindings
      *
      *
      ******************************************************************************************************************/
-    private final ChangeListener<TreeItem<PresentationModel>> treeItemChangeListener =
+    @VisibleForTesting final ChangeListener<TreeItem<PresentationModel>> treeItemChangeListener =
             new ChangeListener<TreeItem<PresentationModel>>()
       {
         @Override
