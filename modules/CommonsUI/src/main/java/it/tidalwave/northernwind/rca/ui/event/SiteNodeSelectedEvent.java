@@ -27,8 +27,8 @@
  */
 package it.tidalwave.northernwind.rca.ui.event;
 
+import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import com.google.common.base.Preconditions;
 import it.tidalwave.northernwind.core.model.SiteNode;
 import lombok.Getter;
@@ -44,7 +44,7 @@ import lombok.ToString;
 @RequiredArgsConstructor @ToString(doNotUseGetters = true)
 public class SiteNodeSelectedEvent
   {
-    @Nullable
+    @CheckForNull
     private final SiteNode siteNode;
 
     @Getter

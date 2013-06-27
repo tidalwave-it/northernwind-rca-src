@@ -27,6 +27,7 @@
  */
 package it.tidalwave.northernwind.rca.ui.event;
 
+import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 import com.google.common.base.Preconditions;
 import it.tidalwave.northernwind.core.model.Content;
@@ -43,7 +44,7 @@ import lombok.ToString;
 @RequiredArgsConstructor @Getter @ToString(doNotUseGetters = true)
 public class ContentSelectedEvent
   {
-    @Nonnull
+    @CheckForNull
     private final Content content;
 
 
