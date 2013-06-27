@@ -66,7 +66,7 @@ public class DefaultSiteOpenerPresentationControl implements SiteOpenerPresentat
       {
         @Override public void actionPerformed()
           {
-            presentation.notifyFolderSelectionNeeded(notificationWithFeedback()
+            presentation.notifyInvitationToSelectAFolder(notificationWithFeedback()
                                                     .withCaption("Select the site to open")
                                                     .withFeedback(new Feedback()
               {

@@ -95,7 +95,7 @@ public class DefaultSiteOpenerPresentationControlTest
           dependsOnMethods = "initialize_must_bind_the_presentation_and_set_the_default_path_to_user_home")
     public void must_fire_OpenSiteEvent_when_action_performed_and_the_user_selected_a_folder (final String folderPath)
       {
-        doAnswer(confirm()).when(presentation).notifyFolderSelectionNeeded(any(UserNotificationWithFeedback.class));
+        doAnswer(confirm()).when(presentation).notifyInvitationToSelectAFolder(any(UserNotificationWithFeedback.class));
         fixture.folderToOpen.set(new File(folderPath).toPath());
 
         fixture.openSiteAction.actionPerformed();
@@ -109,7 +109,7 @@ public class DefaultSiteOpenerPresentationControlTest
     @Test(dependsOnMethods = "initialize_must_bind_the_presentation_and_set_the_default_path_to_user_home")
     public void must_do_nothing_when_action_performed_and_the_user_cancelled_the_selection()
       {
-        doAnswer(cancel()).when(presentation).notifyFolderSelectionNeeded(any(UserNotificationWithFeedback.class));
+        doAnswer(cancel()).when(presentation).notifyInvitationToSelectAFolder(any(UserNotificationWithFeedback.class));
 
         fixture.openSiteAction.actionPerformed();
 
