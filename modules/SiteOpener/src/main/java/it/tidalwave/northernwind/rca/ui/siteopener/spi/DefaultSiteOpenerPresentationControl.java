@@ -62,7 +62,7 @@ public class DefaultSiteOpenerPresentationControl implements SiteOpenerPresentat
 
     @VisibleForTesting final BoundProperty<Path> folderToOpen = new BoundProperty<>();
 
-    @VisibleForTesting final UserAction action = new UserActionSupport()
+    @VisibleForTesting final UserAction openSiteAction = new UserActionSupport()
       {
         @Override public void actionPerformed()
           {
@@ -83,7 +83,13 @@ public class DefaultSiteOpenerPresentationControl implements SiteOpenerPresentat
     public void initialize (final @Nonnull SiteOpenerPresentation presentation)
       {
         this.presentation = presentation;
-        folderToOpen.set(new File(System.getProperty("user.home")).toPath());
-        presentation.bind(action, folderToOpen);
+        folderToOpen.set(getHomeFolder());
+        presentation.bind(openSiteAction, folderToOpen);
+      }
+
+    @Nonnull
+    private Path getHomeFolder()
+      {
+        return new File(System.getProperty("user.home")).toPath();
       }
   }
