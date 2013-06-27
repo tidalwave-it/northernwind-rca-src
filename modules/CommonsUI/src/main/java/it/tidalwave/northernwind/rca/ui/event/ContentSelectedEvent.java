@@ -63,7 +63,7 @@ public class ContentSelectedEvent
       }
 
     @Nonnull
-    public Content getSiteNode()
+    public Content getContent()
       {
         return Preconditions.checkNotNull(content);
       }
