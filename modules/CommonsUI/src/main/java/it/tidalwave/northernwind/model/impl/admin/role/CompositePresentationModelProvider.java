@@ -39,6 +39,7 @@ import it.tidalwave.role.SimpleComposite;
 import it.tidalwave.role.ui.PresentationModel;
 import it.tidalwave.role.ui.PresentationModelProvider;
 import it.tidalwave.role.ui.spi.DefaultPresentationModel;
+import it.tidalwave.util.AsException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -88,11 +89,19 @@ public class CompositePresentationModelProvider<T extends As> implements Present
                     protected List<? extends PresentationModel> computeResults()
                       {
                         final List<PresentationModel> results = new ArrayList<>();
-                        final SimpleComposite<T> composite = datum.as(SimpleComposite.class);
 
-                        for (final T child : composite.findChildren().results())
+                        try
                           {
-                            results.add(internalCreatePresentationModel(child, rolesOrFactories));
+                            final SimpleComposite<T> composite = datum.as(SimpleComposite.class);
+
+                            for (final T child : composite.findChildren().results())
+                              {
+                                results.add(internalCreatePresentationModel(child, rolesOrFactories));
+                              }
+                          }
+                        catch (AsException e)
+                          {
+                            // ok, no Composite role
                           }
 
                         return results;
