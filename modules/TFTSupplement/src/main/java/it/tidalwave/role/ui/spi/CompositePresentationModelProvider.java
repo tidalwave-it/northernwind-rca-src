@@ -25,21 +25,20 @@
  * *********************************************************************************************************************
  * #L%
  */
-package it.tidalwave.northernwind.model.impl.admin.role;
+package it.tidalwave.role.ui.spi;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import it.tidalwave.util.As;
+import it.tidalwave.util.AsException;
 import it.tidalwave.util.Finder;
 import it.tidalwave.util.RoleFactory;
 import it.tidalwave.util.spi.SimpleFinderSupport;
 import it.tidalwave.role.SimpleComposite;
 import it.tidalwave.role.ui.PresentationModel;
 import it.tidalwave.role.ui.PresentationModelProvider;
-import it.tidalwave.role.ui.spi.DefaultPresentationModel;
-import it.tidalwave.util.AsException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -63,7 +62,6 @@ public class CompositePresentationModelProvider<T extends As> implements Present
     @Override @Nonnull
     public PresentationModel createPresentationModel (final @Nonnull Object ... rolesOrFactories)
       {
-        log.trace("createPresentationModel({})", rolesOrFactories);
         return internalCreatePresentationModel(datum, new ArrayList<>(Arrays.asList(rolesOrFactories)));
       }
 

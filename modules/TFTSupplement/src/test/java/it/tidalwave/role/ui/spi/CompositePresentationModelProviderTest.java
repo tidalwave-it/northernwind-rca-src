@@ -25,7 +25,7 @@
  * *********************************************************************************************************************
  * #L%
  */
-package it.tidalwave.northernwind.model.impl.admin.role;
+package it.tidalwave.role.ui.spi;
 
 import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;

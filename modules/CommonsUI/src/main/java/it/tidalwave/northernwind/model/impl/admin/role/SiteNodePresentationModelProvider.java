@@ -28,6 +28,7 @@
 package it.tidalwave.northernwind.model.impl.admin.role;
 
 import javax.annotation.Nonnull;
+import it.tidalwave.role.ui.spi.CompositePresentationModelProvider;
 import it.tidalwave.dci.annotation.DciRole;
 import it.tidalwave.northernwind.model.impl.admin.AdminSiteNode;
 
