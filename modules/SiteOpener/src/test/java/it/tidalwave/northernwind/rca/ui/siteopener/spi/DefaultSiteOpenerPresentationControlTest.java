@@ -86,7 +86,7 @@ public class DefaultSiteOpenerPresentationControlTest
     /*******************************************************************************************************************
      *
      ******************************************************************************************************************/
-    @Test
+    @Test(dependsOnMethods = "initialize_must_bind_the_presentation_and_set_the_default_path_to_user_home")
     public void must_fire_an_OpenSiteEvent_when_action_performed_and_the_user_selected_a_folder()
       {
         doAnswer(confirm()).when(presentation).notifyFolderSelectionNeeded(any(UserNotificationWithFeedback.class));
@@ -99,7 +99,7 @@ public class DefaultSiteOpenerPresentationControlTest
     /*******************************************************************************************************************
      *
      ******************************************************************************************************************/
-    @Test
+    @Test(dependsOnMethods = "initialize_must_bind_the_presentation_and_set_the_default_path_to_user_home")
     public void must_do_nothing_when_action_performed_and_the_user_cancelled_the_selection()
       {
         doAnswer(cancel()).when(presentation).notifyFolderSelectionNeeded(any(UserNotificationWithFeedback.class));
