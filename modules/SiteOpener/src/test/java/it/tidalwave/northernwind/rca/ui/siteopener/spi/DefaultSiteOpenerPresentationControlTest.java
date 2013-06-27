@@ -27,16 +27,20 @@
  */
 package it.tidalwave.northernwind.rca.ui.siteopener.spi;
 
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import it.tidalwave.util.ui.UserNotificationWithFeedback;
 import it.tidalwave.messagebus.MessageBus;
 import it.tidalwave.northernwind.rca.ui.siteopener.SiteOpenerPresentation;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import org.mockito.stubbing.Answer;
-import static org.hamcrest.CoreMatchers.*;
 import static it.tidalwave.util.ui.UserNotificationWithFeedbackTestHelper.*;
 import static it.tidalwave.northernwind.rca.ui.siteopener.spi.OpenSiteEventMatcher.*;
+import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.*;
 import static org.mockito.Mockito.*;
 import static org.mockito.Mockito.any;
@@ -56,6 +60,7 @@ public class DefaultSiteOpenerPresentationControlTest
     private SiteOpenerPresentation presentation;
 
     private MessageBus messageBus;
+    private File folder;
 
     /*******************************************************************************************************************
      *
@@ -86,15 +91,16 @@ public class DefaultSiteOpenerPresentationControlTest
     /*******************************************************************************************************************
      *
      ******************************************************************************************************************/
-    @Test//(dependsOnMethods = "initialize_must_bind_the_presentation_and_set_the_default_path_to_user_home")
-    public void must_fire_an_OpenSiteEvent_when_action_performed_and_the_user_selected_a_folder()
+    @Test(dataProvider = "pathsProvider",
+          dependsOnMethods = "initialize_must_bind_the_presentation_and_set_the_default_path_to_user_home")
+    public void must_fire_an_OpenSiteEvent_when_action_performed_and_the_user_selected_a_folder (final String path)
       {
         doAnswer(confirm()).when(presentation).notifyFolderSelectionNeeded(any(UserNotificationWithFeedback.class));
+        fixture.folderToOpen.set(new File(path).toPath());
 
         fixture.openSiteAction.actionPerformed();
 
-        final String rootPath = System.getProperty("user.home");
-        verify(messageBus).publish(argThat(openSiteEvent().withRootPath(rootPath)));
+        verify(messageBus).publish(argThat(openSiteEvent().withRootPath(path)));
       }
 
     /*******************************************************************************************************************
@@ -108,6 +114,24 @@ public class DefaultSiteOpenerPresentationControlTest
         fixture.openSiteAction.actionPerformed();
 
         verifyZeroInteractions(messageBus);
+      }
+
+    /*******************************************************************************************************************
+     *
+     ******************************************************************************************************************/
+    @DataProvider(name = "pathsProvider")
+    private Object[][] pathsProvider() throws IOException
+      {
+        final String[][] result = new String[10][1];
+
+        for (int i = 0; i < 10; i++)
+          {
+            folder = Files.createTempDirectory("SampleFolder-").getFileName().toFile();
+            folder.mkdirs();
+            result[i][0] = folder.getAbsolutePath();
+          }
+
+        return result;
       }
 
     // FIXME: for stylistic consistency, CONFIRM and CANCEL should really be static methods
