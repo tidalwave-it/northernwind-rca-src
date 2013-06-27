@@ -47,7 +47,6 @@ public class ContentSelectedEvent
     @CheckForNull
     private final Content content;
 
-
     @Getter
     private final boolean emptySelection;
 
