@@ -25,44 +25,44 @@
  * *********************************************************************************************************************
  * #L%
  */
-package it.tidalwave.northernwind.rca.ui.event;
+package it.tidalwave.northernwind.rca.ui.siteopener.spi;
 
 import javax.annotation.Nonnull;
-import java.io.IOException;
-import java.nio.file.Path;
-import com.google.common.annotations.VisibleForTesting;
-import it.tidalwave.northernwind.core.model.ResourceFileSystem;
-import it.tidalwave.northernwind.core.model.Site;
-import it.tidalwave.northernwind.frontend.filesystem.basic.LocalFileSystemProvider;
-import lombok.Getter;
+import it.tidalwave.northernwind.rca.ui.event.OpenSiteEvent;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import lombok.experimental.Wither;
+import org.hamcrest.BaseMatcher;
+import org.hamcrest.Description;
 
 /***********************************************************************************************************************
- *
- * An event that represents the opening of a {@link Site}.
  *
  * @author  Fabrizio Giudici
  * @version $Id$
  *
  **********************************************************************************************************************/
-public class OpenSiteEvent
+@NoArgsConstructor(staticName = "openSiteEvent") @AllArgsConstructor(access = AccessLevel.PRIVATE)
+public class OpenSiteEventMatcher extends BaseMatcher<OpenSiteEvent>
   {
-    @Getter @Nonnull
-    private final ResourceFileSystem fileSystem;
+    @Wither
+    private String rootPath;
 
-    @VisibleForTesting @Getter @Nonnull
-    private final LocalFileSystemProvider fileSystemProvider;
-
-    public OpenSiteEvent (final @Nonnull Path folder)
-      throws IOException
+    @Override
+    public boolean matches (final Object item)
       {
-        fileSystemProvider = new LocalFileSystemProvider();
-        fileSystemProvider.setRootPath(folder.toFile().getAbsolutePath());
-        fileSystem = fileSystemProvider.getFileSystem();
+        if (! (item instanceof OpenSiteEvent))
+          {
+            return false;
+          }
+
+        final OpenSiteEvent event = (OpenSiteEvent)item;
+        return event.getFileSystemProvider().getRootPath().equals(rootPath);
       }
 
-    @Override @Nonnull
-    public String toString()
+    @Override
+    public void describeTo (final @Nonnull Description description)
       {
-        return String.format("OpenSiteEvent(root = %s)", fileSystemProvider.getRootPath());
+        description.appendText(String.format("OpenSiteEvent(root = %s)", rootPath));
       }
   }

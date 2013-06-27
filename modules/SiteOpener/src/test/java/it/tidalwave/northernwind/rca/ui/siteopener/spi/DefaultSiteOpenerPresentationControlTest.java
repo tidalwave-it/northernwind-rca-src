@@ -30,13 +30,13 @@ package it.tidalwave.northernwind.rca.ui.siteopener.spi;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import it.tidalwave.util.ui.UserNotificationWithFeedback;
 import it.tidalwave.messagebus.MessageBus;
-import it.tidalwave.northernwind.rca.ui.event.OpenSiteEvent;
 import it.tidalwave.northernwind.rca.ui.siteopener.SiteOpenerPresentation;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.mockito.stubbing.Answer;
 import static org.hamcrest.CoreMatchers.*;
 import static it.tidalwave.util.ui.UserNotificationWithFeedbackTestHelper.*;
+import static it.tidalwave.northernwind.rca.ui.siteopener.spi.OpenSiteEventMatcher.*;
 import static org.hamcrest.MatcherAssert.*;
 import static org.mockito.Mockito.*;
 import static org.mockito.Mockito.any;
@@ -80,20 +80,21 @@ public class DefaultSiteOpenerPresentationControlTest
       {
         assertThat(fixture.folderToOpen.get().toFile().getAbsolutePath(), is(System.getProperty("user.home")));
 
-        verify(presentation).bind(same(fixture.action), same(fixture.folderToOpen));
+        verify(presentation).bind(same(fixture.openSiteAction), same(fixture.folderToOpen));
       }
 
     /*******************************************************************************************************************
      *
      ******************************************************************************************************************/
-    @Test(dependsOnMethods = "initialize_must_bind_the_presentation_and_set_the_default_path_to_user_home")
+    @Test//(dependsOnMethods = "initialize_must_bind_the_presentation_and_set_the_default_path_to_user_home")
     public void must_fire_an_OpenSiteEvent_when_action_performed_and_the_user_selected_a_folder()
       {
         doAnswer(confirm()).when(presentation).notifyFolderSelectionNeeded(any(UserNotificationWithFeedback.class));
 
-        fixture.action.actionPerformed();
+        fixture.openSiteAction.actionPerformed();
 
-        verify(messageBus).publish(any(OpenSiteEvent.class)); // FIXME: also assert contents
+        final String rootPath = System.getProperty("user.home");
+        verify(messageBus).publish(argThat(openSiteEvent().withRootPath(rootPath)));
       }
 
     /*******************************************************************************************************************
@@ -104,7 +105,7 @@ public class DefaultSiteOpenerPresentationControlTest
       {
         doAnswer(cancel()).when(presentation).notifyFolderSelectionNeeded(any(UserNotificationWithFeedback.class));
 
-        fixture.action.actionPerformed();
+        fixture.openSiteAction.actionPerformed();
 
         verifyZeroInteractions(messageBus);
       }
