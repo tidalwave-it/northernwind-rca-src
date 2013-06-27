@@ -93,14 +93,14 @@ public class DefaultSiteOpenerPresentationControlTest
      ******************************************************************************************************************/
     @Test(dataProvider = "pathsProvider",
           dependsOnMethods = "initialize_must_bind_the_presentation_and_set_the_default_path_to_user_home")
-    public void must_fire_an_OpenSiteEvent_when_action_performed_and_the_user_selected_a_folder (final String path)
+    public void must_fire_OpenSiteEvent_when_action_performed_and_the_user_selected_a_folder (final String folderPath)
       {
         doAnswer(confirm()).when(presentation).notifyFolderSelectionNeeded(any(UserNotificationWithFeedback.class));
-        fixture.folderToOpen.set(new File(path).toPath());
+        fixture.folderToOpen.set(new File(folderPath).toPath());
 
         fixture.openSiteAction.actionPerformed();
 
-        verify(messageBus).publish(argThat(openSiteEvent().withRootPath(path)));
+        verify(messageBus).publish(argThat(openSiteEvent().withRootPath(folderPath)));
       }
 
     /*******************************************************************************************************************
