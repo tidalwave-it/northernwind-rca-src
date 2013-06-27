@@ -95,7 +95,13 @@ public interface JavaFXBindings
 
     /*******************************************************************************************************************
      *
+     * Opens the FileChooser for selecting a file. The outcome of the operation (confirmed or cancelled) will be
+     * notified to the given notification object. The selected file will be set to the given bound property, which can
+     * be also used to set the default value rendered on the FileChooser.
      *
+     * @param  notification  the object notifying whether the operation is confirmed or cancelled
+     * @param  selectedFile  the property containing the selected file
+     * @param  window        the window to bind to the modal dialog
      *
      ******************************************************************************************************************/
     public void openFileChooserFor (@Nonnull UserNotificationWithFeedback notification,
@@ -104,7 +110,13 @@ public interface JavaFXBindings
 
     /*******************************************************************************************************************
      *
+     * Opens the FileChooser for selecting a folder. The outcome of the operation (confirmed or cancelled) will be
+     * notified to the given notification object. The selected folder will be set to the given bound property, which can
+     * be also used to set the default value rendered on the FileChooser.
      *
+     * @param  notification    the object notifying whether the operation is confirmed or cancelled
+     * @param  selectedFolder  the property containing the selected folder
+     * @param  window          the window to bind to the modal dialog
      *
      ******************************************************************************************************************/
     public void openDirectoryChooserFor (@Nonnull UserNotificationWithFeedback notification,
