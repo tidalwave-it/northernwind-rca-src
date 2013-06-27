@@ -40,6 +40,7 @@ import org.testng.annotations.Test;
 import org.mockito.stubbing.Answer;
 import static it.tidalwave.util.ui.UserNotificationWithFeedbackTestHelper.*;
 import static it.tidalwave.northernwind.rca.ui.siteopener.spi.OpenSiteEventMatcher.*;
+import java.nio.file.Path;
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.*;
 import static org.mockito.Mockito.*;
@@ -124,10 +125,14 @@ public class DefaultSiteOpenerPresentationControlTest
       {
         final String[][] result = new String[10][1];
 
-        for (int i = 0; i < 10; i++)
+        final Path tempDir = new File(System.getProperty("java.io.tmpdir")).toPath();
+
+        for (int i = 0; i < result.length; i++)
           {
-            folder = Files.createTempDirectory("SampleFolder-").getFileName().toFile();
+            // FIXME: the directory is not created in the temp directory
+            folder = Files.createTempDirectory(tempDir, "SampleFolder-").getFileName().toFile();
             folder.mkdirs();
+            folder.deleteOnExit();
             result[i][0] = folder.getAbsolutePath();
           }
 
