@@ -60,6 +60,7 @@
          <thesefoolishthings.version>1.28</thesefoolishthings.version>
         <!-- netbeans.version>RELEASE72</netbeans.version -->
         <slf4j.version>1.7.5</slf4j.version>
+        <jetty.version>8.1.10.v20130312</jetty.version>
         <logback.version>1.0.12</logback.version>
         <northernwind.version>1.1-ALPHA-23</northernwind.version>
         <spring.version>3.1.0.RELEASE</spring.version>
@@ -179,6 +180,12 @@
             </dependency>
 
             <dependency>
+                <groupId>org.eclipse.jetty</groupId>
+                <artifactId>jetty-server</artifactId>
+                <version>${jetty.version}</version>
+            </dependency>
+
+            <dependency>
                 <groupId>javax.servlet</groupId>
                 <artifactId>servlet-api</artifactId>
                 <version>2.5</version> <!-- FIXME -->
@@ -287,6 +294,7 @@
         <module>CommonsUI</module>
         <module>ContentEditor</module>
         <module>ContentExplorer</module>
+        <module>EmbeddedServer</module>
         <module>Installers/MacOSX</module>
         <module>Installers/MacOSXEmbeddedJRE</module>
         <module>Model</module>
@@ -297,6 +305,6 @@
         <module>StrippedCoreImplementation</module>
         <module>StructureExplorer</module>
         <module>StructureEditor</module>
-  </modules>
+    </modules>
 
 </project>

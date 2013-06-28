@@ -33,6 +33,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.collections.FXCollections;
 import javafx.scene.web.WebView;
 import javafx.scene.layout.Pane;
 import javafx.scene.control.TableView;
@@ -41,8 +42,9 @@ import org.springframework.beans.factory.annotation.Configurable;
 import it.tidalwave.role.ui.PresentationModel;
 import it.tidalwave.role.ui.javafx.JavaFXBindings;
 import it.tidalwave.role.ui.javafx.Widget;
+import it.tidalwave.northernwind.rca.embeddedserver.EmbeddedServer;
+import it.tidalwave.northernwind.rca.embeddedserver.EmbeddedServer.Document;
 import it.tidalwave.northernwind.rca.ui.contenteditor.ContentEditorPresentation;
-import javafx.collections.FXCollections;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 
@@ -73,6 +75,9 @@ public class JavaFXContentEditorPresentation implements ContentEditorPresentatio
     @Widget("contentEditorProperties")
     private TableView<PresentationModel> tableView;
 
+    @Inject
+    private EmbeddedServer documentServer;
+
     private final StringProperty document = new SimpleStringProperty();
 
     // WebView doesn't offer a writable String bound property for the document.
@@ -83,7 +88,8 @@ public class JavaFXContentEditorPresentation implements ContentEditorPresentatio
                              final @Nonnull String oldValue,
                              final @Nonnull String newValue)
           {
-            webView.getEngine().loadContent(newValue);
+            documentServer.putDocument("/", new Document().withMimeType("text/html").withContent(newValue));
+            webView.getEngine().load("http://localhost:12345/"); // FIXME
           }
       };
 

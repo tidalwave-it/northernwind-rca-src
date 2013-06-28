@@ -179,6 +179,11 @@
             </dependency>
             <dependency>
                 <groupId>it.tidalwave.northernwind.rca</groupId>
+                <artifactId>it-tidalwave-northernwind-rca-embeddedserver</artifactId>
+                <version>1.0-ALPHA-2-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>it.tidalwave.northernwind.rca</groupId>
                 <artifactId>it-tidalwave-northernwind-rca-ui-site-opener</artifactId>
                 <version>1.0-ALPHA-2-SNAPSHOT</version>
             </dependency>

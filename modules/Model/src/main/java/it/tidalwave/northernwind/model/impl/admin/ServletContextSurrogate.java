@@ -1,4 +1,4 @@
-/*
+    /*
  * #%L
  * *********************************************************************************************************************
  *
@@ -50,10 +50,26 @@ import lombok.extern.slf4j.Slf4j;
 public class ServletContextSurrogate implements ServletContext
   {
     @Override
-    public String getMimeType(String file)
+    public String getMimeType (String file) // FIXME
       {
-        log.warn("Returning fixed MIME type: text/xhtml");
-        return "text/xhtml";
+        log.warn("Returning fixed MIME type");
+
+        if (file.endsWith(".html"))
+          {
+            return "text/xhtml";
+          }
+
+        if (file.endsWith(".css"))
+          {
+            return "text/css";
+          }
+
+        if (file.endsWith(".jpg"))
+          {
+            return "image/jpg";
+          }
+
+        return "";
       }
 
     @Override
