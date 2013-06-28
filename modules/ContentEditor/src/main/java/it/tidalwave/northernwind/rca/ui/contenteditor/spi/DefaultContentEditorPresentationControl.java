@@ -37,12 +37,15 @@ import it.tidalwave.messagebus.annotation.ListensTo;
 import it.tidalwave.messagebus.annotation.SimpleMessageSubscriber;
 import it.tidalwave.northernwind.core.model.Content;
 import it.tidalwave.northernwind.core.model.ResourceProperties;
+import it.tidalwave.northernwind.rca.embeddedserver.EmbeddedServer;
+import it.tidalwave.northernwind.rca.embeddedserver.EmbeddedServer.Document;
 import it.tidalwave.northernwind.rca.ui.event.ContentSelectedEvent;
 import it.tidalwave.northernwind.rca.ui.contenteditor.ContentEditorPresentation;
 import it.tidalwave.northernwind.rca.ui.contenteditor.ContentEditorPresentationControl;
 import it.tidalwave.northernwind.rca.ui.impl.SpringMessageBusListenerSupport;
 import lombok.extern.slf4j.Slf4j;
 import static it.tidalwave.role.ui.PresentationModelProvider.*;
+import javax.inject.Inject;
 
 /***********************************************************************************************************************
  *
@@ -58,6 +61,9 @@ import static it.tidalwave.role.ui.PresentationModelProvider.*;
 public class DefaultContentEditorPresentationControl extends SpringMessageBusListenerSupport
                                                      implements ContentEditorPresentationControl
   {
+    @Inject
+    @VisibleForTesting EmbeddedServer documentServer;
+
     @Nonnull
     private ContentEditorPresentation presentation;
 
@@ -107,7 +113,11 @@ public class DefaultContentEditorPresentationControl extends SpringMessageBusLis
               {
                 final Content content = selectionEvent.getContent();
                 final ResourceProperties properties = content.getProperties();
-                fields.document.set(properties.getProperty(PROPERTY_FULL_TEXT, ""));
+                final String document = properties.getProperty(PROPERTY_FULL_TEXT, "");
+                // FIXME: mime type
+                documentServer.putDocument("/", new Document().withMimeType("text/html").withContent(document));
+                fields.url.set("http://localhost:12345/"); // FIXME get from server
+
                 fields.title.set(properties.getProperty(PROPERTY_TITLE, ""));
                 presentation.populateProperties(properties.as(PresentationModelProvider).createPresentationModel());
                 presentation.showUp();
@@ -117,7 +127,6 @@ public class DefaultContentEditorPresentationControl extends SpringMessageBusLis
                 presentation.clear(); // FIXME: should notify error
                 log.warn("", e);
               }
-
           }
       }
   }

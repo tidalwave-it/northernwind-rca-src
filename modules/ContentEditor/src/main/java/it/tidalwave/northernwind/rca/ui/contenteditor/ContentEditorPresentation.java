@@ -47,7 +47,7 @@ public interface ContentEditorPresentation
       {
         public final BoundProperty<String> title = new BoundProperty<>("");
 
-        public final BoundProperty<String> document = new BoundProperty<>("");
+        public final BoundProperty<String> url = new BoundProperty<>("");
       }
 
     /*******************************************************************************************************************

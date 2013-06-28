@@ -53,10 +53,6 @@
         </dependency>
         <dependency>
             <groupId>it.tidalwave.northernwind.rca</groupId>
-            <artifactId>it-tidalwave-northernwind-rca-embeddedserver</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>it.tidalwave.northernwind.rca</groupId>
             <artifactId>it-tidalwave-northernwind-rca-ui-site-opener</artifactId>
         </dependency>
         <dependency>

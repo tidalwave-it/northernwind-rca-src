@@ -31,6 +31,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.concurrent.Immutable;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Wither;
@@ -43,7 +44,7 @@ import lombok.experimental.Wither;
  **********************************************************************************************************************/
 public interface EmbeddedServer
   {
-    @Immutable @AllArgsConstructor(access = AccessLevel.PRIVATE) @NoArgsConstructor
+    @Immutable @AllArgsConstructor(access = AccessLevel.PRIVATE) @NoArgsConstructor @EqualsAndHashCode
     public static class Document
       {
         @Getter @Wither @Nonnull

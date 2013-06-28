@@ -42,8 +42,6 @@ import org.springframework.beans.factory.annotation.Configurable;
 import it.tidalwave.role.ui.PresentationModel;
 import it.tidalwave.role.ui.javafx.JavaFXBindings;
 import it.tidalwave.role.ui.javafx.Widget;
-import it.tidalwave.northernwind.rca.embeddedserver.EmbeddedServer;
-import it.tidalwave.northernwind.rca.embeddedserver.EmbeddedServer.Document;
 import it.tidalwave.northernwind.rca.ui.contenteditor.ContentEditorPresentation;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
@@ -75,21 +73,16 @@ public class JavaFXContentEditorPresentation implements ContentEditorPresentatio
     @Widget("contentEditorProperties")
     private TableView<PresentationModel> tableView;
 
-    @Inject
-    private EmbeddedServer documentServer;
+    private final StringProperty url = new SimpleStringProperty();
 
-    private final StringProperty document = new SimpleStringProperty();
-
-    // WebView doesn't offer a writable String bound property for the document.
-    private final ChangeListener<String> documentListener = new ChangeListener<String>()
+    private final ChangeListener<String> urlChangeListener = new ChangeListener<String>()
       {
         @Override
         public void changed (final @Nonnull ObservableValue<? extends String> observable,
                              final @Nonnull String oldValue,
                              final @Nonnull String newValue)
           {
-            documentServer.putDocument("/", new Document().withMimeType("text/html").withContent(newValue));
-            webView.getEngine().load("http://localhost:12345/"); // FIXME
+            webView.getEngine().load(newValue);
           }
       };
 
@@ -99,7 +92,7 @@ public class JavaFXContentEditorPresentation implements ContentEditorPresentatio
         bindings.bindColumn(tableView, 0, "name");
         bindings.bindColumn(tableView, 1, "value");
 
-        document.addListener(documentListener);
+        url.addListener(urlChangeListener);
       }
 
     @Override
@@ -121,7 +114,7 @@ public class JavaFXContentEditorPresentation implements ContentEditorPresentatio
     public void bind (final @Nonnull Fields fields)
       {
         bindings.bindBidirectionally(contentTitle.textProperty(), fields.title);
-        bindings.bindBidirectionally(document, fields.document);
+        bindings.bindBidirectionally(url, fields.url);
       }
 
     @Override
