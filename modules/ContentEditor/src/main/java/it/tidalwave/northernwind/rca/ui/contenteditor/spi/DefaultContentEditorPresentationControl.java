@@ -28,6 +28,7 @@
 package it.tidalwave.northernwind.rca.ui.contenteditor.spi;
 
 import javax.annotation.Nonnull;
+import javax.inject.Inject;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.IOException;
@@ -45,7 +46,6 @@ import it.tidalwave.northernwind.rca.ui.contenteditor.ContentEditorPresentationC
 import it.tidalwave.northernwind.rca.ui.impl.SpringMessageBusListenerSupport;
 import lombok.extern.slf4j.Slf4j;
 import static it.tidalwave.role.ui.PresentationModelProvider.*;
-import javax.inject.Inject;
 
 /***********************************************************************************************************************
  *
@@ -113,10 +113,10 @@ public class DefaultContentEditorPresentationControl extends SpringMessageBusLis
               {
                 final Content content = selectionEvent.getContent();
                 final ResourceProperties properties = content.getProperties();
-                final String document = properties.getProperty(PROPERTY_FULL_TEXT, "");
+                final String fullText = properties.getProperty(PROPERTY_FULL_TEXT, "");
+                final Document doc = new Document().withMimeType("text/html").withContent(fullText);
                 // FIXME: mime type
-                documentServer.putDocument("/", new Document().withMimeType("text/html").withContent(document));
-                fields.url.set("http://localhost:12345/"); // FIXME get from server - make it returned from putDocument()
+                fields.url.set(documentServer.putDocument("/", doc));
 
                 fields.title.set(properties.getProperty(PROPERTY_TITLE, ""));
                 presentation.populateProperties(properties.as(PresentationModelProvider).createPresentationModel());

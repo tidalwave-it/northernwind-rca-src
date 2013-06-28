@@ -30,6 +30,8 @@ package it.tidalwave.northernwind.rca.ui.contenteditor;
 import javax.annotation.Nonnull;
 import it.tidalwave.role.ui.BoundProperty;
 import it.tidalwave.role.ui.PresentationModel;
+import it.tidalwave.northernwind.core.model.Content;
+import it.tidalwave.northernwind.core.model.ResourceProperties;
 
 /***********************************************************************************************************************
  *

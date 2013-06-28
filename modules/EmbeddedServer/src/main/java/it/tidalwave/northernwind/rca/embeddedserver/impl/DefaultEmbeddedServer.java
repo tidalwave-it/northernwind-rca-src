@@ -180,9 +180,10 @@ public class DefaultEmbeddedServer extends SpringMessageBusListenerSupport imple
      *
      *
      ******************************************************************************************************************/
-    @Override
-    public void putDocument (final @Nonnull String url, final @Nonnull Document document)
+    @Override @Nonnull
+    public String putDocument (final @Nonnull String path, final @Nonnull Document document)
       {
-        documentMapByUrl.put(url, document);
+        documentMapByUrl.put(path, document);
+        return String.format("http://localhost:%d%s", port, path);
       }
   }

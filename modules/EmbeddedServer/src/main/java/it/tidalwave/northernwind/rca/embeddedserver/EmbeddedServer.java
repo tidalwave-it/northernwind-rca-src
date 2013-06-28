@@ -56,5 +56,6 @@ public interface EmbeddedServer
 
     public int getPort();
 
-    public void putDocument (@Nonnull String url, @Nonnull Document document);
+    @Nonnull
+    public String putDocument (@Nonnull String path, @Nonnull Document document);
   }
