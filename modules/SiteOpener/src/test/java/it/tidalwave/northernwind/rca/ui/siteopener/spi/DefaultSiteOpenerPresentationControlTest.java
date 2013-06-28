@@ -61,7 +61,6 @@ public class DefaultSiteOpenerPresentationControlTest
     private SiteOpenerPresentation presentation;
 
     private MessageBus messageBus;
-    private File folder;
 
     /*******************************************************************************************************************
      *
@@ -130,7 +129,7 @@ public class DefaultSiteOpenerPresentationControlTest
         for (int i = 0; i < result.length; i++)
           {
             // FIXME: the directory is not created in the temp directory
-            folder = Files.createTempDirectory(tempDir, "SampleFolder-").getFileName().toFile();
+            final File folder = Files.createTempDirectory(tempDir, "SampleFolder-").getFileName().toFile();
             folder.mkdirs();
             folder.deleteOnExit();
             result[i][0] = folder.getAbsolutePath();
