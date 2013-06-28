@@ -116,7 +116,7 @@ public class DefaultContentEditorPresentationControl extends SpringMessageBusLis
                 final String document = properties.getProperty(PROPERTY_FULL_TEXT, "");
                 // FIXME: mime type
                 documentServer.putDocument("/", new Document().withMimeType("text/html").withContent(document));
-                fields.url.set("http://localhost:12345/"); // FIXME get from server
+                fields.url.set("http://localhost:12345/"); // FIXME get from server - make it returned from putDocument()
 
                 fields.title.set(properties.getProperty(PROPERTY_TITLE, ""));
                 presentation.populateProperties(properties.as(PresentationModelProvider).createPresentationModel());
