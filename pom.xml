@@ -310,7 +310,14 @@
 
                                         <!-- FIXME applicationCategory="public.app-category.developer-tools"-->
                                         <!-- FIXME: way to specify min Java version? -->
-                                        <bundleapp outputdirectory="${project.build.directory}" name="${tft.appbundle.name}" displayname="${tft.appbundle.name}" icon="src/main/app-resources/${tft.appbundle.name}.icns" identifier="${project.groupId}" shortversion="${project.version}" mainclassname="${tft.mainClass}" signature="${tft.appbundle.signature}">
+                                        <bundleapp outputdirectory="${project.build.directory}"
+                                                   name="${tft.appbundle.name}"
+                                                   displayname="${tft.appbundle.name}"
+                                                   icon="src/main/app-resources/${tft.appbundle.name}.icns"
+                                                   identifier="${project.groupId}"
+                                                   shortversion="${project.version}"
+                                                   mainclassname="${tft.mainClass}"
+                                                   signature="${tft.appbundle.signature}">
                                             <runtime dir="${project.build.directory}/jdk/${tft.embedded-jdk-name}/Contents/Home" />
                                             <classpath dir="${project.basedir}" casesensitive="yes">
                                                 <include name="target/application/*.jar" />
@@ -433,7 +440,14 @@
 
                                         <!-- FIXME applicationCategory="public.app-category.developer-tools"-->
                                         <!-- FIXME: way to specify min Java version? -->
-                                        <bundleapp outputdirectory="${project.build.directory}" name="${tft.appbundle.name}" displayname="${tft.appbundle.name}" icon="src/main/app-resources/${tft.appbundle.name}.icns" identifier="${project.groupId}" shortversion="${project.version}" mainclassname="${tft.mainClass}" signature="${tft.appbundle.signature}">
+                                        <bundleapp outputdirectory="${project.build.directory}"
+                                                   name="${tft.appbundle.name}"
+                                                   displayname="${tft.appbundle.name}"
+                                                   icon="src/main/app-resources/${tft.appbundle.name}.icns"
+                                                   identifier="${project.groupId}"
+                                                   shortversion="${project.version}"
+                                                   mainclassname="${tft.mainClass}"
+                                                   signature="${tft.appbundle.signature}">
                                             <classpath dir="${project.basedir}" casesensitive="yes">
                                                 <include name="target/application/*.jar" />
                                             </classpath>
