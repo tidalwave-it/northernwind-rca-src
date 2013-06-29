@@ -12,27 +12,27 @@ body
   {
     background: #ffffff;
     font-family: Merriweather, serif;
-    font-size: 110%;
+    /*font-size: 110%;*/
     line-height: 1em;
   }
 
 p, li
   {
-    font-size: 75%;
+    /*font-size: 75%;*/
     line-height: 1.7em;
     text-align: justify;
   }
 
 em
   {
-    font-size:   75%;
+    /*font-size:   75%;*/
     font-family: Lora, Merriwheather, serif;
     line-height: 1.7em;
   }
 
 p em
   {
-    font-size:   110%;
+    /*font-size:   110%;*/
     font-family: Lora, Merriwheather, serif;
   }
 
@@ -171,13 +171,29 @@ p.nwXsltMacro_Movie_width,
 p.nwXsltMacro_Movie_height,
 figure legend
   {
+    font-size:        80%;
+    /*border:           1px black solid;*/
+    margin-bottom:    4px;
+    margin-top:       4px;
     font-family:      sans-serif;
+    line-height:      1em;
   }
 
 div.nwXsltMacro_Photo,
 div.nwXsltMacro_PhotoPair,
+div.nwXsltMacro_Movie
+  {
+    width:            500px;
+    border:           1px;
+    background-color: #d0d0d0;
+    padding:          10px;
+    margin-left:      auto;
+    margin-right:     auto;
+    margin-top:       4px;
+    margin-bottom:    4px;
+  }
+
 span.nwXsltMacro_InlinedPhoto,
-div.nwXsltMacro_Movie,
 figure
   {
     border:           1px;
