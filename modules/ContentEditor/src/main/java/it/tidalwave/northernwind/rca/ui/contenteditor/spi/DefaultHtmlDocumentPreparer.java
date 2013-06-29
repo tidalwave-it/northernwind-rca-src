@@ -118,7 +118,6 @@ public class DefaultHtmlDocumentPreparer implements HtmlDocumentPreparer
                                 @Nonnull StringBuilder prologBuilder,
                                 @Nonnull StringBuilder bodyBuilder,
                                 @Nonnull StringBuilder epilogBuilder);
-
       }
 
     /*******************************************************************************************************************
