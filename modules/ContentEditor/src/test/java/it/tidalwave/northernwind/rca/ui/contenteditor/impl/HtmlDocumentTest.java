@@ -76,7 +76,7 @@ public class HtmlDocumentTest
       {
         final HtmlDocument result = fixture.withProlog("<html>\n<head>replaced prolog</head>\n<body>\n");
 
-        assertThat(result.asString(), is("<html>\n<head>replaced prolog</head>\n<body>\n" +
+        assertThat(result.asString(), is("<!doctype html>\n<html>\n<head>replaced prolog</head>\n<body>\n" +
                                          "body\n" +
                                          "</body>\n</html>"));
       }
@@ -89,7 +89,7 @@ public class HtmlDocumentTest
       {
         final HtmlDocument result = fixture.withBody("replaced body\n");
 
-        assertThat(result.asString(), is("<html>\n<head>prolog</head>\n<body>\n" +
+        assertThat(result.asString(), is("<!doctype html>\n<html>\n<head>prolog</head>\n<body>\n" +
                                          "replaced body\n" +
                                          "</body>\n</html>"));
       }
@@ -102,7 +102,7 @@ public class HtmlDocumentTest
       {
         final HtmlDocument result = fixture.withEpilog("</body>\n<!-- replaced -->\n</html>");
 
-        assertThat(result.asString(), is("<html>\n<head>prolog</head>\n<body>\n" +
+        assertThat(result.asString(), is("<!doctype html>\n<html>\n<head>prolog</head>\n<body>\n" +
                                          "body\n" +
                                          "</body>\n<!-- replaced -->\n</html>"));
       }

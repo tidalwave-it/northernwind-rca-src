@@ -128,7 +128,7 @@ public class DefaultDocumentProxyFactoryTest
         document.update("the updated body\n");
 
         // TODO: partially implemented
-        final String expectedHtml = "<html>\n<head>\n</head>\n<body>\nthe updated body\n</body>\n</html>";
+        final String expectedHtml = "<!doctype html>\n<html>\n<head>\n</head>\n<body>\nthe updated body\n</body>\n</html>";
         verify(externalPropertyWriter).writeProperty(eq(PROPERTY_FULL_TEXT), eq(expectedHtml));
       }
 
