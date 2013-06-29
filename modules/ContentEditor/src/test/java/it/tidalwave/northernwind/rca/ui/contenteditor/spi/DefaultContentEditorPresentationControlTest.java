@@ -73,6 +73,8 @@ public class DefaultContentEditorPresentationControlTest
 
     private DocumentProxyFactory documentProxyFactory;
 
+    private String registeredUrl = "http://localhost:12345/";
+
     /*******************************************************************************************************************
      *
      ******************************************************************************************************************/
@@ -88,7 +90,7 @@ public class DefaultContentEditorPresentationControlTest
         embeddedServer = mock(EmbeddedServer.class);
         documentProxyFactory = mock(DocumentProxyFactory.class);
 
-        when(embeddedServer.putDocument(anyString(), any(Document.class))).thenReturn("http://localhost:12345/");
+        when(embeddedServer.putDocument(anyString(), any(Document.class))).thenReturn(registeredUrl);
 
         when(documentProxyFactory.createDocumentProxy(any(ResourceProperties.class), any(Key.class)))
                 .thenAnswer(new Answer<Document>()
@@ -100,7 +102,8 @@ public class DefaultContentEditorPresentationControlTest
                 final ResourceProperties properties = (ResourceProperties)invocation.getArguments()[0];
                 final Key<String> key = (Key<String>)invocation.getArguments()[1];
 
-                return new Document().withMimeType("text/html").withContent("proxy for: " + properties.getProperty(key, ""));
+                return new Document().withMimeType("text/html")
+                                     .withContent("proxy for: " + properties.getProperty(key, ""));
               }
           });
 
@@ -161,13 +164,15 @@ public class DefaultContentEditorPresentationControlTest
         fixture.onContentSelected(new ContentSelectedEvent(content));
 
         verify(documentProxyFactory).createDocumentProxy(same(properties), eq(PROPERTY_FULL_TEXT));
+        verifyNoMoreInteractions(documentProxyFactory);
 
-        verify(presentation).populateDocument(eq("http://localhost:12345/"));
+        verify(presentation).populateDocument(eq(registeredUrl));
         verify(presentation).populateProperties(same(pm));
         verify(presentation).showUp();
         verifyNoMoreInteractions(presentation);
 
-        verify(embeddedServer).putDocument(eq("/"), eq(new Document().withContent("proxy for: full text").withMimeType("text/html")));
+        verify(embeddedServer).putDocument(eq("/"), eq(new Document().withContent("proxy for: full text")
+                                                                      .withMimeType("text/html")));
         verifyNoMoreInteractions(embeddedServer);
 
         assertThat(fixture.fields.title.get(), is("title"));
