@@ -111,7 +111,7 @@ public class DefaultDocumentProxyFactoryTest
      *
      ******************************************************************************************************************/
     @Test
-    public void must_create_ar_proxy_document_that_properly_updates_properties()
+    public void must_create_a_proxy_document_that_properly_updates_properties()
       throws IOException
       {
         final AdminContent content = mock(AdminContent.class); // FIXME: use Content
@@ -128,7 +128,7 @@ public class DefaultDocumentProxyFactoryTest
         document.update("the updated body\n");
 
         // TODO: partially implemented
-        final String expectedHtml = "<html>\n<head>\n</head>\n<body>\nthe updated body\n</body>\n</html>\n";
+        final String expectedHtml = "<html>\n<head>\n</head>\n<body>\nthe updated body\n</body>\n</html>";
         verify(externalPropertyWriter).writeProperty(eq(PROPERTY_FULL_TEXT), eq(expectedHtml));
       }
 

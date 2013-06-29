@@ -34,6 +34,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.Wither;
+import lombok.extern.slf4j.Slf4j;
 
 /***********************************************************************************************************************
  *
@@ -44,7 +45,7 @@ import lombok.experimental.Wither;
  * @version $Id$
  *
  **********************************************************************************************************************/
-@RequiredArgsConstructor(access = AccessLevel.PACKAGE) @Getter @ToString
+@RequiredArgsConstructor(access = AccessLevel.PACKAGE) @Getter @ToString @Slf4j
 public class HtmlDocument
   {
     @Wither @Nonnull
@@ -138,6 +139,17 @@ public class HtmlDocument
         return new HtmlDocument(prologBuilder.toString(), bodyBuilder.toString(), epilogBuilder.toString());
       }
 
+//    /*******************************************************************************************************************
+//     *
+//     *
+//     *
+//     ******************************************************************************************************************/
+//    @Nonnull
+//    public String asString()
+//      {
+//        return prolog + body + epilog;
+//      }
+//
     /*******************************************************************************************************************
      *
      *
@@ -146,7 +158,7 @@ public class HtmlDocument
     @Nonnull
     public String asString()
       {
-        return prolog + body + epilog;
+        return new XhtmlNormalizer().asNormalizedString(prolog + body + epilog);
       }
   }
 

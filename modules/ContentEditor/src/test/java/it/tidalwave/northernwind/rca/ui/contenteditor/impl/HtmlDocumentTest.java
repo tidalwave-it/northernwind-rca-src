@@ -48,7 +48,9 @@ public class HtmlDocumentTest
     @BeforeMethod
     public void setupFixture()
       {
-        fixture = new HtmlDocument("prolog\n", "body\n", "epilog\n");
+        fixture = new HtmlDocument("<html>\n<head>prolog</head>\n<body>\n",
+                                   "body\n",
+                                   "</body>\n</html>");
       }
 
     /*******************************************************************************************************************
@@ -72,9 +74,11 @@ public class HtmlDocumentTest
     @Test
     public void must_properly_replace_prolog()
       {
-        final HtmlDocument result = fixture.withProlog("replaced prolog\n");
+        final HtmlDocument result = fixture.withProlog("<html>\n<head>replaced prolog</head>\n<body>\n");
 
-        assertThat(result.asString(), is("replaced prolog\nbody\nepilog\n"));
+        assertThat(result.asString(), is("<html>\n<head>replaced prolog</head>\n<body>\n" +
+                                         "body\n" +
+                                         "</body>\n</html>"));
       }
 
     /*******************************************************************************************************************
@@ -85,7 +89,9 @@ public class HtmlDocumentTest
       {
         final HtmlDocument result = fixture.withBody("replaced body\n");
 
-        assertThat(result.asString(), is("prolog\nreplaced body\nepilog\n"));
+        assertThat(result.asString(), is("<html>\n<head>prolog</head>\n<body>\n" +
+                                         "replaced body\n" +
+                                         "</body>\n</html>"));
       }
 
     /*******************************************************************************************************************
@@ -94,8 +100,10 @@ public class HtmlDocumentTest
     @Test
     public void must_properly_replace_epilog()
       {
-        final HtmlDocument result = fixture.withEpilog("replaced epilog\n");
+        final HtmlDocument result = fixture.withEpilog("</body>\n<!-- replaced -->\n</html>");
 
-        assertThat(result.asString(), is("prolog\nbody\nreplaced epilog\n"));
+        assertThat(result.asString(), is("<html>\n<head>prolog</head>\n<body>\n" +
+                                         "body\n" +
+                                         "</body>\n<!-- replaced -->\n</html>"));
       }
   }

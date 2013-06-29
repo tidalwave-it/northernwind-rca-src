@@ -101,7 +101,6 @@ public class DefaultDocumentProxyFactory implements DocumentProxyFactory
                 public void update (final @Nonnull String text)
                   {
                     final HtmlDocument editedDocument = originalDocument.withBody(text);
-                    // FIXME: needs to be pretty printed
 //                    final ResourceProperties newProperties = properties.withProperty(propertyName, editedDocument.asString());
                     // FIXME: cast
                     ((As)content).as(ExternalPropertyWriter.class).writeProperty(propertyName, editedDocument.asString());

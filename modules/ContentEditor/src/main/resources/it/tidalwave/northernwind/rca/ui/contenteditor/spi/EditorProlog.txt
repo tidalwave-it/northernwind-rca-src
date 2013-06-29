@@ -14,6 +14,7 @@
                                     common/link,
                                     common/paste,
                                     common/undo,
+                                    dom-to-xhtml/dom-to-xhtml,
                                     common/highlighteditables">
         </script>
 <!--
