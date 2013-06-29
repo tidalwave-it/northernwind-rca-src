@@ -34,6 +34,7 @@ import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import lombok.experimental.Wither;
 
 /***********************************************************************************************************************
@@ -44,7 +45,8 @@ import lombok.experimental.Wither;
  **********************************************************************************************************************/
 public interface EmbeddedServer
   {
-    @Immutable @AllArgsConstructor(access = AccessLevel.PRIVATE) @NoArgsConstructor @EqualsAndHashCode
+    @Immutable @AllArgsConstructor(access = AccessLevel.PRIVATE) @NoArgsConstructor
+    @EqualsAndHashCode(exclude = "updateListener") @ToString
     public static class Document
       {
         public static interface UpdateListener

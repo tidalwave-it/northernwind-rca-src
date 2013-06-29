@@ -65,7 +65,7 @@ public class DefaultContentEditorPresentationControl extends SpringMessageBusLis
     @VisibleForTesting EmbeddedServer documentServer;
 
     @Inject
-    private DocumentProxyFactory documentProxyFactory;
+    @VisibleForTesting DocumentProxyFactory documentProxyFactory;
 
     @Nonnull
     private ContentEditorPresentation presentation;
