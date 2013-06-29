@@ -53,6 +53,7 @@ public class DefaultResourcePropertiesExternalPropertyWriter implements External
       {
         try
           {
+            // FIXME: must update the timestamp of the properties
             final ResourceFile file = content.getFile();
             final TextWriter writer = new ResourceFileTextWriter(file); // FIXME: file.as(TextWriter);
             // FIXME: localization
