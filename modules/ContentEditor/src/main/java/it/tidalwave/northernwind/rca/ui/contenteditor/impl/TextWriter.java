@@ -25,12 +25,10 @@
  * *********************************************************************************************************************
  * #L%
  */
-package it.tidalwave.northernwind.rca.ui.contenteditor.spi;
+package it.tidalwave.northernwind.rca.ui.contenteditor.impl;
 
 import javax.annotation.Nonnull;
-import it.tidalwave.northernwind.core.model.Content;
-import it.tidalwave.util.Key;
-import it.tidalwave.northernwind.rca.embeddedserver.EmbeddedServer.Document;
+import java.io.IOException;
 
 /***********************************************************************************************************************
  *
@@ -38,17 +36,10 @@ import it.tidalwave.northernwind.rca.embeddedserver.EmbeddedServer.Document;
  * @version $Id$
  *
  **********************************************************************************************************************/
-public interface DocumentProxyFactory
+public interface TextWriter
   {
-    /*******************************************************************************************************************
-     *
-     * Creates a document that can be used as a proxy to edit a textual property.
-     *
-     * @param  content          the content
-     * @param  propertyName     the property name
-     * @return                  the document
-     *
-     ******************************************************************************************************************/
-    @Nonnull
-    public Document createDocumentProxy (@Nonnull Content content, @Nonnull Key<String> propertyName);
+    public static final Class<TextWriter> TextWriter = TextWriter.class;
+
+    public void write (@Nonnull String fileName, @Nonnull String text)
+      throws IOException;
   }

@@ -116,7 +116,7 @@ public class DefaultContentEditorPresentationControl extends SpringMessageBusLis
               {
                 final Content content = selectionEvent.getContent();
                 final ResourceProperties properties = content.getProperties();
-                final Document document = documentProxyFactory.createDocumentProxy(properties, PROPERTY_FULL_TEXT);
+                final Document document = documentProxyFactory.createDocumentProxy(content, PROPERTY_FULL_TEXT);
 
                 fields.title.set(properties.getProperty(PROPERTY_TITLE, ""));
                 presentation.populateDocument(documentServer.putDocument("/", document));

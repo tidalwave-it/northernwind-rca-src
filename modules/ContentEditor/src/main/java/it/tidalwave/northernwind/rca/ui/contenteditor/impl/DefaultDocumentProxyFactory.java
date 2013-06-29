@@ -35,7 +35,9 @@ import java.io.Reader;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.io.CharStreams;
 import org.springframework.core.io.ClassPathResource;
+import it.tidalwave.util.As;
 import it.tidalwave.util.Key;
+import it.tidalwave.northernwind.core.model.Content;
 import it.tidalwave.northernwind.core.model.ResourceProperties;
 import it.tidalwave.northernwind.rca.embeddedserver.EmbeddedServer.Document;
 import it.tidalwave.northernwind.rca.embeddedserver.EmbeddedServer.Document.UpdateListener;
@@ -80,11 +82,12 @@ public class DefaultDocumentProxyFactory implements DocumentProxyFactory
      *
      ******************************************************************************************************************/
     @Override @Nonnull
-    public Document createDocumentProxy (final @Nonnull ResourceProperties properties,
+    public Document createDocumentProxy (final @Nonnull Content content,
                                          final @Nonnull Key<String> propertyName)
       {
         try
           {
+            final ResourceProperties properties = content.getProperties();
             final String text = properties.getProperty(propertyName, "");
             final HtmlDocument originalDocument = HtmlDocument.createFromText(text);
             final HtmlDocument editableDocument = originalDocument.withProlog(editorProlog)
@@ -95,13 +98,13 @@ public class DefaultDocumentProxyFactory implements DocumentProxyFactory
                                  .withUpdateListener(new UpdateListener()
               {
                 @Override
-                public void update (final @Nonnull String content)
+                public void update (final @Nonnull String text)
                   {
-                    final HtmlDocument editedDocument = originalDocument.withBody(content);
+                    final HtmlDocument editedDocument = originalDocument.withBody(text);
                     // FIXME: needs to be pretty printed
-                    final ResourceProperties newProperties = properties.withProperty(propertyName, editedDocument.asString());
-                    log.warn("TO DO: STORE: {}", newProperties);
-//                    log.warn("TO DO: STORE: {}", editedDocument.asString());
+//                    final ResourceProperties newProperties = properties.withProperty(propertyName, editedDocument.asString());
+                    // FIXME: cast
+                    ((As)content).as(ExternalPropertyWriter.class).writeProperty(propertyName, editedDocument.asString());
                   }
               });
           }

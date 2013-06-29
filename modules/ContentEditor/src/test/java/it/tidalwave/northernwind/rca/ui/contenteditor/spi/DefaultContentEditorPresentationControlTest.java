@@ -33,6 +33,7 @@ import org.testng.annotations.BeforeMethod;
 import it.tidalwave.role.ui.PresentationModel;
 import it.tidalwave.role.ui.PresentationModelProvider;
 import it.tidalwave.messagebus.annotation.SimpleMessageSubscriber;
+import it.tidalwave.northernwind.core.model.Content;
 import it.tidalwave.northernwind.core.model.ResourceProperties;
 import it.tidalwave.northernwind.model.impl.admin.AdminContent;
 import it.tidalwave.northernwind.rca.embeddedserver.EmbeddedServer;
@@ -91,13 +92,13 @@ public class DefaultContentEditorPresentationControlTest
         documentProxyFactory = spy(new DocumentProxyFactory()
           {
             @Override @Nonnull
-            public Document createDocumentProxy (final @Nonnull ResourceProperties properties,
+            public Document createDocumentProxy (final @Nonnull Content content,
                                                  final @Nonnull Key<String> propertyName)
               {
                 try
                   {
                     return new Document().withMimeType("text/html")
-                                         .withContent("proxy for: " + properties.getProperty(propertyName, ""));
+                                         .withContent("proxy for: " + content.getProperties().getProperty(propertyName, ""));
                   }
                 catch (IOException e)
                   {
@@ -164,7 +165,7 @@ public class DefaultContentEditorPresentationControlTest
 
         fixture.onContentSelected(new ContentSelectedEvent(content));
 
-        verify(documentProxyFactory).createDocumentProxy(same(properties), eq(PROPERTY_FULL_TEXT));
+        verify(documentProxyFactory).createDocumentProxy(any(Content.class), eq(PROPERTY_FULL_TEXT));
         verifyNoMoreInteractions(documentProxyFactory);
 
         verify(presentation).populateDocument(eq(registeredUrl));

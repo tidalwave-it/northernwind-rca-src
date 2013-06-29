@@ -32,11 +32,12 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
+import it.tidalwave.northernwind.core.model.Content;
 import it.tidalwave.northernwind.core.model.ResourceProperties;
+import it.tidalwave.northernwind.model.impl.admin.AdminContent;
 import it.tidalwave.northernwind.rca.embeddedserver.EmbeddedServer.Document;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import static it.tidalwave.util.test.FileComparisonUtils.assertSameContents;
 import static it.tidalwave.northernwind.rca.ui.contenteditor.impl.DefaultDocumentProxyFactory.*;
 import static it.tidalwave.northernwind.rca.ui.contenteditor.spi.DefaultContentEditorPresentationControl.*;
 import static it.tidalwave.util.test.FileComparisonUtils.assertSameContents;
@@ -89,11 +90,14 @@ public class DefaultDocumentProxyFactoryTest
     public void must_create_a_proper_proxy_document()
       throws IOException
       {
+        final Content content = mock(AdminContent.class); // FIXME: use Content
         final ResourceProperties properties = mock(ResourceProperties.class);
+        when(content.getProperties()).thenReturn(properties);
+
         final String html = "<html>\n<head>\n</head>\n<body>\nthe body\n</body>\n</html>";
         when(properties.getProperty(eq(PROPERTY_FULL_TEXT), anyString())).thenReturn(html);
 
-        final Document document = fixture.createDocumentProxy(properties, PROPERTY_FULL_TEXT);
+        final Document document = fixture.createDocumentProxy(content, PROPERTY_FULL_TEXT);
 
         assertThat(document.getMimeType(), is("text/html"));
 
@@ -110,16 +114,22 @@ public class DefaultDocumentProxyFactoryTest
     public void must_create_ar_proxy_document_that_properly_updates_properties()
       throws IOException
       {
+        final AdminContent content = mock(AdminContent.class); // FIXME: use Content
         final ResourceProperties properties = mock(ResourceProperties.class);
+        when(content.getProperties()).thenReturn(properties);
+
+        final ExternalPropertyWriter externalPropertyWriter = mock(ExternalPropertyWriter.class);
+        when(content.as(eq(ExternalPropertyWriter.class))).thenReturn(externalPropertyWriter);
+
         final String html = "<html>\n<head>\n</head>\n<body>\nthe body\n</body>\n</html>";
         when(properties.getProperty(eq(PROPERTY_FULL_TEXT), anyString())).thenReturn(html);
 
-        final Document document = fixture.createDocumentProxy(properties, PROPERTY_FULL_TEXT);
+        final Document document = fixture.createDocumentProxy(content, PROPERTY_FULL_TEXT);
         document.update("the updated body\n");
 
         // TODO: partially implemented
         final String expectedHtml = "<html>\n<head>\n</head>\n<body>\nthe updated body\n</body>\n</html>\n";
-        verify(properties).withProperty(eq(PROPERTY_FULL_TEXT), eq(expectedHtml));
+        verify(externalPropertyWriter).writeProperty(eq(PROPERTY_FULL_TEXT), eq(expectedHtml));
       }
 
     /*******************************************************************************************************************

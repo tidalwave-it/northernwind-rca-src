@@ -25,12 +25,15 @@
  * *********************************************************************************************************************
  * #L%
  */
-package it.tidalwave.northernwind.rca.ui.contenteditor.spi;
+package it.tidalwave.northernwind.rca.ui.contenteditor.impl;
 
 import javax.annotation.Nonnull;
-import it.tidalwave.northernwind.core.model.Content;
 import it.tidalwave.util.Key;
-import it.tidalwave.northernwind.rca.embeddedserver.EmbeddedServer.Document;
+import it.tidalwave.dci.annotation.DciRole;
+import it.tidalwave.northernwind.core.model.ResourceFile;
+import it.tidalwave.northernwind.model.impl.admin.AdminContent;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 /***********************************************************************************************************************
  *
@@ -38,17 +41,26 @@ import it.tidalwave.northernwind.rca.embeddedserver.EmbeddedServer.Document;
  * @version $Id$
  *
  **********************************************************************************************************************/
-public interface DocumentProxyFactory
+@DciRole(datum = AdminContent.class)
+@RequiredArgsConstructor @Slf4j
+public class DefaultResourcePropertiesExternalPropertyWriter implements ExternalPropertyWriter
   {
-    /*******************************************************************************************************************
-     *
-     * Creates a document that can be used as a proxy to edit a textual property.
-     *
-     * @param  content          the content
-     * @param  propertyName     the property name
-     * @return                  the document
-     *
-     ******************************************************************************************************************/
     @Nonnull
-    public Document createDocumentProxy (@Nonnull Content content, @Nonnull Key<String> propertyName);
+    private final AdminContent content;
+
+    @Override
+    public void writeProperty (final @Nonnull Key<String> propertyName, final @Nonnull String value)
+      {
+        try
+          {
+            final ResourceFile file = content.getFile();
+            final TextWriter writer = new ResourceFileTextWriter(file); // FIXME: file.as(TextWriter);
+            // FIXME: localization
+            writer.write(propertyName.stringValue() + "_en.xhtml", value);
+          }
+        catch (Exception e)
+          {
+            log.error("", e);
+          }
+      }
   }
