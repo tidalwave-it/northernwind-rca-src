@@ -44,13 +44,8 @@ import it.tidalwave.northernwind.core.model.ResourceFileSystem;
 import it.tidalwave.northernwind.rca.embeddedserver.EmbeddedServer;
 import it.tidalwave.northernwind.rca.ui.event.OpenSiteEvent;
 import it.tidalwave.northernwind.rca.ui.impl.SpringMessageBusListenerSupport;
-import java.io.BufferedInputStream;
 import java.io.DataInputStream;
 import java.io.FileNotFoundException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.nio.CharBuffer;
 import javax.inject.Inject;
 import javax.servlet.ServletContext;
 import lombok.Cleanup;
@@ -101,6 +96,8 @@ public class DefaultEmbeddedServer extends SpringMessageBusListenerSupport imple
           throws IOException, ServletException
           {
             log.info("handle({}, {}, {}, {})", target, baseRequest, request, response);
+
+            // FIXME: use a pipeline for handling those requests - eventually integrate support already in Site
 
             if (target.startsWith("/nwa/")) // FIXME - and use ResourcePath
               {
