@@ -28,6 +28,7 @@
 package it.tidalwave.northernwind.rca.ui.contenteditor.spi;
 
 import javax.annotation.Nonnull;
+import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
@@ -35,9 +36,8 @@ import java.nio.CharBuffer;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Splitter;
 import org.springframework.core.io.ClassPathResource;
-import it.tidalwave.northernwind.rca.embeddedserver.EmbeddedServer;
 import it.tidalwave.northernwind.rca.embeddedserver.EmbeddedServer.Document;
-import javax.annotation.PostConstruct;
+import it.tidalwave.northernwind.rca.embeddedserver.EmbeddedServer.Document.UpdateListener;
 import lombok.Cleanup;
 import lombok.extern.slf4j.Slf4j;
 
@@ -147,7 +147,7 @@ public class DefaultHtmlDocumentPreparer implements HtmlDocumentPreparer
         // FIXME: mime type - XHTML?
         final Document document = new Document().withMimeType("text/html")
                                                 .withContent(editableDocument.asString())
-                                                .withUpdateListener(new EmbeddedServer.Document.UpdateListener()
+                                                .withUpdateListener(new UpdateListener()
           {
             @Override
             public void update (final @Nonnull String content)
