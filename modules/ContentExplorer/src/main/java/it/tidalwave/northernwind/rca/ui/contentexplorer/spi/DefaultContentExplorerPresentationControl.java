@@ -109,6 +109,7 @@ public class DefaultContentExplorerPresentationControl extends SpringMessageBusL
         final ResourceFile root = event.getFileSystem().findFileByPath("/content/document");
         final AdminContent content = (AdminContent)modelFactory.createContent(root);
         presentation.populate(content.as(PresentationModelProvider.class).createPresentationModel(publisherRoleFactory));
+        presentation.expandFirstLevel();
         messageBus.publish(new ContentSelectedEvent());
       }
   }

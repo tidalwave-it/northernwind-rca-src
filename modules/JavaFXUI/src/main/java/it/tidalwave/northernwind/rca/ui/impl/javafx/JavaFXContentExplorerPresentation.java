@@ -60,4 +60,10 @@ public class JavaFXContentExplorerPresentation implements ContentExplorerPresent
       {
         bindings.bind(treeView, pm);
       }
+
+    @Override
+    public void expandFirstLevel()
+      {
+        treeView.getRoot().setExpanded(true);
+      }
   }

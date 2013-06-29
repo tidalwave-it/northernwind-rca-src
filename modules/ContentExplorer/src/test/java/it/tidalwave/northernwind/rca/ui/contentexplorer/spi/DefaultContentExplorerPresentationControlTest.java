@@ -127,7 +127,10 @@ public class DefaultContentExplorerPresentationControlTest
         fixture.onOpenSite(event);
 
         verify(presentation).populate(argThat(presentationModel().withRole(Selectable.class)));
+        verify(presentation).expandFirstLevel();
+        verifyNoMoreInteractions(presentation);
         verify(messageBus).publish(emptyEvent());
+        verifyNoMoreInteractions(messageBus);
       }
 
     /*******************************************************************************************************************
@@ -143,6 +146,7 @@ public class DefaultContentExplorerPresentationControlTest
         selectable.select();
 
         verify(messageBus).publish(eventWith(content));
+        verifyNoMoreInteractions(messageBus);
       }
 
   }

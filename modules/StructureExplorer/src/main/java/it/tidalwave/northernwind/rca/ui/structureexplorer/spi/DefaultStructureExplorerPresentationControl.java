@@ -113,6 +113,7 @@ public class DefaultStructureExplorerPresentationControl extends SpringMessageBu
             final ResourceFile root = event.getFileSystem().findFileByPath("/structure");
             final AdminSiteNode siteNode = (AdminSiteNode)modelFactory.createSiteNode(null, root);
             presentation.populate(siteNode.as(PresentationModelProvider.class).createPresentationModel(publisherRoleFactory));
+            presentation.expandFirstLevel();
             messageBus.publish(new SiteNodeSelectedEvent());
           }
         catch (IOException | NotFoundException e)

@@ -60,4 +60,10 @@ public class JavaFXStructureExplorerPresentation implements StructureExplorerPre
       {
         bindings.bind(treeView, pm);
       }
+
+    @Override
+    public void expandFirstLevel()
+      {
+        treeView.getRoot().setExpanded(true);
+      }
   }

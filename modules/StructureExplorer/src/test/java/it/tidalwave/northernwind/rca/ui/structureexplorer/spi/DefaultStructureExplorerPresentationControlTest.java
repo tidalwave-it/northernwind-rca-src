@@ -130,7 +130,10 @@ public class DefaultStructureExplorerPresentationControlTest
         fixture.onOpenSite(event);
 
         verify(presentation).populate(argThat(presentationModel().withRole(Selectable.class)));
+        verify(presentation).expandFirstLevel();
+        verifyNoMoreInteractions(presentation);
         verify(messageBus).publish(emptyEvent());
+        verifyNoMoreInteractions(messageBus);
       }
 
     /*******************************************************************************************************************
@@ -146,6 +149,6 @@ public class DefaultStructureExplorerPresentationControlTest
         selectable.select();
 
         verify(messageBus).publish(eventWith(node));
+        verifyNoMoreInteractions(messageBus);
       }
-
   }
