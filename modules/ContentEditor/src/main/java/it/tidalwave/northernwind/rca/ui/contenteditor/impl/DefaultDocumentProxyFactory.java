@@ -58,9 +58,9 @@ public class DefaultDocumentProxyFactory implements DocumentProxyFactory
     @VisibleForTesting final static String EDITOR_EPILOG =
             "it/tidalwave/northernwind/rca/ui/contenteditor/spi/EditorEpilog.txt";
 
-    private String editorProlog = "";
+    @VisibleForTesting String editorProlog = "";
 
-    private String editorEpilog = "";
+    @VisibleForTesting String editorEpilog = "";
 
     /*******************************************************************************************************************
      *

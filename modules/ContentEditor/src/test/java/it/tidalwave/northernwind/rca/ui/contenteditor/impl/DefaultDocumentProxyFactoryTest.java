@@ -30,12 +30,16 @@ package it.tidalwave.northernwind.rca.ui.contenteditor.impl;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import it.tidalwave.northernwind.core.model.ResourceProperties;
+import it.tidalwave.northernwind.rca.embeddedserver.EmbeddedServer.Document;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import static org.hamcrest.MatcherAssert.*;
-import static org.hamcrest.CoreMatchers.*;
 import static it.tidalwave.util.test.FileComparisonUtils.assertSameContents;
 import static it.tidalwave.northernwind.rca.ui.contenteditor.impl.DefaultDocumentProxyFactory.*;
+import static it.tidalwave.northernwind.rca.ui.contenteditor.spi.DefaultContentEditorPresentationControl.*;
+import static org.mockito.Mockito.*;
+import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.CoreMatchers.*;
 
 /***********************************************************************************************************************
  *
@@ -74,5 +78,24 @@ public class DefaultDocumentProxyFactoryTest
         final File expectedFile = new File("src/main/resources/" + EDITOR_PROLOG);
 
         assertSameContents(expectedFile, file);
+      }
+
+    /*******************************************************************************************************************
+     *
+     ******************************************************************************************************************/
+    @Test
+    public void must_create_a_proper_proxy_document()
+      throws IOException
+      {
+        final ResourceProperties properties = mock(ResourceProperties.class);
+        final String html = "<html>\n<head>\n</head>\n<body>\nthe body\n</body>\n</html>";
+        when(properties.getProperty(eq(PROPERTY_FULL_TEXT), anyString())).thenReturn(html);
+        fixture.editorProlog = "prolog\n";
+        fixture.editorEpilog = "epilog\n";
+
+        final Document document = fixture.createDocumentProxy(properties, PROPERTY_FULL_TEXT);
+
+        assertThat(document.getContent(), is("prolog\nthe body\nepilog\n"));
+        assertThat(document.getMimeType(), is("text/html"));
       }
   }
