@@ -32,9 +32,9 @@ import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
-import java.nio.CharBuffer;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Splitter;
+import com.google.common.io.CharStreams;
 import org.springframework.core.io.ClassPathResource;
 import it.tidalwave.northernwind.rca.embeddedserver.EmbeddedServer.Document;
 import it.tidalwave.northernwind.rca.embeddedserver.EmbeddedServer.Document.UpdateListener;
@@ -195,9 +195,7 @@ public class DefaultHtmlDocumentPreparer implements HtmlDocumentPreparer
           {
             final ClassPathResource resource = new ClassPathResource(path);
             final @Cleanup Reader r = new InputStreamReader(resource.getInputStream());
-            final CharBuffer charBuffer = CharBuffer.allocate((int)resource.contentLength());
-            final int length = r.read(charBuffer);
-            return new String(charBuffer.array(), 0, length);
+            return CharStreams.toString(r);
           }
         catch (IOException e)
           {
