@@ -40,9 +40,11 @@ import it.tidalwave.northernwind.core.model.Content;
 import it.tidalwave.northernwind.core.model.ResourceProperties;
 import it.tidalwave.northernwind.rca.embeddedserver.EmbeddedServer;
 import it.tidalwave.northernwind.rca.embeddedserver.EmbeddedServer.Document;
+import it.tidalwave.northernwind.rca.embeddedserver.EmbeddedServer.Document.UpdateListener;
 import it.tidalwave.northernwind.rca.ui.event.ContentSelectedEvent;
 import it.tidalwave.northernwind.rca.ui.contenteditor.ContentEditorPresentation;
 import it.tidalwave.northernwind.rca.ui.contenteditor.ContentEditorPresentationControl;
+import it.tidalwave.northernwind.rca.ui.contenteditor.spi.HtmlDocumentPreparer.HtmlDocument;
 import it.tidalwave.northernwind.rca.ui.impl.SpringMessageBusListenerSupport;
 import lombok.extern.slf4j.Slf4j;
 import static it.tidalwave.role.ui.PresentationModelProvider.*;
@@ -135,12 +137,22 @@ public class DefaultContentEditorPresentationControl extends SpringMessageBusLis
                 final Content content = selectionEvent.getContent();
                 final ResourceProperties properties = content.getProperties();
                 final String fullText = properties.getProperty(PROPERTY_FULL_TEXT, "");
-                final String preparedText = documentPreparer.prepareForEditing(fullText)
-                                                            .withProlog(editorProlog)
-                                                            .withEpilog(editorEpilog)
-                                                            .asString();
-                final Document document = new Document().withMimeType("text/html").withContent(preparedText);
+                final HtmlDocument originalDocument = documentPreparer.prepareForEditing(fullText);
+                final HtmlDocument editableDocument = originalDocument.withProlog(editorProlog)
+                                                                      .withEpilog(editorEpilog);
                 // FIXME: mime type - XHTML?
+                final Document document = new Document().withMimeType("text/html")
+                                                        .withContent(editableDocument.asString())
+                                                        .withUpdateListener(new UpdateListener()
+                  {
+                    @Override
+                    public void update (final @Nonnull String content)
+                      {
+                        final HtmlDocument editedDocument = originalDocument.withBody(content);
+                        // FIXME: needs to be pretty printed
+                        log.warn("TO STORE: {}", editedDocument.asString());
+                      }
+                  });
 
                 presentation.populateDocument(documentServer.putDocument("/", document));
                 fields.title.set(properties.getProperty(PROPERTY_TITLE, ""));

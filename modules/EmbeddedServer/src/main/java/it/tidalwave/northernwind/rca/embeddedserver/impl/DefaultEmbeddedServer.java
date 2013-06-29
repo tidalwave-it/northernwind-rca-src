@@ -42,6 +42,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.io.ByteStreams;
+import com.google.common.io.CharStreams;
 import org.springframework.core.io.ClassPathResource;
 import org.eclipse.jetty.server.Server;
 import it.tidalwave.messagebus.annotation.ListensTo;
@@ -108,6 +110,30 @@ public class DefaultEmbeddedServer extends SpringMessageBusListenerSupport imple
             else
               {
                 serveRegisteredResources(uri, response);
+              }
+          }
+
+        @Override
+        protected void doPost (final @Nonnull HttpServletRequest request,
+                               final @Nonnull HttpServletResponse response)
+          throws ServletException, IOException
+          {
+            log.debug("doPost({}, {})", request, response);
+
+            final String uri = request.getRequestURI();
+            final String s = request.getParameter("content");
+
+            final Document document = documentMapByUrl.get(uri);
+
+            if (document == null)
+              {
+                log.warn("3 - Not found: {}", uri);
+                response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+              }
+            else
+              {
+                document.update(s);
+                response.setStatus(HttpServletResponse.SC_OK);
               }
           }
       };

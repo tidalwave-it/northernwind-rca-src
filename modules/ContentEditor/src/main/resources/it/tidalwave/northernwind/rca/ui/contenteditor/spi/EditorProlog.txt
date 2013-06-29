@@ -29,6 +29,20 @@
                 $('.editable').aloha();
               });
         </script>
+
+        <script type="text/javascript">
+            function save (event, myEditable)
+              {
+                $.post("/",
+                  {
+                    content: myEditable.editable.getContents()
+                  });
+              }
+
+            Aloha.bind('aloha-editable-deactivated', save);
+        </script>
+
     </head>
+
     <body>
         <div class="editable">

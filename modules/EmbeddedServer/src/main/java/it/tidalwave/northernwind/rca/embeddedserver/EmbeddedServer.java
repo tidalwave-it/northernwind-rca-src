@@ -47,11 +47,32 @@ public interface EmbeddedServer
     @Immutable @AllArgsConstructor(access = AccessLevel.PRIVATE) @NoArgsConstructor @EqualsAndHashCode
     public static class Document
       {
+        public static interface UpdateListener
+          {
+            public void update (final @Nonnull String content);
+
+            public static final UpdateListener VOID = new UpdateListener()
+              {
+                @Override
+                public void update (final @Nonnull String content)
+                  {
+                  }
+              };
+          }
+
         @Getter @Wither @Nonnull
         private String mimeType = "";
 
         @Getter @Wither @Nonnull
         private String content = "";
+
+        @Getter @Wither @Nonnull
+        private UpdateListener updateListener = UpdateListener.VOID;
+
+        public void update (final @Nonnull String content)
+          {
+            updateListener.update(content);
+          }
       }
 
     public int getPort();
