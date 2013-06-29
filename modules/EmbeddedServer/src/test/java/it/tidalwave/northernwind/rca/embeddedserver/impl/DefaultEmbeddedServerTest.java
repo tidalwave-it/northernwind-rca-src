@@ -116,9 +116,9 @@ public class DefaultEmbeddedServerTest
         fixture.putDocument("/doc2", new Document().withMimeType("text/plain").withContent("document 2"));
         fixture.putDocument("/doc3", new Document().withMimeType("text/css").withContent("document 3"));
 
-        assertUrlContents("http://localhost:12345/",     "text/html; charset=ISO-8859-1",  "document 1");
-        assertUrlContents("http://localhost:12345/doc2", "text/plain; charset=ISO-8859-1", "document 2");
-        assertUrlContents("http://localhost:12345/doc3", "text/css; charset=ISO-8859-1",   "document 3");
+        assertUrlContents("http://localhost:12345/",     "text/html; charset=UTF-8",  "document 1");
+        assertUrlContents("http://localhost:12345/doc2", "text/plain; charset=UTF-8", "document 2");
+        assertUrlContents("http://localhost:12345/doc3", "text/css; charset=UTF-8",   "document 3");
       }
 
     /*******************************************************************************************************************
