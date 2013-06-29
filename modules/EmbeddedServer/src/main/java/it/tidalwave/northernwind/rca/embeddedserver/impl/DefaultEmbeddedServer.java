@@ -216,6 +216,7 @@ public class DefaultEmbeddedServer extends SpringMessageBusListenerSupport imple
       {
         final ResourceFile file = fileSystem.findFileByPath("/content" + uri); // FIXME
 
+        response.setCharacterEncoding("UTF-8");
         response.setContentType(file.getMimeType());
         response.setStatus(HttpServletResponse.SC_OK);
         response.getWriter().write(file.asText("UTF-8"));
