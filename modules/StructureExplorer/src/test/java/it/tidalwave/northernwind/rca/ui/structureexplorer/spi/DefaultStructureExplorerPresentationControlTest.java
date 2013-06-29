@@ -127,6 +127,8 @@ public class DefaultStructureExplorerPresentationControlTest
     public void when_a_Site_has_been_opened_must_properly_populate_the_presentation_and_publish_an_empty_selection()
       throws IOException
       {
+        reset(messageBus);
+        
         fixture.onOpenSite(event);
 
         verify(presentation).populate(argThat(presentationModel().withRole(Selectable.class)));
@@ -142,6 +144,7 @@ public class DefaultStructureExplorerPresentationControlTest
     @Test
     public void must_have_injected_a_Selectable_that_fires_the_proper_selection_message()
       {
+        reset(messageBus);
         final Object role = fixture.publisherRoleFactory.createRoleFor(node);
         assertThat(role, is(instanceOf(Selectable.class)));
 
