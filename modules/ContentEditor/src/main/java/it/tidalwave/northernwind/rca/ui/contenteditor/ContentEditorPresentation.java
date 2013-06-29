@@ -48,8 +48,6 @@ public interface ContentEditorPresentation
     public static class Fields
       {
         public final BoundProperty<String> title = new BoundProperty<>("");
-
-        public final BoundProperty<String> url = new BoundProperty<>("");
       }
 
     /*******************************************************************************************************************
@@ -74,6 +72,8 @@ public interface ContentEditorPresentation
      *
      ******************************************************************************************************************/
     public void bind (@Nonnull Fields bean);
+
+    public void populateDocument (@Nonnull String url);
 
     /*******************************************************************************************************************
      *

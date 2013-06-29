@@ -46,6 +46,11 @@ import it.tidalwave.northernwind.rca.ui.contenteditor.ContentEditorPresentationC
 import it.tidalwave.northernwind.rca.ui.impl.SpringMessageBusListenerSupport;
 import lombok.extern.slf4j.Slf4j;
 import static it.tidalwave.role.ui.PresentationModelProvider.*;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.nio.CharBuffer;
+import lombok.Cleanup;
+import org.springframework.core.io.ClassPathResource;
 
 /***********************************************************************************************************************
  *
@@ -61,11 +66,24 @@ import static it.tidalwave.role.ui.PresentationModelProvider.*;
 public class DefaultContentEditorPresentationControl extends SpringMessageBusListenerSupport
                                                      implements ContentEditorPresentationControl
   {
+    @VisibleForTesting final static String EDITOR_PROLOG =
+            "it/tidalwave/northernwind/rca/ui/contenteditor/spi/EditorProlog.txt";
+
+    @VisibleForTesting final static String EDITOR_EPILOG =
+            "it/tidalwave/northernwind/rca/ui/contenteditor/spi/EditorEpilog.txt";
+
     @Inject
     @VisibleForTesting EmbeddedServer documentServer;
 
+    @Inject
+    private DocumentNormalizer documentNormalizer;
+
     @Nonnull
     private ContentEditorPresentation presentation;
+
+    private String editorProlog = "";
+
+    private String editorEpilog = "";
 
     @VisibleForTesting final ContentEditorPresentation.Fields fields = new ContentEditorPresentation.Fields();
 
@@ -89,6 +107,9 @@ public class DefaultContentEditorPresentationControl extends SpringMessageBusLis
     @Override
     public void initialize (final @Nonnull ContentEditorPresentation presentation)
       {
+        editorProlog = loadResource(EDITOR_PROLOG);
+        editorEpilog = loadResource(EDITOR_EPILOG);
+
         this.presentation = presentation;
         fields.title.addPropertyChangeListener(propertyChangeListener);
         presentation.bind(fields);
@@ -114,10 +135,14 @@ public class DefaultContentEditorPresentationControl extends SpringMessageBusLis
                 final Content content = selectionEvent.getContent();
                 final ResourceProperties properties = content.getProperties();
                 final String fullText = properties.getProperty(PROPERTY_FULL_TEXT, "");
-                final Document document = new Document().withMimeType("text/html").withContent(fullText);
+                final String preparedText = documentNormalizer.prepareForEditing(fullText)
+                                                              .withProlog(editorProlog)
+                                                              .withEpilog(editorEpilog)
+                                                              .asString();
+                final Document document = new Document().withMimeType("text/html").withContent(preparedText);
                 // FIXME: mime type
-                fields.url.set(documentServer.putDocument("/", document));
 
+                presentation.populateDocument(documentServer.putDocument("/", document));
                 fields.title.set(properties.getProperty(PROPERTY_TITLE, ""));
                 presentation.populateProperties(properties.as(PresentationModelProvider).createPresentationModel());
                 presentation.showUp();
@@ -127,6 +152,28 @@ public class DefaultContentEditorPresentationControl extends SpringMessageBusLis
                 presentation.clear(); // FIXME: should notify error
                 log.warn("", e);
               }
+          }
+      }
+
+    /*******************************************************************************************************************
+     *
+     *
+     *
+     ******************************************************************************************************************/
+    @Nonnull
+    @VisibleForTesting String loadResource (final @Nonnull String path)
+      {
+        try
+          {
+            final ClassPathResource resource = new ClassPathResource(path);
+            final @Cleanup Reader r = new InputStreamReader(resource.getInputStream());
+            final CharBuffer charBuffer = CharBuffer.allocate((int)resource.contentLength());
+            final int length = r.read(charBuffer);
+            return new String(charBuffer.array(), 0, length);
+          }
+        catch (IOException e)
+          {
+            throw new RuntimeException(e);
           }
       }
   }

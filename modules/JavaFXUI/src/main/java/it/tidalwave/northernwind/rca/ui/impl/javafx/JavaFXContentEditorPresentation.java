@@ -29,10 +29,6 @@ package it.tidalwave.northernwind.rca.ui.impl.javafx;
 
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.scene.web.WebView;
 import javafx.scene.layout.Pane;
@@ -73,26 +69,11 @@ public class JavaFXContentEditorPresentation implements ContentEditorPresentatio
     @Widget("contentEditorProperties")
     private TableView<PresentationModel> tableView;
 
-    private final StringProperty url = new SimpleStringProperty();
-
-    private final ChangeListener<String> urlChangeListener = new ChangeListener<String>()
-      {
-        @Override
-        public void changed (final @Nonnull ObservableValue<? extends String> observable,
-                             final @Nonnull String oldValue,
-                             final @Nonnull String newValue)
-          {
-            webView.getEngine().load(newValue);
-          }
-      };
-
 //    @PostConstruct FIXME: when Spring calls, it's too early; this is called by JavaFXSafeComponentBuilder
     public void initialize()
       {
         bindings.bindColumn(tableView, 0, "name");
         bindings.bindColumn(tableView, 1, "value");
-
-        url.addListener(urlChangeListener);
       }
 
     @Override
@@ -114,7 +95,12 @@ public class JavaFXContentEditorPresentation implements ContentEditorPresentatio
     public void bind (final @Nonnull Fields fields)
       {
         bindings.bindBidirectionally(contentTitle.textProperty(), fields.title);
-        bindings.bindBidirectionally(url, fields.url);
+      }
+
+    @Override
+    public void populateDocument (final @Nonnull String url)
+      {
+        webView.getEngine().load(url);
       }
 
     @Override

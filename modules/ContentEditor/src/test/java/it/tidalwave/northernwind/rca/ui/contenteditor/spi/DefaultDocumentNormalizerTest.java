@@ -62,9 +62,9 @@ public class DefaultDocumentNormalizerTest
 
         final TheDoc result = fixture.prepareForEditing(text);
 
-        assertThat(result.getProlog(), is("<html>\n<head>\n</head>\n"));
-        assertThat(result.getBody(), is("<body>\nthe body\n</body>\n"));
-        assertThat(result.getEpilog(), is("</html>\n"));
+        assertThat(result.getProlog(), is("<html>\n<head>\n</head>\n<body>\n"));
+        assertThat(result.getBody(), is("the body\n"));
+        assertThat(result.getEpilog(), is("</body>\n</html>\n"));
       }
 
     /*******************************************************************************************************************

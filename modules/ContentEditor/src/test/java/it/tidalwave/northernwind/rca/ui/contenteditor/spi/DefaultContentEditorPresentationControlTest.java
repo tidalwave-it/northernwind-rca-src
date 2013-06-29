@@ -40,9 +40,14 @@ import it.tidalwave.northernwind.rca.embeddedserver.EmbeddedServer.Document;
 import it.tidalwave.northernwind.rca.ui.contenteditor.ContentEditorPresentation;
 import it.tidalwave.northernwind.rca.ui.event.ContentSelectedEvent;
 import static it.tidalwave.northernwind.rca.ui.contenteditor.spi.DefaultContentEditorPresentationControl.*;
+import static it.tidalwave.util.test.FileComparisonUtils.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.CoreMatchers.*;
 import static org.mockito.Mockito.*;
+import org.testng.FileAssert;
 
 /***********************************************************************************************************************
  *
@@ -135,6 +140,7 @@ public class DefaultContentEditorPresentationControlTest
 
         fixture.onContentSelected(new ContentSelectedEvent(content));
 
+        verify(presentation).populateDocument(eq("http://localhost:12345/"));
         verify(presentation).populateProperties(same(pm));
         verify(presentation).showUp();
         verifyNoMoreInteractions(presentation);
@@ -142,7 +148,6 @@ public class DefaultContentEditorPresentationControlTest
         verify(embeddedServer).putDocument(eq("/"), eq(new Document().withContent("full text").withMimeType("text/html")));
         verifyNoMoreInteractions(embeddedServer);
 
-        assertThat(fixture.fields.url.get(), is("http://localhost:12345/"));
         assertThat(fixture.fields.title.get(), is("title"));
       }
 
@@ -161,5 +166,25 @@ public class DefaultContentEditorPresentationControlTest
 
         verify(presentation).clear();
         verifyNoMoreInteractions(presentation);
+      }
+
+    /*******************************************************************************************************************
+     *
+     ******************************************************************************************************************/
+    @Test
+    public void must_properly_load_resource() // TODO: parametrize. test EPILOG
+      throws IOException
+      {
+        final String editorHeader = fixture.loadResource(EDITOR_PROLOG);
+        final File file = new File("target/" + EDITOR_PROLOG);
+        file.getParentFile().mkdirs();
+        final PrintWriter pw = new PrintWriter(file);
+        pw.print(editorHeader);
+        pw.flush();
+        pw.close();
+
+        final File expectedFile = new File("src/main/resources/" + EDITOR_PROLOG);
+
+        assertSameContents(expectedFile, file);
       }
   }

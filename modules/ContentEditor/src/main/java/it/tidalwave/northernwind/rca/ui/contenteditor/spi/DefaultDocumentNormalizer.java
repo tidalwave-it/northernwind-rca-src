@@ -48,15 +48,7 @@ public class DefaultDocumentNormalizer implements DocumentNormalizer
                            final @Nonnull StringBuilder bodyBuilder,
                            final @Nonnull StringBuilder epilogBuilder)
               {
-                if (!line.contains("<body"))
-                  {
-                    prologBuilder.append(line).append("\n");
-                  }
-                else
-                  {
-                    bodyBuilder.append(line).append("\n");
-                  }
-
+                prologBuilder.append(line).append("\n");
                 return line.contains("<body") ? BODY : PROLOG;
               }
           },
@@ -69,7 +61,15 @@ public class DefaultDocumentNormalizer implements DocumentNormalizer
                            final @Nonnull StringBuilder bodyBuilder,
                            final @Nonnull StringBuilder epilogBuilder)
               {
-                bodyBuilder.append(line).append("\n");
+                if (!line.contains("</body"))
+                  {
+                    bodyBuilder.append(line).append("\n");
+                  }
+                else
+                  {
+                    epilogBuilder.append(line).append("\n");
+                  }
+
                 return line.contains("</body") ? EPILOG : BODY;
               }
           },

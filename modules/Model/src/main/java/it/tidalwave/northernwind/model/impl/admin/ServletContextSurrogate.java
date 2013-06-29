@@ -64,9 +64,24 @@ public class ServletContextSurrogate implements ServletContext
             return "text/css";
           }
 
+        if (file.endsWith(".png"))
+          {
+            return "image/png";
+          }
+
+        if (file.endsWith(".gif"))
+          {
+            return "image/gif";
+          }
+
         if (file.endsWith(".jpg"))
           {
             return "image/jpg";
+          }
+
+        if (file.endsWith(".js"))
+          {
+            return "application/x-javascript";
           }
 
         return "";
