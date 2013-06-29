@@ -119,22 +119,7 @@ public class DefaultEmbeddedServer extends SpringMessageBusListenerSupport imple
           throws ServletException, IOException
           {
             log.debug("doPost({}, {})", request, response);
-
-            final String uri = request.getRequestURI();
-            final String s = request.getParameter("content");
-
-            final Document document = documentMapByUrl.get(uri);
-
-            if (document == null)
-              {
-                log.warn("3 - Not found: {}", uri);
-                response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-              }
-            else
-              {
-                document.update(s);
-                response.setStatus(HttpServletResponse.SC_OK);
-              }
+            updateRegisteredResource(request, response);
           }
       };
 
@@ -269,6 +254,31 @@ public class DefaultEmbeddedServer extends SpringMessageBusListenerSupport imple
             response.setContentType(document.getMimeType());
             response.setStatus(HttpServletResponse.SC_OK);
             response.getWriter().write(document.getContent());
+          }
+      }
+
+    /*******************************************************************************************************************
+     *
+     *
+     *
+     ******************************************************************************************************************/
+    private void updateRegisteredResource (final @Nonnull HttpServletRequest request,
+                                           final @Nonnull HttpServletResponse response)
+      {
+        final String uri = request.getRequestURI();
+        final String s = request.getParameter("content");
+
+        final Document document = documentMapByUrl.get(uri);
+
+        if (document == null)
+          {
+            log.warn("3 - Not found: {}", uri);
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+          }
+        else
+          {
+            document.update(s);
+            response.setStatus(HttpServletResponse.SC_OK);
           }
       }
 
