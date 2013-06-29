@@ -91,9 +91,8 @@ public class DefaultEmbeddedServer extends SpringMessageBusListenerSupport imple
                               final @Nonnull HttpServletResponse response)
           throws ServletException, IOException
           {
-            log.debug("doGet({}, {})", request, response);
-
             final String uri = request.getRequestURI();
+            log.debug("doGet({})", uri);
             // FIXME: use a pipeline for handling those requests - eventually integrate support already in Site
 
             if (uri.startsWith("/nwa/")) // FIXME - and use ResourcePath
@@ -117,7 +116,8 @@ public class DefaultEmbeddedServer extends SpringMessageBusListenerSupport imple
                                final @Nonnull HttpServletResponse response)
           throws ServletException, IOException
           {
-            log.debug("doPost({}, {})", request, response);
+            final String uri = request.getRequestURI();
+            log.debug("doPost({})", uri);
             updateRegisteredResource(request, response);
           }
       };

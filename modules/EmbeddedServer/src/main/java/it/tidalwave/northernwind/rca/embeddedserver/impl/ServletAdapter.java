@@ -55,7 +55,7 @@ public class ServletAdapter extends HttpServlet
                             final @Nonnull HttpServletResponse response)
           throws IOException, ServletException
           {
-            log.trace("handle({}, {}, {}, {}", target, baseRequest, request, response);
+//            log.trace("handle({}, {}, {}, {}", target, baseRequest, request, response);
             service(request, response);
             baseRequest.setHandled(true);
           }
