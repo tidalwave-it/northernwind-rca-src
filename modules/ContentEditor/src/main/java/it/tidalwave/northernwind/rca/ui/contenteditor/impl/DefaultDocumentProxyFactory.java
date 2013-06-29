@@ -25,7 +25,7 @@
  * *********************************************************************************************************************
  * #L%
  */
-package it.tidalwave.northernwind.rca.ui.contenteditor.spi;
+package it.tidalwave.northernwind.rca.ui.contenteditor.impl;
 
 import javax.annotation.Nonnull;
 import javax.annotation.PostConstruct;
@@ -40,6 +40,7 @@ import it.tidalwave.util.Key;
 import it.tidalwave.northernwind.core.model.ResourceProperties;
 import it.tidalwave.northernwind.rca.embeddedserver.EmbeddedServer.Document;
 import it.tidalwave.northernwind.rca.embeddedserver.EmbeddedServer.Document.UpdateListener;
+import it.tidalwave.northernwind.rca.ui.contenteditor.spi.DocumentProxyFactory;
 import lombok.Cleanup;
 import lombok.extern.slf4j.Slf4j;
 

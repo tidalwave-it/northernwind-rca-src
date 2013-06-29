@@ -25,7 +25,7 @@
  * *********************************************************************************************************************
  * #L%
  */
-package it.tidalwave.northernwind.rca.ui.contenteditor.spi;
+package it.tidalwave.northernwind.rca.ui.contenteditor.impl;
 
 import java.io.File;
 import java.io.IOException;
@@ -35,7 +35,7 @@ import org.testng.annotations.Test;
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.CoreMatchers.*;
 import static it.tidalwave.util.test.FileComparisonUtils.assertSameContents;
-import static it.tidalwave.northernwind.rca.ui.contenteditor.spi.DefaultDocumentProxyFactory.*;
+import static it.tidalwave.northernwind.rca.ui.contenteditor.impl.DefaultDocumentProxyFactory.*;
 
 /***********************************************************************************************************************
  *
