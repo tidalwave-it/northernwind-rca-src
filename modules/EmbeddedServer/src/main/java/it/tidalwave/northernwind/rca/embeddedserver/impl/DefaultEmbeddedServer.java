@@ -43,7 +43,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.io.ByteStreams;
-import com.google.common.io.CharStreams;
 import org.springframework.core.io.ClassPathResource;
 import org.eclipse.jetty.server.Server;
 import it.tidalwave.messagebus.annotation.ListensTo;
@@ -293,8 +292,6 @@ public class DefaultEmbeddedServer extends SpringMessageBusListenerSupport imple
       {
         final ClassPathResource resource = new ClassPathResource(path);
         final @Cleanup DataInputStream is = new DataInputStream(resource.getInputStream());
-        final byte[] buffer = new byte[(int)resource.contentLength()];
-        is.readFully(buffer);
-        return buffer;
+        return ByteStreams.toByteArray(is);
       }
   }
