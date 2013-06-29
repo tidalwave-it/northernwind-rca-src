@@ -31,31 +31,29 @@ import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
+import javax.inject.Inject;
 import java.util.HashMap;
 import java.util.Map;
 import java.io.IOException;
+import java.io.DataInputStream;
+import java.io.FileNotFoundException;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import com.google.common.annotations.VisibleForTesting;
+import org.springframework.core.io.ClassPathResource;
+import org.eclipse.jetty.server.Server;
 import it.tidalwave.messagebus.annotation.ListensTo;
 import it.tidalwave.northernwind.core.model.ResourceFile;
 import it.tidalwave.northernwind.core.model.ResourceFileSystem;
 import it.tidalwave.northernwind.rca.embeddedserver.EmbeddedServer;
 import it.tidalwave.northernwind.rca.ui.event.OpenSiteEvent;
 import it.tidalwave.northernwind.rca.ui.impl.SpringMessageBusListenerSupport;
-import java.io.DataInputStream;
-import java.io.FileNotFoundException;
-import javax.inject.Inject;
-import javax.servlet.ServletContext;
 import lombok.Cleanup;
-import org.eclipse.jetty.server.Request;
-import org.eclipse.jetty.server.Server;
-import org.eclipse.jetty.server.handler.AbstractHandler;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.core.io.ClassPathResource;
 
 /***********************************************************************************************************************
  *
@@ -84,41 +82,40 @@ public class DefaultEmbeddedServer extends SpringMessageBusListenerSupport imple
      *
      *
      *
-     *
      ******************************************************************************************************************/
-    private final AbstractHandler handler = new AbstractHandler()
+    private final ServletAdapter servlet = new ServletAdapter()
       {
         @Override
-        public void handle (final @Nonnull String target,
-                            final @Nonnull Request baseRequest,
-                            final @Nonnull HttpServletRequest request,
-                            final @Nonnull HttpServletResponse response)
-          throws IOException, ServletException
+        protected void doGet (final @Nonnull HttpServletRequest request,
+                              final @Nonnull HttpServletResponse response)
+          throws ServletException, IOException
           {
-            log.info("handle({}, {}, {}, {})", target, baseRequest, request, response);
+            log.info("doGet({}, {})", request, response);
 
+            final String uri = request.getRequestURI();
+            log.debug(">>>> URI: {}", uri);
             // FIXME: use a pipeline for handling those requests - eventually integrate support already in Site
 
-            if (target.startsWith("/nwa/")) // FIXME - and use ResourcePath
+            if (uri.startsWith("/nwa/")) // FIXME - and use ResourcePath
               {
                 try
                   {
-                    final byte[] resource = loadResource(target);
+                    final byte[] resource = loadResource(uri);
                     response.setCharacterEncoding("");
-                    response.setContentType(mimeResolver.getMimeType(target));
+                    response.setContentType(mimeResolver.getMimeType(uri));
                     response.setStatus(HttpServletResponse.SC_OK);
                     response.getOutputStream().write(resource);
                   }
                 catch (FileNotFoundException e)
                   {
-                    log.warn("2 - Not found: {}", target);
+                    log.warn("2 - Not found: {}", uri);
                     response.setStatus(HttpServletResponse.SC_NOT_FOUND);
                   }
               }
 
-            else if (target.startsWith("/library/")) // FIXME - and use ResourcePath
+            else if (uri.startsWith("/library/")) // FIXME - and use ResourcePath
               {
-                final ResourceFile file = fileSystem.findFileByPath("/content" + target); // FIXME
+                final ResourceFile file = fileSystem.findFileByPath("/content" + uri); // FIXME
 
                 response.setContentType(file.getMimeType());
                 response.setStatus(HttpServletResponse.SC_OK);
@@ -127,11 +124,11 @@ public class DefaultEmbeddedServer extends SpringMessageBusListenerSupport imple
 
             else
               {
-                final Document document = documentMapByUrl.get(target);
+                final Document document = documentMapByUrl.get(uri);
 
                 if (document == null)
                   {
-                    log.warn("1 - Not found: {}", target);
+                    log.warn("1 - Not found: {}", uri);
                     response.setStatus(HttpServletResponse.SC_NOT_FOUND);
                   }
                 else
@@ -141,8 +138,6 @@ public class DefaultEmbeddedServer extends SpringMessageBusListenerSupport imple
                     response.getWriter().write(document.getContent());
                   }
               }
-
-            baseRequest.setHandled(true);
           }
       };
 
@@ -171,7 +166,7 @@ public class DefaultEmbeddedServer extends SpringMessageBusListenerSupport imple
           {
             log.info("Starting webserver...");
             server = new Server(port);
-            server.setHandler(handler);
+            server.setHandler(servlet.asHandler());
             server.start();
             log.info(">>>> started");
           }
