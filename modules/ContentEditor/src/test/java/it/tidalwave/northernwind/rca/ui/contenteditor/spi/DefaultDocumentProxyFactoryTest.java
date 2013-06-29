@@ -35,7 +35,7 @@ import org.testng.annotations.Test;
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.CoreMatchers.*;
 import static it.tidalwave.util.test.FileComparisonUtils.assertSameContents;
-import static it.tidalwave.northernwind.rca.ui.contenteditor.spi.DefaultHtmlDocumentPreparer.*;
+import static it.tidalwave.northernwind.rca.ui.contenteditor.spi.DefaultDocumentProxyFactory.*;
 
 /***********************************************************************************************************************
  *
@@ -43,9 +43,9 @@ import static it.tidalwave.northernwind.rca.ui.contenteditor.spi.DefaultHtmlDocu
  * @version $Id$
  *
  **********************************************************************************************************************/
-public class DefaultHtmlDocumentPreparerTest
+public class DefaultDocumentProxyFactoryTest
   {
-    private DefaultHtmlDocumentPreparer fixture;
+    private DefaultDocumentProxyFactory fixture;
 
     /*******************************************************************************************************************
      *
@@ -53,7 +53,7 @@ public class DefaultHtmlDocumentPreparerTest
     @BeforeMethod
     public void setupFixture()
       {
-        fixture = new DefaultHtmlDocumentPreparer();
+        fixture = new DefaultDocumentProxyFactory();
       }
 
     /*******************************************************************************************************************

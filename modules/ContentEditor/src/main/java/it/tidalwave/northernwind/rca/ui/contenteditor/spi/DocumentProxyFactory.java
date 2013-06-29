@@ -28,6 +28,8 @@
 package it.tidalwave.northernwind.rca.ui.contenteditor.spi;
 
 import javax.annotation.Nonnull;
+import it.tidalwave.util.Key;
+import it.tidalwave.northernwind.core.model.ResourceProperties;
 import it.tidalwave.northernwind.rca.embeddedserver.EmbeddedServer.Document;
 
 /***********************************************************************************************************************
@@ -36,16 +38,17 @@ import it.tidalwave.northernwind.rca.embeddedserver.EmbeddedServer.Document;
  * @version $Id$
  *
  **********************************************************************************************************************/
-public interface HtmlDocumentPreparer
+public interface DocumentProxyFactory
   {
     /*******************************************************************************************************************
      *
-     * Wraps a text into a document that can be manipulated to support HTML editing.
+     * Creates a document that can be used as a proxy to edit a textual property.
      *
-     * @param  text     the source text
-     * @return          the document
+     * @param  properties       the properties
+     * @param  propertyName     the property name
+     * @return                  the document
      *
      ******************************************************************************************************************/
     @Nonnull
-    public Document prepareForEditing (@Nonnull String text);
+    public Document createDocumentProxy (@Nonnull ResourceProperties properties, @Nonnull Key<String> propertyName);
   }

@@ -36,6 +36,8 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Splitter;
 import com.google.common.io.CharStreams;
 import org.springframework.core.io.ClassPathResource;
+import it.tidalwave.util.Key;
+import it.tidalwave.northernwind.core.model.ResourceProperties;
 import it.tidalwave.northernwind.rca.embeddedserver.EmbeddedServer.Document;
 import it.tidalwave.northernwind.rca.embeddedserver.EmbeddedServer.Document.UpdateListener;
 import lombok.Cleanup;
@@ -48,7 +50,7 @@ import lombok.extern.slf4j.Slf4j;
  *
  **********************************************************************************************************************/
 @Slf4j
-public class DefaultHtmlDocumentPreparer implements HtmlDocumentPreparer
+public class DefaultDocumentProxyFactory implements DocumentProxyFactory
   {
     @VisibleForTesting final static String EDITOR_PROLOG =
             "it/tidalwave/northernwind/rca/ui/contenteditor/spi/EditorProlog.txt";
@@ -138,26 +140,33 @@ public class DefaultHtmlDocumentPreparer implements HtmlDocumentPreparer
      *
      ******************************************************************************************************************/
     @Override @Nonnull
-    public Document prepareForEditing (final @Nonnull String text)
+    public Document createDocumentProxy (final @Nonnull ResourceProperties properties,
+                                         final @Nonnull Key<String> propertyName)
       {
-        final HtmlDocument originalDocument = createSplitDocument(text);
-        final HtmlDocument editableDocument = originalDocument.withProlog(editorProlog)
-                                                              .withEpilog(editorEpilog);
-        // FIXME: mime type - XHTML?
-        final Document document = new Document().withMimeType("text/html")
-                                                .withContent(editableDocument.asString())
-                                                .withUpdateListener(new UpdateListener()
+        try
           {
-            @Override
-            public void update (final @Nonnull String content)
+            final String text = properties.getProperty(propertyName, "");
+            final HtmlDocument originalDocument = createSplitDocument(text);
+            final HtmlDocument editableDocument = originalDocument.withProlog(editorProlog)
+                                                                  .withEpilog(editorEpilog);
+            // FIXME: mime type - XHTML?
+            return new Document().withMimeType("text/html")
+                                 .withContent(editableDocument.asString())
+                                 .withUpdateListener(new UpdateListener()
               {
-                final HtmlDocument editedDocument = originalDocument.withBody(content);
-                // FIXME: needs to be pretty printed
-                log.warn("TO DO: STORE: {}", editedDocument.asString());
-              }
-          });
-
-        return document;
+                @Override
+                public void update (final @Nonnull String content)
+                  {
+                    final HtmlDocument editedDocument = originalDocument.withBody(content);
+                    // FIXME: needs to be pretty printed
+                    log.warn("TO DO: STORE: {}", editedDocument.asString());
+                  }
+              });
+          }
+        catch (IOException e)
+          {
+            throw new RuntimeException(e);
+          }
       }
 
     /*******************************************************************************************************************

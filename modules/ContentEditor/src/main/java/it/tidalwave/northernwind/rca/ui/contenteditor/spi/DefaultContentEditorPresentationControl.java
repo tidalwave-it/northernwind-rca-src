@@ -65,7 +65,7 @@ public class DefaultContentEditorPresentationControl extends SpringMessageBusLis
     @VisibleForTesting EmbeddedServer documentServer;
 
     @Inject
-    private HtmlDocumentPreparer documentPreparer;
+    private DocumentProxyFactory documentProxyFactory;
 
     @Nonnull
     private ContentEditorPresentation presentation;
@@ -116,8 +116,7 @@ public class DefaultContentEditorPresentationControl extends SpringMessageBusLis
               {
                 final Content content = selectionEvent.getContent();
                 final ResourceProperties properties = content.getProperties();
-                final String fullText = properties.getProperty(PROPERTY_FULL_TEXT, "");
-                final Document document = documentPreparer.prepareForEditing(fullText);
+                final Document document = documentProxyFactory.createDocumentProxy(properties, PROPERTY_FULL_TEXT);
 
                 fields.title.set(properties.getProperty(PROPERTY_TITLE, ""));
                 presentation.populateDocument(documentServer.putDocument("/", document));
