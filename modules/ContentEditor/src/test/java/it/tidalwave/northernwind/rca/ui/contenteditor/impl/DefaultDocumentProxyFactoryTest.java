@@ -27,7 +27,9 @@
  */
 package it.tidalwave.northernwind.rca.ui.contenteditor.impl;
 
+import javax.annotation.Nonnull;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import it.tidalwave.northernwind.core.model.ResourceProperties;
@@ -58,6 +60,7 @@ public class DefaultDocumentProxyFactoryTest
     public void setupFixture()
       {
         fixture = new DefaultDocumentProxyFactory();
+//        fixture.initialize();
       }
 
     /*******************************************************************************************************************
@@ -68,15 +71,10 @@ public class DefaultDocumentProxyFactoryTest
       throws IOException
       {
         final String editorHeader = fixture.loadResource(EDITOR_PROLOG);
+
         final File file = new File("target/" + EDITOR_PROLOG);
-        file.getParentFile().mkdirs();
-        final PrintWriter pw = new PrintWriter(file);
-        pw.print(editorHeader);
-        pw.flush();
-        pw.close();
-
         final File expectedFile = new File("src/main/resources/" + EDITOR_PROLOG);
-
+        writeToFile(file, editorHeader);
         assertSameContents(expectedFile, file);
       }
 
@@ -98,6 +96,21 @@ public class DefaultDocumentProxyFactoryTest
         assertThat(document.getContent(), is("prolog\nthe body\nepilog\n"));
         assertThat(document.getMimeType(), is("text/html"));
 
+//          CharStreams.
+
         // TODO: must test that updates are back-propagated to properties
+      }
+
+    /*******************************************************************************************************************
+     *
+     ******************************************************************************************************************/
+    private void writeToFile (final @Nonnull File file, final @Nonnull String editorHeader)
+      throws FileNotFoundException
+      {
+        file.getParentFile().mkdirs();
+        final PrintWriter pw = new PrintWriter(file);
+        pw.print(editorHeader);
+        pw.flush();
+        pw.close();
       }
   }
