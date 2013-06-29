@@ -4,7 +4,7 @@ div.handwritten
   {
     font-family:     'Indie Flower', cursive;
     line-height:     1.2em;
-    font-size:       125%;
+    /*font-size:       125%;*/
     text-align:      left;
   }
 
