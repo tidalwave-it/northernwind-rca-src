@@ -41,6 +41,12 @@ import lombok.experimental.Wither;
  **********************************************************************************************************************/
 public interface HtmlDocumentPreparer
   {
+    /*******************************************************************************************************************
+     *
+     * A container for HTML text that allow substitution of prolog and epilog in order to prepare a HTML document for
+     * editing.
+     *
+     ******************************************************************************************************************/
     @RequiredArgsConstructor @Getter @ToString
     public class HtmlDocument
       {
@@ -60,6 +66,14 @@ public interface HtmlDocumentPreparer
           }
       }
 
+    /*******************************************************************************************************************
+     *
+     * Wraps a text into a {@link HtmlDocument} that can be manipulated to support HTML editing.
+     *
+     * @param  text     the source text
+     * @return          the HTML document
+     *
+     ******************************************************************************************************************/
     @Nonnull
     public HtmlDocument prepareForEditing (@Nonnull String text);
   }

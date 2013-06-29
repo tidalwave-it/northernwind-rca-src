@@ -94,6 +94,11 @@ public class DefaultHtmlDocumentPreparer implements HtmlDocumentPreparer
 
       }
 
+    /*******************************************************************************************************************
+     *
+     * {@inheritDoc}
+     * 
+     ******************************************************************************************************************/
     @Override @Nonnull
     public HtmlDocument prepareForEditing (final @Nonnull String text)
       {
