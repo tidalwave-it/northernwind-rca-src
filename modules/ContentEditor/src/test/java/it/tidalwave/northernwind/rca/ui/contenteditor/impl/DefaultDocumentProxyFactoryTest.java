@@ -67,15 +67,18 @@ public class DefaultDocumentProxyFactoryTest
      *
      ******************************************************************************************************************/
     @Test
-    public void must_properly_load_resource() // TODO: parametrize. test EPILOG
+    public void must_properly_initialize()
       throws IOException
       {
-        final String editorHeader = fixture.loadResource(EDITOR_PROLOG);
+        final File prolog = new File("target/test-results/" + EDITOR_PROLOG);
+        final File epilog = new File("target/test-results/" + EDITOR_EPILOG);
+        writeToFile(prolog, fixture.editorProlog);
+        writeToFile(epilog, fixture.editorEpilog);
 
-        final File file = new File("target/test-results/" + EDITOR_PROLOG);
-        final File expectedFile = new File("src/main/resources/" + EDITOR_PROLOG);
-        writeToFile(file, editorHeader);
-        assertSameContents(expectedFile, file);
+        final File expectedProlog = new File("src/main/resources/" + EDITOR_PROLOG);
+        final File expectedEpilog = new File("src/main/resources/" + EDITOR_EPILOG);
+        assertSameContents(expectedProlog , prolog);
+        assertSameContents(expectedEpilog, epilog);
       }
 
     /*******************************************************************************************************************
