@@ -59,6 +59,6 @@
 
     <aop:aspectj-autoproxy/>
 
-    <bean class="it.tidalwave.northernwind.rca.ui.contenteditor.spi.DefaultDocumentNormalizer" />
+    <bean class="it.tidalwave.northernwind.rca.ui.contenteditor.spi.DefaultHtmlDocumentPreparer" />
 
 </beans>
