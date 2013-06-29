@@ -28,6 +28,8 @@
 package it.tidalwave.northernwind.rca.ui.contenteditor.impl;
 
 import javax.annotation.Nonnull;
+import com.google.common.base.Splitter;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
@@ -42,7 +44,7 @@ import lombok.experimental.Wither;
  * @version $Id$
  *
  **********************************************************************************************************************/
-@RequiredArgsConstructor @Getter @ToString
+@RequiredArgsConstructor(access = AccessLevel.PACKAGE) @Getter @ToString
 public class HtmlDocument
   {
     @Wither @Nonnull
@@ -54,6 +56,93 @@ public class HtmlDocument
     @Wither @Nonnull
     private final String epilog;
 
+    /*******************************************************************************************************************
+     *
+     *
+     *
+     ******************************************************************************************************************/
+    enum State
+      {
+        PROLOG
+          {
+            @Override
+            State process (final @Nonnull String line,
+                           final @Nonnull StringBuilder prologBuilder,
+                           final @Nonnull StringBuilder bodyBuilder,
+                           final @Nonnull StringBuilder epilogBuilder)
+              {
+                prologBuilder.append(line).append("\n");
+                return line.contains("<body") ? BODY : PROLOG;
+              }
+          },
+
+        BODY
+          {
+            @Override
+            State process (final @Nonnull String line,
+                           final @Nonnull StringBuilder prologBuilder,
+                           final @Nonnull StringBuilder bodyBuilder,
+                           final @Nonnull StringBuilder epilogBuilder)
+              {
+                if (!line.contains("</body"))
+                  {
+                    bodyBuilder.append(line).append("\n");
+                  }
+                else
+                  {
+                    epilogBuilder.append(line).append("\n");
+                  }
+
+                return line.contains("</body") ? EPILOG : BODY;
+              }
+          },
+
+        EPILOG
+          {
+            @Override
+            State process (final @Nonnull String line,
+                           final @Nonnull StringBuilder prologBuilder,
+                           final @Nonnull StringBuilder bodyBuilder,
+                           final @Nonnull StringBuilder epilogBuilder)
+              {
+                epilogBuilder.append(line).append("\n");
+                return EPILOG;
+              }
+          };
+
+        abstract State process (@Nonnull String line,
+                                @Nonnull StringBuilder prologBuilder,
+                                @Nonnull StringBuilder bodyBuilder,
+                                @Nonnull StringBuilder epilogBuilder);
+      }
+
+    /*******************************************************************************************************************
+     *
+     *
+     *
+     ******************************************************************************************************************/
+    @Nonnull
+    public static HtmlDocument createFromText (final @Nonnull String text)
+      {
+        final StringBuilder prologBuilder = new StringBuilder();
+        final StringBuilder bodyBuilder = new StringBuilder();
+        final StringBuilder epilogBuilder = new StringBuilder();
+
+        State state = State.PROLOG;
+
+        for (final String line : Splitter.on("\n").trimResults().split(text))
+          {
+            state = state.process(line, prologBuilder, bodyBuilder, epilogBuilder);
+          }
+
+        return new HtmlDocument(prologBuilder.toString(), bodyBuilder.toString(), epilogBuilder.toString());
+      }
+
+    /*******************************************************************************************************************
+     *
+     *
+     *
+     ******************************************************************************************************************/
     @Nonnull
     public String asString()
       {

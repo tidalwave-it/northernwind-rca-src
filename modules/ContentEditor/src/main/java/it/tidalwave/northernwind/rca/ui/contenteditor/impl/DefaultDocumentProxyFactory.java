@@ -33,7 +33,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import com.google.common.annotations.VisibleForTesting;
-import com.google.common.base.Splitter;
 import com.google.common.io.CharStreams;
 import org.springframework.core.io.ClassPathResource;
 import it.tidalwave.util.Key;
@@ -65,66 +64,6 @@ public class DefaultDocumentProxyFactory implements DocumentProxyFactory
 
     /*******************************************************************************************************************
      *
-     *
-     *
-     ******************************************************************************************************************/
-    enum State
-      {
-        PROLOG
-          {
-            @Override
-            State process (final @Nonnull String line,
-                           final @Nonnull StringBuilder prologBuilder,
-                           final @Nonnull StringBuilder bodyBuilder,
-                           final @Nonnull StringBuilder epilogBuilder)
-              {
-                prologBuilder.append(line).append("\n");
-                return line.contains("<body") ? BODY : PROLOG;
-              }
-          },
-
-        BODY
-          {
-            @Override
-            State process (final @Nonnull String line,
-                           final @Nonnull StringBuilder prologBuilder,
-                           final @Nonnull StringBuilder bodyBuilder,
-                           final @Nonnull StringBuilder epilogBuilder)
-              {
-                if (!line.contains("</body"))
-                  {
-                    bodyBuilder.append(line).append("\n");
-                  }
-                else
-                  {
-                    epilogBuilder.append(line).append("\n");
-                  }
-
-                return line.contains("</body") ? EPILOG : BODY;
-              }
-          },
-
-        EPILOG
-          {
-            @Override
-            State process (final @Nonnull String line,
-                           final @Nonnull StringBuilder prologBuilder,
-                           final @Nonnull StringBuilder bodyBuilder,
-                           final @Nonnull StringBuilder epilogBuilder)
-              {
-                epilogBuilder.append(line).append("\n");
-                return EPILOG;
-              }
-          };
-
-        abstract State process (@Nonnull String line,
-                                @Nonnull StringBuilder prologBuilder,
-                                @Nonnull StringBuilder bodyBuilder,
-                                @Nonnull StringBuilder epilogBuilder);
-      }
-
-    /*******************************************************************************************************************
-     *
      * {@inheritDoc}
      *
      ******************************************************************************************************************/
@@ -147,7 +86,7 @@ public class DefaultDocumentProxyFactory implements DocumentProxyFactory
         try
           {
             final String text = properties.getProperty(propertyName, "");
-            final HtmlDocument originalDocument = createSplitDocument(text);
+            final HtmlDocument originalDocument = HtmlDocument.createFromText(text);
             final HtmlDocument editableDocument = originalDocument.withProlog(editorProlog)
                                                                   .withEpilog(editorEpilog);
             // FIXME: mime type - XHTML?
@@ -168,28 +107,6 @@ public class DefaultDocumentProxyFactory implements DocumentProxyFactory
           {
             throw new RuntimeException(e);
           }
-      }
-
-    /*******************************************************************************************************************
-     *
-     * {@inheritDoc}
-     *
-     ******************************************************************************************************************/
-    @Nonnull
-    @VisibleForTesting HtmlDocument createSplitDocument (final @Nonnull String text)
-      {
-        final StringBuilder prologBuilder = new StringBuilder();
-        final StringBuilder bodyBuilder = new StringBuilder();
-        final StringBuilder epilogBuilder = new StringBuilder();
-
-        State state = State.PROLOG;
-
-        for (final String line : Splitter.on("\n").trimResults().split(text))
-          {
-            state = state.process(line, prologBuilder, bodyBuilder, epilogBuilder);
-          }
-
-        return new HtmlDocument(prologBuilder.toString(), bodyBuilder.toString(), epilogBuilder.toString());
       }
 
     /*******************************************************************************************************************

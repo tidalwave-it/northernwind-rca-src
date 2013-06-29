@@ -27,15 +27,10 @@
  */
 package it.tidalwave.northernwind.rca.ui.contenteditor.impl;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.PrintWriter;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.CoreMatchers.*;
-import static it.tidalwave.util.test.FileComparisonUtils.assertSameContents;
-import static it.tidalwave.northernwind.rca.ui.contenteditor.impl.DefaultDocumentProxyFactory.*;
 
 /***********************************************************************************************************************
  *
@@ -43,9 +38,9 @@ import static it.tidalwave.northernwind.rca.ui.contenteditor.impl.DefaultDocumen
  * @version $Id$
  *
  **********************************************************************************************************************/
-public class DefaultDocumentProxyFactoryTest
+public class HtmlDocumentTest
   {
-    private DefaultDocumentProxyFactory fixture;
+    private HtmlDocument fixture;
 
     /*******************************************************************************************************************
      *
@@ -53,26 +48,54 @@ public class DefaultDocumentProxyFactoryTest
     @BeforeMethod
     public void setupFixture()
       {
-        fixture = new DefaultDocumentProxyFactory();
+        fixture = new HtmlDocument("prolog\n", "body\n", "epilog\n");
       }
 
     /*******************************************************************************************************************
      *
      ******************************************************************************************************************/
     @Test
-    public void must_properly_load_resource() // TODO: parametrize. test EPILOG
-      throws IOException
+    public void must_properly_create_from_text()
       {
-        final String editorHeader = fixture.loadResource(EDITOR_PROLOG);
-        final File file = new File("target/" + EDITOR_PROLOG);
-        file.getParentFile().mkdirs();
-        final PrintWriter pw = new PrintWriter(file);
-        pw.print(editorHeader);
-        pw.flush();
-        pw.close();
+        final String text = "<html>\n<head>\n</head>\n<body>\nthe body\n</body>\n</html>";
 
-        final File expectedFile = new File("src/main/resources/" + EDITOR_PROLOG);
+        final HtmlDocument fixture = HtmlDocument.createFromText(text);
 
-        assertSameContents(expectedFile, file);
+        assertThat(fixture.getProlog(), is("<html>\n<head>\n</head>\n<body>\n"));
+        assertThat(fixture.getBody(), is("the body\n"));
+        assertThat(fixture.getEpilog(), is("</body>\n</html>\n"));
+      }
+
+    /*******************************************************************************************************************
+     *
+     ******************************************************************************************************************/
+    @Test
+    public void must_properly_replace_prolog()
+      {
+        final HtmlDocument result = fixture.withProlog("replaced prolog\n");
+
+        assertThat(result.asString(), is("replaced prolog\nbody\nepilog\n"));
+      }
+
+    /*******************************************************************************************************************
+     *
+     ******************************************************************************************************************/
+    @Test
+    public void must_properly_replace_body()
+      {
+        final HtmlDocument result = fixture.withBody("replaced body\n");
+
+        assertThat(result.asString(), is("prolog\nreplaced body\nepilog\n"));
+      }
+
+    /*******************************************************************************************************************
+     *
+     ******************************************************************************************************************/
+    @Test
+    public void must_properly_replace_epilog()
+      {
+        final HtmlDocument result = fixture.withEpilog("replaced epilog\n");
+
+        assertThat(result.asString(), is("prolog\nbody\nreplaced epilog\n"));
       }
   }
