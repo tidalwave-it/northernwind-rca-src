@@ -76,7 +76,7 @@ public class DefaultContentEditorPresentationControl extends SpringMessageBusLis
     @VisibleForTesting EmbeddedServer documentServer;
 
     @Inject
-    private DocumentNormalizer documentNormalizer;
+    private HtmlDocumentPreparer documentPreparer;
 
     @Nonnull
     private ContentEditorPresentation presentation;
@@ -135,12 +135,12 @@ public class DefaultContentEditorPresentationControl extends SpringMessageBusLis
                 final Content content = selectionEvent.getContent();
                 final ResourceProperties properties = content.getProperties();
                 final String fullText = properties.getProperty(PROPERTY_FULL_TEXT, "");
-                final String preparedText = documentNormalizer.prepareForEditing(fullText)
-                                                              .withProlog(editorProlog)
-                                                              .withEpilog(editorEpilog)
-                                                              .asString();
+                final String preparedText = documentPreparer.prepareForEditing(fullText)
+                                                            .withProlog(editorProlog)
+                                                            .withEpilog(editorEpilog)
+                                                            .asString();
                 final Document document = new Document().withMimeType("text/html").withContent(preparedText);
-                // FIXME: mime type
+                // FIXME: mime type - XHTML?
 
                 presentation.populateDocument(documentServer.putDocument("/", document));
                 fields.title.set(properties.getProperty(PROPERTY_TITLE, ""));

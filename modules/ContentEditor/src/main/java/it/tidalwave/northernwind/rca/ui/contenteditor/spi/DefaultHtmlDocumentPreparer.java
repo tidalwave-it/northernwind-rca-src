@@ -36,7 +36,7 @@ import com.google.common.base.Splitter;
  * @version $Id$
  *
  **********************************************************************************************************************/
-public class DefaultDocumentNormalizer implements DocumentNormalizer
+public class DefaultHtmlDocumentPreparer implements HtmlDocumentPreparer
   {
     enum State
       {
@@ -95,7 +95,7 @@ public class DefaultDocumentNormalizer implements DocumentNormalizer
       }
 
     @Override @Nonnull
-    public TheDoc prepareForEditing (final @Nonnull String text)
+    public HtmlDocument prepareForEditing (final @Nonnull String text)
       {
         final StringBuilder prologBuilder = new StringBuilder();
         final StringBuilder bodyBuilder = new StringBuilder();
@@ -108,6 +108,6 @@ public class DefaultDocumentNormalizer implements DocumentNormalizer
             state = state.process(line, prologBuilder, bodyBuilder, epilogBuilder);
           }
 
-        return new TheDoc(prologBuilder.toString(), bodyBuilder.toString(), epilogBuilder.toString());
+        return new HtmlDocument(prologBuilder.toString(), bodyBuilder.toString(), epilogBuilder.toString());
       }
   }

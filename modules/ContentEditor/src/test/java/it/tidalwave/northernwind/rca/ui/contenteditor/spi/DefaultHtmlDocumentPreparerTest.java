@@ -27,7 +27,7 @@
  */
 package it.tidalwave.northernwind.rca.ui.contenteditor.spi;
 
-import it.tidalwave.northernwind.rca.ui.contenteditor.spi.DocumentNormalizer.TheDoc;
+import it.tidalwave.northernwind.rca.ui.contenteditor.spi.HtmlDocumentPreparer.HtmlDocument;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import static org.hamcrest.MatcherAssert.*;
@@ -39,9 +39,9 @@ import static org.hamcrest.CoreMatchers.*;
  * @version $Id$
  *
  **********************************************************************************************************************/
-public class DefaultDocumentNormalizerTest
+public class DefaultHtmlDocumentPreparerTest
   {
-    private DefaultDocumentNormalizer fixture;
+    private DefaultHtmlDocumentPreparer fixture;
 
     /*******************************************************************************************************************
      *
@@ -49,7 +49,7 @@ public class DefaultDocumentNormalizerTest
     @BeforeMethod
     public void setupFixture()
       {
-        fixture = new DefaultDocumentNormalizer();
+        fixture = new DefaultHtmlDocumentPreparer();
       }
 
     /*******************************************************************************************************************
@@ -60,7 +60,7 @@ public class DefaultDocumentNormalizerTest
       {
         final String text = "<html>\n<head>\n</head>\n<body>\nthe body\n</body>\n</html>";
 
-        final TheDoc result = fixture.prepareForEditing(text);
+        final HtmlDocument result = fixture.prepareForEditing(text);
 
         assertThat(result.getProlog(), is("<html>\n<head>\n</head>\n<body>\n"));
         assertThat(result.getBody(), is("the body\n"));
@@ -73,8 +73,8 @@ public class DefaultDocumentNormalizerTest
     @Test
     public void must_properly_replace_prolog()
       {
-        final TheDoc fixture = new TheDoc("prolog\n", "body\n", "epilog\n");
-        final TheDoc result = fixture.withProlog("replaced prolog\n");
+        final HtmlDocument fixture = new HtmlDocument("prolog\n", "body\n", "epilog\n");
+        final HtmlDocument result = fixture.withProlog("replaced prolog\n");
 
         assertThat(result.asString(), is("replaced prolog\nbody\nepilog\n"));
       }
@@ -85,8 +85,8 @@ public class DefaultDocumentNormalizerTest
     @Test
     public void must_properly_replace_body()
       {
-        final TheDoc fixture = new TheDoc("prolog\n", "body\n", "epilog\n");
-        final TheDoc result = fixture.withBody("replaced body\n");
+        final HtmlDocument fixture = new HtmlDocument("prolog\n", "body\n", "epilog\n");
+        final HtmlDocument result = fixture.withBody("replaced body\n");
 
         assertThat(result.asString(), is("prolog\nreplaced body\nepilog\n"));
       }
@@ -97,8 +97,8 @@ public class DefaultDocumentNormalizerTest
     @Test
     public void must_properly_replace_epilog()
       {
-        final TheDoc fixture = new TheDoc("prolog\n", "body\n", "epilog\n");
-        final TheDoc result = fixture.withEpilog("replaced epilog\n");
+        final HtmlDocument fixture = new HtmlDocument("prolog\n", "body\n", "epilog\n");
+        final HtmlDocument result = fixture.withEpilog("replaced epilog\n");
 
         assertThat(result.asString(), is("prolog\nbody\nreplaced epilog\n"));
       }

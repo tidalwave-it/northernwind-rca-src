@@ -27,7 +27,9 @@
  */
 package it.tidalwave.northernwind.rca.ui.contenteditor.spi;
 
+import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
 import org.testng.annotations.Test;
 import org.testng.annotations.BeforeMethod;
 import it.tidalwave.role.ui.PresentationModel;
@@ -39,15 +41,11 @@ import it.tidalwave.northernwind.rca.embeddedserver.EmbeddedServer;
 import it.tidalwave.northernwind.rca.embeddedserver.EmbeddedServer.Document;
 import it.tidalwave.northernwind.rca.ui.contenteditor.ContentEditorPresentation;
 import it.tidalwave.northernwind.rca.ui.event.ContentSelectedEvent;
-import static it.tidalwave.northernwind.rca.ui.contenteditor.spi.DefaultContentEditorPresentationControl.*;
-import static it.tidalwave.util.test.FileComparisonUtils.*;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.CoreMatchers.*;
 import static org.mockito.Mockito.*;
-import org.testng.FileAssert;
+import static it.tidalwave.util.test.FileComparisonUtils.*;
+import static it.tidalwave.northernwind.rca.ui.contenteditor.spi.DefaultContentEditorPresentationControl.*;
 
 /***********************************************************************************************************************
  *

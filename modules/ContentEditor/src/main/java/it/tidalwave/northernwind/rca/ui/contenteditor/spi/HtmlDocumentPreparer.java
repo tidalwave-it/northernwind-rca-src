@@ -39,10 +39,10 @@ import lombok.experimental.Wither;
  * @version $Id$
  *
  **********************************************************************************************************************/
-public interface DocumentNormalizer
+public interface HtmlDocumentPreparer
   {
     @RequiredArgsConstructor @Getter @ToString
-    public class TheDoc
+    public class HtmlDocument
       {
         @Wither @Nonnull
         private final String prolog;
@@ -61,5 +61,5 @@ public interface DocumentNormalizer
       }
 
     @Nonnull
-    public TheDoc prepareForEditing (@Nonnull String text);
+    public HtmlDocument prepareForEditing (@Nonnull String text);
   }
