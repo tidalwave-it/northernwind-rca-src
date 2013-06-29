@@ -44,12 +44,23 @@ import it.tidalwave.northernwind.core.model.ResourceFileSystem;
 import it.tidalwave.northernwind.rca.embeddedserver.EmbeddedServer;
 import it.tidalwave.northernwind.rca.ui.event.OpenSiteEvent;
 import it.tidalwave.northernwind.rca.ui.impl.SpringMessageBusListenerSupport;
+import java.io.BufferedInputStream;
+import java.io.DataInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.nio.CharBuffer;
+import javax.inject.Inject;
+import javax.servlet.ServletContext;
+import lombok.Cleanup;
 import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.AbstractHandler;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.io.ClassPathResource;
 
 /***********************************************************************************************************************
  *
@@ -60,6 +71,9 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class DefaultEmbeddedServer extends SpringMessageBusListenerSupport implements EmbeddedServer
   {
+    @Inject @Nonnull
+    private ServletContext mimeResolver; // FIXME: replace with MimeResolver
+
     @Getter @Setter
     private int port = 12345;
 
@@ -88,7 +102,24 @@ public class DefaultEmbeddedServer extends SpringMessageBusListenerSupport imple
           {
             log.info("handle({}, {}, {}, {})", target, baseRequest, request, response);
 
-            if (target.startsWith("/library/")) // FIXME - and use ResourcePath
+            if (target.startsWith("/nwa/")) // FIXME - and use ResourcePath
+              {
+                try
+                  {
+                    final byte[] resource = loadResource(target);
+                    response.setCharacterEncoding("");
+                    response.setContentType(mimeResolver.getMimeType(target));
+                    response.setStatus(HttpServletResponse.SC_OK);
+                    response.getOutputStream().write(resource);
+                  }
+                catch (FileNotFoundException e)
+                  {
+                    log.warn("2 - Not found: {}", target);
+                    response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+                  }
+              }
+
+            else if (target.startsWith("/library/")) // FIXME - and use ResourcePath
               {
                 final ResourceFile file = fileSystem.findFileByPath("/content" + target); // FIXME
 
@@ -103,7 +134,7 @@ public class DefaultEmbeddedServer extends SpringMessageBusListenerSupport imple
 
                 if (document == null)
                   {
-                    log.info("1 - Not found: {}", target);
+                    log.warn("1 - Not found: {}", target);
                     response.setStatus(HttpServletResponse.SC_NOT_FOUND);
                   }
                 else
@@ -185,5 +216,21 @@ public class DefaultEmbeddedServer extends SpringMessageBusListenerSupport imple
       {
         documentMapByUrl.put(path, document);
         return String.format("http://localhost:%d%s", port, path);
+      }
+
+    /*******************************************************************************************************************
+     *
+     *
+     *
+     ******************************************************************************************************************/
+    @Nonnull
+    @VisibleForTesting byte[] loadResource (final @Nonnull String path)
+      throws IOException
+      {
+        final ClassPathResource resource = new ClassPathResource(path);
+        final @Cleanup DataInputStream is = new DataInputStream(resource.getInputStream());
+        final byte[] buffer = new byte[(int)resource.contentLength()];
+        is.readFully(buffer);
+        return buffer;
       }
   }
