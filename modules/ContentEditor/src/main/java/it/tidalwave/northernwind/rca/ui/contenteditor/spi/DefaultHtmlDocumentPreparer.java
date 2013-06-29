@@ -28,7 +28,18 @@
 package it.tidalwave.northernwind.rca.ui.contenteditor.spi;
 
 import javax.annotation.Nonnull;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.nio.CharBuffer;
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Splitter;
+import org.springframework.core.io.ClassPathResource;
+import it.tidalwave.northernwind.rca.embeddedserver.EmbeddedServer;
+import it.tidalwave.northernwind.rca.embeddedserver.EmbeddedServer.Document;
+import javax.annotation.PostConstruct;
+import lombok.Cleanup;
+import lombok.extern.slf4j.Slf4j;
 
 /***********************************************************************************************************************
  *
@@ -36,8 +47,24 @@ import com.google.common.base.Splitter;
  * @version $Id$
  *
  **********************************************************************************************************************/
+@Slf4j
 public class DefaultHtmlDocumentPreparer implements HtmlDocumentPreparer
   {
+    @VisibleForTesting final static String EDITOR_PROLOG =
+            "it/tidalwave/northernwind/rca/ui/contenteditor/spi/EditorProlog.txt";
+
+    @VisibleForTesting final static String EDITOR_EPILOG =
+            "it/tidalwave/northernwind/rca/ui/contenteditor/spi/EditorEpilog.txt";
+
+    private String editorProlog = "";
+
+    private String editorEpilog = "";
+
+    /*******************************************************************************************************************
+     *
+     *
+     *
+     ******************************************************************************************************************/
     enum State
       {
         PROLOG
@@ -97,10 +124,50 @@ public class DefaultHtmlDocumentPreparer implements HtmlDocumentPreparer
     /*******************************************************************************************************************
      *
      * {@inheritDoc}
-     * 
+     *
+     ******************************************************************************************************************/
+    @PostConstruct
+    public void initialize()
+      {
+        editorProlog = loadResource(EDITOR_PROLOG);
+        editorEpilog = loadResource(EDITOR_EPILOG);
+      }
+
+    /*******************************************************************************************************************
+     *
+     * {@inheritDoc}
+     *
      ******************************************************************************************************************/
     @Override @Nonnull
-    public HtmlDocument prepareForEditing (final @Nonnull String text)
+    public Document prepareForEditing (final @Nonnull String text)
+      {
+        final HtmlDocument originalDocument = createSplitDocument(text);
+        final HtmlDocument editableDocument = originalDocument.withProlog(editorProlog)
+                                                              .withEpilog(editorEpilog);
+        // FIXME: mime type - XHTML?
+        final Document document = new Document().withMimeType("text/html")
+                                                .withContent(editableDocument.asString())
+                                                .withUpdateListener(new EmbeddedServer.Document.UpdateListener()
+          {
+            @Override
+            public void update (final @Nonnull String content)
+              {
+                final HtmlDocument editedDocument = originalDocument.withBody(content);
+                // FIXME: needs to be pretty printed
+                log.warn("TO DO: STORE: {}", editedDocument.asString());
+              }
+          });
+
+        return document;
+      }
+
+    /*******************************************************************************************************************
+     *
+     * {@inheritDoc}
+     *
+     ******************************************************************************************************************/
+    @Nonnull
+    @VisibleForTesting HtmlDocument createSplitDocument (final @Nonnull String text)
       {
         final StringBuilder prologBuilder = new StringBuilder();
         final StringBuilder bodyBuilder = new StringBuilder();
@@ -114,5 +181,27 @@ public class DefaultHtmlDocumentPreparer implements HtmlDocumentPreparer
           }
 
         return new HtmlDocument(prologBuilder.toString(), bodyBuilder.toString(), epilogBuilder.toString());
+      }
+
+    /*******************************************************************************************************************
+     *
+     *
+     *
+     ******************************************************************************************************************/
+    @Nonnull
+    @VisibleForTesting String loadResource (final @Nonnull String path)
+      {
+        try
+          {
+            final ClassPathResource resource = new ClassPathResource(path);
+            final @Cleanup Reader r = new InputStreamReader(resource.getInputStream());
+            final CharBuffer charBuffer = CharBuffer.allocate((int)resource.contentLength());
+            final int length = r.read(charBuffer);
+            return new String(charBuffer.array(), 0, length);
+          }
+        catch (IOException e)
+          {
+            throw new RuntimeException(e);
+          }
       }
   }

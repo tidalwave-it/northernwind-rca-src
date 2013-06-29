@@ -28,24 +28,36 @@
 package it.tidalwave.northernwind.rca.ui.contenteditor.spi;
 
 import javax.annotation.Nonnull;
-import it.tidalwave.northernwind.rca.embeddedserver.EmbeddedServer.Document;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.ToString;
+import lombok.experimental.Wither;
 
 /***********************************************************************************************************************
+ *
+ * A container for HTML text that allow substitution of prolog and epilog in order to prepare a HTML document for
+ * editing.
  *
  * @author  Fabrizio Giudici
  * @version $Id$
  *
  **********************************************************************************************************************/
-public interface HtmlDocumentPreparer
+@RequiredArgsConstructor @Getter @ToString
+public class HtmlDocument
   {
-    /*******************************************************************************************************************
-     *
-     * Wraps a text into a document that can be manipulated to support HTML editing.
-     *
-     * @param  text     the source text
-     * @return          the document
-     *
-     ******************************************************************************************************************/
+    @Wither @Nonnull
+    private final String prolog;
+
+    @Wither @Nonnull
+    private final String body;
+
+    @Wither @Nonnull
+    private final String epilog;
+
     @Nonnull
-    public Document prepareForEditing (@Nonnull String text);
+    public String asString()
+      {
+        return prolog + body + epilog;
+      }
   }
+

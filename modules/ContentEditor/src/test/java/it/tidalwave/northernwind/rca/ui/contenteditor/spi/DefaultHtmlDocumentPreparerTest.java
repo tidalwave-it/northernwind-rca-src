@@ -27,11 +27,15 @@
  */
 package it.tidalwave.northernwind.rca.ui.contenteditor.spi;
 
-import it.tidalwave.northernwind.rca.ui.contenteditor.spi.HtmlDocumentPreparer.HtmlDocument;
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.CoreMatchers.*;
+import static it.tidalwave.util.test.FileComparisonUtils.assertSameContents;
+import static it.tidalwave.northernwind.rca.ui.contenteditor.spi.DefaultHtmlDocumentPreparer.*;
 
 /***********************************************************************************************************************
  *
@@ -60,7 +64,7 @@ public class DefaultHtmlDocumentPreparerTest
       {
         final String text = "<html>\n<head>\n</head>\n<body>\nthe body\n</body>\n</html>";
 
-        final HtmlDocument result = fixture.prepareForEditing(text);
+        final HtmlDocument result = fixture.createSplitDocument(text);
 
         assertThat(result.getProlog(), is("<html>\n<head>\n</head>\n<body>\n"));
         assertThat(result.getBody(), is("the body\n"));
@@ -101,5 +105,25 @@ public class DefaultHtmlDocumentPreparerTest
         final HtmlDocument result = fixture.withEpilog("replaced epilog\n");
 
         assertThat(result.asString(), is("prolog\nbody\nreplaced epilog\n"));
+      }
+
+    /*******************************************************************************************************************
+     *
+     ******************************************************************************************************************/
+    @Test
+    public void must_properly_load_resource() // TODO: parametrize. test EPILOG
+      throws IOException
+      {
+        final String editorHeader = fixture.loadResource(EDITOR_PROLOG);
+        final File file = new File("target/" + EDITOR_PROLOG);
+        file.getParentFile().mkdirs();
+        final PrintWriter pw = new PrintWriter(file);
+        pw.print(editorHeader);
+        pw.flush();
+        pw.close();
+
+        final File expectedFile = new File("src/main/resources/" + EDITOR_PROLOG);
+
+        assertSameContents(expectedFile, file);
       }
   }

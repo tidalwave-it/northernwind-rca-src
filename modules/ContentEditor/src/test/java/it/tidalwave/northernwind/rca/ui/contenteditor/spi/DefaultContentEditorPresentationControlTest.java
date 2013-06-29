@@ -27,9 +27,7 @@
  */
 package it.tidalwave.northernwind.rca.ui.contenteditor.spi;
 
-import java.io.File;
 import java.io.IOException;
-import java.io.PrintWriter;
 import org.testng.annotations.Test;
 import org.testng.annotations.BeforeMethod;
 import it.tidalwave.role.ui.PresentationModel;
@@ -44,7 +42,6 @@ import it.tidalwave.northernwind.rca.ui.event.ContentSelectedEvent;
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.CoreMatchers.*;
 import static org.mockito.Mockito.*;
-import static it.tidalwave.util.test.FileComparisonUtils.*;
 import static it.tidalwave.northernwind.rca.ui.contenteditor.spi.DefaultContentEditorPresentationControl.*;
 
 /***********************************************************************************************************************
@@ -164,25 +161,5 @@ public class DefaultContentEditorPresentationControlTest
 
         verify(presentation).clear();
         verifyNoMoreInteractions(presentation);
-      }
-
-    /*******************************************************************************************************************
-     *
-     ******************************************************************************************************************/
-    @Test
-    public void must_properly_load_resource() // TODO: parametrize. test EPILOG
-      throws IOException
-      {
-        final String editorHeader = fixture.loadResource(EDITOR_PROLOG);
-        final File file = new File("target/" + EDITOR_PROLOG);
-        file.getParentFile().mkdirs();
-        final PrintWriter pw = new PrintWriter(file);
-        pw.print(editorHeader);
-        pw.flush();
-        pw.close();
-
-        final File expectedFile = new File("src/main/resources/" + EDITOR_PROLOG);
-
-        assertSameContents(expectedFile, file);
       }
   }
