@@ -35,6 +35,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.handler.AbstractHandler;
+import lombok.extern.slf4j.Slf4j;
 
 /***********************************************************************************************************************
  *
@@ -42,6 +43,7 @@ import org.eclipse.jetty.server.handler.AbstractHandler;
  * @version $Id$
  *
  **********************************************************************************************************************/
+@Slf4j
 public class ServletAdapter extends HttpServlet
   {
     private final AbstractHandler handler = new AbstractHandler()
@@ -53,6 +55,7 @@ public class ServletAdapter extends HttpServlet
                             final @Nonnull HttpServletResponse response)
           throws IOException, ServletException
           {
+            log.trace("handle({}, {}, {}, {}", target, baseRequest, request, response);
             service(request, response);
             baseRequest.setHandled(true);
           }

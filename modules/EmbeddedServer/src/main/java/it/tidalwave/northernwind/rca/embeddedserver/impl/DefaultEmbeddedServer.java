@@ -93,7 +93,6 @@ public class DefaultEmbeddedServer extends SpringMessageBusListenerSupport imple
             log.info("doGet({}, {})", request, response);
 
             final String uri = request.getRequestURI();
-            log.debug(">>>> URI: {}", uri);
             // FIXME: use a pipeline for handling those requests - eventually integrate support already in Site
 
             if (uri.startsWith("/nwa/")) // FIXME - and use ResourcePath
