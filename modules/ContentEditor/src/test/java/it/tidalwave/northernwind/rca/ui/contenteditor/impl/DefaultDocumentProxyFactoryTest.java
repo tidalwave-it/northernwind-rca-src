@@ -97,5 +97,7 @@ public class DefaultDocumentProxyFactoryTest
 
         assertThat(document.getContent(), is("prolog\nthe body\nepilog\n"));
         assertThat(document.getMimeType(), is("text/html"));
+
+        // TODO: must test that updates are back-propagated to properties
       }
   }
