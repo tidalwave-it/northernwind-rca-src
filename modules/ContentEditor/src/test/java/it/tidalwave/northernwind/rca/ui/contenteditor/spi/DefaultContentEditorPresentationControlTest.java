@@ -46,8 +46,6 @@ import static org.mockito.Mockito.any;
 import static it.tidalwave.northernwind.rca.ui.contenteditor.spi.DefaultContentEditorPresentationControl.*;
 import it.tidalwave.util.Key;
 import javax.annotation.Nonnull;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
 
 /***********************************************************************************************************************
  *
@@ -90,22 +88,25 @@ public class DefaultContentEditorPresentationControlTest
         embeddedServer = mock(EmbeddedServer.class);
         documentProxyFactory = mock(DocumentProxyFactory.class);
 
-        when(embeddedServer.putDocument(anyString(), any(Document.class))).thenReturn(registeredUrl);
-
-        when(documentProxyFactory.createDocumentProxy(any(ResourceProperties.class), any(Key.class)))
-                .thenAnswer(new Answer<Document>()
+        documentProxyFactory = spy(new DocumentProxyFactory()
           {
-            @Override
-            public Document answer (final @Nonnull InvocationOnMock invocation)
-              throws IOException
+            @Override @Nonnull
+            public Document createDocumentProxy (final @Nonnull ResourceProperties properties,
+                                                 final @Nonnull Key<String> propertyName)
               {
-                final ResourceProperties properties = (ResourceProperties)invocation.getArguments()[0];
-                final Key<String> key = (Key<String>)invocation.getArguments()[1];
-
-                return new Document().withMimeType("text/html")
-                                     .withContent("proxy for: " + properties.getProperty(key, ""));
+                try
+                  {
+                    return new Document().withMimeType("text/html")
+                                         .withContent("proxy for: " + properties.getProperty(propertyName, ""));
+                  }
+                catch (IOException e)
+                  {
+                    throw new RuntimeException(e); // never occurs
+                  }
               }
           });
+
+        when(embeddedServer.putDocument(anyString(), any(Document.class))).thenReturn(registeredUrl);
 
         fixture.documentServer = embeddedServer; // FIXME: use Spring
         fixture.documentProxyFactory = documentProxyFactory;
