@@ -60,7 +60,7 @@ public class DefaultDocumentProxyFactoryTest
     public void setupFixture()
       {
         fixture = new DefaultDocumentProxyFactory();
-//        fixture.initialize();
+        fixture.initialize();
       }
 
     /*******************************************************************************************************************
@@ -72,7 +72,7 @@ public class DefaultDocumentProxyFactoryTest
       {
         final String editorHeader = fixture.loadResource(EDITOR_PROLOG);
 
-        final File file = new File("target/" + EDITOR_PROLOG);
+        final File file = new File("target/test-results/" + EDITOR_PROLOG);
         final File expectedFile = new File("src/main/resources/" + EDITOR_PROLOG);
         writeToFile(file, editorHeader);
         assertSameContents(expectedFile, file);
@@ -88,15 +88,15 @@ public class DefaultDocumentProxyFactoryTest
         final ResourceProperties properties = mock(ResourceProperties.class);
         final String html = "<html>\n<head>\n</head>\n<body>\nthe body\n</body>\n</html>";
         when(properties.getProperty(eq(PROPERTY_FULL_TEXT), anyString())).thenReturn(html);
-        fixture.editorProlog = "prolog\n";
-        fixture.editorEpilog = "epilog\n";
 
         final Document document = fixture.createDocumentProxy(properties, PROPERTY_FULL_TEXT);
 
-        assertThat(document.getContent(), is("prolog\nthe body\nepilog\n"));
         assertThat(document.getMimeType(), is("text/html"));
 
-//          CharStreams.
+        final File file = new File("target/test-results/DocumentProxy.txt");
+        final File expectedFile = new File("src/test/resources/ExpectedDocumentProxy.txt");
+        writeToFile(file, document.getContent());
+        assertSameContents(expectedFile, file);
 
         // TODO: must test that updates are back-propagated to properties
       }
