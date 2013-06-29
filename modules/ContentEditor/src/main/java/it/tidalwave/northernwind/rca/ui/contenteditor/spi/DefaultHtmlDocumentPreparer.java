@@ -193,8 +193,7 @@ public class DefaultHtmlDocumentPreparer implements HtmlDocumentPreparer
       {
         try
           {
-            final ClassPathResource resource = new ClassPathResource(path);
-            final @Cleanup Reader r = new InputStreamReader(resource.getInputStream());
+            final @Cleanup Reader r = new InputStreamReader(new ClassPathResource(path).getInputStream());
             return CharStreams.toString(r);
           }
         catch (IOException e)
