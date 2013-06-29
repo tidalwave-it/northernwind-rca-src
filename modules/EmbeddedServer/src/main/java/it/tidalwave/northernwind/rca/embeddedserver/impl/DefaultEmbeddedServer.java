@@ -91,7 +91,7 @@ public class DefaultEmbeddedServer extends SpringMessageBusListenerSupport imple
                               final @Nonnull HttpServletResponse response)
           throws ServletException, IOException
           {
-            log.info("doGet({}, {})", request, response);
+            log.debug("doGet({}, {})", request, response);
 
             final String uri = request.getRequestURI();
             // FIXME: use a pipeline for handling those requests - eventually integrate support already in Site
