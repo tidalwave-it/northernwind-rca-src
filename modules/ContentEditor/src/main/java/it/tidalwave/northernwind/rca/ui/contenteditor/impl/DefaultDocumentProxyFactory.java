@@ -99,7 +99,9 @@ public class DefaultDocumentProxyFactory implements DocumentProxyFactory
                   {
                     final HtmlDocument editedDocument = originalDocument.withBody(content);
                     // FIXME: needs to be pretty printed
-                    log.warn("TO DO: STORE: {}", editedDocument.asString());
+                    final ResourceProperties newProperties = properties.withProperty(propertyName, editedDocument.asString());
+                    log.warn("TO DO: STORE: {}", newProperties);
+//                    log.warn("TO DO: STORE: {}", editedDocument.asString());
                   }
               });
           }

@@ -39,6 +39,7 @@ import org.testng.annotations.Test;
 import static it.tidalwave.util.test.FileComparisonUtils.assertSameContents;
 import static it.tidalwave.northernwind.rca.ui.contenteditor.impl.DefaultDocumentProxyFactory.*;
 import static it.tidalwave.northernwind.rca.ui.contenteditor.spi.DefaultContentEditorPresentationControl.*;
+import static it.tidalwave.util.test.FileComparisonUtils.assertSameContents;
 import static org.mockito.Mockito.*;
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.CoreMatchers.*;
@@ -100,8 +101,25 @@ public class DefaultDocumentProxyFactoryTest
         final File expectedFile = new File("src/test/resources/ExpectedDocumentProxy.txt");
         writeToFile(file, document.getContent());
         assertSameContents(expectedFile, file);
+      }
 
-        // TODO: must test that updates are back-propagated to properties
+    /*******************************************************************************************************************
+     *
+     ******************************************************************************************************************/
+    @Test
+    public void must_create_ar_proxy_document_that_properly_updates_properties()
+      throws IOException
+      {
+        final ResourceProperties properties = mock(ResourceProperties.class);
+        final String html = "<html>\n<head>\n</head>\n<body>\nthe body\n</body>\n</html>";
+        when(properties.getProperty(eq(PROPERTY_FULL_TEXT), anyString())).thenReturn(html);
+
+        final Document document = fixture.createDocumentProxy(properties, PROPERTY_FULL_TEXT);
+        document.update("the updated body\n");
+
+        // TODO: partially implemented
+        final String expectedHtml = "<html>\n<head>\n</head>\n<body>\nthe updated body\n</body>\n</html>\n";
+        verify(properties).withProperty(eq(PROPERTY_FULL_TEXT), eq(expectedHtml));
       }
 
     /*******************************************************************************************************************
