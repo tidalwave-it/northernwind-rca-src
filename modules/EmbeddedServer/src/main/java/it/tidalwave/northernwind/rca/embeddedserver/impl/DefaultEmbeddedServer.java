@@ -112,7 +112,7 @@ public class DefaultEmbeddedServer extends SpringMessageBusListenerSupport imple
               }
           }
 
-        @Override
+        @Override // TODO: better a PUT but I don't know how to do in jQuery
         protected void doPost (final @Nonnull HttpServletRequest request,
                                final @Nonnull HttpServletResponse response)
           throws ServletException, IOException
