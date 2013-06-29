@@ -250,6 +250,7 @@ public class DefaultEmbeddedServer extends SpringMessageBusListenerSupport imple
           }
         else
           {
+            response.setCharacterEncoding("UTF-8");
             response.setContentType(document.getMimeType());
             response.setStatus(HttpServletResponse.SC_OK);
             response.getWriter().write(document.getContent());
