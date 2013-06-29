@@ -97,45 +97,17 @@ public class DefaultEmbeddedServer extends SpringMessageBusListenerSupport imple
 
             if (uri.startsWith("/nwa/")) // FIXME - and use ResourcePath
               {
-                try
-                  {
-                    final byte[] resource = loadResource(uri);
-                    response.setCharacterEncoding("");
-                    response.setContentType(mimeResolver.getMimeType(uri));
-                    response.setStatus(HttpServletResponse.SC_OK);
-                    response.getOutputStream().write(resource);
-                  }
-                catch (FileNotFoundException e)
-                  {
-                    log.warn("2 - Not found: {}", uri);
-                    response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-                  }
+                serveEditorResources(uri, response);
               }
 
             else if (uri.startsWith("/library/")) // FIXME - and use ResourcePath
               {
-                final ResourceFile file = fileSystem.findFileByPath("/content" + uri); // FIXME
-
-                response.setContentType(file.getMimeType());
-                response.setStatus(HttpServletResponse.SC_OK);
-                response.getWriter().write(file.asText("UTF-8"));
+                serveLibraryResources(uri, response);
               }
 
             else
               {
-                final Document document = documentMapByUrl.get(uri);
-
-                if (document == null)
-                  {
-                    log.warn("1 - Not found: {}", uri);
-                    response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-                  }
-                else
-                  {
-                    response.setContentType(document.getMimeType());
-                    response.setStatus(HttpServletResponse.SC_OK);
-                    response.getWriter().write(document.getContent());
-                  }
+                serveRegisteredResources(uri, response);
               }
           }
       };
@@ -207,6 +179,70 @@ public class DefaultEmbeddedServer extends SpringMessageBusListenerSupport imple
       {
         documentMapByUrl.put(path, document);
         return String.format("http://localhost:%d%s", port, path);
+      }
+
+    /*******************************************************************************************************************
+     *
+     *
+     *
+     ******************************************************************************************************************/
+    private void serveEditorResources (final @Nonnull String uri,
+                                       final @Nonnull HttpServletResponse response)
+      throws IOException
+      {
+        try
+          {
+            final byte[] resource = loadResource(uri);
+            response.setCharacterEncoding("");
+            response.setContentType(mimeResolver.getMimeType(uri));
+            response.setStatus(HttpServletResponse.SC_OK);
+            response.getOutputStream().write(resource);
+          }
+        catch (FileNotFoundException e)
+          {
+            log.warn("2 - Not found: {}", uri);
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+          }
+      }
+
+    /*******************************************************************************************************************
+     *
+     *
+     *
+     ******************************************************************************************************************/
+    private void serveLibraryResources (final @Nonnull String uri,
+                                        final @Nonnull HttpServletResponse response)
+      throws IOException
+      {
+        final ResourceFile file = fileSystem.findFileByPath("/content" + uri); // FIXME
+
+        response.setContentType(file.getMimeType());
+        response.setStatus(HttpServletResponse.SC_OK);
+        response.getWriter().write(file.asText("UTF-8"));
+      }
+
+    /*******************************************************************************************************************
+     *
+     *
+     *
+     ******************************************************************************************************************/
+    private void serveRegisteredResources (final @Nonnull String uri,
+                                           final @Nonnull HttpServletResponse response)
+      throws IOException
+      {
+        final Document document = documentMapByUrl.get(uri);
+
+        if (document == null)
+          {
+            log.warn("1 - Not found: {}", uri);
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+          }
+        else
+          {
+            response.setContentType(document.getMimeType());
+            response.setStatus(HttpServletResponse.SC_OK);
+            response.getWriter().write(document.getContent());
+          }
       }
 
     /*******************************************************************************************************************
