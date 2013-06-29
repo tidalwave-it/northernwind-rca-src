@@ -119,8 +119,8 @@ public class DefaultContentEditorPresentationControl extends SpringMessageBusLis
                 final String fullText = properties.getProperty(PROPERTY_FULL_TEXT, "");
                 final Document document = documentPreparer.prepareForEditing(fullText);
 
-                presentation.populateDocument(documentServer.putDocument("/", document));
                 fields.title.set(properties.getProperty(PROPERTY_TITLE, ""));
+                presentation.populateDocument(documentServer.putDocument("/", document));
                 presentation.populateProperties(properties.as(PresentationModelProvider).createPresentationModel());
                 presentation.showUp();
               }
