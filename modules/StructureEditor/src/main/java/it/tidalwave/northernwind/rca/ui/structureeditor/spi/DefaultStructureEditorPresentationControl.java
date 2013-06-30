@@ -52,7 +52,7 @@ public class DefaultStructureEditorPresentationControl extends SpringMessageBusL
                                                        implements StructureEditorPresentationControl
   {
     @Inject @Nonnull
-    private StructureEditorPresentation presentation;
+    @VisibleForTesting StructureEditorPresentation presentation;
 
     @Override
     public void initialize()

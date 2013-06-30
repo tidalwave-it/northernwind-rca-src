@@ -80,6 +80,8 @@ public class DefaultStructureEditorPresentationControlTest
         when(pmProvider.createPresentationModel(anyVararg())).thenReturn(pm);
         when(properties.as(eq(PresentationModelProvider.class))).thenReturn(pmProvider);
 
+        fixture.presentation = presentation; // FIXME: use Spring
+
         fixture.initialize();
       }
 
