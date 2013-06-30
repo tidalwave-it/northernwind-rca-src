@@ -36,8 +36,6 @@ import javafx.application.Platform;
 import it.tidalwave.northernwind.rca.ui.contenteditor.ContentEditorPresentation;
 import it.tidalwave.ui.javafx.JavaFXSafeProxyCreator;
 import lombok.Delegate;
-import lombok.ToString;
-import lombok.extern.slf4j.Slf4j;
 
 /***********************************************************************************************************************
  *
@@ -45,7 +43,6 @@ import lombok.extern.slf4j.Slf4j;
  * @version $Id$
  *
  **********************************************************************************************************************/
-@Slf4j @ToString
 public class JavaFXContentEditorPresentation implements ContentEditorPresentation
   {
     @CheckForNull
@@ -56,24 +53,16 @@ public class JavaFXContentEditorPresentation implements ContentEditorPresentatio
 
     @Nonnull
     public Node getNode()
-//      throws IOException FIXME
+      throws IOException
       {
         assert Platform.isFxApplicationThread();
 
         if (node == null)
           {
-            try
-              {
-                final FXMLLoader loader = new FXMLLoader(getClass().getResource("ContentEditorPresentation.fxml"));
-                node = (Node)loader.load();
-                delegate = JavaFXSafeProxyCreator.createSafeProxy((ContentEditorPresentation)loader.getController(),
-                                                                  ContentEditorPresentation.class);
-
-             }
-            catch (IOException e)
-              {
-                throw new RuntimeException(e);
-              }
+            final FXMLLoader loader = new FXMLLoader(getClass().getResource("ContentEditorPresentation.fxml"));
+            node = (Node)loader.load();
+            delegate = JavaFXSafeProxyCreator.createSafeProxy((ContentEditorPresentation)loader.getController(),
+                                                              ContentEditorPresentation.class);
           }
 
         return node;
