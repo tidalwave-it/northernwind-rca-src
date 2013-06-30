@@ -63,6 +63,7 @@ public class AdminContent extends SpringAsSupport implements Content, As, Simple
 
     public AdminContent (final @Nonnull ResourceFile file)
       {
+        assert modelFactory != null;
         this.resource = modelFactory.createResource(file);
       }
 
