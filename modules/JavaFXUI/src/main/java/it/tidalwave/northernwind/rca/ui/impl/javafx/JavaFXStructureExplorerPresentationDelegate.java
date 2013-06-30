@@ -33,7 +33,7 @@ import javafx.scene.control.TreeView;
 import javafx.fxml.FXML;
 import org.springframework.beans.factory.annotation.Configurable;
 import it.tidalwave.role.ui.PresentationModel;
-import it.tidalwave.role.ui.javafx.JavaFXBindings;
+import it.tidalwave.role.ui.javafx.JavaFXBinder;
 import it.tidalwave.northernwind.rca.ui.structureexplorer.StructureExplorerPresentation;
 
 /***********************************************************************************************************************
@@ -46,7 +46,7 @@ import it.tidalwave.northernwind.rca.ui.structureexplorer.StructureExplorerPrese
 public class JavaFXStructureExplorerPresentationDelegate implements StructureExplorerPresentation
   {
     @Inject @Nonnull
-    private JavaFXBindings bindings;
+    private JavaFXBinder binder;
 
     @Inject @Nonnull
     private JavaFXStructureExplorerPresentation structureExplorerPresentation;
@@ -62,7 +62,7 @@ public class JavaFXStructureExplorerPresentationDelegate implements StructureExp
     @Override
     public void populate (final @Nonnull PresentationModel pm)
       {
-        bindings.bind(tvStructure, pm);
+        binder.bind(tvStructure, pm);
       }
 
     @Override

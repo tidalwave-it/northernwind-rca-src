@@ -60,7 +60,7 @@ import it.tidalwave.role.ui.BoundProperty;
 import it.tidalwave.role.ui.PresentationModel;
 import it.tidalwave.role.ui.Selectable;
 import it.tidalwave.role.ui.UserAction;
-import it.tidalwave.role.ui.javafx.JavaFXBindings;
+import it.tidalwave.role.ui.javafx.JavaFXBinder;
 import lombok.extern.slf4j.Slf4j;
 import static javafx.collections.FXCollections.*;
 import javafx.scene.control.MenuItem;
@@ -72,7 +72,7 @@ import javafx.scene.control.MenuItem;
  *
  **********************************************************************************************************************/
 @Slf4j
-public class DefaultJavaFXBindings implements JavaFXBindings
+public class DefaultJavaFXBinder implements JavaFXBinder
   {
     /*******************************************************************************************************************
      *

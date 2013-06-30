@@ -36,7 +36,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.web.WebView;
 import org.springframework.beans.factory.annotation.Configurable;
 import it.tidalwave.role.ui.PresentationModel;
-import it.tidalwave.role.ui.javafx.JavaFXBindings;
+import it.tidalwave.role.ui.javafx.JavaFXBinder;
 import it.tidalwave.northernwind.rca.ui.structureeditor.StructureEditorPresentation;
 
 /***********************************************************************************************************************
@@ -49,7 +49,7 @@ import it.tidalwave.northernwind.rca.ui.structureeditor.StructureEditorPresentat
 public class JavaFXStructureEditorPresentationDelegate implements StructureEditorPresentation
   {
     @Inject @Nonnull
-    private JavaFXBindings bindings;
+    private JavaFXBinder binder;
 
     @Inject @Nonnull
     private StackPaneSelector stackPaneSelector;
@@ -68,8 +68,8 @@ public class JavaFXStructureEditorPresentationDelegate implements StructureEdito
 
     public void initialize()
       {
-        bindings.bindColumn(structureEditorProperties, 0, "name");
-        bindings.bindColumn(structureEditorProperties, 1, "value");
+        binder.bindColumn(structureEditorProperties, 0, "name");
+        binder.bindColumn(structureEditorProperties, 1, "value");
         presentation.setDelegate(this);
       }
 
@@ -95,7 +95,7 @@ public class JavaFXStructureEditorPresentationDelegate implements StructureEdito
     @Override
     public void populateProperties (final @Nonnull PresentationModel pm)
       {
-        bindings.bind(structureEditorProperties, pm);
+        binder.bind(structureEditorProperties, pm);
       }
 
   }

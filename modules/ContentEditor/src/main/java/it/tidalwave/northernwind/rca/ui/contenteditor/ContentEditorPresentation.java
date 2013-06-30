@@ -45,7 +45,7 @@ import it.tidalwave.northernwind.core.model.ResourceProperties;
  **********************************************************************************************************************/
 public interface ContentEditorPresentation
   {
-    public static class Fields
+    public static class Bindings
       {
         public final BoundProperty<String> title = new BoundProperty<>("");
       }
@@ -66,13 +66,16 @@ public interface ContentEditorPresentation
 
     /*******************************************************************************************************************
      *
-     * Populates the fields of the presentation.
-     *
-     * @param  text  the text
+     * 
      *
      ******************************************************************************************************************/
-    public void bind (@Nonnull Fields bean);
+    public void bind (@Nonnull Bindings bindings);
 
+    /*******************************************************************************************************************
+     *
+     *
+     *
+     ******************************************************************************************************************/
     public void populateDocument (@Nonnull String url);
 
     /*******************************************************************************************************************

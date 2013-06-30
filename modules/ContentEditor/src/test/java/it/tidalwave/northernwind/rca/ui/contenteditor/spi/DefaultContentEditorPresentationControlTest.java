@@ -134,7 +134,7 @@ public class DefaultContentEditorPresentationControlTest
     @Test
     public void must_bind()
       {
-        verify(presentation).bind(same(fixture.fields));
+        verify(presentation).bind(same(fixture.bindings));
       }
 
     /*******************************************************************************************************************
@@ -177,7 +177,7 @@ public class DefaultContentEditorPresentationControlTest
                                                                       .withMimeType("text/html")));
         verifyNoMoreInteractions(embeddedServer);
 
-        assertThat(fixture.fields.title.get(), is("title"));
+        assertThat(fixture.bindings.title.get(), is("title"));
       }
 
     /*******************************************************************************************************************

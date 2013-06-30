@@ -98,7 +98,7 @@ public class DefaultStructureEditorPresentationControlTest
 //    @Test
 //    public void must_bind()
 //      {
-//        verify(presentation).bind(same(fixture.fields));
+//        verify(presentation).bind(same(fixture.bindings));
 //      }
 
     /*******************************************************************************************************************
@@ -133,8 +133,8 @@ public class DefaultStructureEditorPresentationControlTest
         verify(presentation).populateProperties(same(pm));
         verify(presentation).showUp();
         verifyNoMoreInteractions(presentation);
-//        assertThat(fixture.fields.document.get(), is("full text"));
-//        assertThat(fixture.fields.title.get(), is("title"));
+//        assertThat(fixture.bindings.document.get(), is("full text"));
+//        assertThat(fixture.bindings.title.get(), is("title"));
       }
 
 //    /*******************************************************************************************************************

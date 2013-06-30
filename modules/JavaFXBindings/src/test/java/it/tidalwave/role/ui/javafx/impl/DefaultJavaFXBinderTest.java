@@ -31,20 +31,17 @@ import it.tidalwave.role.Displayable;
 import it.tidalwave.role.spi.DefaultDisplayable;
 import it.tidalwave.role.ui.PresentationModel;
 import it.tidalwave.role.ui.Selectable;
-import it.tidalwave.role.ui.javafx.JavaFXBindings;
 import it.tidalwave.role.ui.spi.DefaultPresentationModel;
 import javafx.scene.control.TreeCell;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.scene.control.cell.TextFieldTreeCell;
 import javafx.util.StringConverter;
-import static org.testng.Assert.*;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.CoreMatchers.*;
 import static org.mockito.Mockito.*;
-import org.mockito.verification.VerificationMode;
 
 /***********************************************************************************************************************
  *
@@ -52,14 +49,14 @@ import org.mockito.verification.VerificationMode;
  * @version $Id$
  *
  **********************************************************************************************************************/
-public class DefaultJavaFXBindingsTest
+public class DefaultJavaFXBinderTest
   {
-    private DefaultJavaFXBindings fixture;
+    private DefaultJavaFXBinder fixture;
 
     @BeforeMethod
     public void setupFixture()
       {
-        fixture = new DefaultJavaFXBindings();
+        fixture = new DefaultJavaFXBinder();
       }
 
     /*******************************************************************************************************************

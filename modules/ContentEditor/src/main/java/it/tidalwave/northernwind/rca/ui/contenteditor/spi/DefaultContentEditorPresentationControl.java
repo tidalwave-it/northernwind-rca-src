@@ -71,7 +71,7 @@ public class DefaultContentEditorPresentationControl extends SpringMessageBusLis
     @Inject @Nonnull
     private ContentEditorPresentation presentation;
 
-    @VisibleForTesting final ContentEditorPresentation.Fields fields = new ContentEditorPresentation.Fields();
+    @VisibleForTesting final ContentEditorPresentation.Bindings bindings = new ContentEditorPresentation.Bindings();
 
     public static final Key<String> PROPERTY_FULL_TEXT = new Key<>("fullText"); // FIXME copied
     public static final Key<String> PROPERTY_TITLE = new Key<>("title"); // FIXME copied
@@ -94,8 +94,8 @@ public class DefaultContentEditorPresentationControl extends SpringMessageBusLis
     @Override // cannot be postconstruct, because the presentation is not ready initially
     public void initialize()
       {
-        fields.title.addPropertyChangeListener(propertyChangeListener);
-        presentation.bind(fields);
+        bindings.title.addPropertyChangeListener(propertyChangeListener);
+        presentation.bind(bindings);
       }
 
     /*******************************************************************************************************************
@@ -119,7 +119,7 @@ public class DefaultContentEditorPresentationControl extends SpringMessageBusLis
                 final ResourceProperties properties = content.getProperties();
                 final Document document = documentProxyFactory.createDocumentProxy(content, PROPERTY_FULL_TEXT);
 
-                fields.title.set(properties.getProperty(PROPERTY_TITLE, ""));
+                bindings.title.set(properties.getProperty(PROPERTY_TITLE, ""));
                 presentation.populateDocument(documentServer.putDocument("/", document));
                 presentation.populateProperties(properties.as(PresentationModelProvider).createPresentationModel());
                 presentation.showUp();

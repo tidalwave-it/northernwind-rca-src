@@ -34,7 +34,7 @@ import javafx.scene.control.Button;
 import it.tidalwave.role.ui.BoundProperty;
 import it.tidalwave.role.ui.UserAction;
 import it.tidalwave.util.ui.UserNotificationWithFeedback;
-import it.tidalwave.role.ui.javafx.JavaFXBindings;
+import it.tidalwave.role.ui.javafx.JavaFXBinder;
 import it.tidalwave.role.ui.javafx.Widget;
 import it.tidalwave.northernwind.rca.ui.siteopener.SiteOpenerPresentation;
 import javafx.scene.control.MenuItem;
@@ -52,7 +52,7 @@ import org.springframework.beans.factory.annotation.Configurable;
 public class JavaFXSiteOpenerPresentation implements SiteOpenerPresentation
   {
     @Inject @Nonnull
-    private JavaFXBindings bindings;
+    private JavaFXBinder binder;
 
     @Widget("btOpen")
     private Button button;
@@ -62,17 +62,17 @@ public class JavaFXSiteOpenerPresentation implements SiteOpenerPresentation
 
     private BoundProperty<Path> folderToOpen;
 
-    @Override
+    @Override // FIXME: encapsulate args in Bindings
     public void bind (final @Nonnull UserAction action, final @Nonnull BoundProperty<Path> folderToOpen)
       {
-        bindings.bind(button, action);
-        bindings.bind(menuItem, action);
+        binder.bind(button, action);
+        binder.bind(menuItem, action);
         this.folderToOpen = folderToOpen;
       }
 
     @Override
     public void notifyInvitationToSelectAFolder (final @Nonnull UserNotificationWithFeedback notification)
       {
-        bindings.openDirectoryChooserFor(notification, folderToOpen, button.getScene().getWindow());
+        binder.openDirectoryChooserFor(notification, folderToOpen, button.getScene().getWindow());
       }
   }

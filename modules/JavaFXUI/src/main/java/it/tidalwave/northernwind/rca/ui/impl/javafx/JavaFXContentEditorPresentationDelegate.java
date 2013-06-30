@@ -37,7 +37,7 @@ import javafx.scene.web.WebView;
 import javafx.scene.layout.Pane;
 import org.springframework.beans.factory.annotation.Configurable;
 import it.tidalwave.role.ui.PresentationModel;
-import it.tidalwave.role.ui.javafx.JavaFXBindings;
+import it.tidalwave.role.ui.javafx.JavaFXBinder;
 import it.tidalwave.northernwind.rca.ui.contenteditor.ContentEditorPresentation;
 
 /***********************************************************************************************************************
@@ -50,7 +50,7 @@ import it.tidalwave.northernwind.rca.ui.contenteditor.ContentEditorPresentation;
 public class JavaFXContentEditorPresentationDelegate implements ContentEditorPresentation
   {
     @Inject @Nonnull
-    private JavaFXBindings bindings;
+    private JavaFXBinder binder;
 
     @Inject @Nonnull
     private StackPaneSelector stackPaneSelector;
@@ -72,15 +72,15 @@ public class JavaFXContentEditorPresentationDelegate implements ContentEditorPre
 
     public void initialize()
       {
-        bindings.bindColumn(contentEditorProperties, 0, "name");
-        bindings.bindColumn(contentEditorProperties, 1, "value");
+        binder.bindColumn(contentEditorProperties, 0, "name");
+        binder.bindColumn(contentEditorProperties, 1, "value");
         presentation.setDelegate(this);
       }
 
     @Override
-    public void bind (final @Nonnull ContentEditorPresentation.Fields fields)
+    public void bind (final @Nonnull ContentEditorPresentation.Bindings bindings)
       {
-        bindings.bindBidirectionally(contentTitle.textProperty(), fields.title);
+        binder.bindBidirectionally(contentTitle.textProperty(), bindings.title);
       }
 
     @Override
@@ -105,6 +105,6 @@ public class JavaFXContentEditorPresentationDelegate implements ContentEditorPre
     @Override
     public void populateProperties (final @Nonnull PresentationModel pm)
       {
-        bindings.bind(contentEditorProperties, pm);
+        binder.bind(contentEditorProperties, pm);
       }
   }
