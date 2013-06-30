@@ -31,13 +31,14 @@ import javax.annotation.Nonnull;
 import javax.inject.Inject;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
-import javafx.scene.layout.Pane;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.web.WebView;
+import javafx.scene.layout.Pane;
 import org.springframework.beans.factory.annotation.Configurable;
 import it.tidalwave.role.ui.PresentationModel;
 import it.tidalwave.role.ui.javafx.JavaFXBindings;
-import it.tidalwave.northernwind.rca.ui.structureeditor.StructureEditorPresentation;
+import it.tidalwave.northernwind.rca.ui.contenteditor.ContentEditorPresentation;
 
 /***********************************************************************************************************************
  *
@@ -46,7 +47,7 @@ import it.tidalwave.northernwind.rca.ui.structureeditor.StructureEditorPresentat
  *
  **********************************************************************************************************************/
 @Configurable
-public class JavaFXStructureEditorPresentationHandler implements StructureEditorPresentation
+public class JavaFXContentEditorPresentationDelegate implements ContentEditorPresentation
   {
     @Inject @Nonnull
     private JavaFXBindings bindings;
@@ -55,47 +56,55 @@ public class JavaFXStructureEditorPresentationHandler implements StructureEditor
     private StackPaneSelector stackPaneSelector;
 
     @Inject @Nonnull
-    private JavaFXStructureEditorPresentation presentation;
+    private JavaFXContentEditorPresentation presentation;
 
     @FXML
-    private Pane structureEditor;
+    private Pane contentEditor;
 
     @FXML
-    private WebView structureWebView;
+    private WebView contentWebView;
 
     @FXML
-    private TableView<PresentationModel> structureEditorProperties;
+    private TableView<PresentationModel> contentEditorProperties;
+
+    @FXML
+    private TextField contentTitle;
 
     public void initialize()
       {
-        bindings.bindColumn(structureEditorProperties, 0, "name");
-        bindings.bindColumn(structureEditorProperties, 1, "value");
+        bindings.bindColumn(contentEditorProperties, 0, "name");
+        bindings.bindColumn(contentEditorProperties, 1, "value");
         presentation.setDelegate(this);
+      }
+
+    @Override
+    public void bind (final @Nonnull ContentEditorPresentation.Fields fields)
+      {
+        bindings.bindBidirectionally(contentTitle.textProperty(), fields.title);
       }
 
     @Override
     public void showUp()
       {
-        stackPaneSelector.setShownNode(structureEditor);
+        stackPaneSelector.setShownNode(contentEditor);
       }
 
     @Override
     public void clear()
       {
-        structureWebView.getEngine().loadContent("");
-        structureEditorProperties.setItems(FXCollections.<PresentationModel>emptyObservableList());
+        contentWebView.getEngine().loadContent("");
+        contentEditorProperties.setItems(FXCollections.<PresentationModel>emptyObservableList());
       }
 
     @Override
-    public void populate (final @Nonnull String text)
+    public void populateDocument (final @Nonnull String url)
       {
-        structureWebView.getEngine().loadContent(text);
+        contentWebView.getEngine().load(url);
       }
 
     @Override
     public void populateProperties (final @Nonnull PresentationModel pm)
       {
-        bindings.bind(structureEditorProperties, pm);
+        bindings.bind(contentEditorProperties, pm);
       }
-
   }

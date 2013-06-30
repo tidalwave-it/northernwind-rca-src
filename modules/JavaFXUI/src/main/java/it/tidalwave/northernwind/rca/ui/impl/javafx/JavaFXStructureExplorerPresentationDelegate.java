@@ -34,7 +34,7 @@ import javafx.fxml.FXML;
 import org.springframework.beans.factory.annotation.Configurable;
 import it.tidalwave.role.ui.PresentationModel;
 import it.tidalwave.role.ui.javafx.JavaFXBindings;
-import it.tidalwave.northernwind.rca.ui.contentexplorer.ContentExplorerPresentation;
+import it.tidalwave.northernwind.rca.ui.structureexplorer.StructureExplorerPresentation;
 
 /***********************************************************************************************************************
  *
@@ -43,31 +43,31 @@ import it.tidalwave.northernwind.rca.ui.contentexplorer.ContentExplorerPresentat
  *
  **********************************************************************************************************************/
 @Configurable
-public class JavaFXContentExplorerPresentationHandler implements ContentExplorerPresentation
+public class JavaFXStructureExplorerPresentationDelegate implements StructureExplorerPresentation
   {
     @Inject @Nonnull
     private JavaFXBindings bindings;
 
     @Inject @Nonnull
-    private JavaFXContentExplorerPresentation presentation;
+    private JavaFXStructureExplorerPresentation structureExplorerPresentation;
 
     @FXML
-    private TreeView<PresentationModel> tvContent;
+    private TreeView<PresentationModel> tvStructure;
 
     public void initialize()
       {
-        presentation.setDelegate(this);
+        structureExplorerPresentation.setDelegate(this);
       }
 
     @Override
     public void populate (final @Nonnull PresentationModel pm)
       {
-        bindings.bind(tvContent, pm);
+        bindings.bind(tvStructure, pm);
       }
 
     @Override
     public void expandFirstLevel()
       {
-        tvContent.getRoot().setExpanded(true);
+        tvStructure.getRoot().setExpanded(true);
       }
   }

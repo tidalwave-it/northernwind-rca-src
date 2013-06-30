@@ -116,7 +116,7 @@ public class DefaultContentEditorPresentationControlTest
         when(pmProvider.createPresentationModel(anyVararg())).thenReturn(pm);
         when(properties.as(eq(PresentationModelProvider.class))).thenReturn(pmProvider);
 
-        fixture.initialize(presentation);
+        fixture.initialize();
       }
 
     /*******************************************************************************************************************

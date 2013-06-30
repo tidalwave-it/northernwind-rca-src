@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.web.*?>
 
-<VBox id="application" alignment="CENTER" spacing="5.0" xmlns:fx="http://javafx.com/fxml" fx:controller="it.tidalwave.northernwind.rca.ui.impl.javafx.JavaFXStructureExplorerPresentationHandler">
+<VBox id="application" alignment="CENTER" spacing="5.0" xmlns:fx="http://javafx.com/fxml" fx:controller="it.tidalwave.northernwind.rca.ui.impl.javafx.JavaFXStructureExplorerPresentationDelegate">
   <children>
     <FlowPane maxHeight="32.0" minHeight="32.0" prefHeight="32.0" prefWidth="325.0" style="-fx-background-color:#ededed;" VBox.vgrow="NEVER">
       <children>

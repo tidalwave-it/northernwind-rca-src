@@ -52,7 +52,7 @@ public class JavaFXStructureEditorPresentation implements StructureEditorPresent
     private StructureEditorPresentation delegate;
 
     // Called back by the initialization of JavaFXStructureEditorPresentationHandler
-    public void setDelegate (final @Nonnull JavaFXStructureEditorPresentationHandler delegate)
+    public void setDelegate (final @Nonnull JavaFXStructureEditorPresentationDelegate delegate)
       {
         this.delegate = JavaFXSafeProxyCreator.createSafeProxy(delegate, StructureEditorPresentation.class);
       }

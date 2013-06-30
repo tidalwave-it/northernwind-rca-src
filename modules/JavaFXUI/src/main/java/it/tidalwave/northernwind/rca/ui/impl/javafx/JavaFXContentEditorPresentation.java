@@ -55,7 +55,7 @@ public class JavaFXContentEditorPresentation implements ContentEditorPresentatio
     private ContentEditorPresentation delegate;
 
     // Called back by the initialization of JavaFXContentEditorPresentationHandler
-    public void setDelegate (final @Nonnull JavaFXContentEditorPresentationHandler delegate)
+    public void setDelegate (final @Nonnull JavaFXContentEditorPresentationDelegate delegate)
       {
         this.delegate = JavaFXSafeProxyCreator.createSafeProxy(delegate, ContentEditorPresentation.class);
       }

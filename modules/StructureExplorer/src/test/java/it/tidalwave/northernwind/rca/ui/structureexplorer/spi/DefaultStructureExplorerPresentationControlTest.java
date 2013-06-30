@@ -100,7 +100,7 @@ public class DefaultStructureExplorerPresentationControlTest
         when(modelFactory.createSiteNode(any(Site.class), eq(root))).thenReturn(node);
         when(node.as(eq(PresentationModelProvider.class))).thenReturn(new SimplePresentationModelProvider(node));
 
-        fixture.initialize(presentation);
+        fixture.initialize();
       }
 
 //    private void registerMock (final @Nonnull DefaultListableBeanFactory context,
@@ -128,7 +128,7 @@ public class DefaultStructureExplorerPresentationControlTest
       throws IOException
       {
         reset(messageBus);
-        
+
         fixture.onOpenSite(event);
 
         verify(presentation).populate(argThat(presentationModel().withRole(Selectable.class)));

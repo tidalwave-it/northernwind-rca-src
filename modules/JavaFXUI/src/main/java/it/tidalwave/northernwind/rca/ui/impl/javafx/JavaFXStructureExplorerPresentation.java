@@ -56,7 +56,7 @@ public class JavaFXStructureExplorerPresentation implements StructureExplorerPre
     private StructureExplorerPresentation delegate;
 
     // Called back by the initialization of JavaFXStructureExplorerPresentationHandler
-    public void setDelegate (final @Nonnull JavaFXStructureExplorerPresentationHandler delegate)
+    public void setDelegate (final @Nonnull JavaFXStructureExplorerPresentationDelegate delegate)
       {
         this.delegate = JavaFXSafeProxyCreator.createSafeProxy(delegate, StructureExplorerPresentation.class);
       }

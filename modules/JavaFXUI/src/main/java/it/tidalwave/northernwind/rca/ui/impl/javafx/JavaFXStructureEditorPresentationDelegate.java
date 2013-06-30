@@ -29,12 +29,15 @@ package it.tidalwave.northernwind.rca.ui.impl.javafx;
 
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
-import javafx.scene.control.TreeView;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
+import javafx.scene.layout.Pane;
+import javafx.scene.control.TableView;
+import javafx.scene.web.WebView;
 import org.springframework.beans.factory.annotation.Configurable;
 import it.tidalwave.role.ui.PresentationModel;
 import it.tidalwave.role.ui.javafx.JavaFXBindings;
-import it.tidalwave.northernwind.rca.ui.structureexplorer.StructureExplorerPresentation;
+import it.tidalwave.northernwind.rca.ui.structureeditor.StructureEditorPresentation;
 
 /***********************************************************************************************************************
  *
@@ -43,31 +46,56 @@ import it.tidalwave.northernwind.rca.ui.structureexplorer.StructureExplorerPrese
  *
  **********************************************************************************************************************/
 @Configurable
-public class JavaFXStructureExplorerPresentationHandler implements StructureExplorerPresentation
+public class JavaFXStructureEditorPresentationDelegate implements StructureEditorPresentation
   {
     @Inject @Nonnull
     private JavaFXBindings bindings;
 
     @Inject @Nonnull
-    private JavaFXStructureExplorerPresentation structureExplorerPresentation;
+    private StackPaneSelector stackPaneSelector;
+
+    @Inject @Nonnull
+    private JavaFXStructureEditorPresentation presentation;
 
     @FXML
-    private TreeView<PresentationModel> tvStructure;
+    private Pane structureEditor;
+
+    @FXML
+    private WebView structureWebView;
+
+    @FXML
+    private TableView<PresentationModel> structureEditorProperties;
 
     public void initialize()
       {
-        structureExplorerPresentation.setDelegate(this);
+        bindings.bindColumn(structureEditorProperties, 0, "name");
+        bindings.bindColumn(structureEditorProperties, 1, "value");
+        presentation.setDelegate(this);
       }
 
     @Override
-    public void populate (final @Nonnull PresentationModel pm)
+    public void showUp()
       {
-        bindings.bind(tvStructure, pm);
+        stackPaneSelector.setShownNode(structureEditor);
       }
 
     @Override
-    public void expandFirstLevel()
+    public void clear()
       {
-        tvStructure.getRoot().setExpanded(true);
+        structureWebView.getEngine().loadContent("");
+        structureEditorProperties.setItems(FXCollections.<PresentationModel>emptyObservableList());
       }
+
+    @Override
+    public void populate (final @Nonnull String text)
+      {
+        structureWebView.getEngine().loadContent(text);
+      }
+
+    @Override
+    public void populateProperties (final @Nonnull PresentationModel pm)
+      {
+        bindings.bind(structureEditorProperties, pm);
+      }
+
   }

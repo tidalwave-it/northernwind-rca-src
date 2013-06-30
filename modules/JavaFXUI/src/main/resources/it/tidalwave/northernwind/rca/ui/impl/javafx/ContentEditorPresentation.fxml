@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.web.*?>
 
-<VBox id="application" fx:id="contentEditor" prefHeight="600.0" prefWidth="800.0" xmlns:fx="http://javafx.com/fxml" fx:controller="it.tidalwave.northernwind.rca.ui.impl.javafx.JavaFXContentEditorPresentationHandler">
+<VBox id="application" fx:id="contentEditor" prefHeight="600.0" prefWidth="800.0" xmlns:fx="http://javafx.com/fxml" fx:controller="it.tidalwave.northernwind.rca.ui.impl.javafx.JavaFXContentEditorPresentationDelegate">
   <children>
     <FlowPane prefHeight="38.0" prefWidth="800.0">
       <children>
