@@ -35,6 +35,7 @@ import java.util.List;
 import java.io.IOException;
 import it.tidalwave.util.Id;
 import it.tidalwave.util.Key;
+import it.tidalwave.util.NotFoundException;
 import it.tidalwave.util.spi.SimpleFinderSupport;
 import it.tidalwave.role.SimpleComposite;
 import it.tidalwave.role.spi.DefaultSimpleComposite;
@@ -87,11 +88,15 @@ public class ResourcePropertiesPresentationModelProvider implements Presentation
                             final String prefix = groupId.stringValue().equals("") ? "" : groupId.stringValue() + ".";
                             results.add(new DefaultPresentationModel(properties,
                                         RowHashMap.create().withColumn("name", prefix + key.stringValue())
-                                                           .withColumn("value", p2.getProperty(key, null))));
+                                                           .withColumn("value", p2.getProperty(key))));
                           }
                         catch (IOException e)
                           {
                             log.warn("", e);
+                          }
+                        catch (NotFoundException e)
+                          {
+                            log.warn("", e); // should never happen, we're cycling on available properties
                           }
                       }
                   }
