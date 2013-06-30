@@ -30,20 +30,17 @@ package it.tidalwave.northernwind.rca.ui.impl.javafx;
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
 import java.io.IOException;
+import javafx.scene.Node;
+import javafx.scene.control.SplitPane;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.Button;
-import javafx.scene.control.TreeView;
+import javafx.scene.layout.StackPane;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import org.springframework.beans.factory.annotation.Configurable;
-import it.tidalwave.role.ui.PresentationModel;
 import it.tidalwave.northernwind.rca.ui.siteopener.SiteOpenerPresentationControl;
-import it.tidalwave.northernwind.rca.ui.contentexplorer.ContentExplorerPresentationControl;
-import it.tidalwave.northernwind.rca.ui.structureexplorer.StructureExplorerPresentationControl;
 import lombok.extern.slf4j.Slf4j;
 import static it.tidalwave.role.ui.javafx.impl.JavaFXSafeComponentBuilder.*;
-import javafx.scene.Node;
-import javafx.scene.layout.StackPane;
 
 /***********************************************************************************************************************
  *
@@ -59,25 +56,16 @@ public class ApplicationHandler
     private SiteOpenerPresentationControl siteOpenerPresentationControl;
 
     @Inject @Nonnull
-    private StructureExplorerPresentationControl structureExplorerPresentationControl;
-
-    @Inject @Nonnull
-    private ContentExplorerPresentationControl contentExplorerPresentationControl;
-
-    @Inject @Nonnull
     private StackPaneSelector stackPaneSelector;
 
     @FXML
     private Button btOpen;
 
     @FXML
-    private TreeView<PresentationModel> tvStructure;
-
-    @FXML
-    private TreeView<PresentationModel> tvContent;
-
-    @FXML
     private StackPane stackPane;
+
+    @FXML
+    private SplitPane pnVerticalSplit;
 
     @FXML
     private MenuItem openSiteMenu;
@@ -95,10 +83,11 @@ public class ApplicationHandler
         stackPaneSelector.add(load(JavaFXContentEditorPresentationHandler.class, "ContentEditorPresentation.fxml"));
         stackPaneSelector.add(load(JavaFXStructureEditorPresentationHandler.class, "StructureEditorPresentation.fxml"));
 
+        pnVerticalSplit.getItems().add(load(JavaFXStructureExplorerPresentationHandler.class, "StructureExplorerPresentation.fxml"));
+        pnVerticalSplit.getItems().add(load(JavaFXContentExplorerPresentationHandler.class, "ContentExplorerPresentation.fxml"));
+
         // FIXME: this should be delegated to other handlers, as already done for the Editors
         siteOpenerPresentationControl.initialize(createInstance(JavaFXSiteOpenerPresentation.class, this));
-        contentExplorerPresentationControl.initialize(createInstance(JavaFXContentExplorerPresentation.class, this));
-        structureExplorerPresentationControl.initialize(createInstance(JavaFXStructureExplorerPresentation.class, this));
       }
 
     @Nonnull
@@ -106,6 +95,5 @@ public class ApplicationHandler
       throws IOException
       {
         return FXMLLoader.load(clazz.getResource(resourceName));
-//        container.centerProperty().set(pane);
       }
   }
