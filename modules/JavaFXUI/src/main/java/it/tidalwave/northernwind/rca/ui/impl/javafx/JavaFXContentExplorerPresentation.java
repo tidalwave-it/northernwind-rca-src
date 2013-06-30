@@ -32,10 +32,9 @@ import javax.annotation.Nonnull;
 import java.io.IOException;
 import javafx.scene.Node;
 import javafx.application.Platform;
-import javafx.fxml.FXMLLoader;
 import it.tidalwave.northernwind.rca.ui.contentexplorer.ContentExplorerPresentation;
-import it.tidalwave.ui.javafx.JavaFXSafeProxyCreator;
 import lombok.Delegate;
+import static it.tidalwave.ui.javafx.JavaFXSafeProxyCreator.*;
 
 /***********************************************************************************************************************
  *
@@ -63,10 +62,9 @@ public class JavaFXContentExplorerPresentation implements ContentExplorerPresent
 
         if (node == null)
           {
-            final FXMLLoader loader = new FXMLLoader(getClass().getResource("ContentExplorerPresentation.fxml"));
-            node = (Node)loader.load();
-            delegate = JavaFXSafeProxyCreator.createSafeProxy((ContentExplorerPresentation)loader.getController(),
-                                                              ContentExplorerPresentation.class);
+            final NodeAndDelegate nad = createNodeAndDelegate(getClass(), "ContentExplorerPresentation.fxml");
+            node = nad.getNode();
+            delegate = nad.getDelegate();
           }
 
         return node;

@@ -32,10 +32,9 @@ import javax.annotation.Nonnull;
 import java.io.IOException;
 import javafx.scene.Node;
 import javafx.application.Platform;
-import javafx.fxml.FXMLLoader;
-import it.tidalwave.ui.javafx.JavaFXSafeProxyCreator;
 import it.tidalwave.northernwind.rca.ui.structureeditor.StructureEditorPresentation;
 import lombok.Delegate;
+import static it.tidalwave.ui.javafx.JavaFXSafeProxyCreator.*;
 
 /***********************************************************************************************************************
  *
@@ -59,10 +58,9 @@ public class JavaFXStructureEditorPresentation implements StructureEditorPresent
 
         if (node == null)
           {
-            final FXMLLoader loader = new FXMLLoader(getClass().getResource("StructureEditorPresentation.fxml"));
-            node = (Node)loader.load();
-            delegate = JavaFXSafeProxyCreator.createSafeProxy((StructureEditorPresentation)loader.getController(),
-                                                              StructureEditorPresentation.class);
+            final NodeAndDelegate nad = createNodeAndDelegate(getClass(), "StructureEditorPresentation.fxml");
+            node = nad.getNode();
+            delegate = nad.getDelegate();
           }
 
         return node;

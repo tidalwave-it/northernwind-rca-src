@@ -30,6 +30,11 @@ package it.tidalwave.ui.javafx;
 import javax.annotation.Nonnull;
 import java.lang.reflect.Proxy;
 import it.tidalwave.role.ui.javafx.impl.JavaFXSafeProxy;
+import java.io.IOException;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 /***********************************************************************************************************************
  *
@@ -39,6 +44,35 @@ import it.tidalwave.role.ui.javafx.impl.JavaFXSafeProxy;
  **********************************************************************************************************************/
 public class JavaFXSafeProxyCreator
   {
+    @RequiredArgsConstructor
+    public static class NodeAndDelegate
+      {
+        @Getter @Nonnull
+        private final Node node;
+
+        @Nonnull
+        private final Object delegate;
+
+        public <T> T getDelegate()
+          {
+            return (T)delegate;
+          }
+      }
+
+    @Nonnull
+    public static <T> NodeAndDelegate createNodeAndDelegate (final @Nonnull Class<?> clazz,
+                                                             final @Nonnull String resource)
+      throws IOException
+      {
+        final FXMLLoader loader = new FXMLLoader(clazz.getResource(resource));
+        final Node node = (Node)loader.load();
+        final T jfxController = (T)loader.getController();
+        final Class<T> interfaceClass = (Class<T>)jfxController.getClass().getInterfaces()[0]; // FIXME
+        final T safeJfxController = JavaFXSafeProxyCreator.createSafeProxy(jfxController, interfaceClass);
+
+        return new NodeAndDelegate(node, safeJfxController);
+      }
+
     @Nonnull
     public static <T> T createSafeProxy (final @Nonnull T target, final Class<T> interfaceClass)
       {

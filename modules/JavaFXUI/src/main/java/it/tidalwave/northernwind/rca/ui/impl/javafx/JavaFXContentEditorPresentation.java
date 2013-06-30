@@ -31,11 +31,10 @@ import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 import java.io.IOException;
 import javafx.scene.Node;
-import javafx.fxml.FXMLLoader;
 import javafx.application.Platform;
 import it.tidalwave.northernwind.rca.ui.contenteditor.ContentEditorPresentation;
-import it.tidalwave.ui.javafx.JavaFXSafeProxyCreator;
 import lombok.Delegate;
+import static it.tidalwave.ui.javafx.JavaFXSafeProxyCreator.*;
 
 /***********************************************************************************************************************
  *
@@ -59,10 +58,9 @@ public class JavaFXContentEditorPresentation implements ContentEditorPresentatio
 
         if (node == null)
           {
-            final FXMLLoader loader = new FXMLLoader(getClass().getResource("ContentEditorPresentation.fxml"));
-            node = (Node)loader.load();
-            delegate = JavaFXSafeProxyCreator.createSafeProxy((ContentEditorPresentation)loader.getController(),
-                                                              ContentEditorPresentation.class);
+            final NodeAndDelegate nad = createNodeAndDelegate(getClass(), "ContentEditorPresentation.fxml");
+            node = nad.getNode();
+            delegate = nad.getDelegate();
           }
 
         return node;
