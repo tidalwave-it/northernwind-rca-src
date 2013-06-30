@@ -77,6 +77,12 @@ public class JavaFXContentEditorPresentation implements ContentEditorPresentatio
       }
 
     @Override
+    public void bind (final @Nonnull Fields fields)
+      {
+        bindings.bindBidirectionally(contentTitle.textProperty(), fields.title);
+      }
+
+    @Override
     public void showUp()
       {
         stackPaneSelector.setShownNode(parent);
@@ -87,12 +93,6 @@ public class JavaFXContentEditorPresentation implements ContentEditorPresentatio
       {
         webView.getEngine().loadContent("");
         tableView.setItems(FXCollections.<PresentationModel>emptyObservableList());
-      }
-
-    @Override
-    public void bind (final @Nonnull Fields fields)
-      {
-        bindings.bindBidirectionally(contentTitle.textProperty(), fields.title);
       }
 
     @Override
