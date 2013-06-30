@@ -25,49 +25,25 @@
  * *********************************************************************************************************************
  * #L%
  */
-package it.tidalwave.northernwind.rca.ui.impl.javafx;
+package it.tidalwave.ui.javafx;
 
 import javax.annotation.Nonnull;
-import javax.inject.Inject;
-import javafx.scene.control.TreeView;
-import javafx.fxml.FXML;
-import org.springframework.beans.factory.annotation.Configurable;
-import it.tidalwave.role.ui.PresentationModel;
-import it.tidalwave.role.ui.javafx.JavaFXBindings;
-import it.tidalwave.northernwind.rca.ui.structureexplorer.StructureExplorerPresentation;
+import java.lang.reflect.Proxy;
+import it.tidalwave.role.ui.javafx.impl.JavaFXSafeProxy;
 
 /***********************************************************************************************************************
  *
- * @author Fabrizio Giudici
+ * @author  Fabrizio Giudici
  * @version $Id$
  *
  **********************************************************************************************************************/
-@Configurable
-public class JavaFXStructureExplorerPresentationHandler implements StructureExplorerPresentation
+public class JavaFXSafeProxyCreator
   {
-    @Inject @Nonnull
-    private JavaFXBindings bindings;
-
-    @Inject @Nonnull
-    private JavaFXStructureExplorerPresentation structureExplorerPresentation;
-
-    @FXML
-    private TreeView<PresentationModel> tvStructure;
-
-    public void initialize()
+    @Nonnull
+    public static <T> T createSafeProxy (final @Nonnull T target, final Class<T> interfaceClass)
       {
-        structureExplorerPresentation.setDelegate(this);
-      }
-
-    @Override
-    public void populate (final @Nonnull PresentationModel pm)
-      {
-        bindings.bind(tvStructure, pm);
-      }
-
-    @Override
-    public void expandFirstLevel()
-      {
-        tvStructure.getRoot().setExpanded(true);
+        return (T)Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(),
+                                         new Class[] { interfaceClass },
+                                         new JavaFXSafeProxy<>(target));
       }
   }

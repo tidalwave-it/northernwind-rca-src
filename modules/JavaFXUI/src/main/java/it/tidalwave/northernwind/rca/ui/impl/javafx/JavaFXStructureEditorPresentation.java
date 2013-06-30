@@ -28,17 +28,14 @@
 package it.tidalwave.northernwind.rca.ui.impl.javafx;
 
 import javax.annotation.Nonnull;
-import javax.inject.Inject;
-import javafx.collections.FXCollections;
 import javafx.scene.Node;
-import javafx.scene.control.TableView;
-import javafx.scene.web.WebView;
-import org.springframework.beans.factory.annotation.Configurable;
-import it.tidalwave.role.ui.PresentationModel;
-import it.tidalwave.role.ui.javafx.JavaFXBindings;
-import it.tidalwave.role.ui.javafx.Widget;
 import it.tidalwave.northernwind.rca.ui.structureeditor.StructureEditorPresentation;
-import lombok.extern.slf4j.Slf4j;
+import it.tidalwave.ui.javafx.JavaFXSafeProxyCreator;
+import java.io.IOException;
+import javafx.application.Platform;
+import javafx.fxml.FXMLLoader;
+import javax.annotation.CheckForNull;
+import lombok.Delegate;
 
 /***********************************************************************************************************************
  *
@@ -46,53 +43,38 @@ import lombok.extern.slf4j.Slf4j;
  * @version $Id$
  *
  **********************************************************************************************************************/
-@Configurable @Slf4j
 public class JavaFXStructureEditorPresentation implements StructureEditorPresentation
   {
-    @Inject @Nonnull
-    private JavaFXBindings bindings;
+    @CheckForNull
+    private Node node;
 
-    @Inject @Nonnull
-    private StackPaneSelector stackPaneSelector;
+    @Delegate
+    private StructureEditorPresentation delegate;
 
-    @Widget("structureEditor")
-    private Node parent;
-
-    @Widget("structureWebView")
-    private WebView webView;
-
-    @Widget("structureEditorProperties")
-    private TableView<PresentationModel> tableView;
-
-//    @PostConstruct FIXME: when Spring calls, it's too early; this is called by JavaFXSafeComponentBuilder
-    public void initialize()
+    // Called back by the initialization of JavaFXStructureEditorPresentationHandler
+    public void setDelegate (final @Nonnull JavaFXStructureEditorPresentationHandler delegate)
       {
-        bindings.bindColumn(tableView, 0, "name");
-        bindings.bindColumn(tableView, 1, "value");
+        this.delegate = JavaFXSafeProxyCreator.createSafeProxy(delegate, StructureEditorPresentation.class);
       }
 
-    @Override
-    public void showUp()
+    @Nonnull
+    public Node getNode()
+//      throws IOException FIXME
       {
-        stackPaneSelector.setShownNode(parent);
-      }
+        assert Platform.isFxApplicationThread();
 
-    @Override
-    public void clear()
-      {
-        webView.getEngine().loadContent("");
-        tableView.setItems(FXCollections.<PresentationModel>emptyObservableList());
-      }
+        if (node == null)
+          {
+            try
+              {
+                node = FXMLLoader.load(getClass().getResource("StructureEditorPresentation.fxml"));
+              }
+            catch (IOException e)
+              {
+                throw new RuntimeException(e);
+              }
+          }
 
-    @Override
-    public void populate (final @Nonnull String text)
-      {
-        webView.getEngine().loadContent(text);
-      }
-
-    @Override
-    public void populateProperties (final @Nonnull PresentationModel pm)
-      {
-        bindings.bind(tableView, pm);
+        return node;
       }
   }

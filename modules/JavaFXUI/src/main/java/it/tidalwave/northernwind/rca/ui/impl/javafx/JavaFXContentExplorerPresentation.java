@@ -28,13 +28,14 @@
 package it.tidalwave.northernwind.rca.ui.impl.javafx;
 
 import javax.annotation.Nonnull;
-import javax.inject.Inject;
-import javafx.scene.control.TreeView;
-import org.springframework.beans.factory.annotation.Configurable;
-import it.tidalwave.role.ui.PresentationModel;
-import it.tidalwave.role.ui.javafx.JavaFXBindings;
 import it.tidalwave.northernwind.rca.ui.contentexplorer.ContentExplorerPresentation;
-import it.tidalwave.role.ui.javafx.Widget;
+import it.tidalwave.ui.javafx.JavaFXSafeProxyCreator;
+import java.io.IOException;
+import javafx.application.Platform;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javax.annotation.CheckForNull;
+import lombok.Delegate;
 
 /***********************************************************************************************************************
  *
@@ -46,24 +47,38 @@ import it.tidalwave.role.ui.javafx.Widget;
  * @version $Id$
  *
  **********************************************************************************************************************/
-@Configurable
 public class JavaFXContentExplorerPresentation implements ContentExplorerPresentation
   {
-    @Inject @Nonnull
-    private JavaFXBindings bindings;
+    @CheckForNull
+    private Node node;
 
-    @Widget("tvContent")
-    private TreeView<PresentationModel> treeView;
+    @Delegate
+    private ContentExplorerPresentation delegate;
 
-    @Override
-    public void populate (final @Nonnull PresentationModel pm)
+    // Called back by the initialization of JavaFXContentExplorerPresentationHandler
+    public void setDelegate (final @Nonnull JavaFXContentExplorerPresentationHandler delegate)
       {
-        bindings.bind(treeView, pm);
+        this.delegate = JavaFXSafeProxyCreator.createSafeProxy(delegate, ContentExplorerPresentation.class);
       }
 
-    @Override
-    public void expandFirstLevel()
+    @Nonnull
+    public Node getNode()
+//      throws IOException FIXME
       {
-        treeView.getRoot().setExpanded(true);
+        assert Platform.isFxApplicationThread();
+
+        if (node == null)
+          {
+            try
+              {
+                node = FXMLLoader.load(getClass().getResource("ContentExplorerPresentation.fxml"));
+              }
+            catch (IOException e)
+              {
+                throw new RuntimeException(e);
+              }
+          }
+
+        return node;
       }
   }

@@ -33,8 +33,8 @@ import javafx.scene.control.TreeView;
 import javafx.fxml.FXML;
 import org.springframework.beans.factory.annotation.Configurable;
 import it.tidalwave.role.ui.PresentationModel;
-import it.tidalwave.northernwind.rca.ui.contentexplorer.ContentExplorerPresentationControl;
-import static it.tidalwave.role.ui.javafx.impl.JavaFXSafeComponentBuilder.createInstance;
+import it.tidalwave.role.ui.javafx.JavaFXBindings;
+import it.tidalwave.northernwind.rca.ui.contentexplorer.ContentExplorerPresentation;
 
 /***********************************************************************************************************************
  *
@@ -43,16 +43,31 @@ import static it.tidalwave.role.ui.javafx.impl.JavaFXSafeComponentBuilder.create
  *
  **********************************************************************************************************************/
 @Configurable
-public class JavaFXContentExplorerPresentationHandler
+public class JavaFXContentExplorerPresentationHandler implements ContentExplorerPresentation
   {
     @Inject @Nonnull
-    private ContentExplorerPresentationControl contentExplorerPresentationControl;
+    private JavaFXBindings bindings;
+
+    @Inject @Nonnull
+    private JavaFXContentExplorerPresentation presentation;
 
     @FXML
     private TreeView<PresentationModel> tvContent;
 
     public void initialize()
       {
-        contentExplorerPresentationControl.initialize(createInstance(JavaFXContentExplorerPresentation.class, this));
+        presentation.setDelegate(this);
+      }
+
+    @Override
+    public void populate (final @Nonnull PresentationModel pm)
+      {
+        bindings.bind(tvContent, pm);
+      }
+
+    @Override
+    public void expandFirstLevel()
+      {
+        tvContent.getRoot().setExpanded(true);
       }
   }

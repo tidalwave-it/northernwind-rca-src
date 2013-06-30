@@ -27,8 +27,6 @@
  */
 package it.tidalwave.northernwind.rca.ui.structureeditor;
 
-import javax.annotation.Nonnull;
-
 /***********************************************************************************************************************
  *
  * @author  Fabrizio Giudici
@@ -37,5 +35,5 @@ import javax.annotation.Nonnull;
  **********************************************************************************************************************/
 public interface StructureEditorPresentationControl
   {
-    public void initialize (@Nonnull StructureEditorPresentation presentation);
+    public void initialize();
   }

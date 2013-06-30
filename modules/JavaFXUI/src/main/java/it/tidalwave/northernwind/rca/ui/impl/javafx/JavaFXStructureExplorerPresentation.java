@@ -27,14 +27,15 @@
  */
 package it.tidalwave.northernwind.rca.ui.impl.javafx;
 
+import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
-import javax.inject.Inject;
-import javafx.scene.control.TreeView;
-import org.springframework.beans.factory.annotation.Configurable;
-import it.tidalwave.role.ui.PresentationModel;
-import it.tidalwave.role.ui.javafx.JavaFXBindings;
-import it.tidalwave.role.ui.javafx.Widget;
+import java.io.IOException;
+import javafx.application.Platform;
+import javafx.scene.Node;
+import javafx.fxml.FXMLLoader;
+import it.tidalwave.ui.javafx.JavaFXSafeProxyCreator;
 import it.tidalwave.northernwind.rca.ui.structureexplorer.StructureExplorerPresentation;
+import lombok.Delegate;
 
 /***********************************************************************************************************************
  *
@@ -46,24 +47,38 @@ import it.tidalwave.northernwind.rca.ui.structureexplorer.StructureExplorerPrese
  * @version $Id$
  *
  **********************************************************************************************************************/
-@Configurable
 public class JavaFXStructureExplorerPresentation implements StructureExplorerPresentation
   {
-    @Inject @Nonnull
-    private JavaFXBindings bindings;
+    @CheckForNull
+    private Node node;
 
-    @Widget("tvStructure")
-    private TreeView<PresentationModel> treeView;
+    @Delegate
+    private StructureExplorerPresentation delegate;
 
-    @Override
-    public void populate (final @Nonnull PresentationModel pm)
+    // Called back by the initialization of JavaFXStructureExplorerPresentationHandler
+    public void setDelegate (final @Nonnull JavaFXStructureExplorerPresentationHandler delegate)
       {
-        bindings.bind(treeView, pm);
+        this.delegate = JavaFXSafeProxyCreator.createSafeProxy(delegate, StructureExplorerPresentation.class);
       }
 
-    @Override
-    public void expandFirstLevel()
+    @Nonnull
+    public Node getNode()
+//      throws IOException FIXME
       {
-        treeView.getRoot().setExpanded(true);
+        assert Platform.isFxApplicationThread();
+
+        if (node == null)
+          {
+            try
+              {
+                node = FXMLLoader.load(getClass().getResource("StructureExplorerPresentation.fxml"));
+              }
+            catch (IOException e)
+              {
+                throw new RuntimeException(e);
+              }
+          }
+
+        return node;
       }
   }

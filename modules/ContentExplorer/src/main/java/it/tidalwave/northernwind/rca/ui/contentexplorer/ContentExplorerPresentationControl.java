@@ -27,8 +27,6 @@
  */
 package it.tidalwave.northernwind.rca.ui.contentexplorer;
 
-import javax.annotation.Nonnull;
-
 /***********************************************************************************************************************
  *
  * The control for the {@link ContentExplorerPresentation}.
@@ -46,5 +44,5 @@ public interface ContentExplorerPresentationControl
      *
      *
      ******************************************************************************************************************/
-    public void initialize (@Nonnull ContentExplorerPresentation presentation);
+    public void initialize();
   }

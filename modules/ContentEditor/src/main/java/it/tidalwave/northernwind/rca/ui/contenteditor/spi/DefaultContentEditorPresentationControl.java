@@ -28,6 +28,7 @@
 package it.tidalwave.northernwind.rca.ui.contenteditor.spi;
 
 import javax.annotation.Nonnull;
+import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -61,13 +62,13 @@ import static it.tidalwave.role.ui.PresentationModelProvider.*;
 public class DefaultContentEditorPresentationControl extends SpringMessageBusListenerSupport
                                                      implements ContentEditorPresentationControl
   {
-    @Inject
+    @Inject @Nonnull
     @VisibleForTesting EmbeddedServer documentServer;
 
-    @Inject
+    @Inject @Nonnull
     @VisibleForTesting DocumentProxyFactory documentProxyFactory;
 
-    @Nonnull
+    @Inject @Nonnull
     private ContentEditorPresentation presentation;
 
     @VisibleForTesting final ContentEditorPresentation.Fields fields = new ContentEditorPresentation.Fields();
@@ -89,10 +90,10 @@ public class DefaultContentEditorPresentationControl extends SpringMessageBusLis
      * {@inheritDoc}
      *
      ******************************************************************************************************************/
-    @Override
-    public void initialize (final @Nonnull ContentEditorPresentation presentation)
+//    @PostConstruct
+    @Override // cannot be postconstruct, because the presentation is not ready initially
+    public void initialize()
       {
-        this.presentation = presentation;
         fields.title.addPropertyChangeListener(propertyChangeListener);
         presentation.bind(fields);
       }

@@ -27,7 +27,7 @@
  */
 package it.tidalwave.northernwind.rca.ui.contenteditor;
 
-import javax.annotation.Nonnull;
+import it.tidalwave.northernwind.core.model.Content;
 
 /***********************************************************************************************************************
  *
@@ -41,5 +41,5 @@ import javax.annotation.Nonnull;
  **********************************************************************************************************************/
 public interface ContentEditorPresentationControl
   {
-    public void initialize (@Nonnull ContentEditorPresentation presentation);
+    public void initialize();
   }

@@ -29,15 +29,16 @@ package it.tidalwave.northernwind.rca.ui.impl.javafx;
 
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.web.WebView;
 import javafx.scene.layout.Pane;
 import org.springframework.beans.factory.annotation.Configurable;
-import it.tidalwave.northernwind.rca.ui.contenteditor.ContentEditorPresentationControl;
 import it.tidalwave.role.ui.PresentationModel;
-import static it.tidalwave.role.ui.javafx.impl.JavaFXSafeComponentBuilder.createInstance;
+import it.tidalwave.role.ui.javafx.JavaFXBindings;
+import it.tidalwave.northernwind.rca.ui.contenteditor.ContentEditorPresentation;
 
 /***********************************************************************************************************************
  *
@@ -46,10 +47,16 @@ import static it.tidalwave.role.ui.javafx.impl.JavaFXSafeComponentBuilder.create
  *
  **********************************************************************************************************************/
 @Configurable
-public class JavaFXContentEditorPresentationHandler
+public class JavaFXContentEditorPresentationHandler implements ContentEditorPresentation
   {
     @Inject @Nonnull
-    private ContentEditorPresentationControl contentEditorPresentationControl;
+    private JavaFXBindings bindings;
+
+    @Inject @Nonnull
+    private StackPaneSelector stackPaneSelector;
+
+    @Inject @Nonnull
+    private JavaFXContentEditorPresentation presentation;
 
     @FXML
     private Pane contentEditor;
@@ -65,6 +72,39 @@ public class JavaFXContentEditorPresentationHandler
 
     public void initialize()
       {
-        contentEditorPresentationControl.initialize(createInstance(JavaFXContentEditorPresentation.class, this));
+        bindings.bindColumn(contentEditorProperties, 0, "name");
+        bindings.bindColumn(contentEditorProperties, 1, "value");
+        presentation.setDelegate(this);
+      }
+
+    @Override
+    public void bind (final @Nonnull ContentEditorPresentation.Fields fields)
+      {
+        bindings.bindBidirectionally(contentTitle.textProperty(), fields.title);
+      }
+
+    @Override
+    public void showUp()
+      {
+        stackPaneSelector.setShownNode(contentEditor);
+      }
+
+    @Override
+    public void clear()
+      {
+        contentWebView.getEngine().loadContent("");
+        contentEditorProperties.setItems(FXCollections.<PresentationModel>emptyObservableList());
+      }
+
+    @Override
+    public void populateDocument (final @Nonnull String url)
+      {
+        contentWebView.getEngine().load(url);
+      }
+
+    @Override
+    public void populateProperties (final @Nonnull PresentationModel pm)
+      {
+        bindings.bind(contentEditorProperties, pm);
       }
   }

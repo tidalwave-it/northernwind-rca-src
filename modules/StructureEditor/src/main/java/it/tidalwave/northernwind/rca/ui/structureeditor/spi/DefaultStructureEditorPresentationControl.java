@@ -28,6 +28,7 @@
 package it.tidalwave.northernwind.rca.ui.structureeditor.spi;
 
 import javax.annotation.Nonnull;
+import javax.inject.Inject;
 import com.google.common.annotations.VisibleForTesting;
 import it.tidalwave.messagebus.annotation.ListensTo;
 import it.tidalwave.messagebus.annotation.SimpleMessageSubscriber;
@@ -50,13 +51,12 @@ import static it.tidalwave.role.ui.PresentationModelProvider.PresentationModelPr
 public class DefaultStructureEditorPresentationControl extends SpringMessageBusListenerSupport
                                                        implements StructureEditorPresentationControl
   {
-    @Nonnull
+    @Inject @Nonnull
     private StructureEditorPresentation presentation;
 
     @Override
-    public void initialize (final @Nonnull StructureEditorPresentation presentation)
+    public void initialize()
       {
-        this.presentation = presentation;
       }
 
     @VisibleForTesting void onSiteNodeSelected (final @ListensTo @Nonnull SiteNodeSelectedEvent event)

@@ -29,14 +29,15 @@ package it.tidalwave.northernwind.rca.ui.impl.javafx;
 
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.layout.Pane;
 import javafx.scene.control.TableView;
 import javafx.scene.web.WebView;
 import org.springframework.beans.factory.annotation.Configurable;
-import it.tidalwave.northernwind.rca.ui.structureeditor.StructureEditorPresentationControl;
 import it.tidalwave.role.ui.PresentationModel;
-import static it.tidalwave.role.ui.javafx.impl.JavaFXSafeComponentBuilder.createInstance;
+import it.tidalwave.role.ui.javafx.JavaFXBindings;
+import it.tidalwave.northernwind.rca.ui.structureeditor.StructureEditorPresentation;
 
 /***********************************************************************************************************************
  *
@@ -45,10 +46,16 @@ import static it.tidalwave.role.ui.javafx.impl.JavaFXSafeComponentBuilder.create
  *
  **********************************************************************************************************************/
 @Configurable
-public class JavaFXStructureEditorPresentationHandler
+public class JavaFXStructureEditorPresentationHandler implements StructureEditorPresentation
   {
     @Inject @Nonnull
-    private StructureEditorPresentationControl structureEditorPresentationControl;
+    private JavaFXBindings bindings;
+
+    @Inject @Nonnull
+    private StackPaneSelector stackPaneSelector;
+
+    @Inject @Nonnull
+    private JavaFXStructureEditorPresentation presentation;
 
     @FXML
     private Pane structureEditor;
@@ -61,6 +68,34 @@ public class JavaFXStructureEditorPresentationHandler
 
     public void initialize()
       {
-        structureEditorPresentationControl.initialize(createInstance(JavaFXStructureEditorPresentation.class, this));
+        bindings.bindColumn(structureEditorProperties, 0, "name");
+        bindings.bindColumn(structureEditorProperties, 1, "value");
+        presentation.setDelegate(this);
       }
+
+    @Override
+    public void showUp()
+      {
+        stackPaneSelector.setShownNode(structureEditor);
+      }
+
+    @Override
+    public void clear()
+      {
+        structureWebView.getEngine().loadContent("");
+        structureEditorProperties.setItems(FXCollections.<PresentationModel>emptyObservableList());
+      }
+
+    @Override
+    public void populate (final @Nonnull String text)
+      {
+        structureWebView.getEngine().loadContent(text);
+      }
+
+    @Override
+    public void populateProperties (final @Nonnull PresentationModel pm)
+      {
+        bindings.bind(structureEditorProperties, pm);
+      }
+
   }

@@ -67,6 +67,7 @@ public class DefaultContentExplorerPresentationControl extends SpringMessageBusL
     @Inject @Nonnull
     private ModelFactory modelFactory;
 
+    @Inject @Nonnull
     private ContentExplorerPresentation presentation;
 
     /*******************************************************************************************************************
@@ -95,9 +96,8 @@ public class DefaultContentExplorerPresentationControl extends SpringMessageBusL
      *
      ******************************************************************************************************************/
     @Override
-    public void initialize (final @Nonnull ContentExplorerPresentation presentation)
+    public void initialize()
       {
-        this.presentation = presentation;
       }
 
     /*******************************************************************************************************************

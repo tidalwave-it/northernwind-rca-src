@@ -67,7 +67,7 @@ public class DefaultStructureExplorerPresentationControl extends SpringMessageBu
     @Inject @Named("applicationMessageBus") @Nonnull
     private MessageBus messageBus;
 
-    @Nonnull
+    @Inject @Nonnull
     private StructureExplorerPresentation presentation;
 
     /*******************************************************************************************************************
@@ -97,9 +97,8 @@ public class DefaultStructureExplorerPresentationControl extends SpringMessageBu
      *
      ******************************************************************************************************************/
     @Override
-    public void initialize (final @Nonnull StructureExplorerPresentation presentation)
+    public void initialize()
       {
-        this.presentation = presentation;
       }
 
     /*******************************************************************************************************************
