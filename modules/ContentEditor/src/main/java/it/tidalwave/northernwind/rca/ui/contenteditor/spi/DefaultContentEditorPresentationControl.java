@@ -89,8 +89,7 @@ public class DefaultContentEditorPresentationControl extends SpringMessageBusLis
      * {@inheritDoc}
      *
      ******************************************************************************************************************/
-//    @PostConstruct
-    @Override // cannot be postconstruct, because the presentation is not ready initially
+    @Override
     public void initialize()
       {
         bindings.title.addPropertyChangeListener(propertyChangeListener);
