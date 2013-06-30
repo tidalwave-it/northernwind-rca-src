@@ -27,6 +27,8 @@
  */
 package it.tidalwave.ui.javafx;
 
+import com.aquafx_project.AquaFx;
+import com.aquafx_project.controls.skin.AquaSkin;
 import javax.annotation.Nonnull;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -79,6 +81,9 @@ public abstract class JavaFXApplicationWithSplash extends Application
                           {
                             final Parent application = createParent();
                             final Scene scene = new Scene(application);
+                            // AquaFX depends on JDK 8 - we're using a patched CSS without Skins
+                            scene.getStylesheets().add(getClass().getResource("/mac_os.css").toExternalForm());
+//                            scene.getStylesheets().add(getClass().getResource("/com/aquafx_project/mac_os.css").toExternalForm());
                             stage.setScene(scene);
                             stage.show();
                             splash.dismiss();

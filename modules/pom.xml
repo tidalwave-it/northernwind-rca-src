@@ -57,8 +57,8 @@
 
     ================================================================================================================ -->
     <properties>
-         <thesefoolishthings.version>1.28</thesefoolishthings.version>
-        <!-- netbeans.version>RELEASE72</netbeans.version -->
+        <aquafx.version>0.1</aquafx.version>
+        <thesefoolishthings.version>1.28</thesefoolishthings.version>
         <slf4j.version>1.7.5</slf4j.version>
         <jetty.version>8.1.10.v20130312</jetty.version>
         <logback.version>1.0.12</logback.version>
@@ -220,6 +220,12 @@
                 <groupId>ch.qos.logback</groupId>
                 <artifactId>logback-classic</artifactId>
                 <version>${logback.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.aquafx-project</groupId>
+                <artifactId>aquafx</artifactId>
+                <version>${aquafx.version}</version>
             </dependency>
 
             <dependency>

@@ -27,6 +27,7 @@
  */
 package it.tidalwave.northernwind.rca.ui.impl.javafx;
 
+//import com.aquafx_project.AquaFx;
 import javax.annotation.Nonnull;
 import javafx.application.Platform;
 import it.tidalwave.ui.javafx.JavaFXSpringApplication;
@@ -47,6 +48,7 @@ public class Main extends JavaFXSpringApplication
         try
           {
             Platform.setImplicitExit(true);
+//            AquaFx.style(); // Seems to be JDK 8 only
             launch(args);
           }
         catch (Throwable t)

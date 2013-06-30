@@ -67,6 +67,12 @@
             <groupId>com.oracle</groupId>
             <artifactId>javafx-embedded</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.aquafx-project</groupId>
+            <artifactId>aquafx</artifactId>
+            <version>0.1</version>
+            <type>jar</type>
+        </dependency>
     </dependencies>
 
 </project>
