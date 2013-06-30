@@ -30,6 +30,7 @@ package it.tidalwave.northernwind.rca.ui.contenteditor.impl;
 import javax.annotation.Nonnull;
 import com.google.common.base.Splitter;
 import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
@@ -45,7 +46,7 @@ import lombok.extern.slf4j.Slf4j;
  * @version $Id$
  *
  **********************************************************************************************************************/
-@RequiredArgsConstructor(access = AccessLevel.PACKAGE) @Getter @ToString @Slf4j
+@RequiredArgsConstructor(access = AccessLevel.PACKAGE) @Getter @EqualsAndHashCode @ToString @Slf4j
 public class HtmlDocument
   {
     @Wither @Nonnull
