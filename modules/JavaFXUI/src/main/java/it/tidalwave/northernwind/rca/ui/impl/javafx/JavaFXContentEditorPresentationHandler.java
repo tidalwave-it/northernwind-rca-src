@@ -29,77 +29,38 @@ package it.tidalwave.northernwind.rca.ui.impl.javafx;
 
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
-import javafx.collections.FXCollections;
-import javafx.scene.web.WebView;
+import javafx.fxml.FXML;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.web.WebView;
 import org.springframework.beans.factory.annotation.Configurable;
+import it.tidalwave.northernwind.rca.ui.contenteditor.ContentEditorPresentationControl;
 import it.tidalwave.role.ui.PresentationModel;
-import it.tidalwave.role.ui.javafx.JavaFXBindings;
-import it.tidalwave.role.ui.javafx.Widget;
-import it.tidalwave.northernwind.rca.ui.contenteditor.ContentEditorPresentation;
-import lombok.ToString;
-import lombok.extern.slf4j.Slf4j;
+import static it.tidalwave.role.ui.javafx.impl.JavaFXSafeComponentBuilder.createInstance;
 
 /***********************************************************************************************************************
  *
- * @author  Fabrizio Giudici
+ * @author Fabrizio Giudici
  * @version $Id$
  *
  **********************************************************************************************************************/
-@Configurable @Slf4j @ToString
-public class JavaFXContentEditorPresentation implements ContentEditorPresentation
+@Configurable
+public class JavaFXContentEditorPresentationHandler
   {
     @Inject @Nonnull
-    private JavaFXBindings bindings;
+    private ContentEditorPresentationControl contentEditorPresentationControl;
 
-    @Inject @Nonnull
-    private StackPaneSelector stackPaneSelector;
+    @FXML
+    private WebView contentWebView;
 
-    @Widget("contentWebView")
-    private WebView webView;
+    @FXML
+    private TableView<PresentationModel> contentEditorProperties;
 
-    @Widget("contentTitle")
+    @FXML
     private TextField contentTitle;
 
-    @Widget("contentEditorProperties")
-    private TableView<PresentationModel> tableView;
-
-//    @PostConstruct FIXME: when Spring calls, it's too early; this is called by JavaFXSafeComponentBuilder
     public void initialize()
       {
-        bindings.bindColumn(tableView, 0, "name");
-        bindings.bindColumn(tableView, 1, "value");
-      }
-
-    @Override
-    public void showUp()
-      {
-        stackPaneSelector.showContentEditor();
-      }
-
-    @Override
-    public void clear()
-      {
-        webView.getEngine().loadContent("");
-        tableView.setItems(FXCollections.<PresentationModel>emptyObservableList());
-      }
-
-    @Override
-    public void bind (final @Nonnull Fields fields)
-      {
-        bindings.bindBidirectionally(contentTitle.textProperty(), fields.title);
-      }
-
-    @Override
-    public void populateDocument (final @Nonnull String url)
-      {
-        webView.getEngine().load(url);
-      }
-
-    @Override
-    public void populateProperties (final @Nonnull PresentationModel pm)
-      {
-        bindings.bind(tableView, pm);
+        contentEditorPresentationControl.initialize(createInstance(JavaFXContentEditorPresentation.class, this));
       }
   }

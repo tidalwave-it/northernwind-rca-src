@@ -60,54 +60,8 @@
               <children>
                 <StackPane id="StackPane" fx:id="paEditors" prefHeight="503.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                   <children>
-                    <VBox id="VBox" fx:id="contentEditorContainer" alignment="CENTER" spacing="5.0">
-                      <children>
-                        <FlowPane maxHeight="48.0" minHeight="48.0" prefHeight="48.0" prefWidth="200.0" VBox.vgrow="NEVER">
-                          <children>
-                            <Label prefHeight="48.0" prefWidth="60.0" text="Title" />
-                            <TextField fx:id="contentTitle" prefWidth="519.0" />
-                          </children>
-                          <VBox.margin>
-                            <Insets fx:id="x1" />
-                          </VBox.margin>
-                        </FlowPane>
-                        <WebView fx:id="contentWebView" prefHeight="200.0" prefWidth="592.0" VBox.vgrow="ALWAYS">
-                          <VBox.margin>
-                            <Insets fx:id="x1" />
-                          </VBox.margin>
-                        </WebView>
-                        <TableView fx:id="contentEditorProperties" prefHeight="140.0" prefWidth="592.0" VBox.vgrow="NEVER">
-                          <columns>
-                            <TableColumn prefWidth="75.0" text="Name" />
-                            <TableColumn prefWidth="75.0" text="Value" />
-                          </columns>
-                          <VBox.margin>
-                            <Insets fx:id="x1" />
-                          </VBox.margin>
-                        </TableView>
-                      </children>
-                      <StackPane.margin>
-                        <Insets fx:id="x1" />
-                      </StackPane.margin>
-                    </VBox>
-                    <VBox id="VBox" fx:id="structureEditorContainer" alignment="CENTER" spacing="5.0">
-                      <children>
-                        <WebView fx:id="structureWebView" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
-                          <VBox.margin>
-                            <Insets fx:id="x1" />
-                          </VBox.margin>
-                        </WebView>
-                        <TableView fx:id="structureEditorProperties" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="NEVER">
-                          <columns>
-                            <TableColumn prefWidth="75.0" text="Name" />
-                            <TableColumn prefWidth="75.0" text="Value" />
-                          </columns>
-                          <VBox.margin>
-                            <Insets fx:id="x1" />
-                          </VBox.margin>
-                        </TableView>
-                      </children>
-                    </VBox>
+                    <BorderPane fx:id="contentEditorContainer" prefHeight="200.0" prefWidth="200.0" />
+                    <BorderPane fx:id="structureEditorContainer" prefHeight="200.0" prefWidth="200.0" />
                   </children>
                 </StackPane>
               </children>

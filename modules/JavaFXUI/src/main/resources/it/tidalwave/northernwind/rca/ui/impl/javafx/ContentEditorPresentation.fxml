@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.web.*?>
+
+<VBox fx:id="application" prefHeight="600.0" prefWidth="800.0" xmlns:fx="http://javafx.com/fxml" fx:controller="it.tidalwave.northernwind.rca.ui.impl.javafx.JavaFXContentEditorPresentationHandler">
+  <children>
+    <FlowPane prefHeight="32.0" prefWidth="800.0">
+      <children>
+        <Label prefHeight="32.0" text="Title:">
+          <FlowPane.margin>
+            <Insets left="4.0" right="4.0" />
+          </FlowPane.margin>
+        </Label>
+        <TextField fx:id="contentTitle" alignment="BASELINE_LEFT" prefWidth="453.0" />
+      </children>
+    </FlowPane>
+    <WebView fx:id="contentWebView" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+      <VBox.margin>
+        <Insets fx:id="x1" />
+      </VBox.margin>
+    </WebView>
+    <TableView fx:id="contentEditorProperties" prefHeight="200.0" prefWidth="200.0" VBox.margin="$x1">
+      <columns>
+        <TableColumn prefWidth="75.0" text="Column X" />
+        <TableColumn prefWidth="75.0" text="Column X" />
+      </columns>
+    </TableView>
+  </children>
+</VBox>

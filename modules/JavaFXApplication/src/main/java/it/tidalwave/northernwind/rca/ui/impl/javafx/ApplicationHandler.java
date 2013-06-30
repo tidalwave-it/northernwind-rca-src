@@ -29,23 +29,21 @@ package it.tidalwave.northernwind.rca.ui.impl.javafx;
 
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
-import javafx.fxml.FXML;
-import javafx.scene.layout.Pane;
+import java.io.IOException;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.Button;
 import javafx.scene.control.TreeView;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
-import javafx.scene.web.WebView;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import org.springframework.beans.factory.annotation.Configurable;
 import it.tidalwave.role.ui.PresentationModel;
 import it.tidalwave.northernwind.rca.ui.siteopener.SiteOpenerPresentationControl;
 import it.tidalwave.northernwind.rca.ui.contentexplorer.ContentExplorerPresentationControl;
-import it.tidalwave.northernwind.rca.ui.contenteditor.ContentEditorPresentationControl;
 import it.tidalwave.northernwind.rca.ui.structureexplorer.StructureExplorerPresentationControl;
-import it.tidalwave.northernwind.rca.ui.structureeditor.StructureEditorPresentationControl;
 import lombok.extern.slf4j.Slf4j;
 import static it.tidalwave.role.ui.javafx.impl.JavaFXSafeComponentBuilder.*;
-import javafx.scene.control.MenuItem;
 
 /***********************************************************************************************************************
  *
@@ -67,10 +65,7 @@ public class ApplicationHandler
     private ContentExplorerPresentationControl contentExplorerPresentationControl;
 
     @Inject @Nonnull
-    private ContentEditorPresentationControl contentEditorPresentationControl;
-
-    @Inject @Nonnull
-    private StructureEditorPresentationControl structureEditorPresentationControl;
+    private StackPaneSelector stackPaneSelector;
 
     @FXML
     private Button btOpen;
@@ -82,25 +77,10 @@ public class ApplicationHandler
     private TreeView<PresentationModel> tvContent;
 
     @FXML
-    private TextField contentTitle;
+    private BorderPane contentEditorContainer;
 
     @FXML
-    private WebView contentWebView;
-
-    @FXML
-    private WebView structureWebView;
-
-    @FXML
-    private Pane contentEditorContainer;
-
-    @FXML
-    private Pane structureEditorContainer;
-
-    @FXML
-    private TableView<PresentationModel> contentEditorProperties;
-
-    @FXML
-    private TableView<PresentationModel> structureEditorProperties;
+    private BorderPane structureEditorContainer;
 
     @FXML
     private MenuItem openSiteMenu;
@@ -112,15 +92,27 @@ public class ApplicationHandler
 //      }
 
     public void initialize()
+      throws IOException
       {
-        contentEditorContainer.setVisible(false);
-        structureEditorContainer.setVisible(false);
+        stackPaneSelector.setContentEditorContainer(contentEditorContainer);
+        stackPaneSelector.setStructureEditorContainer(structureEditorContainer);
+        stackPaneSelector.initialize();
 
-        // FIXME: could this be done by Spring?
+        // FIXME: this should be delegated to other handlers, as already done for the Editors
         siteOpenerPresentationControl.initialize(createInstance(JavaFXSiteOpenerPresentation.class, this));
         contentExplorerPresentationControl.initialize(createInstance(JavaFXContentExplorerPresentation.class, this));
         structureExplorerPresentationControl.initialize(createInstance(JavaFXStructureExplorerPresentation.class, this));
-        contentEditorPresentationControl.initialize(createInstance(JavaFXContentEditorPresentation.class, this));
-        structureEditorPresentationControl.initialize(createInstance(JavaFXStructureEditorPresentation.class, this));
+
+        loadStackPaneContent(contentEditorContainer, JavaFXContentEditorPresentationHandler.class, "ContentEditorPresentation.fxml");
+        loadStackPaneContent(structureEditorContainer, JavaFXStructureEditorPresentationHandler.class, "StructureEditorPresentation.fxml");
+      }
+
+    private void loadStackPaneContent (final @Nonnull BorderPane container,
+                                       final @Nonnull Class<?> clazz,
+                                       final @Nonnull String resourceName)
+      throws IOException
+      {
+        final Pane pane = FXMLLoader.load(clazz.getResource(resourceName));
+        container.centerProperty().set(pane);
       }
   }

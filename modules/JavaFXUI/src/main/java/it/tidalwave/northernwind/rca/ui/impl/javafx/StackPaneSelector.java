@@ -27,16 +27,8 @@
  */
 package it.tidalwave.northernwind.rca.ui.impl.javafx;
 
-import javax.annotation.Nonnull;
-import javax.inject.Inject;
-import javafx.collections.FXCollections;
-import javafx.scene.control.TableView;
-import javafx.scene.web.WebView;
-import org.springframework.beans.factory.annotation.Configurable;
-import it.tidalwave.role.ui.PresentationModel;
-import it.tidalwave.role.ui.javafx.JavaFXBindings;
-import it.tidalwave.role.ui.javafx.Widget;
-import it.tidalwave.northernwind.rca.ui.structureeditor.StructureEditorPresentation;
+import javafx.scene.layout.Pane;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 /***********************************************************************************************************************
@@ -45,50 +37,33 @@ import lombok.extern.slf4j.Slf4j;
  * @version $Id$
  *
  **********************************************************************************************************************/
-@Configurable @Slf4j
-public class JavaFXStructureEditorPresentation implements StructureEditorPresentation
+@Slf4j
+public class StackPaneSelector
   {
-    @Inject @Nonnull
-    private JavaFXBindings bindings;
+    @Setter
+    private Pane contentEditorContainer;
 
-    @Inject @Nonnull
-    private StackPaneSelector stackPaneSelector;
+    @Setter
+    private Pane structureEditorContainer;
 
-    @Widget("structureWebView")
-    private WebView webView;
-
-    @Widget("structureEditorProperties")
-    private TableView<PresentationModel> tableView;
-
-//    @PostConstruct FIXME: when Spring calls, it's too early; this is called by JavaFXSafeComponentBuilder
     public void initialize()
       {
-        bindings.bindColumn(tableView, 0, "name");
-        bindings.bindColumn(tableView, 1, "value");
+        log.info("initialize()");
+        contentEditorContainer.setVisible(false);
+        structureEditorContainer.setVisible(false);
       }
 
-    @Override
-    public void showUp()
+    public void showContentEditor()
       {
-        stackPaneSelector.showStructureEditor();
+        log.info("showContentEditor()");
+        structureEditorContainer.setVisible(false);
+        contentEditorContainer.setVisible(true);
       }
 
-    @Override
-    public void clear()
+    public void showStructureEditor()
       {
-        webView.getEngine().loadContent("");
-        tableView.setItems(FXCollections.<PresentationModel>emptyObservableList());
-      }
-
-    @Override
-    public void populate (final @Nonnull String text)
-      {
-        webView.getEngine().loadContent(text);
-      }
-
-    @Override
-    public void populateProperties (final @Nonnull PresentationModel pm)
-      {
-        bindings.bind(tableView, pm);
+        log.info("showStructureEditor()");
+        contentEditorContainer.setVisible(false);
+        structureEditorContainer.setVisible(true);
       }
   }
