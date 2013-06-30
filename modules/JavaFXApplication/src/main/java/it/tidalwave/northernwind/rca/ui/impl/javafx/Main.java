@@ -29,7 +29,7 @@ package it.tidalwave.northernwind.rca.ui.impl.javafx;
 
 import javax.annotation.Nonnull;
 import javafx.application.Platform;
-import it.tidalwave.ui.javafx.SpringApplication;
+import it.tidalwave.ui.javafx.JavaFXSpringApplication;
 import lombok.extern.slf4j.Slf4j;
 import static javafx.application.Application.launch;
 
@@ -40,7 +40,7 @@ import static javafx.application.Application.launch;
  *
  **********************************************************************************************************************/
 @Slf4j
-public class Main extends SpringApplication
+public class Main extends JavaFXSpringApplication
   {
     public static void main (final @Nonnull String ... args)
       {

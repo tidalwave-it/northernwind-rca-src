@@ -28,10 +28,14 @@
 package it.tidalwave.ui.javafx;
 
 import javax.annotation.Nonnull;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.io.IOException;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+import javafx.application.Application;
+import javafx.application.Platform;
 import lombok.extern.slf4j.Slf4j;
 
 /***********************************************************************************************************************
@@ -41,27 +45,57 @@ import lombok.extern.slf4j.Slf4j;
  *
  **********************************************************************************************************************/
 @Slf4j
-public class SpringApplication extends ApplicationWithSplash
+public abstract class JavaFXApplicationWithSplash extends Application
   {
-    private ClassPathXmlApplicationContext applicationContext;
+    private Splash splash = new Splash(this);
 
-    @Override @Nonnull
-    protected Parent createParent()
-      throws IOException
+    @Override
+    public void init()
       {
-        return FXMLLoader.load(getClass().getResource("Application.fxml"));
+        log.info("init()");
+        splash.init();
       }
 
     @Override
-    protected void initializeInBackground()
+    public void start (final @Nonnull Stage stage)
+      throws Exception
       {
-        try
+        log.info("start({})", stage);
+        splash.show();
+
+        final ExecutorService executorService = Executors.newSingleThreadExecutor();
+        executorService.submit(new Runnable()
           {
-            applicationContext = new ClassPathXmlApplicationContext("classpath*:/META-INF/*AutoBeans.xml");
-          }
-        catch (Throwable t)
-          {
-            log.error("", t);
-          }
+            @Override
+            public void run()
+              {
+                initializeInBackground();
+                Platform.runLater(new Runnable()
+                  {
+                    @Override
+                    public void run()
+                      {
+                        try
+                          {
+                            final Parent application = createParent();
+                            final Scene scene = new Scene(application);
+                            stage.setScene(scene);
+                            stage.show();
+                            splash.dismiss();
+                          }
+                        catch (IOException e)
+                          {
+                            log.error("", e);
+                          }
+                      }
+                  });
+              }
+          });
       }
+
+    @Nonnull
+    protected abstract Parent createParent()
+      throws IOException;
+
+    protected abstract void initializeInBackground();
   }
