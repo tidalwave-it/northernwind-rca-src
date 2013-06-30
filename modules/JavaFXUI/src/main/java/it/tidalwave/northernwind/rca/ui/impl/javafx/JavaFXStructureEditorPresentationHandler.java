@@ -30,6 +30,7 @@ package it.tidalwave.northernwind.rca.ui.impl.javafx;
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
 import javafx.fxml.FXML;
+import javafx.scene.layout.Pane;
 import javafx.scene.control.TableView;
 import javafx.scene.web.WebView;
 import org.springframework.beans.factory.annotation.Configurable;
@@ -46,14 +47,17 @@ import static it.tidalwave.role.ui.javafx.impl.JavaFXSafeComponentBuilder.create
 @Configurable
 public class JavaFXStructureEditorPresentationHandler
   {
+    @Inject @Nonnull
+    private StructureEditorPresentationControl structureEditorPresentationControl;
+
+    @FXML
+    private Pane structureEditor;
+
     @FXML
     private WebView structureWebView;
 
     @FXML
     private TableView<PresentationModel> structureEditorProperties;
-
-    @Inject @Nonnull
-    private StructureEditorPresentationControl structureEditorPresentationControl;
 
     public void initialize()
       {

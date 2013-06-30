@@ -33,8 +33,6 @@ import java.io.IOException;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.Button;
 import javafx.scene.control.TreeView;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import org.springframework.beans.factory.annotation.Configurable;
@@ -44,6 +42,8 @@ import it.tidalwave.northernwind.rca.ui.contentexplorer.ContentExplorerPresentat
 import it.tidalwave.northernwind.rca.ui.structureexplorer.StructureExplorerPresentationControl;
 import lombok.extern.slf4j.Slf4j;
 import static it.tidalwave.role.ui.javafx.impl.JavaFXSafeComponentBuilder.*;
+import javafx.scene.Node;
+import javafx.scene.layout.StackPane;
 
 /***********************************************************************************************************************
  *
@@ -77,10 +77,7 @@ public class ApplicationHandler
     private TreeView<PresentationModel> tvContent;
 
     @FXML
-    private BorderPane contentEditorContainer;
-
-    @FXML
-    private BorderPane structureEditorContainer;
+    private StackPane stackPane;
 
     @FXML
     private MenuItem openSiteMenu;
@@ -94,25 +91,21 @@ public class ApplicationHandler
     public void initialize()
       throws IOException
       {
-        stackPaneSelector.setContentEditorContainer(contentEditorContainer);
-        stackPaneSelector.setStructureEditorContainer(structureEditorContainer);
-        stackPaneSelector.initialize();
+        stackPaneSelector.initialize(stackPane);
+        stackPaneSelector.add(load(JavaFXContentEditorPresentationHandler.class, "ContentEditorPresentation.fxml"));
+        stackPaneSelector.add(load(JavaFXStructureEditorPresentationHandler.class, "StructureEditorPresentation.fxml"));
 
         // FIXME: this should be delegated to other handlers, as already done for the Editors
         siteOpenerPresentationControl.initialize(createInstance(JavaFXSiteOpenerPresentation.class, this));
         contentExplorerPresentationControl.initialize(createInstance(JavaFXContentExplorerPresentation.class, this));
         structureExplorerPresentationControl.initialize(createInstance(JavaFXStructureExplorerPresentation.class, this));
-
-        loadStackPaneContent(contentEditorContainer, JavaFXContentEditorPresentationHandler.class, "ContentEditorPresentation.fxml");
-        loadStackPaneContent(structureEditorContainer, JavaFXStructureEditorPresentationHandler.class, "StructureEditorPresentation.fxml");
       }
 
-    private void loadStackPaneContent (final @Nonnull BorderPane container,
-                                       final @Nonnull Class<?> clazz,
-                                       final @Nonnull String resourceName)
+    @Nonnull
+    private Node load (final @Nonnull Class<?> clazz, final @Nonnull String resourceName)
       throws IOException
       {
-        final Pane pane = FXMLLoader.load(clazz.getResource(resourceName));
-        container.centerProperty().set(pane);
+        return FXMLLoader.load(clazz.getResource(resourceName));
+//        container.centerProperty().set(pane);
       }
   }

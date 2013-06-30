@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.web.*?>
 
-<BorderPane fx:id="application" prefHeight="600.0" prefWidth="800.0" xmlns:fx="http://javafx.com/fxml" fx:controller="it.tidalwave.northernwind.rca.ui.impl.javafx.JavaFXStructureEditorPresentationHandler">
+<BorderPane id="application" fx:id="structureEditor" prefHeight="600.0" prefWidth="800.0" xmlns:fx="http://javafx.com/fxml" fx:controller="it.tidalwave.northernwind.rca.ui.impl.javafx.JavaFXStructureEditorPresentationHandler">
   <bottom>
     <TableView id="contentEditorProperties" fx:id="structureEditorProperties" prefHeight="200.0" prefWidth="200.0">
       <columns>
@@ -18,6 +18,6 @@
     </TableView>
   </bottom>
   <center>
-    <WebView id="contentWebView" fx:id="structureWebView" prefHeight="200.0" prefWidth="200.0" />
+    <WebView fx:id="structureWebView" prefHeight="200.0" prefWidth="200.0" />
   </center>
 </BorderPane>

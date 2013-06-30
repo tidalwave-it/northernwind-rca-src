@@ -33,6 +33,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.web.WebView;
+import javafx.scene.layout.Pane;
 import org.springframework.beans.factory.annotation.Configurable;
 import it.tidalwave.northernwind.rca.ui.contenteditor.ContentEditorPresentationControl;
 import it.tidalwave.role.ui.PresentationModel;
@@ -49,6 +50,9 @@ public class JavaFXContentEditorPresentationHandler
   {
     @Inject @Nonnull
     private ContentEditorPresentationControl contentEditorPresentationControl;
+
+    @FXML
+    private Pane contentEditor;
 
     @FXML
     private WebView contentWebView;

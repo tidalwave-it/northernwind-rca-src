@@ -30,6 +30,7 @@ package it.tidalwave.northernwind.rca.ui.impl.javafx;
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
 import javafx.collections.FXCollections;
+import javafx.scene.Node;
 import javafx.scene.control.TableView;
 import javafx.scene.web.WebView;
 import org.springframework.beans.factory.annotation.Configurable;
@@ -54,6 +55,9 @@ public class JavaFXStructureEditorPresentation implements StructureEditorPresent
     @Inject @Nonnull
     private StackPaneSelector stackPaneSelector;
 
+    @Widget("structureEditor")
+    private Node parent;
+
     @Widget("structureWebView")
     private WebView webView;
 
@@ -70,7 +74,7 @@ public class JavaFXStructureEditorPresentation implements StructureEditorPresent
     @Override
     public void showUp()
       {
-        stackPaneSelector.showStructureEditor();
+        stackPaneSelector.setShownNode(parent);
       }
 
     @Override

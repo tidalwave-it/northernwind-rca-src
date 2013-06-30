@@ -30,6 +30,7 @@ package it.tidalwave.northernwind.rca.ui.impl.javafx;
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
 import javafx.collections.FXCollections;
+import javafx.scene.Node;
 import javafx.scene.web.WebView;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -56,6 +57,9 @@ public class JavaFXContentEditorPresentation implements ContentEditorPresentatio
     @Inject @Nonnull
     private StackPaneSelector stackPaneSelector;
 
+    @Widget("contentEditor")
+    private Node parent;
+
     @Widget("contentWebView")
     private WebView webView;
 
@@ -75,7 +79,7 @@ public class JavaFXContentEditorPresentation implements ContentEditorPresentatio
     @Override
     public void showUp()
       {
-        stackPaneSelector.showContentEditor();
+        stackPaneSelector.setShownNode(parent);
       }
 
     @Override

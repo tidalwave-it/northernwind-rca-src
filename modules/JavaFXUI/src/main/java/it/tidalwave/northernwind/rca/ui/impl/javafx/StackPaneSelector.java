@@ -27,43 +27,50 @@
  */
 package it.tidalwave.northernwind.rca.ui.impl.javafx;
 
-import javafx.scene.layout.Pane;
-import lombok.Setter;
+import javax.annotation.CheckForNull;
+import javax.annotation.Nonnull;
+import javafx.scene.Node;
+import javafx.scene.layout.StackPane;
 import lombok.extern.slf4j.Slf4j;
 
 /***********************************************************************************************************************
  *
- * @author  Fabrizio Giudici
+ * @author Fabrizio Giudici
  * @version $Id$
  *
  **********************************************************************************************************************/
 @Slf4j
 public class StackPaneSelector
   {
-    @Setter
-    private Pane contentEditorContainer;
+    @CheckForNull
+    private StackPane stackPane;
 
-    @Setter
-    private Pane structureEditorContainer;
-
-    public void initialize()
+    public void initialize (final @Nonnull StackPane stackPane)
       {
         log.info("initialize()");
-        contentEditorContainer.setVisible(false);
-        structureEditorContainer.setVisible(false);
+        this.stackPane = stackPane;
       }
 
-    public void showContentEditor()
+    public void add (final @Nonnull Node node)
       {
-        log.info("showContentEditor()");
-        structureEditorContainer.setVisible(false);
-        contentEditorContainer.setVisible(true);
+        node.setVisible(false);
+        stackPane.getChildren().add(node);
       }
 
-    public void showStructureEditor()
+    public void setShownNode (final @Nonnull Node node)
       {
-        log.info("showStructureEditor()");
-        contentEditorContainer.setVisible(false);
-        structureEditorContainer.setVisible(true);
+        log.info("setShownNode({})", node);
+
+        if (!stackPane.getChildren().contains(node))
+          {
+            throw new IllegalArgumentException("Not in children: " + node);
+          }
+
+        for (final Node child : stackPane.getChildren())
+          {
+            child.setVisible(false);
+          }
+
+        node.setVisible(true);
       }
-  }
+ }
