@@ -123,7 +123,7 @@ public class DefaultDocumentProxyFactory implements DocumentProxyFactory
       {
         try
           {
-            final @Cleanup Reader r = new InputStreamReader(new ClassPathResource(path).getInputStream());
+            final @Cleanup Reader r = new InputStreamReader(new ClassPathResource(path).getInputStream(), "UTF-8");
             return CharStreams.toString(r);
           }
         catch (IOException e)
