@@ -89,6 +89,7 @@ public class JavaFXContentEditorPresentationDelegate implements ContentEditorPre
     public void clear()
       {
         contentWebView.getEngine().loadContent("");
+        // FIXME: binder.unbind(contentEditorProperties)
         contentEditorProperties.setItems(FXCollections.<PresentationModel>emptyObservableList());
       }
 
