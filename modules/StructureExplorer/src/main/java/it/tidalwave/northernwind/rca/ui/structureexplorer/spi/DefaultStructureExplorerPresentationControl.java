@@ -111,7 +111,7 @@ public class DefaultStructureExplorerPresentationControl extends SpringMessageBu
           {
             log.debug("onOpenSite({})", event);
             final ResourceFile root = event.getFileSystem().findFileByPath("/structure");
-            final AdminSiteNode siteNode = (AdminSiteNode)modelFactory.createSiteNode(null, root);
+            final AdminSiteNode siteNode = (AdminSiteNode)modelFactory.createSiteNode(null, root); // FIXME: pass a Site
             presentation.populate(siteNode.as(PresentationModelProvider.class).createPresentationModel(publisherRoleFactory));
             presentation.expandFirstLevel();
             messageBus.publish(new SiteNodeSelectedEvent());
