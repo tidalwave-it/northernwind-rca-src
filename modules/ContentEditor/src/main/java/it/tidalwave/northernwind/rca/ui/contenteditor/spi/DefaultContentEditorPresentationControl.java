@@ -28,7 +28,6 @@
 package it.tidalwave.northernwind.rca.ui.contenteditor.spi;
 
 import javax.annotation.Nonnull;
-import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -69,7 +68,7 @@ public class DefaultContentEditorPresentationControl extends SpringMessageBusLis
     @VisibleForTesting DocumentProxyFactory documentProxyFactory;
 
     @Inject @Nonnull
-    private ContentEditorPresentation presentation;
+    @VisibleForTesting ContentEditorPresentation presentation;
 
     @VisibleForTesting final ContentEditorPresentation.Bindings bindings = new ContentEditorPresentation.Bindings();
 

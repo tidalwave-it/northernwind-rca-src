@@ -111,6 +111,7 @@ public class DefaultContentEditorPresentationControlTest
 
         fixture.documentServer = embeddedServer; // FIXME: use Spring
         fixture.documentProxyFactory = documentProxyFactory;
+        fixture.presentation = presentation;
 
         when(content.getProperties()).thenReturn(properties);
         when(pmProvider.createPresentationModel(anyVararg())).thenReturn(pm);
