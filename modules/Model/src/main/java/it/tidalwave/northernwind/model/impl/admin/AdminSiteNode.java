@@ -80,6 +80,8 @@ public class AdminSiteNode extends SpringAsSupport implements SiteNode, As, Simp
     @Override @Nonnull
     public Finder<SiteNode> findChildren()
       {
+        assert modelFactory != null;
+        
         return new SimpleFinderSupport<SiteNode>()
           {
             @Override
