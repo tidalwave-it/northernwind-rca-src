@@ -48,16 +48,8 @@ public class JavaFXStructureExplorerPresentationDelegate implements StructureExp
     @Inject @Nonnull
     private JavaFXBinder binder;
 
-    @Inject @Nonnull
-    private JavaFXStructureExplorerPresentation structureExplorerPresentation;
-
     @FXML
     private TreeView<PresentationModel> tvStructure;
-
-    public void initialize()
-      {
-        structureExplorerPresentation.setDelegate(this);
-      }
 
     @Override
     public void populate (final @Nonnull PresentationModel pm)

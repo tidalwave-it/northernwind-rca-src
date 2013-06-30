@@ -55,12 +55,6 @@ public class JavaFXStructureExplorerPresentation implements StructureExplorerPre
     @Delegate
     private StructureExplorerPresentation delegate;
 
-    // Called back by the initialization of JavaFXStructureExplorerPresentationHandler
-    public void setDelegate (final @Nonnull JavaFXStructureExplorerPresentationDelegate delegate)
-      {
-        this.delegate = JavaFXSafeProxyCreator.createSafeProxy(delegate, StructureExplorerPresentation.class);
-      }
-
     @Nonnull
     public Node getNode()
 //      throws IOException FIXME
@@ -71,7 +65,10 @@ public class JavaFXStructureExplorerPresentation implements StructureExplorerPre
           {
             try
               {
-                node = FXMLLoader.load(getClass().getResource("StructureExplorerPresentation.fxml"));
+                final FXMLLoader loader = new FXMLLoader(getClass().getResource("StructureExplorerPresentation.fxml"));
+                node = (Node)loader.load();
+                delegate = JavaFXSafeProxyCreator.createSafeProxy((StructureExplorerPresentation)loader.getController(),
+                                                                  StructureExplorerPresentation.class);
               }
             catch (IOException e)
               {

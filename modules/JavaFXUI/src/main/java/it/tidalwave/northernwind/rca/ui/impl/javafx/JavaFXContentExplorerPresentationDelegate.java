@@ -48,16 +48,8 @@ public class JavaFXContentExplorerPresentationDelegate implements ContentExplore
     @Inject @Nonnull
     private JavaFXBinder binder;
 
-    @Inject @Nonnull
-    private JavaFXContentExplorerPresentation presentation;
-
     @FXML
     private TreeView<PresentationModel> tvContent;
-
-    public void initialize()
-      {
-        presentation.setDelegate(this);
-      }
 
     @Override
     public void populate (final @Nonnull PresentationModel pm)

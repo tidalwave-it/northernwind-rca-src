@@ -27,14 +27,14 @@
  */
 package it.tidalwave.northernwind.rca.ui.impl.javafx;
 
+import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
-import it.tidalwave.northernwind.rca.ui.contentexplorer.ContentExplorerPresentation;
-import it.tidalwave.ui.javafx.JavaFXSafeProxyCreator;
 import java.io.IOException;
+import javafx.scene.Node;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javax.annotation.CheckForNull;
+import it.tidalwave.northernwind.rca.ui.contentexplorer.ContentExplorerPresentation;
+import it.tidalwave.ui.javafx.JavaFXSafeProxyCreator;
 import lombok.Delegate;
 
 /***********************************************************************************************************************
@@ -55,12 +55,6 @@ public class JavaFXContentExplorerPresentation implements ContentExplorerPresent
     @Delegate
     private ContentExplorerPresentation delegate;
 
-    // Called back by the initialization of JavaFXContentExplorerPresentationHandler
-    public void setDelegate (final @Nonnull JavaFXContentExplorerPresentationDelegate delegate)
-      {
-        this.delegate = JavaFXSafeProxyCreator.createSafeProxy(delegate, ContentExplorerPresentation.class);
-      }
-
     @Nonnull
     public Node getNode()
 //      throws IOException FIXME
@@ -71,7 +65,10 @@ public class JavaFXContentExplorerPresentation implements ContentExplorerPresent
           {
             try
               {
-                node = FXMLLoader.load(getClass().getResource("ContentExplorerPresentation.fxml"));
+                final FXMLLoader loader = new FXMLLoader(getClass().getResource("ContentExplorerPresentation.fxml"));
+                node = (Node)loader.load();
+                delegate = JavaFXSafeProxyCreator.createSafeProxy((ContentExplorerPresentation)loader.getController(),
+                                                                  ContentExplorerPresentation.class);
               }
             catch (IOException e)
               {

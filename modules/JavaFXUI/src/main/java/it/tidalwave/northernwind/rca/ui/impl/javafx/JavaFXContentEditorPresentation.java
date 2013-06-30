@@ -54,12 +54,6 @@ public class JavaFXContentEditorPresentation implements ContentEditorPresentatio
     @Delegate
     private ContentEditorPresentation delegate;
 
-    // Called back by the initialization of JavaFXContentEditorPresentationHandler
-    public void setDelegate (final @Nonnull JavaFXContentEditorPresentationDelegate delegate)
-      {
-        this.delegate = JavaFXSafeProxyCreator.createSafeProxy(delegate, ContentEditorPresentation.class);
-      }
-
     @Nonnull
     public Node getNode()
 //      throws IOException FIXME
@@ -70,8 +64,12 @@ public class JavaFXContentEditorPresentation implements ContentEditorPresentatio
           {
             try
               {
-                node = FXMLLoader.load(getClass().getResource("ContentEditorPresentation.fxml"));
-              }
+                final FXMLLoader loader = new FXMLLoader(getClass().getResource("ContentEditorPresentation.fxml"));
+                node = (Node)loader.load();
+                delegate = JavaFXSafeProxyCreator.createSafeProxy((ContentEditorPresentation)loader.getController(),
+                                                                  ContentEditorPresentation.class);
+
+             }
             catch (IOException e)
               {
                 throw new RuntimeException(e);

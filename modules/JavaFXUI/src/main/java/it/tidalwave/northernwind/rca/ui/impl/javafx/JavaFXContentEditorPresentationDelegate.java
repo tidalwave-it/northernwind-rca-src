@@ -55,9 +55,6 @@ public class JavaFXContentEditorPresentationDelegate implements ContentEditorPre
     @Inject @Nonnull
     private StackPaneSelector stackPaneSelector;
 
-    @Inject @Nonnull
-    private JavaFXContentEditorPresentation presentation;
-
     @FXML
     private Pane contentEditor;
 
@@ -74,7 +71,6 @@ public class JavaFXContentEditorPresentationDelegate implements ContentEditorPre
       {
         binder.bindColumn(contentEditorProperties, 0, "name");
         binder.bindColumn(contentEditorProperties, 1, "value");
-        presentation.setDelegate(this);
       }
 
     @Override

@@ -27,14 +27,14 @@
  */
 package it.tidalwave.northernwind.rca.ui.impl.javafx;
 
+import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
-import javafx.scene.Node;
-import it.tidalwave.northernwind.rca.ui.structureeditor.StructureEditorPresentation;
-import it.tidalwave.ui.javafx.JavaFXSafeProxyCreator;
 import java.io.IOException;
+import javafx.scene.Node;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
-import javax.annotation.CheckForNull;
+import it.tidalwave.ui.javafx.JavaFXSafeProxyCreator;
+import it.tidalwave.northernwind.rca.ui.structureeditor.StructureEditorPresentation;
 import lombok.Delegate;
 
 /***********************************************************************************************************************
@@ -51,12 +51,6 @@ public class JavaFXStructureEditorPresentation implements StructureEditorPresent
     @Delegate
     private StructureEditorPresentation delegate;
 
-    // Called back by the initialization of JavaFXStructureEditorPresentationHandler
-    public void setDelegate (final @Nonnull JavaFXStructureEditorPresentationDelegate delegate)
-      {
-        this.delegate = JavaFXSafeProxyCreator.createSafeProxy(delegate, StructureEditorPresentation.class);
-      }
-
     @Nonnull
     public Node getNode()
 //      throws IOException FIXME
@@ -67,7 +61,10 @@ public class JavaFXStructureEditorPresentation implements StructureEditorPresent
           {
             try
               {
-                node = FXMLLoader.load(getClass().getResource("StructureEditorPresentation.fxml"));
+                final FXMLLoader loader = new FXMLLoader(getClass().getResource("StructureEditorPresentation.fxml"));
+                node = (Node)loader.load();
+                delegate = JavaFXSafeProxyCreator.createSafeProxy((StructureEditorPresentation)loader.getController(),
+                                                                  StructureEditorPresentation.class);
               }
             catch (IOException e)
               {

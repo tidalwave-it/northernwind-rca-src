@@ -54,9 +54,6 @@ public class JavaFXStructureEditorPresentationDelegate implements StructureEdito
     @Inject @Nonnull
     private StackPaneSelector stackPaneSelector;
 
-    @Inject @Nonnull
-    private JavaFXStructureEditorPresentation presentation;
-
     @FXML
     private Pane structureEditor;
 
@@ -70,7 +67,6 @@ public class JavaFXStructureEditorPresentationDelegate implements StructureEdito
       {
         binder.bindColumn(structureEditorProperties, 0, "name");
         binder.bindColumn(structureEditorProperties, 1, "value");
-        presentation.setDelegate(this);
       }
 
     @Override
