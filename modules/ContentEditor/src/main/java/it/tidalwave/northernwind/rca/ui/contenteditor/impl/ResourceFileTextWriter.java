@@ -30,8 +30,9 @@ package it.tidalwave.northernwind.rca.ui.contenteditor.impl;
 import javax.annotation.Nonnull;
 import java.lang.reflect.Field;
 import java.io.File;
-import java.io.FileWriter;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.io.Writer;
 import org.openide.filesystems.FileUtil;
 import it.tidalwave.northernwind.core.model.ResourceFile;
@@ -67,7 +68,7 @@ public class ResourceFileTextWriter implements TextWriter
             final ResourcePath path = file.getPath().appendedWith(fileName);
             final File f = new File(root, path.asString());
             log.warn("write: {} {}", f.getAbsolutePath(), text);
-            final @Cleanup Writer w = new FileWriter(f);
+            final @Cleanup Writer w = new OutputStreamWriter(new FileOutputStream(f), "UTF-8");
             w.write(text);
             w.close();
           }
