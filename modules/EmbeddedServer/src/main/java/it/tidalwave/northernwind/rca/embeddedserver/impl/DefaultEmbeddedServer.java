@@ -224,12 +224,19 @@ public class DefaultEmbeddedServer extends SpringMessageBusListenerSupport imple
                                         final @Nonnull HttpServletResponse response)
       throws IOException
       {
-        final ResourceFile file = fileSystem.findFileByPath("/content" + uri); // FIXME
+        if (fileSystem == null)
+          {
+            response.setStatus(HttpServletResponse.SC_OK);
+          }
+        else
+          {
+            final ResourceFile file = fileSystem.findFileByPath("/content" + uri); // FIXME
 
-        response.setCharacterEncoding("UTF-8");
-        response.setContentType(file.getMimeType());
-        response.setStatus(HttpServletResponse.SC_OK);
-        response.getWriter().write(file.asText("UTF-8"));
+            response.setCharacterEncoding("UTF-8");
+            response.setContentType(file.getMimeType());
+            response.setStatus(HttpServletResponse.SC_OK);
+            response.getWriter().write(file.asText("UTF-8"));
+          }
       }
 
     /*******************************************************************************************************************
