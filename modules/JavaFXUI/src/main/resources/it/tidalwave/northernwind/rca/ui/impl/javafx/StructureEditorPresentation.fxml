@@ -12,8 +12,8 @@
   <bottom>
     <TableView id="contentEditorProperties" fx:id="structureEditorProperties" prefHeight="200.0" prefWidth="200.0">
       <columns>
-        <TableColumn prefWidth="75.0" text="Column X" />
-        <TableColumn prefWidth="75.0" text="Column X" />
+        <TableColumn editable="false" minWidth="200.0" prefWidth="200.0" text="Name" />
+        <TableColumn minWidth="400.0" prefWidth="400.0" sortable="false" text="Value" />
       </columns>
     </TableView>
   </bottom>

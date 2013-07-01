@@ -27,8 +27,8 @@
     </WebView>
     <TableView fx:id="contentEditorProperties" prefHeight="200.0" prefWidth="200.0" VBox.margin="$x1">
       <columns>
-        <TableColumn prefWidth="75.0" text="Column X" />
-        <TableColumn prefWidth="75.0" text="Column X" />
+        <TableColumn editable="false" minWidth="200.0" prefWidth="200.0" text="Name" />
+        <TableColumn minWidth="400.0" prefWidth="400.0" sortable="false" text="Value" />
       </columns>
     </TableView>
   </children>
