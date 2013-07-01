@@ -16,11 +16,11 @@
         <Label fx:id="lbStatusBar" prefHeight="31.0" prefWidth="346.0" text="Status Bar" />
       </bottom>
       <center>
-        <SplitPane fx:id="pnHorizontalSplit" dividerPositions="0.30" focusTraversable="true" prefHeight="160.0" prefWidth="200.0">
+        <SplitPane fx:id="pnHorizontalSplit" dividerPositions="0.29949874686716793" focusTraversable="true" prefHeight="160.0" prefWidth="200.0">
           <items>
             <AnchorPane minHeight="0.0" minWidth="200.0" prefHeight="160.0" prefWidth="100.0">
               <children>
-                <SplitPane fx:id="pnVerticalSplit" focusTraversable="true" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0" style="-fx-background-color:#ededed;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                <SplitPane fx:id="pnVerticalSplit" focusTraversable="true" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
               </children>
             </AnchorPane>
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" style="-fx-background-color:#ededed;">

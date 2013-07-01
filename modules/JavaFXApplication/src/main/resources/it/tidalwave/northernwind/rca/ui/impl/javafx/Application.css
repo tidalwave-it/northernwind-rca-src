@@ -7,6 +7,25 @@
 
 .tool-bar .button
   {
-    -fx-border-width: 0;
+    -fx-border-width:        0;
     -fx-background-color:    transparent;
   }
+
+/*.table-view .column-header-background,
+.tree-table-view .column-header-background
+  {
+    -fx-background-color:    #ededed;
+  }*/
+
+#pnHorizontalSplit
+  {
+    -fx-border-width:        0;
+    -fx-background-color:    #ededed;
+  }
+
+#pnVerticalSplit
+  {
+    -fx-border-width:        0;
+    -fx-background-color:    #ededed;
+  }
+
