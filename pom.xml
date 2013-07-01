@@ -71,8 +71,8 @@
 
         <tft.embedded-jdk-artifactId>it-tidalwave-oraclejdk7</tft.embedded-jdk-artifactId>
         <tft.embedded-jdk-classifier>macosx-intel</tft.embedded-jdk-classifier>
-        <tft.embedded-jdk-name>jdk1.7.0u17</tft.embedded-jdk-name>
-        <tft.embedded-jdk-version>1.7.0_17-1</tft.embedded-jdk-version>
+        <tft.embedded-jdk-name>jdk1.7.0u25</tft.embedded-jdk-name>
+        <tft.embedded-jdk-version>1.7.0_25-1</tft.embedded-jdk-version>
 
         <netbeans.hint.jdkPlatform>JDK_1.7.0</netbeans.hint.jdkPlatform>
         <netbeans.hint.license>Tidalwave-ASF</netbeans.hint.license>
