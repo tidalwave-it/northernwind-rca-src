@@ -39,6 +39,9 @@ import org.springframework.beans.factory.annotation.Configurable;
 import it.tidalwave.role.ui.PresentationModel;
 import it.tidalwave.role.ui.javafx.JavaFXBinder;
 import it.tidalwave.northernwind.rca.ui.contenteditor.ContentEditorPresentation;
+import javafx.event.EventHandler;
+import javafx.scene.web.WebEvent;
+import lombok.extern.slf4j.Slf4j;
 
 /***********************************************************************************************************************
  *
@@ -46,7 +49,7 @@ import it.tidalwave.northernwind.rca.ui.contenteditor.ContentEditorPresentation;
  * @version $Id$
  *
  **********************************************************************************************************************/
-@Configurable
+@Configurable @Slf4j
 public class JavaFXContentEditorPresentationDelegate implements ContentEditorPresentation
   {
     @Inject @Nonnull
@@ -67,10 +70,21 @@ public class JavaFXContentEditorPresentationDelegate implements ContentEditorPre
     @FXML
     private TextField contentTitle;
 
+    private final EventHandler<WebEvent<String>> clickHijacker = new EventHandler<WebEvent<String>>()
+      {
+        @Override
+        public void handle (final @Nonnull WebEvent<String> event)
+          {
+            log.debug("hijacked click: {}", event);
+          }
+      };
+
     public void initialize()
       {
         binder.bindColumn(contentEditorProperties, 0, "name");
         binder.bindColumn(contentEditorProperties, 1, "value");
+
+        contentWebView.getEngine().setOnAlert(clickHijacker);
       }
 
     @Override
