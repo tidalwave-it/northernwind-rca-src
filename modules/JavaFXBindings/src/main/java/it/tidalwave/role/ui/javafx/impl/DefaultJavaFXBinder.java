@@ -250,6 +250,7 @@ public class DefaultJavaFXBinder implements JavaFXBinder
                                     final @Nonnull BoundProperty<Path> selectedFile,
                                     final @Nonnull Window window)
       {
+        log.debug("openFileChooserFor({}, {}, {})", notification, selectedFile, window);
         assertIsFxApplicationThread();
 
         final FileChooser fileChooser = new FileChooser();
@@ -269,6 +270,7 @@ public class DefaultJavaFXBinder implements JavaFXBinder
                                          final @Nonnull BoundProperty<Path> selectedFolder,
                                          final @Nonnull Window window)
       {
+        log.debug("openDirectoryChooserFor({}, {}, {})", notification, selectedFolder, window);
         assertIsFxApplicationThread();
 
         final DirectoryChooser directoryChooser = new DirectoryChooser();
