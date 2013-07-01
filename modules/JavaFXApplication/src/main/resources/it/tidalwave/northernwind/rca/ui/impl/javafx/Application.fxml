@@ -13,7 +13,7 @@
   <center>
     <BorderPane fx:id="main" prefHeight="600.0" prefWidth="800.0" style="-fx-background-color:#ededed;">
       <bottom>
-        <Label fx:id="lbStatusBar" prefHeight="31.0" prefWidth="346.0" text="Status Bar" />
+        <BorderPane fx:id="pnStatusBar" maxHeight="32.0" minHeight="32.0" prefHeight="32.0" prefWidth="200.0" />
       </bottom>
       <center>
         <SplitPane fx:id="pnHorizontalSplit" dividerPositions="0.29949874686716793" focusTraversable="true" prefHeight="160.0" prefWidth="200.0">

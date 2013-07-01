@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import java.lang.*?>
+<?import java.net.*?>
 <?import java.util.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.*?>
@@ -10,11 +11,18 @@
 
 <VBox id="VBox" alignment="CENTER" spacing="5.0" xmlns:fx="http://javafx.com/fxml" fx:controller="it.tidalwave.northernwind.rca.ui.impl.javafx.JavaFXContentExplorerPresentationDelegate">
   <children>
-    <FlowPane maxHeight="32.0" minHeight="32.0" prefHeight="32.0" prefWidth="200.0" style="-fx-background-color:#ededed;" VBox.vgrow="NEVER">
+    <FlowPane alignment="CENTER_LEFT" maxHeight="32.0" minHeight="32.0" prefHeight="32.0" prefWidth="200.0" styleClass="explorer-toolbar" VBox.margin="$x1" VBox.vgrow="NEVER">
       <children>
-        <Label prefHeight="32.0" prefWidth="86.0" text="Content" />
+        <Label prefHeight="32.0" prefWidth="86.0" text="Content">
+          <FlowPane.margin>
+            <Insets fx:id="x1" />
+          </FlowPane.margin>
+        </Label>
       </children>
     </FlowPane>
-    <TreeView id="trContent" fx:id="tvContent" prefHeight="247.0" prefWidth="325.0" VBox.vgrow="ALWAYS" />
+    <TreeView id="trContent" fx:id="tvContent" prefHeight="247.0" prefWidth="325.0" styleClass="explorer-view" VBox.margin="$x1" VBox.vgrow="ALWAYS" />
   </children>
+  <stylesheets>
+    <URL value="@../../../../../../../../../../../JavaFXApplication/src/main/resources/it/tidalwave/northernwind/rca/ui/impl/javafx/Application.css" />
+  </stylesheets>
 </VBox>
