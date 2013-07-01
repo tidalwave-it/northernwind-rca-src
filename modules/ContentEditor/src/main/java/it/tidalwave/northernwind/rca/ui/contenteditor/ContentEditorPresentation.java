@@ -30,8 +30,10 @@ package it.tidalwave.northernwind.rca.ui.contenteditor;
 import javax.annotation.Nonnull;
 import it.tidalwave.role.ui.BoundProperty;
 import it.tidalwave.role.ui.PresentationModel;
+import it.tidalwave.role.ui.UserAction;
 import it.tidalwave.northernwind.core.model.Content;
 import it.tidalwave.northernwind.core.model.ResourceProperties;
+import lombok.RequiredArgsConstructor;
 
 /***********************************************************************************************************************
  *
@@ -45,8 +47,12 @@ import it.tidalwave.northernwind.core.model.ResourceProperties;
  **********************************************************************************************************************/
 public interface ContentEditorPresentation
   {
+    @RequiredArgsConstructor
     public static class Bindings
       {
+        @Nonnull
+        public final UserAction openExternalEditor;
+
         public final BoundProperty<String> title = new BoundProperty<>("");
       }
 
@@ -66,7 +72,7 @@ public interface ContentEditorPresentation
 
     /*******************************************************************************************************************
      *
-     * 
+     *
      *
      ******************************************************************************************************************/
     public void bind (@Nonnull Bindings bindings);

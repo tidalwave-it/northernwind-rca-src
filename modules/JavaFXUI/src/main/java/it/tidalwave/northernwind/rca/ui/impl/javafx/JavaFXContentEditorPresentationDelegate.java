@@ -31,16 +31,17 @@ import javax.annotation.Nonnull;
 import javax.inject.Inject;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
+import javafx.event.EventHandler;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.web.WebEvent;
 import javafx.scene.web.WebView;
 import javafx.scene.layout.Pane;
 import org.springframework.beans.factory.annotation.Configurable;
 import it.tidalwave.role.ui.PresentationModel;
 import it.tidalwave.role.ui.javafx.JavaFXBinder;
 import it.tidalwave.northernwind.rca.ui.contenteditor.ContentEditorPresentation;
-import javafx.event.EventHandler;
-import javafx.scene.web.WebEvent;
 import lombok.extern.slf4j.Slf4j;
 
 /***********************************************************************************************************************
@@ -70,6 +71,9 @@ public class JavaFXContentEditorPresentationDelegate implements ContentEditorPre
     @FXML
     private TextField contentTitle;
 
+    @FXML
+    private Button btOpenExternalEditor;
+
     private final EventHandler<WebEvent<String>> clickHijacker = new EventHandler<WebEvent<String>>()
       {
         @Override
@@ -91,6 +95,7 @@ public class JavaFXContentEditorPresentationDelegate implements ContentEditorPre
     public void bind (final @Nonnull ContentEditorPresentation.Bindings bindings)
       {
         binder.bindBidirectionally(contentTitle.textProperty(), bindings.title);
+        binder.bind(btOpenExternalEditor, bindings.openExternalEditor);
       }
 
     @Override

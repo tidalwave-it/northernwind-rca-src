@@ -27,6 +27,7 @@
  */
 package it.tidalwave.northernwind.rca.ui.contenteditor.spi;
 
+import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
 import java.beans.PropertyChangeEvent;
@@ -34,6 +35,9 @@ import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import com.google.common.annotations.VisibleForTesting;
 import it.tidalwave.util.Key;
+import it.tidalwave.util.Task;
+import it.tidalwave.role.ui.UserAction;
+import it.tidalwave.role.ui.spi.UserActionSupport;
 import it.tidalwave.messagebus.annotation.ListensTo;
 import it.tidalwave.messagebus.annotation.SimpleMessageSubscriber;
 import it.tidalwave.northernwind.core.model.Content;
@@ -42,7 +46,9 @@ import it.tidalwave.northernwind.rca.embeddedserver.EmbeddedServer;
 import it.tidalwave.northernwind.rca.embeddedserver.EmbeddedServer.Document;
 import it.tidalwave.northernwind.rca.ui.event.ContentSelectedEvent;
 import it.tidalwave.northernwind.rca.ui.contenteditor.ContentEditorPresentation;
+import it.tidalwave.northernwind.rca.ui.contenteditor.ContentEditorPresentation.Bindings;
 import it.tidalwave.northernwind.rca.ui.contenteditor.ContentEditorPresentationControl;
+import it.tidalwave.northernwind.rca.ui.contenteditor.impl.ProcessExecutor;
 import it.tidalwave.northernwind.rca.ui.impl.SpringMessageBusListenerSupport;
 import lombok.extern.slf4j.Slf4j;
 import static it.tidalwave.role.ui.PresentationModelProvider.*;
@@ -70,11 +76,44 @@ public class DefaultContentEditorPresentationControl extends SpringMessageBusLis
     @Inject @Nonnull
     @VisibleForTesting ContentEditorPresentation presentation;
 
-    @VisibleForTesting final ContentEditorPresentation.Bindings bindings = new ContentEditorPresentation.Bindings();
+    @CheckForNull
+    private Content content;
 
     public static final Key<String> PROPERTY_FULL_TEXT = new Key<>("fullText"); // FIXME copied
     public static final Key<String> PROPERTY_TITLE = new Key<>("title"); // FIXME copied
 
+    /*******************************************************************************************************************
+     *
+     ******************************************************************************************************************/
+    private final UserAction openExternalEditor = new UserActionSupport()
+      {
+        @Override
+        public void actionPerformed()
+          {
+            log.info("Opening external editor...");
+            // FIXME
+            final String url = "http://localhost:12345/";
+
+//            ProcessExecutor.forExecutable("Google Chrome.app")
+            ProcessExecutor.forExecutable("Firefox.app")
+                           .withArguments2(url)
+                           .withPostMortemTask(new Task<Void, Exception>()
+                              {
+                                @Override public Void run() throws Exception
+                                  {
+                                    refreshPresentation();
+                                    return null;
+                                  }
+                              })
+                           .execute();
+          }
+      };
+
+    @VisibleForTesting final Bindings bindings = new Bindings(openExternalEditor);
+
+    /*******************************************************************************************************************
+     *
+     ******************************************************************************************************************/
     private final PropertyChangeListener propertyChangeListener = new PropertyChangeListener()
       {
         @Override
@@ -113,13 +152,8 @@ public class DefaultContentEditorPresentationControl extends SpringMessageBusLis
           {
             try
               {
-                final Content content = selectionEvent.getContent();
-                final ResourceProperties properties = content.getProperties();
-                final Document document = documentProxyFactory.createDocumentProxy(content, PROPERTY_FULL_TEXT);
-
-                bindings.title.set(properties.getProperty(PROPERTY_TITLE, ""));
-                presentation.populateDocument(documentServer.putDocument("/", document));
-                presentation.populateProperties(properties.as(PresentationModelProvider).createPresentationModel());
+                content = selectionEvent.getContent();
+                refreshPresentation();
                 presentation.showUp();
               }
             catch (IOException e)
@@ -128,5 +162,21 @@ public class DefaultContentEditorPresentationControl extends SpringMessageBusLis
                 log.warn("", e);
               }
           }
+      }
+
+    /*******************************************************************************************************************
+     *
+     *
+     *
+     ******************************************************************************************************************/
+    private void refreshPresentation()
+      throws IOException
+      {
+        final ResourceProperties properties = content.getProperties();
+        final Document document = documentProxyFactory.createDocumentProxy(content, PROPERTY_FULL_TEXT);
+
+        bindings.title.set(properties.getProperty(PROPERTY_TITLE, ""));
+        presentation.populateDocument(documentServer.putDocument("/", document));
+        presentation.populateProperties(properties.as(PresentationModelProvider).createPresentationModel());
       }
   }
