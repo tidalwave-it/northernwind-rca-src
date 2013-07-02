@@ -25,54 +25,74 @@
  * *********************************************************************************************************************
  * #L%
  */
-package it.tidalwave.northernwind.rca.ui.impl.javafx;
+package it.tidalwave.northernwind.rca.ui.impl.javafx.structureeditor;
 
+import it.tidalwave.northernwind.rca.ui.impl.javafx.StackPaneSelector;
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
-import java.nio.file.Path;
-import javafx.scene.control.Button;
-import it.tidalwave.role.ui.BoundProperty;
-import it.tidalwave.role.ui.UserAction;
-import it.tidalwave.util.ui.UserNotificationWithFeedback;
-import it.tidalwave.role.ui.javafx.JavaFXBinder;
-import it.tidalwave.role.ui.javafx.Widget;
-import it.tidalwave.northernwind.rca.ui.siteopener.SiteOpenerPresentation;
-import javafx.scene.control.MenuItem;
+import javafx.collections.FXCollections;
+import javafx.fxml.FXML;
+import javafx.scene.layout.Pane;
+import javafx.scene.control.TableView;
+import javafx.scene.web.WebView;
 import org.springframework.beans.factory.annotation.Configurable;
+import it.tidalwave.role.ui.PresentationModel;
+import it.tidalwave.role.ui.javafx.JavaFXBinder;
+import it.tidalwave.northernwind.rca.ui.structureeditor.StructureEditorPresentation;
 
 /***********************************************************************************************************************
  *
- * @stereotype Presentation
- *
- * @author  Fabrizio Giudici
+ * @author Fabrizio Giudici
  * @version $Id$
  *
  **********************************************************************************************************************/
 @Configurable
-public class JavaFXSiteOpenerPresentation implements SiteOpenerPresentation
+public class JavaFXStructureEditorPresentationDelegate implements StructureEditorPresentation
   {
     @Inject @Nonnull
     private JavaFXBinder binder;
 
-    @Widget("btOpen")
-    private Button button;
+    @Inject @Nonnull
+    private StackPaneSelector stackPaneSelector;
 
-    @Widget("openSiteMenu")
-    private MenuItem menuItem;
+    @FXML
+    private Pane structureEditor;
 
-    private BoundProperty<Path> folderToOpen;
+    @FXML
+    private WebView structureWebView;
 
-    @Override // FIXME: encapsulate args in Bindings
-    public void bind (final @Nonnull UserAction action, final @Nonnull BoundProperty<Path> folderToOpen)
+    @FXML
+    private TableView<PresentationModel> structureEditorProperties;
+
+    public void initialize()
       {
-        binder.bind(button, action);
-        binder.bind(menuItem, action);
-        this.folderToOpen = folderToOpen;
+        binder.bindColumn(structureEditorProperties, 0, "name");
+        binder.bindColumn(structureEditorProperties, 1, "value");
       }
 
     @Override
-    public void notifyInvitationToSelectAFolder (final @Nonnull UserNotificationWithFeedback notification)
+    public void showUp()
       {
-        binder.openDirectoryChooserFor(notification, folderToOpen, button.getScene().getWindow());
+        stackPaneSelector.setShownNode(structureEditor);
       }
+
+    @Override
+    public void clear()
+      {
+        structureWebView.getEngine().loadContent("");
+        structureEditorProperties.setItems(FXCollections.<PresentationModel>emptyObservableList());
+      }
+
+    @Override
+    public void populate (final @Nonnull String text)
+      {
+        structureWebView.getEngine().loadContent(text);
+      }
+
+    @Override
+    public void populateProperties (final @Nonnull PresentationModel pm)
+      {
+        binder.bind(structureEditorProperties, pm);
+      }
+
   }

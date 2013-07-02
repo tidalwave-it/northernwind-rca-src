@@ -25,41 +25,44 @@
  * *********************************************************************************************************************
  * #L%
  */
-package it.tidalwave.northernwind.rca.ui.impl.javafx;
+package it.tidalwave.northernwind.rca.ui.impl.javafx.contenteditor;
 
+import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
-import javax.inject.Inject;
-import javafx.scene.control.TreeView;
-import javafx.fxml.FXML;
-import org.springframework.beans.factory.annotation.Configurable;
-import it.tidalwave.role.ui.PresentationModel;
-import it.tidalwave.role.ui.javafx.JavaFXBinder;
-import it.tidalwave.northernwind.rca.ui.contentexplorer.ContentExplorerPresentation;
+import java.io.IOException;
+import javafx.scene.Node;
+import javafx.application.Platform;
+import it.tidalwave.northernwind.rca.ui.contenteditor.ContentEditorPresentation;
+import lombok.Delegate;
+import static it.tidalwave.ui.javafx.JavaFXSafeProxyCreator.*;
 
 /***********************************************************************************************************************
  *
- * @author Fabrizio Giudici
+ * @author  Fabrizio Giudici
  * @version $Id$
  *
  **********************************************************************************************************************/
-@Configurable
-public class JavaFXContentExplorerPresentationDelegate implements ContentExplorerPresentation
+public class JavaFXContentEditorPresentation implements ContentEditorPresentation
   {
-    @Inject @Nonnull
-    private JavaFXBinder binder;
+    @CheckForNull
+    private Node node;
 
-    @FXML
-    private TreeView<PresentationModel> tvContent;
+    @Delegate
+    private ContentEditorPresentation delegate;
 
-    @Override
-    public void populate (final @Nonnull PresentationModel pm)
+    @Nonnull
+    public Node getNode()
+      throws IOException
       {
-        binder.bind(tvContent, pm);
-      }
+        assert Platform.isFxApplicationThread();
 
-    @Override
-    public void expandFirstLevel()
-      {
-        tvContent.getRoot().setExpanded(true);
+        if (node == null)
+          {
+            final NodeAndDelegate nad = createNodeAndDelegate(getClass(), "ContentEditorPresentation.fxml");
+            node = nad.getNode();
+            delegate = nad.getDelegate();
+          }
+
+        return node;
       }
   }

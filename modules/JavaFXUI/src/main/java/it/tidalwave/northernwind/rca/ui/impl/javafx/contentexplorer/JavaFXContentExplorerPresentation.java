@@ -25,41 +25,48 @@
  * *********************************************************************************************************************
  * #L%
  */
-package it.tidalwave.northernwind.rca.ui.impl.javafx;
+package it.tidalwave.northernwind.rca.ui.impl.javafx.contentexplorer;
 
+import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
-import javax.inject.Inject;
-import javafx.scene.control.TreeView;
-import javafx.fxml.FXML;
-import org.springframework.beans.factory.annotation.Configurable;
-import it.tidalwave.role.ui.PresentationModel;
-import it.tidalwave.role.ui.javafx.JavaFXBinder;
-import it.tidalwave.northernwind.rca.ui.structureexplorer.StructureExplorerPresentation;
+import java.io.IOException;
+import javafx.scene.Node;
+import javafx.application.Platform;
+import it.tidalwave.northernwind.rca.ui.contentexplorer.ContentExplorerPresentation;
+import lombok.Delegate;
+import static it.tidalwave.ui.javafx.JavaFXSafeProxyCreator.*;
 
 /***********************************************************************************************************************
  *
- * @author Fabrizio Giudici
+ * The JavaFX implementation for {@link ContentExplorerPresentation}.
+ *
+ * @stereotype Presentation
+ *
+ * @author  Fabrizio Giudici
  * @version $Id$
  *
  **********************************************************************************************************************/
-@Configurable
-public class JavaFXStructureExplorerPresentationDelegate implements StructureExplorerPresentation
+public class JavaFXContentExplorerPresentation implements ContentExplorerPresentation
   {
-    @Inject @Nonnull
-    private JavaFXBinder binder;
+    @CheckForNull
+    private Node node;
 
-    @FXML
-    private TreeView<PresentationModel> tvStructure;
+    @Delegate
+    private ContentExplorerPresentation delegate;
 
-    @Override
-    public void populate (final @Nonnull PresentationModel pm)
+    @Nonnull
+    public Node getNode()
+      throws IOException
       {
-        binder.bind(tvStructure, pm);
-      }
+        assert Platform.isFxApplicationThread();
 
-    @Override
-    public void expandFirstLevel()
-      {
-        tvStructure.getRoot().setExpanded(true);
+        if (node == null)
+          {
+            final NodeAndDelegate nad = createNodeAndDelegate(getClass(), "ContentExplorerPresentation.fxml");
+            node = nad.getNode();
+            delegate = nad.getDelegate();
+          }
+
+        return node;
       }
   }

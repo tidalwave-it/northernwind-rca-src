@@ -25,44 +25,54 @@
  * *********************************************************************************************************************
  * #L%
  */
-package it.tidalwave.northernwind.rca.ui.impl.javafx;
+package it.tidalwave.northernwind.rca.ui.impl.javafx.siteopener;
 
-import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
-import java.io.IOException;
-import javafx.scene.Node;
-import javafx.application.Platform;
-import it.tidalwave.northernwind.rca.ui.structureeditor.StructureEditorPresentation;
-import lombok.Delegate;
-import static it.tidalwave.ui.javafx.JavaFXSafeProxyCreator.*;
+import javax.inject.Inject;
+import java.nio.file.Path;
+import javafx.scene.control.Button;
+import it.tidalwave.role.ui.BoundProperty;
+import it.tidalwave.role.ui.UserAction;
+import it.tidalwave.util.ui.UserNotificationWithFeedback;
+import it.tidalwave.role.ui.javafx.JavaFXBinder;
+import it.tidalwave.role.ui.javafx.Widget;
+import it.tidalwave.northernwind.rca.ui.siteopener.SiteOpenerPresentation;
+import javafx.scene.control.MenuItem;
+import org.springframework.beans.factory.annotation.Configurable;
 
 /***********************************************************************************************************************
+ *
+ * @stereotype Presentation
  *
  * @author  Fabrizio Giudici
  * @version $Id$
  *
  **********************************************************************************************************************/
-public class JavaFXStructureEditorPresentation implements StructureEditorPresentation
+@Configurable
+public class JavaFXSiteOpenerPresentation implements SiteOpenerPresentation
   {
-    @CheckForNull
-    private Node node;
+    @Inject @Nonnull
+    private JavaFXBinder binder;
 
-    @Delegate
-    private StructureEditorPresentation delegate;
+    @Widget("btOpen")
+    private Button button;
 
-    @Nonnull
-    public Node getNode()
-      throws IOException
+    @Widget("openSiteMenu")
+    private MenuItem menuItem;
+
+    private BoundProperty<Path> folderToOpen;
+
+    @Override // FIXME: encapsulate args in Bindings
+    public void bind (final @Nonnull UserAction action, final @Nonnull BoundProperty<Path> folderToOpen)
       {
-        assert Platform.isFxApplicationThread();
+        binder.bind(button, action);
+        binder.bind(menuItem, action);
+        this.folderToOpen = folderToOpen;
+      }
 
-        if (node == null)
-          {
-            final NodeAndDelegate nad = createNodeAndDelegate(getClass(), "StructureEditorPresentation.fxml");
-            node = nad.getNode();
-            delegate = nad.getDelegate();
-          }
-
-        return node;
+    @Override
+    public void notifyInvitationToSelectAFolder (final @Nonnull UserNotificationWithFeedback notification)
+      {
+        binder.openDirectoryChooserFor(notification, folderToOpen, button.getScene().getWindow());
       }
   }

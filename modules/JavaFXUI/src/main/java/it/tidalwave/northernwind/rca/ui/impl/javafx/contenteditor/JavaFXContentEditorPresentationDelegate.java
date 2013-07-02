@@ -25,7 +25,7 @@
  * *********************************************************************************************************************
  * #L%
  */
-package it.tidalwave.northernwind.rca.ui.impl.javafx;
+package it.tidalwave.northernwind.rca.ui.impl.javafx.contenteditor;
 
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
@@ -42,6 +42,7 @@ import org.springframework.beans.factory.annotation.Configurable;
 import it.tidalwave.role.ui.PresentationModel;
 import it.tidalwave.role.ui.javafx.JavaFXBinder;
 import it.tidalwave.northernwind.rca.ui.contenteditor.ContentEditorPresentation;
+import it.tidalwave.northernwind.rca.ui.impl.javafx.StackPaneSelector;
 import lombok.extern.slf4j.Slf4j;
 
 /***********************************************************************************************************************

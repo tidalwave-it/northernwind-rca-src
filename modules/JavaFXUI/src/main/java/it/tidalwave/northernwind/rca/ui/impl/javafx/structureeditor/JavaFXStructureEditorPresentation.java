@@ -25,34 +25,30 @@
  * *********************************************************************************************************************
  * #L%
  */
-package it.tidalwave.northernwind.rca.ui.impl.javafx;
+package it.tidalwave.northernwind.rca.ui.impl.javafx.structureeditor;
 
 import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 import java.io.IOException;
 import javafx.scene.Node;
 import javafx.application.Platform;
-import it.tidalwave.northernwind.rca.ui.contentexplorer.ContentExplorerPresentation;
+import it.tidalwave.northernwind.rca.ui.structureeditor.StructureEditorPresentation;
 import lombok.Delegate;
 import static it.tidalwave.ui.javafx.JavaFXSafeProxyCreator.*;
 
 /***********************************************************************************************************************
  *
- * The JavaFX implementation for {@link ContentExplorerPresentation}.
- *
- * @stereotype Presentation
- *
  * @author  Fabrizio Giudici
  * @version $Id$
  *
  **********************************************************************************************************************/
-public class JavaFXContentExplorerPresentation implements ContentExplorerPresentation
+public class JavaFXStructureEditorPresentation implements StructureEditorPresentation
   {
     @CheckForNull
     private Node node;
 
     @Delegate
-    private ContentExplorerPresentation delegate;
+    private StructureEditorPresentation delegate;
 
     @Nonnull
     public Node getNode()
@@ -62,7 +58,7 @@ public class JavaFXContentExplorerPresentation implements ContentExplorerPresent
 
         if (node == null)
           {
-            final NodeAndDelegate nad = createNodeAndDelegate(getClass(), "ContentExplorerPresentation.fxml");
+            final NodeAndDelegate nad = createNodeAndDelegate(getClass(), "StructureEditorPresentation.fxml");
             node = nad.getNode();
             delegate = nad.getDelegate();
           }

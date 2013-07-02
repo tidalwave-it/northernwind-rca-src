@@ -61,12 +61,12 @@
 
     <bean class="it.tidalwave.northernwind.rca.ui.impl.javafx.StackPaneSelector" />
 
-    <bean class="it.tidalwave.northernwind.rca.ui.impl.javafx.JavaFXContentEditorPresentation" />
+    <bean class="it.tidalwave.northernwind.rca.ui.impl.javafx.contenteditor.JavaFXContentEditorPresentation" />
 
-    <bean class="it.tidalwave.northernwind.rca.ui.impl.javafx.JavaFXContentExplorerPresentation" />
+    <bean class="it.tidalwave.northernwind.rca.ui.impl.javafx.contentexplorer.JavaFXContentExplorerPresentation" />
 
-    <bean class="it.tidalwave.northernwind.rca.ui.impl.javafx.JavaFXStructureEditorPresentation" />
+    <bean class="it.tidalwave.northernwind.rca.ui.impl.javafx.structureeditor.JavaFXStructureEditorPresentation" />
 
-    <bean class="it.tidalwave.northernwind.rca.ui.impl.javafx.JavaFXStructureExplorerPresentation" />
+    <bean class="it.tidalwave.northernwind.rca.ui.impl.javafx.structureexplorer.JavaFXStructureExplorerPresentation" />
 
 </beans>
