@@ -92,7 +92,7 @@ public class JavaFXContentEditorPresentationDelegate implements ContentEditorPre
       }
 
     @Override
-    public void bind (final @Nonnull ContentEditorPresentation.Bindings bindings)
+    public void bind (final @Nonnull Bindings bindings)
       {
         binder.bindBidirectionally(contentTitle.textProperty(), bindings.title);
         binder.bind(btOpenExternalEditor, bindings.openExternalEditor);
