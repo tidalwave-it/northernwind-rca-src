@@ -104,9 +104,9 @@ public class ApplicationHandler
     public void initialize()
       throws IOException
       {
-        stackPaneSelector.initialize(stackPane);
-        stackPaneSelector.add(structureEditorPresentation.getNode());
-        stackPaneSelector.add(contentEditorPresentation.getNode());
+        stackPaneSelector.registerArea("editorArea", stackPane);
+        stackPaneSelector.add("editorArea", structureEditorPresentation.getNode());
+        stackPaneSelector.add("editorArea", contentEditorPresentation.getNode());
 
         pnVerticalSplit.getItems().add(structurExplorerPresentation.getNode());
         pnVerticalSplit.getItems().add(contentExplorerPresentation.getNode());

@@ -27,6 +27,9 @@
  */
 package it.tidalwave.northernwind.rca.ui.impl.javafx;
 
+import com.google.common.base.Preconditions;
+import java.util.WeakHashMap;
+import javafx.collections.ObservableList;
 import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 import javafx.scene.Node;
@@ -42,35 +45,54 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class StackPaneSelector
   {
-    @CheckForNull
-    private StackPane stackPane;
+    private final WeakHashMap<String, StackPane> stackPaneMapByArea = new WeakHashMap<>();
 
-    public void initialize (final @Nonnull StackPane stackPane)
+    public void registerArea (final @Nonnull String area, final @Nonnull StackPane stackPane)
       {
-        log.info("initialize()");
-        this.stackPane = stackPane;
+        log.debug("addArea({}, {})", area, stackPane);
+        stackPaneMapByArea.put(area, stackPane);
       }
 
-    public void add (final @Nonnull Node node)
+    public void add (final @Nonnull String area, final @Nonnull Node node)
       {
         node.setVisible(false);
-        stackPane.getChildren().add(node);
+        findStackPaneFor(area).getChildren().add(node);
       }
 
     public void setShownNode (final @Nonnull Node node)
       {
         log.info("setShownNode({})", node);
 
-        if (!stackPane.getChildren().contains(node))
+        for (final StackPane stackPane : stackPaneMapByArea.values())
           {
-            throw new IllegalArgumentException("Not in children: " + node);
+            final ObservableList<Node> children = stackPane.getChildren();
+
+            if (children.contains(node))
+              {
+                for (final Node child : children)
+                  {
+                    child.setVisible(false);
+                  }
+
+                node.setVisible(true); // at last
+                return;
+              }
           }
 
-        for (final Node child : stackPane.getChildren())
+        throw new IllegalArgumentException("Node not in a managed StackPange: " + node);
+
+      }
+
+    @Nonnull
+    private StackPane findStackPaneFor (final @Nonnull String area)
+      {
+        final StackPane stackPane = stackPaneMapByArea.get(area);
+
+        if (stackPane == null)
           {
-            child.setVisible(false);
+            throw new IllegalArgumentException("Area not handled: " + area);
           }
 
-        node.setVisible(true);
+        return stackPane;
       }
  }
