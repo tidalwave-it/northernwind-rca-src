@@ -51,7 +51,7 @@ import static it.tidalwave.role.ui.javafx.impl.JavaFXSafeComponentBuilder.*;
  *
  **********************************************************************************************************************/
 @Configurable @Slf4j
-public class ApplicationHandler
+public class JavaFXApplicationPresentationDelegate
   {
     @Inject @Nonnull
     private SiteOpenerPresentationControl siteOpenerPresentationControl;
