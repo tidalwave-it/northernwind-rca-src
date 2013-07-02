@@ -301,6 +301,7 @@
         <module>ContentEditor</module>
         <module>ContentExplorer</module>
         <module>EmbeddedServer</module>
+        <module>Installers/JavaFX</module>
         <module>Installers/MacOSX</module>
         <module>Installers/MacOSXEmbeddedJRE</module>
         <module>Model</module>

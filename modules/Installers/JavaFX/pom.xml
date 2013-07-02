@@ -1,0 +1,139 @@
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <!-- Don't use the modules pom or it will unpack also common dependencies -->
+    <parent>
+        <groupId>it.tidalwave.northernwind.rca</groupId>
+        <artifactId>northernwind-rca</artifactId>
+        <version>1.1-ALPHA-2-SNAPSHOT</version>
+        <relativePath>../../../pom.xml</relativePath>
+    </parent>
+
+    <groupId>it.tidalwave.northernwind.rca</groupId>
+    <artifactId>zephyr-javafx</artifactId>
+    <packaging>pom</packaging>
+    <version>1.1-ALPHA-2-SNAPSHOT</version>
+    <name>Zephyr - Installer, JavaFX</name>
+    <description>This module creates bundles by using the JavaFX Ant Task .</description>
+
+    <properties>
+        <tft.mainClass>it.tidalwave.northernwind.rca.ui.impl.javafx.Main</tft.mainClass> <!-- FIXME: DRY -->
+        <javafx.version>2.2</javafx.version> <!-- FIXME -->
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>it.tidalwave.northernwind.rca</groupId>
+            <artifactId>it-tidalwave-northernwind-rca-application-javafx</artifactId>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy-dependencies</id>
+                        <phase>package</phase>
+                        <configuration>
+                            <overWriteReleases>false</overWriteReleases>
+                            <overWriteSnapshots>false</overWriteSnapshots>
+                            <overWriteIfNewer>true</overWriteIfNewer>
+                        </configuration>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifestEntries>
+                            <implementation-version>${project.version}</implementation-version>
+                            <JavaFX-Version>${javafx.version}+</JavaFX-Version>
+                            <Main-Class>${tft.mainClass}</Main-Class>
+                            <JavaFX-Application-Class>${tft.mainClass}</JavaFX-Application-Class>
+<!--                            <JavaFX-Class-Path>
+                                myDep1.jar myDep2.jar
+                            </JavaFX-Class-Path> -->
+                             <Class-Path>javafx-${javafx.version}.jar</Class-Path>
+                        </manifestEntries>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <configuration>
+                            <target>
+                                <taskdef name="jfxdeploy"
+                                         classname="com.sun.javafx.tools.ant.DeployFXTask"
+                                         classpathref="maven.plugin.classpath" />
+                                <taskdef name="jfxsignjar"
+                                         classname="com.sun.javafx.tools.ant.FXSignJarTask"
+                                         classpathref="maven.plugin.classpath" />
+                                <jfxdeploy width="1024"
+                                           height="768"
+                                           outdir="${project.build.directory}/deploy"
+                                           outfile="${build.finalName}"
+                                           nativeBundles="all">
+                                    <info title="${project.name}" />
+                                    <application name="${tft.appbundle.name}" mainClass="${tft.mainClass}" />
+                                    <resources>
+                                        <fileset dir="${project.build.directory}" includes="*.jar" />
+                                        <fileset dir="${project.build.directory}/dependency" includes="*.jar" />
+                                    </resources>
+                                    <platform javafx="${javafx.version}+">
+                                        <jvmarg value="-Xms512m" />
+                                        <jvmarg value="-Xmx1024m" />
+                                    </platform>
+                                </jfxdeploy>
+                                <!--
+                                    <jfxsignjar destdir="${project.build.directory}/deploy"
+                                            keyStore="path/to/your/keystore" storePass="yourPass" alias="yourAlias"
+                                            keyPass="keyPass">
+                                            <fileset dir="${project.build.directory}/deploy"
+                                                    includes="*.jar" />
+                                    </jfxsignjar>
+                                -->
+                            </target>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <dependencies>
+                    <dependency>
+                        <groupId>com.oracle</groupId>
+                        <artifactId>javafx</artifactId>
+                        <version>${javafx.version}</version>
+                        <systemPath>${java.home}/lib/jfxrt.jar</systemPath>
+                        <scope>system</scope>
+                    </dependency>
+                    <dependency>
+                        <groupId>com.oracle</groupId>
+                        <artifactId>ant-javafx</artifactId>
+                        <version>${javafx.version}</version>
+                        <systemPath>${java.home}/../lib/ant-javafx.jar</systemPath>
+                        <scope>system</scope>
+                    </dependency>
+                </dependencies>
+            </plugin>
+        </plugins>
+    </build>
+</project>
+
