@@ -59,6 +59,13 @@
 
     <aop:aspectj-autoproxy/>
 
+    <!-- DCI role injector -->
+    <bean id="roleManager"
+          class="it.tidalwave.role.spring.spi.AnnotationSpringRoleManager" />
+
+    <bean id="contextManager"
+         class="it.tidalwave.role.spring.SpringContextManager" />
+
     <!-- MessageBus stuff -->
     <bean id="applicationMessageBusTaskExecutor"
           class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor"
@@ -73,18 +80,6 @@
           class="it.tidalwave.messagebus.impl.spring.SpringMessageBus">
         <property name="taskExecutor" ref="applicationMessageBusTaskExecutor"/>
     </bean>
-
-    <bean class="it.tidalwave.role.ui.javafx.impl.DefaultJavaFXBinder" />
-
-    <bean class="it.tidalwave.northernwind.rca.ui.siteopener.spi.DefaultSiteOpenerPresentationControl" />
-
-    <bean class="it.tidalwave.northernwind.rca.ui.contentexplorer.spi.DefaultContentExplorerPresentationControl" />
-
-    <bean class="it.tidalwave.northernwind.rca.ui.structureexplorer.spi.DefaultStructureExplorerPresentationControl" />
-
-    <bean class="it.tidalwave.northernwind.rca.ui.contenteditor.spi.DefaultContentEditorPresentationControl" />
-
-    <bean class="it.tidalwave.northernwind.rca.ui.structureeditor.spi.DefaultStructureEditorPresentationControl" />
 
     <bean class="it.tidalwave.northernwind.rca.ui.impl.MessageBusAdapterFactory" />
 

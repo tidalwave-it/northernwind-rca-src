@@ -59,9 +59,9 @@
 
     <aop:aspectj-autoproxy/>
 
-    <bean id="modelFactory"
-          class="it.tidalwave.northernwind.model.impl.admin.AdminModelFactory" />
+    <bean class="it.tidalwave.role.ui.javafx.impl.DefaultJavaFXBinder" />
 
-    <bean class="it.tidalwave.northernwind.model.impl.admin.ServletContextSurrogate" />
+    <bean class="it.tidalwave.role.ui.javafx.StackPaneSelector" />
+
 
 </beans>

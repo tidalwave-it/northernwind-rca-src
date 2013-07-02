@@ -27,6 +27,7 @@
  */
 package it.tidalwave.northernwind.rca.ui.impl.javafx;
 
+import it.tidalwave.role.ui.javafx.StackPaneSelector;
 import it.tidalwave.northernwind.rca.ui.impl.javafx.siteopener.JavaFXSiteOpenerPresentation;
 import it.tidalwave.northernwind.rca.ui.impl.javafx.structureexplorer.JavaFXStructureExplorerPresentation;
 import it.tidalwave.northernwind.rca.ui.impl.javafx.structureeditor.JavaFXStructureEditorPresentation;

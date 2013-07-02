@@ -27,7 +27,7 @@
  */
 package it.tidalwave.northernwind.rca.ui.impl.javafx.structureeditor;
 
-import it.tidalwave.northernwind.rca.ui.impl.javafx.StackPaneSelector;
+import it.tidalwave.role.ui.javafx.StackPaneSelector;
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
 import javafx.collections.FXCollections;

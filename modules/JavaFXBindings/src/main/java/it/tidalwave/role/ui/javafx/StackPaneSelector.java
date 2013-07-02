@@ -25,13 +25,11 @@
  * *********************************************************************************************************************
  * #L%
  */
-package it.tidalwave.northernwind.rca.ui.impl.javafx;
+package it.tidalwave.role.ui.javafx;
 
-import com.google.common.base.Preconditions;
+import javax.annotation.Nonnull;
 import java.util.WeakHashMap;
 import javafx.collections.ObservableList;
-import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
 import javafx.scene.Node;
 import javafx.scene.layout.StackPane;
 import lombok.extern.slf4j.Slf4j;
@@ -43,7 +41,7 @@ import lombok.extern.slf4j.Slf4j;
  *
  **********************************************************************************************************************/
 @Slf4j
-public class StackPaneSelector
+public class StackPaneSelector // FIXME: rename, introduce interface
   {
     private final WeakHashMap<String, StackPane> stackPaneMapByArea = new WeakHashMap<>();
 
