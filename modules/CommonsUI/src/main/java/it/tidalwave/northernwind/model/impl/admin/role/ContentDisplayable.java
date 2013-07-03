@@ -39,7 +39,7 @@ import lombok.ToString;
  *
  **********************************************************************************************************************/
 @DciRole(datum = Content.class) @ToString
-public class ContentDisplayable extends ResourceDisplayable
+public class ContentDisplayable extends ResourceDisplayableSupport
   {
     public ContentDisplayable (final @Nonnull Content content)
       {

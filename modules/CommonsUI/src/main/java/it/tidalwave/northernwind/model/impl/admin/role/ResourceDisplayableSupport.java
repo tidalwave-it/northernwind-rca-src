@@ -42,7 +42,7 @@ import lombok.ToString;
  *
  **********************************************************************************************************************/
 @RequiredArgsConstructor @ToString
-public class ResourceDisplayable implements Displayable
+public abstract class ResourceDisplayableSupport implements Displayable
   {
     @Nonnull
     private final Resource resource;
