@@ -41,6 +41,7 @@ import it.tidalwave.messagebus.MessageBusHelper;
 @Configurable(preConstruction = true)
 public class SpringSimpleMessageSubscriberSupport
   {
+    // FIXME: have SimpleMessageSubscriber carry a name of the MessageBus and pass it to the MessageBusHelper
     @Inject @Nonnull
     private MessageBusHelper.Adapter adapter;
 

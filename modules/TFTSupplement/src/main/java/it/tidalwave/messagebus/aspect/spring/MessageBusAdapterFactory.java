@@ -25,20 +25,20 @@
  * *********************************************************************************************************************
  * #L%
  */
-package it.tidalwave.northernwind.rca.ui.impl;
+package it.tidalwave.messagebus.aspect.spring;
 
 import java.lang.reflect.Method;
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
-import javax.inject.Named;
-import javax.inject.Provider;
 import it.tidalwave.messagebus.MessageBus;
 import it.tidalwave.messagebus.MessageBusHelper;
 import it.tidalwave.messagebus.MessageBusHelper.MethodAdapter;
+import javax.annotation.PostConstruct;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 import static lombok.AccessLevel.*;
+import org.springframework.beans.factory.BeanFactory;
 
 /***********************************************************************************************************************
  *
@@ -49,8 +49,13 @@ import static lombok.AccessLevel.*;
 @NoArgsConstructor(access = PRIVATE) @Slf4j
 public class MessageBusAdapterFactory implements MessageBusHelper.Adapter
   {
-    @Inject @Named("applicationMessageBus") @Nonnull
-    protected Provider<MessageBus> messageBus;
+//    @Inject @Named("applicationMessageBus") @Nonnull
+//    protected Provider<MessageBus> messageBus;
+
+    @Inject @Nonnull
+    private BeanFactory beanFactory;
+
+    private MessageBus messageBus;
 
     /*******************************************************************************************************************
      *
@@ -98,14 +103,25 @@ public class MessageBusAdapterFactory implements MessageBusHelper.Adapter
         @Override
         public void subscribe()
           {
-            messageBus.get().subscribe(topic, this);
+            messageBus.subscribe(topic, this);
           }
 
         @Override
         public void unsubscribe()
           {
-            messageBus.get().unsubscribe(this);
+            messageBus.unsubscribe(this);
           }
+      }
+
+    /*******************************************************************************************************************
+     *
+     *
+     *
+     ******************************************************************************************************************/
+    @PostConstruct
+    public void initialize()
+      {
+        messageBus = beanFactory.getBean("applicationMessageBus", MessageBus.class);
       }
 
     /*******************************************************************************************************************
@@ -129,7 +145,7 @@ public class MessageBusAdapterFactory implements MessageBusHelper.Adapter
     @Override
     public void publish (final @Nonnull Object message)
       {
-        messageBus.get().publish(message);
+        messageBus.publish(message);
       }
 
     /*******************************************************************************************************************
@@ -140,6 +156,6 @@ public class MessageBusAdapterFactory implements MessageBusHelper.Adapter
     @Override
     public <Topic> void publish (final @Nonnull Class<Topic> topic, final @Nonnull Topic message)
       {
-        messageBus.get().publish(topic, message);
+        messageBus.publish(topic, message);
       }
   }
