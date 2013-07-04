@@ -63,8 +63,7 @@ public abstract class JavaFXApplicationWithSplash extends Application
         log.info("start({})", stage);
         splash.show();
 
-        final ExecutorService executorService = Executors.newSingleThreadExecutor();
-        executorService.submit(new Runnable()
+        getExecutor().submit(new Runnable()
           {
             @Override
             public void run()
@@ -101,4 +100,10 @@ public abstract class JavaFXApplicationWithSplash extends Application
       throws IOException;
 
     protected abstract void initializeInBackground();
+
+    @Nonnull
+    protected ExecutorService getExecutor()
+      {
+        return Executors.newSingleThreadExecutor();
+      }
   }
