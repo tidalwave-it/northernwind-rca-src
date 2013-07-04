@@ -168,7 +168,7 @@ public class DefaultEmbeddedServer extends SpringMessageBusListenerSupport imple
       {
         try
           {
-            log.info("Starting webserver...");
+            log.info("Stopping webserver...");
             server.stop();
             log.info(">>>> stopped");
           }
