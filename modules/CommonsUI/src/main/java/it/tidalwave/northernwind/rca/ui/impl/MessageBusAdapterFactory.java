@@ -36,6 +36,7 @@ import it.tidalwave.messagebus.MessageBus;
 import it.tidalwave.messagebus.MessageBusHelper;
 import it.tidalwave.messagebus.MessageBusHelper.MethodAdapter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 import static lombok.AccessLevel.*;
 
@@ -56,6 +57,7 @@ public class MessageBusAdapterFactory implements MessageBusHelper.Adapter
      *
      *
      ******************************************************************************************************************/
+    @ToString(of = "method")
     class MessageBusListenerAdapter<Topic> implements MethodAdapter<Topic>, MessageBus.Listener<Topic>
       {
         @Nonnull
