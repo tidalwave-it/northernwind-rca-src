@@ -45,6 +45,11 @@ public class JavaFXSpringApplication extends JavaFXApplicationWithSplash
   {
     private ClassPathXmlApplicationContext applicationContext;
 
+    /*******************************************************************************************************************
+     *
+     *
+     *
+     ******************************************************************************************************************/
     @Override @Nonnull
     protected Parent createParent()
       throws IOException
@@ -52,6 +57,11 @@ public class JavaFXSpringApplication extends JavaFXApplicationWithSplash
         return FXMLLoader.load(getClass().getResource("Application.fxml"));
       }
 
+    /*******************************************************************************************************************
+     *
+     *
+     *
+     ******************************************************************************************************************/
     @Override
     protected void initializeInBackground()
       {

@@ -44,6 +44,11 @@ import lombok.RequiredArgsConstructor;
  **********************************************************************************************************************/
 public class JavaFXSafeProxyCreator
   {
+    /*******************************************************************************************************************
+     *
+     *
+     *
+     ******************************************************************************************************************/
     @RequiredArgsConstructor
     public static class NodeAndDelegate
       {
@@ -59,6 +64,11 @@ public class JavaFXSafeProxyCreator
           }
       }
 
+    /*******************************************************************************************************************
+     *
+     *
+     *
+     ******************************************************************************************************************/
     @Nonnull
     public static <T> NodeAndDelegate createNodeAndDelegate (final @Nonnull Class<?> clazz,
                                                              final @Nonnull String resource)
@@ -73,6 +83,11 @@ public class JavaFXSafeProxyCreator
         return new NodeAndDelegate(node, safeJfxController);
       }
 
+    /*******************************************************************************************************************
+     *
+     *
+     *
+     ******************************************************************************************************************/
     @Nonnull
     public static <T> T createSafeProxy (final @Nonnull T target, final Class<T> interfaceClass)
       {

@@ -49,6 +49,11 @@ public abstract class JavaFXApplicationWithSplash extends Application
   {
     private Splash splash = new Splash(this);
 
+    /*******************************************************************************************************************
+     *
+     * {@inheritDoc}
+     *
+     ******************************************************************************************************************/
     @Override
     public void init()
       {
@@ -56,6 +61,11 @@ public abstract class JavaFXApplicationWithSplash extends Application
         splash.init();
       }
 
+    /*******************************************************************************************************************
+     *
+     * {@inheritDoc}
+     *
+     ******************************************************************************************************************/
     @Override
     public void start (final @Nonnull Stage stage)
       throws Exception
@@ -63,7 +73,7 @@ public abstract class JavaFXApplicationWithSplash extends Application
         log.info("start({})", stage);
         splash.show();
 
-        getExecutor().submit(new Runnable()
+        getExecutor().submit(new Runnable() // FIXME: use JavaFX Worker?
           {
             @Override
             public void run()
@@ -95,12 +105,27 @@ public abstract class JavaFXApplicationWithSplash extends Application
           });
       }
 
+    /*******************************************************************************************************************
+     *
+     *
+     *
+     ******************************************************************************************************************/
     @Nonnull
     protected abstract Parent createParent()
       throws IOException;
 
+    /*******************************************************************************************************************
+     *
+     *
+     *
+     ******************************************************************************************************************/
     protected abstract void initializeInBackground();
 
+    /*******************************************************************************************************************
+     *
+     *
+     *
+     ******************************************************************************************************************/
     @Nonnull
     protected ExecutorService getExecutor()
       {
