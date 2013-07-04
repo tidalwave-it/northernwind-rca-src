@@ -84,9 +84,7 @@ public class Splash
         splashStage = new Stage(StageStyle.UNDECORATED);
         final Scene splashScene = new Scene(splashPane);
         splashStage.setScene(splashScene);
-//        final Rectangle2D bounds = Screen.getPrimary().getBounds();
-//        splashStage.setX(bounds.getMinX() + bounds.getWidth() / 2 - splashPane.getWidth() / 2);
-//        splashStage.setY(bounds.getMinY() + bounds.getHeight() / 2 - splashPane.getHeight() / 2);
+        splashStage.centerOnScreen();
         splashStage.show();
       }
 
@@ -109,7 +107,7 @@ public class Splash
             @Override
             public void handle (final @Nonnull ActionEvent actionEvent)
               {
-                splashStage.hide();
+                splashStage.close();
               }
           });
 
