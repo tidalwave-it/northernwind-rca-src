@@ -31,9 +31,11 @@ import javax.annotation.Nonnull;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.io.IOException;
+import javafx.event.EventHandler;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import javafx.application.Application;
 import javafx.application.Platform;
 import lombok.extern.slf4j.Slf4j;
@@ -93,6 +95,17 @@ public abstract class JavaFXApplicationWithSplash extends Application
 //                            scene.getStylesheets().add(getClass().getResource("/com/aquafx_project/mac_os.css").toExternalForm());
                             stage.setScene(scene);
                             stage.show();
+
+                            stage.setOnCloseRequest(new EventHandler<WindowEvent>()
+                              {
+                                @Override
+                                public void handle (final @Nonnull WindowEvent event)
+                                  {
+                                    log.info("handle({})", event);
+                                    onClosing();
+                                  }
+                              });
+
                             splash.dismiss();
                           }
                         catch (IOException e)
@@ -120,6 +133,15 @@ public abstract class JavaFXApplicationWithSplash extends Application
      *
      ******************************************************************************************************************/
     protected abstract void initializeInBackground();
+
+    /*******************************************************************************************************************
+     *
+     * Invoked when the main {@link Stage} is being closed.
+     *
+     ******************************************************************************************************************/
+    protected void onClosing()
+      {
+      }
 
     /*******************************************************************************************************************
      *

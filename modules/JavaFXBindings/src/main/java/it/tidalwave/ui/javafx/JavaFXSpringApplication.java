@@ -68,10 +68,22 @@ public class JavaFXSpringApplication extends JavaFXApplicationWithSplash
         try
           {
             applicationContext = new ClassPathXmlApplicationContext("classpath*:/META-INF/*AutoBeans.xml");
+            applicationContext.registerShutdownHook(); // this actually seems not working, onClosing() does
           }
         catch (Throwable t)
           {
             log.error("", t);
           }
+      }
+
+    /*******************************************************************************************************************
+     *
+     *
+     *
+     ******************************************************************************************************************/
+    @Override
+    protected void onClosing()
+      {
+        applicationContext.close();
       }
   }
