@@ -46,11 +46,11 @@ import com.google.common.io.ByteStreams;
 import org.springframework.core.io.ClassPathResource;
 import org.eclipse.jetty.server.Server;
 import it.tidalwave.messagebus.annotation.ListensTo;
+import it.tidalwave.messagebus.annotation.SimpleMessageSubscriber;
 import it.tidalwave.northernwind.core.model.ResourceFile;
 import it.tidalwave.northernwind.core.model.ResourceFileSystem;
 import it.tidalwave.northernwind.rca.embeddedserver.EmbeddedServer;
 import it.tidalwave.northernwind.rca.ui.event.OpenSiteEvent;
-import it.tidalwave.northernwind.rca.ui.impl.SpringMessageBusListenerSupport;
 import lombok.Cleanup;
 import lombok.Getter;
 import lombok.Setter;
@@ -62,8 +62,8 @@ import lombok.extern.slf4j.Slf4j;
  * @version $Id$
  *
  **********************************************************************************************************************/
-@Slf4j
-public class DefaultEmbeddedServer extends SpringMessageBusListenerSupport implements EmbeddedServer
+@SimpleMessageSubscriber @Slf4j
+public class DefaultEmbeddedServer implements EmbeddedServer
   {
     @Inject @Nonnull
     private ServletContext mimeResolver; // FIXME: replace with MimeResolver

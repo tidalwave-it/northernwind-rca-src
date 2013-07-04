@@ -35,7 +35,6 @@ import it.tidalwave.messagebus.annotation.SimpleMessageSubscriber;
 import it.tidalwave.northernwind.core.model.ResourceProperties;
 import it.tidalwave.northernwind.core.model.SiteNode;
 import it.tidalwave.northernwind.rca.ui.event.SiteNodeSelectedEvent;
-import it.tidalwave.northernwind.rca.ui.impl.SpringMessageBusListenerSupport;
 import it.tidalwave.northernwind.rca.ui.structureeditor.StructureEditorPresentation;
 import it.tidalwave.northernwind.rca.ui.structureeditor.StructureEditorPresentationControl;
 import lombok.extern.slf4j.Slf4j;
@@ -48,8 +47,7 @@ import static it.tidalwave.role.ui.PresentationModelProvider.PresentationModelPr
  *
  **********************************************************************************************************************/
 @SimpleMessageSubscriber @Slf4j
-public class DefaultStructureEditorPresentationControl extends SpringMessageBusListenerSupport
-                                                       implements StructureEditorPresentationControl
+public class DefaultStructureEditorPresentationControl implements StructureEditorPresentationControl
   {
     @Inject @Nonnull
     @VisibleForTesting StructureEditorPresentation presentation;

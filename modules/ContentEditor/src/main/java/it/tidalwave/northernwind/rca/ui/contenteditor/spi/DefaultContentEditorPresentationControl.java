@@ -49,7 +49,6 @@ import it.tidalwave.northernwind.rca.ui.contenteditor.ContentEditorPresentation;
 import it.tidalwave.northernwind.rca.ui.contenteditor.ContentEditorPresentation.Bindings;
 import it.tidalwave.northernwind.rca.ui.contenteditor.ContentEditorPresentationControl;
 import it.tidalwave.northernwind.rca.ui.contenteditor.impl.ProcessExecutor;
-import it.tidalwave.northernwind.rca.ui.impl.SpringMessageBusListenerSupport;
 import lombok.extern.slf4j.Slf4j;
 import static it.tidalwave.role.ui.PresentationModelProvider.*;
 
@@ -64,8 +63,7 @@ import static it.tidalwave.role.ui.PresentationModelProvider.*;
  *
  **********************************************************************************************************************/
 @SimpleMessageSubscriber @Slf4j
-public class DefaultContentEditorPresentationControl extends SpringMessageBusListenerSupport
-                                                     implements ContentEditorPresentationControl
+public class DefaultContentEditorPresentationControl implements ContentEditorPresentationControl
   {
     @Inject @Nonnull
     @VisibleForTesting EmbeddedServer documentServer;

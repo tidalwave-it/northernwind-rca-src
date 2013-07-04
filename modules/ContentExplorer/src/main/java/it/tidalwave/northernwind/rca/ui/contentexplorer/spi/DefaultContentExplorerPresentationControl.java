@@ -44,7 +44,6 @@ import it.tidalwave.northernwind.rca.ui.event.ContentSelectedEvent;
 import it.tidalwave.northernwind.rca.ui.contentexplorer.ContentExplorerPresentation;
 import it.tidalwave.northernwind.rca.ui.contentexplorer.ContentExplorerPresentationControl;
 import it.tidalwave.northernwind.rca.ui.event.OpenSiteEvent;
-import it.tidalwave.northernwind.rca.ui.impl.SpringMessageBusListenerSupport;
 import lombok.extern.slf4j.Slf4j;
 
 /***********************************************************************************************************************
@@ -58,8 +57,7 @@ import lombok.extern.slf4j.Slf4j;
  *
  **********************************************************************************************************************/
 @SimpleMessageSubscriber @Slf4j
-public class DefaultContentExplorerPresentationControl extends SpringMessageBusListenerSupport
-                                                       implements ContentExplorerPresentationControl
+public class DefaultContentExplorerPresentationControl implements ContentExplorerPresentationControl
   {
     @Inject @Named("applicationMessageBus") @Nonnull
     protected MessageBus messageBus;

@@ -44,7 +44,6 @@ import it.tidalwave.northernwind.core.model.ResourceFile;
 import it.tidalwave.northernwind.model.impl.admin.AdminSiteNode;
 import it.tidalwave.northernwind.rca.ui.event.OpenSiteEvent;
 import it.tidalwave.northernwind.rca.ui.event.SiteNodeSelectedEvent;
-import it.tidalwave.northernwind.rca.ui.impl.SpringMessageBusListenerSupport;
 import it.tidalwave.northernwind.rca.ui.structureexplorer.StructureExplorerPresentation;
 import it.tidalwave.northernwind.rca.ui.structureexplorer.StructureExplorerPresentationControl;
 import lombok.extern.slf4j.Slf4j;
@@ -59,7 +58,7 @@ import lombok.extern.slf4j.Slf4j;
  *
  **********************************************************************************************************************/
 @SimpleMessageSubscriber @Slf4j
-public class DefaultStructureExplorerPresentationControl extends SpringMessageBusListenerSupport implements StructureExplorerPresentationControl
+public class DefaultStructureExplorerPresentationControl implements StructureExplorerPresentationControl
   {
     @Inject @Nonnull
     private ModelFactory modelFactory;

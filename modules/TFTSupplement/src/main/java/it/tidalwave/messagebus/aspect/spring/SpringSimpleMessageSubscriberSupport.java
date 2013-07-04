@@ -25,43 +25,39 @@
  * *********************************************************************************************************************
  * #L%
  */
-package it.tidalwave.northernwind.rca.ui.impl;
+package it.tidalwave.messagebus.aspect.spring;
 
 import javax.annotation.Nonnull;
-import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
 import javax.inject.Inject;
+import org.springframework.beans.factory.annotation.Configurable;
 import it.tidalwave.messagebus.MessageBusHelper;
-import lombok.extern.slf4j.Slf4j;
 
 /***********************************************************************************************************************
- *
- * FIXME: replace this with an aspect.
  *
  * @author  Fabrizio Giudici
  * @version $Id$
  *
  **********************************************************************************************************************/
-@Slf4j
-public abstract class SpringMessageBusListenerSupport
+@Configurable(preConstruction = true)
+public class SpringSimpleMessageSubscriberSupport
   {
     @Inject @Nonnull
     private MessageBusHelper.Adapter adapter;
 
-    private MessageBusHelper busHelper;
+    private final MessageBusHelper busHelper;
 
-    @PostConstruct
+    public SpringSimpleMessageSubscriberSupport (final @Nonnull Object bean)
+      {
+        busHelper = new MessageBusHelper(bean, adapter);
+      }
+
     public void subscribeAll()
       {
-        busHelper = new MessageBusHelper(this, adapter);
-        log.debug("subscribeAll() for {}", getClass());
         busHelper.subscribeAll();
       }
 
-    @PreDestroy
     public void unsubscribeAll()
       {
-        log.debug("unsubscribeAll() for {}", getClass());
         busHelper.unsubscribeAll();
       }
   }

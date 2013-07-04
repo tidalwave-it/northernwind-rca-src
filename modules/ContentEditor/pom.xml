@@ -69,7 +69,7 @@
             <groupId>it.tidalwave.northernwind</groupId>
             <artifactId>it-tidalwave-northernwind-core</artifactId>
         </dependency>
-        
+
         <dependency>
             <groupId>it.tidalwave.thesefoolishthings</groupId>
             <artifactId>it-tidalwave-messagebus-spring</artifactId>
@@ -80,4 +80,26 @@
             <artifactId>it-tidalwave-util-supplement</artifactId>
         </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>aspectj-maven-plugin</artifactId>
+                <configuration>
+                    <aspectLibraries>
+<!--                        <dependency>
+                            <groupId>org.springframework</groupId>
+                            <artifactId>spring-aspects</artifactId>
+                        </dependency>-->
+                        <dependency>
+                            <groupId>it.tidalwave.northernwind.rca</groupId>
+                            <artifactId>it-tidalwave-util-supplement</artifactId>
+                        </dependency>
+                    </aspectLibraries>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
 </project>
