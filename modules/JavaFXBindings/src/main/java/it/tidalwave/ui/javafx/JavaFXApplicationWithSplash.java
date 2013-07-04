@@ -27,8 +27,6 @@
  */
 package it.tidalwave.ui.javafx;
 
-import com.aquafx_project.AquaFx;
-import com.aquafx_project.controls.skin.AquaSkin;
 import javax.annotation.Nonnull;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
