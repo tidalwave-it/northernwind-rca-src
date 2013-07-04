@@ -73,6 +73,5 @@
     <bean class="org.mockito.Mockito" factory-method="mock">
         <constructor-arg value="javax.servlet.ServletContext" />
     </bean>
-    <!--<bean class="it.tidalwave.northernwind.model.impl.admin.ServletContextSurrogate" />-->
 
 </beans>
