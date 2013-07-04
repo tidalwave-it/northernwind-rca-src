@@ -47,6 +47,7 @@ import static org.mockito.Mockito.any;
 import static it.tidalwave.northernwind.rca.ui.contenteditor.spi.DefaultContentEditorPresentationControl.*;
 import it.tidalwave.util.Key;
 import javax.annotation.Nonnull;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /***********************************************************************************************************************
  *
@@ -56,6 +57,8 @@ import javax.annotation.Nonnull;
  **********************************************************************************************************************/
 public class DefaultContentEditorPresentationControlTest
   {
+    private ClassPathXmlApplicationContext context;
+
     private DefaultContentEditorPresentationControl fixture;
 
     private ContentEditorPresentation presentation;
@@ -80,38 +83,22 @@ public class DefaultContentEditorPresentationControlTest
     @BeforeMethod
     public void setupFixture()
       {
-        fixture = new DefaultContentEditorPresentationControl();
-        presentation = mock(ContentEditorPresentation.class);
+        context = new ClassPathXmlApplicationContext("DefaultContentEditorPresentationControlTestBeans.xml");
+        fixture = context.getBean(DefaultContentEditorPresentationControl.class);
+        embeddedServer = context.getBean(EmbeddedServer.class);
+        presentation = context.getBean(ContentEditorPresentation.class);
+        documentProxyFactory = context.getBean(DocumentProxyFactory.class);
+
         content = mock(AdminContent.class);
         properties = mock(ResourceProperties.class);
         pmProvider = mock(PresentationModelProvider.class);
         pm = mock(PresentationModel.class);
-        embeddedServer = mock(EmbeddedServer.class);
-        documentProxyFactory = mock(DocumentProxyFactory.class);
-
-        documentProxyFactory = spy(new DocumentProxyFactory()
-          {
-            @Override @Nonnull
-            public Document createDocumentProxy (final @Nonnull Content content,
-                                                 final @Nonnull Key<String> propertyName)
-              {
-                try
-                  {
-                    return new Document().withMimeType("text/html")
-                                         .withContent("proxy for: " + content.getProperties().getProperty(propertyName, ""));
-                  }
-                catch (IOException e)
-                  {
-                    throw new RuntimeException(e); // never occurs
-                  }
-              }
-          });
 
         when(embeddedServer.putDocument(anyString(), any(Document.class))).thenReturn(registeredUrl);
 
-        fixture.documentServer = embeddedServer; // FIXME: use Spring
-        fixture.documentProxyFactory = documentProxyFactory;
-        fixture.presentation = presentation;
+//        fixture.documentServer = embeddedServer; // FIXME: use Spring
+//        fixture.documentProxyFactory = documentProxyFactory;
+//        fixture.presentation = presentation;
 
         when(content.getProperties()).thenReturn(properties);
         when(pmProvider.createPresentationModel(anyVararg())).thenReturn(pm);

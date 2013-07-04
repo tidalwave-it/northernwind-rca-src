@@ -66,13 +66,13 @@ import static it.tidalwave.role.ui.PresentationModelProvider.*;
 public class DefaultContentEditorPresentationControl implements ContentEditorPresentationControl
   {
     @Inject @Nonnull
-    @VisibleForTesting EmbeddedServer documentServer;
+    private EmbeddedServer documentServer;
 
     @Inject @Nonnull
-    @VisibleForTesting DocumentProxyFactory documentProxyFactory;
+    private DocumentProxyFactory documentProxyFactory;
 
     @Inject @Nonnull
-    @VisibleForTesting ContentEditorPresentation presentation;
+    private ContentEditorPresentation presentation;
 
     @CheckForNull
     private Content content;

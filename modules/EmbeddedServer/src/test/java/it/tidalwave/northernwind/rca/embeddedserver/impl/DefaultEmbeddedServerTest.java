@@ -34,6 +34,7 @@ import java.net.MalformedURLException;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import it.tidalwave.northernwind.rca.embeddedserver.EmbeddedServer.Document;
 import lombok.extern.slf4j.Slf4j;
 import org.testng.annotations.AfterMethod;
@@ -51,6 +52,8 @@ import static org.hamcrest.CoreMatchers.*;
 @Slf4j
 public class DefaultEmbeddedServerTest
   {
+    private ClassPathXmlApplicationContext context;
+
     private DefaultEmbeddedServer fixture;
 
     /*******************************************************************************************************************
@@ -59,7 +62,8 @@ public class DefaultEmbeddedServerTest
     @BeforeMethod
     public void setupFixture()
       {
-        fixture = new DefaultEmbeddedServer();
+        context = new ClassPathXmlApplicationContext("DefaultEmbeddedServerTestBeans.xml");
+        fixture = context.getBean(DefaultEmbeddedServer.class);
       }
 
     /*******************************************************************************************************************
