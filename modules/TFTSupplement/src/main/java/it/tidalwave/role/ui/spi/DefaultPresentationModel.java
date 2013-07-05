@@ -28,14 +28,15 @@
 package it.tidalwave.role.ui.spi;
 
 import javax.annotation.Nonnull;
-import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import it.tidalwave.util.As;
 import it.tidalwave.util.AsException;
-import it.tidalwave.role.ui.PresentationModel;
 import it.tidalwave.util.RoleFactory;
-import java.util.ArrayList;
+import it.tidalwave.role.ui.PresentationModel;
+import lombok.Delegate;
 import lombok.ToString;
 
 /***********************************************************************************************************************
@@ -53,56 +54,14 @@ public class DefaultPresentationModel implements PresentationModel
     @Nonnull
     private final List<Object> roles;
 
+    @Delegate
+    private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
+
     public DefaultPresentationModel (final @Nonnull Object datum,
                                      final @Nonnull Object ... rolesOrFactories)
       {
         this.datum = datum;
         this.roles = resolveRoles(Arrays.asList(rolesOrFactories));
-      }
-
-    // FIXME: implement unsupported methods by delegation
-    @Override
-    public void addPropertyChangeListener (final @Nonnull PropertyChangeListener listener)
-      {
-        throw new UnsupportedOperationException("Not supported yet.");
-      }
-
-    @Override
-    public void addPropertyChangeListener (final @Nonnull String propertyName,
-                                           final @Nonnull PropertyChangeListener listener)
-      {
-        throw new UnsupportedOperationException("Not supported yet.");
-      }
-
-    @Override
-    public void removePropertyChangeListener (final @Nonnull PropertyChangeListener listener)
-      {
-        throw new UnsupportedOperationException("Not supported yet.");
-      }
-
-    @Override
-    public void removePropertyChangeListener (final @Nonnull String propertyName,
-                                              final @Nonnull PropertyChangeListener listener)
-      {
-        throw new UnsupportedOperationException("Not supported yet.");
-      }
-
-    @Override
-    public boolean hasListeners(String propertyName)
-      {
-        throw new UnsupportedOperationException("Not supported yet.");
-      }
-
-    @Override
-    public PropertyChangeListener[] getPropertyChangeListeners()
-      {
-        throw new UnsupportedOperationException("Not supported yet.");
-      }
-
-    @Override
-    public PropertyChangeListener[] getPropertyChangeListeners (final @Nonnull String propertyName)
-      {
-        throw new UnsupportedOperationException("Not supported yet.");
       }
 
     @Override
