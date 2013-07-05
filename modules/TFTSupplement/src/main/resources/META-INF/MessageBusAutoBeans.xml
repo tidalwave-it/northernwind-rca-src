@@ -59,6 +59,4 @@
 
     <aop:aspectj-autoproxy/>
 
-    <bean class="it.tidalwave.messagebus.aspect.spring.MessageBusAdapterFactory" />
-
 </beans>

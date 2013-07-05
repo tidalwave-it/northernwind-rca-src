@@ -29,16 +29,12 @@ package it.tidalwave.messagebus.aspect.spring;
 
 import java.lang.reflect.Method;
 import javax.annotation.Nonnull;
-import javax.inject.Inject;
 import it.tidalwave.messagebus.MessageBus;
 import it.tidalwave.messagebus.MessageBusHelper;
 import it.tidalwave.messagebus.MessageBusHelper.MethodAdapter;
-import javax.annotation.PostConstruct;
-import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
-import static lombok.AccessLevel.*;
-import org.springframework.beans.factory.BeanFactory;
+import lombok.RequiredArgsConstructor;
 
 /***********************************************************************************************************************
  *
@@ -46,16 +42,11 @@ import org.springframework.beans.factory.BeanFactory;
  * @version $Id$
  *
  **********************************************************************************************************************/
-@NoArgsConstructor(access = PRIVATE) @Slf4j
+@RequiredArgsConstructor @Slf4j
 public class MessageBusAdapterFactory implements MessageBusHelper.Adapter
   {
-//    @Inject @Named("applicationMessageBus") @Nonnull
-//    protected Provider<MessageBus> messageBus;
-
-    @Inject @Nonnull
-    private BeanFactory beanFactory;
-
-    private MessageBus messageBus;
+    @Nonnull
+    private final MessageBus messageBus;
 
     /*******************************************************************************************************************
      *
@@ -111,17 +102,6 @@ public class MessageBusAdapterFactory implements MessageBusHelper.Adapter
           {
             messageBus.unsubscribe(this);
           }
-      }
-
-    /*******************************************************************************************************************
-     *
-     *
-     *
-     ******************************************************************************************************************/
-    @PostConstruct
-    public void initialize()
-      {
-        messageBus = beanFactory.getBean("applicationMessageBus", MessageBus.class);
       }
 
     /*******************************************************************************************************************

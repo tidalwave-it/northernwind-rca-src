@@ -31,7 +31,10 @@
     </dependencies>
 
     <build>
-        <plugins>
+        <!-- FIXME: the javafx plugin doesn't expand ${buildNumber} -->
+        <finalName>${project.artifactId}-${project.version}</finalName>
+
+<!--        <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-antrun-plugin</artifactId>
@@ -66,7 +69,7 @@
                     </execution>
                 </executions>
             </plugin>
-        </plugins>
+        </plugins>-->
     </build>
 </project>
 

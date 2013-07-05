@@ -31,6 +31,8 @@ import javax.annotation.Nonnull;
 import javax.inject.Inject;
 import org.springframework.beans.factory.annotation.Configurable;
 import it.tidalwave.messagebus.MessageBusHelper;
+import it.tidalwave.messagebus.MessageBus;
+import org.springframework.beans.factory.BeanFactory;
 
 /***********************************************************************************************************************
  *
@@ -41,15 +43,16 @@ import it.tidalwave.messagebus.MessageBusHelper;
 @Configurable(preConstruction = true)
 public class SpringSimpleMessageSubscriberSupport
   {
-    // FIXME: have SimpleMessageSubscriber carry a name of the MessageBus and pass it to the MessageBusHelper
     @Inject @Nonnull
-    private MessageBusHelper.Adapter adapter;
+    private BeanFactory beanFactory;
 
     private final MessageBusHelper busHelper;
 
     public SpringSimpleMessageSubscriberSupport (final @Nonnull Object bean)
       {
-        busHelper = new MessageBusHelper(bean, adapter);
+    // TODO: have SimpleMessageSubscriber carry a name of the MessageBus and pass it to the MessageBusHelper
+        final MessageBus messageBus = beanFactory.getBean("applicationMessageBus", MessageBus.class);
+        busHelper = new MessageBusHelper(bean, new MessageBusAdapterFactory(messageBus));
       }
 
     public void subscribeAll()

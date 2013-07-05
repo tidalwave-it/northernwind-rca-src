@@ -63,10 +63,7 @@
           class="it.tidalwave.northernwind.rca.embeddedserver.impl.DefaultEmbeddedServer"
           lazy-init="true" /> <!-- To solve Mockito + Spring problems -->
 
-    <bean class="it.tidalwave.messagebus.aspect.spring.MessageBusAdapterFactory" />
-
-    <bean id="applicationMessageBus"
-          class="org.mockito.Mockito" factory-method="mock">
+    <bean id="applicationMessageBus" class="org.mockito.Mockito" factory-method="mock">
         <constructor-arg value="it.tidalwave.messagebus.MessageBus" />
     </bean>
 

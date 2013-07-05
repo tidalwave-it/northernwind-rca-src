@@ -48,15 +48,11 @@
           lazy-init="true">
     </bean>
 
-    <bean class="it.tidalwave.messagebus.aspect.spring.MessageBusAdapterFactory" />
-
     <bean class="org.mockito.Mockito" factory-method="mock">
         <constructor-arg value="it.tidalwave.northernwind.rca.ui.siteopener.SiteOpenerPresentation" />
     </bean>
 
-    <bean id="applicationMessageBus"
-          class="org.mockito.Mockito"
-          factory-method="mock">
+    <bean id="applicationMessageBus" class="org.mockito.Mockito" factory-method="mock">
         <constructor-arg value="it.tidalwave.messagebus.MessageBus" />
     </bean>
 
