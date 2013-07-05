@@ -27,24 +27,12 @@
  */
 package it.tidalwave.messagebus.aspect.spring;
 
-import javax.annotation.Nonnull;
-import it.tidalwave.messagebus.annotation.ListensTo;
-import it.tidalwave.messagebus.annotation.SimpleMessageSubscriber;
-
 /***********************************************************************************************************************
  *
  * @author  Fabrizio Giudici
  * @version $Id$
  *
  **********************************************************************************************************************/
-@SimpleMessageSubscriber
-public class MockSubscriber
+public class MockEvent1
   {
-    void onMockEvent1 (final @Nonnull @ListensTo MockEvent1 event)
-      {
-      }
-
-    void onMockEvent2 (final @Nonnull @ListensTo MockEvent2 event)
-      {
-      }
   }

@@ -33,6 +33,6 @@ package it.tidalwave.messagebus.aspect.spring;
  * @version $Id$
  *
  **********************************************************************************************************************/
-public class MockEvent
+public class MockEvent2
   {
   }

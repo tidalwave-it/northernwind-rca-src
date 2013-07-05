@@ -65,14 +65,17 @@ public class SpringSimpleMessageSubscriberAspectTest
     public void must_subscribe()
       throws Exception
       {
-        assertThat(subscriber, is(instanceOf(InitializingBean.class)));
-
         reset(messageBus);
 
+        assertThat(subscriber, is(instanceOf(InitializingBean.class)));
         ((InitializingBean)subscriber).afterPropertiesSet();
-        verify(messageBus).subscribe(eq(MockEvent.class), argThat(listenerAdapter().withMethodName("onMockEvent")
+
+        verify(messageBus).subscribe(eq(MockEvent1.class), argThat(listenerAdapter().withMethodName("onMockEvent1")
                                                                                     .withOwner(subscriber)
-                                                                                    .withTopic(MockEvent.class)));
+                                                                                    .withTopic(MockEvent1.class)));
+        verify(messageBus).subscribe(eq(MockEvent2.class), argThat(listenerAdapter().withMethodName("onMockEvent2")
+                                                                                    .withOwner(subscriber)
+                                                                                    .withTopic(MockEvent2.class)));
         verifyNoMoreInteractions(messageBus);
       }
 
@@ -80,14 +83,17 @@ public class SpringSimpleMessageSubscriberAspectTest
     public void must_unsubscribe()
       throws Exception
       {
-        assertThat(subscriber, is(instanceOf(DisposableBean.class)));
-
         reset(messageBus);
 
+        assertThat(subscriber, is(instanceOf(DisposableBean.class)));
         ((DisposableBean)subscriber).destroy();
-        verify(messageBus).unsubscribe(argThat(listenerAdapter().withMethodName("onMockEvent")
+        
+        verify(messageBus).unsubscribe(argThat(listenerAdapter().withMethodName("onMockEvent1")
                                                                 .withOwner(subscriber)
-                                                                .withTopic(MockEvent.class)));
+                                                                .withTopic(MockEvent1.class)));
+        verify(messageBus).unsubscribe(argThat(listenerAdapter().withMethodName("onMockEvent2")
+                                                                .withOwner(subscriber)
+                                                                .withTopic(MockEvent2.class)));
         verifyNoMoreInteractions(messageBus);
       }
   }
