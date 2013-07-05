@@ -56,6 +56,8 @@ public class DefaultEmbeddedServerTest
 
     private DefaultEmbeddedServer fixture;
 
+    private DefaultEmbeddedServer nonSpringFixture;
+
     /*******************************************************************************************************************
      *
      ******************************************************************************************************************/
@@ -64,6 +66,8 @@ public class DefaultEmbeddedServerTest
       {
         context = new ClassPathXmlApplicationContext("DefaultEmbeddedServerTestBeans.xml");
         fixture = context.getBean(DefaultEmbeddedServer.class);
+        nonSpringFixture = new DefaultEmbeddedServer();
+        nonSpringFixture.setPort(12346); // don't clash with the other fixture
       }
 
     /*******************************************************************************************************************
@@ -73,10 +77,12 @@ public class DefaultEmbeddedServerTest
     public void shutDown()
       throws Exception
       {
-        if (fixture.server != null)
+        context.destroy();
+
+        if (nonSpringFixture.server != null)
           {
             log.info(">>>> shutting down server...");
-            fixture.server.stop();
+            nonSpringFixture.server.stop();
           }
       }
 
@@ -87,10 +93,10 @@ public class DefaultEmbeddedServerTest
     public void start_must_properly_boot_the_webserver()
       throws InterruptedException
       {
-        fixture.start();
+        nonSpringFixture.start();
 
-        assertThat(fixture.server, is(not(nullValue())));
-        assertThat(fixture.server.isStarted(), is(true));
+        assertThat(nonSpringFixture.server, is(not(nullValue())));
+        assertThat(nonSpringFixture.server.isStarted(), is(true));
       }
 
     /*******************************************************************************************************************
@@ -100,12 +106,12 @@ public class DefaultEmbeddedServerTest
     public void stop_must_properly_shut_the_webserver_down()
       throws InterruptedException
       {
-        fixture.start();
+        nonSpringFixture.start();
         Thread.sleep(2000);
-        fixture.stop();
+        nonSpringFixture.stop();
 
-        assertThat(fixture.server, is(not(nullValue())));
-        assertThat(fixture.server.isStopped(), is(true));
+        assertThat(nonSpringFixture.server, is(not(nullValue())));
+        assertThat(nonSpringFixture.server.isStopped(), is(true));
       }
 
     /*******************************************************************************************************************
@@ -115,7 +121,6 @@ public class DefaultEmbeddedServerTest
     public void must_properly_serve_loaded_documents()
       throws MalformedURLException, IOException
       {
-        fixture.start();
         final String url1 = fixture.putDocument("/",     new Document().withMimeType("text/html").withContent("document 1"));
         final String url2 = fixture.putDocument("/doc2", new Document().withMimeType("text/plain").withContent("document 2"));
         final String url3 = fixture.putDocument("/doc3", new Document().withMimeType("text/css").withContent("document 3"));
@@ -132,7 +137,6 @@ public class DefaultEmbeddedServerTest
     public void must_return_not_found_for_non_existing_documents()
       throws MalformedURLException, IOException
       {
-        fixture.start();
         fixture.putDocument("/",     new Document().withMimeType("text/html").withContent("document 1"));
         fixture.putDocument("/doc2", new Document().withMimeType("text/plain").withContent("document 2"));
         fixture.putDocument("/doc3", new Document().withMimeType("text/css").withContent("document 3"));
