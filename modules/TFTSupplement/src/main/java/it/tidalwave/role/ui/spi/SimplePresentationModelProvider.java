@@ -38,7 +38,7 @@ import lombok.RequiredArgsConstructor;
  * @version $Id$
  *
  **********************************************************************************************************************/
-@RequiredArgsConstructor
+@RequiredArgsConstructor // FIXME: rename to DefaultPresentationModelProvider
 public class SimplePresentationModelProvider implements PresentationModelProvider
   {
     @Nonnull
@@ -50,8 +50,8 @@ public class SimplePresentationModelProvider implements PresentationModelProvide
      *
      ******************************************************************************************************************/
     @Override @Nonnull
-    public PresentationModel createPresentationModel (final @Nonnull Object... localRoles)
+    public PresentationModel createPresentationModel (final @Nonnull Object... localRolesOrFactories)
       {
-        return new DefaultPresentationModel(owner, localRoles);
+        return new DefaultPresentationModel(owner, localRolesOrFactories);
       }
   }
