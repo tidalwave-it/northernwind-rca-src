@@ -43,7 +43,7 @@
     <!-- Enables AOP-based injection of classes that are instantiated outside of the Spring bean factory -->
     <context:spring-configured />
 
-    <bean class="it.tidalwave.northernwind.rca.ui.impl.MessageBusAdapterFactory" />
+    <bean class="it.tidalwave.messagebus.aspect.spring.MessageBusAdapterFactory" />
 
     <bean class="org.mockito.Mockito" factory-method="mock">
         <constructor-arg value="it.tidalwave.northernwind.rca.ui.structureexplorer.StructureExplorerPresentation" />
