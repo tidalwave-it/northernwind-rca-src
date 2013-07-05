@@ -81,7 +81,7 @@ public class DefaultPresentationModel implements PresentationModel
           {
             if (type.isAssignableFrom(role.getClass()))
               {
-                return (T)role;
+                return type.cast(role);
               }
           }
 
