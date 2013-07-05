@@ -32,7 +32,6 @@ import javax.annotation.concurrent.NotThreadSafe;
 import java.util.ArrayList;
 import java.util.List;
 import it.tidalwave.util.AsException;
-import it.tidalwave.role.ui.PresentationModel;
 import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
 
