@@ -57,6 +57,11 @@ public class DefaultPresentationModel implements PresentationModel
     @Delegate
     private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
 
+    /*******************************************************************************************************************
+     *
+     *
+     *
+     ******************************************************************************************************************/
     public DefaultPresentationModel (final @Nonnull Object datum,
                                      final @Nonnull Object ... rolesOrFactories)
       {
@@ -64,6 +69,11 @@ public class DefaultPresentationModel implements PresentationModel
         this.roles = resolveRoles(Arrays.asList(rolesOrFactories));
       }
 
+    /*******************************************************************************************************************
+     *
+     *
+     *
+     ******************************************************************************************************************/
     @Override
     public <T> T as (final @Nonnull Class<T> type)
       {
@@ -88,12 +98,22 @@ public class DefaultPresentationModel implements PresentationModel
         throw new AsException(type);
       }
 
+    /*******************************************************************************************************************
+     *
+     *
+     *
+     ******************************************************************************************************************/
     @Override
     public <T> T as (Class<T> clazz, NotFoundBehaviour<T> notFoundBehaviour)
       {
         throw new UnsupportedOperationException("Not supported yet.");
       }
 
+    /*******************************************************************************************************************
+     *
+     *
+     *
+     ******************************************************************************************************************/
     @Nonnull
     private List<Object> resolveRoles (final @Nonnull List<Object> rolesOrFactories)
       {

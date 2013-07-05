@@ -110,9 +110,14 @@ public class CompositePresentationModelProvider<T extends As> implements Present
 
         log.trace(">>>> roles for {}: {}", datum, roles);
 
-        return new DefaultPresentationModel(datum, roles.toArray());
+        return new DefaultPresentationModel(datum, roles.toArray()); // FIXME: use the factory
       }
 
+    /*******************************************************************************************************************
+     *
+     *
+     *
+     ******************************************************************************************************************/
     @Nonnull
     private List<Object> resolveRoles (final @Nonnull T datum,
                                        final @Nonnull List<Object> rolesOrFactories)

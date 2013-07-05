@@ -32,7 +32,7 @@ package it.tidalwave.role.ui;
  * A role providing the capability of being selected.
  *
  * @stereotype Role
- * 
+ *
  * @author  Fabrizio Giudici
  * @version $Id$
  *
@@ -41,5 +41,10 @@ public interface Selectable
   {
     public static final Class<Selectable> Selectable = Selectable.class;
 
+    /*******************************************************************************************************************
+     *
+     *
+     *
+     ******************************************************************************************************************/
     public void select();
   }

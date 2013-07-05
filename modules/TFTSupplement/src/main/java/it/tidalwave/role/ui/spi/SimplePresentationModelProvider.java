@@ -44,6 +44,11 @@ public class SimplePresentationModelProvider implements PresentationModelProvide
     @Nonnull
     private final Object owner;
 
+    /*******************************************************************************************************************
+     *
+     *
+     *
+     ******************************************************************************************************************/
     @Override @Nonnull
     public PresentationModel createPresentationModel (final @Nonnull Object... localRoles)
       {

@@ -44,7 +44,12 @@ import it.tidalwave.util.NotFoundException;
 public interface Row
   {
     public static final Class<Row> Row = Row.class;
-    
+
+    /*******************************************************************************************************************
+     *
+     *
+     *
+     ******************************************************************************************************************/
     @Nonnull
     public <T> T getValue (@Nonnull Key<T> key)
       throws NotFoundException;

@@ -43,6 +43,11 @@ public interface PresentationModelProvider
   {
     public static final Class<PresentationModelProvider> PresentationModelProvider = PresentationModelProvider.class;
 
+    /*******************************************************************************************************************
+     *
+     *
+     *
+     ******************************************************************************************************************/
     @Nonnull
     public PresentationModel createPresentationModel (@Nonnull Object ... rolesOrFactories);
   }

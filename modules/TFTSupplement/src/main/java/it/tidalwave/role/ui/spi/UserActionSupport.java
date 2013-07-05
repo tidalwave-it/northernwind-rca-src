@@ -41,6 +41,11 @@ public abstract class UserActionSupport implements UserAction
   {
     private final BoundProperty<Boolean> enabled = new BoundProperty<>(true);
 
+    /*******************************************************************************************************************
+     *
+     *
+     *
+     ******************************************************************************************************************/
     @Override @Nonnull
     public BoundProperty<Boolean> enabled()
       {
