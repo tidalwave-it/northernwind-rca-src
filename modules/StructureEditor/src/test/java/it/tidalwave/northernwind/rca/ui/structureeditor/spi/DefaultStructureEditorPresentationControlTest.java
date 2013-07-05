@@ -42,6 +42,8 @@ import it.tidalwave.northernwind.rca.ui.structureeditor.StructureEditorPresentat
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.CoreMatchers.*;
 import static org.mockito.Mockito.*;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /***********************************************************************************************************************
  *
@@ -51,6 +53,8 @@ import static org.mockito.Mockito.*;
  **********************************************************************************************************************/
 public class DefaultStructureEditorPresentationControlTest
   {
+    private ApplicationContext context;
+
     private DefaultStructureEditorPresentationControl fixture;
 
     private StructureEditorPresentation presentation;
@@ -69,8 +73,10 @@ public class DefaultStructureEditorPresentationControlTest
     @BeforeMethod
     public void setupFixture()
       {
-        fixture = new DefaultStructureEditorPresentationControl();
-        presentation = mock(StructureEditorPresentation.class);
+        context = new ClassPathXmlApplicationContext("DefaultStructureEditorPresentationControlTestBeans.xml");
+        fixture = context.getBean(DefaultStructureEditorPresentationControl.class);
+        presentation = context.getBean(StructureEditorPresentation.class);
+
         siteNode = mock(AdminSiteNode.class);
         properties = mock(ResourceProperties.class);
         pmProvider = mock(PresentationModelProvider.class);
@@ -79,8 +85,6 @@ public class DefaultStructureEditorPresentationControlTest
         when(siteNode.getProperties()).thenReturn(properties);
         when(pmProvider.createPresentationModel(anyVararg())).thenReturn(pm);
         when(properties.as(eq(PresentationModelProvider.class))).thenReturn(pmProvider);
-
-        fixture.presentation = presentation; // FIXME: use Spring
 
         fixture.initialize();
       }

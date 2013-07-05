@@ -50,7 +50,7 @@ import static it.tidalwave.role.ui.PresentationModelProvider.PresentationModelPr
 public class DefaultStructureEditorPresentationControl implements StructureEditorPresentationControl
   {
     @Inject @Nonnull
-    @VisibleForTesting StructureEditorPresentation presentation;
+    private StructureEditorPresentation presentation;
 
     @Override
     public void initialize()
