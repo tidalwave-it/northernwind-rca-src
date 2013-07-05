@@ -52,7 +52,7 @@ import static org.hamcrest.CoreMatchers.*;
  * @version $Id$
  *
  **********************************************************************************************************************/
-public class CompositePresentationModelProviderTest
+public class SimpleCompositePresentationModelProviderTest
   {
     /*******************************************************************************************************************
      *
@@ -154,7 +154,7 @@ public class CompositePresentationModelProviderTest
 
         final MockDatum a = new MockDatum("a").withChildren(b1, b2, b3);
 
-        final CompositePresentationModelProvider<MockDatum> fixture = new CompositePresentationModelProvider<>(a);
+        final SimpleCompositePresentationModelProvider<MockDatum> fixture = new SimpleCompositePresentationModelProvider<>(a);
 
         final MockRole1 role1 = new MockRole1();
         final MockRoleFactory roleFactory = new MockRoleFactory();

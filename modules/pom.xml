@@ -58,7 +58,7 @@
     ================================================================================================================ -->
     <properties>
         <aquafx.version>0.1</aquafx.version>
-        <thesefoolishthings.version>1.28</thesefoolishthings.version>
+        <thesefoolishthings.version>1.30-SNAPSHOT</thesefoolishthings.version>
         <slf4j.version>1.7.5</slf4j.version>
         <jetty.version>8.1.10.v20130312</jetty.version>
         <logback.version>1.0.12</logback.version>

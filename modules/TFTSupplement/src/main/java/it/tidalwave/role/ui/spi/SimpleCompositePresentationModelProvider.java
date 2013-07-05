@@ -49,7 +49,7 @@ import lombok.extern.slf4j.Slf4j;
  *
  **********************************************************************************************************************/
 @RequiredArgsConstructor @Slf4j
-public class CompositePresentationModelProvider<T extends As> implements PresentationModelProvider
+public class SimpleCompositePresentationModelProvider<T extends As> implements PresentationModelProvider
   {
     @Nonnull
     private final T datum;

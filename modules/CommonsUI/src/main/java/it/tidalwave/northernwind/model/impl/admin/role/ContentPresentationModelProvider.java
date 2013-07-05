@@ -28,7 +28,7 @@
 package it.tidalwave.northernwind.model.impl.admin.role;
 
 import javax.annotation.Nonnull;
-import it.tidalwave.role.ui.spi.CompositePresentationModelProvider;
+import it.tidalwave.role.ui.spi.SimpleCompositePresentationModelProvider;
 import it.tidalwave.dci.annotation.DciRole;
 import it.tidalwave.northernwind.model.impl.admin.AdminContent;
 
@@ -39,7 +39,7 @@ import it.tidalwave.northernwind.model.impl.admin.AdminContent;
  *
  **********************************************************************************************************************/
 @DciRole(datum = AdminContent.class) // FIXME: use Content when it extends As
-public class ContentPresentationModelProvider extends CompositePresentationModelProvider<AdminContent>
+public class ContentPresentationModelProvider extends SimpleCompositePresentationModelProvider<AdminContent>
   {
     public ContentPresentationModelProvider (final @Nonnull AdminContent content)
       {
