@@ -145,7 +145,7 @@ public class DefaultEmbeddedServer implements EmbeddedServer
       {
         try
           {
-            log.info("Starting webserver...");
+            log.info("Starting webserver on port {}...", port);
             server = new Server(port);
             server.setHandler(servlet.asHandler());
             server.start();
