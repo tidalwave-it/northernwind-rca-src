@@ -32,6 +32,7 @@ package it.tidalwave.role.ui;
  * A role providing the capability of being selected.
  *
  * @stereotype Role
+ * 
  * @author  Fabrizio Giudici
  * @version $Id$
  *
