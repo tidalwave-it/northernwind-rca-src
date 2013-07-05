@@ -27,10 +27,9 @@
  */
 package it.tidalwave.role.ui;
 
-import javax.annotation.Nonnull;
-import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import lombok.AllArgsConstructor;
+import lombok.Delegate;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -44,6 +43,7 @@ import lombok.ToString;
 @AllArgsConstructor @NoArgsConstructor @EqualsAndHashCode @ToString(exclude="pcs")
 public class BoundProperty<T>
   {
+    @Delegate
     private transient final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
 
     public static final String PROP_VALUE = "value";
@@ -60,15 +60,5 @@ public class BoundProperty<T>
     public T get()
       {
         return value;
-      }
-
-    public void addPropertyChangeListener (final @Nonnull PropertyChangeListener listener)
-      {
-        pcs.addPropertyChangeListener(listener);
-      }
-
-    public void removePropertyChangeListener (final @Nonnull PropertyChangeListener listener)
-      {
-        pcs.removePropertyChangeListener(listener);
       }
   }
