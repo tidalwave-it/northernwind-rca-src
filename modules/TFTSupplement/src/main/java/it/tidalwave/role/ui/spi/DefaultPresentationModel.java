@@ -60,6 +60,7 @@ public class DefaultPresentationModel implements PresentationModel
         this.roles = resolveRoles(Arrays.asList(rolesOrFactories));
       }
 
+    // FIXME: implement unsupported methods by delegation
     @Override
     public void addPropertyChangeListener (final @Nonnull PropertyChangeListener listener)
       {
