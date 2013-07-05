@@ -32,6 +32,7 @@ import javax.annotation.Nonnull;
 import it.tidalwave.messagebus.MessageBus;
 import it.tidalwave.messagebus.MessageBusHelper;
 import it.tidalwave.messagebus.MessageBusHelper.MethodAdapter;
+import lombok.Getter;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 import lombok.RequiredArgsConstructor;
@@ -53,7 +54,7 @@ public class MessageBusAdapterFactory implements MessageBusHelper.Adapter
      *
      *
      ******************************************************************************************************************/
-    @ToString(of = "method")
+    @Getter /* visible for testing */ @ToString(of = "method")
     class MessageBusListenerAdapter<Topic> implements MethodAdapter<Topic>, MessageBus.Listener<Topic>
       {
         @Nonnull
