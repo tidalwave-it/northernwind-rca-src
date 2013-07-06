@@ -31,7 +31,6 @@ import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import org.springframework.beans.factory.annotation.Configurable;
 import it.tidalwave.util.As;
 import it.tidalwave.util.AsException;
 import it.tidalwave.util.Finder;
@@ -39,8 +38,10 @@ import it.tidalwave.util.RoleFactory;
 import it.tidalwave.util.spi.SimpleFinderSupport;
 import it.tidalwave.role.SimpleComposite;
 import it.tidalwave.role.ui.PresentationModel;
+import it.tidalwave.role.ui.PresentationModelFactory;
 import it.tidalwave.role.ui.PresentationModelProvider;
 import it.tidalwave.role.spi.DefaultSimpleComposite;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 /***********************************************************************************************************************
@@ -49,13 +50,17 @@ import lombok.extern.slf4j.Slf4j;
  * @version $Id$
  *
  **********************************************************************************************************************/
-@Configurable @Slf4j // This introduces a dependency on Spring... can't move to TFT
+@RequiredArgsConstructor @Slf4j
 public class SimpleCompositePresentationModelProvider<T extends As> implements PresentationModelProvider
   {
     private static final long serialVersionUID = 324646965695684L;
 
     @Nonnull
     private final T datum;
+
+    // This is not @Injected to avoid a dependency on Spring AOP
+    @Nonnull
+    private final PresentationModelFactory defaultPresentationModelFactory;
 
     /*******************************************************************************************************************
      *
@@ -64,7 +69,7 @@ public class SimpleCompositePresentationModelProvider<T extends As> implements P
      ******************************************************************************************************************/
     public SimpleCompositePresentationModelProvider (final @Nonnull T datum)
       {
-        this.datum = datum;
+        this(datum, new DefaultPresentationModelFactory());
       }
 
     /*******************************************************************************************************************
@@ -117,7 +122,7 @@ public class SimpleCompositePresentationModelProvider<T extends As> implements P
         roles.add(new DefaultSimpleComposite<>(pmFinder));
         log.trace(">>>> roles for {}: {}", datum, roles);
 
-        return new DefaultPresentationModel(datum, roles.toArray()); // FIXME: use the factory
+        return defaultPresentationModelFactory.createPresentationModel(datum, roles.toArray());
       }
 
     /*******************************************************************************************************************

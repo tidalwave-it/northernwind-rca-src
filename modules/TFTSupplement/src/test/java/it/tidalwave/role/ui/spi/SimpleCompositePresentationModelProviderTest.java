@@ -154,7 +154,8 @@ public class SimpleCompositePresentationModelProviderTest
 
         final MockDatum a = new MockDatum("a").withChildren(b1, b2, b3);
 
-        final SimpleCompositePresentationModelProvider<MockDatum> fixture = new SimpleCompositePresentationModelProvider<>(a);
+        final SimpleCompositePresentationModelProvider<MockDatum> fixture
+                = new SimpleCompositePresentationModelProvider<>(a, new DefaultPresentationModelFactory());
 
         final MockRole1 role1 = new MockRole1();
         final MockRoleFactory roleFactory = new MockRoleFactory();
