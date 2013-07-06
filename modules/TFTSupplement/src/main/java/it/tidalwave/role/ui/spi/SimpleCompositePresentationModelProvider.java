@@ -31,6 +31,7 @@ import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Configurable;
 import it.tidalwave.util.As;
 import it.tidalwave.util.AsException;
 import it.tidalwave.util.Finder;
@@ -39,7 +40,6 @@ import it.tidalwave.util.spi.SimpleFinderSupport;
 import it.tidalwave.role.SimpleComposite;
 import it.tidalwave.role.ui.PresentationModel;
 import it.tidalwave.role.ui.PresentationModelProvider;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 /***********************************************************************************************************************
@@ -48,11 +48,23 @@ import lombok.extern.slf4j.Slf4j;
  * @version $Id$
  *
  **********************************************************************************************************************/
-@RequiredArgsConstructor @Slf4j
+@Configurable @Slf4j // This introduces a dependency on Spring... can't move to TFT
 public class SimpleCompositePresentationModelProvider<T extends As> implements PresentationModelProvider
   {
+    private static final long serialVersionUID = 324646965695684L;
+
     @Nonnull
     private final T datum;
+
+    /*******************************************************************************************************************
+     *
+     *
+     *
+     ******************************************************************************************************************/
+    public SimpleCompositePresentationModelProvider (final @Nonnull T datum)
+      {
+        this.datum = datum;
+      }
 
     /*******************************************************************************************************************
      *
@@ -83,13 +95,14 @@ public class SimpleCompositePresentationModelProvider<T extends As> implements P
               {
                 return new SimpleFinderSupport<PresentationModel>()
                   {
-                    @Override
+                    @Override @Nonnull
                     protected List<? extends PresentationModel> computeResults()
                       {
                         final List<PresentationModel> results = new ArrayList<>();
 
                         try
                           {
+                            @SuppressWarnings("unchecked")
                             final SimpleComposite<T> composite = datum.as(SimpleComposite.class);
 
                             for (final T child : composite.findChildren().results())
