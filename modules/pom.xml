@@ -63,7 +63,7 @@
         <jetty.version>8.1.10.v20130312</jetty.version>
         <logback.version>1.0.12</logback.version>
         <northernwind.version>1.1-ALPHA-23</northernwind.version>
-        <spring.version>3.1.0.RELEASE</spring.version>
+        <spring.version>3.2.3.RELEASE</spring.version>
         <tft.jsr305.version>2.0.1</tft.jsr305.version>
         <tft.jsr330.version>1</tft.jsr330.version>
         <tft.lombok.version>0.11.6</tft.lombok.version>
