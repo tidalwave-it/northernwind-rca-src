@@ -29,18 +29,14 @@ package it.tidalwave.northernwind.model.impl.admin;
 
 import javax.annotation.Nonnull;
 import java.io.IOException;
-import javax.servlet.http.HttpServletRequest;
 import it.tidalwave.util.NotFoundException;
 import it.tidalwave.northernwind.core.model.Content;
-import it.tidalwave.northernwind.core.model.Media;
-import it.tidalwave.northernwind.core.model.ModelFactory;
-import it.tidalwave.northernwind.core.model.Request;
 import it.tidalwave.northernwind.core.model.Resource;
 import it.tidalwave.northernwind.core.model.ResourceFile;
 import it.tidalwave.northernwind.core.model.ResourceProperties;
 import it.tidalwave.northernwind.core.model.Site;
 import it.tidalwave.northernwind.core.model.SiteNode;
-import it.tidalwave.northernwind.frontend.ui.Layout;
+import it.tidalwave.northernwind.core.model.spi.ModelFactorySupport;
 
 /***********************************************************************************************************************
  *
@@ -48,67 +44,30 @@ import it.tidalwave.northernwind.frontend.ui.Layout;
  * @version $Id$
  *
  **********************************************************************************************************************/
-public class AdminModelFactory implements ModelFactory
+public class AdminModelFactory extends ModelFactorySupport
   {
-    @Override
+    @Override @Nonnull
     public Resource createResource (final @Nonnull ResourceFile file)
       {
         return new AdminResource(file);
       }
 
-    @Override
+    @Override @Nonnull
     public Content createContent (final @Nonnull ResourceFile file)
       {
         return new AdminContent(file);
       }
 
-    @Override
-    public Media createMedia(ResourceFile rf)
-      {
-        throw new UnsupportedOperationException("Not supported yet.");
-      }
-
-    @Override
+    @Override @Nonnull
     public SiteNode createSiteNode (final @Nonnull Site site, final @Nonnull ResourceFile file)
       throws IOException, NotFoundException
       {
         return new AdminSiteNode(file);
       }
 
-    @Override
-    public Layout.Builder createLayout()
-      {
-        throw new UnsupportedOperationException("Not supported yet.");
-      }
-
-    @Override
-    public Request createRequest()
-      {
-        throw new UnsupportedOperationException("Not supported yet.");
-      }
-
-    @Override
-    public Request createRequestFrom(HttpServletRequest hsr)
-      {
-        throw new UnsupportedOperationException("Not supported yet.");
-      }
-
     @Override @Nonnull
-    public ResourceProperties.Builder createProperties()
+    public ResourceProperties build (final @Nonnull ResourceProperties.Builder builder)
       {
-        return new ResourceProperties.Builder().withCallBack(new ResourceProperties.Builder.CallBack()
-          {
-            @Override @Nonnull
-            public ResourceProperties build (final @Nonnull ResourceProperties.Builder builder)
-              {
-                return new it.tidalwave.northernwind.model.impl.admin.DefaultResourceProperties(builder);
-              }
-          });
-      }
-
-    @Override
-    public Site.Builder createSite()
-      {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return new it.tidalwave.northernwind.model.impl.admin.DefaultResourceProperties(builder);
       }
   }
