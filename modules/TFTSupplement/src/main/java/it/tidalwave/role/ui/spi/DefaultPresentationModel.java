@@ -104,7 +104,7 @@ public class DefaultPresentationModel implements PresentationModel
      *
      ******************************************************************************************************************/
     @Override
-    public <T> T as (Class<T> clazz, NotFoundBehaviour<T> notFoundBehaviour)
+    public <T> T as (Class<T> clazz, NotFoundBehaviour<T> notFoundBehaviour) // FIXME
       {
         throw new UnsupportedOperationException("Not supported yet.");
       }
