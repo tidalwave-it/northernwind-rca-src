@@ -62,6 +62,11 @@
             <groupId>com.oracle</groupId>
             <artifactId>javafx-embedded</artifactId>
         </dependency>
+
+        <dependency>
+            <artifactId>it-tidalwave-messagebus</artifactId>
+            <groupId>it.tidalwave.thesefoolishthings</groupId>
+        </dependency>
         <dependency>
             <groupId>it.tidalwave.thesefoolishthings</groupId>
             <artifactId>it-tidalwave-util</artifactId>
