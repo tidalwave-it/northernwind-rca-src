@@ -27,24 +27,26 @@
  */
 package it.tidalwave.role.ui.javafx.impl;
 
-import com.google.common.annotations.VisibleForTesting;
 import javax.annotation.Nonnegative;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.concurrent.Callable;
 import java.io.File;
 import java.nio.file.Path;
-import javafx.stage.DirectoryChooser;
-import javafx.stage.FileChooser;
-import javafx.stage.Window;
+import javafx.util.Callback;
+import javafx.util.StringConverter;
 import javafx.beans.property.Property;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.util.Callback;
-import javafx.util.StringConverter;
 import javafx.collections.ObservableList;
+import javafx.stage.DirectoryChooser;
+import javafx.stage.FileChooser;
+import javafx.stage.Window;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TreeCell;
@@ -52,6 +54,7 @@ import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.scene.control.cell.TextFieldTreeCell;
 import javafx.application.Platform;
+import com.google.common.annotations.VisibleForTesting;
 import it.tidalwave.util.AsException;
 import it.tidalwave.util.ui.UserNotificationWithFeedback;
 import it.tidalwave.role.Displayable;
@@ -63,7 +66,8 @@ import it.tidalwave.role.ui.UserAction;
 import it.tidalwave.role.ui.javafx.JavaFXBinder;
 import lombok.extern.slf4j.Slf4j;
 import static javafx.collections.FXCollections.*;
-import javafx.scene.control.MenuItem;
+import javafx.scene.effect.BoxBlur;
+import javafx.scene.effect.Effect;
 
 /***********************************************************************************************************************
  *
@@ -256,7 +260,17 @@ public class DefaultJavaFXBinder implements JavaFXBinder
         final FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle(notification.getCaption());
         fileChooser.setInitialDirectory(selectedFile.get().toFile());
-        final File file = fileChooser.showOpenDialog(window);
+
+        // It seems we need to take care of modality: https://javafx-jira.kenai.com/browse/RT-13949
+        final File file = runWhileDisabling(window, new Callable<File>()
+          {
+            @Override
+            public File call()
+              {
+                return fileChooser.showOpenDialog(window);
+              }
+          });
+
         notifyFile(file, notification, selectedFile);
       }
 
@@ -276,7 +290,17 @@ public class DefaultJavaFXBinder implements JavaFXBinder
         final DirectoryChooser directoryChooser = new DirectoryChooser();
         directoryChooser.setTitle(notification.getCaption());
         directoryChooser.setInitialDirectory(selectedFolder.get().toFile());
-        final File file = directoryChooser.showDialog(window);
+
+        // It seems we need to take care of modality: https://javafx-jira.kenai.com/browse/RT-13949
+        final File file = runWhileDisabling(window, new Callable<File>()
+          {
+            @Override
+            public File call()
+              {
+                return directoryChooser.showDialog(window);
+              }
+          });
+
         notifyFile(file, notification, selectedFolder);
       }
 
@@ -350,6 +374,38 @@ public class DefaultJavaFXBinder implements JavaFXBinder
 
     /*******************************************************************************************************************
      *
+     * Runs the given (@link Callable} while disabling the given {@link Window}.
+     *
+     * @param  window    the {@code Window} to disable
+     * @param  callable  the (@code Callable} to run
+     * @return           the (@code Callable} result
+     *
+     ******************************************************************************************************************/
+    private <T> T runWhileDisabling (final @Nonnull Window window, final @Nonnull Callable<T> callable)
+      {
+        final Parent root = window.getScene().getRoot();
+        final Effect effect = root.getEffect();
+        final boolean disabled = root.isDisable();
+
+        try
+          {
+            root.setDisable(true);
+            root.setEffect(createDisablingEffect());
+            return callable.call();
+          }
+        catch (Exception e)
+          {
+            throw new RuntimeException(e);
+          }
+        finally
+          {
+            root.setEffect(effect);
+            root.setDisable(disabled);
+          }
+      }
+
+    /*******************************************************************************************************************
+     *
      *
      *
      ******************************************************************************************************************/
@@ -359,5 +415,19 @@ public class DefaultJavaFXBinder implements JavaFXBinder
           {
             throw new AssertionError("Must run in the JavaFX Application Thread");
           }
+      }
+
+    /*******************************************************************************************************************
+     *
+     * TODO: delegate to a provider
+     *
+     ******************************************************************************************************************/
+    private BoxBlur createDisablingEffect()
+      {
+        final BoxBlur bb = new BoxBlur();
+        bb.setWidth(5);
+        bb.setHeight(5);
+        bb.setIterations(3);
+        return bb;
       }
   }
