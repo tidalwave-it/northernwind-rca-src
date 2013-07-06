@@ -39,9 +39,9 @@ import it.tidalwave.northernwind.model.impl.admin.AdminContent;
  *
  **********************************************************************************************************************/
 @DciRole(datum = AdminContent.class) // FIXME: use Content when it extends As
-public class ContentPresentationModelProvider extends SimpleCompositePresentable<AdminContent>
+public class ContentPresentable extends SimpleCompositePresentable<AdminContent>
   {
-    public ContentPresentationModelProvider (final @Nonnull AdminContent content)
+    public ContentPresentable (final @Nonnull AdminContent content)
       {
         super(content);
       }
