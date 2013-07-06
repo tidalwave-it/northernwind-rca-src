@@ -38,7 +38,7 @@ import it.tidalwave.northernwind.rca.ui.event.SiteNodeSelectedEvent;
 import it.tidalwave.northernwind.rca.ui.structureeditor.StructureEditorPresentation;
 import it.tidalwave.northernwind.rca.ui.structureeditor.StructureEditorPresentationControl;
 import lombok.extern.slf4j.Slf4j;
-import static it.tidalwave.role.ui.PresentationModelProvider.PresentationModelProvider;
+import static it.tidalwave.role.ui.Presentable.*;
 
 /***********************************************************************************************************************
  *
@@ -71,7 +71,7 @@ public class DefaultStructureEditorPresentationControl implements StructureEdito
             final ResourceProperties properties = siteNode.getProperties();
             log.debug(">>>> properties: {}", properties);
             presentation.populate("Viewer not implemented for " + siteNode.getFile());
-            presentation.populateProperties(properties.as(PresentationModelProvider).createPresentationModel());
+            presentation.populateProperties(properties.as(Presentable).createPresentationModel());
             presentation.showUp();
           }
       }

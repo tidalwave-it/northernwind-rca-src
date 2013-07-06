@@ -50,7 +50,7 @@ import it.tidalwave.northernwind.rca.ui.contenteditor.ContentEditorPresentation.
 import it.tidalwave.northernwind.rca.ui.contenteditor.ContentEditorPresentationControl;
 import it.tidalwave.northernwind.rca.ui.contenteditor.impl.ProcessExecutor;
 import lombok.extern.slf4j.Slf4j;
-import static it.tidalwave.role.ui.PresentationModelProvider.*;
+import static it.tidalwave.role.ui.Presentable.*;
 
 /***********************************************************************************************************************
  *
@@ -175,6 +175,6 @@ public class DefaultContentEditorPresentationControl implements ContentEditorPre
 
         bindings.title.set(properties.getProperty(PROPERTY_TITLE, ""));
         presentation.populateDocument(documentServer.putDocument("/", document));
-        presentation.populateProperties(properties.as(PresentationModelProvider).createPresentationModel());
+        presentation.populateProperties(properties.as(Presentable).createPresentationModel());
       }
   }

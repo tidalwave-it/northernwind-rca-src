@@ -40,7 +40,7 @@ import it.tidalwave.util.spi.SimpleFinderSupport;
 import it.tidalwave.role.SimpleComposite;
 import it.tidalwave.role.spi.DefaultSimpleComposite;
 import it.tidalwave.role.ui.PresentationModel;
-import it.tidalwave.role.ui.PresentationModelProvider;
+import it.tidalwave.role.ui.Presentable;
 import it.tidalwave.role.ui.spi.DefaultPresentationModel;
 import it.tidalwave.role.ui.spi.RowHashMap;
 import it.tidalwave.dci.annotation.DciRole;
@@ -59,7 +59,7 @@ import lombok.extern.slf4j.Slf4j;
  *
  **********************************************************************************************************************/
 @DciRole(datum = ResourceProperties.class) @RequiredArgsConstructor @Slf4j
-public class ResourcePropertiesPresentationModelProvider implements PresentationModelProvider
+public class ResourcePropertiesPresentationModelProvider implements Presentable
   {
     @Nonnull
     private final ResourceProperties properties;

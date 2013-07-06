@@ -29,9 +29,9 @@ package it.tidalwave.northernwind.rca.ui.contentexplorer.spi;
 
 import java.io.IOException;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import it.tidalwave.role.ui.PresentationModelProvider;
+import it.tidalwave.role.ui.Presentable;
 import it.tidalwave.role.ui.Selectable;
-import it.tidalwave.role.ui.spi.SimplePresentationModelProvider;
+import it.tidalwave.role.ui.spi.SimpleCompositePresentable;
 import it.tidalwave.messagebus.MessageBus;
 import it.tidalwave.messagebus.annotation.SimpleMessageSubscriber;
 import it.tidalwave.northernwind.core.model.ModelFactory;
@@ -95,7 +95,7 @@ public class DefaultContentExplorerPresentationControlTest
         when(fileSystem.findFileByPath(eq("/content/document"))).thenReturn(root);
         when(event.getFileSystem()).thenReturn(fileSystem);
         when(modelFactory.createContent(eq(root))).thenReturn(content);
-        when(content.as(eq(PresentationModelProvider.class))).thenReturn(new SimplePresentationModelProvider(content));
+        when(content.as(eq(Presentable.class))).thenReturn(new SimpleCompositePresentable(content));
 
         fixture.initialize();
       }

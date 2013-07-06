@@ -35,7 +35,6 @@ import com.google.common.annotations.VisibleForTesting;
 import it.tidalwave.util.NotFoundException;
 import it.tidalwave.util.RoleFactory;
 import it.tidalwave.role.ui.Selectable;
-import it.tidalwave.role.ui.PresentationModelProvider;
 import it.tidalwave.messagebus.MessageBus;
 import it.tidalwave.messagebus.annotation.ListensTo;
 import it.tidalwave.messagebus.annotation.SimpleMessageSubscriber;
@@ -47,6 +46,7 @@ import it.tidalwave.northernwind.rca.ui.event.SiteNodeSelectedEvent;
 import it.tidalwave.northernwind.rca.ui.structureexplorer.StructureExplorerPresentation;
 import it.tidalwave.northernwind.rca.ui.structureexplorer.StructureExplorerPresentationControl;
 import lombok.extern.slf4j.Slf4j;
+import static it.tidalwave.role.ui.Presentable.*;
 
 /***********************************************************************************************************************
  *
@@ -110,7 +110,7 @@ public class DefaultStructureExplorerPresentationControl implements StructureExp
             log.debug("onOpenSite({})", event);
             final ResourceFile root = event.getFileSystem().findFileByPath("/structure");
             final AdminSiteNode siteNode = (AdminSiteNode)modelFactory.createSiteNode(null, root); // FIXME: pass a Site
-            presentation.populate(siteNode.as(PresentationModelProvider.class).createPresentationModel(publisherRoleFactory));
+            presentation.populate(siteNode.as(Presentable).createPresentationModel(publisherRoleFactory));
             presentation.expandFirstLevel();
             messageBus.publish(new SiteNodeSelectedEvent());
           }

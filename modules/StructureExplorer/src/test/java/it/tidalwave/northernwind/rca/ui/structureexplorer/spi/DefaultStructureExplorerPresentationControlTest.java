@@ -29,9 +29,9 @@ package it.tidalwave.northernwind.rca.ui.structureexplorer.spi;
 
 import java.io.IOException;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import it.tidalwave.role.ui.PresentationModelProvider;
+import it.tidalwave.role.ui.Presentable;
 import it.tidalwave.role.ui.Selectable;
-import it.tidalwave.role.ui.spi.SimplePresentationModelProvider;
+import it.tidalwave.role.ui.spi.SimpleCompositePresentable;
 import it.tidalwave.messagebus.MessageBus;
 import it.tidalwave.messagebus.annotation.SimpleMessageSubscriber;
 import it.tidalwave.northernwind.core.model.ModelFactory;
@@ -98,7 +98,7 @@ public class DefaultStructureExplorerPresentationControlTest
         when(fileSystem.findFileByPath(eq("/structure"))).thenReturn(root);
         when(event.getFileSystem()).thenReturn(fileSystem);
         when(modelFactory.createSiteNode(any(Site.class), eq(root))).thenReturn(node);
-        when(node.as(eq(PresentationModelProvider.class))).thenReturn(new SimplePresentationModelProvider(node));
+        when(node.as(eq(Presentable.class))).thenReturn(new SimpleCompositePresentable(node));
 
         fixture.initialize();
       }

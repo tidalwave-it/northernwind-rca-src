@@ -28,7 +28,7 @@
 package it.tidalwave.northernwind.model.impl.admin.role;
 
 import javax.annotation.Nonnull;
-import it.tidalwave.role.ui.spi.SimpleCompositePresentationModelProvider;
+import it.tidalwave.role.ui.spi.SimpleCompositePresentable;
 import it.tidalwave.dci.annotation.DciRole;
 import it.tidalwave.northernwind.model.impl.admin.AdminSiteNode;
 
@@ -39,7 +39,7 @@ import it.tidalwave.northernwind.model.impl.admin.AdminSiteNode;
  *
  **********************************************************************************************************************/
 @DciRole(datum = AdminSiteNode.class) // FIXME: use SiteNode when it extends As
-public class SiteNodePresentationModelProvider extends SimpleCompositePresentationModelProvider<AdminSiteNode>
+public class SiteNodePresentationModelProvider extends SimpleCompositePresentable<AdminSiteNode>
   {
     public SiteNodePresentationModelProvider (final @Nonnull AdminSiteNode siteNode)
       {

@@ -28,22 +28,20 @@
 package it.tidalwave.northernwind.rca.ui.structureeditor.spi;
 
 import java.io.IOException;
-import org.testng.annotations.Test;
-import org.testng.annotations.BeforeMethod;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import it.tidalwave.role.ui.Presentable;
 import it.tidalwave.role.ui.PresentationModel;
-import it.tidalwave.role.ui.PresentationModelProvider;
 import it.tidalwave.messagebus.annotation.SimpleMessageSubscriber;
 import it.tidalwave.northernwind.core.model.ResourceProperties;
-import it.tidalwave.northernwind.model.impl.admin.AdminContent;
 import it.tidalwave.northernwind.model.impl.admin.AdminSiteNode;
 import it.tidalwave.northernwind.rca.ui.event.SiteNodeSelectedEvent;
 import it.tidalwave.northernwind.rca.ui.structureeditor.StructureEditorPresentation;
-//import static it.tidalwave.northernwind.rca.ui.contenteditor.spi.DefaultContentEditorPresentationControl.*;
+import org.testng.annotations.Test;
+import org.testng.annotations.BeforeMethod;
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.CoreMatchers.*;
 import static org.mockito.Mockito.*;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /***********************************************************************************************************************
  *
@@ -63,7 +61,7 @@ public class DefaultStructureEditorPresentationControlTest
 
     private ResourceProperties properties;
 
-    private PresentationModelProvider pmProvider;
+    private Presentable presentable;
 
     private PresentationModel pm;
 
@@ -79,12 +77,12 @@ public class DefaultStructureEditorPresentationControlTest
 
         siteNode = mock(AdminSiteNode.class);
         properties = mock(ResourceProperties.class);
-        pmProvider = mock(PresentationModelProvider.class);
+        presentable = mock(Presentable.class);
         pm = mock(PresentationModel.class);
 
         when(siteNode.getProperties()).thenReturn(properties);
-        when(pmProvider.createPresentationModel(anyVararg())).thenReturn(pm);
-        when(properties.as(eq(PresentationModelProvider.class))).thenReturn(pmProvider);
+        when(presentable.createPresentationModel(anyVararg())).thenReturn(pm);
+        when(properties.as(eq(Presentable.class))).thenReturn(presentable);
 
         fixture.initialize();
       }
