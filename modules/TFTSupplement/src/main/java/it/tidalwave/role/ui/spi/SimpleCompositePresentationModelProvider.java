@@ -40,6 +40,7 @@ import it.tidalwave.util.spi.SimpleFinderSupport;
 import it.tidalwave.role.SimpleComposite;
 import it.tidalwave.role.ui.PresentationModel;
 import it.tidalwave.role.ui.PresentationModelProvider;
+import it.tidalwave.role.spi.DefaultSimpleComposite;
 import lombok.extern.slf4j.Slf4j;
 
 /***********************************************************************************************************************
@@ -86,41 +87,34 @@ public class SimpleCompositePresentationModelProvider<T extends As> implements P
     private PresentationModel internalCreatePresentationModel (final @Nonnull T datum,
                                                                final @Nonnull List<Object> rolesOrFactories)
       {
-        final List<Object> roles = resolveRoles(datum, rolesOrFactories);
-
-        roles.add(new SimpleComposite<PresentationModel>()
+        final Finder<PresentationModel> pmFinder = new SimpleFinderSupport<PresentationModel>()
           {
             @Override @Nonnull
-            public Finder<PresentationModel> findChildren()
+            protected List<? extends PresentationModel> computeResults()
               {
-                return new SimpleFinderSupport<PresentationModel>()
+                final List<PresentationModel> results = new ArrayList<>();
+
+                try
                   {
-                    @Override @Nonnull
-                    protected List<? extends PresentationModel> computeResults()
+                    @SuppressWarnings("unchecked")
+                    final SimpleComposite<T> composite = datum.as(SimpleComposite.class);
+
+                    for (final T child : composite.findChildren().results())
                       {
-                        final List<PresentationModel> results = new ArrayList<>();
-
-                        try
-                          {
-                            @SuppressWarnings("unchecked")
-                            final SimpleComposite<T> composite = datum.as(SimpleComposite.class);
-
-                            for (final T child : composite.findChildren().results())
-                              {
-                                results.add(internalCreatePresentationModel(child, rolesOrFactories));
-                              }
-                          }
-                        catch (AsException e)
-                          {
-                            // ok, no Composite role
-                          }
-
-                        return results;
+                        results.add(internalCreatePresentationModel(child, rolesOrFactories));
                       }
-                  };
-              }
-          });
+                  }
+                catch (AsException e)
+                  {
+                    // ok, no Composite role
+                  }
 
+                return results;
+              }
+          };
+
+        final List<Object> roles = resolveRoles(datum, rolesOrFactories);
+        roles.add(new DefaultSimpleComposite<>(pmFinder));
         log.trace(">>>> roles for {}: {}", datum, roles);
 
         return new DefaultPresentationModel(datum, roles.toArray()); // FIXME: use the factory
