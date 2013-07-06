@@ -51,12 +51,12 @@ public interface EmbeddedServer
       {
         public static interface UpdateListener
           {
-            public void update (final @Nonnull String content);
+            public void onUpdate (final @Nonnull String content);
 
             public static final UpdateListener VOID = new UpdateListener()
               {
                 @Override
-                public void update (final @Nonnull String content)
+                public void onUpdate (final @Nonnull String content)
                   {
                   }
               };
@@ -73,7 +73,7 @@ public interface EmbeddedServer
 
         public void update (final @Nonnull String content)
           {
-            updateListener.update(content);
+            updateListener.onUpdate(content);
           }
       }
 

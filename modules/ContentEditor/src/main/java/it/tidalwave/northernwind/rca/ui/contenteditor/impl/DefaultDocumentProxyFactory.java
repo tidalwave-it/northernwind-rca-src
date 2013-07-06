@@ -99,7 +99,7 @@ public class DefaultDocumentProxyFactory implements DocumentProxyFactory
                                  .withUpdateListener(new UpdateListener()
               {
                 @Override
-                public void update (final @Nonnull String text)
+                public void onUpdate (final @Nonnull String text)
                   {
                     final HtmlDocument editedDocument = originalDocument.withBody(text);
 //                    final ResourceProperties newProperties = properties.withProperty(propertyName, editedDocument.asString());
