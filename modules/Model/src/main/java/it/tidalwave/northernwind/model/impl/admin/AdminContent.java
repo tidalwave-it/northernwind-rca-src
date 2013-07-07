@@ -53,13 +53,16 @@ import lombok.Delegate;
  *
  **********************************************************************************************************************/
 @Configurable(preConstruction = true)
-public class AdminContent extends SpringAsSupport implements Content, As, SimpleComposite<Content>
+public class AdminContent implements Content, As, SimpleComposite<Content>
   {
     @Inject @Nonnull
     private ModelFactory modelFactory;
 
     @Delegate @Nonnull
     private final Resource resource;
+
+    @Delegate
+    private final SpringAsSupport asSupport = new SpringAsSupport(this);
 
     public AdminContent (final @Nonnull ResourceFile file)
       {
@@ -96,17 +99,5 @@ public class AdminContent extends SpringAsSupport implements Content, As, Simple
                 return results;
               }
           };
-      }
-
-    // FIXME: this should be done by SpringAsSupport - see THESEFOOLISHTHINGS-100
-    @Override @Nonnull
-    public <T> T as (final @Nonnull Class<T> roleType)
-      {
-        if (SimpleComposite.class.isAssignableFrom(roleType))
-          {
-            return roleType.cast(this);
-          }
-
-        return super.as(roleType);
       }
   }

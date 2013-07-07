@@ -54,13 +54,16 @@ import lombok.Delegate;
  *
  **********************************************************************************************************************/
 @Configurable(preConstruction = true)
-public class AdminSiteNode extends SpringAsSupport implements SiteNode, As, SimpleComposite<SiteNode>
+public class AdminSiteNode implements SiteNode, As, SimpleComposite<SiteNode>
   {
     @Inject @Nonnull
     private ModelFactory modelFactory;
 
     @Delegate @Nonnull
     private final Resource resource;
+
+    @Delegate
+    private final SpringAsSupport asSupport = new SpringAsSupport(this);
 
     public AdminSiteNode (final @Nonnull ResourceFile file)
       {
@@ -81,7 +84,7 @@ public class AdminSiteNode extends SpringAsSupport implements SiteNode, As, Simp
     public Finder<SiteNode> findChildren()
       {
         assert modelFactory != null;
-        
+
         return new SimpleFinderSupport<SiteNode>()
           {
             @Override
@@ -108,17 +111,5 @@ public class AdminSiteNode extends SpringAsSupport implements SiteNode, As, Simp
                 return results;
               }
           };
-      }
-
-    // FIXME: this should be done by SpringAsSupport - see THESEFOOLISHTHINGS-100
-    @Override @Nonnull
-    public <T> T as (final @Nonnull Class<T> roleType)
-      {
-        if (SimpleComposite.class.isAssignableFrom(roleType))
-          {
-            return roleType.cast(this);
-          }
-
-        return super.as(roleType);
       }
   }

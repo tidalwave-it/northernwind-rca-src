@@ -38,7 +38,7 @@ import it.tidalwave.northernwind.model.impl.admin.AdminSiteNode;
  * @version $Id$
  *
  **********************************************************************************************************************/
-@DciRole(datum = AdminSiteNode.class) // FIXME: use SiteNode when it extends As
+@DciRole(datumType = AdminSiteNode.class) // FIXME: use SiteNode when it extends As
 public class SiteNodePresentable extends SimpleCompositePresentable<AdminSiteNode>
   {
     public SiteNodePresentable (final @Nonnull AdminSiteNode siteNode)

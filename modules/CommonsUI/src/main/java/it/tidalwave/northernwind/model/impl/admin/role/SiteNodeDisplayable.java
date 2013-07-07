@@ -38,7 +38,7 @@ import lombok.ToString;
  * @version $Id$
  *
  **********************************************************************************************************************/
-@DciRole(datum = SiteNode.class) @ToString
+@DciRole(datumType = SiteNode.class) @ToString
 public class SiteNodeDisplayable extends ResourceDisplayableSupport
   {
     public SiteNodeDisplayable (final @Nonnull SiteNode siteNode)

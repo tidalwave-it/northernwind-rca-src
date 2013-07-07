@@ -42,6 +42,7 @@ import it.tidalwave.northernwind.core.model.ResourceProperties;
 import lombok.Cleanup;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+import lombok.Delegate;
 import static it.tidalwave.role.Unmarshallable.*;
 
 /***********************************************************************************************************************
@@ -51,7 +52,7 @@ import static it.tidalwave.role.Unmarshallable.*;
  *
  **********************************************************************************************************************/
 @Configurable @Slf4j
-public class AdminResource extends SpringAsSupport implements Resource, As
+public class AdminResource implements Resource, As
   {
     @Inject @Nonnull
     private ModelFactory modelFactory;
@@ -61,6 +62,9 @@ public class AdminResource extends SpringAsSupport implements Resource, As
 
     @Nonnull
     private final PatchedTextResourcePropertyResolver propertyResolver;
+
+    @Delegate
+    private final SpringAsSupport asSupport = new SpringAsSupport(this);
 
     public AdminResource (final @Nonnull ResourceFile file)
       {

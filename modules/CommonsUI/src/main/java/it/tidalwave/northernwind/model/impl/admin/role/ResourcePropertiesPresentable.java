@@ -58,7 +58,7 @@ import lombok.extern.slf4j.Slf4j;
  * @version $Id$
  *
  **********************************************************************************************************************/
-@DciRole(datum = ResourceProperties.class) @RequiredArgsConstructor @Slf4j
+@DciRole(datumType = ResourceProperties.class) @RequiredArgsConstructor @Slf4j
 public class ResourcePropertiesPresentable implements Presentable
   {
     @Nonnull

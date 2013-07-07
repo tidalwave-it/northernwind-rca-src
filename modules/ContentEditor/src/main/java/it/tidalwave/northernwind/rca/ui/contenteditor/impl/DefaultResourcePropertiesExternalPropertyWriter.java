@@ -41,7 +41,7 @@ import lombok.extern.slf4j.Slf4j;
  * @version $Id$
  *
  **********************************************************************************************************************/
-@DciRole(datum = AdminContent.class)
+@DciRole(datumType = AdminContent.class)
 @RequiredArgsConstructor @Slf4j
 public class DefaultResourcePropertiesExternalPropertyWriter implements ExternalPropertyWriter
   {

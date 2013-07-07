@@ -38,7 +38,7 @@ import lombok.ToString;
  * @version $Id$
  *
  **********************************************************************************************************************/
-@DciRole(datum = Content.class) @ToString
+@DciRole(datumType = Content.class) @ToString
 public class ContentDisplayable extends ResourceDisplayableSupport
   {
     public ContentDisplayable (final @Nonnull Content content)
