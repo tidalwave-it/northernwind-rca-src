@@ -37,6 +37,7 @@ import it.tidalwave.northernwind.core.model.ResourceProperties;
 import it.tidalwave.northernwind.core.model.Site;
 import it.tidalwave.northernwind.core.model.SiteNode;
 import it.tidalwave.northernwind.core.model.spi.ModelFactorySupport;
+import it.tidalwave.northernwind.core.impl.model.DefaultResourceProperties;
 
 /***********************************************************************************************************************
  *
@@ -68,6 +69,6 @@ public class AdminModelFactory extends ModelFactorySupport
     @Override @Nonnull
     public ResourceProperties build (final @Nonnull ResourceProperties.Builder builder)
       {
-        return new it.tidalwave.northernwind.model.impl.admin.DefaultResourceProperties(builder);
+        return new DefaultResourceProperties(builder);
       }
   }
