@@ -56,14 +56,14 @@ public class AdminModelFactory extends ModelFactorySupport
     @Override @Nonnull
     public Content createContent (final @Nonnull ResourceFile file)
       {
-        return new AdminContent(file);
+        return new AdminContent(this, file);
       }
 
     @Override @Nonnull
     public SiteNode createSiteNode (final @Nonnull Site site, final @Nonnull ResourceFile file)
       throws IOException, NotFoundException
       {
-        return new AdminSiteNode(file);
+        return new AdminSiteNode(this, file);
       }
 
     @Override @Nonnull

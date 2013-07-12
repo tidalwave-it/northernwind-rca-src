@@ -28,11 +28,9 @@
 package it.tidalwave.northernwind.model.impl.admin;
 
 import javax.annotation.Nonnull;
-import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 import java.io.IOException;
-import org.springframework.beans.factory.annotation.Configurable;
 import it.tidalwave.util.As;
 import it.tidalwave.util.Finder;
 import it.tidalwave.util.NotFoundException;
@@ -51,11 +49,10 @@ import lombok.Delegate;
  * @version $Id$
  *
  **********************************************************************************************************************/
-@Configurable(preConstruction = true)
 public class AdminContent implements Content
   {
-    @Inject @Nonnull
-    private ModelFactory modelFactory;
+    @Nonnull
+    private final ModelFactory modelFactory;
 
     @Delegate(excludes = As.class) @Nonnull
     private final Resource resource;
@@ -63,9 +60,10 @@ public class AdminContent implements Content
     @Delegate
     private final SpringAsSupport asSupport = new SpringAsSupport(this);
 
-    public AdminContent (final @Nonnull ResourceFile file)
+    public AdminContent (final @Nonnull ModelFactory modelFactory,
+                         final @Nonnull ResourceFile file)
       {
-        assert modelFactory != null;
+        this.modelFactory = modelFactory;
         this.resource = modelFactory.createResource(file);
       }
 
