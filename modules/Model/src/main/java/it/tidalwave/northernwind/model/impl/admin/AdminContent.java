@@ -37,7 +37,6 @@ import it.tidalwave.util.As;
 import it.tidalwave.util.Finder;
 import it.tidalwave.util.NotFoundException;
 import it.tidalwave.util.spi.SimpleFinderSupport;
-import it.tidalwave.role.SimpleComposite;
 import it.tidalwave.role.spring.SpringAsSupport;
 import it.tidalwave.northernwind.core.model.Content;
 import it.tidalwave.northernwind.core.model.ModelFactory;
@@ -53,7 +52,7 @@ import lombok.Delegate;
  *
  **********************************************************************************************************************/
 @Configurable(preConstruction = true)
-public class AdminContent implements Content, SimpleComposite<Content>
+public class AdminContent implements Content
   {
     @Inject @Nonnull
     private ModelFactory modelFactory;
