@@ -56,4 +56,11 @@
         <constructor-arg value="it.tidalwave.messagebus.MessageBus" />
     </bean>
 
+    <!-- DCI role injector - TODO: they are not actually used here, could be mocked -->
+    <bean id="roleManager"
+          class="it.tidalwave.role.spring.spi.AnnotationSpringRoleManager" />
+
+    <bean id="contextManager"
+          class="it.tidalwave.role.spring.SpringContextManager" />
+
 </beans>

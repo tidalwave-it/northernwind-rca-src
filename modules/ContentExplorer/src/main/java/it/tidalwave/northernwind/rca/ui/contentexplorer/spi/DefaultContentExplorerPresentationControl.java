@@ -36,9 +36,9 @@ import it.tidalwave.role.ui.Selectable;
 import it.tidalwave.messagebus.MessageBus;
 import it.tidalwave.messagebus.annotation.ListensTo;
 import it.tidalwave.messagebus.annotation.SimpleMessageSubscriber;
+import it.tidalwave.northernwind.core.model.Content;
 import it.tidalwave.northernwind.core.model.ModelFactory;
 import it.tidalwave.northernwind.core.model.ResourceFile;
-import it.tidalwave.northernwind.model.impl.admin.AdminContent;
 import it.tidalwave.northernwind.rca.ui.event.ContentSelectedEvent;
 import it.tidalwave.northernwind.rca.ui.contentexplorer.ContentExplorerPresentation;
 import it.tidalwave.northernwind.rca.ui.contentexplorer.ContentExplorerPresentationControl;
@@ -71,11 +71,10 @@ public class DefaultContentExplorerPresentationControl implements ContentExplore
     /*******************************************************************************************************************
      *
      ******************************************************************************************************************/
-    // FIXME: use Content
-    @VisibleForTesting final RoleFactory<AdminContent> publisherRoleFactory = new RoleFactory<AdminContent>()
+    @VisibleForTesting final RoleFactory<Content> publisherRoleFactory = new RoleFactory<Content>()
       {
         @Override
-        public Object createRoleFor (final @Nonnull AdminContent content)
+        public Object createRoleFor (final @Nonnull Content content)
           {
             return new Selectable()
               {
@@ -105,7 +104,7 @@ public class DefaultContentExplorerPresentationControl implements ContentExplore
       {
         log.debug("onOpenSite({})", event);
         final ResourceFile root = event.getFileSystem().findFileByPath("/content/document");
-        final AdminContent content = (AdminContent)modelFactory.createContent(root);
+        final Content content = modelFactory.createContent(root);
         presentation.populate(content.as(Presentable).createPresentationModel(publisherRoleFactory));
         presentation.expandFirstLevel();
         messageBus.publish(new ContentSelectedEvent());

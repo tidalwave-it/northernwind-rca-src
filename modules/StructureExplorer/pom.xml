@@ -44,10 +44,6 @@
     <dependencies>
         <dependency>
             <groupId>it.tidalwave.northernwind.rca</groupId>
-            <artifactId>it-tidalwave-northernwind-rca-model</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>it.tidalwave.northernwind.rca</groupId>
             <artifactId>it-tidalwave-northernwind-rca-ui-commons</artifactId>
         </dependency>
         <dependency>
@@ -79,6 +75,11 @@
             <groupId>it.tidalwave.thesefoolishthings</groupId>
             <artifactId>it-tidalwave-util</artifactId>
             <classifier>tests</classifier>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>

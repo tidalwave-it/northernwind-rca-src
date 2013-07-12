@@ -34,7 +34,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import it.tidalwave.northernwind.core.model.Content;
 import it.tidalwave.northernwind.core.model.ResourceProperties;
-import it.tidalwave.northernwind.model.impl.admin.AdminContent;
 import it.tidalwave.northernwind.rca.embeddedserver.EmbeddedServer.Document;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -90,7 +89,7 @@ public class DefaultDocumentProxyFactoryTest
     public void must_create_a_proper_proxy_document()
       throws IOException
       {
-        final Content content = mock(AdminContent.class); // FIXME: use Content
+        final Content content = mock(Content.class); // FIXME: use Content
         final ResourceProperties properties = mock(ResourceProperties.class);
         when(content.getProperties()).thenReturn(properties);
 
@@ -114,7 +113,7 @@ public class DefaultDocumentProxyFactoryTest
     public void must_create_a_proxy_document_that_properly_updates_properties()
       throws IOException
       {
-        final AdminContent content = mock(AdminContent.class); // FIXME: use Content
+        final Content content = mock(Content.class);
         final ResourceProperties properties = mock(ResourceProperties.class);
         when(content.getProperties()).thenReturn(properties);
 

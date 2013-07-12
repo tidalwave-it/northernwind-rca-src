@@ -34,10 +34,10 @@ import it.tidalwave.role.ui.Selectable;
 import it.tidalwave.role.ui.spi.SimpleCompositePresentable;
 import it.tidalwave.messagebus.MessageBus;
 import it.tidalwave.messagebus.annotation.SimpleMessageSubscriber;
+import it.tidalwave.northernwind.core.model.Content;
 import it.tidalwave.northernwind.core.model.ModelFactory;
 import it.tidalwave.northernwind.core.model.ResourceFile;
 import it.tidalwave.northernwind.core.model.ResourceFileSystem;
-import it.tidalwave.northernwind.model.impl.admin.AdminContent;
 import it.tidalwave.northernwind.rca.ui.contentexplorer.ContentExplorerPresentation;
 import it.tidalwave.northernwind.rca.ui.event.OpenSiteEvent;
 import org.testng.annotations.BeforeMethod;
@@ -72,7 +72,7 @@ public class DefaultContentExplorerPresentationControlTest
 
     private ModelFactory modelFactory;
 
-    private AdminContent content; // FIXME: use Content
+    private Content content;
 
     /*******************************************************************************************************************
      *
@@ -90,7 +90,7 @@ public class DefaultContentExplorerPresentationControlTest
         event = mock(OpenSiteEvent.class);
         fileSystem = mock(ResourceFileSystem.class);
         root = mock(ResourceFile.class);
-        content = mock(AdminContent.class);
+        content = mock(Content.class);
 
         when(fileSystem.findFileByPath(eq("/content/document"))).thenReturn(root);
         when(event.getFileSystem()).thenReturn(fileSystem);

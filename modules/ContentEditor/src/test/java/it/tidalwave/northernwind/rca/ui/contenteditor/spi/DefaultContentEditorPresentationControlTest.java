@@ -36,7 +36,6 @@ import it.tidalwave.role.ui.Presentable;
 import it.tidalwave.messagebus.annotation.SimpleMessageSubscriber;
 import it.tidalwave.northernwind.core.model.Content;
 import it.tidalwave.northernwind.core.model.ResourceProperties;
-import it.tidalwave.northernwind.model.impl.admin.AdminContent;
 import it.tidalwave.northernwind.rca.embeddedserver.EmbeddedServer;
 import it.tidalwave.northernwind.rca.embeddedserver.EmbeddedServer.Document;
 import it.tidalwave.northernwind.rca.ui.contenteditor.ContentEditorPresentation;
@@ -61,7 +60,7 @@ public class DefaultContentEditorPresentationControlTest
 
     private ContentEditorPresentation presentation;
 
-    private AdminContent content; // FIXME: use Content
+    private Content content;
 
     private ResourceProperties properties;
 
@@ -87,7 +86,7 @@ public class DefaultContentEditorPresentationControlTest
         presentation = context.getBean(ContentEditorPresentation.class);
         documentProxyFactory = context.getBean(DocumentProxyFactory.class);
 
-        content = mock(AdminContent.class);
+        content = mock(Content.class);
         properties = mock(ResourceProperties.class);
         presentable = mock(Presentable.class);
         pm = mock(PresentationModel.class);

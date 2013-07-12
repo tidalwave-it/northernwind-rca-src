@@ -38,7 +38,7 @@ import it.tidalwave.northernwind.core.model.ModelFactory;
 import it.tidalwave.northernwind.core.model.ResourceFile;
 import it.tidalwave.northernwind.core.model.ResourceFileSystem;
 import it.tidalwave.northernwind.core.model.Site;
-import it.tidalwave.northernwind.model.impl.admin.AdminSiteNode;
+import it.tidalwave.northernwind.core.model.SiteNode;
 import it.tidalwave.northernwind.rca.ui.structureexplorer.StructureExplorerPresentation;
 import it.tidalwave.northernwind.rca.ui.event.OpenSiteEvent;
 import org.testng.annotations.BeforeMethod;
@@ -74,7 +74,7 @@ public class DefaultStructureExplorerPresentationControlTest
 
     private ModelFactory modelFactory;
 
-    private AdminSiteNode node; // FIXME: use SiteNode
+    private SiteNode node;
 
     /*******************************************************************************************************************
      *
@@ -93,7 +93,7 @@ public class DefaultStructureExplorerPresentationControlTest
         event = mock(OpenSiteEvent.class);
         fileSystem = mock(ResourceFileSystem.class);
         root = mock(ResourceFile.class);
-        node = mock(AdminSiteNode.class);
+        node = mock(SiteNode.class);
 
         when(fileSystem.findFileByPath(eq("/structure"))).thenReturn(root);
         when(event.getFileSystem()).thenReturn(fileSystem);

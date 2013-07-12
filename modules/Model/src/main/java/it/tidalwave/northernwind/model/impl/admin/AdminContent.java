@@ -53,12 +53,12 @@ import lombok.Delegate;
  *
  **********************************************************************************************************************/
 @Configurable(preConstruction = true)
-public class AdminContent implements Content, As, SimpleComposite<Content>
+public class AdminContent implements Content, SimpleComposite<Content>
   {
     @Inject @Nonnull
     private ModelFactory modelFactory;
 
-    @Delegate @Nonnull
+    @Delegate(excludes = As.class) @Nonnull
     private final Resource resource;
 
     @Delegate

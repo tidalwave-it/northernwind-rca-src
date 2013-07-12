@@ -40,7 +40,7 @@ import it.tidalwave.messagebus.annotation.ListensTo;
 import it.tidalwave.messagebus.annotation.SimpleMessageSubscriber;
 import it.tidalwave.northernwind.core.model.ModelFactory;
 import it.tidalwave.northernwind.core.model.ResourceFile;
-import it.tidalwave.northernwind.model.impl.admin.AdminSiteNode;
+import it.tidalwave.northernwind.core.model.SiteNode;
 import it.tidalwave.northernwind.rca.ui.event.OpenSiteEvent;
 import it.tidalwave.northernwind.rca.ui.event.SiteNodeSelectedEvent;
 import it.tidalwave.northernwind.rca.ui.structureexplorer.StructureExplorerPresentation;
@@ -72,11 +72,10 @@ public class DefaultStructureExplorerPresentationControl implements StructureExp
     /*******************************************************************************************************************
      *
      ******************************************************************************************************************/
-    // FIXME: use SiteNode
-    @VisibleForTesting final RoleFactory<AdminSiteNode> publisherRoleFactory = new RoleFactory<AdminSiteNode>()
+    @VisibleForTesting final RoleFactory<SiteNode> publisherRoleFactory = new RoleFactory<SiteNode>()
       {
         @Override
-        public Object createRoleFor (final @Nonnull AdminSiteNode siteNode)
+        public Object createRoleFor (final @Nonnull SiteNode siteNode)
           {
             return new Selectable()
               {
@@ -109,7 +108,7 @@ public class DefaultStructureExplorerPresentationControl implements StructureExp
           {
             log.debug("onOpenSite({})", event);
             final ResourceFile root = event.getFileSystem().findFileByPath("/structure");
-            final AdminSiteNode siteNode = (AdminSiteNode)modelFactory.createSiteNode(null, root); // FIXME: pass a Site
+            final SiteNode siteNode = modelFactory.createSiteNode(null, root); // FIXME: pass a Site
             presentation.populate(siteNode.as(Presentable).createPresentationModel(publisherRoleFactory));
             presentation.expandFirstLevel();
             messageBus.publish(new SiteNodeSelectedEvent());

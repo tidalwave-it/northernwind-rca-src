@@ -54,12 +54,12 @@ import lombok.Delegate;
  *
  **********************************************************************************************************************/
 @Configurable(preConstruction = true)
-public class AdminSiteNode implements SiteNode, As, SimpleComposite<SiteNode>
+public class AdminSiteNode implements SiteNode, SimpleComposite<SiteNode>
   {
     @Inject @Nonnull
     private ModelFactory modelFactory;
 
-    @Delegate @Nonnull
+    @Delegate(excludes = As.class) @Nonnull
     private final Resource resource;
 
     @Delegate

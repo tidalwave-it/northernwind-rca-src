@@ -34,7 +34,7 @@ import it.tidalwave.role.ui.Presentable;
 import it.tidalwave.role.ui.PresentationModel;
 import it.tidalwave.messagebus.annotation.SimpleMessageSubscriber;
 import it.tidalwave.northernwind.core.model.ResourceProperties;
-import it.tidalwave.northernwind.model.impl.admin.AdminSiteNode;
+import it.tidalwave.northernwind.core.model.SiteNode;
 import it.tidalwave.northernwind.rca.ui.event.SiteNodeSelectedEvent;
 import it.tidalwave.northernwind.rca.ui.structureeditor.StructureEditorPresentation;
 import org.testng.annotations.Test;
@@ -57,7 +57,7 @@ public class DefaultStructureEditorPresentationControlTest
 
     private StructureEditorPresentation presentation;
 
-    private AdminSiteNode siteNode; // FIXME: use SiteNode
+    private SiteNode siteNode;
 
     private ResourceProperties properties;
 
@@ -75,7 +75,7 @@ public class DefaultStructureEditorPresentationControlTest
         fixture = context.getBean(DefaultStructureEditorPresentationControl.class);
         presentation = context.getBean(StructureEditorPresentation.class);
 
-        siteNode = mock(AdminSiteNode.class);
+        siteNode = mock(SiteNode.class);
         properties = mock(ResourceProperties.class);
         presentable = mock(Presentable.class);
         pm = mock(PresentationModel.class);

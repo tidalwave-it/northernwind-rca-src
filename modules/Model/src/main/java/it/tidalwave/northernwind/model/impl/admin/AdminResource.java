@@ -32,7 +32,6 @@ import javax.inject.Inject;
 import java.io.IOException;
 import java.io.InputStream;
 import org.springframework.beans.factory.annotation.Configurable;
-import it.tidalwave.util.As;
 import it.tidalwave.util.Id;
 import it.tidalwave.role.spring.SpringAsSupport;
 import it.tidalwave.northernwind.core.model.ModelFactory;
@@ -52,7 +51,7 @@ import static it.tidalwave.role.Unmarshallable.*;
  *
  **********************************************************************************************************************/
 @Configurable @Slf4j
-public class AdminResource implements Resource, As
+public class AdminResource implements Resource
   {
     @Inject @Nonnull
     private ModelFactory modelFactory;

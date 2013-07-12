@@ -30,8 +30,8 @@ package it.tidalwave.northernwind.rca.ui.contenteditor.impl;
 import javax.annotation.Nonnull;
 import it.tidalwave.util.Key;
 import it.tidalwave.dci.annotation.DciRole;
+import it.tidalwave.northernwind.core.model.Content;
 import it.tidalwave.northernwind.core.model.ResourceFile;
-import it.tidalwave.northernwind.model.impl.admin.AdminContent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -41,12 +41,12 @@ import lombok.extern.slf4j.Slf4j;
  * @version $Id$
  *
  **********************************************************************************************************************/
-@DciRole(datumType = AdminContent.class)
+@DciRole(datumType = Content.class)
 @RequiredArgsConstructor @Slf4j
 public class DefaultResourcePropertiesExternalPropertyWriter implements ExternalPropertyWriter
   {
     @Nonnull
-    private final AdminContent content;
+    private final Content content;
 
     @Override
     public void writeProperty (final @Nonnull Key<String> propertyName, final @Nonnull String value)

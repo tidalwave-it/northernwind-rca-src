@@ -160,6 +160,12 @@
             <artifactId>it-tidalwave-northernwind-core-marshalling-default</artifactId>
             <!--<scope>runtime</scope>-->
         </dependency>
+
+        <dependency>
+            <groupId>it.tidalwave.northernwind.rca</groupId>
+            <artifactId>it-tidalwave-northernwind-rca-model</artifactId>
+            <!--<scope>runtime</scope>-->
+        </dependency>
     </dependencies>
 
 </project>
