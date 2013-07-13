@@ -28,10 +28,8 @@
 package it.tidalwave.northernwind.model.impl.admin;
 
 import javax.annotation.Nonnull;
-import javax.inject.Inject;
 import java.io.IOException;
 import java.io.InputStream;
-import org.springframework.beans.factory.annotation.Configurable;
 import it.tidalwave.util.Id;
 import it.tidalwave.util.NotFoundException;
 import it.tidalwave.role.spring.SpringAsSupport;
@@ -51,11 +49,11 @@ import static it.tidalwave.role.Unmarshallable.*;
  * @version $Id$
  *
  **********************************************************************************************************************/
-@Configurable @Slf4j
+@Slf4j
 public class AdminResource implements Resource
   {
-    @Inject @Nonnull
-    private ModelFactory modelFactory;
+    @Nonnull
+    private final ModelFactory modelFactory;
 
     @Getter @Nonnull
     private final ResourceFile file;
@@ -68,6 +66,7 @@ public class AdminResource implements Resource
 
     public AdminResource (final @Nonnull Resource.Builder builder)
       {
+        this.modelFactory = builder.getModelFactory();
         this.file = builder.getFile();
         propertyResolver = new PatchedTextResourcePropertyResolver(file);
       }
