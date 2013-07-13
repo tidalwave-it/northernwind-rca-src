@@ -30,17 +30,13 @@ package it.tidalwave.northernwind.model.impl.admin;
 import javax.annotation.Nonnull;
 import java.io.IOException;
 import java.io.InputStream;
-import it.tidalwave.util.Id;
 import it.tidalwave.util.NotFoundException;
-import it.tidalwave.role.spring.SpringAsSupport;
-import it.tidalwave.northernwind.core.model.ModelFactory;
 import it.tidalwave.northernwind.core.model.Resource;
 import it.tidalwave.northernwind.core.model.ResourceFile;
 import it.tidalwave.northernwind.core.model.ResourceProperties;
+import it.tidalwave.northernwind.core.model.spi.ResourceSupport;
 import lombok.Cleanup;
-import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-import lombok.Delegate;
 import static it.tidalwave.role.Unmarshallable.*;
 
 /***********************************************************************************************************************
@@ -50,25 +46,15 @@ import static it.tidalwave.role.Unmarshallable.*;
  *
  **********************************************************************************************************************/
 @Slf4j
-public class AdminResource implements Resource
+public class AdminResource extends ResourceSupport
   {
-    @Nonnull
-    private final ModelFactory modelFactory;
-
-    @Getter @Nonnull
-    private final ResourceFile file;
-
     @Nonnull
     private final PatchedTextResourcePropertyResolver propertyResolver;
 
-    @Delegate
-    private final SpringAsSupport asSupport = new SpringAsSupport(this);
-
     public AdminResource (final @Nonnull Resource.Builder builder)
       {
-        this.modelFactory = builder.getModelFactory();
-        this.file = builder.getFile();
-        propertyResolver = new PatchedTextResourcePropertyResolver(file);
+        super(builder);
+        propertyResolver = new PatchedTextResourcePropertyResolver(getFile());
       }
 
     /*******************************************************************************************************************
@@ -89,17 +75,6 @@ public class AdminResource implements Resource
           }
       }
 
-    /*******************************************************************************************************************
-     *
-     * {@inheritDoc}
-     *
-     ******************************************************************************************************************/
-    @Override @Nonnull
-    public ResourceProperties getPropertyGroup (final @Nonnull Id id)
-      {
-        return getProperties().getGroup(id);
-      }
-
     @Override
     public boolean isPlaceHolder()
       {
@@ -114,6 +89,7 @@ public class AdminResource implements Resource
     private ResourceProperties loadProperties()
       throws IOException
       {
+        final ResourceFile file = getFile();
         log.debug("loadProperties() for {}", file.getPath().asString());
 
         ResourceProperties properties = modelFactory.createProperties().withPropertyResolver(propertyResolver).build();

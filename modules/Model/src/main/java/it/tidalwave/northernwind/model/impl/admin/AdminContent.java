@@ -31,17 +31,14 @@ import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
 import java.io.IOException;
-import it.tidalwave.util.As;
 import it.tidalwave.util.Finder;
 import it.tidalwave.util.NotFoundException;
 import it.tidalwave.util.spi.SimpleFinderSupport;
-import it.tidalwave.role.spring.SpringAsSupport;
 import it.tidalwave.northernwind.core.model.Content;
-import it.tidalwave.northernwind.core.model.ModelFactory;
-import it.tidalwave.northernwind.core.model.Resource;
 import it.tidalwave.northernwind.core.model.ResourceFile;
 import it.tidalwave.northernwind.core.model.ResourcePath;
-import lombok.Delegate;
+import it.tidalwave.northernwind.core.model.ResourceProperties;
+import it.tidalwave.northernwind.core.model.spi.ContentSupport;
 
 /***********************************************************************************************************************
  *
@@ -49,21 +46,11 @@ import lombok.Delegate;
  * @version $Id$
  *
  **********************************************************************************************************************/
-public class AdminContent implements Content
+public class AdminContent extends ContentSupport
   {
-    @Nonnull
-    private final ModelFactory modelFactory;
-
-    @Delegate(excludes = As.class) @Nonnull
-    private final Resource resource;
-
-    @Delegate
-    private final SpringAsSupport asSupport = new SpringAsSupport(this);
-
-    public AdminContent (final @Nonnull Content.Builder builder)
+    public AdminContent (final @Nonnull Builder builder)
       {
-        this.modelFactory = builder.getModelFactory();
-        this.resource = modelFactory.createResource().withFile(builder.getFolder()).build();
+        super(builder);
       }
 
     @Override @Nonnull
@@ -84,7 +71,7 @@ public class AdminContent implements Content
                 // FIXME: it's not flyweight
                 final List<Content> results = new ArrayList<>();
 
-                for (final ResourceFile childFile : resource.getFile().findChildren().results())
+                for (final ResourceFile childFile : getResource().getFile().findChildren().results())
                   {
                     if (childFile.isFolder())
                       {
@@ -95,5 +82,11 @@ public class AdminContent implements Content
                 return results;
               }
           };
+      }
+
+    @Override @Nonnull
+    public ResourceProperties getProperties()
+      {
+        return getResource().getProperties();
       }
   }

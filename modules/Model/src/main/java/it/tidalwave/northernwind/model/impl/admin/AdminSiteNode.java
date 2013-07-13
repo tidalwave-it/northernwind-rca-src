@@ -31,18 +31,15 @@ import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
 import java.io.IOException;
-import it.tidalwave.util.As;
 import it.tidalwave.util.Finder;
 import it.tidalwave.util.NotFoundException;
 import it.tidalwave.util.spi.SimpleFinderSupport;
-import it.tidalwave.role.spring.SpringAsSupport;
 import it.tidalwave.northernwind.core.model.ModelFactory;
-import it.tidalwave.northernwind.core.model.Resource;
 import it.tidalwave.northernwind.core.model.ResourceFile;
 import it.tidalwave.northernwind.core.model.ResourcePath;
 import it.tidalwave.northernwind.core.model.SiteNode;
+import it.tidalwave.northernwind.core.model.spi.SiteNodeSupport;
 import it.tidalwave.northernwind.frontend.ui.Layout;
-import lombok.Delegate;
 
 /***********************************************************************************************************************
  *
@@ -50,33 +47,25 @@ import lombok.Delegate;
  * @version $Id$
  *
  **********************************************************************************************************************/
-public class AdminSiteNode implements SiteNode
+public class AdminSiteNode extends SiteNodeSupport
   {
-    @Nonnull
-    private final ModelFactory modelFactory;
-
-    @Delegate(excludes = As.class) @Nonnull
-    private final Resource resource;
-
-    @Delegate
-    private final SpringAsSupport asSupport = new SpringAsSupport(this);
-
     public AdminSiteNode (final @Nonnull ModelFactory modelFactory,
                           final @Nonnull ResourceFile file)
       {
-        this.modelFactory = modelFactory;
-        this.resource = modelFactory.createResource().withFile(file).build();
+        super(modelFactory, file);
       }
 
     @Override
-    public Layout getLayout() {
+    public Layout getLayout()
+      {
         throw new UnsupportedOperationException("Not supported yet.");
-    }
+      }
 
     @Override
-    public ResourcePath getRelativeUri() {
+    public ResourcePath getRelativeUri()
+      {
         throw new UnsupportedOperationException("Not supported yet.");
-    }
+      }
 
     @Override @Nonnull
     public Finder<SiteNode> findChildren()
@@ -91,7 +80,7 @@ public class AdminSiteNode implements SiteNode
                 // FIXME: it's not flyweight
                 final List<SiteNode> results = new ArrayList<>();
 
-                for (final ResourceFile childFile : resource.getFile().findChildren().results())
+                for (final ResourceFile childFile : getResource().getFile().findChildren().results())
                   {
                     if (childFile.isFolder())
                       {
