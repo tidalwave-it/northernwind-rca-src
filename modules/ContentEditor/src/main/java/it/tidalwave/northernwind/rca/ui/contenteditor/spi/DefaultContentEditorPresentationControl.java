@@ -49,6 +49,7 @@ import it.tidalwave.northernwind.rca.ui.contenteditor.ContentEditorPresentation;
 import it.tidalwave.northernwind.rca.ui.contenteditor.ContentEditorPresentation.Bindings;
 import it.tidalwave.northernwind.rca.ui.contenteditor.ContentEditorPresentationControl;
 import it.tidalwave.northernwind.rca.ui.contenteditor.impl.ProcessExecutor;
+import it.tidalwave.northernwind.rca.ui.contenteditor.impl.Saveable;
 import lombok.extern.slf4j.Slf4j;
 import static it.tidalwave.role.ui.Presentable.*;
 
@@ -117,7 +118,10 @@ public class DefaultContentEditorPresentationControl implements ContentEditorPre
         @Override
         public void propertyChange (final @Nonnull PropertyChangeEvent event)
           {
-            log.info("TODO: changed title {}", event.getNewValue());
+            final ResourceProperties properties = content.getProperties()
+                                                         .withProperty(PROPERTY_TITLE, bindings.title.get());
+            properties.as(Saveable.class).saveFor(content);
+            presentation.populateProperties(properties.as(Presentable).createPresentationModel());
           }
       };
 
