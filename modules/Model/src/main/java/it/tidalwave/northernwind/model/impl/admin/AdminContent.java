@@ -60,10 +60,9 @@ public class AdminContent implements Content
     @Delegate
     private final SpringAsSupport asSupport = new SpringAsSupport(this);
 
-    public AdminContent (final @Nonnull ModelFactory modelFactory,
-                         final @Nonnull Content.Builder builder)
+    public AdminContent (final @Nonnull Content.Builder builder)
       {
-        this.modelFactory = modelFactory;
+        this.modelFactory = builder.getModelFactory();
         this.resource = modelFactory.createResource().withFile(builder.getFolder()).build();
       }
 

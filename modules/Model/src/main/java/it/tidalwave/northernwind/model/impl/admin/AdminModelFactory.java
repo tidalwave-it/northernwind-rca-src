@@ -56,7 +56,7 @@ public class AdminModelFactory extends ModelFactorySupport
     @Override @Nonnull
     public Content build (final @Nonnull Content.Builder builder)
       {
-        return new AdminContent(this, builder);
+        return new AdminContent(builder);
       }
 
     @Override @Nonnull
