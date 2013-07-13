@@ -35,7 +35,6 @@ import java.io.Reader;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.io.CharStreams;
 import org.springframework.core.io.ClassPathResource;
-import it.tidalwave.util.As;
 import it.tidalwave.util.Key;
 import it.tidalwave.northernwind.core.model.Content;
 import it.tidalwave.northernwind.core.model.ResourceProperties;
@@ -103,8 +102,7 @@ public class DefaultDocumentProxyFactory implements DocumentProxyFactory
                   {
                     final HtmlDocument editedDocument = originalDocument.withBody(text);
 //                    final ResourceProperties newProperties = properties.withProperty(propertyName, editedDocument.asString());
-                    // FIXME: cast
-                    ((As)content).as(ExternalPropertyWriter.class).writeProperty(propertyName, editedDocument.asString());
+                    content.as(ExternalPropertyWriter.class).writeProperty(propertyName, editedDocument.asString());
                   }
               });
           }
