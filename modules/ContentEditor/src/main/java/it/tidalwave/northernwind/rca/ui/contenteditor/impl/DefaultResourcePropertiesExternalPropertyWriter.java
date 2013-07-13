@@ -28,10 +28,10 @@
 package it.tidalwave.northernwind.rca.ui.contenteditor.impl;
 
 import javax.annotation.Nonnull;
+import java.io.IOException;
 import it.tidalwave.util.Key;
 import it.tidalwave.dci.annotation.DciRole;
 import it.tidalwave.northernwind.core.model.Content;
-import it.tidalwave.northernwind.core.model.ResourceFile;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -54,12 +54,10 @@ public class DefaultResourcePropertiesExternalPropertyWriter implements External
         try
           {
             // FIXME: must update the timestamp of the properties
-            final ResourceFile file = content.getFile();
-            final TextWriter writer = new ResourceFileTextWriter(file); // FIXME: file.as(TextWriter);
             // FIXME: localization
-            writer.write(propertyName.stringValue() + "_en.xhtml", value);
+            content.getFile().as(TextWriter.class).write(propertyName.stringValue() + "_en.xhtml", value);
           }
-        catch (Exception e)
+        catch (IOException e)
           {
             log.error("", e);
           }

@@ -25,22 +25,18 @@
  * *********************************************************************************************************************
  * #L%
  */
-package it.tidalwave.northernwind.rca.ui.contenteditor.impl;
+package it.tidalwave.northernwind.frontend.filesystem.impl;
 
 import javax.annotation.Nonnull;
-import java.lang.reflect.Field;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
-import org.openide.filesystems.FileUtil;
-import it.tidalwave.northernwind.core.model.ResourceFile;
-import it.tidalwave.northernwind.core.model.ResourcePath;
-import it.tidalwave.northernwind.frontend.filesystem.impl.ResourceFileSystemNetBeansPlatform;
+import it.tidalwave.dci.annotation.DciRole;
+import it.tidalwave.northernwind.rca.ui.contenteditor.impl.TextWriter;
 import lombok.Cleanup;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.openide.filesystems.FileObject;
 
 /***********************************************************************************************************************
  *
@@ -48,33 +44,20 @@ import lombok.extern.slf4j.Slf4j;
  * @version $Id$
  *
  **********************************************************************************************************************/
-@RequiredArgsConstructor @Slf4j
-public class ResourceFileTextWriter implements TextWriter
+@DciRole(datumType = ResourceFileNetBeansPlatform.class) @RequiredArgsConstructor @Slf4j
+public class ResourceFileNetBeansPlatformTextWriter implements TextWriter
   {
     @Nonnull
-    private final ResourceFile file;
+    private final ResourceFileNetBeansPlatform file;
 
     @Override @Nonnull
     public void write (@Nonnull String fileName, @Nonnull String text)
       throws IOException
       {
-        try
-          {
-            final ResourceFileSystemNetBeansPlatform fileSystem = (ResourceFileSystemNetBeansPlatform)file.getFileSystem();
-            final Field field = fileSystem.getClass().getDeclaredField("fileSystem");
-            field.setAccessible(true);
-            org.openide.filesystems.FileSystem delegate = (org.openide.filesystems.FileSystem)field.get(fileSystem);
-            final File root = FileUtil.toFile(delegate.getRoot());
-            final ResourcePath path = file.getPath().appendedWith(fileName);
-            final File f = new File(root, path.asString());
-            log.warn("write: {} {}", f.getAbsolutePath(), text);
-            final @Cleanup Writer w = new OutputStreamWriter(new FileOutputStream(f), "UTF-8");
-            w.write(text);
-            w.close();
-          }
-        catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e)
-          {
-            log.error("", e);
-          }
+        final FileObject fileObject = file.getDelegate().getFileObject(fileName);
+        log.debug("write: {} {}", fileObject, text);
+        final @Cleanup Writer w = new OutputStreamWriter(fileObject.getOutputStream(), "UTF-8");
+        w.write(text);
+        w.close();
       }
   }
