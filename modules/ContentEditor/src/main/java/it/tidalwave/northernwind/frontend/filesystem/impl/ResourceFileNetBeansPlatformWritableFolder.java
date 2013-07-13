@@ -25,41 +25,59 @@
  * *********************************************************************************************************************
  * #L%
  */
-package it.tidalwave.northernwind.rca.ui.contenteditor.impl;
+package it.tidalwave.northernwind.frontend.filesystem.impl;
 
 import javax.annotation.Nonnull;
 import java.io.IOException;
-import it.tidalwave.util.Key;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
+import org.openide.filesystems.FileObject;
 import it.tidalwave.dci.annotation.DciRole;
-import it.tidalwave.northernwind.core.model.Content;
+import it.tidalwave.northernwind.rca.ui.contenteditor.impl.WritableFolder;
+import it.tidalwave.role.Marshallable;
+import lombok.Cleanup;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 /***********************************************************************************************************************
  *
+ * @stereotype role
+ *
  * @author  Fabrizio Giudici
  * @version $Id$
  *
  **********************************************************************************************************************/
-@DciRole(datumType = Content.class)
-@RequiredArgsConstructor @Slf4j
-public class DefaultResourcePropertiesExternalPropertyWriter implements ExternalPropertyWriter
+@DciRole(datumType = ResourceFileNetBeansPlatform.class) @RequiredArgsConstructor @Slf4j
+public class ResourceFileNetBeansPlatformWritableFolder implements WritableFolder
   {
     @Nonnull
-    private final Content content;
+    private final ResourceFileNetBeansPlatform file;
 
-    @Override
-    public void writeProperty (final @Nonnull Key<String> propertyName, final @Nonnull String value)
+    @Override @Nonnull
+    public void write (final @Nonnull String fileName, final @Nonnull String text)
+      throws IOException
       {
-        try
-          {
-            // FIXME: must update the timestamp of the properties
-            // FIXME: localization
-            content.getFile().as(TextWriter.class).write(propertyName.stringValue() + "_en.xhtml", value);
-          }
-        catch (IOException e)
-          {
-            log.error("", e);
-          }
+        final @Cleanup Writer w = new OutputStreamWriter(openStream(fileName), "UTF-8");
+        w.write(text);
+        w.close();
+      }
+
+    @Override @Nonnull
+    public void write (final @Nonnull String fileName, final @Nonnull Marshallable marshallable)
+      throws IOException
+      {
+        final @Cleanup OutputStream os = openStream(fileName);
+        marshallable.marshal(os);
+        os.close();
+      }
+
+    @Nonnull
+    private OutputStream openStream (final @Nonnull String fileName)
+      throws IOException
+      {
+        final FileObject fileObject = file.getDelegate().getFileObject(fileName);
+        log.debug("opening stream: {}", fileObject);
+        return fileObject.getOutputStream();
       }
   }

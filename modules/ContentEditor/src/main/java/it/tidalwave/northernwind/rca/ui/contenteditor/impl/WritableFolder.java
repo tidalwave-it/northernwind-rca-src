@@ -28,15 +28,44 @@
 package it.tidalwave.northernwind.rca.ui.contenteditor.impl;
 
 import javax.annotation.Nonnull;
-import it.tidalwave.util.Key;
+import java.io.IOException;
+import it.tidalwave.role.Marshallable;
 
 /***********************************************************************************************************************
+ *
+ * A role for folders that can be written.
+ *
+ * @stereotype role
  *
  * @author  Fabrizio Giudici
  * @version $Id$
  *
  **********************************************************************************************************************/
-public interface ExternalPropertyWriter
+public interface WritableFolder
   {
-    public void writeProperty (@Nonnull Key<String> propertyName, @Nonnull String value);
+    public static final Class<WritableFolder> WritableFolder = WritableFolder.class;
+
+    /*******************************************************************************************************************
+     *
+     * Writes a text into the specified file.
+     *
+     * @param  fileName     the name of the file inside the folder to write to
+     * @param  text         the text to write
+     * @throws IOException  in case of I/O error
+     *
+     ******************************************************************************************************************/
+    public void write (@Nonnull String fileName, @Nonnull String text)
+      throws IOException;
+
+    /*******************************************************************************************************************
+     *
+     * Writes a marshallable object into the specified file.
+     *
+     * @param  fileName     the name of the file inside the folder to write to
+     * @param  marshallable the object to write
+     * @throws IOException  in case of I/O error
+     *
+     ******************************************************************************************************************/
+    public void write (@Nonnull String fileName, @Nonnull Marshallable marshallable)
+      throws IOException;
   }

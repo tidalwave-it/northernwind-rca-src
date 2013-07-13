@@ -28,7 +28,7 @@
 package it.tidalwave.northernwind.rca.ui.contenteditor.impl;
 
 import javax.annotation.Nonnull;
-import java.io.IOException;
+import it.tidalwave.northernwind.core.model.Content;
 
 /***********************************************************************************************************************
  *
@@ -36,10 +36,9 @@ import java.io.IOException;
  * @version $Id$
  *
  **********************************************************************************************************************/
-public interface TextWriter
+public interface Saveable
   {
-    public static final Class<TextWriter> TextWriter = TextWriter.class;
+    public static final Class<Saveable> Saveable = Saveable.class;
 
-    public void write (@Nonnull String fileName, @Nonnull String text)
-      throws IOException;
+    public void saveFor (@Nonnull Content content);
   }
