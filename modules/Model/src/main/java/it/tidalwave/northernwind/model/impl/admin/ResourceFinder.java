@@ -74,6 +74,6 @@ public abstract class ResourceFinder<T extends Resource> extends SimpleFinderSup
       }
 
     @Nonnull
-    protected abstract T createProduct (final @Nonnull ResourceFile childFile)
+    protected abstract T createProduct (final @Nonnull ResourceFile folder)
       throws IOException, NotFoundException;
   }

@@ -63,10 +63,9 @@ public class AdminContent extends ContentSupport
         return new ResourceFinder<Content>(getResource().getFile())
           {
             @Override @Nonnull
-            protected Content createProduct (final @Nonnull ResourceFile file)
-              throws IOException, NotFoundException
+            protected Content createProduct (final @Nonnull ResourceFile folder)
               {
-                return modelFactory.createContent().withFolder(file).build();
+                return modelFactory.createContent().withFolder(folder).build();
               }
           };
       }

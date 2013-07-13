@@ -70,10 +70,10 @@ public class AdminSiteNode extends SiteNodeSupport
         return new ResourceFinder<SiteNode>(getResource().getFile())
           {
             @Override @Nonnull
-            protected SiteNode createProduct (final @Nonnull ResourceFile file)
+            protected SiteNode createProduct (final @Nonnull ResourceFile folder)
               throws IOException, NotFoundException
               {
-                return modelFactory.createSiteNode(null, file);
+                return modelFactory.createSiteNode(null, folder);
               }
           };
       }
