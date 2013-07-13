@@ -28,14 +28,14 @@
 package it.tidalwave.northernwind.model.impl.admin;
 
 import javax.annotation.Nonnull;
+import java.util.ArrayList;
+import java.util.List;
 import java.io.IOException;
-import it.tidalwave.util.Finder;
 import it.tidalwave.util.NotFoundException;
-import it.tidalwave.northernwind.core.model.Content;
+import it.tidalwave.util.spi.SimpleFinderSupport;
+import it.tidalwave.northernwind.core.model.Resource;
 import it.tidalwave.northernwind.core.model.ResourceFile;
-import it.tidalwave.northernwind.core.model.ResourcePath;
-import it.tidalwave.northernwind.core.model.ResourceProperties;
-import it.tidalwave.northernwind.core.model.spi.ContentSupport;
+import lombok.RequiredArgsConstructor;
 
 /***********************************************************************************************************************
  *
@@ -43,37 +43,37 @@ import it.tidalwave.northernwind.core.model.spi.ContentSupport;
  * @version $Id$
  *
  **********************************************************************************************************************/
-public class AdminContent extends ContentSupport
+@RequiredArgsConstructor
+public abstract class ResourceFinder<T extends Resource> extends SimpleFinderSupport<T>
   {
-    public AdminContent (final @Nonnull Builder builder)
-      {
-        super(builder);
-      }
+    @Nonnull
+    private final ResourceFile resourceFile;
 
     @Override @Nonnull
-    public ResourcePath getExposedUri()
-      throws NotFoundException, IOException
+    protected List<? extends T> computeResults()
       {
-        throw new UnsupportedOperationException("Not supported yet.");
-      }
+        // FIXME: it's not flyweight
+        final List<T> results = new ArrayList<>();
 
-    @Override @Nonnull
-    public Finder<Content> findChildren()
-      {
-        return new ResourceFinder<Content>(getResource().getFile())
+        for (final ResourceFile childFile : resourceFile.findChildren().results())
           {
-            @Override @Nonnull
-            protected Content createProduct (final @Nonnull ResourceFile file)
-              throws IOException, NotFoundException
+            if (childFile.isFolder())
               {
-                return modelFactory.createContent().withFolder(file).build();
+                try
+                  {
+                    results.add(createProduct(childFile));
+                  }
+                catch (IOException | NotFoundException e)
+                  {
+                    throw new RuntimeException(e);
+                  }
               }
-          };
+          }
+
+        return results;
       }
 
-    @Override @Nonnull
-    public ResourceProperties getProperties()
-      {
-        return getResource().getProperties();
-      }
+    @Nonnull
+    protected abstract T createProduct (final @Nonnull ResourceFile childFile)
+      throws IOException, NotFoundException;
   }
