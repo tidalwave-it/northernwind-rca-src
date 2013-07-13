@@ -80,7 +80,6 @@ public class DefaultDocumentProxyFactory implements DocumentProxyFactory
      * {@inheritDoc}
      *
      ******************************************************************************************************************/
-    // FIXME: should pass ResourceProperties, not Content - have ResourceProperties to keep a reference to the Resource
     @Override @Nonnull
     public Document createDocumentProxy (final @Nonnull Content content,
                                          final @Nonnull Key<String> propertyName)
