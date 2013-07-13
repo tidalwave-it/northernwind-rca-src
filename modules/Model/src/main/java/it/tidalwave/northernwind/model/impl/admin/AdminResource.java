@@ -33,6 +33,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import org.springframework.beans.factory.annotation.Configurable;
 import it.tidalwave.util.Id;
+import it.tidalwave.util.NotFoundException;
 import it.tidalwave.role.spring.SpringAsSupport;
 import it.tidalwave.northernwind.core.model.ModelFactory;
 import it.tidalwave.northernwind.core.model.Resource;
@@ -65,9 +66,9 @@ public class AdminResource implements Resource
     @Delegate
     private final SpringAsSupport asSupport = new SpringAsSupport(this);
 
-    public AdminResource (final @Nonnull ResourceFile file)
+    public AdminResource (final @Nonnull Resource.Builder builder)
       {
-        this.file = file;
+        this.file = builder.getFile();
         propertyResolver = new PatchedTextResourcePropertyResolver(file);
       }
 
@@ -116,12 +117,11 @@ public class AdminResource implements Resource
       {
         log.debug("loadProperties() for {}", file.getPath().asString());
 
-        final ResourceFile propertyFile = file.getChildByName("Properties.xml"); // FIXME reuse the inheritance helper
-
         ResourceProperties properties = modelFactory.createProperties().withPropertyResolver(propertyResolver).build();
 
-        if (propertyFile != null)
+        try
           {
+            final ResourceFile propertyFile = file.findChildren().withName("Properties.xml").result(); // FIXME reuse the inheritance helper
     //        log.trace(">>>> reading properties from {} ({})...", propertyFile.getPath().asString(), locale);
             @Cleanup final InputStream is = propertyFile.getInputStream();
             final ResourceProperties tempProperties =
@@ -129,6 +129,10 @@ public class AdminResource implements Resource
                     modelFactory.createProperties().withPropertyResolver(propertyResolver).build().as(Unmarshallable).unmarshal(is);
     //        log.trace(">>>>>>>> read properties: {} ({})", tempProperties, locale);
             properties = properties.merged(tempProperties);
+          }
+        catch (NotFoundException e)
+          {
+            // ok, no properties
           }
 
         return properties;

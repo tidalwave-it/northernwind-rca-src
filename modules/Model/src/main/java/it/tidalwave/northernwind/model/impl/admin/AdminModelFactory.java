@@ -48,15 +48,15 @@ import it.tidalwave.northernwind.core.impl.model.DefaultResourceProperties;
 public class AdminModelFactory extends ModelFactorySupport
   {
     @Override @Nonnull
-    public Resource createResource (final @Nonnull ResourceFile file)
+    public Resource build (final @Nonnull Resource.Builder builder)
       {
-        return new AdminResource(file);
+        return new AdminResource(builder);
       }
 
     @Override @Nonnull
-    public Content createContent (final @Nonnull ResourceFile file)
+    public Content build (final @Nonnull Content.Builder builder)
       {
-        return new AdminContent(this, file);
+        return new AdminContent(this, builder);
       }
 
     @Override @Nonnull

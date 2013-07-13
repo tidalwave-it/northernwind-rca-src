@@ -65,7 +65,7 @@ public class AdminSiteNode implements SiteNode
                           final @Nonnull ResourceFile file)
       {
         this.modelFactory = modelFactory;
-        this.resource = modelFactory.createResource(file);
+        this.resource = modelFactory.createResource().withFile(file).build();
       }
 
     @Override
@@ -91,7 +91,7 @@ public class AdminSiteNode implements SiteNode
                 // FIXME: it's not flyweight
                 final List<SiteNode> results = new ArrayList<>();
 
-                for (final ResourceFile childFile : resource.getFile().getChildren())
+                for (final ResourceFile childFile : resource.getFile().findChildren().results())
                   {
                     if (childFile.isFolder())
                       {

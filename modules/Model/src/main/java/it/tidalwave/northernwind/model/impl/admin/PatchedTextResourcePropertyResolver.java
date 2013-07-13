@@ -28,8 +28,6 @@
 package it.tidalwave.northernwind.model.impl.admin;
 
 import javax.annotation.Nonnull;
-import javax.inject.Inject;
-import javax.inject.Provider;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import com.google.common.collect.ImmutableList;
@@ -37,7 +35,6 @@ import org.springframework.beans.factory.annotation.Configurable;
 import it.tidalwave.util.Id;
 import it.tidalwave.util.Key;
 import it.tidalwave.util.NotFoundException;
-import it.tidalwave.northernwind.core.model.RequestLocaleManager;
 import it.tidalwave.northernwind.core.model.ResourceFile;
 import it.tidalwave.northernwind.core.model.ResourceProperties;
 import java.util.Arrays;
@@ -141,11 +138,14 @@ public class PatchedTextResourcePropertyResolver implements ResourceProperties.P
             for (final String extension : EXTENSIONS)
               {
                 final String localizedFileName = fileName + localeSuffix + extension;
-                final ResourceFile localizedFile = folder.getChildByName(localizedFileName);
 
-                if (localizedFile != null)
+                try
                   {
-                    return localizedFile;
+                    return folder.findChildren().withName(localizedFileName).result();
+                  }
+                catch (NotFoundException e)
+                  {
+                    // ok, continue
                   }
 
                 fileNamesNotFound.append(separator);

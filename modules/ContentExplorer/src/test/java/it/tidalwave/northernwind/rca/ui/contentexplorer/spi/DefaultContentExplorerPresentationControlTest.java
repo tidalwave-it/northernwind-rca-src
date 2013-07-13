@@ -47,6 +47,7 @@ import static it.tidalwave.northernwind.rca.ui.event.ContentSelectedEventMatcher
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.CoreMatchers.*;
 import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.any;
 
 /***********************************************************************************************************************
  *
@@ -94,7 +95,11 @@ public class DefaultContentExplorerPresentationControlTest
 
         when(fileSystem.findFileByPath(eq("/content/document"))).thenReturn(root);
         when(event.getFileSystem()).thenReturn(fileSystem);
-        when(modelFactory.createContent(eq(root))).thenReturn(content);
+        // FIXME: this is cumbersome
+//        when(modelFactory.createContent(eq(root))).thenReturn(content); FIXME!!!
+        final Content.Builder.CallBack callBack = mock(Content.Builder.CallBack.class);
+        when(callBack.build(any(Content.Builder.class))).thenReturn(content);
+        when(modelFactory.createContent()).thenReturn(new Content.Builder(modelFactory, callBack));
         when(content.as(eq(Presentable.class))).thenReturn(new SimpleCompositePresentable(content));
 
         fixture.initialize();
