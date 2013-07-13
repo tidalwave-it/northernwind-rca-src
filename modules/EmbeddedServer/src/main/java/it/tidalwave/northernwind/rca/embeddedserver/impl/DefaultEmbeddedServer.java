@@ -37,7 +37,6 @@ import java.util.Map;
 import java.io.IOException;
 import java.io.DataInputStream;
 import java.io.FileNotFoundException;
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -47,6 +46,7 @@ import org.springframework.core.io.ClassPathResource;
 import org.eclipse.jetty.server.Server;
 import it.tidalwave.messagebus.annotation.ListensTo;
 import it.tidalwave.messagebus.annotation.SimpleMessageSubscriber;
+import it.tidalwave.northernwind.core.model.MimeTypeResolver;
 import it.tidalwave.northernwind.core.model.ResourceFile;
 import it.tidalwave.northernwind.core.model.ResourceFileSystem;
 import it.tidalwave.northernwind.rca.embeddedserver.EmbeddedServer;
@@ -66,7 +66,7 @@ import lombok.extern.slf4j.Slf4j;
 public class DefaultEmbeddedServer implements EmbeddedServer
   {
     @Inject @Nonnull
-    private ServletContext mimeResolver; // FIXME: replace with MimeResolver
+    private MimeTypeResolver mimeTypeResolver;
 
     @Getter @Setter
     private int port = 12345;
@@ -204,7 +204,7 @@ public class DefaultEmbeddedServer implements EmbeddedServer
           {
             final byte[] resource = loadResource(uri);
             response.setCharacterEncoding("");
-            response.setContentType(mimeResolver.getMimeType(uri));
+            response.setContentType(mimeTypeResolver.getMimeType(uri));
             response.setStatus(HttpServletResponse.SC_OK);
             response.getOutputStream().write(resource);
           }

@@ -62,6 +62,6 @@
     <bean id="modelFactory"
           class="it.tidalwave.northernwind.model.impl.admin.AdminModelFactory" />
 
-    <bean class="it.tidalwave.northernwind.model.impl.admin.ServletContextSurrogate" />
+    <bean class="it.tidalwave.northernwind.model.impl.admin.AdminMimeTypeResolver" />
 
 </beans>

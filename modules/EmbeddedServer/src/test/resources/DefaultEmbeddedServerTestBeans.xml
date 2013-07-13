@@ -68,7 +68,7 @@
     </bean>
 
     <bean class="org.mockito.Mockito" factory-method="mock">
-        <constructor-arg value="javax.servlet.ServletContext" />
+        <constructor-arg value="it.tidalwave.northernwind.core.model.MimeTypeResolver" />
     </bean>
 
 </beans>
