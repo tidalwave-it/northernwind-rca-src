@@ -51,7 +51,7 @@ public class ResourceFileNetBeansPlatformTextWriter implements TextWriter
     private final ResourceFileNetBeansPlatform file;
 
     @Override @Nonnull
-    public void write (@Nonnull String fileName, @Nonnull String text)
+    public void write (final @Nonnull String fileName, final @Nonnull String text)
       throws IOException
       {
         final FileObject fileObject = file.getDelegate().getFileObject(fileName);
