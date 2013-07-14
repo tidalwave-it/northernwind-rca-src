@@ -58,7 +58,7 @@ import lombok.extern.slf4j.Slf4j;
 public class ResourcePropertiesSaveable implements Saveable
   {
     public static final Key<String> PROPERTY_FULL_TEXT = new Key<>("fullText"); // FIXME copied
-    public static final Key<String> PROPERTY_LATEST_MODIFICATION_DATE = new Key<>("latestModificationDateTime");// FIXME: those should be Key<DateTime>
+    public static final Key<String> PROPERTY_LATEST_MODIFICATION_DATE = new Key<>("latestModificationDateTime");// FIXME: copied
 
     private static final List<Key<?>> EXTERNAL_PROPERTIES = Arrays.<Key<?>>asList(PROPERTY_FULL_TEXT);
 
@@ -72,7 +72,7 @@ public class ResourcePropertiesSaveable implements Saveable
       {
         try
           {
-            log.info("saveFor({}, {})", folder, properties);
+            log.info("saveIn({}, {})", folder, properties);
             final WritableFolder writableFolder = folder.as(WritableFolder.class);
 
             ResourceProperties p = properties.withProperty(PROPERTY_LATEST_MODIFICATION_DATE,
@@ -83,21 +83,35 @@ public class ResourcePropertiesSaveable implements Saveable
                 // FIXME: localization
                 // FIXME: conversion to string when different types are used
                 writableFolder.write(property.stringValue() + "_en.xhtml", p.getProperty(property).toString());
-
-                // p = p.withoutProperty(key); // FIXME
-                final Field mapField = p.getClass().getDeclaredField("propertyMap");
-                mapField.setAccessible(true);
-                final Map<Key<?>, Object> map = (Map<Key<?>, Object>)mapField.get(p);
-                map.remove(property);
-                // END FIXME
+                p = withoutProperty(p, property);
               }
 
             // FIXME: guess the localization (some properties go to Properties, some other to Properties_en.xml etc...
             writableFolder.write("Properties.xml", p.as(Marshallable.class));
           }
-        catch (NotFoundException | IOException | IllegalAccessException | NoSuchFieldException e)
+        catch (NotFoundException | IOException e)
           {
             log.error("property class: " + properties.getClass(), e);
+          }
+      }
+
+    // FIXME: implement as method in ResourceProperties
+    @Nonnull
+    private ResourceProperties withoutProperty (final @Nonnull ResourceProperties properties,
+                                                final @Nonnull Key<?> property)
+      {
+        try
+          {
+            final Field mapField = properties.getClass().getDeclaredField("propertyMap");
+            mapField.setAccessible(true);
+            final Map<Key<?>, Object> map = (Map<Key<?>, Object>)mapField.get(properties);
+            map.remove(property);
+            return properties;
+          }
+        catch (IllegalAccessException | NoSuchFieldException e)
+          {
+            log.error("property class: " + properties.getClass(), e);
+            throw new RuntimeException(e);
           }
       }
   }
