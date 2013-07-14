@@ -7,12 +7,10 @@
 
 package it.tidalwave.northernwind.rca.ui.contenteditor.impl;
 
-import com.sun.org.apache.xml.internal.serialize.OutputFormat;
 import it.tidalwave.northernwind.core.impl.util.XhtmlMarkupSerializer;
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
-import java.lang.reflect.Field;
 import javax.annotation.Nonnull;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
