@@ -115,7 +115,7 @@ public class DefaultContentEditorPresentationControl implements ContentEditorPre
      *
      *
      ******************************************************************************************************************/
-    private final PropertyBinder.UpdateCallback oropertyUpdateCallback = new UpdateCallback()
+    private final PropertyBinder.UpdateCallback propertyUpdateCallback = new UpdateCallback()
       {
         @Override
         public void notify (final @Nonnull ResourceProperties updatedProperties)
@@ -183,8 +183,8 @@ public class DefaultContentEditorPresentationControl implements ContentEditorPre
         bindings.title.unbindAll();
         presentation.bind(bindings); // FIXME: needed because of unbindAll()
         final PropertyBinder propertyBinder = properties.as(PropertyBinder);
-        propertyBinder.bind(PROPERTY_TITLE, bindings.title, oropertyUpdateCallback);
-        final Document document = propertyBinder.createBoundDocument(PROPERTY_FULL_TEXT, oropertyUpdateCallback);
+        propertyBinder.bind(PROPERTY_TITLE, bindings.title, propertyUpdateCallback);
+        final Document document = propertyBinder.createBoundDocument(PROPERTY_FULL_TEXT, propertyUpdateCallback);
         presentation.populateDocument(documentServer.putDocument("/", document));
         presentation.populateProperties(properties.as(Presentable).createPresentationModel());
       }
