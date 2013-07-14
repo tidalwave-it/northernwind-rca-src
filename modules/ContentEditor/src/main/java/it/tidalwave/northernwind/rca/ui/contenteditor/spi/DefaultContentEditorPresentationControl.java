@@ -30,11 +30,10 @@ package it.tidalwave.northernwind.rca.ui.contenteditor.spi;
 import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import com.google.common.annotations.VisibleForTesting;
 import it.tidalwave.util.Key;
+import it.tidalwave.util.NotFoundException;
 import it.tidalwave.util.Task;
 import it.tidalwave.role.ui.UserAction;
 import it.tidalwave.role.ui.spi.UserActionSupport;
@@ -51,7 +50,8 @@ import it.tidalwave.northernwind.rca.ui.contenteditor.ContentEditorPresentationC
 import it.tidalwave.northernwind.rca.ui.contenteditor.impl.ProcessExecutor;
 import lombok.extern.slf4j.Slf4j;
 import static it.tidalwave.role.ui.Presentable.*;
-import static it.tidalwave.northernwind.model.admin.role.Saveable.*;
+import static it.tidalwave.northernwind.model.admin.role.Saveable.Saveable;
+import static it.tidalwave.northernwind.rca.ui.contenteditor.spi.PropertyBinder.*;
 
 /***********************************************************************************************************************
  *
@@ -70,13 +70,13 @@ public class DefaultContentEditorPresentationControl implements ContentEditorPre
     private EmbeddedServer documentServer;
 
     @Inject @Nonnull
-    private DocumentProxyFactory documentProxyFactory;
-
-    @Inject @Nonnull
     private ContentEditorPresentation presentation;
 
     @CheckForNull
     private Content content;
+
+    @CheckForNull
+    private ResourceProperties properties;
 
     public static final Key<String> PROPERTY_FULL_TEXT = new Key<>("fullText"); // FIXME copied
     public static final Key<String> PROPERTY_TITLE = new Key<>("title"); // FIXME copied
@@ -100,7 +100,7 @@ public class DefaultContentEditorPresentationControl implements ContentEditorPre
                               {
                                 @Override public Void run() throws Exception
                                   {
-                                    refreshPresentation();
+                                    bindProperties();
                                     return null;
                                   }
                               })
@@ -112,15 +112,16 @@ public class DefaultContentEditorPresentationControl implements ContentEditorPre
 
     /*******************************************************************************************************************
      *
+     *
+     *
      ******************************************************************************************************************/
-    private final PropertyChangeListener propertyChangeListener = new PropertyChangeListener()
+    private final PropertyBinder.UpdateCallback oropertyUpdateCallback = new UpdateCallback()
       {
         @Override
-        public void propertyChange (final @Nonnull PropertyChangeEvent event)
+        public void notify (final @Nonnull ResourceProperties updatedProperties)
           {
-            final ResourceProperties properties = content.getProperties()
-                                                         .withProperty(PROPERTY_TITLE, bindings.title.get());
-            properties.as(Saveable).saveIn(content.getFile());
+            updatedProperties.as(Saveable).saveIn(content.getFile());
+            properties = content.getProperties(); // reload them
             presentation.populateProperties(properties.as(Presentable).createPresentationModel());
           }
       };
@@ -133,9 +134,10 @@ public class DefaultContentEditorPresentationControl implements ContentEditorPre
     @Override
     public void initialize()
       {
-        bindings.title.addPropertyChangeListener(propertyChangeListener);
         presentation.bind(bindings);
       }
+
+    // FIXME: unbind at termination
 
     /*******************************************************************************************************************
      *
@@ -148,6 +150,9 @@ public class DefaultContentEditorPresentationControl implements ContentEditorPre
 
         if (selectionEvent.isEmptySelection())
           {
+            // FIXME: unbind previous stuff
+            content = null;
+            properties = null;
             presentation.clear();
           }
         else
@@ -155,10 +160,11 @@ public class DefaultContentEditorPresentationControl implements ContentEditorPre
             try
               {
                 content = selectionEvent.getContent();
-                refreshPresentation();
+                properties = content.getProperties();
+                bindProperties();
                 presentation.showUp();
               }
-            catch (IOException e)
+            catch (IOException | NotFoundException e)
               {
                 presentation.clear(); // FIXME: should notify error
                 log.warn("", e);
@@ -171,13 +177,14 @@ public class DefaultContentEditorPresentationControl implements ContentEditorPre
      *
      *
      ******************************************************************************************************************/
-    private void refreshPresentation()
-      throws IOException
+    private void bindProperties()
+      throws IOException, NotFoundException
       {
-        final ResourceProperties properties = content.getProperties();
-        final Document document = documentProxyFactory.createDocumentProxy(content, PROPERTY_FULL_TEXT);
-
-        bindings.title.set(properties.getProperty(PROPERTY_TITLE, ""));
+        bindings.title.unbindAll();
+        presentation.bind(bindings); // FIXME: needed because of unbindAll()
+        final PropertyBinder propertyBinder = properties.as(PropertyBinder);
+        propertyBinder.bind(PROPERTY_TITLE, bindings.title, oropertyUpdateCallback);
+        final Document document = propertyBinder.createBoundDocument(PROPERTY_FULL_TEXT, oropertyUpdateCallback);
         presentation.populateDocument(documentServer.putDocument("/", document));
         presentation.populateProperties(properties.as(Presentable).createPresentationModel());
       }

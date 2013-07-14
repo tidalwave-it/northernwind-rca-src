@@ -71,7 +71,7 @@ public class DefaultContentEditorPresentationControlTest
 
     private EmbeddedServer embeddedServer;
 
-    private DocumentProxyFactory documentProxyFactory;
+//    private DocumentProxyFactory documentProxyFactory;
 
     private String registeredUrl = "http://localhost:12345/";
 
@@ -85,7 +85,7 @@ public class DefaultContentEditorPresentationControlTest
         fixture = context.getBean(DefaultContentEditorPresentationControl.class);
         embeddedServer = context.getBean(EmbeddedServer.class);
         presentation = context.getBean(ContentEditorPresentation.class);
-        documentProxyFactory = context.getBean(DocumentProxyFactory.class);
+//        documentProxyFactory = context.getBean(DocumentProxyFactory.class);
 
         content = mock(Content.class);
         properties = mock(ResourceProperties.class);
@@ -151,8 +151,8 @@ public class DefaultContentEditorPresentationControlTest
 
         fixture.onContentSelected(new ContentSelectedEvent(content));
 
-        verify(documentProxyFactory).createDocumentProxy(any(Content.class), eq(PROPERTY_FULL_TEXT));
-        verifyNoMoreInteractions(documentProxyFactory);
+//        verify(documentProxyFactory).createDocumentProxy(any(Content.class), eq(PROPERTY_FULL_TEXT));
+//        verifyNoMoreInteractions(documentProxyFactory);
 
         verify(presentation).populateDocument(eq(registeredUrl));
         verify(presentation).populateProperties(same(pm));

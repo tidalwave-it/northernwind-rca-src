@@ -27,6 +27,7 @@
  */
 package it.tidalwave.role.ui;
 
+import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import lombok.AllArgsConstructor;
 import lombok.Delegate;
@@ -70,5 +71,18 @@ public class BoundProperty<T>
     public T get()
       {
         return value;
+      }
+
+    /*******************************************************************************************************************
+     *
+     *
+     *
+     ******************************************************************************************************************/
+    public void unbindAll()
+      {
+        for (final PropertyChangeListener listener : pcs.getPropertyChangeListeners().clone())
+          {
+            pcs.removePropertyChangeListener(listener);
+          }
       }
   }

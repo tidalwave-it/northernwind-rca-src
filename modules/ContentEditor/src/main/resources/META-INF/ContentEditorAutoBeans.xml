@@ -61,6 +61,4 @@
 
     <bean class="it.tidalwave.northernwind.rca.ui.contenteditor.spi.DefaultContentEditorPresentationControl" />
 
-    <bean class="it.tidalwave.northernwind.rca.ui.contenteditor.impl.DefaultDocumentProxyFactory" />
-
 </beans>
