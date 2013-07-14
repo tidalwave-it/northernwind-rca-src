@@ -49,7 +49,7 @@ import it.tidalwave.northernwind.rca.ui.contenteditor.ContentEditorPresentation;
 import it.tidalwave.northernwind.rca.ui.contenteditor.ContentEditorPresentation.Bindings;
 import it.tidalwave.northernwind.rca.ui.contenteditor.ContentEditorPresentationControl;
 import it.tidalwave.northernwind.rca.ui.contenteditor.impl.ProcessExecutor;
-import it.tidalwave.northernwind.rca.ui.contenteditor.impl.Saveable;
+import it.tidalwave.northernwind.model.admin.role.Saveable;
 import lombok.extern.slf4j.Slf4j;
 import static it.tidalwave.role.ui.Presentable.*;
 

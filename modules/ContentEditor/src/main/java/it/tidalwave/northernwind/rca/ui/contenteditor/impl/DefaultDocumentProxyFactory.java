@@ -38,6 +38,7 @@ import org.springframework.core.io.ClassPathResource;
 import it.tidalwave.util.Key;
 import it.tidalwave.northernwind.core.model.Content;
 import it.tidalwave.northernwind.core.model.ResourceProperties;
+import it.tidalwave.northernwind.model.admin.role.Saveable;
 import it.tidalwave.northernwind.rca.embeddedserver.EmbeddedServer.Document;
 import it.tidalwave.northernwind.rca.embeddedserver.EmbeddedServer.Document.UpdateListener;
 import it.tidalwave.northernwind.rca.ui.contenteditor.spi.DocumentProxyFactory;

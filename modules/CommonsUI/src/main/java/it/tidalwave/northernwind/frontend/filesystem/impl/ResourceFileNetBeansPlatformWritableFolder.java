@@ -25,15 +25,22 @@
  * *********************************************************************************************************************
  * #L%
  */
-package it.tidalwave.northernwind.rca.ui.contenteditor.impl;
+package it.tidalwave.northernwind.frontend.filesystem.impl;
 
 import javax.annotation.Nonnull;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
+import org.openide.filesystems.FileObject;
+import it.tidalwave.dci.annotation.DciRole;
+import it.tidalwave.northernwind.model.admin.role.WritableFolder;
 import it.tidalwave.role.Marshallable;
+import lombok.Cleanup;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 /***********************************************************************************************************************
- *
- * A role for folders that can be written.
  *
  * @stereotype role
  *
@@ -41,31 +48,36 @@ import it.tidalwave.role.Marshallable;
  * @version $Id$
  *
  **********************************************************************************************************************/
-public interface WritableFolder
+@DciRole(datumType = ResourceFileNetBeansPlatform.class) @RequiredArgsConstructor @Slf4j
+public class ResourceFileNetBeansPlatformWritableFolder implements WritableFolder
   {
-    public static final Class<WritableFolder> WritableFolder = WritableFolder.class;
+    @Nonnull
+    private final ResourceFileNetBeansPlatform file;
 
-    /*******************************************************************************************************************
-     *
-     * Writes a text into the specified file.
-     *
-     * @param  fileName     the name of the file inside the folder to write to
-     * @param  text         the text to write
-     * @throws IOException  in case of I/O error
-     *
-     ******************************************************************************************************************/
-    public void write (@Nonnull String fileName, @Nonnull String text)
-      throws IOException;
+    @Override @Nonnull
+    public void write (final @Nonnull String fileName, final @Nonnull String text)
+      throws IOException
+      {
+        final @Cleanup Writer w = new OutputStreamWriter(openStream(fileName), "UTF-8");
+        w.write(text);
+        w.close();
+      }
 
-    /*******************************************************************************************************************
-     *
-     * Writes a marshallable object into the specified file.
-     *
-     * @param  fileName     the name of the file inside the folder to write to
-     * @param  marshallable the object to write
-     * @throws IOException  in case of I/O error
-     *
-     ******************************************************************************************************************/
-    public void write (@Nonnull String fileName, @Nonnull Marshallable marshallable)
-      throws IOException;
+    @Override @Nonnull
+    public void write (final @Nonnull String fileName, final @Nonnull Marshallable marshallable)
+      throws IOException
+      {
+        final @Cleanup OutputStream os = openStream(fileName);
+        marshallable.marshal(os);
+        os.close();
+      }
+
+    @Nonnull
+    private OutputStream openStream (final @Nonnull String fileName)
+      throws IOException
+      {
+        final FileObject fileObject = file.getDelegate().getFileObject(fileName);
+        log.debug("opening stream: {}", fileObject);
+        return fileObject.getOutputStream();
+      }
   }

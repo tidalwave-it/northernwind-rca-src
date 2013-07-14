@@ -25,7 +25,7 @@
  * *********************************************************************************************************************
  * #L%
  */
-package it.tidalwave.northernwind.rca.ui.contenteditor.impl;
+package it.tidalwave.northernwind.model.admin.role;
 
 import javax.annotation.Nonnull;
 import it.tidalwave.northernwind.core.model.Content;
