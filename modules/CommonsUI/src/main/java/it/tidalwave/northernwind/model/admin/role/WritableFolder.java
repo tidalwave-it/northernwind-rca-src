@@ -33,7 +33,7 @@ import it.tidalwave.role.Marshallable;
 
 /***********************************************************************************************************************
  *
- * A role for folders that can be written.
+ * A role for folders that can be written into.
  *
  * @stereotype role
  *

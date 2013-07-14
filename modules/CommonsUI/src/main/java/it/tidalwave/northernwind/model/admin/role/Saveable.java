@@ -32,6 +32,10 @@ import it.tidalwave.northernwind.core.model.Content;
 
 /***********************************************************************************************************************
  *
+ * A role for objects that can be saved.
+ *
+ * @stereotype role
+ *
  * @author  Fabrizio Giudici
  * @version $Id$
  *
@@ -40,5 +44,12 @@ public interface Saveable
   {
     public static final Class<Saveable> Saveable = Saveable.class;
 
+    /***
+     *
+     * FIXME: this should be save() with no arguments. Requires as far as ResourceProperties doesn't have any reference
+     * to its owner, hence to the folder where it should be saved.
+     * 
+     * @param content
+     */
     public void saveFor (@Nonnull Content content);
   }
