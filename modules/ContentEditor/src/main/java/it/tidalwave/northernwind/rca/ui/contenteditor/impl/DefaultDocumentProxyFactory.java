@@ -38,12 +38,12 @@ import org.springframework.core.io.ClassPathResource;
 import it.tidalwave.util.Key;
 import it.tidalwave.northernwind.core.model.Content;
 import it.tidalwave.northernwind.core.model.ResourceProperties;
-import it.tidalwave.northernwind.model.admin.role.Saveable;
 import it.tidalwave.northernwind.rca.embeddedserver.EmbeddedServer.Document;
 import it.tidalwave.northernwind.rca.embeddedserver.EmbeddedServer.Document.UpdateListener;
 import it.tidalwave.northernwind.rca.ui.contenteditor.spi.DocumentProxyFactory;
 import lombok.Cleanup;
 import lombok.extern.slf4j.Slf4j;
+import static it.tidalwave.northernwind.model.admin.role.Saveable.*;
 
 /***********************************************************************************************************************
  *
@@ -102,7 +102,7 @@ public class DefaultDocumentProxyFactory implements DocumentProxyFactory
                   {
                     final HtmlDocument editedDocument = originalDocument.withBody(text);
                     final ResourceProperties newProperties = properties.withProperty(propertyName, editedDocument.asString());
-                    newProperties.as(Saveable.class).saveIn(content.getFile());
+                    newProperties.as(Saveable).saveIn(content.getFile());
                   }
               });
           }

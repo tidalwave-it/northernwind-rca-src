@@ -39,6 +39,7 @@ import it.tidalwave.northernwind.rca.ui.event.SiteNodeSelectedEvent;
 import it.tidalwave.northernwind.rca.ui.structureeditor.StructureEditorPresentation;
 import org.testng.annotations.Test;
 import org.testng.annotations.BeforeMethod;
+import static it.tidalwave.role.ui.Presentable.*;
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.CoreMatchers.*;
 import static org.mockito.Mockito.*;
@@ -82,7 +83,7 @@ public class DefaultStructureEditorPresentationControlTest
 
         when(siteNode.getProperties()).thenReturn(properties);
         when(presentable.createPresentationModel(anyVararg())).thenReturn(pm);
-        when(properties.as(eq(Presentable.class))).thenReturn(presentable);
+        when(properties.as(eq(Presentable))).thenReturn(presentable);
 
         fixture.initialize();
       }

@@ -29,7 +29,6 @@ package it.tidalwave.northernwind.rca.ui.structureexplorer.spi;
 
 import java.io.IOException;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import it.tidalwave.role.ui.Presentable;
 import it.tidalwave.role.ui.Selectable;
 import it.tidalwave.role.ui.spi.SimpleCompositePresentable;
 import it.tidalwave.messagebus.MessageBus;
@@ -43,6 +42,7 @@ import it.tidalwave.northernwind.rca.ui.structureexplorer.StructureExplorerPrese
 import it.tidalwave.northernwind.rca.ui.event.OpenSiteEvent;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import static it.tidalwave.role.ui.Presentable.*;
 import static it.tidalwave.role.ui.PresentationModelMatcher.*;
 import static it.tidalwave.northernwind.rca.ui.event.SiteNodeSelectedEventMatcher.*;
 import static org.hamcrest.MatcherAssert.*;
@@ -98,7 +98,7 @@ public class DefaultStructureExplorerPresentationControlTest
         when(fileSystem.findFileByPath(eq("/structure"))).thenReturn(root);
         when(event.getFileSystem()).thenReturn(fileSystem);
         when(modelFactory.createSiteNode(any(Site.class), eq(root))).thenReturn(node);
-        when(node.as(eq(Presentable.class))).thenReturn(new SimpleCompositePresentable(node));
+        when(node.as(eq(Presentable))).thenReturn(new SimpleCompositePresentable(node));
 
         fixture.initialize();
       }

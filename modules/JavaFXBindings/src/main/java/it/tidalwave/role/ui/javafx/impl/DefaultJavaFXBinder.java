@@ -57,15 +57,15 @@ import javafx.application.Platform;
 import com.google.common.annotations.VisibleForTesting;
 import it.tidalwave.util.AsException;
 import it.tidalwave.util.ui.UserNotificationWithFeedback;
-import it.tidalwave.role.Displayable;
 import it.tidalwave.role.SimpleComposite;
 import it.tidalwave.role.ui.BoundProperty;
 import it.tidalwave.role.ui.PresentationModel;
-import it.tidalwave.role.ui.Selectable;
 import it.tidalwave.role.ui.UserAction;
 import it.tidalwave.role.ui.javafx.JavaFXBinder;
 import lombok.extern.slf4j.Slf4j;
 import static javafx.collections.FXCollections.*;
+import static it.tidalwave.role.Displayable.*;
+import static it.tidalwave.role.ui.Selectable.*;
 import javafx.scene.effect.BoxBlur;
 import javafx.scene.effect.Effect;
 
@@ -78,6 +78,8 @@ import javafx.scene.effect.Effect;
 @Slf4j
 public class DefaultJavaFXBinder implements JavaFXBinder
   {
+    private static final Class<SimpleComposite> SimpleComposite = SimpleComposite.class; // FIXME: move to TFT
+    
     /*******************************************************************************************************************
      *
      *
@@ -97,7 +99,7 @@ public class DefaultJavaFXBinder implements JavaFXBinder
                   {
                     try
                       {
-                        return pm.as(Displayable.class).getDisplayName();
+                        return pm.as(Displayable).getDisplayName();
                       }
                     catch (AsException e)
                       {
@@ -131,7 +133,7 @@ public class DefaultJavaFXBinder implements JavaFXBinder
           {
             try
               {
-                item.getValue().as(Selectable.class).select();
+                item.getValue().as(Selectable).select();
               }
             catch (AsException e)
               {
@@ -193,7 +195,7 @@ public class DefaultJavaFXBinder implements JavaFXBinder
       {
         assertIsFxApplicationThread();
 
-        tableView.setItems(observableArrayList(pm.as(SimpleComposite.class).findChildren().results()));
+        tableView.setItems(observableArrayList(pm.as(SimpleComposite).findChildren().results()));
       }
 
     /*******************************************************************************************************************
@@ -328,7 +330,7 @@ public class DefaultJavaFXBinder implements JavaFXBinder
     private void addChildren (final @Nonnull TreeItem<PresentationModel> parentItem,
                               final @Nonnull PresentationModel pm)
       {
-        final SimpleComposite<PresentationModel> composite = pm.as(SimpleComposite.class);
+        final SimpleComposite<PresentationModel> composite = pm.as(SimpleComposite);
 
         for (final PresentationModel childPm : composite.findChildren().results())
           {

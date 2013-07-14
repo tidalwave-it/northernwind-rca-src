@@ -29,7 +29,6 @@ package it.tidalwave.northernwind.rca.ui.contentexplorer.spi;
 
 import java.io.IOException;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import it.tidalwave.role.ui.Presentable;
 import it.tidalwave.role.ui.Selectable;
 import it.tidalwave.role.ui.spi.SimpleCompositePresentable;
 import it.tidalwave.messagebus.MessageBus;
@@ -42,6 +41,7 @@ import it.tidalwave.northernwind.rca.ui.contentexplorer.ContentExplorerPresentat
 import it.tidalwave.northernwind.rca.ui.event.OpenSiteEvent;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import static it.tidalwave.role.ui.Presentable.*;
 import static it.tidalwave.role.ui.PresentationModelMatcher.*;
 import static it.tidalwave.northernwind.rca.ui.event.ContentSelectedEventMatcher.*;
 import static org.hamcrest.MatcherAssert.*;
@@ -100,7 +100,7 @@ public class DefaultContentExplorerPresentationControlTest
         final Content.Builder.CallBack callBack = mock(Content.Builder.CallBack.class);
         when(callBack.build(any(Content.Builder.class))).thenReturn(content);
         when(modelFactory.createContent()).thenReturn(new Content.Builder(modelFactory, callBack));
-        when(content.as(eq(Presentable.class))).thenReturn(new SimpleCompositePresentable(content));
+        when(content.as(eq(Presentable))).thenReturn(new SimpleCompositePresentable(content));
 
         fixture.initialize();
       }

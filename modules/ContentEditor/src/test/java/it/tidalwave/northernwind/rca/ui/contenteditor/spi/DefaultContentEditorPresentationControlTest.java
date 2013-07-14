@@ -40,6 +40,7 @@ import it.tidalwave.northernwind.rca.embeddedserver.EmbeddedServer;
 import it.tidalwave.northernwind.rca.embeddedserver.EmbeddedServer.Document;
 import it.tidalwave.northernwind.rca.ui.contenteditor.ContentEditorPresentation;
 import it.tidalwave.northernwind.rca.ui.event.ContentSelectedEvent;
+import static it.tidalwave.role.ui.Presentable.*;
 import static it.tidalwave.northernwind.rca.ui.contenteditor.spi.DefaultContentEditorPresentationControl.*;
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.CoreMatchers.*;
@@ -99,7 +100,7 @@ public class DefaultContentEditorPresentationControlTest
 
         when(content.getProperties()).thenReturn(properties);
         when(presentable.createPresentationModel(anyVararg())).thenReturn(pm);
-        when(properties.as(eq(Presentable.class))).thenReturn(presentable);
+        when(properties.as(eq(Presentable))).thenReturn(presentable);
 
         fixture.initialize();
       }

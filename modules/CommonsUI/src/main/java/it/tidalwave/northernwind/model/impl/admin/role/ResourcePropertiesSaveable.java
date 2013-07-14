@@ -38,7 +38,6 @@ import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
 import it.tidalwave.util.Key;
 import it.tidalwave.util.NotFoundException;
-import it.tidalwave.role.Marshallable;
 import it.tidalwave.dci.annotation.DciRole;
 import it.tidalwave.northernwind.core.model.ResourceFile;
 import it.tidalwave.northernwind.core.model.ResourceProperties;
@@ -46,6 +45,8 @@ import it.tidalwave.northernwind.model.admin.role.WritableFolder;
 import it.tidalwave.northernwind.model.admin.role.Saveable;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import static it.tidalwave.role.Marshallable.*;
+import static it.tidalwave.northernwind.model.admin.role.WritableFolder.*;
 
 /***********************************************************************************************************************
  *
@@ -73,7 +74,7 @@ public class ResourcePropertiesSaveable implements Saveable
         try
           {
             log.info("saveIn({}, {})", folder, properties);
-            final WritableFolder writableFolder = folder.as(WritableFolder.class);
+            final WritableFolder writableFolder = folder.as(WritableFolder);
 
             ResourceProperties p = properties.withProperty(PROPERTY_LATEST_MODIFICATION_DATE,
                                                            ISO_FORMATTER.print(new DateTime()));
@@ -87,7 +88,7 @@ public class ResourcePropertiesSaveable implements Saveable
               }
 
             // FIXME: guess the localization (some properties go to Properties, some other to Properties_en.xml etc...
-            writableFolder.write("Properties.xml", p.as(Marshallable.class));
+            writableFolder.write("Properties.xml", p.as(Marshallable));
           }
         catch (NotFoundException | IOException e)
           {

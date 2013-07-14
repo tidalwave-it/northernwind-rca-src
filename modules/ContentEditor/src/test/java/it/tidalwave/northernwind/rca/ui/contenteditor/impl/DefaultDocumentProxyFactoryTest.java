@@ -118,7 +118,7 @@ public class DefaultDocumentProxyFactoryTest
 //        when(content.getProperties()).thenReturn(properties);
 //
 //        final ExternalPropertyWriter externalPropertyWriter = mock(ExternalPropertyWriter.class);
-//        when(content.as(eq(ExternalPropertyWriter.class))).thenReturn(externalPropertyWriter);
+//        when(content.as(eq(ExternalPropertyWriter))).thenReturn(externalPropertyWriter);
 //
 //        final String html = "<html>\n<head>\n</head>\n<body>\nthe body\n</body>\n</html>";
 //        when(properties.getProperty(eq(PROPERTY_FULL_TEXT), anyString())).thenReturn(html);

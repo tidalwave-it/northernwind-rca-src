@@ -49,9 +49,9 @@ import it.tidalwave.northernwind.rca.ui.contenteditor.ContentEditorPresentation;
 import it.tidalwave.northernwind.rca.ui.contenteditor.ContentEditorPresentation.Bindings;
 import it.tidalwave.northernwind.rca.ui.contenteditor.ContentEditorPresentationControl;
 import it.tidalwave.northernwind.rca.ui.contenteditor.impl.ProcessExecutor;
-import it.tidalwave.northernwind.model.admin.role.Saveable;
 import lombok.extern.slf4j.Slf4j;
 import static it.tidalwave.role.ui.Presentable.*;
+import static it.tidalwave.northernwind.model.admin.role.Saveable.*;
 
 /***********************************************************************************************************************
  *
@@ -120,7 +120,7 @@ public class DefaultContentEditorPresentationControl implements ContentEditorPre
           {
             final ResourceProperties properties = content.getProperties()
                                                          .withProperty(PROPERTY_TITLE, bindings.title.get());
-            properties.as(Saveable.class).saveIn(content.getFile());
+            properties.as(Saveable).saveIn(content.getFile());
             presentation.populateProperties(properties.as(Presentable).createPresentationModel());
           }
       };
