@@ -27,25 +27,25 @@
  */
 package it.tidalwave.northernwind.model.impl.admin.role;
 
-import it.tidalwave.northernwind.model.admin.role.WritableFolder;
-import it.tidalwave.northernwind.model.admin.role.Saveable;
 import javax.annotation.Nonnull;
-import it.tidalwave.dci.annotation.DciRole;
-import it.tidalwave.northernwind.core.model.Content;
-import it.tidalwave.northernwind.core.model.ResourceProperties;
-import it.tidalwave.role.Marshallable;
-import it.tidalwave.util.Key;
-import it.tidalwave.util.NotFoundException;
-import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import java.io.IOException;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
+import it.tidalwave.util.Key;
+import it.tidalwave.util.NotFoundException;
+import it.tidalwave.role.Marshallable;
+import it.tidalwave.dci.annotation.DciRole;
+import it.tidalwave.northernwind.core.model.ResourceFile;
+import it.tidalwave.northernwind.core.model.ResourceProperties;
+import it.tidalwave.northernwind.model.admin.role.WritableFolder;
+import it.tidalwave.northernwind.model.admin.role.Saveable;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 /***********************************************************************************************************************
  *
@@ -68,12 +68,12 @@ public class ResourcePropertiesSaveable implements Saveable
     private final ResourceProperties properties;
 
     @Override
-    public void saveFor (final @Nonnull Content content)
+    public void saveIn (final @Nonnull ResourceFile folder)
       {
         try
           {
-            log.info("saveFor({}, {})", content.getFile(), properties);
-            final WritableFolder writableFolder = content.getFile().as(WritableFolder.class);
+            log.info("saveFor({}, {})", folder, properties);
+            final WritableFolder writableFolder = folder.as(WritableFolder.class);
 
             ResourceProperties p = properties.withProperty(PROPERTY_LATEST_MODIFICATION_DATE,
                                                            ISO_FORMATTER.print(new DateTime()));

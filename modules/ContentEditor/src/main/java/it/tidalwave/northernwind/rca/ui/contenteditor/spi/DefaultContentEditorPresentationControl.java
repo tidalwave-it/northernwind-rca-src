@@ -120,7 +120,7 @@ public class DefaultContentEditorPresentationControl implements ContentEditorPre
           {
             final ResourceProperties properties = content.getProperties()
                                                          .withProperty(PROPERTY_TITLE, bindings.title.get());
-            properties.as(Saveable.class).saveFor(content);
+            properties.as(Saveable.class).saveIn(content.getFile());
             presentation.populateProperties(properties.as(Presentable).createPresentationModel());
           }
       };

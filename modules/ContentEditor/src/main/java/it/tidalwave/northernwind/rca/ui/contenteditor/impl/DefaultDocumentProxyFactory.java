@@ -102,7 +102,7 @@ public class DefaultDocumentProxyFactory implements DocumentProxyFactory
                   {
                     final HtmlDocument editedDocument = originalDocument.withBody(text);
                     final ResourceProperties newProperties = properties.withProperty(propertyName, editedDocument.asString());
-                    newProperties.as(Saveable.class).saveFor(content);
+                    newProperties.as(Saveable.class).saveIn(content.getFile());
                   }
               });
           }

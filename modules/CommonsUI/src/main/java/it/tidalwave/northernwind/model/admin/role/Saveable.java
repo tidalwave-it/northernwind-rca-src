@@ -28,7 +28,7 @@
 package it.tidalwave.northernwind.model.admin.role;
 
 import javax.annotation.Nonnull;
-import it.tidalwave.northernwind.core.model.Content;
+import it.tidalwave.northernwind.core.model.ResourceFile;
 
 /***********************************************************************************************************************
  *
@@ -48,8 +48,8 @@ public interface Saveable
      *
      * FIXME: this should be save() with no arguments. Requires as far as ResourceProperties doesn't have any reference
      * to its owner, hence to the folder where it should be saved.
-     * 
+     *
      * @param content
      */
-    public void saveFor (@Nonnull Content content);
+    public void saveIn (@Nonnull ResourceFile folder);
   }
