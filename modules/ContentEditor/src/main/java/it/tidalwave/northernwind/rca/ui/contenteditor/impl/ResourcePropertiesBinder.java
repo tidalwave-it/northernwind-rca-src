@@ -23,7 +23,6 @@ import it.tidalwave.role.ui.BoundProperty;
 import it.tidalwave.dci.annotation.DciRole;
 import it.tidalwave.northernwind.core.model.ResourceProperties;
 import it.tidalwave.northernwind.rca.embeddedserver.EmbeddedServer;
-import it.tidalwave.northernwind.rca.ui.contenteditor.impl.HtmlDocument;
 import it.tidalwave.northernwind.rca.ui.contenteditor.spi.PropertyBinder;
 import lombok.Cleanup;
 import lombok.RequiredArgsConstructor;
