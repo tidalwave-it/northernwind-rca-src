@@ -115,7 +115,7 @@ public class DefaultContentEditorPresentationControl implements ContentEditorPre
      *
      *
      ******************************************************************************************************************/
-    private final PropertyBinder.UpdateCallback propertyUpdateCallback = new UpdateCallback()
+    @VisibleForTesting final PropertyBinder.UpdateCallback propertyUpdateCallback = new UpdateCallback()
       {
         @Override
         public void notify (final @Nonnull ResourceProperties updatedProperties)

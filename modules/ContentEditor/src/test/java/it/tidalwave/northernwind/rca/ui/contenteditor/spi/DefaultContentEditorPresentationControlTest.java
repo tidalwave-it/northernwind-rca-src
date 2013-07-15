@@ -27,10 +27,11 @@
  */
 package it.tidalwave.northernwind.rca.ui.contenteditor.spi;
 
+import javax.annotation.Nonnull;
 import java.io.IOException;
-import org.testng.annotations.Test;
-import org.testng.annotations.BeforeMethod;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import it.tidalwave.util.Key;
+import it.tidalwave.util.NotFoundException;
 import it.tidalwave.role.ui.PresentationModel;
 import it.tidalwave.role.ui.Presentable;
 import it.tidalwave.messagebus.annotation.SimpleMessageSubscriber;
@@ -40,8 +41,13 @@ import it.tidalwave.northernwind.rca.embeddedserver.EmbeddedServer;
 import it.tidalwave.northernwind.rca.embeddedserver.EmbeddedServer.Document;
 import it.tidalwave.northernwind.rca.ui.contenteditor.ContentEditorPresentation;
 import it.tidalwave.northernwind.rca.ui.event.ContentSelectedEvent;
+import org.testng.annotations.Test;
+import org.testng.annotations.BeforeMethod;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 import static it.tidalwave.role.ui.Presentable.*;
 import static it.tidalwave.northernwind.rca.ui.contenteditor.spi.DefaultContentEditorPresentationControl.*;
+import static it.tidalwave.northernwind.rca.ui.contenteditor.spi.PropertyBinder.*;
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.CoreMatchers.*;
 import static org.mockito.Mockito.*;
@@ -69,9 +75,11 @@ public class DefaultContentEditorPresentationControlTest
 
     private PresentationModel pm;
 
+    private PropertyBinder propertyBinder;
+
     private EmbeddedServer embeddedServer;
 
-//    private DocumentProxyFactory documentProxyFactory;
+    private Document document;
 
     private String registeredUrl = "http://localhost:12345/";
 
@@ -85,22 +93,32 @@ public class DefaultContentEditorPresentationControlTest
         fixture = context.getBean(DefaultContentEditorPresentationControl.class);
         embeddedServer = context.getBean(EmbeddedServer.class);
         presentation = context.getBean(ContentEditorPresentation.class);
-//        documentProxyFactory = context.getBean(DocumentProxyFactory.class);
 
         content = mock(Content.class);
         properties = mock(ResourceProperties.class);
         presentable = mock(Presentable.class);
         pm = mock(PresentationModel.class);
+        propertyBinder = mock(PropertyBinder.class);
 
         when(embeddedServer.putDocument(anyString(), any(Document.class))).thenReturn(registeredUrl);
-
-//        fixture.documentServer = embeddedServer; // FIXME: use Spring
-//        fixture.documentProxyFactory = documentProxyFactory;
-//        fixture.presentation = presentation;
 
         when(content.getProperties()).thenReturn(properties);
         when(presentable.createPresentationModel(anyVararg())).thenReturn(pm);
         when(properties.as(eq(Presentable))).thenReturn(presentable);
+        when(properties.as(eq(PropertyBinder))).thenReturn(propertyBinder);
+
+        document = new Document().withContent("proxy for: full text")
+                                 .withMimeType("text/html");
+
+        when(propertyBinder.createBoundDocument(any(Key.class), any(PropertyBinder.UpdateCallback.class)))
+                .thenAnswer(new Answer<Document>()
+          {
+            @Override @Nonnull
+            public Document answer (final @Nonnull InvocationOnMock invocation)
+              {
+                return document;
+              }
+          });
 
         fixture.initialize();
       }
@@ -134,6 +152,7 @@ public class DefaultContentEditorPresentationControlTest
         fixture.onContentSelected(new ContentSelectedEvent());
 
         verify(presentation).clear();
+        verify(presentation).bind(same(fixture.bindings));
         verifyNoMoreInteractions(presentation);
       }
 
@@ -141,35 +160,35 @@ public class DefaultContentEditorPresentationControlTest
      *
      ******************************************************************************************************************/
     @Test
-    public void must_populate_the_presentation_on_reception_of_selected_content()
-      throws IOException
+    public void must_populate_the_presentation_and_bind_properties_on_reception_of_selected_content()
+      throws IOException, NotFoundException
       {
         when(properties.getProperty(eq(PROPERTY_FULL_TEXT), anyString())).thenReturn("full text");
         when(properties.getProperty(eq(PROPERTY_TITLE), anyString())).thenReturn("title");
-
         reset(presentation);
 
         fixture.onContentSelected(new ContentSelectedEvent(content));
 
-//        verify(documentProxyFactory).createDocumentProxy(any(Content.class), eq(PROPERTY_FULL_TEXT));
-//        verifyNoMoreInteractions(documentProxyFactory);
+        verify(propertyBinder).bind(eq(PROPERTY_TITLE), same(fixture.bindings.title), same(fixture.propertyUpdateCallback));
+        verify(propertyBinder).createBoundDocument(eq(PROPERTY_FULL_TEXT), same(fixture.propertyUpdateCallback));
+        verifyNoMoreInteractions(propertyBinder);
 
         verify(presentation).populateDocument(eq(registeredUrl));
         verify(presentation).populateProperties(same(pm));
         verify(presentation).showUp();
+        verify(presentation).bind(same(fixture.bindings));
         verifyNoMoreInteractions(presentation);
 
-        verify(embeddedServer).putDocument(eq("/"), eq(new Document().withContent("proxy for: full text")
-                                                                      .withMimeType("text/html")));
+        verify(embeddedServer).putDocument(eq("/"), eq(document));
         verifyNoMoreInteractions(embeddedServer);
 
-        assertThat(fixture.bindings.title.get(), is("title"));
+//        assertThat(fixture.bindings.title.get(), is("title")); no need for this, binding is separatedly tested
       }
 
     /*******************************************************************************************************************
      *
      ******************************************************************************************************************/
-//    @Test FIXME
+//    @Test
 //    public void must_clear_the_presentation_on_error()
 //      throws IOException
 //      {
