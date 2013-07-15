@@ -150,7 +150,7 @@ public class DefaultContentEditorPresentationControl implements ContentEditorPre
 
         if (selectionEvent.isEmptySelection())
           {
-            // FIXME: unbind previous stuff
+            unbindProperties();
             content = null;
             properties = null;
             presentation.clear();
@@ -180,12 +180,22 @@ public class DefaultContentEditorPresentationControl implements ContentEditorPre
     private void bindProperties()
       throws IOException, NotFoundException
       {
-        bindings.title.unbindAll();
-        presentation.bind(bindings); // FIXME: needed because of unbindAll()
+        unbindProperties();
         final PropertyBinder propertyBinder = properties.as(PropertyBinder);
         propertyBinder.bind(PROPERTY_TITLE, bindings.title, propertyUpdateCallback);
         final Document document = propertyBinder.createBoundDocument(PROPERTY_FULL_TEXT, propertyUpdateCallback);
         presentation.populateDocument(documentServer.putDocument("/", document));
         presentation.populateProperties(properties.as(Presentable).createPresentationModel());
+      }
+
+    /*******************************************************************************************************************
+     *
+     *
+     *
+     ******************************************************************************************************************/
+    private void unbindProperties()
+      {
+        bindings.title.unbindAll();
+        presentation.bind(bindings); // FIXME: needed because of unbindAll()
       }
   }
