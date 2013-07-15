@@ -47,7 +47,7 @@
 
     <groupId>it.tidalwave.northernwind.rca</groupId>
     <artifactId>northernwind-rca</artifactId>
-    <version>1.1-ALPHA-4</version>
+    <version>1.1-ALPHA-5-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>Zephyr (master)</name>
     <inceptionYear>2013</inceptionYear>
@@ -142,90 +142,90 @@
             <dependency>
                 <groupId>it.tidalwave.northernwind.rca</groupId>
                 <artifactId>it-tidalwave-util-supplement</artifactId>
-                <version>1.1-ALPHA-4</version>
+                <version>1.1-ALPHA-5-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>it.tidalwave.northernwind.rca</groupId>
                 <artifactId>it-tidalwave-util-supplement</artifactId>
-                <version>1.1-ALPHA-4</version>
+                <version>1.1-ALPHA-5-SNAPSHOT</version>
                 <classifier>tests</classifier>
             </dependency>
 
             <dependency>
                 <groupId>it.tidalwave.northernwind.rca</groupId>
                 <artifactId>it-tidalwave-role-ui-javafx</artifactId>
-                <version>1.1-ALPHA-4</version>
+                <version>1.1-ALPHA-5-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>it.tidalwave.northernwind.rca</groupId>
                 <artifactId>it-tidalwave-northernwind-rca-ui-commons</artifactId>
-                <version>1.1-ALPHA-4</version>
+                <version>1.1-ALPHA-5-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>it.tidalwave.northernwind.rca</groupId>
                 <artifactId>it-tidalwave-northernwind-rca-ui-commons</artifactId>
-                <version>1.1-ALPHA-4</version>
+                <version>1.1-ALPHA-5-SNAPSHOT</version>
                 <classifier>tests</classifier>
             </dependency>
             <dependency>
                 <groupId>it.tidalwave.northernwind.rca</groupId>
                 <artifactId>it-tidalwave-northernwind-model-core-stripped</artifactId>
-                <version>1.1-ALPHA-4</version>
+                <version>1.1-ALPHA-5-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>it.tidalwave.northernwind.rca</groupId>
                 <artifactId>it-tidalwave-northernwind-rca-model</artifactId>
-                <version>1.1-ALPHA-4</version>
+                <version>1.1-ALPHA-5-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>it.tidalwave.northernwind.rca</groupId>
                 <artifactId>it-tidalwave-northernwind-rca-embeddedserver</artifactId>
-                <version>1.1-ALPHA-4</version>
+                <version>1.1-ALPHA-5-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>it.tidalwave.northernwind.rca</groupId>
                 <artifactId>it-tidalwave-northernwind-rca-ui-site-opener</artifactId>
-                <version>1.1-ALPHA-4</version>
+                <version>1.1-ALPHA-5-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>it.tidalwave.northernwind.rca</groupId>
                 <artifactId>it-tidalwave-northernwind-rca-ui-content-explorer</artifactId>
-                <version>1.1-ALPHA-4</version>
+                <version>1.1-ALPHA-5-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>it.tidalwave.northernwind.rca</groupId>
                 <artifactId>it-tidalwave-northernwind-rca-ui-structure-explorer</artifactId>
-                <version>1.1-ALPHA-4</version>
+                <version>1.1-ALPHA-5-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>it.tidalwave.northernwind.rca</groupId>
                 <artifactId>it-tidalwave-northernwind-rca-ui-content-editor</artifactId>
-                <version>1.1-ALPHA-4</version>
+                <version>1.1-ALPHA-5-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>it.tidalwave.northernwind.rca</groupId>
                 <artifactId>it-tidalwave-northernwind-rca-ui-structure-editor</artifactId>
-                <version>1.1-ALPHA-4</version>
+                <version>1.1-ALPHA-5-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>it.tidalwave.northernwind.rca</groupId>
                 <artifactId>it-tidalwave-northernwind-rca-ui-javafx</artifactId>
-                <version>1.1-ALPHA-4</version>
+                <version>1.1-ALPHA-5-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>it.tidalwave.northernwind.rca</groupId>
                 <artifactId>it-tidalwave-northernwind-rca-application-javafx</artifactId>
-                <version>1.1-ALPHA-4</version>
+                <version>1.1-ALPHA-5-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>it.tidalwave.northernwind.rca</groupId>
                 <artifactId>zephyr-macosx-embedded-jre</artifactId>
-                <version>1.1-ALPHA-4</version>
+                <version>1.1-ALPHA-5-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>it.tidalwave.northernwind.rca</groupId>
                 <artifactId>zephyr-macosx</artifactId>
-                <version>1.1-ALPHA-4</version>
+                <version>1.1-ALPHA-5-SNAPSHOT</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -235,7 +235,7 @@
         <connection>scm:${tft.scm}:${scm.repo.readonly.url}</connection>
         <developerConnection>scm:${tft.scm}:${scm.repo.effective.url}</developerConnection>
         <url>${scm.repo.browse.url}</url>
-      <tag>1.1-ALPHA-4</tag>
+      <tag>HEAD</tag>
   </scm>
 
     <!-- FIXME: push profiles to Super POM -->

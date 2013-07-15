@@ -32,14 +32,14 @@
     <parent>
         <groupId>it.tidalwave.northernwind.rca</groupId>
         <artifactId>northernwind-rca-modules</artifactId>
-        <version>1.1-ALPHA-4</version>
+        <version>1.1-ALPHA-5-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
     <groupId>it.tidalwave.northernwind.rca</groupId>
     <artifactId>it-tidalwave-util-supplement</artifactId>
     <packaging>jar</packaging>
-    <version>1.1-ALPHA-4</version>
+    <version>1.1-ALPHA-5-SNAPSHOT</version>
     <name>TheseFoolishThings - Supplements</name>
 
     <dependencies>
