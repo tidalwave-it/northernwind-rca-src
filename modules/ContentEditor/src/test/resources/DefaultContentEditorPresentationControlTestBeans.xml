@@ -75,10 +75,4 @@
         <constructor-arg value="it.tidalwave.northernwind.rca.ui.contenteditor.ContentEditorPresentation" />
     </bean>
 
-    <bean class="org.mockito.Mockito" factory-method="spy">
-        <constructor-arg>
-            <bean class="it.tidalwave.northernwind.rca.ui.contenteditor.spi.MockDocumentProxyFactory" />
-        </constructor-arg>
-    </bean>
-
 </beans>
