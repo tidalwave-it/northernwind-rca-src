@@ -126,7 +126,7 @@ public class ResourcePropertiesBinderTest
     /*******************************************************************************************************************
      *
      ******************************************************************************************************************/
-    @Test
+    @Test(dependsOnMethods = "must_properly_initialize")
     public void must_create_a_proxy_document_that_properly_updates_properties()
       throws IOException
       {
