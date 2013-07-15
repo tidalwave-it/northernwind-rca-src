@@ -5,7 +5,7 @@
  * #L%
  */
 
-package it.tidalwave.northernwind.rca.ui.contenteditor.spi;
+package it.tidalwave.northernwind.rca.ui.contenteditor.impl;
 
 import javax.annotation.Nonnull;
 import java.beans.PropertyChangeEvent;
@@ -24,6 +24,7 @@ import it.tidalwave.dci.annotation.DciRole;
 import it.tidalwave.northernwind.core.model.ResourceProperties;
 import it.tidalwave.northernwind.rca.embeddedserver.EmbeddedServer;
 import it.tidalwave.northernwind.rca.ui.contenteditor.impl.HtmlDocument;
+import it.tidalwave.northernwind.rca.ui.contenteditor.spi.PropertyBinder;
 import lombok.Cleanup;
 import lombok.RequiredArgsConstructor;
 
