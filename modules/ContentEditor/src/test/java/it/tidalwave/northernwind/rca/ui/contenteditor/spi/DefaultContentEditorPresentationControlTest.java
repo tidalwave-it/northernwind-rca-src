@@ -185,6 +185,8 @@ public class DefaultContentEditorPresentationControlTest
 //        assertThat(fixture.bindings.title.get(), is("title")); no need for this, binding is separatedly tested
       }
 
+    // TODO: test propertyUpdateCallback
+    
     /*******************************************************************************************************************
      *
      ******************************************************************************************************************/
