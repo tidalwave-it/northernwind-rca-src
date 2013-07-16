@@ -70,8 +70,15 @@ public class DefaultContentExplorerPresentationControl implements ContentExplore
 
     /*******************************************************************************************************************
      *
-     * TODO: refactor with @DciRole and a context
-     * 
+     * TODO: refactor with @DciRole and a context - not by using threading, but some token passed in the
+     * PresentationModel. For instance:
+     *
+     * 1. Annotate this class as a @DciContext
+     * 2. Allow passing @DciContext-annotated classes to createPresentationModel()
+     * 3. The role resolver uses the previous information to find additional roles.
+     *
+     * Not using thread-binding you solve all asynchronous issues.
+     *
      ******************************************************************************************************************/
     @VisibleForTesting final RoleFactory<Content> publisherRoleFactory = new RoleFactory<Content>()
       {
