@@ -70,6 +70,8 @@ public class DefaultContentExplorerPresentationControl implements ContentExplore
 
     /*******************************************************************************************************************
      *
+     * TODO: refactor with @DciRole and a context
+     * 
      ******************************************************************************************************************/
     @VisibleForTesting final RoleFactory<Content> publisherRoleFactory = new RoleFactory<Content>()
       {
