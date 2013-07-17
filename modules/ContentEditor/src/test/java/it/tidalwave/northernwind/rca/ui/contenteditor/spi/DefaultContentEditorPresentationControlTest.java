@@ -152,7 +152,7 @@ public class DefaultContentEditorPresentationControlTest
         fixture.onContentSelected(new ContentSelectedEvent());
 
         verify(presentation).clear();
-        verify(presentation).bind(same(fixture.bindings));
+//        verify(presentation).bind(same(fixture.bindings));
         verifyNoMoreInteractions(presentation);
       }
 
@@ -186,7 +186,7 @@ public class DefaultContentEditorPresentationControlTest
       }
 
     // TODO: test propertyUpdateCallback
-    
+
     /*******************************************************************************************************************
      *
      ******************************************************************************************************************/
