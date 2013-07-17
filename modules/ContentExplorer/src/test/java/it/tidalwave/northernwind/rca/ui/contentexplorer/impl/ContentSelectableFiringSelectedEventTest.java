@@ -31,7 +31,6 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import it.tidalwave.dci.annotation.DciRole;
 import it.tidalwave.messagebus.MessageBus;
 import it.tidalwave.northernwind.core.model.Content;
-import it.tidalwave.northernwind.rca.ui.contentexplorer.spi.DefaultContentExplorerPresentationControl;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import static org.testng.Assert.*;

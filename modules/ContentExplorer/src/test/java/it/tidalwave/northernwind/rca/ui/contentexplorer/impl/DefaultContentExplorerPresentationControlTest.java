@@ -25,10 +25,13 @@
  * *********************************************************************************************************************
  * #L%
  */
-package it.tidalwave.northernwind.rca.ui.contentexplorer.spi;
+package it.tidalwave.northernwind.rca.ui.contentexplorer.impl;
 
+import javax.annotation.Nonnull;
 import java.io.IOException;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import it.tidalwave.util.RoleFactory;
+import it.tidalwave.role.ContextManager;
 import it.tidalwave.role.ui.Selectable;
 import it.tidalwave.role.ui.spi.SimpleCompositePresentable;
 import it.tidalwave.messagebus.MessageBus;
@@ -39,19 +42,16 @@ import it.tidalwave.northernwind.core.model.ResourceFile;
 import it.tidalwave.northernwind.core.model.ResourceFileSystem;
 import it.tidalwave.northernwind.rca.ui.contentexplorer.ContentExplorerPresentation;
 import it.tidalwave.northernwind.rca.ui.event.OpenSiteEvent;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import static it.tidalwave.role.ui.PresentationModelMatcher.*;
 import static it.tidalwave.northernwind.rca.ui.event.ContentSelectedEventMatcher.*;
-import it.tidalwave.role.ContextManager;
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.CoreMatchers.*;
 import static org.mockito.Mockito.*;
 import static org.mockito.Mockito.any;
 import static it.tidalwave.util.MockAs.*;
-import it.tidalwave.util.RoleFactory;
-import javax.annotation.Nonnull;
-import org.testng.annotations.AfterMethod;
 
 /***********************************************************************************************************************
  *

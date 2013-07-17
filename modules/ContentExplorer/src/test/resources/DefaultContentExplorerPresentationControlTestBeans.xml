@@ -44,7 +44,7 @@
     <context:spring-configured />
 
     <bean id="fixture"
-          class="it.tidalwave.northernwind.rca.ui.contentexplorer.spi.DefaultContentExplorerPresentationControl"
+          class="it.tidalwave.northernwind.rca.ui.contentexplorer.impl.DefaultContentExplorerPresentationControl"
           lazy-init="true">
     </bean>
 
