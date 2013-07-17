@@ -121,8 +121,11 @@ public class DefaultContentEditorPresentationControl implements ContentEditorPre
         public void notify (final @Nonnull ResourceProperties updatedProperties)
           {
             updatedProperties.as(Saveable).saveIn(content.getFile());
+            unbindProperties();
             properties = content.getProperties(); // reload them
-            presentation.populateProperties(properties.as(Presentable).createPresentationModel());
+            // FIXME: properties have to be re-bound, since they have been reloaded - but this makes the HTML editor
+            // to flicker and the caret in text editor to reset at position 0 - and to loop forever
+            bindProperties();
           }
       };
 
@@ -148,27 +151,20 @@ public class DefaultContentEditorPresentationControl implements ContentEditorPre
       {
         log.debug("onContentSelected({})", selectionEvent);
 
+        unbindProperties();
+
         if (selectionEvent.isEmptySelection())
           {
-            unbindProperties();
             content = null;
             properties = null;
             presentation.clear();
           }
         else
           {
-            try
-              {
-                content = selectionEvent.getContent();
-                properties = content.getProperties();
-                bindProperties();
-                presentation.showUp();
-              }
-            catch (IOException | NotFoundException e)
-              {
-                presentation.clear(); // FIXME: should notify error
-                log.warn("", e);
-              }
+            content = selectionEvent.getContent();
+            properties = content.getProperties();
+            bindProperties();
+            presentation.showUp();
           }
       }
 
@@ -178,14 +174,21 @@ public class DefaultContentEditorPresentationControl implements ContentEditorPre
      *
      ******************************************************************************************************************/
     private void bindProperties()
-      throws IOException, NotFoundException
       {
-        unbindProperties();
-        final PropertyBinder propertyBinder = properties.as(PropertyBinder);
-        propertyBinder.bind(PROPERTY_TITLE, bindings.title, propertyUpdateCallback);
-        final Document document = propertyBinder.createBoundDocument(PROPERTY_FULL_TEXT, propertyUpdateCallback);
-        presentation.populateDocument(documentServer.putDocument("/", document));
-        presentation.populateProperties(properties.as(Presentable).createPresentationModel());
+        try
+          {
+            presentation.bind(bindings); // FIXME: needed because of unbindAll()
+            final PropertyBinder propertyBinder = properties.as(PropertyBinder);
+            propertyBinder.bind(PROPERTY_TITLE, bindings.title, propertyUpdateCallback);
+            final Document document = propertyBinder.createBoundDocument(PROPERTY_FULL_TEXT, propertyUpdateCallback);
+            presentation.populateDocument(documentServer.putDocument("/", document));
+            presentation.populateProperties(properties.as(Presentable).createPresentationModel());
+          }
+        catch (IOException | NotFoundException e)
+          {
+            presentation.clear(); // FIXME: should notify error
+            log.warn("", e);
+          }
       }
 
     /*******************************************************************************************************************
@@ -196,6 +199,5 @@ public class DefaultContentEditorPresentationControl implements ContentEditorPre
     private void unbindProperties()
       {
         bindings.title.unbindAll();
-        presentation.bind(bindings); // FIXME: needed because of unbindAll()
       }
   }
