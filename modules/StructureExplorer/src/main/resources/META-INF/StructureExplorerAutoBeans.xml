@@ -59,6 +59,6 @@
 
     <aop:aspectj-autoproxy/>
 
-    <bean class="it.tidalwave.northernwind.rca.ui.structureexplorer.spi.DefaultStructureExplorerPresentationControl" />
+    <bean class="it.tidalwave.northernwind.rca.ui.structureexplorer.impl.DefaultStructureExplorerPresentationControl" />
 
 </beans>
