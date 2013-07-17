@@ -63,6 +63,12 @@
           class="it.tidalwave.northernwind.rca.ui.contenteditor.spi.DefaultContentEditorPresentationControl"
           lazy-init="true" /> <!-- To solve Mockito + Spring problems -->
 
+    <bean id="roleManager"
+          class="it.tidalwave.role.spring.spi.AnnotationSpringRoleManager" />
+
+    <bean id="contextManager"
+         class="it.tidalwave.role.spring.SpringContextManager" />
+
     <bean id="applicationMessageBus" class="org.mockito.Mockito" factory-method="mock">
         <constructor-arg value="it.tidalwave.messagebus.MessageBus" />
     </bean>
