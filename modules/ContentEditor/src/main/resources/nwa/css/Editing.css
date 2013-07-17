@@ -1,0 +1,203 @@
+/*@import url("http://fonts.googleapis.com/css?family=Indie+Flower|PT+Sans+Narrow:400,700|Questrial|Merriweather:400,700|Lora:400italic,700italic");*/
+
+div.handwritten
+  {
+    font-family:     'Indie Flower', cursive;
+    line-height:     1.2em;
+    /*font-size:       125%;*/
+    text-align:      left;
+  }
+
+body
+  {
+    background: #ffffff;
+    font-family: Merriweather, serif;
+    /*font-size: 110%;*/
+    line-height: 1em;
+  }
+
+p, li
+  {
+    /*font-size: 75%;*/
+    line-height: 1.7em;
+    text-align: justify;
+  }
+
+em
+  {
+    /*font-size:   75%;*/
+    font-family: Lora, Merriwheather, serif;
+    line-height: 1.7em;
+  }
+
+p em
+  {
+    /*font-size:   110%;*/
+    font-family: Lora, Merriwheather, serif;
+  }
+
+h1, h2, h3, h4
+  {
+    font-family: Questrial, Arial, sans-serif;
+  }
+
+p.nwXsltMacro_Photo_photoId:before,
+span.nwXsltMacro_InlinedPhoto_photoId:before
+  {
+    content:          "Photo id: ";
+    font-family:      sans-serif;
+    font-weight:      bold;
+  }
+
+p.nwXsltMacro_Photo_caption:before,
+span.nwXsltMacro_InlinedPhoto_caption:before
+  {
+    content:          "Caption: ";
+    font-family:      sans-serif;
+    font-weight:      bold;
+  }
+
+p.nwXsltMacro_Photo_title:before
+  {
+    content:          "Title: ";
+    font-family:      sans-serif;
+    font-weight:      bold;
+  }
+
+p.nwXsltMacro_Photo_shootingData:before
+  {
+    content:          "Shooting data: ";
+    font-family:      sans-serif;
+    font-weight:      bold;
+  }
+
+p.nwXsltMacro_Photo_size:before,
+span.nwXsltMacro_InlinedPhoto_size:before
+  {
+    content:          "Size: ";
+    font-family:      sans-serif;
+    font-weight:      bold;
+  }
+
+p.nwXsltMacro_Photo_float:before,
+span.nwXsltMacro_InlinedPhoto_float:before
+  {
+    content:          "Float: ";
+    font-family:      sans-serif;
+    font-weight:      bold;
+  }
+
+p.nwXsltMacro_PhotoPair_photo1Id:before
+  {
+    content:          "Photo id 1: ";
+    font-family:      sans-serif;
+    font-weight:      bold;
+  }
+
+p.nwXsltMacro_PhotoPair_photo2Id:before
+  {
+    content:          "Photo id 2: ";
+    font-family:      sans-serif;
+    font-weight:      bold;
+  }
+
+p.nwXsltMacro_PhotoPair_caption1:before
+  {
+    content:          "Caption 1: ";
+    font-family:      sans-serif;
+    font-weight:      bold;
+  }
+
+p.nwXsltMacro_PhotoPair_caption2:before
+  {
+    content:          "Caption 2: ";
+    font-family:      sans-serif;
+    font-weight:      bold;
+  }
+
+p.nwXsltMacro_Movie_movieId:before
+  {
+    content:          "Movie id: ";
+    font-family:      sans-serif;
+    font-weight:      bold;
+  }
+
+p.nwXsltMacro_Movie_caption:before
+  {
+    content:          "Caption: ";
+    font-family:      sans-serif;
+    font-weight:      bold;
+  }
+
+p.nwXsltMacro_Movie_title:before
+  {
+    content:          "Title: ";
+    font-family:      sans-serif;
+    font-weight:      bold;
+  }
+
+p.nwXsltMacro_Movie_shootingData:before
+  {
+    content:          "Shooting data: ";
+    font-family:      sans-serif;
+    font-weight:      bold;
+  }
+
+p.nwXsltMacro_Movie_width:before
+  {
+    content:          "Width: ";
+    font-family:      sans-serif;
+    font-weight:      bold;
+  }
+
+p.nwXsltMacro_Movie_height:before
+  {
+    content:          "Height: ";
+    font-family:      sans-serif;
+    font-weight:      bold;
+  }
+
+p.nwXsltMacro_Photo_photoId,
+p.nwXsltMacro_Photo_caption,
+p.nwXsltMacro_Photo_title,
+p.nwXsltMacro_Photo_shootingData,
+p.nwXsltMacro_PhotoPair_photo1Id,
+p.nwXsltMacro_PhotoPair_photo2Id,
+p.nwXsltMacro_PhotoPair_caption1,
+p.nwXsltMacro_PhotoPair_caption2,
+p.nwXsltMacro_Movie_movieId,
+p.nwXsltMacro_Movie_caption,
+p.nwXsltMacro_Movie_width,
+p.nwXsltMacro_Movie_height,
+figure legend
+  {
+    font-size:        80%;
+    /*border:           1px black solid;*/
+    margin-bottom:    4px;
+    margin-top:       4px;
+    font-family:      sans-serif;
+    line-height:      1em;
+  }
+
+div.nwXsltMacro_Photo,
+div.nwXsltMacro_PhotoPair,
+div.nwXsltMacro_Movie
+  {
+    width:            500px;
+    border:           1px;
+    background-color: #d0d0d0;
+    padding:          10px;
+    margin-left:      auto;
+    margin-right:     auto;
+    margin-top:       4px;
+    margin-bottom:    4px;
+  }
+
+span.nwXsltMacro_InlinedPhoto,
+figure
+  {
+    border:           1px;
+    background-color: #d0d0d0;
+    padding:          10px;
+    margin-top:       2px;
+  }

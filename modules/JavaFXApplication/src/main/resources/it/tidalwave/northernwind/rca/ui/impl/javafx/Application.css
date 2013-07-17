@@ -1,0 +1,41 @@
+#btOpen
+  {
+    -fx-background-image:    url('open32.png');
+    -fx-background-repeat:   no-repeat;
+    -fx-background-position: center;
+  }
+
+.tool-bar .button
+  {
+    -fx-border-width:        0;
+    -fx-background-color:    transparent;
+  }
+
+/*.table-view .column-header-background,
+.tree-table-view .column-header-background
+  {
+    -fx-background-color:    #ededed;
+  }*/
+
+#pnHorizontalSplit
+  {
+    -fx-border-width:        0;
+    -fx-background-color:    #ededed;
+  }
+
+#pnVerticalSplit
+  {
+    -fx-border-width:        0;
+    -fx-background-color:    #ededed;
+  }
+
+.explorer-toolbar
+  {
+    -fx-background-color:    #ededed;
+    -fx-padding:             4 4 4 4;
+  }
+
+.explorer-view
+  {
+    -fx-font-size:           12pt;
+  }
