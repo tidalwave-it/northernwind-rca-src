@@ -33,8 +33,9 @@ import javax.inject.Named;
 import java.io.IOException;
 import com.google.common.annotations.VisibleForTesting;
 import it.tidalwave.util.NotFoundException;
-import it.tidalwave.util.RoleFactory;
-import it.tidalwave.role.ui.Selectable;
+import it.tidalwave.util.Task;
+import it.tidalwave.role.ContextManager;
+import it.tidalwave.dci.annotation.DciContext;
 import it.tidalwave.messagebus.MessageBus;
 import it.tidalwave.messagebus.annotation.ListensTo;
 import it.tidalwave.messagebus.annotation.SimpleMessageSubscriber;
@@ -57,7 +58,7 @@ import static it.tidalwave.role.ui.Presentable.*;
  * @version $Id$
  *
  **********************************************************************************************************************/
-@SimpleMessageSubscriber @Slf4j
+@DciContext @SimpleMessageSubscriber @Slf4j
 public class DefaultStructureExplorerPresentationControl implements StructureExplorerPresentationControl
   {
     @Inject @Nonnull
@@ -69,25 +70,8 @@ public class DefaultStructureExplorerPresentationControl implements StructureExp
     @Inject @Nonnull
     private StructureExplorerPresentation presentation;
 
-    /*******************************************************************************************************************
-     *
-     ******************************************************************************************************************/
-    @VisibleForTesting final RoleFactory<SiteNode> publisherRoleFactory = new RoleFactory<SiteNode>()
-      {
-        @Override
-        public Object createRoleFor (final @Nonnull SiteNode siteNode)
-          {
-            return new Selectable()
-              {
-                @Override
-                public void select()
-                  {
-                    log.debug("Selected {}", siteNode);
-                    messageBus.publish(new SiteNodeSelectedEvent(siteNode));
-                  }
-              };
-          }
-      };
+    @Inject @Nonnull
+    private ContextManager contextManager;
 
     /*******************************************************************************************************************
      *
@@ -104,18 +88,28 @@ public class DefaultStructureExplorerPresentationControl implements StructureExp
      ******************************************************************************************************************/
     @VisibleForTesting void onOpenSite (final @ListensTo @Nonnull OpenSiteEvent event)
       {
-        try
+        // FIXME: use @DciContext(autoThreadBinding = true)
+        contextManager.runWithContext(this, new Task<Void, RuntimeException>()
           {
-            log.debug("onOpenSite({})", event);
-            final ResourceFile root = event.getFileSystem().findFileByPath("/structure");
-            final SiteNode siteNode = modelFactory.createSiteNode(null, root); // FIXME: pass a Site
-            presentation.populate(siteNode.as(Presentable).createPresentationModel(publisherRoleFactory));
-            presentation.expandFirstLevel();
-            messageBus.publish(new SiteNodeSelectedEvent());
-          }
-        catch (IOException | NotFoundException e)
-          {
-            log.warn("", e);
-          }
+            @Override
+            public Void run()
+              {
+                try
+                  {
+                    log.debug("onOpenSite({})", event);
+                    final ResourceFile root = event.getFileSystem().findFileByPath("/structure");
+                    final SiteNode siteNode = modelFactory.createSiteNode(null, root); // FIXME: pass a Site
+                    presentation.populate(siteNode.as(Presentable).createPresentationModel());
+                    presentation.expandFirstLevel();
+                    messageBus.publish(new SiteNodeSelectedEvent());
+                  }
+                catch (IOException | NotFoundException e)
+                  {
+                    log.warn("", e);
+                  }
+
+                return null;
+              }
+          });
       }
   }

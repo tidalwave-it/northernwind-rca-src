@@ -43,27 +43,15 @@
     <!-- Enables AOP-based injection of classes that are instantiated outside of the Spring bean factory -->
     <context:spring-configured />
 
-    <bean id="fixture"
-          class="it.tidalwave.northernwind.rca.ui.structureexplorer.spi.DefaultStructureExplorerPresentationControl"
-          lazy-init="true">
-    </bean>
-
     <bean id="roleManager"
           class="it.tidalwave.role.spring.spi.AnnotationSpringRoleManager" />
 
     <bean id="contextManager"
          class="it.tidalwave.role.spring.SpringContextManager" />
 
-    <bean class="org.mockito.Mockito" factory-method="mock">
-        <constructor-arg value="it.tidalwave.northernwind.rca.ui.structureexplorer.StructureExplorerPresentation" />
-    </bean>
-
     <bean id="applicationMessageBus" class="org.mockito.Mockito" factory-method="mock">
         <constructor-arg value="it.tidalwave.messagebus.MessageBus" />
     </bean>
 
-    <bean class="org.mockito.Mockito" factory-method="mock">
-        <constructor-arg value="it.tidalwave.northernwind.core.model.ModelFactory" />
-    </bean>
-
 </beans>
+
