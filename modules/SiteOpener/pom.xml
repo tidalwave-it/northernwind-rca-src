@@ -70,12 +70,6 @@
             <artifactId>it-tidalwave-util</artifactId>
             <classifier>tests</classifier>
             <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>it.tidalwave.thesefoolishthings</groupId>
-            <artifactId>it-tidalwave-util</artifactId>
-            <classifier>tests</classifier>
-            <scope>test</scope>
             <exclusions>
                 <exclusion>
                     <artifactId>org-slf4j-jdk14</artifactId>
