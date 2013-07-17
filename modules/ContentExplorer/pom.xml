@@ -86,7 +86,7 @@
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>aspectj-maven-plugin</artifactId>
                 <configuration>
-                    <aspectLibraries>
+                    <aspectLibraries combine.children="append">
                         <dependency>
                             <groupId>it.tidalwave.thesefoolishthings</groupId>
                             <artifactId>it-tidalwave-messagebus-spring</artifactId>

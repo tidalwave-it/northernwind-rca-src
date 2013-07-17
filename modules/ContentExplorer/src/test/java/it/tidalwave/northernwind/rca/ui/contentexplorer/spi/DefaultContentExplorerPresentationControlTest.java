@@ -41,13 +41,17 @@ import it.tidalwave.northernwind.rca.ui.contentexplorer.ContentExplorerPresentat
 import it.tidalwave.northernwind.rca.ui.event.OpenSiteEvent;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import static it.tidalwave.role.ui.Presentable.*;
 import static it.tidalwave.role.ui.PresentationModelMatcher.*;
 import static it.tidalwave.northernwind.rca.ui.event.ContentSelectedEventMatcher.*;
+import it.tidalwave.role.ContextManager;
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.CoreMatchers.*;
 import static org.mockito.Mockito.*;
 import static org.mockito.Mockito.any;
+import static it.tidalwave.util.MockAs.*;
+import it.tidalwave.util.RoleFactory;
+import javax.annotation.Nonnull;
+import org.testng.annotations.AfterMethod;
 
 /***********************************************************************************************************************
  *
@@ -91,7 +95,14 @@ public class DefaultContentExplorerPresentationControlTest
         event = mock(OpenSiteEvent.class);
         fileSystem = mock(ResourceFileSystem.class);
         root = mock(ResourceFile.class);
-        content = mock(Content.class);
+        content = mockWithAsSupport(Content.class, new RoleFactory<Content>()
+          {
+            @Override @Nonnull
+            public Object createRoleFor (final @Nonnull Content content)
+              {
+                return new SimpleCompositePresentable(content);
+              }
+          });
 
         when(fileSystem.findFileByPath(eq("/content/document"))).thenReturn(root);
         when(event.getFileSystem()).thenReturn(fileSystem);
@@ -100,18 +111,18 @@ public class DefaultContentExplorerPresentationControlTest
         final Content.Builder.CallBack callBack = mock(Content.Builder.CallBack.class);
         when(callBack.build(any(Content.Builder.class))).thenReturn(content);
         when(modelFactory.createContent()).thenReturn(new Content.Builder(modelFactory, callBack));
-        when(content.as(eq(Presentable))).thenReturn(new SimpleCompositePresentable(content));
 
         fixture.initialize();
       }
 
-//    private void registerMock (final @Nonnull DefaultListableBeanFactory context,
-//                               final @Nonnull String name,
-//                               final @Nonnull Class<?> mockClass)
-//      {
-//        context.registerBeanDefinition(name, BeanDefinitionBuilder.rootBeanDefinition(Mockito.class)
-//                .setFactoryMethod("mock").addConstructorArgValue(mockClass.getName()).getBeanDefinition());
-//      }
+    /*******************************************************************************************************************
+     *
+     ******************************************************************************************************************/
+    @AfterMethod
+    public void cleanUp()
+      {
+        ContextManager.Locator.reset();
+      }
 
     /*******************************************************************************************************************
      *
@@ -137,23 +148,6 @@ public class DefaultContentExplorerPresentationControlTest
         verify(presentation).expandFirstLevel();
         verifyNoMoreInteractions(presentation);
         verify(messageBus).publish(emptyEvent());
-        verifyNoMoreInteractions(messageBus);
-      }
-
-    /*******************************************************************************************************************
-     *
-     ******************************************************************************************************************/
-    @Test
-    public void must_have_injected_a_Selectable_that_fires_the_proper_selection_message()
-      {
-        reset(messageBus);
-        final Object role = fixture.publisherRoleFactory.createRoleFor(content);
-        assertThat(role, is(instanceOf(Selectable.class)));
-
-        final Selectable selectable = (Selectable)role;
-        selectable.select();
-
-        verify(messageBus).publish(eventWith(content));
         verifyNoMoreInteractions(messageBus);
       }
   }

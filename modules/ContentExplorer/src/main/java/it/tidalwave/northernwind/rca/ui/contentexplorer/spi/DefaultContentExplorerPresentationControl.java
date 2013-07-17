@@ -31,8 +31,9 @@ import javax.annotation.Nonnull;
 import javax.inject.Inject;
 import javax.inject.Named;
 import com.google.common.annotations.VisibleForTesting;
-import it.tidalwave.util.RoleFactory;
-import it.tidalwave.role.ui.Selectable;
+import it.tidalwave.dci.annotation.DciContext;
+import it.tidalwave.util.Task;
+import it.tidalwave.role.ContextManager;
 import it.tidalwave.messagebus.MessageBus;
 import it.tidalwave.messagebus.annotation.ListensTo;
 import it.tidalwave.messagebus.annotation.SimpleMessageSubscriber;
@@ -56,7 +57,7 @@ import static it.tidalwave.role.ui.Presentable.*;
  * @version $Id$
  *
  **********************************************************************************************************************/
-@SimpleMessageSubscriber @Slf4j
+@DciContext @SimpleMessageSubscriber @Slf4j
 public class DefaultContentExplorerPresentationControl implements ContentExplorerPresentationControl
   {
     @Inject @Named("applicationMessageBus") @Nonnull
@@ -68,33 +69,8 @@ public class DefaultContentExplorerPresentationControl implements ContentExplore
     @Inject @Nonnull
     private ContentExplorerPresentation presentation;
 
-    /*******************************************************************************************************************
-     *
-     * TODO: refactor with @DciRole and a context - not by using threading, but some token passed in the
-     * PresentationModel. For instance:
-     *
-     * 1. Annotate this class as a @DciContext
-     * 2. Allow passing @DciContext-annotated classes to createPresentationModel()
-     * 3. The role resolver uses the previous information to find additional roles.
-     *
-     * Not using thread-binding you solve all asynchronous issues.
-     *
-     ******************************************************************************************************************/
-    @VisibleForTesting final RoleFactory<Content> publisherRoleFactory = new RoleFactory<Content>()
-      {
-        @Override
-        public Object createRoleFor (final @Nonnull Content content)
-          {
-            return new Selectable()
-              {
-                @Override public void select()
-                  {
-                    log.debug("Selected {}", content);
-                    messageBus.publish(new ContentSelectedEvent(content));
-                  }
-              };
-          }
-      };
+    @Inject @Nonnull
+    private ContextManager contextManager;
 
     /*******************************************************************************************************************
      *
@@ -111,11 +87,20 @@ public class DefaultContentExplorerPresentationControl implements ContentExplore
      ******************************************************************************************************************/
     @VisibleForTesting void onOpenSite (final @ListensTo @Nonnull OpenSiteEvent event)
       {
-        log.debug("onOpenSite({})", event);
-        final ResourceFile root = event.getFileSystem().findFileByPath("/content/document");
-        final Content content = modelFactory.createContent().withFolder(root).build();
-        presentation.populate(content.as(Presentable).createPresentationModel(publisherRoleFactory));
-        presentation.expandFirstLevel();
-        messageBus.publish(new ContentSelectedEvent());
+        // FIXME: use @DciContext(autoThreadBinding = true)
+        contextManager.runWithContext(this, new Task<Void, RuntimeException>()
+          {
+            @Override
+            public Void run()
+              {
+                log.debug("onOpenSite({})", event);
+                final ResourceFile root = event.getFileSystem().findFileByPath("/content/document");
+                final Content content = modelFactory.createContent().withFolder(root).build();
+                presentation.populate(content.as(Presentable).createPresentationModel());
+                presentation.expandFirstLevel();
+                messageBus.publish(new ContentSelectedEvent());
+                return null;
+              }
+          });
       }
   }
