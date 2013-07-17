@@ -33,6 +33,7 @@ import it.tidalwave.messagebus.MessageBus;
 import it.tidalwave.northernwind.core.model.SiteNode;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import static org.testng.Assert.*;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.CoreMatchers.nullValue;
@@ -78,7 +79,8 @@ public class StructureSelectableFiringSelectedEventTest
         final DciRole dciRole = fixture.getClass().getAnnotation(DciRole.class);
 
         assertThat(dciRole, is(not(nullValue())));
-//        assertThat(dciRole.context(), is(DefaultStructureExplorerPresentationControl.class)); // FIXME
+        // FIXME assertThat(... is()) is equivalent to isInstanceOf()
+        assertEquals(dciRole.context(), DefaultStructureExplorerPresentationControl.class);
       }
 
     /*******************************************************************************************************************
