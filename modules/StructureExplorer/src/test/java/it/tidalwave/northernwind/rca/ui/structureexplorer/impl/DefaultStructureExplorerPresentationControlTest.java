@@ -27,10 +27,13 @@
  */
 package it.tidalwave.northernwind.rca.ui.structureexplorer.impl;
 
+import javax.annotation.Nonnull;
 import java.io.IOException;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import it.tidalwave.util.spi.AsSupport;
 import it.tidalwave.role.ui.Selectable;
 import it.tidalwave.role.ui.spi.SimpleCompositePresentable;
+import it.tidalwave.role.ContextManager;
 import it.tidalwave.messagebus.MessageBus;
 import it.tidalwave.messagebus.annotation.SimpleMessageSubscriber;
 import it.tidalwave.northernwind.core.model.ModelFactory;
@@ -42,10 +45,12 @@ import it.tidalwave.northernwind.rca.ui.structureexplorer.StructureExplorerPrese
 import it.tidalwave.northernwind.rca.ui.event.OpenSiteEvent;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import org.testng.annotations.AfterMethod;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 import static it.tidalwave.role.ui.Presentable.*;
 import static it.tidalwave.role.ui.PresentationModelMatcher.*;
 import static it.tidalwave.northernwind.rca.ui.event.SiteNodeSelectedEventMatcher.*;
-import it.tidalwave.role.ui.PresentationModel;
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.CoreMatchers.*;
 import static org.mockito.Mockito.*;
@@ -94,12 +99,30 @@ public class DefaultStructureExplorerPresentationControlTest
         event = mock(OpenSiteEvent.class);
         fileSystem = mock(ResourceFileSystem.class);
         root = mock(ResourceFile.class);
+
+        // FIXME: node = mockWithAs(SiteNode.class);
         node = mock(SiteNode.class);
+        final AsSupport asSupport = new AsSupport(node);
+        when(node.as(any(Class.class))).thenAnswer(new Answer<Object>()
+          {
+            @Override
+            public Object answer (final @Nonnull InvocationOnMock invocation)
+              {
+                final Class<?> type = (Class<?>)invocation.getArguments()[0];
+
+                if (type.equals(Presentable))
+                  {
+                    return new SimpleCompositePresentable(node);
+                  }
+
+                return type.cast(asSupport.as(type));
+              }
+          });
 
         when(fileSystem.findFileByPath(eq("/structure"))).thenReturn(root);
         when(event.getFileSystem()).thenReturn(fileSystem);
         when(modelFactory.createSiteNode(any(Site.class), eq(root))).thenReturn(node);
-        when(node.as(eq(Presentable))).thenReturn(new SimpleCompositePresentable(node));
+//        when(node.as(eq(Presentable))).thenReturn();
 
         fixture.initialize();
       }
@@ -111,6 +134,15 @@ public class DefaultStructureExplorerPresentationControlTest
 //        context.registerBeanDefinition(name, BeanDefinitionBuilder.rootBeanDefinition(Mockito.class)
 //                .setFactoryMethod("mock").addConstructorArgValue(mockClass.getName()).getBeanDefinition());
 //      }
+
+    /*******************************************************************************************************************
+     *
+     ******************************************************************************************************************/
+    @AfterMethod
+    public void cleanUp()
+      {
+        ContextManager.Locator.reset();
+      }
 
     /*******************************************************************************************************************
      *
@@ -132,8 +164,7 @@ public class DefaultStructureExplorerPresentationControlTest
 
         fixture.onOpenSite(event);
 
-        verify(presentation).populate(any(PresentationModel.class)); // FIXME
-//        verify(presentation).populate(argThat(presentationModel().withRole(Selectable.class)));
+        verify(presentation).populate(argThat(presentationModel().withRole(Selectable.class)));
         verify(presentation).expandFirstLevel();
         verifyNoMoreInteractions(presentation);
         verify(messageBus).publish(emptyEvent());
