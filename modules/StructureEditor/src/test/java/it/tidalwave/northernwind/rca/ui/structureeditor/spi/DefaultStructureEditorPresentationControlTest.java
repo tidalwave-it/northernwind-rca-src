@@ -37,6 +37,7 @@ import it.tidalwave.northernwind.core.model.ResourceProperties;
 import it.tidalwave.northernwind.core.model.SiteNode;
 import it.tidalwave.northernwind.rca.ui.event.SiteNodeSelectedEvent;
 import it.tidalwave.northernwind.rca.ui.structureeditor.StructureEditorPresentation;
+import it.tidalwave.role.ContextManager;
 import org.testng.annotations.Test;
 import org.testng.annotations.BeforeMethod;
 import static it.tidalwave.role.ui.Presentable.*;
@@ -72,6 +73,7 @@ public class DefaultStructureEditorPresentationControlTest
     @BeforeMethod
     public void setupFixture()
       {
+        ContextManager.Locator.set(null);
         context = new ClassPathXmlApplicationContext("DefaultStructureEditorPresentationControlTestBeans.xml");
         fixture = context.getBean(DefaultStructureEditorPresentationControl.class);
         presentation = context.getBean(StructureEditorPresentation.class);

@@ -35,6 +35,7 @@ import java.io.PrintWriter;
 import com.google.common.collect.ImmutableMap;
 import it.tidalwave.util.Key;
 import it.tidalwave.util.NotFoundException;
+import it.tidalwave.role.ContextManager;
 import it.tidalwave.role.ui.BoundProperty;
 import it.tidalwave.northernwind.core.model.ResourceProperties;
 import it.tidalwave.northernwind.core.impl.model.DefaultResourceProperties;
@@ -46,6 +47,7 @@ import org.testng.annotations.Test;
 import static it.tidalwave.northernwind.rca.ui.contenteditor.impl.ResourcePropertiesBinder.*;
 import static it.tidalwave.util.test.FileComparisonUtils.assertSameContents;
 import static it.tidalwave.northernwind.rca.ui.contenteditor.impl.ResourcePropertiesMatcher.*;
+import it.tidalwave.role.spi.DefaultContextManagerProvider;
 import static org.mockito.Mockito.*;
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.CoreMatchers.*;
@@ -78,6 +80,7 @@ public class ResourcePropertiesBinderTest
     public void setupFixture()
       throws IOException
       {
+        ContextManager.Locator.set(new DefaultContextManagerProvider());
         modelFactory = new ModelFactorySupport()
           {
             @Override @Nonnull
@@ -169,7 +172,7 @@ public class ResourcePropertiesBinderTest
       throws IOException
       {
         final Document document = fixture.createBoundDocument(PROPERTY_1, callback);
-        
+
         document.update("the updated body\n");
 
         final String expectedHtml = "<!doctype html>\n<html>\n<head>\n</head>\n<body>\nthe updated body\n</body>\n</html>";

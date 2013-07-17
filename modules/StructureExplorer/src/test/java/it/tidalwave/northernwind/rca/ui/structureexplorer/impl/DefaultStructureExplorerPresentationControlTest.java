@@ -27,10 +27,13 @@
  */
 package it.tidalwave.northernwind.rca.ui.structureexplorer.impl;
 
+import javax.annotation.Nonnull;
 import java.io.IOException;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import it.tidalwave.role.ui.Selectable;
+import it.tidalwave.util.RoleFactory;
 import it.tidalwave.role.ContextManager;
+import it.tidalwave.role.ui.spi.SimpleCompositePresentable;
+import it.tidalwave.role.ui.Selectable;
 import it.tidalwave.messagebus.MessageBus;
 import it.tidalwave.messagebus.annotation.SimpleMessageSubscriber;
 import it.tidalwave.northernwind.core.model.ModelFactory;
@@ -42,17 +45,13 @@ import it.tidalwave.northernwind.rca.ui.structureexplorer.StructureExplorerPrese
 import it.tidalwave.northernwind.rca.ui.event.OpenSiteEvent;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import org.testng.annotations.AfterMethod;
 import static it.tidalwave.role.ui.PresentationModelMatcher.*;
 import static it.tidalwave.northernwind.rca.ui.event.SiteNodeSelectedEventMatcher.*;
-import it.tidalwave.role.ui.spi.SimpleCompositePresentable;
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.CoreMatchers.*;
 import static org.mockito.Mockito.*;
 import static org.mockito.Mockito.any;
 import static it.tidalwave.util.MockAs.*;
-import it.tidalwave.util.RoleFactory;
-import javax.annotation.Nonnull;
 
 /***********************************************************************************************************************
  *
@@ -87,6 +86,7 @@ public class DefaultStructureExplorerPresentationControlTest
     public void setupFixture()
       throws Exception
       {
+        ContextManager.Locator.set(null);
         context = new ClassPathXmlApplicationContext("DefaultStructureExplorerPresentationControlTestBeans.xml");
 
         fixture = context.getBean(DefaultStructureExplorerPresentationControl.class);
