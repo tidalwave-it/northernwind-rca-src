@@ -1,0 +1,75 @@
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <!-- Don't use the modules pom or it will unpack also common dependencies -->
+    <parent>
+        <groupId>it.tidalwave.northernwind.rca</groupId>
+        <artifactId>northernwind-rca</artifactId>
+        <version>1.1-ALPHA-5-SNAPSHOT</version>
+        <relativePath>../../../pom.xml</relativePath>
+    </parent>
+
+    <groupId>it.tidalwave.northernwind.rca</groupId>
+    <artifactId>zephyr-javafx</artifactId>
+    <packaging>jar</packaging>
+    <version>1.1-ALPHA-5-SNAPSHOT</version>
+    <name>Zephyr - Installer, JavaFX</name>
+    <description>This module creates bundles by using the JavaFX Ant Task .</description>
+
+    <properties>
+        <tft.mainClass>it.tidalwave.northernwind.rca.ui.impl.javafx.Main</tft.mainClass> <!-- FIXME: DRY -->
+        <javafx.version>2.2</javafx.version> <!-- FIXME -->
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>it.tidalwave.northernwind.rca</groupId>
+            <artifactId>it-tidalwave-northernwind-rca-application-javafx</artifactId>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <!-- FIXME: the javafx plugin doesn't expand ${buildNumber} -->
+        <finalName>${project.artifactId}-${project.version}</finalName>
+
+<!--        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>initialize</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target>
+                                <mkdir dir="target/classes" />
+                            </target>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>com.zenjava</groupId>
+                <artifactId>javafx-maven-plugin</artifactId>
+                <version>2.0</version>
+                <configuration>
+                    <mainClass>${tft.mainClass}</mainClass>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>native</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>-->
+    </build>
+</project>
+
