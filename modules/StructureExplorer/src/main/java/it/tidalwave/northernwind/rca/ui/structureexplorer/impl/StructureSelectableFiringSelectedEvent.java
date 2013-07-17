@@ -36,7 +36,6 @@ import it.tidalwave.dci.annotation.DciRole;
 import it.tidalwave.messagebus.MessageBus;
 import it.tidalwave.northernwind.core.model.SiteNode;
 import it.tidalwave.northernwind.rca.ui.event.SiteNodeSelectedEvent;
-import it.tidalwave.northernwind.rca.ui.structureexplorer.spi.DefaultStructureExplorerPresentationControl;
 import lombok.RequiredArgsConstructor;
 
 /***********************************************************************************************************************

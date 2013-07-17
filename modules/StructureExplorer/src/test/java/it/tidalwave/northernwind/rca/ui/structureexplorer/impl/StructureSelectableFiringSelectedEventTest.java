@@ -27,20 +27,18 @@
  */
 package it.tidalwave.northernwind.rca.ui.structureexplorer.impl;
 
-import it.tidalwave.dci.annotation.DciRole;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import it.tidalwave.dci.annotation.DciRole;
 import it.tidalwave.messagebus.MessageBus;
-import it.tidalwave.messagebus.annotation.SimpleMessageSubscriber;
 import it.tidalwave.northernwind.core.model.SiteNode;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import static it.tidalwave.northernwind.rca.ui.event.SiteNodeSelectedEventMatcher.*;
-import it.tidalwave.northernwind.rca.ui.structureexplorer.spi.DefaultStructureExplorerPresentationControl;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.*;
+import static it.tidalwave.northernwind.rca.ui.event.SiteNodeSelectedEventMatcher.*;
 
 /***********************************************************************************************************************
  *

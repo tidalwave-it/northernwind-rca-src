@@ -25,7 +25,7 @@
  * *********************************************************************************************************************
  * #L%
  */
-package it.tidalwave.northernwind.rca.ui.structureexplorer.spi;
+package it.tidalwave.northernwind.rca.ui.structureexplorer.impl;
 
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
