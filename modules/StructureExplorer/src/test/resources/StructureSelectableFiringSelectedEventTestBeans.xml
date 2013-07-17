@@ -47,7 +47,7 @@
           class="it.tidalwave.role.spring.spi.AnnotationSpringRoleManager" />
 
     <bean id="contextManager"
-         class="it.tidalwave.role.spring.SpringContextManager" />
+         class="it.tidalwave.role.spi.DefaultContextManager" />
 
     <bean id="applicationMessageBus" class="org.mockito.Mockito" factory-method="mock">
         <constructor-arg value="it.tidalwave.messagebus.MessageBus" />

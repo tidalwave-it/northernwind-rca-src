@@ -64,7 +64,7 @@
           class="it.tidalwave.role.spring.spi.AnnotationSpringRoleManager" />
 
     <bean id="contextManager"
-         class="it.tidalwave.role.spring.SpringContextManager" />
+         class="it.tidalwave.role.spi.DefaultContextManager" />
 
     <!-- MessageBus stuff -->
     <bean id="applicationMessageBusTaskExecutor"
