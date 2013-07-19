@@ -53,6 +53,8 @@ import javafx.scene.control.TreeCell;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.scene.control.cell.TextFieldTreeCell;
+import javafx.scene.effect.BoxBlur;
+import javafx.scene.effect.Effect;
 import javafx.application.Platform;
 import com.google.common.annotations.VisibleForTesting;
 import it.tidalwave.util.AsException;
@@ -66,8 +68,6 @@ import lombok.extern.slf4j.Slf4j;
 import static javafx.collections.FXCollections.*;
 import static it.tidalwave.role.Displayable.*;
 import static it.tidalwave.role.ui.Selectable.*;
-import javafx.scene.effect.BoxBlur;
-import javafx.scene.effect.Effect;
 
 /***********************************************************************************************************************
  *
@@ -79,7 +79,7 @@ import javafx.scene.effect.Effect;
 public class DefaultJavaFXBinder implements JavaFXBinder
   {
     private static final Class<SimpleComposite> SimpleComposite = SimpleComposite.class; // FIXME: move to TFT
-    
+
     /*******************************************************************************************************************
      *
      *
@@ -212,6 +212,14 @@ public class DefaultJavaFXBinder implements JavaFXBinder
         treeView.setRoot(createTreeItem(pm));
         treeView.setCellFactory(treeCellFactory);
         treeView.getSelectionModel().selectedItemProperty().addListener(treeItemChangeListener);
+        treeView.setCellFactory(new Callback<TreeView<PresentationModel>, TreeCell<PresentationModel>>()
+          {
+            @Override @Nonnull
+            public TreeCell<PresentationModel> call (final @Nonnull TreeView<PresentationModel> treeView)
+              {
+                return new AsObjectTreeCell<>();
+              }
+          });
      }
 
     /*******************************************************************************************************************
