@@ -27,26 +27,26 @@
  */
 package it.tidalwave.northernwind.rca.ui.impl.javafx;
 
-import it.tidalwave.role.ui.javafx.StackPaneSelector;
-import it.tidalwave.northernwind.rca.ui.impl.javafx.siteopener.JavaFXSiteOpenerPresentation;
-import it.tidalwave.northernwind.rca.ui.impl.javafx.structureexplorer.JavaFXStructureExplorerPresentation;
-import it.tidalwave.northernwind.rca.ui.impl.javafx.structureeditor.JavaFXStructureEditorPresentation;
-import it.tidalwave.northernwind.rca.ui.impl.javafx.contentexplorer.JavaFXContentExplorerPresentation;
-import it.tidalwave.northernwind.rca.ui.impl.javafx.contenteditor.JavaFXContentEditorPresentation;
-import it.tidalwave.northernwind.rca.ui.contenteditor.ContentEditorPresentationControl;
-import it.tidalwave.northernwind.rca.ui.contentexplorer.ContentExplorerPresentationControl;
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
 import java.io.IOException;
+import javafx.fxml.FXML;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
-import javafx.fxml.FXML;
 import org.springframework.beans.factory.annotation.Configurable;
+import it.tidalwave.role.ui.javafx.StackPaneSelector;
+import it.tidalwave.northernwind.rca.ui.contenteditor.ContentEditorPresentationControl;
+import it.tidalwave.northernwind.rca.ui.contentexplorer.ContentExplorerPresentationControl;
 import it.tidalwave.northernwind.rca.ui.siteopener.SiteOpenerPresentationControl;
 import it.tidalwave.northernwind.rca.ui.structureeditor.StructureEditorPresentationControl;
 import it.tidalwave.northernwind.rca.ui.structureexplorer.StructureExplorerPresentationControl;
+import it.tidalwave.northernwind.rca.ui.impl.javafx.contenteditor.JavaFXContentEditorPresentation;
+import it.tidalwave.northernwind.rca.ui.impl.javafx.contentexplorer.JavaFXContentExplorerPresentation;
+import it.tidalwave.northernwind.rca.ui.impl.javafx.siteopener.JavaFXSiteOpenerPresentation;
+import it.tidalwave.northernwind.rca.ui.impl.javafx.structureexplorer.JavaFXStructureExplorerPresentation;
+import it.tidalwave.northernwind.rca.ui.impl.javafx.structureeditor.JavaFXStructureEditorPresentation;
 import lombok.extern.slf4j.Slf4j;
 import static it.tidalwave.role.ui.javafx.impl.JavaFXSafeComponentBuilder.*;
 
