@@ -28,6 +28,7 @@
 package it.tidalwave.role.ui;
 
 import javax.annotation.Nonnull;
+import it.tidalwave.util.As;
 
 /***********************************************************************************************************************
  *
@@ -35,7 +36,7 @@ import javax.annotation.Nonnull;
  * @version $Id$
  *
  **********************************************************************************************************************/
-public interface UserAction
+public interface UserAction extends As
   {
     public static final Class<UserAction> UserAction = UserAction.class;
 
