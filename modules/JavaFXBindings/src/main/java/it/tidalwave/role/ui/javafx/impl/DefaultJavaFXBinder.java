@@ -76,6 +76,8 @@ import static javafx.collections.FXCollections.*;
 import static it.tidalwave.role.ui.Selectable.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.TextField;
 
 /***********************************************************************************************************************
@@ -290,21 +292,36 @@ public class DefaultJavaFXBinder implements JavaFXBinder
                 log.info("modalDialog({}, {})", node, notification);
 
                 final Stage dialogStage = new Stage(StageStyle.DECORATED);
+                dialogStage.setResizable(false);
                 dialogStage.initModality(Modality.APPLICATION_MODAL);
+                dialogStage.setTitle(notification.getCaption());
 
                 final VBox vbox = new VBox();
+                vbox.setPadding(new Insets(8, 8, 8, 8));
                 final FlowPane buttonPane = new FlowPane();
+                buttonPane.setAlignment(Pos.CENTER_RIGHT);
+                buttonPane.setHgap(8);
+
                 final Button okButton = new Button("Ok");
                 final Button cancelButton = new Button("Cancel");
-                buttonPane.getChildren().add(okButton);
-                buttonPane.getChildren().add(cancelButton);
+
+                if (isOSX())
+                  {
+                    buttonPane.getChildren().add(cancelButton);
+                    buttonPane.getChildren().add(okButton);
+                  }
+                else
+                  {
+                    buttonPane.getChildren().add(okButton);
+                    buttonPane.getChildren().add(cancelButton);
+                  }
                 vbox.getChildren().add(node);
                 vbox.getChildren().add(buttonPane);
 
                 okButton.setDefaultButton(true);
                 cancelButton.setCancelButton(true);
 
-//                okButton.disableProperty().bind(new PropertyAdapter<>(valid)); FIXME: doesn't work
+//                okButton.disableProperty().bind(new PropertyAdapter<>(valid)); // FIXME: doesn't work
 
                 okButton.setOnAction(new DialogCloserHandler(executorService, dialogStage)
                   {
@@ -324,7 +341,6 @@ public class DefaultJavaFXBinder implements JavaFXBinder
                       }
                   });
 
-                dialogStage.setTitle(notification.getCaption());
                 dialogStage.setScene(new Scene(vbox));
                 dialogStage.centerOnScreen();
                 dialogStage.showAndWait();
@@ -517,5 +533,15 @@ public class DefaultJavaFXBinder implements JavaFXBinder
         bb.setHeight(5);
         bb.setIterations(3);
         return bb;
+      }
+
+    /*******************************************************************************************************************
+     *
+     * TODO: delegate to a provider
+     *
+     ******************************************************************************************************************/
+    public static boolean isOSX()
+      {
+        return System.getProperty("os.name").contains("OS X");
       }
   }
