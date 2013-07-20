@@ -28,18 +28,16 @@
 package it.tidalwave.northernwind.rca.ui.contentmanager.impl;
 
 import java.util.Collection;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import it.tidalwave.role.ContextManager;
 import it.tidalwave.role.Displayable;
 import it.tidalwave.role.ui.UserAction;
+import it.tidalwave.role.spi.DefaultContextManagerProvider;
 import it.tidalwave.messagebus.MessageBus;
 import it.tidalwave.northernwind.core.model.Content;
 import it.tidalwave.northernwind.rca.ui.contentmanager.CreateContentRequest;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.not;
-import static org.hamcrest.CoreMatchers.nullValue;
+import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.*;
 
@@ -51,8 +49,6 @@ import static org.mockito.Mockito.*;
  **********************************************************************************************************************/
 public class CreateContentRequestActionProviderTest
   {
-    private ApplicationContext context;
-
     private CreateContentRequestActionProvider fixture;
 
     private Content content;
@@ -62,21 +58,22 @@ public class CreateContentRequestActionProviderTest
     @BeforeMethod
     public void setupFixture()
       {
-        context = new ClassPathXmlApplicationContext("...");
-        messageBus = context.getBean(MessageBus.class);
+        ContextManager.Locator.set(new DefaultContextManagerProvider()); // TODO: get rid of this
+        messageBus = mock(MessageBus.class);
         content = mock(Content.class);
         fixture = new CreateContentRequestActionProvider(content);
+        fixture.messageBus = messageBus;
       }
 
     @Test
-    public void must_return_a_proper_New_Content_action()
+    public void must_return_only_a_New_Content_action()
       {
         final Collection<? extends UserAction> actions = fixture.getActions();
 
         assertThat(actions, is(not(nullValue())));
         assertThat(actions.size(), is(1));
         final UserAction action = actions.iterator().next();
-        assertThat(action, is(same(fixture.sendCreateContentRequestAction)));
+        assertThat(action, is(sameInstance(fixture.sendCreateContentRequestAction)));
         assertThat(action.as(Displayable.class).getDisplayName(), is("New content"));
       }
 

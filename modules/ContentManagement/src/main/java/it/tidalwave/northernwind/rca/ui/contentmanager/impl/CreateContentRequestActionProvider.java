@@ -64,7 +64,7 @@ public class CreateContentRequestActionProvider extends DefaultUserActionProvide
     private final Content content;
 
     @Inject @Named("applicationMessageBus")
-    private MessageBus messageBus;
+    @VisibleForTesting MessageBus messageBus;
 
     @VisibleForTesting final UserAction sendCreateContentRequestAction = new UserActionSupport(
             new DefaultDisplayable("New content"))
