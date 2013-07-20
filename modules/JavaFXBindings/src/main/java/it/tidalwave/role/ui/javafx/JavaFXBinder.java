@@ -34,6 +34,7 @@ import javafx.beans.property.Property;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.TreeView;
 import javafx.scene.Node;
 import javafx.stage.Window;
@@ -96,6 +97,15 @@ public interface JavaFXBinder
 
     /*******************************************************************************************************************
      *
+     *
+     *
+     ******************************************************************************************************************/
+    public <T> void bindBidirectionally (@Nonnull TextField textField,
+                                         @Nonnull BoundProperty<String> textProperty,
+                                         @Nonnull BoundProperty<Boolean> validProperty);
+
+    /*******************************************************************************************************************
+     *
      * Shows a modal dialog with the given content and provides feedback by means of the given notification.
      *
      * @param  node          the dialog content
@@ -103,6 +113,11 @@ public interface JavaFXBinder
      *
      ******************************************************************************************************************/
     public void showInModalDialog (@Nonnull Node node, @Nonnull UserNotificationWithFeedback notification);
+
+    // FIXME: use a Builder, merge with the above
+    public void showInModalDialog (@Nonnull Node node,
+                                   @Nonnull UserNotificationWithFeedback notification,
+                                   @Nonnull BoundProperty<Boolean> valid);
 
     /*******************************************************************************************************************
      *

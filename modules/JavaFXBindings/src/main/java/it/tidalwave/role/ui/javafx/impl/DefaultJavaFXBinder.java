@@ -74,6 +74,9 @@ import it.tidalwave.role.ui.javafx.JavaFXBinder;
 import lombok.extern.slf4j.Slf4j;
 import static javafx.collections.FXCollections.*;
 import static it.tidalwave.role.ui.Selectable.*;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import javafx.scene.control.TextField;
 
 /***********************************************************************************************************************
  *
@@ -87,6 +90,8 @@ public class DefaultJavaFXBinder implements JavaFXBinder
     private static final Class<SimpleComposite> SimpleComposite = SimpleComposite.class; // FIXME: move to TFT
 
     private final ExecutorService executorService = Executors.newSingleThreadExecutor();
+
+    private String invalidTextFieldStyle = "-fx-background-color: pink";
 
     /*******************************************************************************************************************
      *
@@ -237,7 +242,45 @@ public class DefaultJavaFXBinder implements JavaFXBinder
      *
      ******************************************************************************************************************/
     @Override
+    public <T> void bindBidirectionally (final @Nonnull TextField textField,
+                                         final @Nonnull BoundProperty<String> textProperty,
+                                         final @Nonnull BoundProperty<Boolean> validProperty)
+      {
+        assertIsFxApplicationThread();
+
+        textField.textProperty().bindBidirectional(new PropertyAdapter<>(textProperty));
+
+        // FIXME: weak listener
+        validProperty.addPropertyChangeListener(new PropertyChangeListener()
+          {
+            @Override
+            public void propertyChange (final @Nonnull PropertyChangeEvent event)
+              {
+                 textField.setStyle(validProperty.get() ? "" : invalidTextFieldStyle);
+              }
+          });
+      }
+
+    /*******************************************************************************************************************
+     *
+     * {@inheritDoc}
+     *
+     ******************************************************************************************************************/
+    @Override
     public void showInModalDialog (final @Nonnull Node node, final @Nonnull UserNotificationWithFeedback notification)
+      {
+        showInModalDialog(node, notification, new BoundProperty<>(true));
+      }
+
+    /*******************************************************************************************************************
+     *
+     * {@inheritDoc}
+     *
+     ******************************************************************************************************************/
+    @Override
+    public void showInModalDialog (final @Nonnull Node node,
+                                   final @Nonnull UserNotificationWithFeedback notification,
+                                   final @Nonnull BoundProperty<Boolean> valid)
       {
         Platform.runLater(new Runnable() // FIXME: should not be needed
           {
@@ -260,6 +303,9 @@ public class DefaultJavaFXBinder implements JavaFXBinder
 
                 okButton.setDefaultButton(true);
                 cancelButton.setCancelButton(true);
+
+//                okButton.disableProperty().bind(new PropertyAdapter<>(valid)); FIXME: doesn't work
+
                 okButton.setOnAction(new DialogCloserHandler(executorService, dialogStage)
                   {
                     @Override
