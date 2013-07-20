@@ -87,7 +87,7 @@ public class DefaultAddContentPresentationControl implements AddContentPresentat
     @Inject @Nonnull
     private AddContentPresentation presentation;
 
-    private final Bindings bindings = new Bindings();
+    private final Bindings bindings = new ValidatingBindings();
 
     @VisibleForTesting String xhtmlSkeleton = "tbd";
 

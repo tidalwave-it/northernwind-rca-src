@@ -53,6 +53,14 @@ public interface AddContentPresentation
         public final BoundProperty<String> tags = new BoundProperty<>("");
         public final BoundProperty<String> exposedUri = new BoundProperty<>("");
         public final BoundProperty<String> publishingDateTime = new BoundProperty<>("");
+
+        public final BoundProperty<Boolean> folderValid = new BoundProperty<>(false);
+        public final BoundProperty<Boolean> titleValid = new BoundProperty<>(false);
+        public final BoundProperty<Boolean> tagsValid = new BoundProperty<>(false);
+        public final BoundProperty<Boolean> exposedUriValid = new BoundProperty<>(false);
+        public final BoundProperty<Boolean> publishingDateTimeValid = new BoundProperty<>(false);
+
+        public final BoundProperty<Boolean> valid = new BoundProperty<>(false);
       }
 
     /*******************************************************************************************************************
