@@ -27,23 +27,15 @@
  */
 package it.tidalwave.role.ui.javafx.impl;
 
-import javafx.util.StringConverter;
-import javafx.scene.control.TreeCell;
 import javafx.scene.control.TreeItem;
-import javafx.scene.control.TreeView;
-import javafx.scene.control.cell.TextFieldTreeCell;
 import it.tidalwave.util.spi.AsDelegateProvider;
 import it.tidalwave.role.ContextManager;
 import it.tidalwave.role.spi.DefaultContextManagerProvider;
-import it.tidalwave.role.spi.DefaultDisplayable;
 import it.tidalwave.role.ui.PresentationModel;
 import it.tidalwave.role.ui.Selectable;
 import it.tidalwave.role.ui.spi.DefaultPresentationModel;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import static it.tidalwave.role.Displayable.*;
-import static org.hamcrest.MatcherAssert.*;
-import static org.hamcrest.CoreMatchers.*;
 import static org.mockito.Mockito.*;
 
 /***********************************************************************************************************************
@@ -65,24 +57,6 @@ public class DefaultJavaFXBinderTest
         AsDelegateProvider.Locator.set(new EmptyAsDelegateProvider());
         ContextManager.Locator.set(new DefaultContextManagerProvider());
         fixture = new DefaultJavaFXBinder();
-      }
-
-    /*******************************************************************************************************************
-     *
-     ******************************************************************************************************************/
-    @Test
-    public void treeCellFactory_must_create_a_TextFieldTreeCell_whose_converter_uses_Displayable()
-      {
-        final TreeCell<PresentationModel> cell = fixture.treeCellFactory.call(new TreeView<PresentationModel>());
-
-        assertThat(cell, is(instanceOf(TextFieldTreeCell.class)));
-        final TextFieldTreeCell cell2 = (TextFieldTreeCell)cell;
-        final StringConverter<PresentationModel> stringConverter = cell2.getConverter();
-
-        final PresentationModel pm = mock(PresentationModel.class);
-        when(pm.as(eq(Displayable))).thenReturn(new DefaultDisplayable("foo"));
-
-        assertThat(stringConverter.toString(pm), is("foo"));
       }
 
     /*******************************************************************************************************************

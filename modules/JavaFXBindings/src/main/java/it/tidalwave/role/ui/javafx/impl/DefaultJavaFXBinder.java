@@ -36,7 +36,6 @@ import java.util.concurrent.Executors;
 import java.io.File;
 import java.nio.file.Path;
 import javafx.util.Callback;
-import javafx.util.StringConverter;
 import javafx.beans.property.Property;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -61,7 +60,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TreeCell;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
-import javafx.scene.control.cell.TextFieldTreeCell;
 import javafx.scene.effect.BoxBlur;
 import javafx.scene.effect.Effect;
 import javafx.application.Platform;
@@ -75,7 +73,6 @@ import it.tidalwave.role.ui.UserAction;
 import it.tidalwave.role.ui.javafx.JavaFXBinder;
 import lombok.extern.slf4j.Slf4j;
 import static javafx.collections.FXCollections.*;
-import static it.tidalwave.role.Displayable.*;
 import static it.tidalwave.role.ui.Selectable.*;
 
 /***********************************************************************************************************************
@@ -100,32 +97,9 @@ public class DefaultJavaFXBinder implements JavaFXBinder
             new Callback<TreeView<PresentationModel>, TreeCell<PresentationModel>>()
       {
         @Override @Nonnull
-        public TreeCell<PresentationModel> call (final @Nonnull TreeView<PresentationModel> p)
+        public TreeCell<PresentationModel> call (final @Nonnull TreeView<PresentationModel> treeView)
           {
-            final TextFieldTreeCell<PresentationModel> cell = new TextFieldTreeCell<>();
-            cell.setConverter(new StringConverter<PresentationModel>()
-              {
-                @Override
-                public String toString (final @Nonnull PresentationModel pm)
-                  {
-                    try
-                      {
-                        return pm.as(Displayable).getDisplayName();
-                      }
-                    catch (AsException e)
-                      {
-                        return pm.toString();
-                      }
-                  }
-
-                @Override
-                public PresentationModel fromString (final @Nonnull String string)
-                  {
-                    throw new UnsupportedOperationException("Not supported yet.");
-                  }
-              });
-
-            return cell;
+            return new AsObjectTreeCell<>();
           }
       };
 
@@ -223,14 +197,6 @@ public class DefaultJavaFXBinder implements JavaFXBinder
         treeView.setRoot(createTreeItem(pm));
         treeView.setCellFactory(treeCellFactory);
         treeView.getSelectionModel().selectedItemProperty().addListener(treeItemChangeListener);
-        treeView.setCellFactory(new Callback<TreeView<PresentationModel>, TreeCell<PresentationModel>>()
-          {
-            @Override @Nonnull
-            public TreeCell<PresentationModel> call (final @Nonnull TreeView<PresentationModel> treeView)
-              {
-                return new AsObjectTreeCell<>();
-              }
-          });
      }
 
     /*******************************************************************************************************************
