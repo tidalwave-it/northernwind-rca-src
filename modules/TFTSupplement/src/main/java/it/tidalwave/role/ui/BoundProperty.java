@@ -27,6 +27,8 @@
  */
 package it.tidalwave.role.ui;
 
+import javax.annotation.Nonnull;
+import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import lombok.AllArgsConstructor;
@@ -41,8 +43,9 @@ import lombok.ToString;
  * @version $Id$
  *
  **********************************************************************************************************************/
+// FIXME: weak listeners
 @AllArgsConstructor @NoArgsConstructor @EqualsAndHashCode @ToString(exclude="pcs")
-public class BoundProperty<T>
+public class BoundProperty<T> implements ChangingSource<T>, Changeable<T>
   {
     @Delegate
     private transient final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
@@ -56,6 +59,7 @@ public class BoundProperty<T>
      *
      *
      ******************************************************************************************************************/
+    @Override
     public void set (final T value)
       {
         final T oldValue = this.value;
@@ -68,6 +72,7 @@ public class BoundProperty<T>
      *
      *
      ******************************************************************************************************************/
+    @Override
     public T get()
       {
         return value;
@@ -78,6 +83,39 @@ public class BoundProperty<T>
      *
      *
      ******************************************************************************************************************/
+    public void bind (final @Nonnull ChangingSource<T> source)
+      {
+        source.addPropertyChangeListener(new PropertyChangeListener()
+          {
+            @Override
+            public void propertyChange (final @Nonnull PropertyChangeEvent event)
+              {
+                set((T)event.getNewValue());
+              }
+          });
+
+        if (source instanceof Changeable)
+          {
+            final Changeable<T> changeable = (Changeable<T>)source;
+            changeable.set(value);
+
+            this.addPropertyChangeListener(new PropertyChangeListener()
+              {
+                @Override
+                public void propertyChange (final @Nonnull PropertyChangeEvent event)
+                  {
+                    changeable.set((T)event.getNewValue());
+                  }
+            });
+          }
+      }
+
+    /*******************************************************************************************************************
+     *
+     *
+     *
+     ******************************************************************************************************************/
+    @Override
     public void unbindAll()
       {
         for (final PropertyChangeListener listener : pcs.getPropertyChangeListeners().clone())
