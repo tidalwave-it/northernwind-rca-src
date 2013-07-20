@@ -156,7 +156,7 @@ public class DefaultAddContentPresentationControl implements AddContentPresentat
      *
      ******************************************************************************************************************/
     @Nonnull
-    private String urlEncoded (final @Nonnull String string)
+    private static String urlEncoded (final @Nonnull String string)
       {
         try
           {
