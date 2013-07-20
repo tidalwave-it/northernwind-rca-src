@@ -41,7 +41,7 @@ public class NonEmptyFunction extends UnaryBoundFunctionSupport<String, Boolean>
     @Nonnull
     public static NonEmptyFunction nonEmpty (final @Nonnull ChangingSource<String> source)
       {
-        return new NonEmptyFunction(null);
+        return new NonEmptyFunction(source);
       }
 
     public NonEmptyFunction (final @Nonnull ChangingSource<String> source)
