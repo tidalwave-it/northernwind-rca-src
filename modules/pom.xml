@@ -306,7 +306,7 @@
         <module>CommonsUI</module>
         <module>ContentEditor</module>
         <module>ContentExplorer</module>
-        <module>ContentManagement</module>
+        <module>ContentManager</module>
         <module>EmbeddedServer</module>
         <module>Installers/JavaFX</module>
         <module>Installers/MacOSX</module>
