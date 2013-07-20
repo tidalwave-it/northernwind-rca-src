@@ -44,11 +44,11 @@ public class NonEmptyFunction extends UnaryBoundFunctionSupport<String, Boolean>
       }
 
     @Override
-    protected void onSourceChange (final String oldValue, final String newValue)
+    protected void onSourceChange (final String oldSourceValue, final String newSourceValue)
       {
-        final boolean oldNonNull = function(oldValue);
-        value = function(newValue);
-        pcs.firePropertyChange("value", oldNonNull, (boolean)value);
+        final boolean oldValue = function(oldSourceValue);
+        value = function(newSourceValue);
+        pcs.firePropertyChange("value", oldValue, (boolean)value);
       }
 
     @Override

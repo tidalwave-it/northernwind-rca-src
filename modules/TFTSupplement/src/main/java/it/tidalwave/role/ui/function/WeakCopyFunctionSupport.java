@@ -52,15 +52,15 @@ public abstract class WeakCopyFunctionSupport<T> extends UnaryBoundFunctionSuppo
       }
 
     @Override
-    protected void onSourceChange (final @Nonnull T oldValue, final @Nonnull T newValue)
+    protected void onSourceChange (final @Nonnull T oldSourceValue, final @Nonnull T newSourceValue)
       {
-        final T oldF = function(oldValue);
-        final T temp = function(newValue);
+        final T oldValue = function(oldSourceValue);
+        final T newValue = function(newSourceValue);
 
-        if (shouldChange(oldF, temp))
+        if (shouldChange(oldValue, newValue))
           {
-            value = temp;
-            pcs.firePropertyChange("value", oldF, value);
+            value = newValue;
+            pcs.firePropertyChange("value", oldValue, newValue);
           }
       }
 

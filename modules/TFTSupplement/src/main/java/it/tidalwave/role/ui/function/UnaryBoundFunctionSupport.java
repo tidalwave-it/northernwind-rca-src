@@ -59,11 +59,11 @@ public abstract class UnaryBoundFunctionSupport<DOMAIN_TYPE, CODOMAIN_TYPE>
           });
       }
 
-    protected void onSourceChange (final @Nonnull DOMAIN_TYPE oldValue, final @Nonnull DOMAIN_TYPE newValue)
+    protected void onSourceChange (final @Nonnull DOMAIN_TYPE oldSourceValue, final @Nonnull DOMAIN_TYPE newSourceValue)
       {
-        final CODOMAIN_TYPE oldF = function(oldValue);
-        value = function(newValue);
-        pcs.firePropertyChange("value", oldF, value);
+        final CODOMAIN_TYPE oldValue = function(oldSourceValue);
+        value = function(newSourceValue);
+        pcs.firePropertyChange("value", oldValue, value);
       }
 
     @Nonnull
