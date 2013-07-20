@@ -28,7 +28,7 @@
 package it.tidalwave.role.ui.function;
 
 import javax.annotation.Nonnull;
-import it.tidalwave.role.ui.BoundProperty;
+import it.tidalwave.role.ui.ChangingSource;
 
 /***********************************************************************************************************************
  *
@@ -38,9 +38,15 @@ import it.tidalwave.role.ui.BoundProperty;
  **********************************************************************************************************************/
 public class NonEmptyFunction extends UnaryBoundFunctionSupport<String, Boolean>
   {
-    public NonEmptyFunction (final @Nonnull BoundProperty<String> sourceProperty)
+    @Nonnull
+    public static NonEmptyFunction nonEmpty (final @Nonnull ChangingSource<String> source)
       {
-        super(sourceProperty);
+        return new NonEmptyFunction(null);
+      }
+
+    public NonEmptyFunction (final @Nonnull ChangingSource<String> source)
+      {
+        super(source);
       }
 
     @Override

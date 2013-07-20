@@ -38,6 +38,12 @@ import it.tidalwave.role.ui.ChangingSource;
  **********************************************************************************************************************/
 public class AndFunction extends BooleanBoundFunctionSupport
   {
+    @Nonnull
+    public static AndFunction and (final @Nonnull ChangingSource<Boolean> ... sources)
+      {
+        return new AndFunction(sources);
+      }
+
     public AndFunction (final @Nonnull ChangingSource<Boolean> ... sources)
       {
         super(sources);
