@@ -16,7 +16,7 @@
     <Label text="Exposed URI:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
     <Label text="Tags:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
     <Label text="Publishing Date &amp; Time:" GridPane.columnIndex="0" GridPane.rowIndex="4" />
-    <TextField fx:id="tfTitle" style="-fx-background-color: pink;" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+    <TextField fx:id="tfTitle" GridPane.columnIndex="1" GridPane.rowIndex="0" />
     <TextField fx:id="tfFolder" GridPane.columnIndex="1" GridPane.rowIndex="1" />
     <TextField fx:id="tfExposedUri" GridPane.columnIndex="1" GridPane.rowIndex="2" />
     <TextField fx:id="tfTags" GridPane.columnIndex="1" GridPane.rowIndex="3" />
