@@ -59,6 +59,12 @@ public class ResourcePropertiesMatcher extends BaseMatcher<ResourceProperties>
         return new ResourcePropertiesMatcher(builder.build());
       }
 
+    @Nonnull
+    public static ResourcePropertiesMatcher resourcePropertiesWith (final @Nonnull Map<Key<String>, String> map)
+      {
+        return new ResourcePropertiesMatcher(map);
+      }
+
     @Override
     public boolean matches (final Object item)
       {
