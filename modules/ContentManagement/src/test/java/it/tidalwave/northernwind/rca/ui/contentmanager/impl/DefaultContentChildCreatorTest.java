@@ -78,7 +78,8 @@ public class DefaultContentChildCreatorTest
     /*******************************************************************************************************************
      *
      * Injects a MockSaveable into ResourceProperties.
-     * 
+     * FIXME: try to get rid of this, and have MockSaveable normally injected.
+     *
      ******************************************************************************************************************/
     @RequiredArgsConstructor
     static class ResourcePropertiesDecorator implements ResourceProperties
