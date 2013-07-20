@@ -60,10 +60,12 @@
     <aop:aspectj-autoproxy/>
 
     <bean id="fixture"
-          class="it.tidalwave.northernwind.rca.ui.contentmanager.impl.DefaultContentChildCreator"
+          class="it.tidalwave.northernwind.rca.ui.contentmanager.impl.DefaultAddContentPresentationControl"
           lazy-init="true" />
 
-    <bean class="it.tidalwave.northernwind.rca.ui.contentmanager.impl.DefaultContentChildCreatorTest.MockModelFactory"/>
+    <bean id="presentation" class="org.mockito.Mockito" factory-method="mock">
+        <constructor-arg value="it.tidalwave.northernwind.rca.ui.contentmanager.AddContentPresentation" />
+    </bean>
 
     <bean id="applicationMessageBus" class="org.mockito.Mockito" factory-method="mock">
         <constructor-arg value="it.tidalwave.messagebus.MessageBus" />
