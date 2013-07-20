@@ -83,14 +83,21 @@ public class ResourcePropertiesSaveable implements Saveable
               {
                 // FIXME: localization
                 // FIXME: conversion to string when different types are used
-                writableFolder.write(property.stringValue() + "_en.xhtml", p.getProperty(property).toString());
-                p = withoutProperty(p, property);
+                try
+                  {
+                    writableFolder.write(property.stringValue() + "_en.xhtml", p.getProperty(property).toString());
+                    p = withoutProperty(p, property);
+                  }
+                catch (NotFoundException e)
+                  {
+                    // ok, property not found
+                  }
               }
 
             // FIXME: guess the localization (some properties go to Properties, some other to Properties_en.xml etc...
             writableFolder.write("Properties.xml", p.as(Marshallable));
           }
-        catch (NotFoundException | IOException e)
+        catch (IOException e)
           {
             log.error("property class: " + properties.getClass(), e);
           }
