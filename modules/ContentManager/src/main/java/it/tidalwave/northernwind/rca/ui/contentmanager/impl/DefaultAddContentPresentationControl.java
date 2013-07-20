@@ -69,8 +69,7 @@ import static it.tidalwave.util.ui.UserNotificationWithFeedback.*;
  * @version $Id$
  *
  **********************************************************************************************************************/
-@SimpleMessageSubscriber
-@Configurable @Slf4j
+@SimpleMessageSubscriber @Slf4j
 public class DefaultAddContentPresentationControl implements AddContentPresentationControl
   {
     private final static DateTimeFormatter ISO_FORMATTER = ISODateTimeFormat.dateTime();
