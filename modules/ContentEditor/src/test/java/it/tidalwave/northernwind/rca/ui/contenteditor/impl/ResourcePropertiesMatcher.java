@@ -46,6 +46,7 @@ import lombok.RequiredArgsConstructor;
  * @version $Id$
  *
  **********************************************************************************************************************/
+// FIXME: move to NW
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class ResourcePropertiesMatcher extends BaseMatcher<ResourceProperties>
   {
@@ -57,6 +58,12 @@ public class ResourcePropertiesMatcher extends BaseMatcher<ResourceProperties>
             (final @Nonnull ImmutableMap.Builder<Key<String>, String> builder)
       {
         return new ResourcePropertiesMatcher(builder.build());
+      }
+
+    @Nonnull
+    public static ResourcePropertiesMatcher resourcePropertiesWith (final @Nonnull Map<Key<String>, String> map)
+      {
+        return new ResourcePropertiesMatcher(map);
       }
 
     @Override

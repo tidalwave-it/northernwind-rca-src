@@ -80,6 +80,12 @@
             </exclusions>
         </dependency>
         <dependency>
+            <groupId>it.tidalwave.thesefoolishthings</groupId>
+            <artifactId>it-tidalwave-role-spring</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>servlet-api</artifactId>
             <scope>provided</scope>

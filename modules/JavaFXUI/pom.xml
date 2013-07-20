@@ -69,6 +69,10 @@
         </dependency>
         <dependency>
             <groupId>it.tidalwave.northernwind.rca</groupId>
+            <artifactId>it-tidalwave-northernwind-rca-ui-content-manager</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>it.tidalwave.northernwind.rca</groupId>
             <artifactId>it-tidalwave-northernwind-rca-ui-structure-editor</artifactId>
         </dependency>
 

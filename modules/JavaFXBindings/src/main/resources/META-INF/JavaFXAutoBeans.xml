@@ -63,5 +63,6 @@
 
     <bean class="it.tidalwave.role.ui.javafx.StackPaneSelector" />
 
+    <bean class="it.tidalwave.role.ui.javafx.impl.UserActionProviderContextMenuBuilder" />
 
 </beans>

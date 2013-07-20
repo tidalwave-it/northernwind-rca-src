@@ -28,10 +28,8 @@
 package it.tidalwave.northernwind.model.impl.admin.role;
 
 import javax.annotation.Nonnull;
-import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 import java.io.IOException;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormatter;
@@ -83,36 +81,23 @@ public class ResourcePropertiesSaveable implements Saveable
               {
                 // FIXME: localization
                 // FIXME: conversion to string when different types are used
-                writableFolder.write(property.stringValue() + "_en.xhtml", p.getProperty(property).toString());
-                p = withoutProperty(p, property);
+                try
+                  {
+                    writableFolder.write(property.stringValue() + "_en.xhtml", p.getProperty(property).toString());
+                    p = p.withoutProperty(property);
+                  }
+                catch (NotFoundException e)
+                  {
+                    // ok, property not found
+                  }
               }
 
             // FIXME: guess the localization (some properties go to Properties, some other to Properties_en.xml etc...
             writableFolder.write("Properties.xml", p.as(Marshallable));
           }
-        catch (NotFoundException | IOException e)
+        catch (IOException e)
           {
             log.error("property class: " + properties.getClass(), e);
-          }
-      }
-
-    // FIXME: implement as method in ResourceProperties
-    @Nonnull
-    private ResourceProperties withoutProperty (final @Nonnull ResourceProperties properties,
-                                                final @Nonnull Key<?> property)
-      {
-        try
-          {
-            final Field mapField = properties.getClass().getDeclaredField("propertyMap");
-            mapField.setAccessible(true);
-            final Map<Key<?>, Object> map = (Map<Key<?>, Object>)mapField.get(properties);
-            map.remove(property);
-            return properties;
-          }
-        catch (IllegalAccessException | NoSuchFieldException e)
-          {
-            log.error("property class: " + properties.getClass(), e);
-            throw new RuntimeException(e);
           }
       }
   }

@@ -28,8 +28,10 @@
 package it.tidalwave.role.ui.spi;
 
 import javax.annotation.Nonnull;
+import it.tidalwave.util.spi.AsSupport;
 import it.tidalwave.role.ui.BoundProperty;
 import it.tidalwave.role.ui.UserAction;
+import lombok.Delegate;
 
 /***********************************************************************************************************************
  *
@@ -40,6 +42,19 @@ import it.tidalwave.role.ui.UserAction;
 public abstract class UserActionSupport implements UserAction
   {
     private final BoundProperty<Boolean> enabled = new BoundProperty<>(true);
+
+    @Delegate @Nonnull
+    private final AsSupport asSupport;
+
+    /*******************************************************************************************************************
+     *
+     *
+     *
+     ******************************************************************************************************************/
+    public UserActionSupport (final @Nonnull Object ... rolesOrFactories)
+      {
+        asSupport = new AsSupport(this, rolesOrFactories);
+      }
 
     /*******************************************************************************************************************
      *

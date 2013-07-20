@@ -76,7 +76,13 @@ public class ResourceFileNetBeansPlatformWritableFolder implements WritableFolde
     private OutputStream openStream (final @Nonnull String fileName)
       throws IOException
       {
-        final FileObject fileObject = file.getDelegate().getFileObject(fileName);
+        FileObject fileObject = file.getDelegate().getFileObject(fileName);
+
+        if (fileObject == null)
+          {
+            fileObject = file.getDelegate().createData(fileName);
+          }
+
         log.debug("opening stream: {}", fileObject);
         return fileObject.getOutputStream();
       }

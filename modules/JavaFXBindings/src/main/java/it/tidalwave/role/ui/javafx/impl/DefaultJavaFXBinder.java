@@ -31,20 +31,28 @@ import javax.annotation.Nonnegative;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.io.File;
 import java.nio.file.Path;
 import javafx.util.Callback;
-import javafx.util.StringConverter;
 import javafx.beans.property.Property;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.stage.Window;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
@@ -52,7 +60,8 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TreeCell;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
-import javafx.scene.control.cell.TextFieldTreeCell;
+import javafx.scene.effect.BoxBlur;
+import javafx.scene.effect.Effect;
 import javafx.application.Platform;
 import com.google.common.annotations.VisibleForTesting;
 import it.tidalwave.util.AsException;
@@ -64,10 +73,12 @@ import it.tidalwave.role.ui.UserAction;
 import it.tidalwave.role.ui.javafx.JavaFXBinder;
 import lombok.extern.slf4j.Slf4j;
 import static javafx.collections.FXCollections.*;
-import static it.tidalwave.role.Displayable.*;
 import static it.tidalwave.role.ui.Selectable.*;
-import javafx.scene.effect.BoxBlur;
-import javafx.scene.effect.Effect;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.control.TextField;
 
 /***********************************************************************************************************************
  *
@@ -79,7 +90,11 @@ import javafx.scene.effect.Effect;
 public class DefaultJavaFXBinder implements JavaFXBinder
   {
     private static final Class<SimpleComposite> SimpleComposite = SimpleComposite.class; // FIXME: move to TFT
-    
+
+    private final ExecutorService executorService = Executors.newSingleThreadExecutor();
+
+    private String invalidTextFieldStyle = "-fx-background-color: pink";
+
     /*******************************************************************************************************************
      *
      *
@@ -89,32 +104,9 @@ public class DefaultJavaFXBinder implements JavaFXBinder
             new Callback<TreeView<PresentationModel>, TreeCell<PresentationModel>>()
       {
         @Override @Nonnull
-        public TreeCell<PresentationModel> call (final @Nonnull TreeView<PresentationModel> p)
+        public TreeCell<PresentationModel> call (final @Nonnull TreeView<PresentationModel> treeView)
           {
-            final TextFieldTreeCell<PresentationModel> cell = new TextFieldTreeCell<>();
-            cell.setConverter(new StringConverter<PresentationModel>()
-              {
-                @Override
-                public String toString (final @Nonnull PresentationModel pm)
-                  {
-                    try
-                      {
-                        return pm.as(Displayable).getDisplayName();
-                      }
-                    catch (AsException e)
-                      {
-                        return pm.toString();
-                      }
-                  }
-
-                @Override
-                public PresentationModel fromString (final @Nonnull String string)
-                  {
-                    throw new UnsupportedOperationException("Not supported yet.");
-                  }
-              });
-
-            return cell;
+            return new AsObjectTreeCell<>();
           }
       };
 
@@ -244,6 +236,116 @@ public class DefaultJavaFXBinder implements JavaFXBinder
         assertIsFxApplicationThread();
 
         property1.bindBidirectional(new PropertyAdapter<>(property2));
+      }
+
+    /*******************************************************************************************************************
+     *
+     * {@inheritDoc}
+     *
+     ******************************************************************************************************************/
+    @Override
+    public <T> void bindBidirectionally (final @Nonnull TextField textField,
+                                         final @Nonnull BoundProperty<String> textProperty,
+                                         final @Nonnull BoundProperty<Boolean> validProperty)
+      {
+        assertIsFxApplicationThread();
+
+        textField.textProperty().bindBidirectional(new PropertyAdapter<>(textProperty));
+
+        // FIXME: weak listener
+        validProperty.addPropertyChangeListener(new PropertyChangeListener()
+          {
+            @Override
+            public void propertyChange (final @Nonnull PropertyChangeEvent event)
+              {
+                 textField.setStyle(validProperty.get() ? "" : invalidTextFieldStyle);
+              }
+          });
+      }
+
+    /*******************************************************************************************************************
+     *
+     * {@inheritDoc}
+     *
+     ******************************************************************************************************************/
+    @Override
+    public void showInModalDialog (final @Nonnull Node node, final @Nonnull UserNotificationWithFeedback notification)
+      {
+        showInModalDialog(node, notification, new BoundProperty<>(true));
+      }
+
+    /*******************************************************************************************************************
+     *
+     * {@inheritDoc}
+     *
+     ******************************************************************************************************************/
+    @Override
+    public void showInModalDialog (final @Nonnull Node node,
+                                   final @Nonnull UserNotificationWithFeedback notification,
+                                   final @Nonnull BoundProperty<Boolean> valid)
+      {
+        Platform.runLater(new Runnable() // FIXME: should not be needed
+          {
+            @Override
+            public void run()
+              {
+                log.info("modalDialog({}, {})", node, notification);
+
+                final Stage dialogStage = new Stage(StageStyle.DECORATED);
+                dialogStage.setResizable(false);
+                dialogStage.initModality(Modality.APPLICATION_MODAL);
+                dialogStage.setTitle(notification.getCaption());
+
+                final VBox vbox = new VBox();
+                vbox.setPadding(new Insets(8, 8, 8, 8));
+                final FlowPane buttonPane = new FlowPane();
+                buttonPane.setAlignment(Pos.CENTER_RIGHT);
+                buttonPane.setHgap(8);
+
+                final Button okButton = new Button("Ok");
+                final Button cancelButton = new Button("Cancel");
+
+                if (isOSX())
+                  {
+                    buttonPane.getChildren().add(cancelButton);
+                    buttonPane.getChildren().add(okButton);
+                  }
+                else
+                  {
+                    buttonPane.getChildren().add(okButton);
+                    buttonPane.getChildren().add(cancelButton);
+                  }
+                vbox.getChildren().add(node);
+                vbox.getChildren().add(buttonPane);
+
+                okButton.setDefaultButton(true);
+                cancelButton.setCancelButton(true);
+
+//                okButton.disableProperty().bind(new PropertyAdapter<>(valid)); // FIXME: doesn't work
+
+                okButton.setOnAction(new DialogCloserHandler(executorService, dialogStage)
+                  {
+                    @Override
+                    protected void doSomething() throws Exception
+                      {
+                        notification.getFeedback().onConfirm();
+                      }
+                  });
+
+                cancelButton.setOnAction(new DialogCloserHandler(executorService, dialogStage)
+                  {
+                    @Override
+                    protected void doSomething() throws Exception
+                      {
+                        notification.getFeedback().onCancel();
+                      }
+                  });
+
+                dialogStage.setScene(new Scene(vbox));
+                dialogStage.centerOnScreen();
+                dialogStage.showAndWait();
+              }
+          });
       }
 
     /*******************************************************************************************************************
@@ -431,5 +533,15 @@ public class DefaultJavaFXBinder implements JavaFXBinder
         bb.setHeight(5);
         bb.setIterations(3);
         return bb;
+      }
+
+    /*******************************************************************************************************************
+     *
+     * TODO: delegate to a provider
+     *
+     ******************************************************************************************************************/
+    public static boolean isOSX()
+      {
+        return System.getProperty("os.name").contains("OS X");
       }
   }
