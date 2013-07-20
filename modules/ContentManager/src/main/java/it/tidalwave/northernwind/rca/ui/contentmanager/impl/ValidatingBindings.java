@@ -27,10 +27,11 @@
  */
 package it.tidalwave.northernwind.rca.ui.contentmanager.impl;
 
-import it.tidalwave.role.ui.function.AndFunction;
-import it.tidalwave.role.ui.function.CopyIfNotEmptyFunction;
-import it.tidalwave.role.ui.function.NonEmptyFunction;
 import it.tidalwave.northernwind.rca.ui.contentmanager.AddContentPresentation;
+import static it.tidalwave.role.ui.function.NonEmptyFunction.*;
+import static it.tidalwave.role.ui.function.AndFunction.*;
+import static it.tidalwave.role.ui.function.CopyIfEmptyOrConform.*;
+import static it.tidalwave.northernwind.rca.ui.contentmanager.impl.UriNormalizedFunction.*;
 
 /***********************************************************************************************************************
  *
@@ -42,12 +43,12 @@ public class ValidatingBindings extends AddContentPresentation.Bindings
   {
     public ValidatingBindings()
       {
-        titleValid.bind(new NonEmptyFunction(title));
-        folderValid.bind(new NonEmptyFunction(folder));
-        exposedUriValid.bind(new NonEmptyFunction(exposedUri));
-        valid.bind(new AndFunction(titleValid, folderValid, exposedUriValid));
+        titleValid.bind(nonEmpty(title));
+        folderValid.bind(nonEmpty(folder));
+        exposedUriValid.bind(nonEmpty(exposedUri));
+        valid.bind(and(titleValid, folderValid, exposedUriValid));
 
-        folder.bind(new CopyIfNotEmptyFunction(title));
-        exposedUri.bind(new CopyIfNotEmptyFunction(new UriNormalizerFunction(title)));
+        folder.bind(copyIfEmptyOrConform(title));
+        exposedUri.bind(copyIfEmptyOrConform(uriNormalized(title)));
       }
   }

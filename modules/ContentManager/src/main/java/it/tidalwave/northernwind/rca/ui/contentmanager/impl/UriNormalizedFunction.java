@@ -28,7 +28,7 @@
 package it.tidalwave.northernwind.rca.ui.contentmanager.impl;
 
 import javax.annotation.Nonnull;
-import it.tidalwave.role.ui.BoundProperty;
+import it.tidalwave.role.ui.ChangingSource;
 import it.tidalwave.role.ui.function.UnaryBoundFunctionSupport;
 
 /***********************************************************************************************************************
@@ -37,11 +37,17 @@ import it.tidalwave.role.ui.function.UnaryBoundFunctionSupport;
  * @version $Id$
  *
  **********************************************************************************************************************/
-public class UriNormalizerFunction extends UnaryBoundFunctionSupport<String, String>
+public class UriNormalizedFunction extends UnaryBoundFunctionSupport<String, String>
   {
-    public UriNormalizerFunction (final @Nonnull BoundProperty<String> sourceProperty)
+    @Nonnull
+    public static UriNormalizedFunction uriNormalized (final @Nonnull ChangingSource<String> source)
       {
-        super(sourceProperty);
+        return new UriNormalizedFunction(null);
+      }
+
+    public UriNormalizedFunction (final @Nonnull ChangingSource<String> source)
+      {
+        super(source);
       }
 
     // FIXME: copied from DefaultContent
