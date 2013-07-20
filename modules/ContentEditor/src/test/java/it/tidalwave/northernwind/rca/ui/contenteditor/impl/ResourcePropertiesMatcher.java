@@ -46,6 +46,7 @@ import lombok.RequiredArgsConstructor;
  * @version $Id$
  *
  **********************************************************************************************************************/
+// FIXME: move to NW
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class ResourcePropertiesMatcher extends BaseMatcher<ResourceProperties>
   {
