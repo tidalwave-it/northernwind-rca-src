@@ -42,7 +42,7 @@ public class UriNormalizedFunction extends UnaryBoundFunctionSupport<String, Str
     @Nonnull
     public static UriNormalizedFunction uriNormalized (final @Nonnull ChangingSource<String> source)
       {
-        return new UriNormalizedFunction(null);
+        return new UriNormalizedFunction(source);
       }
 
     public UriNormalizedFunction (final @Nonnull ChangingSource<String> source)
