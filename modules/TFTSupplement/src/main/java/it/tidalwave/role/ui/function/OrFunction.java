@@ -38,15 +38,15 @@ import it.tidalwave.role.ui.ChangingSource;
  **********************************************************************************************************************/
 public class OrFunction extends BooleanBoundFunctionSupport
   {
-    public OrFunction (final @Nonnull ChangingSource<Boolean> ... sourceProperties)
+    public OrFunction (final @Nonnull ChangingSource<Boolean> ... sources)
       {
-        super(sourceProperties);
+        super(sources);
       }
 
     @Override
     protected final boolean function()
       {
-        for (final ChangingSource<Boolean> property : sourceProperties)
+        for (final ChangingSource<Boolean> property : sources)
           {
             if (property.get())
               {

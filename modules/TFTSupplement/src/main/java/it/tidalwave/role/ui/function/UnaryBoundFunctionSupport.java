@@ -38,33 +38,39 @@ import it.tidalwave.role.ui.ChangingSource;
  * @version $Id$
  *
  **********************************************************************************************************************/
-public abstract class UnaryBoundFunctionSupport<SOURCE, TARGET> extends BoundFunctionSupport<SOURCE, TARGET>
+public abstract class UnaryBoundFunctionSupport<DOMAIN_TYPE, CODOMAIN_TYPE>
+                   extends BoundFunctionSupport<DOMAIN_TYPE, CODOMAIN_TYPE>
   {
     @Nonnull
-    protected final ChangingSource<SOURCE> sourceProperty;
+    protected final ChangingSource<DOMAIN_TYPE> source;
 
-    protected TARGET value;
+    protected CODOMAIN_TYPE value;
 
-    protected UnaryBoundFunctionSupport (final @Nonnull ChangingSource<SOURCE> sourceProperty)
+    protected UnaryBoundFunctionSupport (final @Nonnull ChangingSource<DOMAIN_TYPE> source)
       {
-        this.sourceProperty = sourceProperty;
-        sourceProperty.addPropertyChangeListener(new PropertyChangeListener()
+        this.source = source;
+        source.addPropertyChangeListener(new PropertyChangeListener()
           {
             @Override
             public void propertyChange (final @Nonnull PropertyChangeEvent event)
               {
-                onSourceChange((SOURCE)event.getOldValue(), (SOURCE)event.getNewValue());
+                onSourceChange((DOMAIN_TYPE)event.getOldValue(), (DOMAIN_TYPE)event.getNewValue());
               }
           });
       }
 
-    protected abstract void onSourceChange (SOURCE oldValue, SOURCE newValue);
+    protected void onSourceChange (final @Nonnull DOMAIN_TYPE oldValue, final @Nonnull DOMAIN_TYPE newValue)
+      {
+        final CODOMAIN_TYPE oldF = function(oldValue);
+        value = function(newValue);
+        pcs.firePropertyChange("value", oldF, value);
+      }
 
     @Nonnull
-    protected abstract TARGET function (final SOURCE value);
+    protected abstract CODOMAIN_TYPE function (final DOMAIN_TYPE value);
 
     @Override @Nonnull
-    public final TARGET get()
+    public final CODOMAIN_TYPE get()
       {
         return value;
       }

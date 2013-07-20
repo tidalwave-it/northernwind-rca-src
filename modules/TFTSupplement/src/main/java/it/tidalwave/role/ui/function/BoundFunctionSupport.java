@@ -37,7 +37,8 @@ import lombok.Delegate;
  * @version $Id$
  *
  **********************************************************************************************************************/
-public abstract class BoundFunctionSupport<SOURCE, TARGET> implements BoundFunction<SOURCE, TARGET>
+public abstract class BoundFunctionSupport<DOMAIN_TYPE, CODOMAIN_TYPE>
+                  implements BoundFunction<DOMAIN_TYPE, CODOMAIN_TYPE>
   {
     @Delegate // FIXME: weak
     protected final PropertyChangeSupport pcs = new PropertyChangeSupport(this);

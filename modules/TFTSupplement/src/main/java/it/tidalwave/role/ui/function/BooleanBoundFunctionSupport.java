@@ -40,7 +40,7 @@ import java.beans.PropertyChangeListener;
  **********************************************************************************************************************/
 public abstract class BooleanBoundFunctionSupport extends BoundFunctionSupport<Boolean, Boolean>
   {
-    protected final ChangingSource<Boolean>[] sourceProperties;
+    protected final ChangingSource<Boolean>[] sources;
 
     private boolean oldValue;
 
@@ -57,11 +57,11 @@ public abstract class BooleanBoundFunctionSupport extends BoundFunctionSupport<B
           };
       };
 
-    public BooleanBoundFunctionSupport (final @Nonnull ChangingSource<Boolean> ... sourceProperties)
+    public BooleanBoundFunctionSupport (final @Nonnull ChangingSource<Boolean> ... sources)
       {
-        this.sourceProperties = sourceProperties;
+        this.sources = sources;
 
-        for (final ChangingSource<Boolean> property : sourceProperties)
+        for (final ChangingSource<Boolean> property : sources)
           {
             property.addPropertyChangeListener(pcl);
           }
@@ -71,7 +71,7 @@ public abstract class BooleanBoundFunctionSupport extends BoundFunctionSupport<B
 
     protected abstract boolean function();
 
-    @Nonnull
+    @Override @Nonnull
     public final Boolean get()
       {
         return newValue;

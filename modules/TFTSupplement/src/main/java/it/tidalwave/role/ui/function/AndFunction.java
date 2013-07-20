@@ -38,15 +38,15 @@ import it.tidalwave.role.ui.ChangingSource;
  **********************************************************************************************************************/
 public class AndFunction extends BooleanBoundFunctionSupport
   {
-    public AndFunction (final @Nonnull ChangingSource<Boolean> ... sourceProperties)
+    public AndFunction (final @Nonnull ChangingSource<Boolean> ... sources)
       {
-        super(sourceProperties);
+        super(sources);
       }
 
     @Override
     protected final boolean function()
       {
-        for (final ChangingSource<Boolean> property : sourceProperties)
+        for (final ChangingSource<Boolean> property : sources)
           {
             if (!property.get())
               {

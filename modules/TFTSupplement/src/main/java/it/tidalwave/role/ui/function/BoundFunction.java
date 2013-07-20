@@ -35,6 +35,6 @@ import it.tidalwave.role.ui.ChangingSource;
  * @version $Id$
  *
  **********************************************************************************************************************/
-public interface BoundFunction<SOURCE, TARGET> extends ChangingSource<TARGET>
+public interface BoundFunction<DOMAIN_TYPE, CODOMAIN_TYPE> extends ChangingSource<CODOMAIN_TYPE>
   {
   }
