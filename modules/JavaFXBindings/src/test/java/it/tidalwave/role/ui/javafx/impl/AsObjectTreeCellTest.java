@@ -27,18 +27,16 @@
  */
 package it.tidalwave.role.ui.javafx.impl;
 
-import static it.tidalwave.role.Displayable.Displayable;
-import it.tidalwave.role.spi.DefaultDisplayable;
-import it.tidalwave.role.ui.PresentationModel;
 import it.tidalwave.util.As;
+import it.tidalwave.role.spi.DefaultDisplayable;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import static org.testng.Assert.*;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
+import static it.tidalwave.role.Displayable.Displayable;
 
 /***********************************************************************************************************************
  *
