@@ -27,6 +27,7 @@
  */
 package it.tidalwave.role.ui.javafx.impl;
 
+import com.google.common.annotations.VisibleForTesting;
 import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
@@ -48,7 +49,7 @@ import static it.tidalwave.role.Displayable.*;
 public class AsObjectTreeCell<T extends As> extends TextFieldTreeCell<T>
   {
     @Inject @Nonnull
-    private ContextMenuBuilder contextMenuBuilder;
+    @VisibleForTesting ContextMenuBuilder contextMenuBuilder;
 
     @Override
     public void updateItem (final @CheckForNull T item, final boolean empty)
