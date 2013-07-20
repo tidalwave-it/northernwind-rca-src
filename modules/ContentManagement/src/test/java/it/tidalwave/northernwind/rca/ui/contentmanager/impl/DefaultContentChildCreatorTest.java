@@ -150,7 +150,7 @@ public class DefaultContentChildCreatorTest
     public void setupFixture()
       throws IOException
       {
-        context = new ClassPathXmlApplicationContext("DefaultContentChildCreatorBeans.xml");
+        context = new ClassPathXmlApplicationContext("DefaultContentChildCreatorTestBeans.xml");
         messageBus = context.getBean(MessageBus.class);
         modelFactory = context.getBean(MockModelFactory.class);
         parentContent = mock(Content.class);
