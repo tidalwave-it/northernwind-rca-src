@@ -63,8 +63,7 @@
           class="it.tidalwave.northernwind.rca.ui.contentmanager.impl.DefaultContentChildCreator"
           lazy-init="true" />
 
-    <bean class="it.tidalwave.northernwind.rca.ui.contentmanager.impl.DefaultContentChildCreatorTest.MockModelFactory"
-          lazy-init="true" />
+    <bean class="it.tidalwave.northernwind.rca.ui.contentmanager.impl.DefaultContentChildCreatorTest.MockModelFactory"/>
 
     <bean id="applicationMessageBus" class="org.mockito.Mockito" factory-method="mock">
         <constructor-arg value="it.tidalwave.messagebus.MessageBus" />
