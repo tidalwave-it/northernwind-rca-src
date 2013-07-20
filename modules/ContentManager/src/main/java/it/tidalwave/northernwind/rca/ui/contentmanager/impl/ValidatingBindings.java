@@ -44,7 +44,7 @@ public class ValidatingBindings extends AddContentPresentation.Bindings
         titleValid.bind(new NonEmptyFunction(title));
         folderValid.bind(new NonEmptyFunction(folder));
         exposedUriValid.bind(new NonEmptyFunction(exposedUri));
-        valid.bind(new AndFunction(titleValid, folderValid, exposedUriValid, tagsValid));
+        valid.bind(new AndFunction(titleValid, folderValid, exposedUriValid));
 
         folder.bind(new WeakCopyFunction(title));
         exposedUri.bind(new UriNormalizerFunction(title));
