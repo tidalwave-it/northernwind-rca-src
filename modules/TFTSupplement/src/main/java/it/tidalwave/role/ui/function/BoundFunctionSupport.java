@@ -41,7 +41,7 @@ public abstract class BoundFunctionSupport<DOMAIN_TYPE, CODOMAIN_TYPE>
                   implements BoundFunction<DOMAIN_TYPE, CODOMAIN_TYPE>
   {
     @Delegate // FIXME: weak
-    protected final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
+    private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
 
     /*******************************************************************************************************************
      *
@@ -55,5 +55,15 @@ public abstract class BoundFunctionSupport<DOMAIN_TYPE, CODOMAIN_TYPE>
           {
             pcs.removePropertyChangeListener(listener);
           }
+      }
+
+    protected void fireValueChanged (final CODOMAIN_TYPE oldValue, final CODOMAIN_TYPE newValue)
+      {
+        pcs.firePropertyChange("value", oldValue, newValue);
+      }
+
+    protected void fireValueChanged (final boolean oldValue, final boolean newValue)
+      {
+        pcs.firePropertyChange("value", oldValue, newValue);
       }
   }

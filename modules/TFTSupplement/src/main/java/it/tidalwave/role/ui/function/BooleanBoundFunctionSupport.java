@@ -52,7 +52,7 @@ public abstract class BooleanBoundFunctionSupport extends BoundFunctionSupport<B
         public void propertyChange (final @Nonnull PropertyChangeEvent event)
           {
             newValue = function();
-            pcs.firePropertyChange("value", oldValue, newValue);
+            fireValueChanged(oldValue, newValue);
             oldValue = newValue;
           };
       };

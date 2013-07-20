@@ -54,7 +54,7 @@ public class NonEmptyFunction extends UnaryBoundFunctionSupport<String, Boolean>
       {
         final boolean oldValue = function(oldSourceValue);
         value = function(newSourceValue);
-        pcs.firePropertyChange("value", oldValue, (boolean)value);
+        fireValueChanged(oldValue, (boolean)value);
       }
 
     @Override

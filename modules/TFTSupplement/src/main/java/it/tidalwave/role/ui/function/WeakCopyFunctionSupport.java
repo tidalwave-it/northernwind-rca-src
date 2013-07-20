@@ -60,7 +60,7 @@ public abstract class WeakCopyFunctionSupport<T> extends UnaryBoundFunctionSuppo
         if (shouldChange(oldValue, newValue))
           {
             value = newValue;
-            pcs.firePropertyChange("value", oldValue, newValue);
+            fireValueChanged(oldValue, newValue);
           }
       }
 

@@ -63,7 +63,7 @@ public abstract class UnaryBoundFunctionSupport<DOMAIN_TYPE, CODOMAIN_TYPE>
       {
         final CODOMAIN_TYPE oldValue = function(oldSourceValue);
         value = function(newSourceValue);
-        pcs.firePropertyChange("value", oldValue, value);
+        fireValueChanged(oldValue, value);
       }
 
     @Nonnull
