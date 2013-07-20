@@ -28,7 +28,7 @@
 package it.tidalwave.northernwind.rca.ui.contentmanager.impl;
 
 import javax.annotation.Nonnull;
-import it.tidalwave.role.ui.BoundProperty;
+import it.tidalwave.role.ui.ChangingSource;
 
 /***********************************************************************************************************************
  *
@@ -36,16 +36,16 @@ import it.tidalwave.role.ui.BoundProperty;
  * @version $Id$
  *
  **********************************************************************************************************************/
-public class WeakCopyFunction extends WeakStringFunctionSupport
+public class CopyIfNotEmptyFunction extends WeakCopyFunctionSupport<String>
   {
-    public WeakCopyFunction (final @Nonnull BoundProperty<String> sourceProperty)
+    public CopyIfNotEmptyFunction (final @Nonnull ChangingSource<String> sourceProperty)
       {
         super(sourceProperty);
       }
 
-    @Override @Nonnull
-    protected String function (final @Nonnull String string)
+    @Override
+    protected boolean shouldChange (final String oldValue, final String newValue)
       {
-        return string;
+        return oldValue.equals(targetValue) || "".equals(targetValue);
       }
   }

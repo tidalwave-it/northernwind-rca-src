@@ -28,8 +28,8 @@
 package it.tidalwave.northernwind.rca.ui.contentmanager.impl;
 
 import javax.annotation.Nonnull;
-import it.tidalwave.role.ui.BoundProperty;
 import it.tidalwave.role.ui.Changeable;
+import it.tidalwave.role.ui.ChangingSource;
 import it.tidalwave.role.ui.function.UnaryBoundFunctionSupport;
 import lombok.extern.slf4j.Slf4j;
 
@@ -42,36 +42,40 @@ import lombok.extern.slf4j.Slf4j;
  *
  **********************************************************************************************************************/
 @Slf4j
-public abstract class WeakStringFunctionSupport extends UnaryBoundFunctionSupport<String, String> implements Changeable<String>
+public abstract class WeakCopyFunctionSupport<T> extends UnaryBoundFunctionSupport<T, T> implements Changeable<T>
   {
     @Nonnull
-    private String targetValue;
+    protected T targetValue;
 
-    public WeakStringFunctionSupport (final @Nonnull BoundProperty<String> sourceProperty)
+    public WeakCopyFunctionSupport (final @Nonnull ChangingSource<T> source)
       {
-        super(sourceProperty);
+        super(source);
       }
 
     @Override
-    protected void onSourceChange (final @Nonnull String oldValue, final @Nonnull String newValue)
+    protected void onSourceChange (final @Nonnull T oldValue, final @Nonnull T newValue)
       {
-        final String oldF = function(oldValue);
-        value = function(newValue);
+        final T oldF = function(oldValue);
+        final T temp = function(newValue);
 
-        if (shouldChange(oldF))
+        if (shouldChange(oldF, temp))
           {
+            value = temp;
             pcs.firePropertyChange("value", oldF, value);
           }
       }
 
     @Override
-    public void set (final String value)
+    public void set (final T value)
       {
         this.targetValue = value;
       }
 
-    protected boolean shouldChange (final String value)
+    protected abstract boolean shouldChange (T oldValue, T newValue);
+
+    @Override @Nonnull
+    protected T function (final @Nonnull T value)
       {
-        return value.equals(targetValue) || "".equals(targetValue);
+        return value;
       }
   }
