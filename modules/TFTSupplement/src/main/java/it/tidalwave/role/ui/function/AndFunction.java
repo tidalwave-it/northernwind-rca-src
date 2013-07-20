@@ -46,9 +46,9 @@ public class AndFunction extends BooleanBoundFunctionSupport
     @Override
     protected final boolean function()
       {
-        for (final ChangingSource<Boolean> property : sources)
+        for (final ChangingSource<Boolean> source : sources)
           {
-            if (!property.get())
+            if (!source.get())
               {
                 return false;
               }
