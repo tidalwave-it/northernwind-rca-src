@@ -25,7 +25,7 @@
  * *********************************************************************************************************************
  * #L%
  */
-package it.tidalwave.northernwind.rca.ui.contentmanager.impl;
+package it.tidalwave.role.ui.function;
 
 import javax.annotation.Nonnull;
 import it.tidalwave.role.ui.ChangingSource;

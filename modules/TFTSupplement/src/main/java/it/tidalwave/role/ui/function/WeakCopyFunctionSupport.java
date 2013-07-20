@@ -25,12 +25,11 @@
  * *********************************************************************************************************************
  * #L%
  */
-package it.tidalwave.northernwind.rca.ui.contentmanager.impl;
+package it.tidalwave.role.ui.function;
 
 import javax.annotation.Nonnull;
 import it.tidalwave.role.ui.Changeable;
 import it.tidalwave.role.ui.ChangingSource;
-import it.tidalwave.role.ui.function.UnaryBoundFunctionSupport;
 import lombok.extern.slf4j.Slf4j;
 
 /***********************************************************************************************************************

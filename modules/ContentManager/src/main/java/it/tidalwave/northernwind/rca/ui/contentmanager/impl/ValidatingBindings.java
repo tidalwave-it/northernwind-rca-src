@@ -27,8 +27,9 @@
  */
 package it.tidalwave.northernwind.rca.ui.contentmanager.impl;
 
-import it.tidalwave.role.ui.function.NonEmptyFunction;
 import it.tidalwave.role.ui.function.AndFunction;
+import it.tidalwave.role.ui.function.CopyIfNotEmptyFunction;
+import it.tidalwave.role.ui.function.NonEmptyFunction;
 import it.tidalwave.northernwind.rca.ui.contentmanager.AddContentPresentation;
 
 /***********************************************************************************************************************
