@@ -63,6 +63,8 @@
 
     <bean class="it.tidalwave.northernwind.rca.ui.impl.javafx.contentexplorer.JavaFXContentExplorerPresentation" />
 
+    <bean class="it.tidalwave.northernwind.rca.ui.impl.javafx.contentmanager.JavaFXAddContentPresentation" />
+
     <bean class="it.tidalwave.northernwind.rca.ui.impl.javafx.structureeditor.JavaFXStructureEditorPresentation" />
 
     <bean class="it.tidalwave.northernwind.rca.ui.impl.javafx.structureexplorer.JavaFXStructureExplorerPresentation" />
