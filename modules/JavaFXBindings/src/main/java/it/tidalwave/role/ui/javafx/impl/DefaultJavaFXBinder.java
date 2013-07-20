@@ -31,6 +31,8 @@ import javax.annotation.Nonnegative;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.io.File;
 import java.nio.file.Path;
 import javafx.util.Callback;
@@ -41,10 +43,17 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.stage.Window;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
@@ -79,6 +88,8 @@ import static it.tidalwave.role.ui.Selectable.*;
 public class DefaultJavaFXBinder implements JavaFXBinder
   {
     private static final Class<SimpleComposite> SimpleComposite = SimpleComposite.class; // FIXME: move to TFT
+
+    private final ExecutorService executorService = Executors.newSingleThreadExecutor();
 
     /*******************************************************************************************************************
      *
@@ -252,6 +263,61 @@ public class DefaultJavaFXBinder implements JavaFXBinder
         assertIsFxApplicationThread();
 
         property1.bindBidirectional(new PropertyAdapter<>(property2));
+      }
+
+    /*******************************************************************************************************************
+     *
+     * {@inheritDoc}
+     *
+     ******************************************************************************************************************/
+    @Override
+    public void showInModalDialog (final @Nonnull Node node, final @Nonnull UserNotificationWithFeedback notification)
+      {
+        Platform.runLater(new Runnable() // FIXME: should not be needed
+          {
+            @Override
+            public void run()
+              {
+                log.info("modalDialog({}, {})", node, notification);
+
+                final Stage dialogStage = new Stage(StageStyle.DECORATED);
+                dialogStage.initModality(Modality.APPLICATION_MODAL);
+
+                final VBox vbox = new VBox();
+                final FlowPane buttonPane = new FlowPane();
+                final Button okButton = new Button("Ok");
+                final Button cancelButton = new Button("Cancel");
+                buttonPane.getChildren().add(okButton);
+                buttonPane.getChildren().add(cancelButton);
+                vbox.getChildren().add(node);
+                vbox.getChildren().add(buttonPane);
+
+                okButton.setDefaultButton(true);
+                cancelButton.setCancelButton(true);
+                okButton.setOnAction(new DialogCloserHandler(executorService, dialogStage)
+                  {
+                    @Override
+                    protected void doSomething() throws Exception
+                      {
+                        notification.getFeedback().onConfirm();
+                      }
+                  });
+
+                cancelButton.setOnAction(new DialogCloserHandler(executorService, dialogStage)
+                  {
+                    @Override
+                    protected void doSomething() throws Exception
+                      {
+                        notification.getFeedback().onCancel();
+                      }
+                  });
+
+                dialogStage.setTitle(notification.getCaption());
+                dialogStage.setScene(new Scene(vbox));
+                dialogStage.centerOnScreen();
+                dialogStage.showAndWait();
+              }
+          });
       }
 
     /*******************************************************************************************************************

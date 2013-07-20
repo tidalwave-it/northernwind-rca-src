@@ -35,6 +35,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TreeView;
+import javafx.scene.Node;
 import javafx.stage.Window;
 import it.tidalwave.util.ui.UserNotificationWithFeedback;
 import it.tidalwave.role.ui.PresentationModel;
@@ -92,6 +93,16 @@ public interface JavaFXBinder
      *
      ******************************************************************************************************************/
     public <T> void bindBidirectionally (@Nonnull Property<T> property1, @Nonnull BoundProperty<T> property2);
+
+    /*******************************************************************************************************************
+     *
+     * Shows a modal dialog with the given content and provides feedback by means of the given notification.
+     *
+     * @param  node          the dialog content
+     * @param  notification  the object notifying whether the operation is confirmed or cancelled
+     *
+     ******************************************************************************************************************/
+    public void showInModalDialog (@Nonnull Node node, @Nonnull UserNotificationWithFeedback notification);
 
     /*******************************************************************************************************************
      *
