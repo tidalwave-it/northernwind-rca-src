@@ -294,6 +294,7 @@ public class DefaultJavaFXBinder implements JavaFXBinder
                 final Stage dialogStage = new Stage(StageStyle.DECORATED);
                 dialogStage.setResizable(false);
                 dialogStage.initModality(Modality.APPLICATION_MODAL);
+//                dialogStage.initOwner(dialogStage);
                 dialogStage.setTitle(notification.getCaption());
 
                 final VBox vbox = new VBox();
@@ -315,6 +316,7 @@ public class DefaultJavaFXBinder implements JavaFXBinder
                     buttonPane.getChildren().add(okButton);
                     buttonPane.getChildren().add(cancelButton);
                   }
+
                 vbox.getChildren().add(node);
                 vbox.getChildren().add(buttonPane);
 
