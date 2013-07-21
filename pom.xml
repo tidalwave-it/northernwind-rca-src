@@ -243,8 +243,22 @@
       <tag>HEAD</tag>
   </scm>
 
-    <!-- FIXME: push profiles to Super POM -->
     <profiles>
+    <!--================================================================================================================
+
+    This profile embeds a JDK 8 runtime with the Embedded JRE Mac OS X installer.
+
+    =================================================================================================================-->
+        <profile>
+            <id>jdk8</id>
+            <properties>
+                <tft.embedded-jdk-artifactId>it-tidalwave-oraclejdk8</tft.embedded-jdk-artifactId>
+                <tft.embedded-jdk-classifier>macosx-intel</tft.embedded-jdk-classifier>
+                <tft.embedded-jdk-name>jdk1.8.0eab99</tft.embedded-jdk-name>
+                <tft.embedded-jdk-version>1.8.0_ea_b99-1</tft.embedded-jdk-version>
+            </properties>
+        </profile>
+    <!-- FIXME: push profiles to Super POM -->
     <!--================================================================================================================
 
     This profile configures the jarbundler for the build. Create an empty file in
@@ -392,7 +406,7 @@
     This profile configures the jarbundler for the build. Create an empty file in
     src/config/activate-it.tidalwave-javafx-appbundle-v1-profile to activate it.
 
-    =================================================================================================================-->
+        =================================================================================================================-->
         <profile>
             <id>it.tidalwave-javafx-appbundle-v1</id>
             <activation>
