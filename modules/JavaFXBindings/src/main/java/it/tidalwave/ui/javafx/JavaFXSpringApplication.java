@@ -29,6 +29,9 @@ package it.tidalwave.ui.javafx;
 
 import javax.annotation.Nonnull;
 import java.io.IOException;
+import java.util.Map.Entry;
+import java.util.SortedMap;
+import java.util.TreeMap;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -67,6 +70,7 @@ public class JavaFXSpringApplication extends JavaFXApplicationWithSplash
       {
         try
           {
+            logProperties();
             applicationContext = new ClassPathXmlApplicationContext("classpath*:/META-INF/*AutoBeans.xml");
             applicationContext.registerShutdownHook(); // this actually seems not working, onClosing() does
           }
@@ -85,5 +89,20 @@ public class JavaFXSpringApplication extends JavaFXApplicationWithSplash
     protected void onClosing()
       {
         applicationContext.close();
+      }
+
+    /*******************************************************************************************************************
+     *
+     *
+     *
+     ******************************************************************************************************************/
+    private void logProperties()
+      {
+        final SortedMap<Object, Object> map = new TreeMap<>(System.getProperties());
+
+        for (final Entry<Object, Object> e : map.entrySet())
+          {
+            log.debug("{}: {}", e.getKey(), e.getValue());
+          }
       }
   }
