@@ -175,7 +175,7 @@ public class ResourcePropertiesBinderTest
 
         document.update("the updated body\n");
 
-        final String expectedHtml = "<!doctype html>\n<html>\n<head>\n</head>\n<body>\nthe updated body\n</body>\n</html>";
+        final String expectedHtml = "<!DOCTYPE html>\n<html>\n<head>\n</head>\n<body>\nthe updated body\n</body>\n</html>";
         verify(callback).notify(argThat(resourcePropertiesWith(map().put(PROPERTY_1, expectedHtml)
                                                                     .put(PROPERTY_2, ORIGINAL_PROPERTY_2_VALUE))));
         verifyNoMoreInteractions(callback);
