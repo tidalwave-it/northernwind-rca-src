@@ -47,7 +47,6 @@ import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.beans.factory.annotation.Configurable;
 import it.tidalwave.util.Key;
 import it.tidalwave.messagebus.annotation.ListensTo;
 import it.tidalwave.messagebus.annotation.SimpleMessageSubscriber;
@@ -58,6 +57,7 @@ import it.tidalwave.northernwind.rca.ui.contentmanager.AddContentPresentationCon
 import lombok.Cleanup;
 import lombok.extern.slf4j.Slf4j;
 import static it.tidalwave.util.ui.UserNotificationWithFeedback.*;
+import static it.tidalwave.northernwind.model.admin.Properties.*;
 
 /***********************************************************************************************************************
  *
@@ -73,15 +73,6 @@ import static it.tidalwave.util.ui.UserNotificationWithFeedback.*;
 public class DefaultAddContentPresentationControl implements AddContentPresentationControl
   {
     private final static DateTimeFormatter ISO_FORMATTER = ISODateTimeFormat.dateTime();
-
-    // FIXME: copied
-    static final Key<String> PROPERTY_TITLE = new Key<>("title");
-    static final Key<String> PROPERTY_EXPOSED_URI = new Key<>("exposedUri");
-    static final Key<String> PROPERTY_CREATION_TIME = new Key<>("creationTime");
-    static final Key<String> PROPERTY_PUBLISHING_TIME = new Key<>("publishingTime");
-    static final Key<String> PROPERTY_TAGS = new Key<>("tags");
-    static final Key<String> PROPERTY_FULLTEXT = new Key<>("fullText");
-    // END FIXME
 
     @Inject @Nonnull
     private AddContentPresentation presentation;
@@ -123,7 +114,7 @@ public class DefaultAddContentPresentationControl implements AddContentPresentat
                 putIfNonEmpty(propertyValues, PROPERTY_EXPOSED_URI,     bindings.exposedUri.get());
                 putIfNonEmpty(propertyValues, PROPERTY_CREATION_TIME,   ISO_FORMATTER.print(creationDateTime));
                 putIfNonEmpty(propertyValues, PROPERTY_PUBLISHING_TIME, bindings.publishingDateTime.get());
-                putIfNonEmpty(propertyValues, PROPERTY_FULLTEXT,        xhtmlSkeleton);
+                putIfNonEmpty(propertyValues, PROPERTY_FULL_TEXT,       xhtmlSkeleton);
 
                 final Splitter splitter = Splitter.on(',').trimResults().omitEmptyStrings();
                 final List<String> tags = Lists.newArrayList(splitter.split(bindings.tags.get()));

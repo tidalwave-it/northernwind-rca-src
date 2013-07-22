@@ -53,7 +53,7 @@ import static com.google.common.collect.ImmutableMap.*;
 import static org.mockito.Mockito.*;
 import static org.mockito.Mockito.any;
 import static it.tidalwave.util.ui.UserNotificationWithFeedbackTestHelper.*;
-import static it.tidalwave.northernwind.rca.ui.contentmanager.impl.DefaultAddContentPresentationControl.*;
+import static it.tidalwave.northernwind.model.admin.Properties.*;
 import java.util.Arrays;
 
 /***********************************************************************************************************************
@@ -168,7 +168,7 @@ public class DefaultAddContentPresentationControlTest
 
         final Map<Key<?>, Object> expectedPropertyValues = new HashMap<>(values);
         expectedPropertyValues.put(PROPERTY_CREATION_TIME, ISO_FORMATTER.print(dateTime));
-        expectedPropertyValues.put(PROPERTY_FULLTEXT, fixture.xhtmlSkeleton);
+        expectedPropertyValues.put(PROPERTY_FULL_TEXT, fixture.xhtmlSkeleton);
 
         verify(contentChildCreator).createContent(eq(expectedFolderName), eq(expectedPropertyValues));
         verifyNoMoreInteractions(contentChildCreator);

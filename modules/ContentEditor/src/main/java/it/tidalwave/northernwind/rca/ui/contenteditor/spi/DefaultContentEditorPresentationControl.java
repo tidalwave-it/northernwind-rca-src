@@ -50,6 +50,7 @@ import it.tidalwave.northernwind.rca.ui.contenteditor.ContentEditorPresentationC
 import it.tidalwave.northernwind.rca.ui.contenteditor.impl.ProcessExecutor;
 import lombok.extern.slf4j.Slf4j;
 import static it.tidalwave.role.ui.Presentable.*;
+import static it.tidalwave.northernwind.model.admin.Properties.*;
 import static it.tidalwave.northernwind.model.admin.role.Saveable.Saveable;
 import static it.tidalwave.northernwind.rca.ui.contenteditor.spi.PropertyBinder.*;
 
@@ -77,9 +78,6 @@ public class DefaultContentEditorPresentationControl implements ContentEditorPre
 
     @CheckForNull
     private ResourceProperties properties;
-
-    public static final Key<String> PROPERTY_FULL_TEXT = new Key<>("fullText"); // FIXME copied
-    public static final Key<String> PROPERTY_TITLE = new Key<>("title"); // FIXME copied
 
     /*******************************************************************************************************************
      *

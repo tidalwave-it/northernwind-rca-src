@@ -47,6 +47,7 @@ import org.testng.annotations.BeforeMethod;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 import static it.tidalwave.role.ui.Presentable.*;
+import static it.tidalwave.northernwind.model.admin.Properties.*;
 import static it.tidalwave.northernwind.rca.ui.contenteditor.spi.DefaultContentEditorPresentationControl.*;
 import static it.tidalwave.northernwind.rca.ui.contenteditor.spi.PropertyBinder.*;
 import static org.hamcrest.MatcherAssert.*;

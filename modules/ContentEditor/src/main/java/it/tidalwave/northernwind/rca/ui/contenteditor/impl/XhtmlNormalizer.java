@@ -39,7 +39,7 @@ import org.xml.sax.SAXParseException;
 @Slf4j
 public class XhtmlNormalizer
   {
-    private String DOCTYPE_HTML = "<!doctype html>";
+    private String DOCTYPE_HTML = "<!DOCTYPE html>";
 
 //    static FIXME: doesn't properly indent
 //      {

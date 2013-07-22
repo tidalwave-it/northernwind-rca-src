@@ -44,6 +44,7 @@ import it.tidalwave.northernwind.model.admin.role.Saveable;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import static it.tidalwave.role.Marshallable.*;
+import static it.tidalwave.northernwind.model.admin.Properties.*;
 import static it.tidalwave.northernwind.model.admin.role.WritableFolder.*;
 
 /***********************************************************************************************************************
@@ -56,9 +57,6 @@ import static it.tidalwave.northernwind.model.admin.role.WritableFolder.*;
 @RequiredArgsConstructor @Slf4j
 public class ResourcePropertiesSaveable implements Saveable
   {
-    public static final Key<String> PROPERTY_FULL_TEXT = new Key<>("fullText"); // FIXME copied
-    public static final Key<String> PROPERTY_LATEST_MODIFICATION_DATE = new Key<>("latestModificationDateTime");// FIXME: copied
-
     private static final List<Key<?>> EXTERNAL_PROPERTIES = Arrays.<Key<?>>asList(PROPERTY_FULL_TEXT);
 
     private final DateTimeFormatter ISO_FORMATTER = ISODateTimeFormat.dateTime();
