@@ -28,6 +28,7 @@
 package it.tidalwave.role.ui.javafx.impl;
 
 import javafx.scene.control.TreeItem;
+import java.util.concurrent.Executors;
 import it.tidalwave.util.spi.AsDelegateProvider;
 import it.tidalwave.role.ContextManager;
 import it.tidalwave.role.spi.DefaultContextManagerProvider;
@@ -56,7 +57,7 @@ public class DefaultJavaFXBinderTest
       {
         AsDelegateProvider.Locator.set(new EmptyAsDelegateProvider());
         ContextManager.Locator.set(new DefaultContextManagerProvider());
-        fixture = new DefaultJavaFXBinder();
+        fixture = new DefaultJavaFXBinder(Executors.newSingleThreadExecutor());
       }
 
     /*******************************************************************************************************************

@@ -31,8 +31,6 @@ import javax.annotation.Nonnegative;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.io.File;
 import java.nio.file.Path;
 import javafx.util.Callback;
@@ -76,9 +74,11 @@ import static javafx.collections.FXCollections.*;
 import static it.tidalwave.role.ui.Selectable.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.concurrent.Executor;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.TextField;
+import lombok.RequiredArgsConstructor;
 
 /***********************************************************************************************************************
  *
@@ -86,12 +86,12 @@ import javafx.scene.control.TextField;
  * @version $Id$
  *
  **********************************************************************************************************************/
-@Slf4j
+@RequiredArgsConstructor @Slf4j
 public class DefaultJavaFXBinder implements JavaFXBinder
   {
     private static final Class<SimpleComposite> SimpleComposite = SimpleComposite.class; // FIXME: move to TFT
 
-    private final ExecutorService executorService = Executors.newSingleThreadExecutor();
+    private final Executor executor;
 
     private String invalidTextFieldStyle = "-fx-background-color: pink";
 
@@ -235,7 +235,7 @@ public class DefaultJavaFXBinder implements JavaFXBinder
       {
         assertIsFxApplicationThread();
 
-        property1.bindBidirectional(new PropertyAdapter<>(property2));
+        property1.bindBidirectional(new PropertyAdapter<>(executor, property2));
       }
 
     /*******************************************************************************************************************
@@ -250,7 +250,7 @@ public class DefaultJavaFXBinder implements JavaFXBinder
       {
         assertIsFxApplicationThread();
 
-        textField.textProperty().bindBidirectional(new PropertyAdapter<>(textProperty));
+        textField.textProperty().bindBidirectional(new PropertyAdapter<>(executor, textProperty));
 
         // FIXME: weak listener
         validProperty.addPropertyChangeListener(new PropertyChangeListener()
@@ -325,7 +325,7 @@ public class DefaultJavaFXBinder implements JavaFXBinder
 
 //                okButton.disableProperty().bind(new PropertyAdapter<>(valid)); // FIXME: doesn't work
 
-                okButton.setOnAction(new DialogCloserHandler(executorService, dialogStage)
+                okButton.setOnAction(new DialogCloserHandler(executor, dialogStage)
                   {
                     @Override
                     protected void doSomething() throws Exception
@@ -334,7 +334,7 @@ public class DefaultJavaFXBinder implements JavaFXBinder
                       }
                   });
 
-                cancelButton.setOnAction(new DialogCloserHandler(executorService, dialogStage)
+                cancelButton.setOnAction(new DialogCloserHandler(executor, dialogStage)
                   {
                     @Override
                     protected void doSomething() throws Exception

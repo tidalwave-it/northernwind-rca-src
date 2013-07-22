@@ -33,7 +33,7 @@ import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.concurrent.Executors;
+import java.util.concurrent.Executor;
 import javafx.beans.InvalidationListener;
 import javafx.beans.property.Property;
 import javafx.beans.value.ChangeListener;
@@ -51,6 +51,9 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class PropertyAdapter<T> implements Property<T>
   {
+    @Nonnull
+    private final Executor executor;
+
     @Nonnull
     private final BoundProperty<T> delegate;
 
@@ -86,8 +89,9 @@ public class PropertyAdapter<T> implements Property<T>
           }
       };
 
-    public PropertyAdapter (final @Nonnull BoundProperty<T> delegate)
+    public PropertyAdapter (final @Nonnull Executor executor, final @Nonnull BoundProperty<T> delegate)
       {
+        this.executor = executor;
         this.delegate = delegate;
         delegate.addPropertyChangeListener(propertyChangeListener);
       }
@@ -106,7 +110,7 @@ public class PropertyAdapter<T> implements Property<T>
 
         if (!Objects.equals(value, delegate.get()))
           {
-            Executors.newSingleThreadExecutor().submit(new Runnable() // FIXME: use a shared executor
+            executor.execute(new Runnable()
               {
                 @Override
                 public void run()

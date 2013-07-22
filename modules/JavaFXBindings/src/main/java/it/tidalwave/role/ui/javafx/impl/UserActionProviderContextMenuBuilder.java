@@ -27,24 +27,22 @@
  */
 package it.tidalwave.role.ui.javafx.impl;
 
-import com.google.common.annotations.VisibleForTesting;
 import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.Executor;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.MenuItemBuilder;
+import com.google.common.annotations.VisibleForTesting;
 import it.tidalwave.util.As;
 import it.tidalwave.util.AsException;
 import it.tidalwave.role.ui.UserAction;
 import it.tidalwave.role.ui.UserActionProvider;
-import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import static it.tidalwave.role.Displayable.Displayable;
 import static it.tidalwave.role.ui.UserActionProvider.UserActionProvider;
@@ -57,16 +55,11 @@ import static it.tidalwave.role.ui.UserActionProvider.UserActionProvider;
  * @version $Id$
  *
  **********************************************************************************************************************/
-@RequiredArgsConstructor(access = AccessLevel.PACKAGE)
+@RequiredArgsConstructor
 public class UserActionProviderContextMenuBuilder implements ContextMenuBuilder
   {
     @Nonnull
-    private final ExecutorService executorService;
-
-    public UserActionProviderContextMenuBuilder()
-      {
-        this(Executors.newSingleThreadExecutor());
-      }
+    private final Executor executor;
 
     @Override @CheckForNull
     public ContextMenu createContextMenu (final @Nonnull As asObject)
@@ -90,7 +83,7 @@ public class UserActionProviderContextMenuBuilder implements ContextMenuBuilder
                     @Override
                     public void handle (final @Nonnull ActionEvent event)
                       {
-                        executorService.submit(new Runnable()
+                        executor.execute(new Runnable()
                           {
                             @Override
                             public void run()

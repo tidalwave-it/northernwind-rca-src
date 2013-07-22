@@ -28,8 +28,8 @@
 package it.tidalwave.ui.javafx;
 
 import javax.annotation.Nonnull;
-import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Executor;
 import java.io.IOException;
 import javafx.event.EventHandler;
 import javafx.scene.Parent;
@@ -75,7 +75,7 @@ public abstract class JavaFXApplicationWithSplash extends Application
         log.info("start({})", stage);
         splash.show();
 
-        getExecutor().submit(new Runnable() // FIXME: use JavaFX Worker?
+        getExecutor().execute(new Runnable() // FIXME: use JavaFX Worker?
           {
             @Override
             public void run()
@@ -149,7 +149,7 @@ public abstract class JavaFXApplicationWithSplash extends Application
      *
      ******************************************************************************************************************/
     @Nonnull
-    protected ExecutorService getExecutor()
+    protected Executor getExecutor()
       {
         return Executors.newSingleThreadExecutor();
       }

@@ -28,7 +28,7 @@
 package it.tidalwave.role.ui.javafx.impl;
 
 import javax.annotation.Nonnull;
-import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executor;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.stage.Stage;
@@ -48,7 +48,7 @@ import lombok.extern.slf4j.Slf4j;
 abstract class DialogCloserHandler implements EventHandler<ActionEvent>
   {
     @Nonnull
-    private final ExecutorService executorService;
+    private final Executor executor;
 
     @Nonnull
     private final Stage dialogStage;
@@ -57,7 +57,7 @@ abstract class DialogCloserHandler implements EventHandler<ActionEvent>
     public void handle (final @Nonnull ActionEvent event)
       {
         dialogStage.close();
-        executorService.submit(new Runnable()
+        executor.execute(new Runnable()
           {
             @Override
             public void run()
