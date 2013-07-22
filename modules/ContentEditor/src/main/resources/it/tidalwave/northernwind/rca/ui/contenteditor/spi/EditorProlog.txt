@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
         <link rel="stylesheet" media="screen" href="/nwa/alohaeditor-0.23.9/aloha/css/aloha.css" type="text/css" />
