@@ -64,6 +64,6 @@ public class UriNormalizedFunction extends UnaryBoundFunctionSupport<String, Str
                      .replaceAll("\\?", "")
                      .replaceAll(":", "")
                      .replaceAll("[^\\w-]*", "");
-        return string;
+        return string.toLowerCase();
       }
   }
