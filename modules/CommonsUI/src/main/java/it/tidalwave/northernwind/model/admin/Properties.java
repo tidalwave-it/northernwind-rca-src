@@ -42,11 +42,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class Properties
   {
-    public static final Key<String> PROPERTY_FULL_TEXT = new Key<>("fullText"); // FIXME copied
+    public static final Key<String> PROPERTY_FULL_TEXT = new Key<>("fullText");
 
-    public static final Key<String> PROPERTY_LATEST_MODIFICATION_DATE = new Key<>("latestModificationDateTime");// FIXME: copied
+    public static final Key<String> PROPERTY_LATEST_MODIFICATION_DATE = new Key<>("latestModificationDateTime");
 
-    public static final Key<String> PROPERTY_TITLE = new Key<>("title"); // FIXME copied
+    public static final Key<String> PROPERTY_TITLE = new Key<>("title");
 
     public static final Key<String> PROPERTY_EXPOSED_URI = new Key<>("exposedUri");
 
