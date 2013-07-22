@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import java.util.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.web.*?>
+
+<BorderPane fx:id="application" prefHeight="600.0" prefWidth="800.0" xmlns:fx="http://javafx.com/fxml" fx:controller="it.tidalwave.northernwind.rca.ui.impl.javafx.JavaFXApplicationPresentationDelegate">
+  <center>
+    <BorderPane fx:id="main" prefHeight="600.0" prefWidth="800.0" style="-fx-background-color:#ededed;">
+      <bottom>
+        <BorderPane fx:id="pnStatusBar" maxHeight="32.0" minHeight="32.0" prefHeight="32.0" prefWidth="200.0" />
+      </bottom>
+      <center>
+        <SplitPane fx:id="pnHorizontalSplit" dividerPositions="0.29949874686716793" focusTraversable="true" prefHeight="160.0" prefWidth="200.0">
+          <items>
+            <AnchorPane minHeight="0.0" minWidth="200.0" prefHeight="160.0" prefWidth="100.0">
+              <children>
+                <SplitPane fx:id="pnVerticalSplit" focusTraversable="true" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+              </children>
+            </AnchorPane>
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" style="-fx-background-color:#ededed;">
+              <children>
+                <StackPane id="StackPane" fx:id="stackPane" prefHeight="503.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+              </children>
+            </AnchorPane>
+          </items>
+        </SplitPane>
+      </center>
+      <top>
+        <ToolBar maxHeight="48.0" minHeight="48.0" prefHeight="48.0">
+          <items>
+            <Button fx:id="btOpen" minHeight="32.0" minWidth="32.0" mnemonicParsing="false" />
+          </items>
+        </ToolBar>
+      </top>
+    </BorderPane>
+  </center>
+  <stylesheets>
+    <URL value="@Application.css" />
+  </stylesheets>
+  <top>
+    <MenuBar useSystemMenuBar="true">
+      <menus>
+        <Menu mnemonicParsing="false" text="File">
+          <items>
+            <MenuItem mnemonicParsing="false" text="Open site..." fx:id="openSiteMenu" />
+          </items>
+        </Menu>
+        <Menu mnemonicParsing="false" text="Help">
+          <items>
+            <MenuItem mnemonicParsing="false" text="About" />
+          </items>
+        </Menu>
+      </menus>
+    </MenuBar>
+  </top>
+</BorderPane>
