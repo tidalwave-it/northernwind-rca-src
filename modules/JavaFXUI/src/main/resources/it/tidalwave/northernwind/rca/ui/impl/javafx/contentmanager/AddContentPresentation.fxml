@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import java.util.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.web.*?>
+
+<GridPane prefWidth="342.0" xmlns:fx="http://javafx.com/fxml" fx:controller="it.tidalwave.northernwind.rca.ui.impl.javafx.contentmanager.JavaFXAddContentPresentationDelegate">
+  <children>
+    <Label text="Title:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+    <Label text="Folder:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+    <Label text="Exposed URI:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+    <Label text="Tags:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+    <Label text="Publishing Date &amp; Time:" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+    <TextField fx:id="tfTitle" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+    <TextField fx:id="tfFolder" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+    <TextField fx:id="tfExposedUri" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+    <TextField fx:id="tfTags" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+    <TextField fx:id="tfPublishingDateTime" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+  </children>
+  <columnConstraints>
+    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="200.0" />
+    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="400.0" />
+  </columnConstraints>
+  <rowConstraints>
+    <RowConstraints fillHeight="false" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+    <RowConstraints fillHeight="false" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+    <RowConstraints fillHeight="false" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+    <RowConstraints fillHeight="false" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+    <RowConstraints fillHeight="false" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+  </rowConstraints>
+</GridPane>
