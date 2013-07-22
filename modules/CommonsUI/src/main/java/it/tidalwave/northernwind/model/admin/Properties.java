@@ -50,9 +50,9 @@ public final class Properties
 
     public static final Key<String> PROPERTY_EXPOSED_URI = new Key<>("exposedUri");
 
-    public static final Key<String> PROPERTY_CREATION_TIME = new Key<>("creationTime");
+    public static final Key<String> PROPERTY_CREATION_TIME = new Key<>("creationDateTime");
 
-    public static final Key<String> PROPERTY_PUBLISHING_TIME = new Key<>("publishingTime");
+    public static final Key<String> PROPERTY_PUBLISHING_TIME = new Key<>("publishingDateTime");
 
     public static final Key<String> PROPERTY_TAGS = new Key<>("tags");
   }
