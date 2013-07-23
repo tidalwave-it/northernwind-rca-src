@@ -73,6 +73,8 @@ public class JavaFXSpringApplication extends JavaFXApplicationWithSplash
         try
           {
             logProperties();
+            // TODO: workaround for NWRCA-41
+            System.setProperty("it.tidalwave.util.spring.ClassScanner.basePackages", "it");
             applicationContext = new ClassPathXmlApplicationContext("classpath*:/META-INF/*AutoBeans.xml");
             applicationContext.registerShutdownHook(); // this actually seems not working, onClosing() does
           }
