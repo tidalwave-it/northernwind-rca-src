@@ -1,0 +1,34 @@
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <!-- Don't use the modules pom or it will unpack also common dependencies -->
+    <parent>
+        <groupId>it.tidalwave.northernwind.rca</groupId>
+        <artifactId>northernwind-rca</artifactId>
+        <version>1.1-ALPHA-8-SNAPSHOT</version>
+        <relativePath>../../../pom.xml</relativePath>
+    </parent>
+
+    <groupId>it.tidalwave.northernwind.rca</groupId>
+    <artifactId>zephyr-macosx-embedded-jre</artifactId>
+
+    <packaging>pom</packaging>
+    <version>1.1-ALPHA-8-SNAPSHOT</version>
+    <name>Zephyr - Installer, Mac OS X with embedded JRE</name>
+    <description>This module creates a Mac OS X application bundle with an embedded JRE.</description>
+
+    <properties>
+        <tft.mainClass>it.tidalwave.northernwind.rca.ui.impl.javafx.Main</tft.mainClass> <!-- FIXME: DRY -->
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>it.tidalwave.northernwind.rca</groupId>
+            <artifactId>it-tidalwave-northernwind-rca-application-javafx</artifactId>
+        </dependency>
+    </dependencies>
+
+</project>
+
