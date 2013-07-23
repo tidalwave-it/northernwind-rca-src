@@ -27,6 +27,7 @@
  */
 package it.tidalwave.ui.javafx;
 
+import com.aquafx_project.AquaFx;
 import javax.annotation.Nonnull;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Executor;
@@ -90,9 +91,12 @@ public abstract class JavaFXApplicationWithSplash extends Application
                           {
                             final Parent application = createParent();
                             final Scene scene = new Scene(application);
-                            // AquaFX depends on JDK 8 - we're using a patched CSS without Skins
-                            scene.getStylesheets().add(getClass().getResource("/mac_os.css").toExternalForm());
-//                            scene.getStylesheets().add(getClass().getResource("/com/aquafx_project/mac_os.css").toExternalForm());
+
+                            if (isOSX())
+                              {
+                                setMacOSXLookAndFeel(scene);
+                              }
+
                             stage.setScene(scene);
                             onStageCreated(stage);
                             stage.show();
@@ -162,5 +166,36 @@ public abstract class JavaFXApplicationWithSplash extends Application
     protected Executor getExecutor()
       {
         return Executors.newSingleThreadExecutor();
+      }
+
+    /*******************************************************************************************************************
+     *
+     *
+     *
+     ******************************************************************************************************************/
+    private void setMacOSXLookAndFeel (final @Nonnull Scene scene)
+      {
+        // AquaFX depends on JDK 8
+        if (System.getProperty("java.runtime.version").startsWith("1.8.0"))
+          {
+            log.info("Setting Aqua style");
+            AquaFx.style();
+          }
+        //  JDK 7 fallback, a patched CSS without Skins
+        else
+          {
+            log.info("Setting Aqua CSS fallback for JDK 7");
+            scene.getStylesheets().add(getClass().getResource("/mac_os.css").toExternalForm());
+          }
+      }
+
+    /*******************************************************************************************************************
+     *
+     * TODO: delegate to a provider
+     *
+     ******************************************************************************************************************/
+    public static boolean isOSX()
+      {
+        return System.getProperty("os.name").contains("OS X");
       }
   }

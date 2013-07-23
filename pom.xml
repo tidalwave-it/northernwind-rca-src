@@ -254,7 +254,7 @@
             <properties>
                 <tft.embedded-jdk-artifactId>it-tidalwave-oraclejdk8</tft.embedded-jdk-artifactId>
                 <tft.embedded-jdk-classifier>macosx-intel</tft.embedded-jdk-classifier>
-                <tft.embedded-jdk-name>jdk1.8.0eab99</tft.embedded-jdk-name>
+                <tft.embedded-jdk-name>jdk1.8.0-ea-b99</tft.embedded-jdk-name>
                 <tft.embedded-jdk-version>1.8.0_ea_b99-1</tft.embedded-jdk-version>
             </properties>
         </profile>
