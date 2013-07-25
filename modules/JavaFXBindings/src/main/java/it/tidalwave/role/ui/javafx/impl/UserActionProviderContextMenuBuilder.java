@@ -58,6 +58,26 @@ import static it.tidalwave.role.ui.UserActionProvider.UserActionProvider;
 @RequiredArgsConstructor @Slf4j
 public class UserActionProviderContextMenuBuilder implements ContextMenuBuilder
   {
+    @RequiredArgsConstructor
+    class EventHandlerUserActionAdapter implements EventHandler<ActionEvent>
+      {
+        @Nonnull
+        private final UserAction action;
+
+        @Override
+        public void handle (final @Nonnull ActionEvent event)
+          {
+            executor.execute(new Runnable()
+              {
+                @Override
+                public void run()
+                  {
+                    action.actionPerformed();
+                  }
+              });
+          }
+      }
+
     @Nonnull
     private final Executor executor;
 
@@ -79,25 +99,9 @@ public class UserActionProviderContextMenuBuilder implements ContextMenuBuilder
               {
                 for (final UserAction action : userActionProvider.getActions())
                   {
-                    final EventHandler<ActionEvent> eventHandler = new EventHandler<ActionEvent>()
-                      {
-                        @Override
-                        public void handle (final @Nonnull ActionEvent event)
-                          {
-                            executor.execute(new Runnable()
-                              {
-                                @Override
-                                public void run()
-                                  {
-                                    action.actionPerformed();
-                                  }
-                              });
-                          }
-                      };
-
-                     menuItems.add(MenuItemBuilder.create().text(action.as(Displayable).getDisplayName())
-                                                           .onAction(eventHandler)
-                                                           .build());
+                    menuItems.add(MenuItemBuilder.create().text(action.as(Displayable).getDisplayName())
+                                                          .onAction(new EventHandlerUserActionAdapter(action))
+                                                          .build());
                   }
               }
 
