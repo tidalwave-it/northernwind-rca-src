@@ -29,6 +29,7 @@ package it.tidalwave.role.ui.javafx.impl;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -137,10 +138,13 @@ public class UserActionProviderContextMenuBuilderTest
               }
           };
 
+        // FIXME: use MockAs
         asObjectWithoutUserActionProvider = mock(As.class);
         asObjectWithUserActionProvider = mock(As.class);
         when(asObjectWithoutUserActionProvider.as(eq(UserActionProvider.class))).thenThrow(new AsException(UserActionProvider.class));
+        when(asObjectWithoutUserActionProvider.asMany(eq(UserActionProvider.class))).thenReturn(new ArrayList<UserActionProvider>());
         when(asObjectWithUserActionProvider.as(eq(UserActionProvider.class))).thenReturn(userActionProvider);
+        when(asObjectWithUserActionProvider.asMany(eq(UserActionProvider.class))).thenReturn(Arrays.asList(userActionProvider));
 
         executorService = new TestExecutorService(Executors.newSingleThreadExecutor());
 

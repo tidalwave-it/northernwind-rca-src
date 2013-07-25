@@ -30,7 +30,6 @@ package it.tidalwave.role.ui.javafx.impl;
 import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.Executor;
 import javafx.event.ActionEvent;
@@ -44,6 +43,7 @@ import it.tidalwave.util.AsException;
 import it.tidalwave.role.ui.UserAction;
 import it.tidalwave.role.ui.UserActionProvider;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import static it.tidalwave.role.Displayable.Displayable;
 import static it.tidalwave.role.ui.UserActionProvider.UserActionProvider;
 
@@ -55,7 +55,7 @@ import static it.tidalwave.role.ui.UserActionProvider.UserActionProvider;
  * @version $Id$
  *
  **********************************************************************************************************************/
-@RequiredArgsConstructor
+@RequiredArgsConstructor @Slf4j
 public class UserActionProviderContextMenuBuilder implements ContextMenuBuilder
   {
     @Nonnull
@@ -73,33 +73,35 @@ public class UserActionProviderContextMenuBuilder implements ContextMenuBuilder
       {
         try
           {
-            final Collection<? extends UserAction> actions = asObject.as(UserActionProvider).getActions();
             final List<MenuItem> menuItems = new ArrayList<>();
 
-            for (final UserAction action : actions)
+            for (final UserActionProvider userActionProvider : asObject.asMany(UserActionProvider))
               {
-                final EventHandler<ActionEvent> eventHandler = new EventHandler<ActionEvent>()
+                for (final UserAction action : userActionProvider.getActions())
                   {
-                    @Override
-                    public void handle (final @Nonnull ActionEvent event)
+                    final EventHandler<ActionEvent> eventHandler = new EventHandler<ActionEvent>()
                       {
-                        executor.execute(new Runnable()
+                        @Override
+                        public void handle (final @Nonnull ActionEvent event)
                           {
-                            @Override
-                            public void run()
+                            executor.execute(new Runnable()
                               {
-                                action.actionPerformed();
-                              }
-                          });
-                      }
-                  };
+                                @Override
+                                public void run()
+                                  {
+                                    action.actionPerformed();
+                                  }
+                              });
+                          }
+                      };
 
-                 menuItems.add(MenuItemBuilder.create().text(action.as(Displayable).getDisplayName())
-                                                       .onAction(eventHandler)
-                                                       .build());
+                     menuItems.add(MenuItemBuilder.create().text(action.as(Displayable).getDisplayName())
+                                                           .onAction(eventHandler)
+                                                           .build());
+                  }
               }
 
-            return menuItems;
+            return menuItems.isEmpty() ? null : menuItems;
           }
         catch (AsException e)
           {
