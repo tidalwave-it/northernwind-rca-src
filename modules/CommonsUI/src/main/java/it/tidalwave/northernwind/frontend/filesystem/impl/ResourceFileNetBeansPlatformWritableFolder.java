@@ -58,18 +58,20 @@ public class ResourceFileNetBeansPlatformWritableFolder implements WritableFolde
     public void write (final @Nonnull String fileName, final @Nonnull String text)
       throws IOException
       {
-        final @Cleanup Writer w = new OutputStreamWriter(openStream(fileName), "UTF-8");
-        w.write(text);
-        w.close();
+        try (final Writer w = new OutputStreamWriter(openStream(fileName), "UTF-8"))
+          {
+            w.write(text);
+          }
       }
 
     @Override @Nonnull
     public void write (final @Nonnull String fileName, final @Nonnull Marshallable marshallable)
       throws IOException
       {
-        final @Cleanup OutputStream os = openStream(fileName);
-        marshallable.marshal(os);
-        os.close();
+        try (final OutputStream os = openStream(fileName))
+          {
+            marshallable.marshal(os);
+          }
       }
 
     @Nonnull

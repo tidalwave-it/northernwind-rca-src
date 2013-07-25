@@ -43,6 +43,7 @@ import it.tidalwave.util.ui.UserNotificationWithFeedback;
  **********************************************************************************************************************/
 public interface SiteOpenerPresentation
   {
+    // FIXME: encapsulate args in a Bindings class
     public void bind (@Nonnull UserAction userAction, @Nonnull BoundProperty<Path> folderToOpen);
 
     public void notifyInvitationToSelectAFolder (@Nonnull UserNotificationWithFeedback notification);
