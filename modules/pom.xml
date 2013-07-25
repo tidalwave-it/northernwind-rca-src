@@ -58,12 +58,12 @@
     ================================================================================================================ -->
     <properties>
         <aquafx.version>0.1</aquafx.version>
-        <thesefoolishthings.version>1.34-SNAPSHOT</thesefoolishthings.version>
+        <thesefoolishthings.version>1.34</thesefoolishthings.version>
         <slf4j.version>1.7.5</slf4j.version>
         <jetty.version>8.1.10.v20130312</jetty.version>
         <joda-time.version>1.6.2</joda-time.version>
         <logback.version>1.0.12</logback.version>
-        <northernwind.version>1.1-ALPHA-25</northernwind.version>
+        <northernwind.version>1.1-ALPHA-26-SNAPSHOT</northernwind.version>
         <spring.version>3.2.3.RELEASE</spring.version>
         <tft.jsr305.version>2.0.1</tft.jsr305.version>
         <tft.jsr330.version>1</tft.jsr330.version>
