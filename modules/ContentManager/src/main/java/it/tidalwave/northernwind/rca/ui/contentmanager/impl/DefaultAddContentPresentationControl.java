@@ -50,7 +50,7 @@ import org.springframework.core.io.ClassPathResource;
 import it.tidalwave.util.Key;
 import it.tidalwave.messagebus.annotation.ListensTo;
 import it.tidalwave.messagebus.annotation.SimpleMessageSubscriber;
-import it.tidalwave.northernwind.rca.ui.contentmanager.CreateContentRequest;
+import it.tidalwave.northernwind.rca.ui.event.CreateContentRequest;
 import it.tidalwave.northernwind.rca.ui.contentmanager.AddContentPresentation;
 import it.tidalwave.northernwind.rca.ui.contentmanager.AddContentPresentation.Bindings;
 import it.tidalwave.northernwind.rca.ui.contentmanager.AddContentPresentationControl;

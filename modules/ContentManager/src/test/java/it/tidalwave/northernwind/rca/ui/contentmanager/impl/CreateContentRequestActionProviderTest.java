@@ -34,7 +34,7 @@ import it.tidalwave.role.ui.UserAction;
 import it.tidalwave.role.spi.DefaultContextManagerProvider;
 import it.tidalwave.messagebus.MessageBus;
 import it.tidalwave.northernwind.core.model.Content;
-import it.tidalwave.northernwind.rca.ui.contentmanager.CreateContentRequest;
+import it.tidalwave.northernwind.rca.ui.event.CreateContentRequest;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import static org.hamcrest.CoreMatchers.*;

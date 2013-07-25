@@ -40,7 +40,7 @@ import it.tidalwave.northernwind.core.model.Content;
 import it.tidalwave.northernwind.core.model.ModelFactory;
 import it.tidalwave.northernwind.core.model.ResourceFile;
 import it.tidalwave.northernwind.core.model.ResourceProperties;
-import it.tidalwave.northernwind.rca.ui.contentmanager.ContentCreatedEvent;
+import it.tidalwave.northernwind.rca.ui.event.ContentCreatedEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import static it.tidalwave.northernwind.model.admin.role.Saveable.*;
