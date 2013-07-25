@@ -59,7 +59,7 @@ public class ResourcePropertiesSaveable implements Saveable
   {
     private static final List<Key<?>> EXTERNAL_PROPERTIES = Arrays.<Key<?>>asList(PROPERTY_FULL_TEXT);
 
-    private final DateTimeFormatter ISO_FORMATTER = ISODateTimeFormat.dateTime();
+    private static final DateTimeFormatter ISO_FORMATTER = ISODateTimeFormat.dateTime();
 
     @Nonnull
     private final ResourceProperties properties;
