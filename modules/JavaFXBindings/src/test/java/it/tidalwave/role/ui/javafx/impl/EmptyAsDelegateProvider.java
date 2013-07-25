@@ -28,20 +28,20 @@
 package it.tidalwave.role.ui.javafx.impl;
 
 import javax.annotation.Nonnull;
-import it.tidalwave.util.As;
-import it.tidalwave.util.AsException;
 import it.tidalwave.util.spi.AsDelegate;
 import it.tidalwave.util.spi.AsDelegateProvider;
+import java.util.ArrayList;
+import java.util.Collection;
 
 /***********************************************************************************************************************
  *
  * FIXME: move to TheseFoolishThings
- * 
+ *
  * @author  Fabrizio Giudici
  * @version $Id$
  *
  **********************************************************************************************************************/
-public class EmptyAsDelegateProvider implements AsDelegateProvider
+public class EmptyAsDelegateProvider implements AsDelegateProvider // Use VoidAsDelegateProvider
   {
     @Override @Nonnull
     public AsDelegate createAsDelegate (final @Nonnull Object owner)
@@ -49,9 +49,9 @@ public class EmptyAsDelegateProvider implements AsDelegateProvider
         return new AsDelegate()
           {
             @Override @Nonnull
-            public <T> T as(Class<T> type, As.NotFoundBehaviour<T> nfb)
+            public <T> Collection<T> as (Class<T> type)
               {
-                return nfb.run(new AsException(type));
+                return new ArrayList<T>(); // must be mutable
               }
           };
       }

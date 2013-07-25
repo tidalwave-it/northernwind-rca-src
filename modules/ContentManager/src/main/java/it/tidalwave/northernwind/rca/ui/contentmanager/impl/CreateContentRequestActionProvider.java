@@ -44,6 +44,7 @@ import it.tidalwave.northernwind.rca.ui.contentmanager.CreateContentRequest;
 import it.tidalwave.role.spi.DefaultDisplayable;
 import it.tidalwave.role.ui.UserActionProvider;
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 
 /***********************************************************************************************************************
  *
@@ -57,7 +58,7 @@ import lombok.RequiredArgsConstructor;
  *
  **********************************************************************************************************************/
 @DciRole(datumType = Content.class)
-@Configurable @RequiredArgsConstructor
+@Configurable @RequiredArgsConstructor @ToString(of = "content")
 public class CreateContentRequestActionProvider extends DefaultUserActionProvider
   {
     @Nonnull
