@@ -48,5 +48,8 @@ import lombok.ToString;
 public class ContentCreatedEvent
   {
     @Getter @Nonnull
+    private final Content parentContent;
+
+    @Getter @Nonnull
     private final Content content;
   }

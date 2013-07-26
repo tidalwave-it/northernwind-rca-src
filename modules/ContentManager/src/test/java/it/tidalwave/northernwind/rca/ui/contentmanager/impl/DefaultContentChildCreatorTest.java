@@ -186,6 +186,6 @@ public class DefaultContentChildCreatorTest
 //        assertThat(argThat(resourcePropertiesWith(values)));
 
         verify(saveable).saveIn(same(childFolder));
-        verify(messageBus).publish(eq(new ContentCreatedEvent(content)));
+        verify(messageBus).publish(eq(new ContentCreatedEvent(parentContent, content)));
       }
   }
