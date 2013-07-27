@@ -160,7 +160,7 @@ public class TreeViewBindings extends DelegateSupport
               }
           };
 
-        pm.addPropertyChangeListener("children", pcl);
+        pm.addPropertyChangeListener(PresentationModel.PROPERTY_CHILDREN, pcl);
         createChildren(item, pm); // FIXME: only if already expanded, otherwise defer the call when expanded
 
         return item;

@@ -40,8 +40,6 @@ import it.tidalwave.northernwind.core.model.Content;
  **********************************************************************************************************************/
 public class ContentPresentationModel extends DefaultPresentationModel
   {
-    public static final String PROPERTY_CHILDREN = "children"; // FIXME: push up
-
     public ContentPresentationModel (final @Nonnull Content owner, final @Nonnull Object ... rolesOrFactories)
       {
         super(owner, rolesOrFactories);
