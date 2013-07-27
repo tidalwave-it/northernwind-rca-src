@@ -33,7 +33,7 @@ import java.util.List;
 import javafx.scene.control.TreeItem;
 import it.tidalwave.util.spi.AsDelegateProvider;
 import it.tidalwave.role.ui.PresentationModel;
-import it.tidalwave.role.ui.javafx.impl.EmptyAsDelegateProvider;
+import it.tidalwave.util.spi.EmptyAsDelegateProvider;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import static org.hamcrest.CoreMatchers.is;

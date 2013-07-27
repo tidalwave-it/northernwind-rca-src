@@ -27,17 +27,12 @@
  */
 package it.tidalwave.role.ui.javafx.impl;
 
-import javafx.scene.control.TreeItem;
 import java.util.concurrent.Executors;
 import it.tidalwave.util.spi.AsDelegateProvider;
 import it.tidalwave.role.ContextManager;
 import it.tidalwave.role.spi.DefaultContextManagerProvider;
-import it.tidalwave.role.ui.PresentationModel;
-import it.tidalwave.role.ui.Selectable;
-import it.tidalwave.role.ui.spi.DefaultPresentationModel;
+import it.tidalwave.util.spi.EmptyAsDelegateProvider;
 import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
-import static org.mockito.Mockito.*;
 
 /***********************************************************************************************************************
  *
@@ -60,4 +55,5 @@ public class DefaultJavaFXBinderTest
         fixture = new DefaultJavaFXBinder(Executors.newSingleThreadExecutor());
       }
 
+    // TODO: tests
   }
