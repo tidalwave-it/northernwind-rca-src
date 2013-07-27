@@ -25,55 +25,31 @@
  * *********************************************************************************************************************
  * #L%
  */
-package it.tidalwave.role.ui.javafx.impl;
+package it.tidalwave.northernwind.rca.ui.event;
 
 import javax.annotation.Nonnull;
-import java.util.concurrent.Executor;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
+import it.tidalwave.northernwind.core.model.Content;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import lombok.ToString;
 
 /***********************************************************************************************************************
  *
- * An {@link EventHandler} for {@link ActionEvent}s that closes a dialog {@link Stage} and performs a task in a
- * backgroudn thread. It's useful to be bound as the callback of buttons in a dialog that should close the dialog.
+ * An event that notifies that a new {@link Content} has been created.
+ *
+ * @stereotype event
  *
  * @author  Fabrizio Giudici
  * @version $Id$
  *
  **********************************************************************************************************************/
-@RequiredArgsConstructor @Slf4j
-abstract class DialogCloserHandler implements EventHandler<ActionEvent>
+@RequiredArgsConstructor @EqualsAndHashCode @ToString
+public class ContentCreatedEvent
   {
-    @Nonnull
-    private final Executor executor;
+    @Getter @Nonnull
+    private final Content parentContent;
 
-    @Nonnull
-    private final Stage dialogStage;
-
-    @Override
-    public void handle (final @Nonnull ActionEvent event)
-      {
-        dialogStage.close();
-        executor.execute(new Runnable()
-          {
-            @Override
-            public void run()
-              {
-                try
-                  {
-                    doSomething();
-                  }
-                catch (Exception e)
-                  {
-                    log.error("", e);
-                  }
-              }
-          });
-      }
-
-    protected abstract void doSomething() throws Exception;
+    @Getter @Nonnull
+    private final Content content;
   }

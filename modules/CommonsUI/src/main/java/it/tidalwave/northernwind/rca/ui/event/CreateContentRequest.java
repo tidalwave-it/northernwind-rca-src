@@ -25,7 +25,7 @@
  * *********************************************************************************************************************
  * #L%
  */
-package it.tidalwave.northernwind.rca.ui.contentmanager;
+package it.tidalwave.northernwind.rca.ui.event;
 
 import javax.annotation.Nonnull;
 import it.tidalwave.northernwind.core.model.Content;
@@ -36,7 +36,7 @@ import lombok.ToString;
 
 /***********************************************************************************************************************
  *
- * An event that notifies that a new {@link Content} has been created.
+ * An event that notifies that a new {@link Content} should be created into a given parent.
  *
  * @stereotype event
  *
@@ -45,8 +45,8 @@ import lombok.ToString;
  *
  **********************************************************************************************************************/
 @RequiredArgsConstructor @EqualsAndHashCode @ToString
-public class ContentCreatedEvent
+public class CreateContentRequest
   {
     @Getter @Nonnull
-    private final Content content;
+    private final Content parentContent;
   }

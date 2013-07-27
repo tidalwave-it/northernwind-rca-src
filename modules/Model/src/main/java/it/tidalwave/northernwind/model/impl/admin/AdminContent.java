@@ -75,4 +75,10 @@ public class AdminContent extends ContentSupport
       {
         return getResource().getProperties();
       }
+
+    @Override
+    public String toString()
+      {
+        return "AdminContent(" + getFile().getPath().asString() + ')';
+      }
   }

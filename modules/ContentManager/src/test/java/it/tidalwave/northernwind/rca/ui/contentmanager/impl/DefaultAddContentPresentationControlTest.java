@@ -42,7 +42,7 @@ import it.tidalwave.util.ui.UserNotificationWithFeedback;
 import it.tidalwave.northernwind.core.model.Content;
 import it.tidalwave.northernwind.rca.ui.contentmanager.AddContentPresentation;
 import it.tidalwave.northernwind.rca.ui.contentmanager.AddContentPresentation.Bindings;
-import it.tidalwave.northernwind.rca.ui.contentmanager.CreateContentRequest;
+import it.tidalwave.northernwind.rca.ui.event.CreateContentRequest;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 import org.testng.annotations.BeforeClass;

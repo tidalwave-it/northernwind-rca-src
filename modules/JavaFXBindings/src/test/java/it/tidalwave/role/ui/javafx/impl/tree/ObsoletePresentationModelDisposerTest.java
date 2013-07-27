@@ -25,19 +25,18 @@
  * *********************************************************************************************************************
  * #L%
  */
-package it.tidalwave.northernwind.rca.ui.contentmanager.impl;
+package it.tidalwave.role.ui.javafx.impl.tree;
 
-import java.util.Collection;
-import it.tidalwave.role.ContextManager;
-import it.tidalwave.role.Displayable;
-import it.tidalwave.role.ui.UserAction;
-import it.tidalwave.role.spi.DefaultContextManagerProvider;
-import it.tidalwave.messagebus.MessageBus;
-import it.tidalwave.northernwind.core.model.Content;
-import it.tidalwave.northernwind.rca.ui.event.CreateContentRequest;
+import javax.annotation.Nonnull;
+import java.util.ArrayList;
+import java.util.List;
+import javafx.scene.control.TreeItem;
+import it.tidalwave.util.spi.AsDelegateProvider;
+import it.tidalwave.role.ui.PresentationModel;
+import it.tidalwave.role.ui.javafx.impl.EmptyAsDelegateProvider;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.*;
 
@@ -47,42 +46,51 @@ import static org.mockito.Mockito.*;
  * @version $Id$
  *
  **********************************************************************************************************************/
-public class CreateContentRequestActionProviderTest
+public class ObsoletePresentationModelDisposerTest
   {
-    private CreateContentRequestActionProvider fixture;
+    private ObsoletePresentationModelDisposer fixture;
 
-    private Content content;
-
-    private MessageBus messageBus;
+    private List<PresentationModel> allPMs;
 
     @BeforeMethod
     public void setupFixture()
       {
-        ContextManager.Locator.set(new DefaultContextManagerProvider()); // TODO: get rid of this
-        messageBus = mock(MessageBus.class);
-        content = mock(Content.class);
-        fixture = new CreateContentRequestActionProvider(content);
-        fixture.messageBus = messageBus;
+        AsDelegateProvider.Locator.set(new EmptyAsDelegateProvider());
+        fixture = new ObsoletePresentationModelDisposer();
+        allPMs = new ArrayList<>();
       }
 
     @Test
-    public void must_return_only_a_New_Content_action()
+    public void changed_must_dispose_all_PresentationModels()
       {
-        final Collection<? extends UserAction> actions = fixture.getActions();
-
-        assertThat(actions, is(not(nullValue())));
-        assertThat(actions.size(), is(1));
-        final UserAction action = actions.iterator().next();
-        assertThat(action, is(sameInstance(fixture.sendCreateContentRequestAction)));
-        assertThat(action.as(Displayable.class).getDisplayName(), is("New content"));
+        // given
+        final TreeItem<PresentationModel> treeItem = createTreeItemWithChildren(0);
+        assertThat(allPMs.size(), is(85));
+        // when
+        fixture.changed(null, treeItem, null);
+        // then
+        for (final PresentationModel pm : allPMs)
+          {
+            verify(pm).dispose();
+            verifyNoMoreInteractions(pm);
+          }
       }
 
-    @Test
-    public void the_action_must_publish_a_proper_CreateContentRequest()
+    @Nonnull
+    private TreeItem<PresentationModel> createTreeItemWithChildren (final int level)
       {
-        fixture.sendCreateContentRequestAction.actionPerformed();
+        final PresentationModel pm = mock(PresentationModel.class);
+        allPMs.add(pm);
+        final TreeItem<PresentationModel> treeItem = new TreeItem<>(pm);
 
-        verify(messageBus).publish(eq(new CreateContentRequest(content)));
-        verifyNoMoreInteractions(messageBus);
+        if (level < 3)
+          {
+            for (int n = 0; n < 4; n++)
+              {
+                treeItem.getChildren().add(createTreeItemWithChildren(level + 1));
+              }
+          }
+
+        return treeItem;
       }
-}
+  }

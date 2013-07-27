@@ -42,7 +42,7 @@ import it.tidalwave.northernwind.core.model.ResourceFile;
 import it.tidalwave.northernwind.core.model.ResourceProperties;
 import it.tidalwave.northernwind.core.model.spi.ModelFactorySupport;
 import it.tidalwave.northernwind.model.admin.role.Saveable;
-import it.tidalwave.northernwind.rca.ui.contentmanager.ContentCreatedEvent;
+import it.tidalwave.northernwind.rca.ui.event.ContentCreatedEvent;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import lombok.Delegate;
@@ -186,6 +186,6 @@ public class DefaultContentChildCreatorTest
 //        assertThat(argThat(resourcePropertiesWith(values)));
 
         verify(saveable).saveIn(same(childFolder));
-        verify(messageBus).publish(eq(new ContentCreatedEvent(content)));
+        verify(messageBus).publish(eq(new ContentCreatedEvent(parentContent, content)));
       }
   }

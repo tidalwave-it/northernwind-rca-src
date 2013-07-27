@@ -27,16 +27,16 @@
  */
 package it.tidalwave.role.ui.javafx.impl;
 
-import it.tidalwave.util.As;
-import it.tidalwave.role.spi.DefaultDisplayable;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-import static it.tidalwave.role.Displayable.Displayable;
+import javax.annotation.Nonnull;
+import java.util.concurrent.Callable;
+import java.util.concurrent.Executor;
+import javafx.application.Platform;
+import javafx.scene.Parent;
+import javafx.scene.effect.BoxBlur;
+import javafx.scene.effect.Effect;
+import javafx.stage.Window;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
 /***********************************************************************************************************************
  *
@@ -44,50 +44,82 @@ import static it.tidalwave.role.Displayable.Displayable;
  * @version $Id$
  *
  **********************************************************************************************************************/
-public class AsObjectTreeCellTest
+@RequiredArgsConstructor
+public abstract class DelegateSupport
   {
-    private AsObjectTreeCell<As> fixture;
+    @Nonnull
+    protected final Executor executor;
 
-    private ContextMenuBuilder contextMenuBuilder;
+    @Setter
+    protected Window mainWindow;
 
     /*******************************************************************************************************************
      *
+     * Runs the given (@link Callable} while disabling the given {@link Window}.
+     *
+     * @param  window    the {@code Window} to disable
+     * @param  callable  the (@code Callable} to run
+     * @return           the (@code Callable} result
+     *
      ******************************************************************************************************************/
-    @BeforeMethod
-    public void setupFixture()
+    protected <T> T runWhileDisabling (final @Nonnull Window window, final @Nonnull Callable<T> callable)
       {
-        contextMenuBuilder = mock(ContextMenuBuilder.class);
-        fixture = new AsObjectTreeCell<>();
-        fixture.contextMenuBuilder = contextMenuBuilder;
+        final Parent root = window.getScene().getRoot();
+        final Effect effect = root.getEffect();
+        final boolean disabled = root.isDisable();
+
+        try
+          {
+            root.setDisable(true);
+            root.setEffect(createDisablingEffect());
+            return callable.call();
+          }
+        catch (Exception e)
+          {
+            throw new RuntimeException(e);
+          }
+        finally
+          {
+            root.setEffect(effect);
+            root.setDisable(disabled);
+          }
       }
 
     /*******************************************************************************************************************
      *
+     * TODO: delegate to a provider
+     *
      ******************************************************************************************************************/
-    @Test
-    public void must_set_text_from_Displayable_when_non_empty()
+    @Nonnull
+    private BoxBlur createDisablingEffect()
       {
-        final As asObject = mock(As.class);
-        when(asObject.as(eq(Displayable))).thenReturn(new DefaultDisplayable("foo"));
-
-        fixture.updateItem(asObject, false);
-
-        assertThat(fixture.getText(), is("foo"));
+        final BoxBlur bb = new BoxBlur();
+        bb.setWidth(5);
+        bb.setHeight(5);
+        bb.setIterations(3);
+        return bb;
       }
 
     /*******************************************************************************************************************
      *
+     * TODO: delegate to a provider
+     *
      ******************************************************************************************************************/
-    @Test
-    public void must_set_empty_test_when_empty()
+    public static boolean isOSX()
       {
-        final As asObject = mock(As.class);
-        when(asObject.as(eq(Displayable))).thenReturn(new DefaultDisplayable("foo"));
-
-        fixture.updateItem(asObject, true);
-
-        assertThat(fixture.getText(), is(""));
+        return System.getProperty("os.name").contains("OS X");
       }
 
-    // TODO: test setting of ContextMenu
+    /*******************************************************************************************************************
+     *
+     *
+     *
+     ******************************************************************************************************************/
+    protected void assertIsFxApplicationThread()
+      {
+        if (!Platform.isFxApplicationThread())
+          {
+            throw new AssertionError("Must run in the JavaFX Application Thread");
+          }
+      }
   }

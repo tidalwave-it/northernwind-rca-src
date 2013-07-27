@@ -25,24 +25,54 @@
  * *********************************************************************************************************************
  * #L%
  */
-package it.tidalwave.northernwind.model.impl.admin.role;
+package it.tidalwave.role.ui.javafx.impl.dialog;
 
 import javax.annotation.Nonnull;
-import it.tidalwave.role.ui.spi.SimpleCompositePresentable;
-import it.tidalwave.dci.annotation.DciRole;
-import it.tidalwave.northernwind.core.model.Content;
+import java.util.concurrent.Executor;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.stage.Stage;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 /***********************************************************************************************************************
+ *
+ * An {@link EventHandler} for {@link ActionEvent}s that closes a dialog {@link Stage} and performs a task in a
+ * background thread. It's useful to be bound as the callback of buttons in a dialog that should close the dialog.
  *
  * @author  Fabrizio Giudici
  * @version $Id$
  *
  **********************************************************************************************************************/
-@DciRole(datumType = Content.class)
-public class ContentPresentable extends SimpleCompositePresentable<Content>
+@RequiredArgsConstructor @Slf4j
+abstract class DialogCloserHandler implements EventHandler<ActionEvent>
   {
-    public ContentPresentable (final @Nonnull Content content, final @Nonnull ContentPresentationModelFactory factory)
+    @Nonnull
+    private final Executor executor;
+
+    @Nonnull
+    private final Stage dialogStage;
+
+    @Override
+    public void handle (final @Nonnull ActionEvent event)
       {
-        super(content, factory);
+        dialogStage.close();
+        executor.execute(new Runnable()
+          {
+            @Override
+            public void run()
+              {
+                try
+                  {
+                    doSomething();
+                  }
+                catch (Exception e)
+                  {
+                    log.error("", e);
+                  }
+              }
+          });
       }
+
+    protected abstract void doSomething() throws Exception;
   }

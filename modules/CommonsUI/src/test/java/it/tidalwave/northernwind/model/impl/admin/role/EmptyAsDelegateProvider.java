@@ -25,45 +25,34 @@
  * *********************************************************************************************************************
  * #L%
  */
-package it.tidalwave.role.ui.javafx.impl;
+package it.tidalwave.northernwind.model.impl.admin.role;
 
 import javax.annotation.Nonnull;
-import javax.annotation.concurrent.Immutable;
-import javafx.util.Callback;
-import javafx.beans.value.ObservableValue;
-import javafx.beans.value.ObservableValueBase;
-import javafx.scene.control.TableColumn.CellDataFeatures;
-import it.tidalwave.util.Key;
-import it.tidalwave.util.NotFoundException;
-import it.tidalwave.role.ui.PresentationModel;
-import static it.tidalwave.role.ui.Row.*;
+import it.tidalwave.util.spi.AsDelegate;
+import it.tidalwave.util.spi.AsDelegateProvider;
+import java.util.ArrayList;
+import java.util.Collection;
 
 /***********************************************************************************************************************
+ *
+ * FIXME: move to TheseFoolishThings
  *
  * @author  Fabrizio Giudici
  * @version $Id$
  *
  **********************************************************************************************************************/
-@Immutable
-public class RowAdapter<T> implements Callback<CellDataFeatures<PresentationModel, T>, ObservableValue<T>>
+public class EmptyAsDelegateProvider implements AsDelegateProvider // Use VoidAsDelegateProvider
   {
     @Override @Nonnull
-    public ObservableValue<T> call (final @Nonnull CellDataFeatures<PresentationModel, T> cell)
+    public AsDelegate createAsDelegate (final @Nonnull Object owner)
       {
-        return new ObservableValueBase<T>() // FIXME: use a concrete specialization?
+        return new AsDelegate()
           {
-            @Override
-            public T getValue()
+            @Override @Nonnull
+            public <T> Collection<T> as (Class<T> type)
               {
-                try
-                  {
-                    return cell.getValue().as(Row).getValue(new Key<T>(cell.getTableColumn().getId()));
-                  }
-                catch (NotFoundException e)
-                  {
-                    return null;
-                  }
-              };
+                return new ArrayList<T>(); // must be mutable
+              }
           };
       }
   }

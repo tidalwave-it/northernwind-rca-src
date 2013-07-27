@@ -25,19 +25,18 @@
  * *********************************************************************************************************************
  * #L%
  */
-package it.tidalwave.role.ui.javafx.impl;
+package it.tidalwave.role.ui.javafx.impl.tableview;
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
-import javafx.application.Platform;
-import javafx.event.ActionEvent;
-import javafx.stage.Stage;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
-import static org.hamcrest.MatcherAssert.*;
-import static org.hamcrest.CoreMatchers.*;
-import static org.mockito.Mockito.*;
+import javax.annotation.Nonnegative;
+import javax.annotation.Nonnull;
+import java.util.concurrent.Executor;
+import javafx.collections.ObservableList;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import it.tidalwave.role.ui.PresentationModel;
+import it.tidalwave.role.ui.javafx.impl.DelegateSupport;
+import static javafx.collections.FXCollections.observableArrayList;
+import static it.tidalwave.role.SimpleComposite.SimpleComposite;
 
 /***********************************************************************************************************************
  *
@@ -45,74 +44,46 @@ import static org.mockito.Mockito.*;
  * @version $Id$
  *
  **********************************************************************************************************************/
-public class DialogCloserHandlerTest
+public class TableViewBindings extends DelegateSupport
   {
-    private Stage dialogStage;
-
-    private DialogCloserHandler fixture;
-
-    private ExecutorService executorService;
-
-    private AssertionError error;
-
-    private boolean doSomethingCalled;
-
     /*******************************************************************************************************************
      *
+     *
+     *
      ******************************************************************************************************************/
-    @BeforeMethod
-    public void setupFixture()
+    public TableViewBindings (final @Nonnull Executor executor)
       {
-        executorService = Executors.newSingleThreadExecutor();
-        dialogStage = mock(Stage.class);
-        error = null;
-        doSomethingCalled = false;
-
-        fixture = new DialogCloserHandler(executorService, dialogStage)
-          {
-            @Override
-            protected void doSomething()
-              {
-                try
-                  {
-                    doSomethingCalled = true;
-                    assertThat(Platform.isFxApplicationThread(), is(false));
-                  }
-                catch (AssertionError e)
-                  {
-                    error = e;
-                  }
-              }
-          };
+        super(executor);
       }
 
     /*******************************************************************************************************************
      *
+     * {@inheritDoc}
+     *
      ******************************************************************************************************************/
-    @Test
-    public void must_close_the_dialog_Stage()
+    public void bind (final @Nonnull TableView<PresentationModel> tableView,
+                      final @Nonnull PresentationModel pm)
       {
-        fixture.handle(new ActionEvent());
+        assertIsFxApplicationThread();
 
-        verify(dialogStage).close();
+        tableView.setItems(observableArrayList(pm.as(SimpleComposite).findChildren().results()));
       }
 
     /*******************************************************************************************************************
      *
+     * {@inheritDoc}
+     *
      ******************************************************************************************************************/
-    @Test
-    public void must_call_doSomething_in_a_non_FX_thread()
-      throws InterruptedException
+    public void bindColumn (final @Nonnull TableView<PresentationModel> tableView,
+                            final @Nonnegative int columnIndex,
+                            final @Nonnull String id)
       {
-        fixture.handle(new ActionEvent());
-        executorService.shutdown();
-        executorService.awaitTermination(10, TimeUnit.SECONDS);
+        assertIsFxApplicationThread();
 
-        assertThat(doSomethingCalled, is(true));
-
-        if (error != null)
-          {
-            throw error;
-          }
+        final ObservableList rawColumns = tableView.getColumns(); // FIXME
+        final ObservableList<TableColumn<PresentationModel, String>> columns =
+                (ObservableList<TableColumn<PresentationModel, String>>)rawColumns;
+        columns.get(columnIndex).setId(id); // FIXME: is it correct to use Id?
+        columns.get(columnIndex).setCellValueFactory(new RowAdapter<String>());
       }
   }

@@ -25,19 +25,19 @@
  * *********************************************************************************************************************
  * #L%
  */
-package it.tidalwave.role.ui.javafx.impl;
+package it.tidalwave.role.ui.javafx.impl.tree;
 
-import javafx.scene.control.TreeItem;
-import java.util.concurrent.Executors;
-import it.tidalwave.util.spi.AsDelegateProvider;
-import it.tidalwave.role.ContextManager;
-import it.tidalwave.role.spi.DefaultContextManagerProvider;
-import it.tidalwave.role.ui.PresentationModel;
-import it.tidalwave.role.ui.Selectable;
-import it.tidalwave.role.ui.spi.DefaultPresentationModel;
+import it.tidalwave.util.As;
+import it.tidalwave.role.spi.DefaultDisplayable;
+import it.tidalwave.role.ui.javafx.impl.ContextMenuBuilder;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import static org.mockito.Mockito.*;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+import static it.tidalwave.role.Displayable.Displayable;
 
 /***********************************************************************************************************************
  *
@@ -45,9 +45,11 @@ import static org.mockito.Mockito.*;
  * @version $Id$
  *
  **********************************************************************************************************************/
-public class DefaultJavaFXBinderTest
+public class AsObjectTreeCellTest
   {
-    private DefaultJavaFXBinder fixture;
+    private AsObjectTreeCell<As> fixture;
+
+    private ContextMenuBuilder contextMenuBuilder;
 
     /*******************************************************************************************************************
      *
@@ -55,9 +57,38 @@ public class DefaultJavaFXBinderTest
     @BeforeMethod
     public void setupFixture()
       {
-        AsDelegateProvider.Locator.set(new EmptyAsDelegateProvider());
-        ContextManager.Locator.set(new DefaultContextManagerProvider());
-        fixture = new DefaultJavaFXBinder(Executors.newSingleThreadExecutor());
+        contextMenuBuilder = mock(ContextMenuBuilder.class);
+        fixture = new AsObjectTreeCell<>();
+        fixture.contextMenuBuilder = contextMenuBuilder;
       }
 
+    /*******************************************************************************************************************
+     *
+     ******************************************************************************************************************/
+    @Test
+    public void must_set_text_from_Displayable_when_non_empty()
+      {
+        final As asObject = mock(As.class);
+        when(asObject.as(eq(Displayable))).thenReturn(new DefaultDisplayable("foo"));
+
+        fixture.updateItem(asObject, false);
+
+        assertThat(fixture.getText(), is("foo"));
+      }
+
+    /*******************************************************************************************************************
+     *
+     ******************************************************************************************************************/
+    @Test
+    public void must_set_empty_test_when_empty()
+      {
+        final As asObject = mock(As.class);
+        when(asObject.as(eq(Displayable))).thenReturn(new DefaultDisplayable("foo"));
+
+        fixture.updateItem(asObject, true);
+
+        assertThat(fixture.getText(), is(""));
+      }
+
+    // TODO: test setting of ContextMenu
   }

@@ -48,6 +48,7 @@ import it.tidalwave.role.ui.UserActionProvider;
 import it.tidalwave.role.ui.spi.DefaultUserActionProvider;
 import it.tidalwave.role.ui.spi.UserActionSupport;
 import it.tidalwave.util.AsException;
+import it.tidalwave.util.spi.AsDelegateProvider;
 import lombok.Delegate;
 import lombok.RequiredArgsConstructor;
 import org.testng.annotations.BeforeMethod;
@@ -114,6 +115,7 @@ public class UserActionProviderContextMenuBuilderTest
     @BeforeMethod
     public void setupFixture()
       {
+        AsDelegateProvider.Locator.set(new EmptyAsDelegateProvider());
         ContextManager.Locator.set(new DefaultContextManagerProvider()); // TODO: possibly drop this
         actions = new ArrayList<>();
 

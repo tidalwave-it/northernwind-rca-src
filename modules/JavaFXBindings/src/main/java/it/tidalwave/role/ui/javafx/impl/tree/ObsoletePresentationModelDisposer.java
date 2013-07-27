@@ -25,24 +25,46 @@
  * *********************************************************************************************************************
  * #L%
  */
-package it.tidalwave.northernwind.model.impl.admin.role;
+package it.tidalwave.role.ui.javafx.impl.tree;
 
 import javax.annotation.Nonnull;
-import it.tidalwave.role.ui.spi.SimpleCompositePresentable;
-import it.tidalwave.dci.annotation.DciRole;
-import it.tidalwave.northernwind.core.model.Content;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.scene.control.TreeItem;
+import javafx.scene.control.TreeView;
+import it.tidalwave.role.ui.PresentationModel;
+import lombok.extern.slf4j.Slf4j;
 
 /***********************************************************************************************************************
+ *
+ * This listener calls {@link PresentationModel#dispose()} on instances that have been detached from a {@link TreeView}.
  *
  * @author  Fabrizio Giudici
  * @version $Id$
  *
  **********************************************************************************************************************/
-@DciRole(datumType = Content.class)
-public class ContentPresentable extends SimpleCompositePresentable<Content>
+@Slf4j
+public class ObsoletePresentationModelDisposer implements ChangeListener<TreeItem<PresentationModel>>
   {
-    public ContentPresentable (final @Nonnull Content content, final @Nonnull ContentPresentationModelFactory factory)
+    @Override
+    public void changed (final @Nonnull ObservableValue<? extends TreeItem<PresentationModel>> ov,
+                         final TreeItem<PresentationModel> oldTreeItem,
+                         final TreeItem<PresentationModel> newTreeItem)
       {
-        super(content, factory);
+        if (oldTreeItem != null)
+          {
+            disposeRecursively(oldTreeItem);
+          }
+      }
+
+    private void disposeRecursively (final @Nonnull TreeItem<PresentationModel> treeItem)
+      {
+        treeItem.getValue().dispose();
+        treeItem.setValue(null);
+
+        for (final TreeItem<PresentationModel> childTreeItem : treeItem.getChildren())
+          {
+            disposeRecursively(childTreeItem);
+          }
       }
   }

@@ -40,7 +40,7 @@ import it.tidalwave.role.ui.UserAction;
 import it.tidalwave.role.ui.spi.DefaultUserActionProvider;
 import it.tidalwave.role.ui.spi.UserActionSupport;
 import it.tidalwave.northernwind.core.model.Content;
-import it.tidalwave.northernwind.rca.ui.contentmanager.CreateContentRequest;
+import it.tidalwave.northernwind.rca.ui.event.CreateContentRequest;
 import it.tidalwave.role.spi.DefaultDisplayable;
 import it.tidalwave.role.ui.UserActionProvider;
 import lombok.RequiredArgsConstructor;

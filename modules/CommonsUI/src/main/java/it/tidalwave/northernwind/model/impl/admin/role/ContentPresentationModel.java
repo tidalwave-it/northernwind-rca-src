@@ -25,28 +25,28 @@
  * *********************************************************************************************************************
  * #L%
  */
-package it.tidalwave.northernwind.rca.ui.contentmanager;
+package it.tidalwave.northernwind.model.impl.admin.role;
 
 import javax.annotation.Nonnull;
+import com.google.common.annotations.VisibleForTesting;
+import it.tidalwave.role.ui.spi.DefaultPresentationModel;
 import it.tidalwave.northernwind.core.model.Content;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.ToString;
 
 /***********************************************************************************************************************
- *
- * An event that notifies that a new {@link Content} should be created into a given parent.
- *
- * @stereotype event
  *
  * @author  Fabrizio Giudici
  * @version $Id$
  *
  **********************************************************************************************************************/
-@RequiredArgsConstructor @EqualsAndHashCode @ToString
-public class CreateContentRequest
+public class ContentPresentationModel extends DefaultPresentationModel
   {
-    @Getter @Nonnull
-    private final Content parentContent;
+    public ContentPresentationModel (final @Nonnull Content owner, final @Nonnull Object ... rolesOrFactories)
+      {
+        super(owner, rolesOrFactories);
+      }
+
+    @VisibleForTesting void onContentCreated()
+      {
+        firePropertyChange(PROPERTY_CHILDREN, null, null);
+      }
   }

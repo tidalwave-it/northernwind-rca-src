@@ -25,24 +25,38 @@
  * *********************************************************************************************************************
  * #L%
  */
-package it.tidalwave.northernwind.model.impl.admin.role;
+package it.tidalwave.role.ui.javafx.impl.tree;
 
+import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
-import it.tidalwave.role.ui.spi.SimpleCompositePresentable;
-import it.tidalwave.dci.annotation.DciRole;
-import it.tidalwave.northernwind.core.model.Content;
+import javax.inject.Inject;
+import javafx.scene.control.cell.TextFieldTreeCell;
+import com.google.common.annotations.VisibleForTesting;
+import it.tidalwave.role.ui.javafx.impl.ContextMenuBuilder;
+import org.springframework.beans.factory.annotation.Configurable;
+import it.tidalwave.util.As;
+import static it.tidalwave.role.Displayable.*;
 
 /***********************************************************************************************************************
+ *
+ * An implementation of {@link TreeCell} that retrieves the displayname from {@link Displayable} and creates a
+ * contextualized pop-up menu.
  *
  * @author  Fabrizio Giudici
  * @version $Id$
  *
  **********************************************************************************************************************/
-@DciRole(datumType = Content.class)
-public class ContentPresentable extends SimpleCompositePresentable<Content>
+@Configurable
+public class AsObjectTreeCell<T extends As> extends TextFieldTreeCell<T>
   {
-    public ContentPresentable (final @Nonnull Content content, final @Nonnull ContentPresentationModelFactory factory)
+    @Inject @Nonnull
+    @VisibleForTesting ContextMenuBuilder contextMenuBuilder;
+
+    @Override
+    public void updateItem (final @CheckForNull T item, final boolean empty)
       {
-        super(content, factory);
+        super.updateItem(item, empty);
+        setText(empty ? "" : item.as(Displayable).getDisplayName());
+        setContextMenu((item != null) ? contextMenuBuilder.createContextMenu(item) : null);
       }
   }
