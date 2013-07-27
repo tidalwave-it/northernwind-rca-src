@@ -98,14 +98,21 @@ public class TreeViewBindings extends DelegateSupport
                              final @Nonnull TreeItem<PresentationModel> oldItem,
                              final @Nonnull TreeItem<PresentationModel> item)
           {
-            try
+            executor.execute(new Runnable()
               {
-                item.getValue().as(Selectable).select();
-              }
-            catch (AsException e)
-              {
-                log.debug("No Selectable role for {}", item); // ok, do nothing
-              }
+                @Override
+                public void run()
+                  {
+                    try
+                      {
+                        item.getValue().as(Selectable).select();
+                      }
+                    catch (AsException e)
+                      {
+                        log.debug("No Selectable role for {}", item); // ok, do nothing
+                      }
+                  }
+              });
           }
       };
 
