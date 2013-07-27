@@ -57,7 +57,7 @@ import static it.tidalwave.role.ui.Selectable.Selectable;
  *
  **********************************************************************************************************************/
 @Slf4j
-public class TreeItemBindings extends DelegateSupport
+public class TreeViewBindings extends DelegateSupport
   {
     private final ObsoletePresentationModelDisposer presentationModelDisposer = new ObsoletePresentationModelDisposer();
 
@@ -66,7 +66,7 @@ public class TreeItemBindings extends DelegateSupport
      *
      *
      ******************************************************************************************************************/
-    public TreeItemBindings (final @Nonnull Executor executor)
+    public TreeViewBindings (final @Nonnull Executor executor)
       {
         super(executor);
       }

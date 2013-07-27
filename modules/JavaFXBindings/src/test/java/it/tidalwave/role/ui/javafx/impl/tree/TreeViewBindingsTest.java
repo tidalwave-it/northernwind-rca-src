@@ -49,9 +49,9 @@ import static org.mockito.Mockito.verifyNoMoreInteractions;
  * @version $Id$
  *
  **********************************************************************************************************************/
-public class TreeItemBindingsTest
+public class TreeViewBindingsTest
   {
-    private TreeItemBindings fixture;
+    private TreeViewBindings fixture;
 
     /*******************************************************************************************************************
      *
@@ -61,7 +61,7 @@ public class TreeItemBindingsTest
       {
         AsDelegateProvider.Locator.set(new EmptyAsDelegateProvider());
         ContextManager.Locator.set(new DefaultContextManagerProvider());
-        fixture = new TreeItemBindings(Executors.newSingleThreadExecutor());
+        fixture = new TreeViewBindings(Executors.newSingleThreadExecutor());
       }
 
     /*******************************************************************************************************************

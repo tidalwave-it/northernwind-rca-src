@@ -42,7 +42,7 @@ import javafx.application.Platform;
 import it.tidalwave.role.ui.BoundProperty;
 import it.tidalwave.role.ui.UserAction;
 import it.tidalwave.role.ui.javafx.JavaFXBinder;
-import it.tidalwave.role.ui.javafx.impl.tree.TreeItemBindings;
+import it.tidalwave.role.ui.javafx.impl.tree.TreeViewBindings;
 import it.tidalwave.role.ui.javafx.impl.dialog.DialogBindings;
 import it.tidalwave.role.ui.javafx.impl.filechooser.FileChooserBindings;
 import it.tidalwave.role.ui.javafx.impl.tableview.TableViewBindings;
@@ -68,7 +68,7 @@ public class DefaultJavaFXBinder implements JavaFXBinder
       }
 
     @Delegate(excludes = Exclusions.class)
-    private final TreeItemBindings treeItemBindings;
+    private final TreeViewBindings treeItemBindings;
 
     @Delegate(excludes = Exclusions.class)
     private final TableViewBindings tableViewBindings;
@@ -87,7 +87,7 @@ public class DefaultJavaFXBinder implements JavaFXBinder
     public DefaultJavaFXBinder (final @Nonnull Executor executor)
       {
         this.executor = executor;
-        treeItemBindings = new TreeItemBindings(executor);
+        treeItemBindings = new TreeViewBindings(executor);
         tableViewBindings = new TableViewBindings(executor);
         dialogBindings = new DialogBindings(executor);
         fileChooserBindings = new FileChooserBindings(executor);
