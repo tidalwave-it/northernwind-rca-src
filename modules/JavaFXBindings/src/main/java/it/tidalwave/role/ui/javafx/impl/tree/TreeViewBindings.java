@@ -148,7 +148,7 @@ public class TreeViewBindings extends DelegateSupport
       {
         final TreeItem<PresentationModel> item = new TreeItem<>(pm);
 
-        final PropertyChangeListener pcl = new PropertyChangeListener()
+        final PropertyChangeListener recreateChildrenOnUpdateListener = new PropertyChangeListener()
           {
             @Override
             public void propertyChange (final @Nonnull PropertyChangeEvent event)
@@ -166,7 +166,7 @@ public class TreeViewBindings extends DelegateSupport
               }
           };
 
-        pm.addPropertyChangeListener(PresentationModel.PROPERTY_CHILDREN, pcl);
+        pm.addPropertyChangeListener(PresentationModel.PROPERTY_CHILDREN, recreateChildrenOnUpdateListener);
         createChildren(item, pm); // FIXME: only if already expanded, otherwise defer the call when expanded
 
         return item;
