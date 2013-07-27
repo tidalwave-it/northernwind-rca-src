@@ -48,12 +48,12 @@ public class ObsoletePresentationModelDisposer implements ChangeListener<TreeIte
   {
     @Override
     public void changed (final @Nonnull ObservableValue<? extends TreeItem<PresentationModel>> ov,
-                         final TreeItem<PresentationModel> oldValue,
-                         final TreeItem<PresentationModel> newValue)
+                         final TreeItem<PresentationModel> oldTreeItem,
+                         final TreeItem<PresentationModel> newTreeItem)
       {
-        if (oldValue != null)
+        if (oldTreeItem != null)
           {
-            disposeRecursively(oldValue);
+            disposeRecursively(oldTreeItem);
           }
       }
 
