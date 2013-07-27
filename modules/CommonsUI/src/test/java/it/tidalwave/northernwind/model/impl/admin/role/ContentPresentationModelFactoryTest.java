@@ -36,6 +36,8 @@ import org.testng.annotations.Test;
 import static org.mockito.Mockito.*;
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.CoreMatchers.*;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /***********************************************************************************************************************
  *
@@ -45,6 +47,8 @@ import static org.hamcrest.CoreMatchers.*;
  **********************************************************************************************************************/
 public class ContentPresentationModelFactoryTest
   {
+    private ApplicationContext context;
+
     private ContentPresentationModelFactory fixture;
 
     private Content content;
@@ -57,6 +61,7 @@ public class ContentPresentationModelFactoryTest
     public void setupFixture()
       {
         AsDelegateProvider.Locator.set(new EmptyAsDelegateProvider());
+        context = new ClassPathXmlApplicationContext("ContentPresentationModelFactoryTestBeans.xml");
         fixture = new ContentPresentationModelFactory();
         content = mock(Content.class);
         childContent = mock(Content.class);
