@@ -28,21 +28,31 @@
 package it.tidalwave.northernwind.model.impl.admin.role;
 
 import javax.annotation.Nonnull;
-import it.tidalwave.role.ui.spi.SimpleCompositePresentable;
-import it.tidalwave.dci.annotation.DciRole;
-import it.tidalwave.northernwind.core.model.Content;
+import it.tidalwave.util.spi.AsDelegate;
+import it.tidalwave.util.spi.AsDelegateProvider;
+import java.util.ArrayList;
+import java.util.Collection;
 
 /***********************************************************************************************************************
+ *
+ * FIXME: move to TheseFoolishThings
  *
  * @author  Fabrizio Giudici
  * @version $Id$
  *
  **********************************************************************************************************************/
-@DciRole(datumType = Content.class)
-public class ContentPresentable extends SimpleCompositePresentable<Content>
+public class EmptyAsDelegateProvider implements AsDelegateProvider // Use VoidAsDelegateProvider
   {
-    public ContentPresentable (final @Nonnull Content content, final @Nonnull ContentPresentationModelFactory factory)
+    @Override @Nonnull
+    public AsDelegate createAsDelegate (final @Nonnull Object owner)
       {
-        super(content, factory);
+        return new AsDelegate()
+          {
+            @Override @Nonnull
+            public <T> Collection<T> as (Class<T> type)
+              {
+                return new ArrayList<T>(); // must be mutable
+              }
+          };
       }
   }

@@ -28,8 +28,8 @@
 package it.tidalwave.northernwind.model.impl.admin.role;
 
 import javax.annotation.Nonnull;
-import it.tidalwave.role.ui.spi.SimpleCompositePresentable;
-import it.tidalwave.dci.annotation.DciRole;
+import com.google.common.annotations.VisibleForTesting;
+import it.tidalwave.role.ui.spi.DefaultPresentationModel;
 import it.tidalwave.northernwind.core.model.Content;
 
 /***********************************************************************************************************************
@@ -38,11 +38,17 @@ import it.tidalwave.northernwind.core.model.Content;
  * @version $Id$
  *
  **********************************************************************************************************************/
-@DciRole(datumType = Content.class)
-public class ContentPresentable extends SimpleCompositePresentable<Content>
+public class ContentPresentationModel extends DefaultPresentationModel
   {
-    public ContentPresentable (final @Nonnull Content content, final @Nonnull ContentPresentationModelFactory factory)
+    public static final String PROPERTY_CHILDREN = "children"; // FIXME: push up
+
+    public ContentPresentationModel (final @Nonnull Content owner, final @Nonnull Object ... rolesOrFactories)
       {
-        super(content, factory);
+        super(owner, rolesOrFactories);
+      }
+
+    @VisibleForTesting void onContentCreated()
+      {
+        firePropertyChange(PROPERTY_CHILDREN, null, null);
       }
   }
