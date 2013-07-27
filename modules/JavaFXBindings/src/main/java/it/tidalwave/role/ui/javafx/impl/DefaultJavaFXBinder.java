@@ -36,10 +36,7 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.Executor;
 import java.io.File;
 import java.nio.file.Path;
-import javafx.util.Callback;
 import javafx.beans.property.Property;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -62,28 +59,21 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.TreeCell;
-import javafx.scene.control.TreeItem;
-import javafx.scene.control.TreeView;
 import javafx.scene.effect.BoxBlur;
 import javafx.scene.effect.Effect;
 import javafx.application.Platform;
-import com.google.common.annotations.VisibleForTesting;
-import it.tidalwave.util.AsException;
 import it.tidalwave.util.ui.UserNotificationWithFeedback;
-import it.tidalwave.role.SimpleComposite;
 import it.tidalwave.role.ui.BoundProperty;
 import it.tidalwave.role.ui.PresentationModel;
 import it.tidalwave.role.ui.UserAction;
 import it.tidalwave.role.ui.javafx.JavaFXBinder;
-import lombok.extern.slf4j.Slf4j;
+import it.tidalwave.role.ui.javafx.impl.tree.TreeItemBindings;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import lombok.Delegate;
+import lombok.extern.slf4j.Slf4j;
 import static javafx.collections.FXCollections.*;
-import static it.tidalwave.role.ui.Selectable.*;
-import it.tidalwave.role.ui.javafx.impl.tree.ObsoletePresentationModelDisposer;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.ReadOnlyObjectProperty;
+import static it.tidalwave.role.SimpleComposite.*;
 
 /***********************************************************************************************************************
  *
@@ -94,8 +84,6 @@ import javafx.beans.property.ReadOnlyObjectProperty;
 @RequiredArgsConstructor @Slf4j
 public class DefaultJavaFXBinder implements JavaFXBinder
   {
-    private static final Class<SimpleComposite> SimpleComposite = SimpleComposite.class; // FIXME: move to TFT
-
     private final Executor executor;
 
     private String invalidTextFieldStyle = "-fx-background-color: pink";
@@ -103,46 +91,8 @@ public class DefaultJavaFXBinder implements JavaFXBinder
     @Setter
     private Window mainWindow;
 
-    private final ObsoletePresentationModelDisposer presentationModelDisposer = new ObsoletePresentationModelDisposer();
-
-    /*******************************************************************************************************************
-     *
-     *
-     *
-     ******************************************************************************************************************/
-    @VisibleForTesting final Callback<TreeView<PresentationModel>, TreeCell<PresentationModel>> treeCellFactory =
-            new Callback<TreeView<PresentationModel>, TreeCell<PresentationModel>>()
-      {
-        @Override @Nonnull
-        public TreeCell<PresentationModel> call (final @Nonnull TreeView<PresentationModel> treeView)
-          {
-            return new AsObjectTreeCell<>();
-          }
-      };
-
-    /*******************************************************************************************************************
-     *
-     *
-     *
-     ******************************************************************************************************************/
-    @VisibleForTesting final ChangeListener<TreeItem<PresentationModel>> treeItemChangeListener =
-            new ChangeListener<TreeItem<PresentationModel>>()
-      {
-        @Override
-        public void changed (final @Nonnull ObservableValue<? extends TreeItem<PresentationModel>> ov,
-                             final @Nonnull TreeItem<PresentationModel> oldItem,
-                             final @Nonnull TreeItem<PresentationModel> item)
-          {
-            try
-              {
-                item.getValue().as(Selectable).select();
-              }
-            catch (AsException e)
-              {
-                log.debug("No Selectable role for {}", item); // ok, do nothing
-              }
-          }
-      };
+    @Delegate
+    private final TreeItemBindings treeItemBindings = new TreeItemBindings();
 
     /*******************************************************************************************************************
      *
@@ -199,29 +149,6 @@ public class DefaultJavaFXBinder implements JavaFXBinder
 
         tableView.setItems(observableArrayList(pm.as(SimpleComposite).findChildren().results()));
       }
-
-    /*******************************************************************************************************************
-     *
-     * {@inheritDoc}
-     *
-     ******************************************************************************************************************/
-    @Override
-    public void bind (final @Nonnull TreeView<PresentationModel> treeView,
-                      final @Nonnull PresentationModel pm)
-      {
-        assertIsFxApplicationThread();
-
-        final ObjectProperty<TreeItem<PresentationModel>> rootProperty = treeView.rootProperty();
-        rootProperty.removeListener(presentationModelDisposer);
-        rootProperty.addListener(presentationModelDisposer);
-        rootProperty.set(createTreeItem(pm));
-
-        treeView.setCellFactory(treeCellFactory);
-        final ReadOnlyObjectProperty<TreeItem<PresentationModel>> selectedItemProperty =
-                treeView.getSelectionModel().selectedItemProperty();
-        selectedItemProperty.removeListener(treeItemChangeListener);
-        selectedItemProperty.addListener(treeItemChangeListener);
-     }
 
     /*******************************************************************************************************************
      *
@@ -449,57 +376,6 @@ public class DefaultJavaFXBinder implements JavaFXBinder
           });
 
         notifyFile(file, notification, selectedFolder);
-      }
-
-    /*******************************************************************************************************************
-     *
-     *
-     *
-     ******************************************************************************************************************/
-    @Nonnull
-    private TreeItem<PresentationModel> createTreeItem (final @Nonnull PresentationModel pm)
-      {
-        final TreeItem<PresentationModel> item = new TreeItem<>(pm);
-
-        final PropertyChangeListener pcl = new PropertyChangeListener()
-          {
-            @Override
-            public void propertyChange (final @Nonnull PropertyChangeEvent event)
-              {
-                Platform.runLater(new Runnable()
-                  {
-                    @Override
-                    public void run()
-                      {
-                        item.getChildren().clear(); // FIXME: should update it incrementally
-                        createChildren(item, pm);
-                        item.setExpanded(true);
-                      }
-                  });
-              }
-          };
-
-        pm.addPropertyChangeListener("children", pcl);
-        createChildren(item, pm); // FIXME: only if already expanded, otherwise defer the call when expanded
-
-        return item;
-      }
-
-    /*******************************************************************************************************************
-     *
-     *
-     *
-     ******************************************************************************************************************/
-    // FIXME: add on demand, upon node expansion
-    private void createChildren (final @Nonnull TreeItem<PresentationModel> parentItem,
-                                 final @Nonnull PresentationModel pm)
-      {
-        final SimpleComposite<PresentationModel> composite = pm.as(SimpleComposite);
-
-        for (final PresentationModel childPm : composite.findChildren().results()) // FIXME: results() in bg thread
-          {
-            parentItem.getChildren().add(createTreeItem(childPm));
-          }
       }
 
     /*******************************************************************************************************************
