@@ -175,6 +175,7 @@ public class DefaultContentEditorPresentationControl implements ContentEditorPre
       {
         try
           {
+            assert properties != null;
             presentation.bind(bindings); // FIXME: needed because of unbindAll()
             final PropertyBinder propertyBinder = properties.as(PropertyBinder);
             propertyBinder.bind(PROPERTY_TITLE, bindings.title, propertyUpdateCallback);

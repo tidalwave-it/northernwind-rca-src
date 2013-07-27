@@ -54,7 +54,7 @@ public class JavaFXAddContentPresentation implements AddContentPresentation
         public void showUp (UserNotificationWithFeedback notification);
       }
 
-    @Inject
+    @Inject @Nonnull
     private JavaFXBinder binder;
 
     @CheckForNull
@@ -88,6 +88,7 @@ public class JavaFXAddContentPresentation implements AddContentPresentation
     @Override
     public void showUp (final @Nonnull UserNotificationWithFeedback notification)
       {
+        assert bindings != null;
         binder.showInModalDialog(node, notification, bindings.valid);
       }
   }
