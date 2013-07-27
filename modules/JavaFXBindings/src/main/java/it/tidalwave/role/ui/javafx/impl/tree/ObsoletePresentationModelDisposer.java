@@ -25,60 +25,46 @@
  * *********************************************************************************************************************
  * #L%
  */
-package it.tidalwave.northernwind.model.impl.admin;
+package it.tidalwave.role.ui.javafx.impl.tree;
 
 import javax.annotation.Nonnull;
-import java.io.IOException;
-import it.tidalwave.util.Finder;
-import it.tidalwave.util.NotFoundException;
-import it.tidalwave.northernwind.core.model.Content;
-import it.tidalwave.northernwind.core.model.ResourceFile;
-import it.tidalwave.northernwind.core.model.ResourcePath;
-import it.tidalwave.northernwind.core.model.ResourceProperties;
-import it.tidalwave.northernwind.core.model.spi.ContentSupport;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.scene.control.TreeItem;
+import javafx.scene.control.TreeView;
+import it.tidalwave.role.ui.PresentationModel;
+import lombok.extern.slf4j.Slf4j;
 
 /***********************************************************************************************************************
+ *
+ * This listener calls {@link PresentationModel#dispose()} on instances that have been detached from a {@link TreeView}.
  *
  * @author  Fabrizio Giudici
  * @version $Id$
  *
  **********************************************************************************************************************/
-public class AdminContent extends ContentSupport
+@Slf4j
+public class ObsoletePresentationModelDisposer implements ChangeListener<TreeItem<PresentationModel>>
   {
-    public AdminContent (final @Nonnull Builder builder)
-      {
-        super(builder);
-      }
-
-    @Override @Nonnull
-    public ResourcePath getExposedUri()
-      throws NotFoundException, IOException
-      {
-        throw new UnsupportedOperationException("Not supported yet.");
-      }
-
-    @Override @Nonnull
-    public Finder<Content> findChildren()
-      {
-        return new ResourceFinder<Content>(getResource().getFile())
-          {
-            @Override @Nonnull
-            protected Content createProduct (final @Nonnull ResourceFile folder)
-              {
-                return modelFactory.createContent().withFolder(folder).build();
-              }
-          };
-      }
-
-    @Override @Nonnull
-    public ResourceProperties getProperties()
-      {
-        return getResource().getProperties();
-      }
-
     @Override
-    public String toString()
+    public void changed (final @Nonnull ObservableValue<? extends TreeItem<PresentationModel>> ov,
+                         final TreeItem<PresentationModel> oldValue,
+                         final TreeItem<PresentationModel> newValue)
       {
-        return "AdminContent(" + getFile().getPath().asString() + ')';
+        if (oldValue != null)
+          {
+            disposeRecursively(oldValue);
+          }
+      }
+
+    private void disposeRecursively (final @Nonnull TreeItem<PresentationModel> treeItem)
+      {
+        treeItem.getValue().dispose();
+        treeItem.setValue(null);
+
+        for (final TreeItem<PresentationModel> childTreeItem : treeItem.getChildren())
+          {
+            disposeRecursively(childTreeItem);
+          }
       }
   }

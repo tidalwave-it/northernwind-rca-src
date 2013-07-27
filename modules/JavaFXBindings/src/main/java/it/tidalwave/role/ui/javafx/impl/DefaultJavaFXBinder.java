@@ -81,6 +81,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import static javafx.collections.FXCollections.*;
 import static it.tidalwave.role.ui.Selectable.*;
+import it.tidalwave.role.ui.javafx.impl.tree.ObsoletePresentationModelDisposer;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.ReadOnlyObjectProperty;
 
 /***********************************************************************************************************************
  *
@@ -99,6 +102,8 @@ public class DefaultJavaFXBinder implements JavaFXBinder
 
     @Setter
     private Window mainWindow;
+
+    private final ObsoletePresentationModelDisposer presentationModelDisposer = new ObsoletePresentationModelDisposer();
 
     /*******************************************************************************************************************
      *
@@ -206,9 +211,16 @@ public class DefaultJavaFXBinder implements JavaFXBinder
       {
         assertIsFxApplicationThread();
 
-        treeView.setRoot(createTreeItem(pm));
+        final ObjectProperty<TreeItem<PresentationModel>> rootProperty = treeView.rootProperty();
+        rootProperty.removeListener(presentationModelDisposer);
+        rootProperty.addListener(presentationModelDisposer);
+        rootProperty.set(createTreeItem(pm));
+
         treeView.setCellFactory(treeCellFactory);
-        treeView.getSelectionModel().selectedItemProperty().addListener(treeItemChangeListener);
+        final ReadOnlyObjectProperty<TreeItem<PresentationModel>> selectedItemProperty =
+                treeView.getSelectionModel().selectedItemProperty();
+        selectedItemProperty.removeListener(treeItemChangeListener);
+        selectedItemProperty.addListener(treeItemChangeListener);
      }
 
     /*******************************************************************************************************************
@@ -447,11 +459,30 @@ public class DefaultJavaFXBinder implements JavaFXBinder
     @Nonnull
     private TreeItem<PresentationModel> createTreeItem (final @Nonnull PresentationModel pm)
       {
-        final TreeItem<PresentationModel> rootItem = new TreeItem<>(pm);
+        final TreeItem<PresentationModel> item = new TreeItem<>(pm);
 
-        addChildren(rootItem, pm);
+        final PropertyChangeListener pcl = new PropertyChangeListener()
+          {
+            @Override
+            public void propertyChange (final @Nonnull PropertyChangeEvent event)
+              {
+                Platform.runLater(new Runnable()
+                  {
+                    @Override
+                    public void run()
+                      {
+                        item.getChildren().clear(); // FIXME: should update it incrementally
+                        createChildren(item, pm);
+                        item.setExpanded(true);
+                      }
+                  });
+              }
+          };
 
-        return rootItem;
+        pm.addPropertyChangeListener("children", pcl);
+        createChildren(item, pm); // FIXME: only if already expanded, otherwise defer the call when expanded
+
+        return item;
       }
 
     /*******************************************************************************************************************
@@ -460,16 +491,14 @@ public class DefaultJavaFXBinder implements JavaFXBinder
      *
      ******************************************************************************************************************/
     // FIXME: add on demand, upon node expansion
-    private void addChildren (final @Nonnull TreeItem<PresentationModel> parentItem,
-                              final @Nonnull PresentationModel pm)
+    private void createChildren (final @Nonnull TreeItem<PresentationModel> parentItem,
+                                 final @Nonnull PresentationModel pm)
       {
         final SimpleComposite<PresentationModel> composite = pm.as(SimpleComposite);
 
-        for (final PresentationModel childPm : composite.findChildren().results())
+        for (final PresentationModel childPm : composite.findChildren().results()) // FIXME: results() in bg thread
           {
-            final TreeItem<PresentationModel> childItem = new TreeItem<>(childPm);
-            addChildren(childItem, childPm);
-            parentItem.getChildren().add(childItem);
+            parentItem.getChildren().add(createTreeItem(childPm));
           }
       }
 
