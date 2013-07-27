@@ -27,7 +27,10 @@
  */
 package it.tidalwave.northernwind.model.impl.admin.role;
 
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import it.tidalwave.util.spi.AsDelegateProvider;
+import it.tidalwave.util.spi.EmptyAsDelegateProvider;
 import it.tidalwave.role.ui.PresentationModel;
 import it.tidalwave.northernwind.core.model.Content;
 import it.tidalwave.northernwind.rca.ui.event.ContentCreatedEvent;
@@ -36,8 +39,6 @@ import org.testng.annotations.Test;
 import static org.mockito.Mockito.*;
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.CoreMatchers.*;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /***********************************************************************************************************************
  *
