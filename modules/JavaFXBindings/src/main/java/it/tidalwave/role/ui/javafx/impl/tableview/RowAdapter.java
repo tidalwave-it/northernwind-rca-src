@@ -25,37 +25,45 @@
  * *********************************************************************************************************************
  * #L%
  */
-package it.tidalwave.role.ui.javafx.impl;
+package it.tidalwave.role.ui.javafx.impl.tableview;
 
-import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
-import javax.inject.Inject;
-import javafx.scene.control.cell.TextFieldTreeCell;
-import com.google.common.annotations.VisibleForTesting;
-import org.springframework.beans.factory.annotation.Configurable;
-import it.tidalwave.util.As;
-import static it.tidalwave.role.Displayable.*;
+import javax.annotation.concurrent.Immutable;
+import javafx.util.Callback;
+import javafx.beans.value.ObservableValue;
+import javafx.beans.value.ObservableValueBase;
+import javafx.scene.control.TableColumn.CellDataFeatures;
+import it.tidalwave.util.Key;
+import it.tidalwave.util.NotFoundException;
+import it.tidalwave.role.ui.PresentationModel;
+import static it.tidalwave.role.ui.Row.*;
 
 /***********************************************************************************************************************
- *
- * An implementation of {@link TreeCell} that retrieves the displayname from {@link Displayable} and creates a
- * contextualized pop-up menu.
  *
  * @author  Fabrizio Giudici
  * @version $Id$
  *
  **********************************************************************************************************************/
-@Configurable
-public class AsObjectTreeCell<T extends As> extends TextFieldTreeCell<T>
+@Immutable
+public class RowAdapter<T> implements Callback<CellDataFeatures<PresentationModel, T>, ObservableValue<T>>
   {
-    @Inject @Nonnull
-    @VisibleForTesting ContextMenuBuilder contextMenuBuilder;
-
-    @Override
-    public void updateItem (final @CheckForNull T item, final boolean empty)
+    @Override @Nonnull
+    public ObservableValue<T> call (final @Nonnull CellDataFeatures<PresentationModel, T> cell)
       {
-        super.updateItem(item, empty);
-        setText(empty ? "" : item.as(Displayable).getDisplayName());
-        setContextMenu((item != null) ? contextMenuBuilder.createContextMenu(item) : null);
+        return new ObservableValueBase<T>() // FIXME: use a concrete specialization?
+          {
+            @Override
+            public T getValue()
+              {
+                try
+                  {
+                    return cell.getValue().as(Row).getValue(new Key<T>(cell.getTableColumn().getId()));
+                  }
+                catch (NotFoundException e)
+                  {
+                    return null;
+                  }
+              };
+          };
       }
   }

@@ -25,10 +25,11 @@
  * *********************************************************************************************************************
  * #L%
  */
-package it.tidalwave.role.ui.javafx.impl;
+package it.tidalwave.role.ui.javafx.impl.tree;
 
 import it.tidalwave.util.As;
 import it.tidalwave.role.spi.DefaultDisplayable;
+import it.tidalwave.role.ui.javafx.impl.ContextMenuBuilder;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import static org.hamcrest.CoreMatchers.is;

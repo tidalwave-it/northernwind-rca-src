@@ -35,7 +35,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import it.tidalwave.role.ui.PresentationModel;
 import it.tidalwave.role.ui.javafx.impl.DelegateSupport;
-import it.tidalwave.role.ui.javafx.impl.RowAdapter;
 import static javafx.collections.FXCollections.observableArrayList;
 import static it.tidalwave.role.SimpleComposite.SimpleComposite;
 

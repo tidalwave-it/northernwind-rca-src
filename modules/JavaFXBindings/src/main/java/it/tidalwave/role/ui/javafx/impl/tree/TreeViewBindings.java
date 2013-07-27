@@ -44,7 +44,6 @@ import com.google.common.annotations.VisibleForTesting;
 import it.tidalwave.util.AsException;
 import it.tidalwave.role.SimpleComposite;
 import it.tidalwave.role.ui.PresentationModel;
-import it.tidalwave.role.ui.javafx.impl.AsObjectTreeCell;
 import it.tidalwave.role.ui.javafx.impl.DelegateSupport;
 import lombok.extern.slf4j.Slf4j;
 import static it.tidalwave.role.SimpleComposite.*;
