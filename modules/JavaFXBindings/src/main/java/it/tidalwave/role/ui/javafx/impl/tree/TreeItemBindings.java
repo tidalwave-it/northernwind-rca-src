@@ -28,7 +28,7 @@
 package it.tidalwave.role.ui.javafx.impl.tree;
 
 import javax.annotation.Nonnull;
-import com.google.common.annotations.VisibleForTesting;
+import java.util.concurrent.Executor;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import javafx.util.Callback;
@@ -40,10 +40,12 @@ import javafx.scene.control.TreeCell;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.application.Platform;
+import com.google.common.annotations.VisibleForTesting;
 import it.tidalwave.util.AsException;
 import it.tidalwave.role.SimpleComposite;
 import it.tidalwave.role.ui.PresentationModel;
 import it.tidalwave.role.ui.javafx.impl.AsObjectTreeCell;
+import it.tidalwave.role.ui.javafx.impl.DelegateSupport;
 import lombok.extern.slf4j.Slf4j;
 import static it.tidalwave.role.SimpleComposite.*;
 import static it.tidalwave.role.ui.Selectable.Selectable;
@@ -55,9 +57,19 @@ import static it.tidalwave.role.ui.Selectable.Selectable;
  *
  **********************************************************************************************************************/
 @Slf4j
-public class TreeItemBindings
+public class TreeItemBindings extends DelegateSupport
   {
     private final ObsoletePresentationModelDisposer presentationModelDisposer = new ObsoletePresentationModelDisposer();
+
+    /*******************************************************************************************************************
+     *
+     *
+     *
+     ******************************************************************************************************************/
+    public TreeItemBindings (final @Nonnull Executor executor)
+      {
+        super(executor);
+      }
 
     /*******************************************************************************************************************
      *
@@ -168,19 +180,6 @@ public class TreeItemBindings
         for (final PresentationModel childPm : composite.findChildren().results()) // FIXME: results() in bg thread
           {
             parentItem.getChildren().add(createTreeItem(childPm));
-          }
-      }
-
-    /*******************************************************************************************************************
-     *
-     *
-     *
-     ******************************************************************************************************************/
-    private void assertIsFxApplicationThread()
-      {
-        if (!Platform.isFxApplicationThread())
-          {
-            throw new AssertionError("Must run in the JavaFX Application Thread");
           }
       }
   }

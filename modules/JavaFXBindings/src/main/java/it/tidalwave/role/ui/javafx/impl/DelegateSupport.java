@@ -27,17 +27,16 @@
  */
 package it.tidalwave.role.ui.javafx.impl;
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
+import javax.annotation.Nonnull;
+import java.util.concurrent.Callable;
+import java.util.concurrent.Executor;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
-import javafx.stage.Stage;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
-import static org.hamcrest.MatcherAssert.*;
-import static org.hamcrest.CoreMatchers.*;
-import static org.mockito.Mockito.*;
+import javafx.scene.Parent;
+import javafx.scene.effect.BoxBlur;
+import javafx.scene.effect.Effect;
+import javafx.stage.Window;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
 /***********************************************************************************************************************
  *
@@ -45,74 +44,82 @@ import static org.mockito.Mockito.*;
  * @version $Id$
  *
  **********************************************************************************************************************/
-public class DialogCloserHandlerTest
+@RequiredArgsConstructor
+public abstract class DelegateSupport
   {
-    private Stage dialogStage;
+    @Nonnull
+    protected final Executor executor;
 
-    private DialogCloserHandler fixture;
-
-    private ExecutorService executorService;
-
-    private AssertionError error;
-
-    private boolean doSomethingCalled;
+    @Setter
+    protected Window mainWindow;
 
     /*******************************************************************************************************************
      *
+     * Runs the given (@link Callable} while disabling the given {@link Window}.
+     *
+     * @param  window    the {@code Window} to disable
+     * @param  callable  the (@code Callable} to run
+     * @return           the (@code Callable} result
+     *
      ******************************************************************************************************************/
-    @BeforeMethod
-    public void setupFixture()
+    protected <T> T runWhileDisabling (final @Nonnull Window window, final @Nonnull Callable<T> callable)
       {
-        executorService = Executors.newSingleThreadExecutor();
-        dialogStage = mock(Stage.class);
-        error = null;
-        doSomethingCalled = false;
+        final Parent root = window.getScene().getRoot();
+        final Effect effect = root.getEffect();
+        final boolean disabled = root.isDisable();
 
-        fixture = new DialogCloserHandler(executorService, dialogStage)
+        try
           {
-            @Override
-            protected void doSomething()
-              {
-                try
-                  {
-                    doSomethingCalled = true;
-                    assertThat(Platform.isFxApplicationThread(), is(false));
-                  }
-                catch (AssertionError e)
-                  {
-                    error = e;
-                  }
-              }
-          };
+            root.setDisable(true);
+            root.setEffect(createDisablingEffect());
+            return callable.call();
+          }
+        catch (Exception e)
+          {
+            throw new RuntimeException(e);
+          }
+        finally
+          {
+            root.setEffect(effect);
+            root.setDisable(disabled);
+          }
       }
 
     /*******************************************************************************************************************
      *
+     * TODO: delegate to a provider
+     *
      ******************************************************************************************************************/
-    @Test
-    public void must_close_the_dialog_Stage()
+    @Nonnull
+    private BoxBlur createDisablingEffect()
       {
-        fixture.handle(new ActionEvent());
-
-        verify(dialogStage).close();
+        final BoxBlur bb = new BoxBlur();
+        bb.setWidth(5);
+        bb.setHeight(5);
+        bb.setIterations(3);
+        return bb;
       }
 
     /*******************************************************************************************************************
      *
+     * TODO: delegate to a provider
+     *
      ******************************************************************************************************************/
-    @Test
-    public void must_call_doSomething_in_a_non_FX_thread()
-      throws InterruptedException
+    public static boolean isOSX()
       {
-        fixture.handle(new ActionEvent());
-        executorService.shutdown();
-        executorService.awaitTermination(10, TimeUnit.SECONDS);
+        return System.getProperty("os.name").contains("OS X");
+      }
 
-        assertThat(doSomethingCalled, is(true));
-
-        if (error != null)
+    /*******************************************************************************************************************
+     *
+     *
+     *
+     ******************************************************************************************************************/
+    protected void assertIsFxApplicationThread()
+      {
+        if (!Platform.isFxApplicationThread())
           {
-            throw error;
+            throw new AssertionError("Must run in the JavaFX Application Thread");
           }
       }
   }

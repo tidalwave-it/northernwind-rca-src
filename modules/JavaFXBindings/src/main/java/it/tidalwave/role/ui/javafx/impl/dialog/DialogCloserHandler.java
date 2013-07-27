@@ -25,21 +25,20 @@
  * *********************************************************************************************************************
  * #L%
  */
-package it.tidalwave.role.ui.javafx.impl;
+package it.tidalwave.role.ui.javafx.impl.dialog;
 
 import javax.annotation.Nonnull;
 import java.util.concurrent.Executor;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 /***********************************************************************************************************************
  *
  * An {@link EventHandler} for {@link ActionEvent}s that closes a dialog {@link Stage} and performs a task in a
- * backgroudn thread. It's useful to be bound as the callback of buttons in a dialog that should close the dialog.
+ * background thread. It's useful to be bound as the callback of buttons in a dialog that should close the dialog.
  *
  * @author  Fabrizio Giudici
  * @version $Id$

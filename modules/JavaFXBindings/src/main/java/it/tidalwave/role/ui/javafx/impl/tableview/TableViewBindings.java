@@ -25,23 +25,19 @@
  * *********************************************************************************************************************
  * #L%
  */
-package it.tidalwave.role.ui.javafx.impl.tree;
+package it.tidalwave.role.ui.javafx.impl.tableview;
 
-import javafx.scene.control.TreeItem;
-import java.util.concurrent.Executors;
-import it.tidalwave.util.spi.AsDelegateProvider;
-import it.tidalwave.role.ContextManager;
-import it.tidalwave.role.spi.DefaultContextManagerProvider;
+import javax.annotation.Nonnegative;
+import javax.annotation.Nonnull;
+import java.util.concurrent.Executor;
+import javafx.collections.ObservableList;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import it.tidalwave.role.ui.PresentationModel;
-import it.tidalwave.role.ui.Selectable;
-import it.tidalwave.role.ui.javafx.impl.EmptyAsDelegateProvider;
-import it.tidalwave.role.ui.spi.DefaultPresentationModel;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoMoreInteractions;
+import it.tidalwave.role.ui.javafx.impl.DelegateSupport;
+import it.tidalwave.role.ui.javafx.impl.RowAdapter;
+import static javafx.collections.FXCollections.observableArrayList;
+import static it.tidalwave.role.SimpleComposite.SimpleComposite;
 
 /***********************************************************************************************************************
  *
@@ -49,50 +45,46 @@ import static org.mockito.Mockito.verifyNoMoreInteractions;
  * @version $Id$
  *
  **********************************************************************************************************************/
-public class TreeItemBindingsTest
+public class TableViewBindings extends DelegateSupport
   {
-    private TreeItemBindings fixture;
-
     /*******************************************************************************************************************
      *
+     *
+     *
      ******************************************************************************************************************/
-    @BeforeMethod
-    public void setupFixture()
+    public TableViewBindings (final @Nonnull Executor executor)
       {
-        AsDelegateProvider.Locator.set(new EmptyAsDelegateProvider());
-        ContextManager.Locator.set(new DefaultContextManagerProvider());
-        fixture = new TreeItemBindings(Executors.newSingleThreadExecutor());
+        super(executor);
       }
 
     /*******************************************************************************************************************
      *
+     * {@inheritDoc}
+     *
      ******************************************************************************************************************/
-    @Test
-    public void treeItemChangeListener_must_callback_a_Selectable_on_selection_change()
+    public void bind (final @Nonnull TableView<PresentationModel> tableView,
+                      final @Nonnull PresentationModel pm)
       {
-        final Selectable selectable = mock(Selectable.class);
-        final Object datum = new Object();
-        final PresentationModel oldPm = new DefaultPresentationModel(datum, selectable);
-        final PresentationModel pm = new DefaultPresentationModel(datum, selectable);
+        assertIsFxApplicationThread();
 
-        fixture.treeItemChangeListener.changed(null, new TreeItem<>(oldPm), new TreeItem<>(pm));
-
-        verify(selectable, times(1)).select();
-        verifyNoMoreInteractions(selectable);
+        tableView.setItems(observableArrayList(pm.as(SimpleComposite).findChildren().results()));
       }
 
     /*******************************************************************************************************************
      *
+     * {@inheritDoc}
+     *
      ******************************************************************************************************************/
-    @Test
-    public void treeItemChangeListener_must_do_nothing_when_there_is_no_Selectable_role()
+    public void bindColumn (final @Nonnull TableView<PresentationModel> tableView,
+                            final @Nonnegative int columnIndex,
+                            final @Nonnull String id)
       {
-        final Object datum = new Object();
-        final PresentationModel oldPm = new DefaultPresentationModel(datum);
-        final PresentationModel pm = new DefaultPresentationModel(datum);
+        assertIsFxApplicationThread();
 
-        fixture.treeItemChangeListener.changed(null, new TreeItem<>(oldPm), new TreeItem<>(pm));
-
-        // we're testing that no exceptions are thrown
+        final ObservableList rawColumns = tableView.getColumns(); // FIXME
+        final ObservableList<TableColumn<PresentationModel, String>> columns =
+                (ObservableList<TableColumn<PresentationModel, String>>)rawColumns;
+        columns.get(columnIndex).setId(id); // FIXME: is it correct to use Id?
+        columns.get(columnIndex).setCellValueFactory(new RowAdapter<String>());
       }
   }

@@ -25,23 +25,19 @@
  * *********************************************************************************************************************
  * #L%
  */
-package it.tidalwave.role.ui.javafx.impl.tree;
+package it.tidalwave.role.ui.javafx.impl.dialog;
 
-import javafx.scene.control.TreeItem;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import it.tidalwave.util.spi.AsDelegateProvider;
-import it.tidalwave.role.ContextManager;
-import it.tidalwave.role.spi.DefaultContextManagerProvider;
-import it.tidalwave.role.ui.PresentationModel;
-import it.tidalwave.role.ui.Selectable;
-import it.tidalwave.role.ui.javafx.impl.EmptyAsDelegateProvider;
-import it.tidalwave.role.ui.spi.DefaultPresentationModel;
+import java.util.concurrent.TimeUnit;
+import javafx.application.Platform;
+import javafx.event.ActionEvent;
+import javafx.stage.Stage;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoMoreInteractions;
+import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.CoreMatchers.*;
+import static org.mockito.Mockito.*;
 
 /***********************************************************************************************************************
  *
@@ -49,9 +45,17 @@ import static org.mockito.Mockito.verifyNoMoreInteractions;
  * @version $Id$
  *
  **********************************************************************************************************************/
-public class TreeItemBindingsTest
+public class DialogCloserHandlerTest
   {
-    private TreeItemBindings fixture;
+    private Stage dialogStage;
+
+    private DialogCloserHandler fixture;
+
+    private ExecutorService executorService;
+
+    private AssertionError error;
+
+    private boolean doSomethingCalled;
 
     /*******************************************************************************************************************
      *
@@ -59,40 +63,56 @@ public class TreeItemBindingsTest
     @BeforeMethod
     public void setupFixture()
       {
-        AsDelegateProvider.Locator.set(new EmptyAsDelegateProvider());
-        ContextManager.Locator.set(new DefaultContextManagerProvider());
-        fixture = new TreeItemBindings(Executors.newSingleThreadExecutor());
+        executorService = Executors.newSingleThreadExecutor();
+        dialogStage = mock(Stage.class);
+        error = null;
+        doSomethingCalled = false;
+
+        fixture = new DialogCloserHandler(executorService, dialogStage)
+          {
+            @Override
+            protected void doSomething()
+              {
+                try
+                  {
+                    doSomethingCalled = true;
+                    assertThat(Platform.isFxApplicationThread(), is(false));
+                  }
+                catch (AssertionError e)
+                  {
+                    error = e;
+                  }
+              }
+          };
       }
 
     /*******************************************************************************************************************
      *
      ******************************************************************************************************************/
     @Test
-    public void treeItemChangeListener_must_callback_a_Selectable_on_selection_change()
+    public void must_close_the_dialog_Stage()
       {
-        final Selectable selectable = mock(Selectable.class);
-        final Object datum = new Object();
-        final PresentationModel oldPm = new DefaultPresentationModel(datum, selectable);
-        final PresentationModel pm = new DefaultPresentationModel(datum, selectable);
+        fixture.handle(new ActionEvent());
 
-        fixture.treeItemChangeListener.changed(null, new TreeItem<>(oldPm), new TreeItem<>(pm));
-
-        verify(selectable, times(1)).select();
-        verifyNoMoreInteractions(selectable);
+        verify(dialogStage).close();
       }
 
     /*******************************************************************************************************************
      *
      ******************************************************************************************************************/
     @Test
-    public void treeItemChangeListener_must_do_nothing_when_there_is_no_Selectable_role()
+    public void must_call_doSomething_in_a_non_FX_thread()
+      throws InterruptedException
       {
-        final Object datum = new Object();
-        final PresentationModel oldPm = new DefaultPresentationModel(datum);
-        final PresentationModel pm = new DefaultPresentationModel(datum);
+        fixture.handle(new ActionEvent());
+        executorService.shutdown();
+        executorService.awaitTermination(10, TimeUnit.SECONDS);
 
-        fixture.treeItemChangeListener.changed(null, new TreeItem<>(oldPm), new TreeItem<>(pm));
+        assertThat(doSomethingCalled, is(true));
 
-        // we're testing that no exceptions are thrown
+        if (error != null)
+          {
+            throw error;
+          }
       }
   }
