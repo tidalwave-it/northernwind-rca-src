@@ -34,8 +34,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Proxy;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicReference;
-import java.util.concurrent.atomic.AtomicBoolean;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import it.tidalwave.role.ui.javafx.Widget;
@@ -132,7 +132,7 @@ public class JavaFXSafeComponentBuilder<I, T extends I>
     private T createComponentInstanceInJAT()
       {
         final AtomicReference<T> reference = new AtomicReference<>();
-        final AtomicBoolean done = new AtomicBoolean();
+        final CountDownLatch countDownLatch = new CountDownLatch(1);
 
         Platform.runLater(new Runnable()
           {
@@ -140,25 +140,13 @@ public class JavaFXSafeComponentBuilder<I, T extends I>
             public void run()
               {
                 reference.set(createComponentInstance());
-
-                synchronized (done)
-                  {
-                    done.set(true);
-                    done.notifyAll();
-                  }
+                countDownLatch.countDown();
               }
           });
 
-
         try
           {
-            while (!done.get())
-              {
-                synchronized (done)
-                  {
-                    done.wait();
-                  }
-              }
+            countDownLatch.await();
           }
         catch (InterruptedException e)
           {
