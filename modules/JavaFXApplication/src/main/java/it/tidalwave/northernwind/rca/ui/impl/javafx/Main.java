@@ -48,7 +48,6 @@ public class Main extends JavaFXSpringApplication
         try
           {
             Platform.setImplicitExit(true);
-//            AquaFx.style(); // Seems to be JDK 8 only
             launch(args);
           }
         catch (Throwable t)
