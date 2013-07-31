@@ -28,6 +28,7 @@
 package it.tidalwave.northernwind.rca.ui.contenteditor.impl;
 
 import javax.annotation.Nonnull;
+import com.google.common.base.Splitter;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import lombok.extern.slf4j.Slf4j;
@@ -52,8 +53,34 @@ public class XhtmlNormalizer
         log.trace("asNormalizedString()\n{}", text);
         final Document document = Jsoup.parse(text);
         document.outputSettings().indentAmount(2).prettyPrint(true);
-        final String result = document.outerHtml();
+        final String result = postNormalized(document.outerHtml());
         log.trace(">>>> returning:\n{}", result);
         return result;
+      }
+
+    /*******************************************************************************************************************
+     *
+     * Jsoup doesn't do everything properly, so we're patching the results a bit.
+     *
+     ******************************************************************************************************************/
+    @Nonnull
+    private static String postNormalized (final @Nonnull String string)
+      {
+        final StringBuilder buffer = new StringBuilder();
+
+        boolean first = true;
+
+        for (final String line : Splitter.on("\n").split(string))
+          {
+            if (first && !line.equals("<!DOCTYPE html>"))
+              {
+                buffer.append("<!DOCTYPE html>").append("\n");
+              }
+
+            first = false;
+            buffer.append(line.replaceAll(" *$", "")).append("\n");
+          }
+
+        return buffer.toString().replaceAll("\n$", "");
       }
   }

@@ -37,6 +37,7 @@ import it.tidalwave.util.Key;
 import it.tidalwave.util.NotFoundException;
 import it.tidalwave.role.ContextManager;
 import it.tidalwave.role.ui.BoundProperty;
+import it.tidalwave.role.spi.DefaultContextManagerProvider;
 import it.tidalwave.northernwind.core.model.ResourceProperties;
 import it.tidalwave.northernwind.core.impl.model.DefaultResourceProperties;
 import it.tidalwave.northernwind.core.model.ModelFactory;
@@ -44,10 +45,9 @@ import it.tidalwave.northernwind.core.model.spi.ModelFactorySupport;
 import it.tidalwave.northernwind.rca.embeddedserver.EmbeddedServer.Document;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import static it.tidalwave.northernwind.rca.ui.contenteditor.impl.ResourcePropertiesBinder.*;
 import static it.tidalwave.util.test.FileComparisonUtils.assertSameContents;
+import static it.tidalwave.northernwind.rca.ui.contenteditor.impl.ResourcePropertiesBinder.*;
 import static it.tidalwave.northernwind.rca.ui.contenteditor.impl.ResourcePropertiesMatcher.*;
-import it.tidalwave.role.spi.DefaultContextManagerProvider;
 import static org.mockito.Mockito.*;
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.CoreMatchers.*;
@@ -175,7 +175,7 @@ public class ResourcePropertiesBinderTest
 
         document.update("the updated body\n");
 
-        final String expectedHtml = "<!DOCTYPE html>\n<html>\n<head>\n</head>\n<body>\nthe updated body\n</body>\n</html>";
+        final String expectedHtml = "<!DOCTYPE html>\n<html>\n  <head>\n  </head>\n  <body>\n     the updated body\n  </body>\n</html>";
         verify(callback).notify(argThat(resourcePropertiesWith(map().put(PROPERTY_1, expectedHtml)
                                                                     .put(PROPERTY_2, ORIGINAL_PROPERTY_2_VALUE))));
         verifyNoMoreInteractions(callback);
