@@ -62,6 +62,7 @@ public class HtmlDocumentTest
     @Test
     public void must_properly_create_from_text()
       {
+        // given
         final String text = "<html>\n"
                           + "<head>\n"
                           + "</head>\n"
@@ -69,9 +70,9 @@ public class HtmlDocumentTest
                           + "the body\n"
                           + "</body>\n"
                           + "</html>";
-
+        // when
         final HtmlDocument fixture = HtmlDocument.createFromText(text);
-
+        // then
         assertThat(fixture.getProlog(), is("<html>\n"
                                          + "<head>\n"
                                          + "</head>\n"
@@ -87,10 +88,11 @@ public class HtmlDocumentTest
     @Test
     public void must_properly_replace_prolog()
       {
+        // when
         final HtmlDocument result = fixture.withProlog("<html>\n"
                                                      + "<head><meta name=\"replaced prolog\"/></head>\n"
                                                      + "<body>\n");
-
+        // then
         assertThat(result.asString(), is("<!DOCTYPE html>\n"
                                        + "<html>\n"
                                        + "  <head>\n"
@@ -108,8 +110,9 @@ public class HtmlDocumentTest
     @Test
     public void must_properly_replace_body()
       {
+        // when
         final HtmlDocument result = fixture.withBody("replaced body\n");
-
+        // then
         assertThat(result.asString(), is("<!DOCTYPE html>\n"
                                        + "<html>\n"
                                        + "  <head>\n"
@@ -128,13 +131,14 @@ public class HtmlDocumentTest
     @Test(dependsOnMethods = "must_properly_replace_prolog")
     public void must_properly_replace_epilog()
       {
+        // when
         final HtmlDocument result = fixture.withProlog("<html>\n"
                                                      + "<head><meta name=\"prolog\"/></head>\n"
                                                      + "<body>\n"
                                                      + "<div>\n")
                                            .withEpilog("</div></body>\n"
                                                      + "</html>");
-
+        // then
         assertThat(result.asString(), is("<!DOCTYPE html>\n"
                                        + "<html>\n"
                                        + "  <head>\n"
