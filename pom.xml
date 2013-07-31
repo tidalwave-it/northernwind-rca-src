@@ -65,6 +65,9 @@
         <tft.appbundle.name>Zephyr</tft.appbundle.name>
         <tft.appbundle.signature>TDLW</tft.appbundle.signature>
 
+        <!-- FIXME: user.home -->
+        <tft.javafx.vmargs>-Dfile.encoding=UTF-8 -Dsun.jnu.encoding=UTF-8</tft.javafx.vmargs>
+
         <tft.maven.requiredJdk>[1.7.0-11,1.7.0-99)</tft.maven.requiredJdk>
         <tft.javac.source>1.7</tft.javac.source>
         <tft.javac.target>1.7</tft.javac.target>
@@ -334,6 +337,7 @@
                                             <classpath dir="${project.basedir}" casesensitive="yes">
                                                 <include name="target/application/*.jar" />
                                             </classpath>
+                                            <options value="${tft.javafx.vmargs}" />
                                             <option value="-Dcom.apple.mrj.application.apple.menu.about.name=${tft.appbundle.name}" />
                                             <option value="-Xdock:name=${tft.appbundle.name}" />
                                             <option value="-Xbootclasspath/a:$APP_ROOT/Contents/PlugIns/${tft.embedded-jdk-name}/Contents/Home/jre/lib/jfxrt.jar" />
@@ -456,6 +460,7 @@
                                             <classpath dir="${project.basedir}" casesensitive="yes">
                                                 <include name="target/application/*.jar" />
                                             </classpath>
+                                            <options value="${tft.javafx.vmargs}" />
                                             <option value="-Dcom.apple.mrj.application.apple.menu.about.name=${tft.appbundle.name}" />
                                             <option value="-Xdock:name=${tft.appbundle.name}" />
                                         </bundleapp>
