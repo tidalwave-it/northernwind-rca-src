@@ -48,9 +48,12 @@ public class HtmlDocumentTest
     @BeforeMethod
     public void setupFixture()
       {
-        fixture = new HtmlDocument("<html>\n<head><meta name=\"prolog\"/></head>\n<body>\n",
+        fixture = new HtmlDocument("<html>\n"
+                                 + "<head><meta name=\"prolog\"/></head>\n"
+                                 + "<body>\n",
                                    "body\n",
-                                   "</body>\n</html>");
+                                   "</body>\n"
+                                 + "</html>");
       }
 
     /*******************************************************************************************************************
@@ -59,13 +62,23 @@ public class HtmlDocumentTest
     @Test
     public void must_properly_create_from_text()
       {
-        final String text = "<html>\n<head>\n</head>\n<body>\nthe body\n</body>\n</html>";
+        final String text = "<html>\n"
+                          + "<head>\n"
+                          + "</head>\n"
+                          + "<body>\n"
+                          + "the body\n"
+                          + "</body>\n"
+                          + "</html>";
 
         final HtmlDocument fixture = HtmlDocument.createFromText(text);
 
-        assertThat(fixture.getProlog(), is("<html>\n<head>\n</head>\n<body>\n"));
+        assertThat(fixture.getProlog(), is("<html>\n"
+                                         + "<head>\n"
+                                         + "</head>\n"
+                                         + "<body>\n"));
         assertThat(fixture.getBody(), is("the body\n"));
-        assertThat(fixture.getEpilog(), is("</body>\n</html>\n"));
+        assertThat(fixture.getEpilog(), is("</body>\n"
+                                         + "</html>\n"));
       }
 
     /*******************************************************************************************************************
@@ -74,11 +87,19 @@ public class HtmlDocumentTest
     @Test
     public void must_properly_replace_prolog()
       {
-        final HtmlDocument result = fixture.withProlog("<html>\n<head><meta name=\"replaced prolog\"/></head>\n<body>\n");
+        final HtmlDocument result = fixture.withProlog("<html>\n"
+                                                     + "<head><meta name=\"replaced prolog\"/></head>\n"
+                                                     + "<body>\n");
 
-        assertThat(result.asString(), is("<!DOCTYPE html>\n<html>\n  <head>\n    <meta name=\"replaced prolog\" />\n  </head>\n  <body>\n" +
-                                         "     body\n" +
-                                         "  </body>\n</html>"));
+        assertThat(result.asString(), is("<!DOCTYPE html>\n"
+                                       + "<html>\n"
+                                       + "  <head>\n"
+                                       + "    <meta name=\"replaced prolog\" />\n"
+                                       + "  </head>\n"
+                                       + "  <body>\n"
+                                       + "     body\n"
+                                       + "  </body>\n"
+                                       + "</html>"));
       }
 
     /*******************************************************************************************************************
@@ -89,9 +110,15 @@ public class HtmlDocumentTest
       {
         final HtmlDocument result = fixture.withBody("replaced body\n");
 
-        assertThat(result.asString(), is("<!DOCTYPE html>\n<html>\n  <head>\n    <meta name=\"prolog\" />\n  </head>\n  <body>\n" +
-                                         "     replaced body\n" +
-                                         "  </body>\n</html>"));
+        assertThat(result.asString(), is("<!DOCTYPE html>\n"
+                                       + "<html>\n"
+                                       + "  <head>\n"
+                                       + "    <meta name=\"prolog\" />\n"
+                                       + "  </head>\n"
+                                       + "  <body>\n"
+                                       + "     replaced body\n"
+                                       + "  </body>\n"
+                                       + "</html>"));
       }
 
     /*******************************************************************************************************************
@@ -101,11 +128,23 @@ public class HtmlDocumentTest
     @Test(dependsOnMethods = "must_properly_replace_prolog")
     public void must_properly_replace_epilog()
       {
-        final HtmlDocument result = fixture.withProlog("<html>\n<head><meta name=\"prolog\"/></head>\n<body><div>\n")
-                                           .withEpilog("</div></body>\n</html>");
+        final HtmlDocument result = fixture.withProlog("<html>\n"
+                                                     + "<head><meta name=\"prolog\"/></head>\n"
+                                                     + "<body>\n"
+                                                     + "<div>\n")
+                                           .withEpilog("</div></body>\n"
+                                                     + "</html>");
 
-        assertThat(result.asString(), is("<!DOCTYPE html>\n<html>\n  <head>\n    <meta name=\"prolog\" />\n  </head>\n  <body>\n    <div>\n" +
-                                         "       body\n" +
-                                         "    </div>\n  </body>\n</html>"));
+        assertThat(result.asString(), is("<!DOCTYPE html>\n"
+                                       + "<html>\n"
+                                       + "  <head>\n"
+                                       + "    <meta name=\"prolog\" />\n"
+                                       + "  </head>\n"
+                                       + "  <body>\n"
+                                       + "    <div>\n"
+                                       + "       body\n"
+                                       + "    </div>\n"
+                                       + "  </body>\n"
+                                       + "</html>"));
       }
   }
