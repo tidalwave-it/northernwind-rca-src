@@ -31,14 +31,14 @@
     <parent>
         <groupId>it.tidalwave.northernwind.rca</groupId>
         <artifactId>northernwind-rca-modules</artifactId>
-        <version>1.1-ALPHA-8</version>
+        <version>1.1-ALPHA-9-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
     <groupId>it.tidalwave.northernwind.rca</groupId>
     <artifactId>it-tidalwave-northernwind-rca-model</artifactId>
     <packaging>jar</packaging>
-    <version>1.1-ALPHA-8</version>
+    <version>1.1-ALPHA-9-SNAPSHOT</version>
     <name>Zephyr - Model</name>
 
     <dependencies>
