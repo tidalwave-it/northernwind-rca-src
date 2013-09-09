@@ -132,6 +132,7 @@ public class TreeViewBindings extends DelegateSupport
         rootProperty.set(createTreeItem(pm));
 
         treeView.setCellFactory(treeCellFactory);
+        
         final ReadOnlyObjectProperty<TreeItem<PresentationModel>> selectedItemProperty =
                 treeView.getSelectionModel().selectedItemProperty();
         selectedItemProperty.removeListener(treeItemChangeListener);
