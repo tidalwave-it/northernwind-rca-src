@@ -27,12 +27,10 @@
  */
 package it.tidalwave.northernwind.rca.ui.impl.javafx;
 
-//import com.aquafx_project.AquaFx;
 import javax.annotation.Nonnull;
 import javafx.application.Platform;
+import java.io.File;
 import it.tidalwave.ui.javafx.JavaFXSpringApplication;
-import lombok.extern.slf4j.Slf4j;
-import static javafx.application.Application.launch;
 
 /***********************************************************************************************************************
  *
@@ -40,19 +38,25 @@ import static javafx.application.Application.launch;
  * @version $Id$
  *
  **********************************************************************************************************************/
-@Slf4j
 public class Main extends JavaFXSpringApplication
   {
     public static void main (final @Nonnull String ... args)
       {
         try
           {
+            // FIXME: Mac OS X only
+            final File logfolder = new File(System.getProperty("user.home") + "/Library/Application Support/Zephyr/logs");
+            final String logFolderPath = logfolder.getAbsolutePath();
+            System.err.println("Logging folder: " + logFolderPath);
+            logfolder.mkdirs();
+            System.setProperty("it.tidalwave.northernwind.rca.logFolder", logFolderPath);
             Platform.setImplicitExit(true);
             launch(args);
           }
         catch (Throwable t)
           {
-            log.error("", t);
+            // Don't use logging facilities here, they could be not initialized
+            t.printStackTrace();
             System.exit(-1);
           }
       }

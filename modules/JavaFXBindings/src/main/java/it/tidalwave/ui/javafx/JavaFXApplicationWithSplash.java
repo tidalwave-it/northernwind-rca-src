@@ -27,7 +27,6 @@
  */
 package it.tidalwave.ui.javafx;
 
-import com.aquafx_project.AquaFx;
 import javax.annotation.Nonnull;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Executor;
@@ -39,7 +38,9 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import javafx.application.Application;
 import javafx.application.Platform;
-import lombok.extern.slf4j.Slf4j;
+import com.aquafx_project.AquaFx;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /***********************************************************************************************************************
  *
@@ -47,9 +48,11 @@ import lombok.extern.slf4j.Slf4j;
  * @version $Id$
  *
  **********************************************************************************************************************/
-@Slf4j
 public abstract class JavaFXApplicationWithSplash extends Application
   {
+    // Don't use Slf4j and its static logger - give Main a chance to initialize things
+    private final Logger log = LoggerFactory.getLogger(JavaFXApplicationWithSplash.class);
+    
     private Splash splash = new Splash(this);
 
     /*******************************************************************************************************************
@@ -175,17 +178,10 @@ public abstract class JavaFXApplicationWithSplash extends Application
      ******************************************************************************************************************/
     private void setMacOSXLookAndFeel (final @Nonnull Scene scene)
       {
-        // AquaFX depends on JDK 8
-        if (System.getProperty("java.runtime.version").startsWith("1.8.0"))
+        if (isOSX())
           {
             log.info("Setting Aqua style");
             AquaFx.style();
-          }
-        //  JDK 7 fallback, a patched CSS without Skins
-        else
-          {
-            log.info("Setting Aqua CSS fallback for JDK 7");
-            scene.getStylesheets().add(getClass().getResource("/mac_os.css").toExternalForm());
           }
       }
 

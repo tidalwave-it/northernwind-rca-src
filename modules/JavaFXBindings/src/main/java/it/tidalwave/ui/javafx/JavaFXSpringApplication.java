@@ -27,7 +27,6 @@
  */
 package it.tidalwave.ui.javafx;
 
-import it.tidalwave.role.ui.javafx.JavaFXBinder;
 import javax.annotation.Nonnull;
 import java.io.IOException;
 import java.util.Map.Entry;
@@ -36,8 +35,10 @@ import java.util.TreeMap;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.stage.Stage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import lombok.extern.slf4j.Slf4j;
+import it.tidalwave.role.ui.javafx.JavaFXBinder;
 
 /***********************************************************************************************************************
  *
@@ -45,9 +46,11 @@ import lombok.extern.slf4j.Slf4j;
  * @version $Id$
  *
  **********************************************************************************************************************/
-@Slf4j
 public class JavaFXSpringApplication extends JavaFXApplicationWithSplash
   {
+    // Don't use Slf4j and its static logger - give Main a chance to initialize things
+    private final Logger log = LoggerFactory.getLogger(JavaFXSpringApplication.class);
+            
     private ClassPathXmlApplicationContext applicationContext;
 
     /*******************************************************************************************************************
