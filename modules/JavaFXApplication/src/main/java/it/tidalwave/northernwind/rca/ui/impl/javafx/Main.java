@@ -5,7 +5,7 @@
  * NorthernWind - lightweight CMS
  * http://northernwind.tidalwave.it - hg clone https://bitbucket.org/tidalwave/northernwind-src
  * %%
- * Copyright (C) 2011 - 2013 Tidalwave s.a.s. (http://tidalwave.it)
+ * Copyright (C) 2013 - 2014 Tidalwave s.a.s. (http://tidalwave.it)
  * %%
  * *********************************************************************************************************************
  *
@@ -27,12 +27,10 @@
  */
 package it.tidalwave.northernwind.rca.ui.impl.javafx;
 
-//import com.aquafx_project.AquaFx;
 import javax.annotation.Nonnull;
 import javafx.application.Platform;
+import java.io.File;
 import it.tidalwave.ui.javafx.JavaFXSpringApplication;
-import lombok.extern.slf4j.Slf4j;
-import static javafx.application.Application.launch;
 
 /***********************************************************************************************************************
  *
@@ -40,22 +38,26 @@ import static javafx.application.Application.launch;
  * @version $Id$
  *
  **********************************************************************************************************************/
-@Slf4j
 public class Main extends JavaFXSpringApplication
   {
     public static void main (final @Nonnull String ... args)
       {
         try
           {
-            // FIXNE: Mac OS X only - and it doesn't work as Logback has already kicked in
-            final String logfolder = System.getProperty("user.home") + "/Library/Application Support/Zephyr/logs";
-            System.setProperty("it.tidalwave.northernwind.rca.logFolder", logfolder);
+            // FIXME: Mac OS X only
+            final File logfolder = new File(System.getProperty("user.home") + "/Library/Application Support/Zephyr/logs");
+            final String logFolderPath = logfolder.getAbsolutePath();
+            System.err.println("Logging folder: " + logFolderPath);
+            logfolder.mkdirs();
+            System.setProperty("it.tidalwave.northernwind.rca.logFolder", logFolderPath);
+//            System.setProperty("nw.logFolder", logFolderPath);
             Platform.setImplicitExit(true);
             launch(args);
           }
         catch (Throwable t)
           {
-            log.error("", t);
+            // Don't use logging facilities here, they could be not initialized
+            t.printStackTrace();
             System.exit(-1);
           }
       }

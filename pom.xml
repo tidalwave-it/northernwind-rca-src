@@ -5,7 +5,7 @@
 
   NorthernWind
   %%
-  Copyright (C) 2009 - 2013 Tidalwave s.a.s. (http://tidalwave.it)
+  Copyright (C) 2013 - 2014 Tidalwave s.a.s. (http://tidalwave.it)
   %%
   *********************************************************************************************************************
 
@@ -47,7 +47,7 @@
 
     <groupId>it.tidalwave.northernwind.rca</groupId>
     <artifactId>northernwind-rca</artifactId>
-    <version>1.1-ALPHA-8-SNAPSHOT</version>
+    <version>1.1-ALPHA-9-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>Zephyr (master)</name>
     <inceptionYear>2013</inceptionYear>
@@ -68,19 +68,21 @@
         <!-- FIXME: user.home -->
         <tft.javafx.vmargs>-Dfile.encoding=UTF-8 -Dsun.jnu.encoding=UTF-8</tft.javafx.vmargs>
 
-        <tft.maven.requiredJdk>[1.7.0-11,1.7.0-99)</tft.maven.requiredJdk>
+        <tft.maven.requiredJdk>[1.8.0-0,1.8.0-99)</tft.maven.requiredJdk>
         <tft.javac.source>1.7</tft.javac.source>
         <tft.javac.target>1.7</tft.javac.target>
 
-        <tft.embedded-jdk-artifactId>it-tidalwave-oraclejdk7</tft.embedded-jdk-artifactId>
+        <tft.embedded-jdk-artifactId>it-tidalwave-oraclejdk8</tft.embedded-jdk-artifactId>
         <tft.embedded-jdk-classifier>macosx-intel</tft.embedded-jdk-classifier>
-        <tft.embedded-jdk-name>jdk1.7.0u25</tft.embedded-jdk-name>
-        <tft.embedded-jdk-version>1.7.0_25-1</tft.embedded-jdk-version>
+        <tft.embedded-jdk-name>jdk1.8.0</tft.embedded-jdk-name>
+        <tft.embedded-jdk-version>1.8.0-1</tft.embedded-jdk-version>
 
-        <netbeans.hint.jdkPlatform>JDK_1.7.0</netbeans.hint.jdkPlatform>
+        <netbeans.hint.jdkPlatform>JDK_1.8.0</netbeans.hint.jdkPlatform>
         <netbeans.hint.license>Tidalwave-ASF</netbeans.hint.license>
         <netbeans.checkstyle.format>true</netbeans.checkstyle.format>
         <netbeans.compile.on.save>all</netbeans.compile.on.save>
+
+        <tft.jacoco-maven-plugin.version>0.7.0.201403182114</tft.jacoco-maven-plugin.version>
 
         <scm.repo.url>ssh://hg@bitbucket.org/tidalwave/northernwind-rca-src</scm.repo.url>
         <scm.repo.readonly.url>https://bitbucket.org/tidalwave/northernwind-rca-src</scm.repo.readonly.url>
@@ -145,95 +147,95 @@
             <dependency>
                 <groupId>it.tidalwave.northernwind.rca</groupId>
                 <artifactId>it-tidalwave-util-supplement</artifactId>
-                <version>1.1-ALPHA-8-SNAPSHOT</version>
+                <version>1.1-ALPHA-9-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>it.tidalwave.northernwind.rca</groupId>
                 <artifactId>it-tidalwave-util-supplement</artifactId>
-                <version>1.1-ALPHA-8-SNAPSHOT</version>
+                <version>1.1-ALPHA-9-SNAPSHOT</version>
                 <classifier>tests</classifier>
             </dependency>
 
             <dependency>
                 <groupId>it.tidalwave.northernwind.rca</groupId>
                 <artifactId>it-tidalwave-role-ui-javafx</artifactId>
-                <version>1.1-ALPHA-8-SNAPSHOT</version>
+                <version>1.1-ALPHA-9-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>it.tidalwave.northernwind.rca</groupId>
                 <artifactId>it-tidalwave-northernwind-rca-ui-commons</artifactId>
-                <version>1.1-ALPHA-8-SNAPSHOT</version>
+                <version>1.1-ALPHA-9-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>it.tidalwave.northernwind.rca</groupId>
                 <artifactId>it-tidalwave-northernwind-rca-ui-commons</artifactId>
-                <version>1.1-ALPHA-8-SNAPSHOT</version>
+                <version>1.1-ALPHA-9-SNAPSHOT</version>
                 <classifier>tests</classifier>
             </dependency>
             <dependency>
                 <groupId>it.tidalwave.northernwind.rca</groupId>
                 <artifactId>it-tidalwave-northernwind-model-core-stripped</artifactId>
-                <version>1.1-ALPHA-8-SNAPSHOT</version>
+                <version>1.1-ALPHA-9-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>it.tidalwave.northernwind.rca</groupId>
                 <artifactId>it-tidalwave-northernwind-rca-model</artifactId>
-                <version>1.1-ALPHA-8-SNAPSHOT</version>
+                <version>1.1-ALPHA-9-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>it.tidalwave.northernwind.rca</groupId>
                 <artifactId>it-tidalwave-northernwind-rca-embeddedserver</artifactId>
-                <version>1.1-ALPHA-8-SNAPSHOT</version>
+                <version>1.1-ALPHA-9-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>it.tidalwave.northernwind.rca</groupId>
                 <artifactId>it-tidalwave-northernwind-rca-ui-site-opener</artifactId>
-                <version>1.1-ALPHA-8-SNAPSHOT</version>
+                <version>1.1-ALPHA-9-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>it.tidalwave.northernwind.rca</groupId>
                 <artifactId>it-tidalwave-northernwind-rca-ui-content-explorer</artifactId>
-                <version>1.1-ALPHA-8-SNAPSHOT</version>
+                <version>1.1-ALPHA-9-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>it.tidalwave.northernwind.rca</groupId>
                 <artifactId>it-tidalwave-northernwind-rca-ui-structure-explorer</artifactId>
-                <version>1.1-ALPHA-8-SNAPSHOT</version>
+                <version>1.1-ALPHA-9-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>it.tidalwave.northernwind.rca</groupId>
                 <artifactId>it-tidalwave-northernwind-rca-ui-content-editor</artifactId>
-                <version>1.1-ALPHA-8-SNAPSHOT</version>
+                <version>1.1-ALPHA-9-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>it.tidalwave.northernwind.rca</groupId>
                 <artifactId>it-tidalwave-northernwind-rca-ui-content-manager</artifactId>
-                <version>1.1-ALPHA-8-SNAPSHOT</version>
+                <version>1.1-ALPHA-9-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>it.tidalwave.northernwind.rca</groupId>
                 <artifactId>it-tidalwave-northernwind-rca-ui-structure-editor</artifactId>
-                <version>1.1-ALPHA-8-SNAPSHOT</version>
+                <version>1.1-ALPHA-9-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>it.tidalwave.northernwind.rca</groupId>
                 <artifactId>it-tidalwave-northernwind-rca-ui-javafx</artifactId>
-                <version>1.1-ALPHA-8-SNAPSHOT</version>
+                <version>1.1-ALPHA-9-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>it.tidalwave.northernwind.rca</groupId>
                 <artifactId>it-tidalwave-northernwind-rca-application-javafx</artifactId>
-                <version>1.1-ALPHA-8-SNAPSHOT</version>
+                <version>1.1-ALPHA-9-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>it.tidalwave.northernwind.rca</groupId>
                 <artifactId>zephyr-macosx-embedded-jre</artifactId>
-                <version>1.1-ALPHA-8-SNAPSHOT</version>
+                <version>1.1-ALPHA-9-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>it.tidalwave.northernwind.rca</groupId>
                 <artifactId>zephyr-macosx</artifactId>
-                <version>1.1-ALPHA-8-SNAPSHOT</version>
+                <version>1.1-ALPHA-9-SNAPSHOT</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -247,20 +249,6 @@
   </scm>
 
     <profiles>
-    <!--================================================================================================================
-
-    This profile embeds a JDK 8 runtime with the Embedded JRE Mac OS X installer.
-
-    =================================================================================================================-->
-        <profile>
-            <id>jdk8</id>
-            <properties>
-                <tft.embedded-jdk-artifactId>it-tidalwave-oraclejdk8</tft.embedded-jdk-artifactId>
-                <tft.embedded-jdk-classifier>macosx-intel</tft.embedded-jdk-classifier>
-                <tft.embedded-jdk-name>jdk1.8.0-ea-b99</tft.embedded-jdk-name>
-                <tft.embedded-jdk-version>1.8.0_ea_b99-1</tft.embedded-jdk-version>
-            </properties>
-        </profile>
     <!-- FIXME: push profiles to Super POM -->
     <!--================================================================================================================
 

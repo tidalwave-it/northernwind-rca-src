@@ -4,7 +4,7 @@
  * 
  * TheseFoolishThings - Project Archetype
  * %%
- * Copyright (C) 2009 - 2013 Tidalwave s.a.s. (http://tidalwave.it)
+ * Copyright (C) 2013 - 2014 Tidalwave s.a.s. (http://tidalwave.it)
  * %%
  * *********************************************************************************************************************
  * 

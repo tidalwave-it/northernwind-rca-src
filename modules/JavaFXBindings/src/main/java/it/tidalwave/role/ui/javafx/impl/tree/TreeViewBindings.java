@@ -5,7 +5,7 @@
  * NorthernWind - lightweight CMS
  * http://northernwind.tidalwave.it - hg clone https://bitbucket.org/tidalwave/northernwind-src
  * %%
- * Copyright (C) 2011 - 2013 Tidalwave s.a.s. (http://tidalwave.it)
+ * Copyright (C) 2013 - 2014 Tidalwave s.a.s. (http://tidalwave.it)
  * %%
  * *********************************************************************************************************************
  *
@@ -132,6 +132,7 @@ public class TreeViewBindings extends DelegateSupport
         rootProperty.set(createTreeItem(pm));
 
         treeView.setCellFactory(treeCellFactory);
+        
         final ReadOnlyObjectProperty<TreeItem<PresentationModel>> selectedItemProperty =
                 treeView.getSelectionModel().selectedItemProperty();
         selectedItemProperty.removeListener(treeItemChangeListener);

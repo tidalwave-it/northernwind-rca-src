@@ -5,7 +5,7 @@
  * NorthernWind - lightweight CMS
  * http://northernwind.tidalwave.it - hg clone https://bitbucket.org/tidalwave/northernwind-src
  * %%
- * Copyright (C) 2011 - 2013 Tidalwave s.a.s. (http://tidalwave.it)
+ * Copyright (C) 2013 - 2014 Tidalwave s.a.s. (http://tidalwave.it)
  * %%
  * *********************************************************************************************************************
  *
@@ -39,7 +39,8 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import javafx.application.Application;
 import javafx.application.Platform;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /***********************************************************************************************************************
  *
@@ -47,9 +48,11 @@ import lombok.extern.slf4j.Slf4j;
  * @version $Id$
  *
  **********************************************************************************************************************/
-@Slf4j
 public abstract class JavaFXApplicationWithSplash extends Application
   {
+    // Don't use Slf4j and its static logger - give Main a chance to initialize things
+    private final Logger log = LoggerFactory.getLogger(JavaFXApplicationWithSplash.class);
+    
     private Splash splash = new Splash(this);
 
     /*******************************************************************************************************************

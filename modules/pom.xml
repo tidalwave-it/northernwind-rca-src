@@ -5,7 +5,7 @@
 
   NorthernWind
   %%
-  Copyright (C) 2009 - 2013 Tidalwave s.a.s. (http://tidalwave.it)
+  Copyright (C) 2013 - 2014 Tidalwave s.a.s. (http://tidalwave.it)
   %%
   *********************************************************************************************************************
 
@@ -31,7 +31,7 @@
     <parent>
         <groupId>it.tidalwave.northernwind.rca</groupId>
         <artifactId>northernwind-rca</artifactId>
-        <version>1.1-ALPHA-8-SNAPSHOT</version>
+        <version>1.1-ALPHA-9-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -45,7 +45,7 @@
 
     <groupId>it.tidalwave.northernwind.rca</groupId>
     <artifactId>northernwind-rca-modules</artifactId>
-    <version>1.1-ALPHA-8-SNAPSHOT</version>
+    <version>1.1-ALPHA-9-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>Zephyr (modules)</name>
     <description>The parent POM of all modules.</description>
@@ -64,11 +64,11 @@
         <joda-time.version>1.6.2</joda-time.version>
         <jsoup.version>1.7.2</jsoup.version>
         <logback.version>1.0.12</logback.version>
-        <northernwind.version>1.1-ALPHA-26-SNAPSHOT</northernwind.version>
+        <northernwind.version>1.1-ALPHA-26</northernwind.version>
         <spring.version>3.2.3.RELEASE</spring.version>
         <tft.jsr305.version>2.0.1</tft.jsr305.version>
         <tft.jsr330.version>1</tft.jsr330.version>
-        <tft.lombok.version>0.11.6</tft.lombok.version>
+        <tft.lombok.version>1.12.6</tft.lombok.version>
         <tft.mockito.version>1.8.5</tft.mockito.version>
     </properties>
 
@@ -87,14 +87,6 @@
     ================================================================================================================ -->
     <dependencyManagement>
         <dependencies>
-            <dependency>
-                <groupId>com.oracle</groupId>
-                <artifactId>javafx-embedded</artifactId>
-                <version>0</version>
-                <scope>system</scope>
-                <systemPath>${java.home}/lib/jfxrt.jar</systemPath>
-            </dependency>
-
             <dependency>
                 <groupId>it.tidalwave.thesefoolishthings</groupId>
                 <artifactId>thesefoolishthings</artifactId>
