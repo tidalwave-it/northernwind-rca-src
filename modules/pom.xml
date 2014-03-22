@@ -68,8 +68,6 @@
         <spring.version>3.2.3.RELEASE</spring.version>
         <tft.jsr305.version>2.0.1</tft.jsr305.version>
         <tft.jsr330.version>1</tft.jsr330.version>
-        <tft.lombok.version>1.12.6</tft.lombok.version>
-        <tft.mockito.version>1.8.5</tft.mockito.version>
     </properties>
 
     <!-- ===============================================================================================================
