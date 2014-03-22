@@ -50,7 +50,6 @@ public class Main extends JavaFXSpringApplication
             System.err.println("Logging folder: " + logFolderPath);
             logfolder.mkdirs();
             System.setProperty("it.tidalwave.northernwind.rca.logFolder", logFolderPath);
-//            System.setProperty("nw.logFolder", logFolderPath);
             Platform.setImplicitExit(true);
             launch(args);
           }
