@@ -82,6 +82,8 @@
         <netbeans.checkstyle.format>true</netbeans.checkstyle.format>
         <netbeans.compile.on.save>all</netbeans.compile.on.save>
 
+        <tft.jacoco-maven-plugin.version>0.7.0.201403182114</tft.jacoco-maven-plugin.version>
+
         <scm.repo.url>ssh://hg@bitbucket.org/tidalwave/northernwind-rca-src</scm.repo.url>
         <scm.repo.readonly.url>https://bitbucket.org/tidalwave/northernwind-rca-src</scm.repo.readonly.url>
         <scm.repo.browse.url>https://bitbucket.org/tidalwave/northernwind-rca-src/src</scm.repo.browse.url>
