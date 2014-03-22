@@ -27,7 +27,6 @@
  */
 package it.tidalwave.ui.javafx;
 
-import com.aquafx_project.AquaFx;
 import javax.annotation.Nonnull;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Executor;
@@ -39,6 +38,7 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import javafx.application.Application;
 import javafx.application.Platform;
+import com.aquafx_project.AquaFx;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -178,17 +178,10 @@ public abstract class JavaFXApplicationWithSplash extends Application
      ******************************************************************************************************************/
     private void setMacOSXLookAndFeel (final @Nonnull Scene scene)
       {
-        // AquaFX depends on JDK 8
-        if (System.getProperty("java.runtime.version").startsWith("1.8.0"))
+        if (isOSX())
           {
             log.info("Setting Aqua style");
             AquaFx.style();
-          }
-        //  JDK 7 fallback, a patched CSS without Skins
-        else
-          {
-            log.info("Setting Aqua CSS fallback for JDK 7");
-            scene.getStylesheets().add(getClass().getResource("/mac_os.css").toExternalForm());
           }
       }
 
