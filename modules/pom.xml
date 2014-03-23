@@ -50,6 +50,13 @@
     <name>Zephyr (modules)</name>
     <description>The parent POM of all modules.</description>
 
+    <repositories>        
+        <repository>
+            <id>spring-milestones</id>
+            <url>http://repo.spring.io/milestone</url>
+        </repository>
+    </repositories>
+
     <!-- ===============================================================================================================
 
         Here you declare some properties defining the version of dependencies used by this project. All dependencies
@@ -57,6 +64,7 @@
 
     ================================================================================================================ -->
     <properties>
+        <tft.aspectjrt.version>1.8.0.RC2</tft.aspectjrt.version>        
         <aquafx.version>0.1</aquafx.version>
         <thesefoolishthings.version>1.35</thesefoolishthings.version>
         <slf4j.version>1.7.5</slf4j.version>
@@ -65,7 +73,7 @@
         <jsoup.version>1.7.2</jsoup.version>
         <logback.version>1.0.12</logback.version>
         <northernwind.version>1.1-ALPHA-26</northernwind.version>
-        <spring.version>3.2.3.RELEASE</spring.version>
+        <spring.version>4.0.2.RELEASE</spring.version>
         <tft.jsr305.version>2.0.1</tft.jsr305.version>
         <tft.jsr330.version>1</tft.jsr330.version>
     </properties>
@@ -169,6 +177,12 @@
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-webmvc</artifactId>
                 <version>${spring.version}</version>
+            </dependency>
+            
+            <dependency>
+                <groupId>org.aspectj</groupId>
+                <artifactId>aspectjweaver</artifactId>
+                <version>${tft.aspectjrt.version}</version>
             </dependency>
 
             <dependency>
