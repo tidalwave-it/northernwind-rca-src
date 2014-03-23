@@ -32,7 +32,6 @@ import javax.annotation.Nonnull;
 import javax.inject.Inject;
 import java.io.IOException;
 import com.google.common.annotations.VisibleForTesting;
-import it.tidalwave.util.Key;
 import it.tidalwave.util.NotFoundException;
 import it.tidalwave.util.Task;
 import it.tidalwave.role.ui.UserAction;
@@ -113,18 +112,14 @@ public class DefaultContentEditorPresentationControl implements ContentEditorPre
      *
      *
      ******************************************************************************************************************/
-    @VisibleForTesting final PropertyBinder.UpdateCallback propertyUpdateCallback = new UpdateCallback()
+    @VisibleForTesting final PropertyBinder.UpdateCallback propertyUpdateCallback = (updatedProperties) -> 
       {
-        @Override
-        public void notify (final @Nonnull ResourceProperties updatedProperties)
-          {
-            updatedProperties.as(Saveable).saveIn(content.getFile());
-            unbindProperties();
-            properties = content.getProperties(); // reload them
-            // FIXME: properties have to be re-bound, since they have been reloaded - but this makes the HTML editor
-            // to flicker and the caret in text editor to reset at position 0 - and to loop forever
-            bindProperties();
-          }
+        updatedProperties.as(Saveable).saveIn(content.getFile());
+        unbindProperties();
+        properties = content.getProperties(); // reload them
+        // FIXME: properties have to be re-bound, since they have been reloaded - but this makes the HTML editor
+        // to flicker and the caret in text editor to reset at position 0 - and to loop forever
+        bindProperties();
       };
 
     /*******************************************************************************************************************
