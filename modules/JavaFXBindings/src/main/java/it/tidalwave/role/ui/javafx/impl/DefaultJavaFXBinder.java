@@ -74,6 +74,9 @@ public class DefaultJavaFXBinder implements JavaFXBinder
     private final TableViewBindings tableViewBindings;
 
     @Delegate(excludes = Exclusions.class)
+    private final ListViewBindings listViewBindings;
+
+    @Delegate(excludes = Exclusions.class)
     private final DialogBindings dialogBindings;
 
     @Delegate(excludes = Exclusions.class)
@@ -89,6 +92,7 @@ public class DefaultJavaFXBinder implements JavaFXBinder
         this.executor = executor;
         treeItemBindings = new TreeViewBindings(executor);
         tableViewBindings = new TableViewBindings(executor);
+        listViewBindings = new ListViewBindings(executor);
         dialogBindings = new DialogBindings(executor);
         fileChooserBindings = new FileChooserBindings(executor);
       }
