@@ -27,7 +27,7 @@
  */
 package it.tidalwave.role.ui.javafx.impl.tableview;
 
-import javax.annotation.Nonnegative;
+import com.google.common.annotations.VisibleForTesting;
 import javax.annotation.Nonnull;
 import java.util.concurrent.Executor;
 import javafx.collections.ObservableList;
@@ -37,8 +37,13 @@ import it.tidalwave.role.ui.PresentationModel;
 import it.tidalwave.role.ui.javafx.impl.DelegateSupport;
 import static javafx.collections.FXCollections.observableArrayList;
 import static it.tidalwave.role.SimpleComposite.SimpleComposite;
+import static it.tidalwave.role.ui.Selectable.Selectable;
+import it.tidalwave.util.AsException;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.scene.control.TableCell;
 import javafx.util.Callback;
+import lombok.extern.slf4j.Slf4j;
 
 /***********************************************************************************************************************
  *
@@ -46,6 +51,7 @@ import javafx.util.Callback;
  * @version $Id$
  *
  **********************************************************************************************************************/
+@Slf4j
 public class TableViewBindings extends DelegateSupport
   {
     private final Callback<TableColumn<PresentationModel, PresentationModel>, 
@@ -56,6 +62,37 @@ public class TableViewBindings extends DelegateSupport
         public TableCell<PresentationModel, PresentationModel> call (TableColumn<PresentationModel, PresentationModel> param) 
           {
             return new AsObjectTableCell<PresentationModel>();
+          }
+      };
+    
+    /*******************************************************************************************************************
+     *
+     *
+     *
+     ******************************************************************************************************************/
+    @VisibleForTesting final ChangeListener<PresentationModel> changeListener =
+            new ChangeListener<PresentationModel>()
+      {
+        @Override
+        public void changed (final @Nonnull ObservableValue<? extends PresentationModel> ov,
+                             final @Nonnull PresentationModel oldItem,
+                             final @Nonnull PresentationModel item)
+          {
+            executor.execute(new Runnable()
+              {
+                @Override
+                public void run()
+                  {
+                    try
+                      {
+                        item.as(Selectable).select();
+                      }
+                    catch (AsException e)
+                      {
+                        log.debug("No Selectable role for {}", item); // ok, do nothing
+                      }
+                  }
+              });
           }
       };
     
@@ -80,6 +117,7 @@ public class TableViewBindings extends DelegateSupport
         assertIsFxApplicationThread();
 
         tableView.setItems(observableArrayList(pm.as(SimpleComposite).findChildren().results()));
+        tableView.getSelectionModel().selectedItemProperty().addListener(changeListener);
         
         final ObservableList rawColumns = tableView.getColumns(); // FIXME
         final ObservableList<TableColumn<PresentationModel, PresentationModel>> columns =

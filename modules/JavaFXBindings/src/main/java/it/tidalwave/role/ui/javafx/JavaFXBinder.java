@@ -42,6 +42,7 @@ import it.tidalwave.util.ui.UserNotificationWithFeedback;
 import it.tidalwave.role.ui.PresentationModel;
 import it.tidalwave.role.ui.BoundProperty;
 import it.tidalwave.role.ui.UserAction;
+import javafx.scene.control.TreeTableView;
 
 /***********************************************************************************************************************
  *
@@ -80,6 +81,13 @@ public interface JavaFXBinder
      *
      ******************************************************************************************************************/
     public void bind (@Nonnull TreeView<PresentationModel> treeView, @Nonnull PresentationModel pm);
+
+    /*******************************************************************************************************************
+     *
+     *
+     *
+     ******************************************************************************************************************/
+    public void bind (@Nonnull TreeTableView<PresentationModel> treeTableView, @Nonnull PresentationModel pm);
 
     /*******************************************************************************************************************
      *
