@@ -86,9 +86,6 @@ public class JavaFXContentEditorPresentationDelegate implements ContentEditorPre
 
     public void initialize()
       {
-        binder.bindColumn(contentEditorProperties, 0, "name");
-        binder.bindColumn(contentEditorProperties, 1, "value");
-
         contentWebView.getEngine().setOnAlert(clickHijacker);
       }
 

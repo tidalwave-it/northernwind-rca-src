@@ -27,7 +27,6 @@
  */
 package it.tidalwave.role.ui.javafx;
 
-import javax.annotation.Nonnegative;
 import javax.annotation.Nonnull;
 import java.nio.file.Path;
 import javafx.beans.property.Property;
@@ -88,15 +87,6 @@ public interface JavaFXBinder
      *
      ******************************************************************************************************************/
     public void bind (@Nonnull ListView<PresentationModel> treeView, @Nonnull PresentationModel pm);
-
-    /*******************************************************************************************************************
-     *
-     *
-     *
-     ******************************************************************************************************************/
-    public void bindColumn (@Nonnull TableView<PresentationModel> tableView,
-                            @Nonnegative int columnIndex,
-                            @Nonnull String id);
 
     /*******************************************************************************************************************
      *

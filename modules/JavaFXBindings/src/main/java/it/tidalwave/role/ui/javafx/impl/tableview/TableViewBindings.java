@@ -91,22 +91,4 @@ public class TableViewBindings extends DelegateSupport
             column.setCellFactory(cellFactory);
           }
       }
-
-    /*******************************************************************************************************************
-     *
-     * {@inheritDoc}
-     *
-     ******************************************************************************************************************/
-    public void bindColumn (final @Nonnull TableView<PresentationModel> tableView,
-                            final @Nonnegative int columnIndex,
-                            final @Nonnull String id)
-      {
-        assertIsFxApplicationThread();
-
-        final ObservableList rawColumns = tableView.getColumns(); // FIXME
-        final ObservableList<TableColumn<PresentationModel, String>> columns =
-                (ObservableList<TableColumn<PresentationModel, String>>)rawColumns;
-        columns.get(columnIndex).setId(id); // FIXME: is it correct to use Id?
-        columns.get(columnIndex).setCellValueFactory(new RowAdapter<String>());
-      }
   }

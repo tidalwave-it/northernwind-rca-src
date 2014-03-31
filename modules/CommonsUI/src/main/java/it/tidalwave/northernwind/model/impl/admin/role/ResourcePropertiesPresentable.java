@@ -27,24 +27,27 @@
  */
 package it.tidalwave.northernwind.model.impl.admin.role;
 
-import javax.annotation.Nonnull;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
-import java.io.IOException;
+import it.tidalwave.dci.annotation.DciRole;
+import it.tidalwave.northernwind.core.model.ResourceProperties;
+import it.tidalwave.role.SimpleComposite;
+import it.tidalwave.role.spi.DefaultDisplayable;
+import it.tidalwave.role.spi.DefaultSimpleComposite;
+import it.tidalwave.role.spi.MapAggregate;
+import it.tidalwave.role.ui.Presentable;
+import it.tidalwave.role.ui.PresentationModel;
+import it.tidalwave.role.ui.spi.DefaultPresentationModel;
 import it.tidalwave.util.Id;
 import it.tidalwave.util.Key;
 import it.tidalwave.util.NotFoundException;
 import it.tidalwave.util.spi.SimpleFinderSupport;
-import it.tidalwave.role.SimpleComposite;
-import it.tidalwave.role.spi.DefaultSimpleComposite;
-import it.tidalwave.role.ui.PresentationModel;
-import it.tidalwave.role.ui.Presentable;
-import it.tidalwave.role.ui.spi.DefaultPresentationModel;
-import it.tidalwave.role.ui.spi.RowHashMap;
-import it.tidalwave.dci.annotation.DciRole;
-import it.tidalwave.northernwind.core.model.ResourceProperties;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import javax.annotation.Nonnull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -86,9 +89,10 @@ public class ResourcePropertiesPresentable implements Presentable
                         try
                           {
                             final String prefix = groupId.stringValue().equals("") ? "" : groupId.stringValue() + ".";
-                            results.add(new DefaultPresentationModel(properties,
-                                        RowHashMap.create().withColumn("name", prefix + key.stringValue())
-                                                           .withColumn("value", p2.getProperty(key))));
+                            final Map<String, PresentationModel> map = new HashMap<>();
+                            map.put("Name", new DefaultPresentationModel(new DefaultDisplayable(prefix + key.stringValue())));
+                            map.put("Value", new DefaultPresentationModel(new DefaultDisplayable("" + p2.getProperty(key))));
+                            results.add(new DefaultPresentationModel(properties, new MapAggregate<>(map)));
                           }
                         catch (IOException e)
                           {
