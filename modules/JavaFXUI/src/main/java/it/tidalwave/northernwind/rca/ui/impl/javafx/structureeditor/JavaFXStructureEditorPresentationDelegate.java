@@ -66,8 +66,6 @@ public class JavaFXStructureEditorPresentationDelegate implements StructureEdito
 
     public void initialize()
       {
-        binder.bindColumn(structureEditorProperties, 0, "name");
-        binder.bindColumn(structureEditorProperties, 1, "value");
       }
 
     @Override
