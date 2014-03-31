@@ -25,7 +25,7 @@
  * *********************************************************************************************************************
  * #L%
  */
-package it.tidalwave.role.ui.javafx.impl;
+package it.tidalwave.role.ui.javafx.impl.list;
 
 import javax.annotation.Nonnull;
 import java.util.concurrent.Executor;
@@ -37,7 +37,8 @@ import javafx.scene.control.ListView;
 import com.google.common.annotations.VisibleForTesting;
 import it.tidalwave.util.AsException;
 import it.tidalwave.role.ui.PresentationModel;
-import it.tidalwave.role.ui.javafx.impl.tree.AsObjectListCell;
+import it.tidalwave.role.ui.javafx.impl.DelegateSupport;
+import it.tidalwave.role.ui.javafx.impl.list.AsObjectListCell;
 import lombok.extern.slf4j.Slf4j;
 import static javafx.collections.FXCollections.observableArrayList;
 import static it.tidalwave.role.SimpleComposite.SimpleComposite;

@@ -5,7 +5,7 @@
  * NorthernWind - lightweight CMS
  * http://northernwind.tidalwave.it - hg clone https://bitbucket.org/tidalwave/northernwind-src
  * %%
- * Copyright (C) 2011 - 2013 Tidalwave s.a.s. (http://tidalwave.it)
+ * Copyright (C) 2013 - 2014 Tidalwave s.a.s. (http://tidalwave.it)
  * %%
  * *********************************************************************************************************************
  *
@@ -25,12 +25,12 @@
  * *********************************************************************************************************************
  * #L%
  */
-package it.tidalwave.role.ui.javafx.impl.tree;
+package it.tidalwave.role.ui.javafx.impl.tableview;
 
 import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
-import javafx.scene.control.cell.TextFieldTreeCell;
+import javafx.scene.control.cell.TextFieldTableCell;
 import com.google.common.annotations.VisibleForTesting;
 import org.springframework.beans.factory.annotation.Configurable;
 import it.tidalwave.util.As;
@@ -39,15 +39,15 @@ import static it.tidalwave.role.Displayable.*;
 
 /***********************************************************************************************************************
  *
- * An implementation of {@link TreeCell} that retrieves the display name from {@link Displayable} and creates a
+ * An implementation of {@link TableCell} that retrieves the display name from {@link Displayable} and creates a
  * contextualised pop-up menu.
- *
+ * 
  * @author  Fabrizio Giudici
  * @version $Id$
  *
  **********************************************************************************************************************/
 @Configurable
-public class AsObjectTreeCell<T extends As> extends TextFieldTreeCell<T>
+public class AsObjectTableCell<T extends As> extends TextFieldTableCell<T, T>
   {
     @Inject @Nonnull
     @VisibleForTesting ContextMenuBuilder contextMenuBuilder;
@@ -55,7 +55,8 @@ public class AsObjectTreeCell<T extends As> extends TextFieldTreeCell<T>
     @Override
     public void updateItem (final @CheckForNull T item, final boolean empty)
       {
-        super.updateItem(item, empty);
+        super.updateItem(item, empty); 
+        
         setText((item == null) ? "" : item.as(Displayable).getDisplayName());
         setContextMenu((item == null) ? null : contextMenuBuilder.createContextMenu(item));
       }

@@ -25,34 +25,50 @@
  * *********************************************************************************************************************
  * #L%
  */
-package it.tidalwave.role.ui;
+package it.tidalwave.role.ui.javafx.impl.tableview;
 
 import javax.annotation.Nonnull;
-import it.tidalwave.util.Key;
+import javafx.util.Callback;
+import javafx.beans.value.ObservableValue;
+import javafx.beans.value.ObservableValueBase;
+import javafx.scene.control.TableColumn;
 import it.tidalwave.util.NotFoundException;
+import it.tidalwave.role.Aggregate;
+import it.tidalwave.role.spi.DefaultDisplayable;
+import it.tidalwave.role.ui.PresentationModel;
+import it.tidalwave.role.ui.spi.DefaultPresentationModel;
 
 /***********************************************************************************************************************
- *
- * A role representing the items in a row of a table.
- *
- * @stereotype Role
- * @deprecated Use Aggregate instead
  *
  * @author  Fabrizio Giudici
  * @version $Id$
  *
  **********************************************************************************************************************/
-@Deprecated
-public interface Row
+public class AggregateAdapter implements Callback<TableColumn.CellDataFeatures<PresentationModel, PresentationModel>, 
+                                         ObservableValue<PresentationModel>>
   {
-    public static final Class<Row> Row = Row.class;
-
-    /*******************************************************************************************************************
-     *
-     *
-     *
-     ******************************************************************************************************************/
-    @Nonnull
-    public <T> T getValue (@Nonnull Key<T> key)
-      throws NotFoundException;
+    private final static PresentationModel EMPTY = new DefaultPresentationModel(new DefaultDisplayable("???"));
+    
+    @Override @Nonnull
+    public ObservableValue<PresentationModel> call 
+        (final @Nonnull TableColumn.CellDataFeatures<PresentationModel, PresentationModel> cell) 
+      {
+        return new ObservableValueBase<PresentationModel>() // FIXME: use a concrete specialization?
+          {
+            @Override @Nonnull
+            public PresentationModel getValue()
+              {
+                try
+                  {
+                    // FIXME: uses the column header names, should be an internal id instead
+                    final Aggregate<PresentationModel> aggregate = cell.getValue().as(Aggregate.class);
+                    return aggregate.getByName(cell.getTableColumn().getText());
+                  }
+                catch (NotFoundException e)
+                  {
+                    return EMPTY;
+                  }
+              };
+          };
+      }
   }

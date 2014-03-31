@@ -37,6 +37,8 @@ import it.tidalwave.role.ui.PresentationModel;
 import it.tidalwave.role.ui.javafx.impl.DelegateSupport;
 import static javafx.collections.FXCollections.observableArrayList;
 import static it.tidalwave.role.SimpleComposite.SimpleComposite;
+import javafx.scene.control.TableCell;
+import javafx.util.Callback;
 
 /***********************************************************************************************************************
  *
@@ -46,6 +48,17 @@ import static it.tidalwave.role.SimpleComposite.SimpleComposite;
  **********************************************************************************************************************/
 public class TableViewBindings extends DelegateSupport
   {
+    private final Callback<TableColumn<PresentationModel, PresentationModel>, 
+                           TableCell<PresentationModel, PresentationModel>> cellFactory = 
+            new Callback<TableColumn<PresentationModel, PresentationModel>, TableCell<PresentationModel, PresentationModel>>() 
+      {
+        @Override @Nonnull
+        public TableCell<PresentationModel, PresentationModel> call (TableColumn<PresentationModel, PresentationModel> param) 
+          {
+            return new AsObjectTableCell<PresentationModel>();
+          }
+      };
+    
     /*******************************************************************************************************************
      *
      *
@@ -67,6 +80,16 @@ public class TableViewBindings extends DelegateSupport
         assertIsFxApplicationThread();
 
         tableView.setItems(observableArrayList(pm.as(SimpleComposite).findChildren().results()));
+        
+        final ObservableList rawColumns = tableView.getColumns(); // FIXME
+        final ObservableList<TableColumn<PresentationModel, PresentationModel>> columns =
+                (ObservableList<TableColumn<PresentationModel, PresentationModel>>)rawColumns;
+        
+        for (final TableColumn<PresentationModel, PresentationModel> column : columns)
+          {
+            column.setCellValueFactory(new AggregateAdapter());
+            column.setCellFactory(cellFactory);
+          }
       }
 
     /*******************************************************************************************************************
