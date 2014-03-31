@@ -11,6 +11,7 @@ import it.tidalwave.role.Aggregate;
 import it.tidalwave.role.spi.DefaultDisplayable;
 import it.tidalwave.role.ui.PresentationModel;
 import it.tidalwave.role.ui.spi.DefaultPresentationModel;
+import it.tidalwave.util.AsException;
 import it.tidalwave.util.NotFoundException;
 import javafx.beans.value.ObservableValue;
 import javafx.beans.value.ObservableValueBase;
@@ -42,7 +43,7 @@ class TreeTableAggregateAdapter implements Callback<TreeTableColumn.CellDataFeat
                     final Aggregate<PresentationModel> aggregate = cell.getValue().getValue().as(Aggregate.class);
                     return aggregate.getByName(cell.getTreeTableColumn().getText());
                   }
-                catch (NullPointerException | NotFoundException e) // FIXME: NPE
+                catch (AsException | NullPointerException | NotFoundException e) // FIXME: NPE
                   {
                     return EMPTY;
                   }
