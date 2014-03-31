@@ -27,6 +27,7 @@
  */
 package it.tidalwave.role.ui.javafx.impl;
 
+import it.tidalwave.role.ui.javafx.impl.list.ListViewBindings;
 import javax.annotation.Nonnull;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;

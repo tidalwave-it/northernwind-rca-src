@@ -25,7 +25,7 @@
  * *********************************************************************************************************************
  * #L%
  */
-package it.tidalwave.role.ui.javafx.impl.tree;
+package it.tidalwave.role.ui.javafx.impl.list;
 
 import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
