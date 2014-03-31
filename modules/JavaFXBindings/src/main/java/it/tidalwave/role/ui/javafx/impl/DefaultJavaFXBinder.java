@@ -47,6 +47,7 @@ import it.tidalwave.role.ui.javafx.impl.tree.TreeViewBindings;
 import it.tidalwave.role.ui.javafx.impl.dialog.DialogBindings;
 import it.tidalwave.role.ui.javafx.impl.filechooser.FileChooserBindings;
 import it.tidalwave.role.ui.javafx.impl.tableview.TableViewBindings;
+import it.tidalwave.role.ui.javafx.impl.treetable.TreeTableViewBindings;
 import lombok.Delegate;
 import lombok.extern.slf4j.Slf4j;
 
@@ -75,6 +76,9 @@ public class DefaultJavaFXBinder implements JavaFXBinder
     private final TableViewBindings tableViewBindings;
 
     @Delegate(excludes = Exclusions.class)
+    private final TreeTableViewBindings treeTableViewBindings;
+
+    @Delegate(excludes = Exclusions.class)
     private final ListViewBindings listViewBindings;
 
     @Delegate(excludes = Exclusions.class)
@@ -93,6 +97,7 @@ public class DefaultJavaFXBinder implements JavaFXBinder
         this.executor = executor;
         treeItemBindings = new TreeViewBindings(executor);
         tableViewBindings = new TableViewBindings(executor);
+        treeTableViewBindings = new TreeTableViewBindings(executor);
         listViewBindings = new ListViewBindings(executor);
         dialogBindings = new DialogBindings(executor);
         fileChooserBindings = new FileChooserBindings(executor);
