@@ -27,18 +27,22 @@
  */
 package it.tidalwave.role.ui.javafx.impl.tableview;
 
+import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
+import javafx.scene.control.cell.TextFieldTableCell;
 import com.google.common.annotations.VisibleForTesting;
 import org.springframework.beans.factory.annotation.Configurable;
-import javafx.scene.control.cell.TextFieldTableCell;
 import it.tidalwave.util.As;
 import it.tidalwave.role.ui.javafx.impl.ContextMenuBuilder;
 import static it.tidalwave.role.Displayable.*;
 
 /***********************************************************************************************************************
  *
- * @author  fritz
+ * An implementation of {@link TableCell} that retrieves the display name from {@link Displayable} and creates a
+ * contextualised pop-up menu.
+ * 
+ * @author  Fabrizio Giudici
  * @version $Id$
  *
  **********************************************************************************************************************/
@@ -49,7 +53,7 @@ public class AsObjectTableCell<T extends As> extends TextFieldTableCell<T, T>
     @VisibleForTesting ContextMenuBuilder contextMenuBuilder;
 
     @Override
-    public void updateItem (T item, boolean empty)
+    public void updateItem (final @CheckForNull T item, final boolean empty)
       {
         super.updateItem(item, empty); 
         

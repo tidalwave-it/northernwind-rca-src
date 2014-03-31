@@ -32,15 +32,15 @@ import javax.annotation.Nonnull;
 import javax.inject.Inject;
 import javafx.scene.control.cell.TextFieldTreeCell;
 import com.google.common.annotations.VisibleForTesting;
-import it.tidalwave.role.ui.javafx.impl.ContextMenuBuilder;
 import org.springframework.beans.factory.annotation.Configurable;
 import it.tidalwave.util.As;
+import it.tidalwave.role.ui.javafx.impl.ContextMenuBuilder;
 import static it.tidalwave.role.Displayable.*;
 
 /***********************************************************************************************************************
  *
- * An implementation of {@link TreeCell} that retrieves the displayname from {@link Displayable} and creates a
- * contextualized pop-up menu.
+ * An implementation of {@link TreeCell} that retrieves the display name from {@link Displayable} and creates a
+ * contextualised pop-up menu.
  *
  * @author  Fabrizio Giudici
  * @version $Id$
@@ -56,7 +56,7 @@ public class AsObjectTreeCell<T extends As> extends TextFieldTreeCell<T>
     public void updateItem (final @CheckForNull T item, final boolean empty)
       {
         super.updateItem(item, empty);
-        setText(empty ? "" : item.as(Displayable).getDisplayName());
-        setContextMenu((item != null) ? contextMenuBuilder.createContextMenu(item) : null);
+        setText((item == null) ? "" : item.as(Displayable).getDisplayName());
+        setContextMenu((item == null) ? null : contextMenuBuilder.createContextMenu(item));
       }
   }

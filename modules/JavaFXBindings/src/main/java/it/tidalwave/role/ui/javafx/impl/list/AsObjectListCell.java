@@ -30,20 +30,18 @@ package it.tidalwave.role.ui.javafx.impl.list;
 import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
-import javafx.scene.control.TreeCell;
 import javafx.scene.control.cell.TextFieldListCell;
 import com.google.common.annotations.VisibleForTesting;
 import org.springframework.beans.factory.annotation.Configurable;
 import it.tidalwave.util.As;
-import it.tidalwave.role.Displayable;
 import it.tidalwave.role.ui.javafx.impl.ContextMenuBuilder;
 import static it.tidalwave.role.Displayable.*;
 
 /***********************************************************************************************************************
  *
- * An implementation of {@link TreeCell} that retrieves the displayname from {@link Displayable} and creates a
- * contextualized pop-up menu.
- *
+ * An implementation of {@link ListCell} that retrieves the display name from {@link Displayable} and creates a
+ * contextualised pop-up menu.
+ * 
  * @author  Fabrizio Giudici
  * @version $Id$
  *
@@ -58,7 +56,7 @@ public class AsObjectListCell<T extends As> extends TextFieldListCell<T>
     public void updateItem (final @CheckForNull T item, final boolean empty)
       {
         super.updateItem(item, empty);
-        setText(empty ? "" : item.as(Displayable).getDisplayName());
-        setContextMenu((item != null) ? contextMenuBuilder.createContextMenu(item) : null);
+        setText((item == null) ? "" : item.as(Displayable).getDisplayName());
+        setContextMenu((item == null) ? null : contextMenuBuilder.createContextMenu(item));
       }
   }
