@@ -36,11 +36,13 @@ import it.tidalwave.util.NotFoundException;
  * A role representing the items in a row of a table.
  *
  * @stereotype Role
+ * @deprecated Use Aggregate instead
  *
  * @author  Fabrizio Giudici
  * @version $Id$
  *
  **********************************************************************************************************************/
+@Deprecated
 public interface Row
   {
     public static final Class<Row> Row = Row.class;
