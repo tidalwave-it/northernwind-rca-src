@@ -27,32 +27,32 @@
  */
 package it.tidalwave.role.ui.javafx.impl.treetable;
 
-import it.tidalwave.role.ui.javafx.impl.tree.*;
 import javax.annotation.Nonnull;
 import java.util.concurrent.Executor;
-import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import javafx.util.Callback;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.ObservableList;
 import javafx.scene.control.TreeCell;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
+import javafx.scene.control.TreeTableCell;
+import javafx.scene.control.TreeTableColumn;
+import javafx.scene.control.TreeTableView;
 import javafx.application.Platform;
 import com.google.common.annotations.VisibleForTesting;
 import it.tidalwave.util.AsException;
 import it.tidalwave.role.SimpleComposite;
 import it.tidalwave.role.ui.PresentationModel;
 import it.tidalwave.role.ui.javafx.impl.DelegateSupport;
+import it.tidalwave.role.ui.javafx.impl.tree.AsObjectTreeCell;
+import it.tidalwave.role.ui.javafx.impl.tree.ObsoletePresentationModelDisposer;
 import lombok.extern.slf4j.Slf4j;
 import static it.tidalwave.role.SimpleComposite.*;
 import static it.tidalwave.role.ui.Selectable.Selectable;
-import javafx.collections.ObservableList;
-import javafx.scene.control.TreeTableCell;
-import javafx.scene.control.TreeTableColumn;
-import javafx.scene.control.TreeTableView;
 
 /***********************************************************************************************************************
  *
@@ -65,16 +65,18 @@ public class TreeTableViewBindings extends DelegateSupport
   {
     private final ObsoletePresentationModelDisposer presentationModelDisposer = new ObsoletePresentationModelDisposer();
     
-    private final Callback<TreeTableColumn<PresentationModel, PresentationModel>, TreeTableCell<PresentationModel, PresentationModel>> cellFactory
-            = new Callback<TreeTableColumn<PresentationModel, PresentationModel>, TreeTableCell<PresentationModel, PresentationModel>>() {
-
-        @Override
-        public TreeTableCell<PresentationModel, PresentationModel> call(TreeTableColumn<PresentationModel, PresentationModel> param) 
-          {
-            return new AsObjectTreeTableCell();
-          }
-    };
+    private final Callback<TreeTableColumn<PresentationModel, PresentationModel>, 
+                           TreeTableCell<PresentationModel, PresentationModel>> cellFactory
+            = param -> new AsObjectTreeTableCell();
     
+    /*******************************************************************************************************************
+     *
+     *
+     *
+     ******************************************************************************************************************/
+    private final Callback<TreeView<PresentationModel>, TreeCell<PresentationModel>> treeCellFactory
+            = treeView -> new AsObjectTreeCell<>();
+
     /*******************************************************************************************************************
      *
      *
@@ -90,21 +92,6 @@ public class TreeTableViewBindings extends DelegateSupport
      *
      *
      ******************************************************************************************************************/
-    @VisibleForTesting final Callback<TreeView<PresentationModel>, TreeCell<PresentationModel>> treeCellFactory =
-            new Callback<TreeView<PresentationModel>, TreeCell<PresentationModel>>()
-      {
-        @Override @Nonnull
-        public TreeCell<PresentationModel> call (final @Nonnull TreeView<PresentationModel> treeView)
-          {
-            return new AsObjectTreeCell<>();
-          }
-      };
-
-    /*******************************************************************************************************************
-     *
-     *
-     *
-     ******************************************************************************************************************/
     @VisibleForTesting final ChangeListener<TreeItem<PresentationModel>> treeItemChangeListener =
             new ChangeListener<TreeItem<PresentationModel>>()
       {
@@ -113,19 +100,15 @@ public class TreeTableViewBindings extends DelegateSupport
                              final @Nonnull TreeItem<PresentationModel> oldItem,
                              final @Nonnull TreeItem<PresentationModel> item)
           {
-            executor.execute(new Runnable()
+            executor.execute(() -> 
               {
-                @Override
-                public void run()
+                try
                   {
-                    try
-                      {
-                        item.getValue().as(Selectable).select();
-                      }
-                    catch (AsException e)
-                      {
-                        log.debug("No Selectable role for {}", item); // ok, do nothing
-                      }
+                    item.getValue().as(Selectable).select();
+                  }
+                catch (AsException e)
+                  {
+                    log.debug("No Selectable role for {}", item); // ok, do nothing
                   }
               });
           }
@@ -172,22 +155,14 @@ public class TreeTableViewBindings extends DelegateSupport
       {
         final TreeItem<PresentationModel> item = new TreeItem<>(pm);
 
-        final PropertyChangeListener recreateChildrenOnUpdateListener = new PropertyChangeListener()
+        final PropertyChangeListener recreateChildrenOnUpdateListener = event -> 
           {
-            @Override
-            public void propertyChange (final @Nonnull PropertyChangeEvent event)
+            Platform.runLater(() ->
               {
-                Platform.runLater(new Runnable()
-                  {
-                    @Override
-                    public void run()
-                      {
-                        item.getChildren().clear(); // FIXME: should update it incrementally
-                        createChildren(item, pm);
-                        item.setExpanded(true);
-                      }
-                  });
-              }
+                item.getChildren().clear(); // FIXME: should update it incrementally
+                createChildren(item, pm);
+                item.setExpanded(true);
+              });
           };
 
         pm.addPropertyChangeListener(PresentationModel.PROPERTY_CHILDREN, recreateChildrenOnUpdateListener);
@@ -208,11 +183,8 @@ public class TreeTableViewBindings extends DelegateSupport
         try
           {
             final SimpleComposite<PresentationModel> composite = pm.as(SimpleComposite);
-
-            for (final PresentationModel childPm : composite.findChildren().results()) // FIXME: results() in bg thread
-              {
-                parentItem.getChildren().add(createTreeItem(childPm));
-              }
+            final ObservableList<TreeItem<PresentationModel>> children = parentItem.getChildren();
+            composite.findChildren().results().forEach(childPm -> children.add(createTreeItem(childPm)));
           }
         catch (AsException e)
           {
