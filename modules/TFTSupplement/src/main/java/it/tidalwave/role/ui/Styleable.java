@@ -2,10 +2,10 @@
  * #%L
  * *********************************************************************************************************************
  *
- * NorthernWind - lightweight CMS
- * http://northernwind.tidalwave.it - hg clone https://bitbucket.org/tidalwave/northernwind-src
+ * blueHour
+ * http://bluehour.tidalwave.it - hg clone https://bitbucket.org/tidalwave/bluehour-src
  * %%
- * Copyright (C) 2011 - 2013 Tidalwave s.a.s. (http://tidalwave.it)
+ * Copyright (C) 2013 - 2014 Tidalwave s.a.s. (http://tidalwave.it)
  * %%
  * *********************************************************************************************************************
  *
@@ -25,40 +25,25 @@
  * *********************************************************************************************************************
  * #L%
  */
-package it.tidalwave.role.ui.javafx.impl.list;
+package it.tidalwave.role.ui;
 
-import javax.annotation.CheckForNull;
+import java.util.Collection;
 import javax.annotation.Nonnull;
-import javax.inject.Inject;
-import javafx.scene.control.cell.TextFieldListCell;
-import com.google.common.annotations.VisibleForTesting;
-import org.springframework.beans.factory.annotation.Configurable;
-import it.tidalwave.util.As;
-import it.tidalwave.role.ui.javafx.impl.ContextMenuBuilder;
-import it.tidalwave.role.ui.javafx.impl.Utils;
-import static it.tidalwave.role.Displayable.*;
 
 /***********************************************************************************************************************
  *
- * An implementation of {@link ListCell} that retrieves the display name from {@link Displayable} and creates a
- * contextualised pop-up menu.
+ * A role which carries styles.
+ * 
+ * @stereotype Role
  * 
  * @author  Fabrizio Giudici
  * @version $Id$
  *
  **********************************************************************************************************************/
-@Configurable
-public class AsObjectListCell<T extends As> extends TextFieldListCell<T>
+public interface Styleable 
   {
-    @Inject @Nonnull
-    @VisibleForTesting ContextMenuBuilder contextMenuBuilder;
-
-    @Override
-    public void updateItem (final @CheckForNull T item, final boolean empty)
-      {
-        super.updateItem(item, empty);
-        setText((item == null) ? "" : item.as(Displayable).getDisplayName());
-        setContextMenu((item == null) ? null : contextMenuBuilder.createContextMenu(item));
-        getStyleClass().addAll(Utils.getRoleStyles(item));
-      }
+    public static final Class<Styleable> Styleable = Styleable.class;
+    
+    @Nonnull
+    public Collection<String> getStyles();
   }

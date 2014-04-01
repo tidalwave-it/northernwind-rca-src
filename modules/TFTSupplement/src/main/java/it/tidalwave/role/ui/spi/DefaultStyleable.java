@@ -2,10 +2,10 @@
  * #%L
  * *********************************************************************************************************************
  *
- * NorthernWind - lightweight CMS
- * http://northernwind.tidalwave.it - hg clone https://bitbucket.org/tidalwave/northernwind-src
+ * blueHour
+ * http://bluehour.tidalwave.it - hg clone https://bitbucket.org/tidalwave/bluehour-src
  * %%
- * Copyright (C) 2011 - 2013 Tidalwave s.a.s. (http://tidalwave.it)
+ * Copyright (C) 2013 - 2014 Tidalwave s.a.s. (http://tidalwave.it)
  * %%
  * *********************************************************************************************************************
  *
@@ -25,40 +25,44 @@
  * *********************************************************************************************************************
  * #L%
  */
-package it.tidalwave.role.ui.javafx.impl.list;
+package it.tidalwave.role.ui.spi;
 
-import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
-import javax.inject.Inject;
-import javafx.scene.control.cell.TextFieldListCell;
-import com.google.common.annotations.VisibleForTesting;
-import org.springframework.beans.factory.annotation.Configurable;
-import it.tidalwave.util.As;
-import it.tidalwave.role.ui.javafx.impl.ContextMenuBuilder;
-import it.tidalwave.role.ui.javafx.impl.Utils;
-import static it.tidalwave.role.Displayable.*;
+import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
+import it.tidalwave.role.ui.Styleable;
 
 /***********************************************************************************************************************
  *
- * An implementation of {@link ListCell} that retrieves the display name from {@link Displayable} and creates a
- * contextualised pop-up menu.
+ * A default implementation of {@link Styleable}.
+ * 
+ * @stereotype Role
  * 
  * @author  Fabrizio Giudici
  * @version $Id$
  *
  **********************************************************************************************************************/
-@Configurable
-public class AsObjectListCell<T extends As> extends TextFieldListCell<T>
+@Nonnull
+public class DefaultStyleable implements Styleable
   {
-    @Inject @Nonnull
-    @VisibleForTesting ContextMenuBuilder contextMenuBuilder;
-
-    @Override
-    public void updateItem (final @CheckForNull T item, final boolean empty)
+    private final List<String> styles = new ArrayList<>();
+    
+    public DefaultStyleable (final @Nonnull Collection<String> styles)
       {
-        super.updateItem(item, empty);
-        setText((item == null) ? "" : item.as(Displayable).getDisplayName());
-        setContextMenu((item == null) ? null : contextMenuBuilder.createContextMenu(item));
-        getStyleClass().addAll(Utils.getRoleStyles(item));
+        this.styles.addAll(styles);
+      }
+    
+    public DefaultStyleable (final @Nonnull String ... styles)
+      {
+        this(Arrays.asList(styles));
+      }
+    
+    @Override @Nonnull
+    public Collection<String> getStyles() 
+      {
+        return new CopyOnWriteArrayList<>(styles);
       }
   }

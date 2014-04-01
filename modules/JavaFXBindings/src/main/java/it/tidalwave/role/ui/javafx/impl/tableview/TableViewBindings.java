@@ -30,20 +30,19 @@ package it.tidalwave.role.ui.javafx.impl.tableview;
 import com.google.common.annotations.VisibleForTesting;
 import javax.annotation.Nonnull;
 import java.util.concurrent.Executor;
+import javafx.util.Callback;
 import javafx.collections.ObservableList;
+import javafx.beans.value.ChangeListener;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TableCell;
+import it.tidalwave.util.AsException;
 import it.tidalwave.role.ui.PresentationModel;
 import it.tidalwave.role.ui.javafx.impl.DelegateSupport;
-import static javafx.collections.FXCollections.observableArrayList;
-import static it.tidalwave.role.SimpleComposite.SimpleComposite;
-import static it.tidalwave.role.ui.Selectable.Selectable;
-import it.tidalwave.util.AsException;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.scene.control.TableCell;
-import javafx.util.Callback;
 import lombok.extern.slf4j.Slf4j;
+import static javafx.collections.FXCollections.observableArrayList;
+import static it.tidalwave.role.ui.Selectable.Selectable;
+import static it.tidalwave.role.SimpleComposite.SimpleComposite;
 
 /***********************************************************************************************************************
  *
@@ -56,44 +55,33 @@ public class TableViewBindings extends DelegateSupport
   {
     private final Callback<TableColumn<PresentationModel, PresentationModel>, 
                            TableCell<PresentationModel, PresentationModel>> cellFactory = 
-            new Callback<TableColumn<PresentationModel, PresentationModel>, TableCell<PresentationModel, PresentationModel>>() 
-      {
-        @Override @Nonnull
-        public TableCell<PresentationModel, PresentationModel> call (TableColumn<PresentationModel, PresentationModel> param) 
-          {
-            return new AsObjectTableCell<PresentationModel>();
-          }
-      };
+            column -> new AsObjectTableCell<>();
     
     /*******************************************************************************************************************
      *
      *
      *
      ******************************************************************************************************************/
-    @VisibleForTesting final ChangeListener<PresentationModel> changeListener =
-            new ChangeListener<PresentationModel>()
+    @VisibleForTesting final ChangeListener<PresentationModel> changeListener = (ov, oldItem, item) -> 
       {
-        @Override
-        public void changed (final @Nonnull ObservableValue<? extends PresentationModel> ov,
-                             final @Nonnull PresentationModel oldItem,
-                             final @Nonnull PresentationModel item)
+        if (item == null)
           {
-            executor.execute(new Runnable()
-              {
-                @Override
-                public void run()
-                  {
-                    try
-                      {
-                        item.as(Selectable).select();
-                      }
-                    catch (AsException e)
-                      {
-                        log.debug("No Selectable role for {}", item); // ok, do nothing
-                      }
-                  }
-              });
+            log.warn("NULL ITEM in listener callback: old value: {}", oldItem);
+//                Thread.dumpStack();
+            return;
           }
+
+        executor.execute(() -> 
+          {
+            try
+              {
+                item.as(Selectable).select();
+              }
+            catch (AsException e)
+              {
+                log.debug("No Selectable role for {}", item); // ok, do nothing
+              }
+          });
       };
     
     /*******************************************************************************************************************
@@ -120,13 +108,10 @@ public class TableViewBindings extends DelegateSupport
         tableView.getSelectionModel().selectedItemProperty().addListener(changeListener);
         
         final ObservableList rawColumns = tableView.getColumns(); // FIXME
-        final ObservableList<TableColumn<PresentationModel, PresentationModel>> columns =
-                (ObservableList<TableColumn<PresentationModel, PresentationModel>>)rawColumns;
-        
-        for (final TableColumn<PresentationModel, PresentationModel> column : columns)
+        ((ObservableList<TableColumn<PresentationModel, PresentationModel>>)rawColumns).stream().forEach(column -> 
           {
             column.setCellValueFactory(new AggregateAdapter());
             column.setCellFactory(cellFactory);
-          }
+          });
       }
   }

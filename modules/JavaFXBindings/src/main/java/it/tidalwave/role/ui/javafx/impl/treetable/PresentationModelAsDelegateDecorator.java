@@ -2,8 +2,8 @@
  * #%L
  * *********************************************************************************************************************
  *
- * NorthernWind - lightweight CMS
- * http://northernwind.tidalwave.it - hg clone https://bitbucket.org/tidalwave/northernwind-src
+ * blueHour
+ * http://bluehour.tidalwave.it - hg clone https://bitbucket.org/tidalwave/bluehour-src
  * %%
  * Copyright (C) 2013 - 2014 Tidalwave s.a.s. (http://tidalwave.it)
  * %%
@@ -25,41 +25,64 @@
  * *********************************************************************************************************************
  * #L%
  */
-package it.tidalwave.role.ui.javafx.impl.tableview;
+package it.tidalwave.role.ui.javafx.impl.treetable;
 
-import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
-import javax.inject.Inject;
-import javafx.scene.control.cell.TextFieldTableCell;
-import com.google.common.annotations.VisibleForTesting;
-import org.springframework.beans.factory.annotation.Configurable;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import it.tidalwave.role.ui.PresentationModel;
 import it.tidalwave.util.As;
-import it.tidalwave.role.ui.javafx.impl.ContextMenuBuilder;
-import it.tidalwave.role.ui.javafx.impl.Utils;
-import static it.tidalwave.role.Displayable.*;
+import it.tidalwave.util.AsException;
+import lombok.Delegate;
+import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 
 /***********************************************************************************************************************
  *
- * An implementation of {@link TableCell} that retrieves the display name from {@link Displayable} and creates a
- * contextualised pop-up menu.
+ * A decorator for {@link PresentationModel} that also searches for roles in a specified delegate as a fallback.
  * 
+ * @stereotype Decorator
+ *
  * @author  Fabrizio Giudici
  * @version $Id$
  *
  **********************************************************************************************************************/
-@Configurable
-public class AsObjectTableCell<T extends As> extends TextFieldTableCell<T, T>
+@RequiredArgsConstructor @ToString
+public class PresentationModelAsDelegateDecorator implements PresentationModel
   {
-    @Inject @Nonnull
-    @VisibleForTesting ContextMenuBuilder contextMenuBuilder;
+    @Delegate(excludes = As.class) @Nonnull
+    private final PresentationModel pmDelegate;
+    
+    
+    private final As asDelegate;
 
-    @Override
-    public void updateItem (final @CheckForNull T item, final boolean empty)
+    @Override @Nonnull
+    public <T> T as (final @Nonnull Class<T> type) 
       {
-        super.updateItem(item, empty); 
+        try
+          {
+            return pmDelegate.as(type);  
+          }
+        catch (AsException e)
+          {
+            return asDelegate.as(type);
+          }
+      }
+
+    @Override @Nonnull
+    public <T> T as (final @Nonnull Class<T> type, final @Nonnull NotFoundBehaviour<T> notFoundBehaviour)
+      {
+        throw new UnsupportedOperationException("Not implemented yet");
+      }
+
+    @Override @Nonnull
+    public <T> Collection<T> asMany (final @Nonnull Class<T> type) 
+      {
+        final List<T> results = new ArrayList<>();
+        results.addAll(pmDelegate.asMany(type));
+        results.addAll(asDelegate.asMany(type));
         
-        setText((item == null) ? "" : item.as(Displayable).getDisplayName());
-        setContextMenu((item == null) ? null : contextMenuBuilder.createContextMenu(item));
-        getStyleClass().addAll(Utils.getRoleStyles(item));
+        return results;
       }
   }
