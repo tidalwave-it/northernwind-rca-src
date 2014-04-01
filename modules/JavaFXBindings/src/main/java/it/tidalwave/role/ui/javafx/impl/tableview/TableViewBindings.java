@@ -43,6 +43,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.control.TableCell;
 import javafx.util.Callback;
+import javax.annotation.Nullable;
 import lombok.extern.slf4j.Slf4j;
 
 /***********************************************************************************************************************
@@ -75,9 +76,16 @@ public class TableViewBindings extends DelegateSupport
       {
         @Override
         public void changed (final @Nonnull ObservableValue<? extends PresentationModel> ov,
-                             final @Nonnull PresentationModel oldItem,
-                             final @Nonnull PresentationModel item)
+                             final @Nullable PresentationModel oldItem,
+                             final @Nullable PresentationModel item)
           {
+            if (item == null)
+              {
+                log.warn("NULL ITEM in listener callback: old value: {}", oldItem);
+//                Thread.dumpStack();
+                return;  
+              }
+             
             executor.execute(new Runnable()
               {
                 @Override
