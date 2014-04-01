@@ -35,6 +35,7 @@ import com.google.common.annotations.VisibleForTesting;
 import org.springframework.beans.factory.annotation.Configurable;
 import it.tidalwave.util.As;
 import it.tidalwave.role.ui.javafx.impl.ContextMenuBuilder;
+import it.tidalwave.role.ui.javafx.impl.Utils;
 import static it.tidalwave.role.Displayable.*;
 
 /***********************************************************************************************************************
@@ -58,5 +59,6 @@ public class AsObjectListCell<T extends As> extends TextFieldListCell<T>
         super.updateItem(item, empty);
         setText((item == null) ? "" : item.as(Displayable).getDisplayName());
         setContextMenu((item == null) ? null : contextMenuBuilder.createContextMenu(item));
+        getStyleClass().setAll(Utils.getRoleStyles(item));
       }
   }
