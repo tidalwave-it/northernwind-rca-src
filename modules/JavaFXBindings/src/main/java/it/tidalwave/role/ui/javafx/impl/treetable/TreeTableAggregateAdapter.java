@@ -59,9 +59,10 @@ class TreeTableAggregateAdapter implements Callback<TreeTableColumn.CellDataFeat
               {
                 try
                   {
-                    final PresentationModel pm = cell.getValue().getValue();
+                    final PresentationModel rowPm = cell.getValue().getValue();
                     // FIXME: uses the column header names, should be an internal id instead
-                    final Aggregate<PresentationModel> aggregate = pm.as(Aggregate.class);
+                    final Aggregate<PresentationModel> aggregate = rowPm.as(Aggregate.class);
+                    // TODO: use a PM decorator which can retrieve additional roles from the rowPm?
                     return aggregate.getByName(cell.getTreeTableColumn().getText());
                   }
                 catch (AsException | NullPointerException | NotFoundException e) // FIXME: NPE
