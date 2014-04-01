@@ -59,6 +59,6 @@ public class AsObjectListCell<T extends As> extends TextFieldListCell<T>
         super.updateItem(item, empty);
         setText((item == null) ? "" : item.as(Displayable).getDisplayName());
         setContextMenu((item == null) ? null : contextMenuBuilder.createContextMenu(item));
-        getStyleClass().setAll(Utils.getRoleStyles(item));
+        getStyleClass().addAll(Utils.getRoleStyles(item));
       }
   }

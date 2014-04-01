@@ -60,6 +60,6 @@ public class AsObjectTableCell<T extends As> extends TextFieldTableCell<T, T>
         
         setText((item == null) ? "" : item.as(Displayable).getDisplayName());
         setContextMenu((item == null) ? null : contextMenuBuilder.createContextMenu(item));
-        getStyleClass().setAll(Utils.getRoleStyles(item));
+        getStyleClass().addAll(Utils.getRoleStyles(item));
       }
   }

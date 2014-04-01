@@ -59,6 +59,6 @@ public class AsObjectTreeCell<T extends As> extends TextFieldTreeCell<T>
         super.updateItem(item, empty);
         setText((item == null) ? "" : item.as(Displayable).getDisplayName());
         setContextMenu((item == null) ? null : contextMenuBuilder.createContextMenu(item));
-        getStyleClass().setAll(Utils.getRoleStyles(item));
+        getStyleClass().addAll(Utils.getRoleStyles(item));
       }
   }
