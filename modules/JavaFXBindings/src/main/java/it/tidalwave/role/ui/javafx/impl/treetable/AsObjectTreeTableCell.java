@@ -56,6 +56,6 @@ class AsObjectTreeTableCell<T extends As> extends TreeTableCell<T, T>
         super.updateItem(item, empty);
         setText((item == null) ? "" : item.as(Displayable).getDisplayName());
         setContextMenu((item == null) ? null : contextMenuBuilder.createContextMenu(item));
-        getStyleClass().addAll(Utils.getRoleStyles(item));
+        Utils.setRoleStyles(getStyleClass(), item);
       }
   }

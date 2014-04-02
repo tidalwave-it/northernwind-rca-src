@@ -29,10 +29,10 @@ package it.tidalwave.role.ui.javafx.impl;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.stream.Collectors;
+import java.util.List;
+import javafx.collections.ObservableList;
 import it.tidalwave.util.As;
+import static java.util.stream.Collectors.toList;
 import static it.tidalwave.role.ui.Styleable.Styleable;
 
 /***********************************************************************************************************************
@@ -43,12 +43,22 @@ import static it.tidalwave.role.ui.Styleable.Styleable;
  **********************************************************************************************************************/
 public class Utils 
   {
+    private static final String ROLE_STYLE_PREFIX = "-rs-";
+    
     @Nonnull
-    public static Collection<String> getRoleStyles (final @Nullable As asObject)
+    public static void setRoleStyles (final @Nonnull ObservableList<String> styleClasses, 
+                                      final @Nullable As asObject)
       {
-        return (asObject == null) 
-                ? Collections.emptyList() 
-                : asObject.asMany(Styleable).stream().flatMap(styleable -> styleable.getStyles().stream())
-                                                     .collect(Collectors.toList());
+        final List<String> styles = styleClasses.stream().filter(s -> !s.startsWith(ROLE_STYLE_PREFIX))
+                                                         .collect(toList());
+        
+        if (asObject != null)
+          {
+            styles.addAll(asObject.asMany(Styleable).stream().flatMap(styleable -> styleable.getStyles().stream())
+                                                             .map(s -> ROLE_STYLE_PREFIX + s)
+                                                             .collect(toList()));
+          }
+        
+        styleClasses.setAll(styles);
       }
   }

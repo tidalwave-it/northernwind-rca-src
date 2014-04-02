@@ -30,12 +30,10 @@ package it.tidalwave.role.ui.javafx.impl.tableview;
 import com.google.common.annotations.VisibleForTesting;
 import javax.annotation.Nonnull;
 import java.util.concurrent.Executor;
-import javafx.util.Callback;
 import javafx.collections.ObservableList;
 import javafx.beans.value.ChangeListener;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TableCell;
 import it.tidalwave.util.AsException;
 import it.tidalwave.role.ui.PresentationModel;
 import it.tidalwave.role.ui.javafx.impl.DelegateSupport;
@@ -53,10 +51,6 @@ import static it.tidalwave.role.SimpleComposite.SimpleComposite;
 @Slf4j
 public class TableViewBindings extends DelegateSupport
   {
-    private final Callback<TableColumn<PresentationModel, PresentationModel>, 
-                           TableCell<PresentationModel, PresentationModel>> cellFactory = 
-            column -> new AsObjectTableCell<>();
-    
     /*******************************************************************************************************************
      *
      *
@@ -110,8 +104,8 @@ public class TableViewBindings extends DelegateSupport
         final ObservableList rawColumns = tableView.getColumns(); // FIXME
         ((ObservableList<TableColumn<PresentationModel, PresentationModel>>)rawColumns).stream().forEach(column -> 
           {
-            column.setCellValueFactory(new AggregateAdapter());
-            column.setCellFactory(cellFactory);
+            column.setCellValueFactory(new TableAggregateAdapter());
+            column.setCellFactory(c -> new AsObjectTableCell<>());
           });
       }
   }
