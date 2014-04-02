@@ -30,16 +30,12 @@ package it.tidalwave.role.ui.javafx.impl.treetable;
 import javax.annotation.Nonnull;
 import java.util.concurrent.Executor;
 import java.beans.PropertyChangeListener;
-import javafx.util.Callback;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
-import javafx.scene.control.TreeCell;
 import javafx.scene.control.TreeItem;
-import javafx.scene.control.TreeView;
-import javafx.scene.control.TreeTableCell;
 import javafx.scene.control.TreeTableColumn;
 import javafx.scene.control.TreeTableView;
 import javafx.application.Platform;
@@ -48,7 +44,6 @@ import it.tidalwave.util.AsException;
 import it.tidalwave.role.SimpleComposite;
 import it.tidalwave.role.ui.PresentationModel;
 import it.tidalwave.role.ui.javafx.impl.DelegateSupport;
-import it.tidalwave.role.ui.javafx.impl.tree.AsObjectTreeCell;
 import it.tidalwave.role.ui.javafx.impl.tree.ObsoletePresentationModelDisposer;
 import lombok.extern.slf4j.Slf4j;
 import static it.tidalwave.role.SimpleComposite.*;
@@ -65,18 +60,6 @@ public class TreeTableViewBindings extends DelegateSupport
   {
     private final ObsoletePresentationModelDisposer presentationModelDisposer = new ObsoletePresentationModelDisposer();
     
-    private final Callback<TreeTableColumn<PresentationModel, PresentationModel>, 
-                           TreeTableCell<PresentationModel, PresentationModel>> cellFactory
-            = param -> new AsObjectTreeTableCell();
-    
-    /*******************************************************************************************************************
-     *
-     *
-     *
-     ******************************************************************************************************************/
-    private final Callback<TreeView<PresentationModel>, TreeCell<PresentationModel>> treeCellFactory
-            = treeView -> new AsObjectTreeCell<>();
-
     /*******************************************************************************************************************
      *
      *
@@ -136,7 +119,7 @@ public class TreeTableViewBindings extends DelegateSupport
         for (final TreeTableColumn<PresentationModel, PresentationModel> column : columns)
           {
             column.setCellValueFactory(new TreeTableAggregateAdapter());
-            column.setCellFactory(cellFactory);
+            column.setCellFactory(c -> new AsObjectTreeTableCell());
           }
 
         final ReadOnlyObjectProperty<TreeItem<PresentationModel>> selectedItemProperty =
