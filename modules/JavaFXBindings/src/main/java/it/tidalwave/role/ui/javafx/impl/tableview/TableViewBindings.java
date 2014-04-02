@@ -104,7 +104,7 @@ public class TableViewBindings extends DelegateSupport
         final ObservableList rawColumns = tableView.getColumns(); // FIXME
         ((ObservableList<TableColumn<PresentationModel, PresentationModel>>)rawColumns).stream().forEach(column -> 
           {
-            column.setCellValueFactory(new AggregateAdapter());
+            column.setCellValueFactory(new TableAggregateAdapter());
             column.setCellFactory(c -> new AsObjectTableCell<>());
           });
       }

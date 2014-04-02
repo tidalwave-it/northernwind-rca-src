@@ -45,7 +45,7 @@ import it.tidalwave.role.ui.javafx.impl.treetable.PresentationModelAsDelegateDec
  * @version $Id$
  *
  **********************************************************************************************************************/
-public class AggregateAdapter implements Callback<TableColumn.CellDataFeatures<PresentationModel, PresentationModel>, 
+public class TableAggregateAdapter implements Callback<TableColumn.CellDataFeatures<PresentationModel, PresentationModel>, 
                                          ObservableValue<PresentationModel>>
   {
     private final static PresentationModel EMPTY = new DefaultPresentationModel(new DefaultDisplayable("???"));
