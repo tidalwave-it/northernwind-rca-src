@@ -37,6 +37,7 @@ import it.tidalwave.role.Aggregate;
 import it.tidalwave.role.spi.DefaultDisplayable;
 import it.tidalwave.role.ui.PresentationModel;
 import it.tidalwave.role.ui.spi.DefaultPresentationModel;
+import it.tidalwave.role.ui.javafx.impl.treetable.PresentationModelAsDelegateDecorator;
 
 /***********************************************************************************************************************
  *
@@ -60,9 +61,12 @@ public class AggregateAdapter implements Callback<TableColumn.CellDataFeatures<P
               {
                 try
                   {
+                    final PresentationModel rowPm = cell.getValue();
+                    final Aggregate<PresentationModel> aggregate = rowPm.as(Aggregate.class);
                     // FIXME: uses the column header names, should be an internal id instead
-                    final Aggregate<PresentationModel> aggregate = cell.getValue().as(Aggregate.class);
-                    return aggregate.getByName(cell.getTableColumn().getText());
+                    final PresentationModel columnPm = aggregate.getByName(cell.getTableColumn().getText());
+                    return new PresentationModelAsDelegateDecorator(columnPm, rowPm);
+                    
                   }
                 catch (NotFoundException e)
                   {
