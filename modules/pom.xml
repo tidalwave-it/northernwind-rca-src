@@ -67,6 +67,7 @@
         <tft.aspectjrt.version>1.8.0.RC2</tft.aspectjrt.version>        
         <aquafx.version>0.1</aquafx.version>
         <thesefoolishthings.version>1.35</thesefoolishthings.version>
+        <guava.version>14.0.1</guava.version>
         <slf4j.version>1.7.5</slf4j.version>
         <jetty.version>8.1.10.v20130312</jetty.version>
         <joda-time.version>1.6.2</joda-time.version>
@@ -179,6 +180,12 @@
                 <version>${spring.version}</version>
             </dependency>
             
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>${guava.version}</version>
+            </dependency>
+
             <dependency>
                 <groupId>org.aspectj</groupId>
                 <artifactId>aspectjweaver</artifactId>
