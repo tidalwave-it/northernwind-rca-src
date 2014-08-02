@@ -64,7 +64,7 @@
 
     ================================================================================================================ -->
     <properties>
-        <tft.aspectjrt.version>1.8.0.RC2</tft.aspectjrt.version>        
+        <tft.aspectjrt.version>1.8.1</tft.aspectjrt.version>        
         <aquafx.version>0.1</aquafx.version>
         <thesefoolishthings.version>1.35</thesefoolishthings.version>
         <guava.version>14.0.1</guava.version>
