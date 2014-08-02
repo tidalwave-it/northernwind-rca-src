@@ -123,12 +123,6 @@
 
     ================================================================================================================ -->
     <repositories>
-        <!-- For AspectJ RC -->
-        <repository>
-            <id>spring-milestones</id>
-            <name>Spring Milestones</name>
-            <url>http://repo.spring.io/milestone</url>
-        </repository>
         <repository>
             <id>snapshots-oss.sonatype.org</id>
             <name>Sonatype Snapshots Repository</name>
