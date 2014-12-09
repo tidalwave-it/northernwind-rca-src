@@ -31,7 +31,7 @@
     <parent>
         <groupId>it.tidalwave.superpom</groupId>
         <artifactId>superpom</artifactId>
-        <version>2.15</version>
+        <version>2.16</version>
         <relativePath />
     </parent>
 
@@ -88,12 +88,11 @@
         <tidalwave.ci.view>Zephyr</tidalwave.ci.view>
         <tidalwave.issues>NWRCA</tidalwave.issues>
 
-        <!--<tft.clirr.skip>true</tft.clirr.skip>  FIXME Clirr makes the build fail -->
         <tft.test.maxMemory>1024M</tft.test.maxMemory>
 
         <tft.javadoc.doclint>-Xdoclint:none</tft.javadoc.doclint>
 
-        <!-- disables javancss since it's broken with JDK 1.7 -->
+        <!-- disables javancss since it's broken with JDK 1.8 -->
         <tft.profile.metrics.defaultGoal>install findbugs:findbugs pmd:cpd pmd:pmd checkstyle:checkstyle clirr:clirr dependency:analyze</tft.profile.metrics.defaultGoal>
 
         <tft.UmlGraphDoc.version>5.4</tft.UmlGraphDoc.version>
