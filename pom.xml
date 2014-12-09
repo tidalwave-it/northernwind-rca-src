@@ -92,6 +92,9 @@
 
         <tft.javadoc.doclint>-Xdoclint:none</tft.javadoc.doclint>
 
+        <!-- Clirr is not compatible with JDK 8 -->
+        <tft.clirr.skip>false</tft.clirr.skip>
+
         <!-- disables javancss since it's broken with JDK 1.8 -->
         <tft.profile.metrics.defaultGoal>install findbugs:findbugs pmd:cpd pmd:pmd checkstyle:checkstyle clirr:clirr dependency:analyze</tft.profile.metrics.defaultGoal>
 
