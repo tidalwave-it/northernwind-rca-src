@@ -65,7 +65,6 @@
     ================================================================================================================ -->
     <properties>
         <aquafx.version>0.1</aquafx.version>
-        <thesefoolishthings.version>1.37-SNAPSHOT</thesefoolishthings.version>
         <guava.version>14.0.1</guava.version>
         <slf4j.version>1.7.5</slf4j.version>
         <jetty.version>8.1.10.v20130312</jetty.version>
@@ -74,7 +73,8 @@
         <logback.version>1.0.12</logback.version>
         <northernwind.version>1.1-ALPHA-26</northernwind.version>
         <spring.version>4.0.2.RELEASE</spring.version>
-        <steelblue.version>1.0-ALPHA-1-SNAPSHOT</steelblue.version>
+        <steelblue.version>1.0-ALPHA-1</steelblue.version>
+        <thesefoolishthings.version>1.37</thesefoolishthings.version>
         <tft.jsr305.version>2.0.1</tft.jsr305.version>
         <tft.jsr330.version>1</tft.jsr330.version>
     </properties>
