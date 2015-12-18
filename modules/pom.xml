@@ -50,7 +50,7 @@
     <name>Zephyr (modules)</name>
     <description>The parent POM of all modules.</description>
 
-    <repositories>        
+    <repositories>
         <repository>
             <id>spring-milestones</id>
             <url>http://repo.spring.io/milestone</url>
@@ -71,7 +71,7 @@
         <joda-time.version>1.6.2</joda-time.version>
         <jsoup.version>1.7.2</jsoup.version>
         <logback.version>1.0.12</logback.version>
-        <northernwind.version>1.1-ALPHA-26</northernwind.version>
+        <northernwind.version>1.1-ALPHA-35</northernwind.version>
         <spring.version>4.0.2.RELEASE</spring.version>
         <steelblue.version>1.0-ALPHA-1</steelblue.version>
         <thesefoolishthings.version>1.38</thesefoolishthings.version>
@@ -110,7 +110,7 @@
             </dependency>
             <dependency>
                 <groupId>it.tidalwave.northernwind</groupId>
-                <artifactId>it-tidalwave-northernwind</artifactId>
+                <artifactId>northernwind</artifactId>
                 <version>${northernwind.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
@@ -186,17 +186,11 @@
                 <artifactId>spring-webmvc</artifactId>
                 <version>${spring.version}</version>
             </dependency>
-            
+
             <dependency>
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>
                 <version>${guava.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.aspectj</groupId>
-                <artifactId>aspectjweaver</artifactId>
-                <version>${tft.aspectjrt.version}</version>
             </dependency>
 
             <dependency>
@@ -317,6 +311,44 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
+    <profiles>
+    <!--================================================================================================================
+
+    This profile adds some required dependencies when AspectJ is used.
+    FIXME: push to Superpom, merge to tidalwave-aspectj-springaop-v1-profile
+
+    =================================================================================================================-->
+        <profile>
+            <id>tidalwave-aspectj-springaop-v1-supplement-profile</id>
+            <activation>
+                <file>
+                    <exists>src/config/activate-it.tidalwave-aspectj-springaop-v1-profile</exists>
+                </file>
+            </activation>
+            <dependencies>
+                <dependency>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-aspects</artifactId>
+                    <exclusions>
+                        <exclusion>
+                            <groupId>org.springframework</groupId>
+                            <artifactId>spring-test</artifactId>
+                        </exclusion>
+                        <exclusion>
+                            <groupId>org.aspectj</groupId>
+                            <artifactId>aspectjweaver</artifactId>
+                        </exclusion>
+                    </exclusions>
+                </dependency>
+                <dependency>
+                    <groupId>org.aspectj</groupId>
+                    <artifactId>aspectjrt</artifactId>
+                    <!--<scope>runtime</scope>-->
+                </dependency>
+            </dependencies>
+        </profile>
+    </profiles>
 
     <!-- ===============================================================================================================
 
