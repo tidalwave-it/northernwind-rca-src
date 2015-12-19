@@ -52,7 +52,7 @@ import org.springframework.beans.factory.annotation.Configurable;
 @Configurable
 public class JavaFXSiteOpenerPresentation implements SiteOpenerPresentation
   {
-    @Inject @Nonnull
+    @Inject
     private Provider<JavaFXBinder> binder;
 
     @Widget("btOpen")

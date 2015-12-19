@@ -34,6 +34,7 @@ import it.tidalwave.util.NotFoundException;
 import it.tidalwave.northernwind.core.model.ModelFactory;
 import it.tidalwave.northernwind.core.model.ResourceFile;
 import it.tidalwave.northernwind.core.model.ResourcePath;
+import it.tidalwave.northernwind.core.model.Site;
 import it.tidalwave.northernwind.core.model.SiteNode;
 import it.tidalwave.northernwind.core.model.spi.SiteNodeSupport;
 import it.tidalwave.northernwind.frontend.ui.Layout;
@@ -46,10 +47,15 @@ import it.tidalwave.northernwind.frontend.ui.Layout;
  **********************************************************************************************************************/
 public class AdminSiteNode extends SiteNodeSupport
   {
-    public AdminSiteNode (final @Nonnull ModelFactory modelFactory,
+    @Nonnull
+    private final Site site;
+
+    public AdminSiteNode (final @Nonnull Site site,
+                          final @Nonnull ModelFactory modelFactory,
                           final @Nonnull ResourceFile file)
       {
         super(modelFactory, file);
+        this.site = site;
       }
 
     @Override
@@ -73,7 +79,7 @@ public class AdminSiteNode extends SiteNodeSupport
             protected SiteNode createProduct (final @Nonnull ResourceFile folder)
               throws IOException, NotFoundException
               {
-                return modelFactory.createSiteNode(null, folder);
+                return modelFactory.createSiteNode(site, folder);
               }
           };
       }

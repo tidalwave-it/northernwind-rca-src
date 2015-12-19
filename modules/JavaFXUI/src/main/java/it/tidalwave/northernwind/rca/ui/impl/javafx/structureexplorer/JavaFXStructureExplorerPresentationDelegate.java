@@ -46,7 +46,7 @@ import it.tidalwave.northernwind.rca.ui.structureexplorer.StructureExplorerPrese
 @Configurable
 public class JavaFXStructureExplorerPresentationDelegate implements StructureExplorerPresentation
   {
-    @Inject @Nonnull
+    @Inject
     private Provider<JavaFXBinder> binder;
 
     @FXML

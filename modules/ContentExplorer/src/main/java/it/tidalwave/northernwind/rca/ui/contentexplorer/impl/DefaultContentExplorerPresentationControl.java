@@ -60,16 +60,16 @@ import static it.tidalwave.role.ui.Presentable.*;
 @DciContext @SimpleMessageSubscriber @Slf4j
 public class DefaultContentExplorerPresentationControl implements ContentExplorerPresentationControl
   {
-    @Inject @Named("applicationMessageBus") @Nonnull
+    @Inject @Named("applicationMessageBus")
     protected MessageBus messageBus;
 
-    @Inject @Nonnull
+    @Inject
     private ModelFactory modelFactory;
 
-    @Inject @Nonnull
+    @Inject
     private ContentExplorerPresentation presentation;
 
-    @Inject @Nonnull
+    @Inject
     private ContextManager contextManager;
 
     /*******************************************************************************************************************

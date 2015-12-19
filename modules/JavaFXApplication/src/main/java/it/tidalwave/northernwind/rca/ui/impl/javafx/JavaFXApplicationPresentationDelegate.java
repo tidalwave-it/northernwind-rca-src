@@ -60,34 +60,34 @@ import static it.tidalwave.role.ui.javafx.impl.util.JavaFXSafeComponentBuilder.c
 @Configurable @Slf4j
 public class JavaFXApplicationPresentationDelegate
   {
-    @Inject @Nonnull
+    @Inject
     private Provider<SiteOpenerPresentationControl> siteOpenerPresentationControl;
 
-    @Inject @Nonnull
+    @Inject
     private Provider<StackPaneSelector> stackPaneSelector;
 
-    @Inject @Nonnull
+    @Inject
     private Provider<ContentEditorPresentationControl> contentEditorPresentationControl;
 
-    @Inject @Nonnull
+    @Inject
     private Provider<ContentExplorerPresentationControl> contentExplorerPresentationControl;
 
-    @Inject @Nonnull
+    @Inject
     private Provider<StructureEditorPresentationControl> structureEditorPresentationControl;
 
-    @Inject @Nonnull
+    @Inject
     private Provider<StructureExplorerPresentationControl> structureExplorerPresentationControl;
 
-    @Inject @Nonnull
+    @Inject
     private Provider<JavaFXContentEditorPresentation> contentEditorPresentation;
 
-    @Inject @Nonnull
+    @Inject
     private Provider<JavaFXContentExplorerPresentation> contentExplorerPresentation;
 
-    @Inject @Nonnull
+    @Inject
     private Provider<JavaFXStructureEditorPresentation> structureEditorPresentation;
 
-    @Inject @Nonnull
+    @Inject
     private Provider<JavaFXStructureExplorerPresentation> structurExplorerPresentation;
 
     @FXML

@@ -47,7 +47,7 @@ import org.springframework.beans.factory.annotation.Configurable;
 @Configurable
 public class JavaFXAddContentPresentationDelegate implements AddContentPresentation
   {
-    @Inject @Nonnull
+    @Inject
     private Provider<JavaFXBinder> binder;
 
     @FXML

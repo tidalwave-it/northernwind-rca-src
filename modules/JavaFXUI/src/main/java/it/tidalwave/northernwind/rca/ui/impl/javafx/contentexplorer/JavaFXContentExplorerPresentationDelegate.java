@@ -46,7 +46,7 @@ import it.tidalwave.northernwind.rca.ui.contentexplorer.ContentExplorerPresentat
 @Configurable
 public class JavaFXContentExplorerPresentationDelegate implements ContentExplorerPresentation
   {
-    @Inject @Nonnull
+    @Inject
     private Provider<JavaFXBinder> binder;
 
     @FXML

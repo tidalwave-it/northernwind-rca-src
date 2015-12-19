@@ -27,11 +27,9 @@
  */
 package it.tidalwave.northernwind.rca.ui.impl.javafx.contentmanager;
 
-import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
 import java.io.IOException;
-import javafx.application.Platform;
 import javafx.scene.Node;
 import it.tidalwave.util.ui.UserNotificationWithFeedback;
 import it.tidalwave.ui.javafx.JavaFXSafeProxyCreator.NodeAndDelegate;
@@ -54,28 +52,22 @@ public class JavaFXAddContentPresentation implements AddContentPresentation
         public void showUp (UserNotificationWithFeedback notification);
       }
 
-    @Inject @Nonnull
+    @Inject
     private JavaFXBinder binder;
 
-    @CheckForNull
-    private Node node;
+    private final Node node;
 
     private Bindings bindings;
 
     @Delegate(excludes = Exclusions.class)
-    private AddContentPresentation delegate;
+    private final AddContentPresentation delegate;
 
     public JavaFXAddContentPresentation()
       throws IOException
       {
-        assert Platform.isFxApplicationThread();
-
-        if (node == null)
-          {
-            final NodeAndDelegate nad = createNodeAndDelegate(getClass(), "AddContentPresentation.fxml");
-            node = nad.getNode();
-            delegate = nad.getDelegate();
-          }
+        final NodeAndDelegate nad = createNodeAndDelegate(getClass(), "AddContentPresentation.fxml");
+        node = nad.getNode();
+        delegate = nad.getDelegate();
       }
 
     @Override

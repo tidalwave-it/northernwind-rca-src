@@ -76,6 +76,7 @@
         <spring.version>4.2.0.RELEASE</spring.version>
         <steelblue.version>1.0-ALPHA-10</steelblue.version>
         <thesefoolishthings.version>1.39</thesefoolishthings.version>
+        <tft.lombok.version>1.16.0</tft.lombok.version>
         <tft.jsr305.version>3.0.0</tft.jsr305.version>
         <tft.jsr330.version>1</tft.jsr330.version>
     </properties>

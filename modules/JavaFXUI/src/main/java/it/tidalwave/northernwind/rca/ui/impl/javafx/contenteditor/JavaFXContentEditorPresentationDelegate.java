@@ -55,10 +55,10 @@ import lombok.extern.slf4j.Slf4j;
 @Configurable @Slf4j
 public class JavaFXContentEditorPresentationDelegate implements ContentEditorPresentation
   {
-    @Inject @Nonnull
+    @Inject
     private Provider<JavaFXBinder> binder;
 
-    @Inject @Nonnull
+    @Inject
     private Provider<StackPaneSelector> stackPaneSelector;
 
     @FXML

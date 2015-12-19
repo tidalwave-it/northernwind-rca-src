@@ -50,10 +50,10 @@ import it.tidalwave.northernwind.rca.ui.structureeditor.StructureEditorPresentat
 @Configurable
 public class JavaFXStructureEditorPresentationDelegate implements StructureEditorPresentation
   {
-    @Inject @Nonnull
+    @Inject
     private Provider<JavaFXBinder> binder;
 
-    @Inject @Nonnull
+    @Inject
     private Provider<StackPaneSelector> stackPaneSelector;
 
     @FXML

@@ -27,13 +27,11 @@
  */
 package it.tidalwave.northernwind.rca.ui.impl.javafx.structureexplorer;
 
-import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
-import java.io.IOException;
-import javafx.application.Platform;
 import javafx.scene.Node;
 import it.tidalwave.northernwind.rca.ui.structureexplorer.StructureExplorerPresentation;
 import lombok.Delegate;
+import lombok.Getter;
 import static it.tidalwave.ui.javafx.JavaFXSafeProxyCreator.*;
 
 /***********************************************************************************************************************
@@ -48,25 +46,16 @@ import static it.tidalwave.ui.javafx.JavaFXSafeProxyCreator.*;
  **********************************************************************************************************************/
 public class JavaFXStructureExplorerPresentation implements StructureExplorerPresentation
   {
-    @CheckForNull
-    private Node node;
+    @Getter @Nonnull
+    private final Node node;
 
     @Delegate
-    private StructureExplorerPresentation delegate;
+    private final StructureExplorerPresentation delegate;
 
-    @Nonnull
-    public Node getNode()
-      throws IOException
+    public JavaFXStructureExplorerPresentation()
       {
-        assert Platform.isFxApplicationThread();
-
-        if (node == null)
-          {
-            final NodeAndDelegate nad = createNodeAndDelegate(getClass(), "StructureExplorerPresentation.fxml");
-            node = nad.getNode();
-            delegate = nad.getDelegate();
-          }
-
-        return node;
+        final NodeAndDelegate nad = createNodeAndDelegate(getClass(), "StructureExplorerPresentation.fxml");
+        node = nad.getNode();
+        delegate = nad.getDelegate();
       }
   }

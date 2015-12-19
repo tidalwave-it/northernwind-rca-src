@@ -27,13 +27,11 @@
  */
 package it.tidalwave.northernwind.rca.ui.impl.javafx.structureeditor;
 
-import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
-import java.io.IOException;
 import javafx.scene.Node;
-import javafx.application.Platform;
 import it.tidalwave.northernwind.rca.ui.structureeditor.StructureEditorPresentation;
 import lombok.Delegate;
+import lombok.Getter;
 import static it.tidalwave.ui.javafx.JavaFXSafeProxyCreator.*;
 
 /***********************************************************************************************************************
@@ -44,25 +42,16 @@ import static it.tidalwave.ui.javafx.JavaFXSafeProxyCreator.*;
  **********************************************************************************************************************/
 public class JavaFXStructureEditorPresentation implements StructureEditorPresentation
   {
-    @CheckForNull
-    private Node node;
+    @Getter @Nonnull
+    private final Node node;
 
     @Delegate
-    private StructureEditorPresentation delegate;
+    private final StructureEditorPresentation delegate;
 
-    @Nonnull
-    public Node getNode()
-      throws IOException
+    public JavaFXStructureEditorPresentation()
       {
-        assert Platform.isFxApplicationThread();
-
-        if (node == null)
-          {
-            final NodeAndDelegate nad = createNodeAndDelegate(getClass(), "StructureEditorPresentation.fxml");
-            node = nad.getNode();
-            delegate = nad.getDelegate();
-          }
-
-        return node;
+        final NodeAndDelegate nad = createNodeAndDelegate(getClass(), "StructureEditorPresentation.fxml");
+        node = nad.getNode();
+        delegate = nad.getDelegate();
       }
   }
