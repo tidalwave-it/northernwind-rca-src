@@ -52,7 +52,7 @@
           class="it.tidalwave.role.spring.spi.AnnotationSpringRoleManager" />
 
     <bean id="contextManager"
-         class="it.tidalwave.role.spi.DefaultContextManager" />
+          class="it.tidalwave.role.spi.DefaultContextManager" />
 
     <bean class="org.mockito.Mockito" factory-method="mock">
         <constructor-arg value="it.tidalwave.northernwind.rca.ui.structureexplorer.StructureExplorerPresentation" />
@@ -64,6 +64,10 @@
 
     <bean class="org.mockito.Mockito" factory-method="mock">
         <constructor-arg value="it.tidalwave.northernwind.core.model.ModelFactory" />
+    </bean>
+
+    <bean class="org.mockito.Mockito" factory-method="mock">
+        <constructor-arg value="it.tidalwave.northernwind.core.model.Site" />
     </bean>
 
 </beans>

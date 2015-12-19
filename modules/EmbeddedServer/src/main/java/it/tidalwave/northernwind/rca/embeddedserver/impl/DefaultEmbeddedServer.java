@@ -168,11 +168,10 @@ public class DefaultEmbeddedServer implements EmbeddedServer
       {
         try
           {
-            if (server != null)
+            if ((server != null) && !server.isStopping() && !server.isStopped())
               {
                 log.info("Stopping webserver...");
                 server.stop();
-                server = null;
                 log.info(">>>> stopped");
               }
           }
