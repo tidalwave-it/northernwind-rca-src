@@ -5,7 +5,7 @@
  * NorthernWind - lightweight CMS
  * http://northernwind.tidalwave.it - git clone git@bitbucket.org:tidalwave/northernwind-rca-src.git
  * %%
- * Copyright (C) 2013 - 2014 Tidalwave s.a.s. (http://tidalwave.it)
+ * Copyright (C) 2013 - 2015 Tidalwave s.a.s. (http://tidalwave.it)
  * %%
  * *********************************************************************************************************************
  *
@@ -133,7 +133,7 @@ public class DefaultContentChildCreatorTest
 
     private ApplicationContext context;
 
-    private DefaultContentChildCreator fixture;
+    private DefaultContentChildCreator underTest;
 
     private Content parentContent;
 
@@ -147,7 +147,7 @@ public class DefaultContentChildCreatorTest
      *
      ******************************************************************************************************************/
     @BeforeMethod
-    public void setupFixture()
+    public void setup()
       throws IOException
       {
         context = new ClassPathXmlApplicationContext("DefaultContentChildCreatorTestBeans.xml");
@@ -160,7 +160,7 @@ public class DefaultContentChildCreatorTest
         when(parentContent.getFile()).thenReturn(parentFolder);
         when(parentFolder.createFolder(anyString())).thenReturn(childFolder);
 
-        fixture = new DefaultContentChildCreator(parentContent);
+        underTest = new DefaultContentChildCreator(parentContent);
       }
 
     /*******************************************************************************************************************
@@ -174,7 +174,7 @@ public class DefaultContentChildCreatorTest
         values.put(PROPERTY_1, "value 1");
         values.put(PROPERTY_2, "value 2");
 
-        final Content content = fixture.createContent("foldername", values);
+        final Content content = underTest.createContent("foldername", values);
 
         final MockSaveable saveable = modelFactory.getSaveable();
         final ResourceProperties properties = saveable.getProperties();

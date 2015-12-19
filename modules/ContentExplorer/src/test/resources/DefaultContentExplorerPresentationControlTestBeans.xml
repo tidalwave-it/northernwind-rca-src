@@ -6,7 +6,7 @@
   NorthernWind - lightweight CMS
   http://northernwind.tidalwave.it - hg clone https://bitbucket.org/tidalwave/northernwind-src
   %%
-  Copyright (C) 2013 - 2014 Tidalwave s.a.s. (http://tidalwave.it)
+  Copyright (C) 2013 - 2015 Tidalwave s.a.s. (http://tidalwave.it)
   %%
   *********************************************************************************************************************
 
@@ -43,7 +43,7 @@
     <!-- Enables AOP-based injection of classes that are instantiated outside of the Spring bean factory -->
     <context:spring-configured />
 
-    <bean id="fixture"
+    <bean id="underTest"
           class="it.tidalwave.northernwind.rca.ui.contentexplorer.impl.DefaultContentExplorerPresentationControl"
           lazy-init="true">
     </bean>

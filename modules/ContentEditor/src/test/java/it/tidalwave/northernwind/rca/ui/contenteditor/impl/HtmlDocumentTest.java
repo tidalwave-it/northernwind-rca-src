@@ -5,7 +5,7 @@
  * NorthernWind - lightweight CMS
  * http://northernwind.tidalwave.it - git clone git@bitbucket.org:tidalwave/northernwind-rca-src.git
  * %%
- * Copyright (C) 2013 - 2014 Tidalwave s.a.s. (http://tidalwave.it)
+ * Copyright (C) 2013 - 2015 Tidalwave s.a.s. (http://tidalwave.it)
  * %%
  * *********************************************************************************************************************
  *
@@ -40,15 +40,15 @@ import static org.hamcrest.CoreMatchers.*;
  **********************************************************************************************************************/
 public class HtmlDocumentTest
   {
-    private HtmlDocument fixture;
+    private HtmlDocument underTest;
 
     /*******************************************************************************************************************
      *
      ******************************************************************************************************************/
     @BeforeMethod
-    public void setupFixture()
+    public void setup()
       {
-        fixture = new HtmlDocument("<html>\n"
+        underTest = new HtmlDocument("<html>\n"
                                  + "<head><meta name=\"prolog\"/></head>\n"
                                  + "<body>\n",
                                    "body\n",
@@ -71,14 +71,14 @@ public class HtmlDocumentTest
                           + "</body>\n"
                           + "</html>";
         // when
-        final HtmlDocument fixture = HtmlDocument.createFromText(text);
+        final HtmlDocument underTest = HtmlDocument.createFromText(text);
         // then
-        assertThat(fixture.getProlog(), is("<html>\n"
+        assertThat(underTest.getProlog(), is("<html>\n"
                                          + "<head>\n"
                                          + "</head>\n"
                                          + "<body>\n"));
-        assertThat(fixture.getBody(), is("the body\n"));
-        assertThat(fixture.getEpilog(), is("</body>\n"
+        assertThat(underTest.getBody(), is("the body\n"));
+        assertThat(underTest.getEpilog(), is("</body>\n"
                                          + "</html>\n"));
       }
 
@@ -89,7 +89,7 @@ public class HtmlDocumentTest
     public void must_properly_replace_prolog()
       {
         // when
-        final HtmlDocument result = fixture.withProlog("<html>\n"
+        final HtmlDocument result = underTest.withProlog("<html>\n"
                                                      + "<head><meta name=\"replaced prolog\"/></head>\n"
                                                      + "<body>\n");
         // then
@@ -111,7 +111,7 @@ public class HtmlDocumentTest
     public void must_properly_replace_body()
       {
         // when
-        final HtmlDocument result = fixture.withBody("replaced body\n");
+        final HtmlDocument result = underTest.withBody("replaced body\n");
         // then
         assertThat(result.asString(), is("<!DOCTYPE html>\n"
                                        + "<html>\n"
@@ -132,7 +132,7 @@ public class HtmlDocumentTest
     public void must_properly_replace_epilog()
       {
         // when
-        final HtmlDocument result = fixture.withProlog("<html>\n"
+        final HtmlDocument result = underTest.withProlog("<html>\n"
                                                      + "<head><meta name=\"prolog\"/></head>\n"
                                                      + "<body>\n"
                                                      + "<div>\n")

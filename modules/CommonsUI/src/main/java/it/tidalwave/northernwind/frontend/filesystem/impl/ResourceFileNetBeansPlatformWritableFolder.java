@@ -5,7 +5,7 @@
  * NorthernWind - lightweight CMS
  * http://northernwind.tidalwave.it - git clone git@bitbucket.org:tidalwave/northernwind-rca-src.git
  * %%
- * Copyright (C) 2013 - 2014 Tidalwave s.a.s. (http://tidalwave.it)
+ * Copyright (C) 2013 - 2015 Tidalwave s.a.s. (http://tidalwave.it)
  * %%
  * *********************************************************************************************************************
  *
@@ -36,7 +36,6 @@ import org.openide.filesystems.FileObject;
 import it.tidalwave.dci.annotation.DciRole;
 import it.tidalwave.northernwind.model.admin.role.WritableFolder;
 import it.tidalwave.role.Marshallable;
-import lombok.Cleanup;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 

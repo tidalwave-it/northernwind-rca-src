@@ -5,7 +5,7 @@
  * NorthernWind - lightweight CMS
  * http://northernwind.tidalwave.it - git clone git@bitbucket.org:tidalwave/northernwind-rca-src.git
  * %%
- * Copyright (C) 2013 - 2014 Tidalwave s.a.s. (http://tidalwave.it)
+ * Copyright (C) 2013 - 2015 Tidalwave s.a.s. (http://tidalwave.it)
  * %%
  * *********************************************************************************************************************
  *
@@ -168,11 +168,10 @@ public class DefaultEmbeddedServer implements EmbeddedServer
       {
         try
           {
-            if (server != null)
+            if ((server != null) && !server.isStopping() && !server.isStopped())
               {
                 log.info("Stopping webserver...");
                 server.stop();
-                server = null;
                 log.info(">>>> stopped");
               }
           }

@@ -5,7 +5,7 @@
 
   NorthernWind
   %%
-  Copyright (C) 2013 - 2014 Tidalwave s.a.s. (http://tidalwave.it)
+  Copyright (C) 2013 - 2015 Tidalwave s.a.s. (http://tidalwave.it)
   %%
   *********************************************************************************************************************
 
@@ -79,6 +79,8 @@
         <tft.lombok.version>1.16.0</tft.lombok.version>
         <tft.jsr305.version>3.0.0</tft.jsr305.version>
         <tft.jsr330.version>1</tft.jsr330.version>
+        <tft.junit.version>4.12</tft.junit.version>
+        <tft.testng.version>6.9.10</tft.testng.version>
     </properties>
 
     <!-- ===============================================================================================================
@@ -229,30 +231,32 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- TEST DEPENDENCIES -->
+       <!-- TEST DEPENDENCIES -->
+        <dependency>
+            <groupId>it.tidalwave.thesefoolishthings</groupId>
+            <artifactId>it-tidalwave-util-test</artifactId>
+            <scope>test</scope>
+        </dependency>
         <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
             <scope>test</scope>
         </dependency>
+        <!-- Keep this before the mockito-all dependency - see http://stackoverflow.com/questions/15833015/ -->
+<!--        <dependency>
+            <groupId>org.hamcrest</groupId>
+            <artifactId>hamcrest-all</artifactId>
+            <scope>test</scope>
+        </dependency>-->
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-all</artifactId>
             <scope>test</scope>
         </dependency>
+
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.hamcrest</groupId>
-            <artifactId>hamcrest-all</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>it.tidalwave.thesefoolishthings</groupId>
-            <artifactId>it-tidalwave-util-test</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>

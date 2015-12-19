@@ -5,7 +5,7 @@
  * NorthernWind - lightweight CMS
  * http://northernwind.tidalwave.it - git clone git@bitbucket.org:tidalwave/northernwind-rca-src.git
  * %%
- * Copyright (C) 2013 - 2014 Tidalwave s.a.s. (http://tidalwave.it)
+ * Copyright (C) 2013 - 2015 Tidalwave s.a.s. (http://tidalwave.it)
  * %%
  * *********************************************************************************************************************
  *
@@ -52,7 +52,7 @@ import static it.tidalwave.util.test.FileComparisonUtils.*;
 @Slf4j
 public class ResourceFileNetBeansPlatformWritableFolderTest
   {
-    private ResourceFileNetBeansPlatformWritableFolder fixture;
+    private ResourceFileNetBeansPlatformWritableFolder underTest;
 
     private ResourceFileNetBeansPlatform fileNetBeansPlatform;
 
@@ -66,7 +66,7 @@ public class ResourceFileNetBeansPlatformWritableFolderTest
      *
      ******************************************************************************************************************/
     @BeforeMethod
-    public void setupFixture()
+    public void setup()
       {
         folder = new File("target/test-results/mockFileObject");
         log.info("Creating {} ...", folder.getAbsolutePath());
@@ -103,7 +103,7 @@ public class ResourceFileNetBeansPlatformWritableFolderTest
 
         fileNetBeansPlatform = mock(ResourceFileNetBeansPlatform.class);
         when(fileNetBeansPlatform.getDelegate()).thenReturn(fileObject);
-        fixture = new ResourceFileNetBeansPlatformWritableFolder(fileNetBeansPlatform);
+        underTest = new ResourceFileNetBeansPlatformWritableFolder(fileNetBeansPlatform);
 
         marshallable = new Marshallable()
           {
@@ -123,7 +123,7 @@ public class ResourceFileNetBeansPlatformWritableFolderTest
       throws IOException
       {
         // when
-        fixture.write("fileName", "proven\u00E7al\n");
+        underTest.write("fileName", "proven\u00E7al\n");
         // then
         final File expectedFile = new File("src/test/resources/expected-results/fileName");
         final File actualFile = new File(folder, "fileName");
@@ -138,7 +138,7 @@ public class ResourceFileNetBeansPlatformWritableFolderTest
       throws IOException
       {
         // when
-        fixture.write("marshallable", marshallable);
+        underTest.write("marshallable", marshallable);
         // then
         final File expectedFile = new File("src/test/resources/expected-results/marshallable");
         final File actualFile = new File(folder, "marshallable");

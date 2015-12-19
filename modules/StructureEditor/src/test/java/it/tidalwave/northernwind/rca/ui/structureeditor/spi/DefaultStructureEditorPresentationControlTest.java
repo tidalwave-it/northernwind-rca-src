@@ -5,7 +5,7 @@
  * NorthernWind - lightweight CMS
  * http://northernwind.tidalwave.it - git clone git@bitbucket.org:tidalwave/northernwind-rca-src.git
  * %%
- * Copyright (C) 2013 - 2014 Tidalwave s.a.s. (http://tidalwave.it)
+ * Copyright (C) 2013 - 2015 Tidalwave s.a.s. (http://tidalwave.it)
  * %%
  * *********************************************************************************************************************
  *
@@ -55,7 +55,7 @@ public class DefaultStructureEditorPresentationControlTest
   {
     private ApplicationContext context;
 
-    private DefaultStructureEditorPresentationControl fixture;
+    private DefaultStructureEditorPresentationControl underTest;
 
     private StructureEditorPresentation presentation;
 
@@ -71,11 +71,11 @@ public class DefaultStructureEditorPresentationControlTest
      *
      ******************************************************************************************************************/
     @BeforeMethod
-    public void setupFixture()
+    public void setup()
       {
         ContextManager.Locator.set(null);
         context = new ClassPathXmlApplicationContext("DefaultStructureEditorPresentationControlTestBeans.xml");
-        fixture = context.getBean(DefaultStructureEditorPresentationControl.class);
+        underTest = context.getBean(DefaultStructureEditorPresentationControl.class);
         presentation = context.getBean(StructureEditorPresentation.class);
 
         siteNode = mock(SiteNode.class);
@@ -87,7 +87,7 @@ public class DefaultStructureEditorPresentationControlTest
         when(presentable.createPresentationModel(anyVararg())).thenReturn(pm);
         when(properties.as(eq(Presentable))).thenReturn(presentable);
 
-        fixture.initialize();
+        underTest.initialize();
       }
 
     /*******************************************************************************************************************
@@ -96,7 +96,7 @@ public class DefaultStructureEditorPresentationControlTest
     @Test
     public void must_be_a_MessageSubscriber()
       {
-        assertThat(fixture.getClass().getAnnotation(SimpleMessageSubscriber.class), is(not(nullValue())));
+        assertThat(underTest.getClass().getAnnotation(SimpleMessageSubscriber.class), is(not(nullValue())));
       }
 
 //    /*******************************************************************************************************************
@@ -105,7 +105,7 @@ public class DefaultStructureEditorPresentationControlTest
 //    @Test
 //    public void must_bind()
 //      {
-//        verify(presentation).bind(same(fixture.bindings));
+//        verify(presentation).bind(same(underTest.bindings));
 //      }
 
     /*******************************************************************************************************************
@@ -116,7 +116,7 @@ public class DefaultStructureEditorPresentationControlTest
       {
         reset(presentation);
 
-        fixture.onSiteNodeSelected(new SiteNodeSelectedEvent());
+        underTest.onSiteNodeSelected(new SiteNodeSelectedEvent());
 
         verify(presentation).clear();
         verifyNoMoreInteractions(presentation);
@@ -134,14 +134,14 @@ public class DefaultStructureEditorPresentationControlTest
 
         reset(presentation);
 
-        fixture.onSiteNodeSelected(new SiteNodeSelectedEvent(siteNode));
+        underTest.onSiteNodeSelected(new SiteNodeSelectedEvent(siteNode));
 
         verify(presentation).populate(matches("Viewer not implemented for .*"));
         verify(presentation).populateProperties(same(pm));
         verify(presentation).showUp();
         verifyNoMoreInteractions(presentation);
-//        assertThat(fixture.bindings.document.get(), is("full text"));
-//        assertThat(fixture.bindings.title.get(), is("title"));
+//        assertThat(underTest.bindings.document.get(), is("full text"));
+//        assertThat(underTest.bindings.title.get(), is("title"));
       }
 
 //    /*******************************************************************************************************************
@@ -155,7 +155,7 @@ public class DefaultStructureEditorPresentationControlTest
 //
 //        reset(presentation);
 //
-//        fixture.onContentSelected(new ContentSelectedEvent(content));
+//        underTest.onContentSelected(new ContentSelectedEvent(content));
 //
 //        verify(presentation).clear();
 //        verifyNoMoreInteractions(presentation);

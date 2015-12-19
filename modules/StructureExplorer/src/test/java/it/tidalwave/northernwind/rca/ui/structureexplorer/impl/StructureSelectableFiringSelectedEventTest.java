@@ -5,7 +5,7 @@
  * NorthernWind - lightweight CMS
  * http://northernwind.tidalwave.it - git clone git@bitbucket.org:tidalwave/northernwind-rca-src.git
  * %%
- * Copyright (C) 2013 - 2014 Tidalwave s.a.s. (http://tidalwave.it)
+ * Copyright (C) 2013 - 2015 Tidalwave s.a.s. (http://tidalwave.it)
  * %%
  * *********************************************************************************************************************
  *
@@ -49,7 +49,7 @@ import static it.tidalwave.northernwind.rca.ui.event.SiteNodeSelectedEventMatche
  **********************************************************************************************************************/
 public class StructureSelectableFiringSelectedEventTest
   {
-    private StructureSelectableFiringSelectedEvent fixture;
+    private StructureSelectableFiringSelectedEvent underTest;
 
     private SiteNode node;
 
@@ -61,13 +61,13 @@ public class StructureSelectableFiringSelectedEventTest
      *
      ******************************************************************************************************************/
     @BeforeMethod
-    public void setupFixture()
+    public void setup()
       throws Exception
       {
         context = new ClassPathXmlApplicationContext("StructureSelectableFiringSelectedEventTestBeans.xml");
         messageBus = context.getBean(MessageBus.class);
         node = mock(SiteNode.class);
-        fixture = new StructureSelectableFiringSelectedEvent(node);
+        underTest = new StructureSelectableFiringSelectedEvent(node);
       }
 
     /*******************************************************************************************************************
@@ -76,7 +76,7 @@ public class StructureSelectableFiringSelectedEventTest
     @Test
     public void must_be_a_role_activated_only_in_the_controller_context()
       {
-        final DciRole dciRole = fixture.getClass().getAnnotation(DciRole.class);
+        final DciRole dciRole = underTest.getClass().getAnnotation(DciRole.class);
 
         assertThat(dciRole, is(not(nullValue())));
         // FIXME assertThat(... is()) is equivalent to isInstanceOf()
@@ -89,7 +89,7 @@ public class StructureSelectableFiringSelectedEventTest
     @Test
     public void must_fire_selection_event_on_the_message_bus_when_selected()
       {
-        fixture.select();
+        underTest.select();
 
         verify(messageBus).publish(eventWith(node));
         verifyNoMoreInteractions(messageBus);
