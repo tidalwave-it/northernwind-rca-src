@@ -76,7 +76,7 @@
         <spring.version>4.2.0.RELEASE</spring.version>
         <steelblue.version>1.0-ALPHA-10</steelblue.version>
         <thesefoolishthings.version>1.39</thesefoolishthings.version>
-        <tft.lombok.version>1.16.0</tft.lombok.version>
+        <tft.lombok.version>1.16.4</tft.lombok.version>
         <tft.jsr305.version>3.0.0</tft.jsr305.version>
         <tft.jsr330.version>1</tft.jsr330.version>
         <tft.junit.version>4.12</tft.junit.version>
@@ -164,7 +164,7 @@
             </dependency>
             <dependency>
                 <groupId>com.google.code.findbugs</groupId>
-                <artifactId>jsr305</artifactId>
+                <artifactId>annotations</artifactId>
                 <version>${tft.jsr305.version}</version>
             </dependency>
             <dependency>
@@ -223,7 +223,7 @@
         </dependency>
         <dependency>
             <groupId>com.google.code.findbugs</groupId>
-            <artifactId>jsr305</artifactId>
+            <artifactId>annotations</artifactId>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
