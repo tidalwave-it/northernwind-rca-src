@@ -54,20 +54,20 @@ public class DefaultEmbeddedServerTest
   {
     private ClassPathXmlApplicationContext context;
 
-    private DefaultEmbeddedServer fixture;
+    private DefaultEmbeddedServer underTest;
 
-    private DefaultEmbeddedServer nonSpringFixture;
+    private DefaultEmbeddedServer nonSpringUnderTest;
 
     /*******************************************************************************************************************
      *
      ******************************************************************************************************************/
     @BeforeMethod
-    public void setupFixture()
+    public void setup()
       {
         context = new ClassPathXmlApplicationContext("DefaultEmbeddedServerTestBeans.xml");
-        fixture = context.getBean(DefaultEmbeddedServer.class);
-        nonSpringFixture = new DefaultEmbeddedServer();
-        nonSpringFixture.setPort(12346); // don't clash with the other fixture
+        underTest = context.getBean(DefaultEmbeddedServer.class);
+        nonSpringUnderTest = new DefaultEmbeddedServer();
+        nonSpringUnderTest.setPort(12346); // don't clash with the other underTest
       }
 
     /*******************************************************************************************************************
@@ -79,10 +79,10 @@ public class DefaultEmbeddedServerTest
       {
         context.destroy();
 
-        if (nonSpringFixture.server != null)
+        if (nonSpringUnderTest.server != null)
           {
             log.info(">>>> shutting down server...");
-            nonSpringFixture.server.stop();
+            nonSpringUnderTest.server.stop();
           }
       }
 
@@ -93,10 +93,10 @@ public class DefaultEmbeddedServerTest
     public void start_must_properly_boot_the_webserver()
       throws InterruptedException
       {
-        nonSpringFixture.start();
+        nonSpringUnderTest.start();
 
-        assertThat(nonSpringFixture.server, is(not(nullValue())));
-        assertThat(nonSpringFixture.server.isStarted(), is(true));
+        assertThat(nonSpringUnderTest.server, is(not(nullValue())));
+        assertThat(nonSpringUnderTest.server.isStarted(), is(true));
       }
 
     /*******************************************************************************************************************
@@ -106,12 +106,12 @@ public class DefaultEmbeddedServerTest
     public void stop_must_properly_shut_the_webserver_down()
       throws InterruptedException
       {
-        nonSpringFixture.start();
+        nonSpringUnderTest.start();
         Thread.sleep(2000);
-        nonSpringFixture.stop();
+        nonSpringUnderTest.stop();
 
-        assertThat(nonSpringFixture.server, is(not(nullValue())));
-        assertThat(nonSpringFixture.server.isStopped(), is(true));
+        assertThat(nonSpringUnderTest.server, is(not(nullValue())));
+        assertThat(nonSpringUnderTest.server.isStopped(), is(true));
       }
 
     /*******************************************************************************************************************
@@ -121,9 +121,9 @@ public class DefaultEmbeddedServerTest
     public void must_properly_serve_loaded_documents()
       throws MalformedURLException, IOException
       {
-        final String url1 = fixture.putDocument("/",     new Document().withMimeType("text/html").withContent("document 1"));
-        final String url2 = fixture.putDocument("/doc2", new Document().withMimeType("text/plain").withContent("document 2"));
-        final String url3 = fixture.putDocument("/doc3", new Document().withMimeType("text/css").withContent("document 3"));
+        final String url1 = underTest.putDocument("/",     new Document().withMimeType("text/html").withContent("document 1"));
+        final String url2 = underTest.putDocument("/doc2", new Document().withMimeType("text/plain").withContent("document 2"));
+        final String url3 = underTest.putDocument("/doc3", new Document().withMimeType("text/css").withContent("document 3"));
 
         assertUrlContents(url1, "text/html; charset=UTF-8",  "document 1");
         assertUrlContents(url2, "text/plain; charset=UTF-8", "document 2");
@@ -137,9 +137,9 @@ public class DefaultEmbeddedServerTest
     public void must_return_not_found_for_non_existing_documents()
       throws MalformedURLException, IOException
       {
-        fixture.putDocument("/",     new Document().withMimeType("text/html").withContent("document 1"));
-        fixture.putDocument("/doc2", new Document().withMimeType("text/plain").withContent("document 2"));
-        fixture.putDocument("/doc3", new Document().withMimeType("text/css").withContent("document 3"));
+        underTest.putDocument("/",     new Document().withMimeType("text/html").withContent("document 1"));
+        underTest.putDocument("/doc2", new Document().withMimeType("text/plain").withContent("document 2"));
+        underTest.putDocument("/doc3", new Document().withMimeType("text/css").withContent("document 3"));
 
         assertUrlContents("http://localhost:12345/foo", HttpServletResponse.SC_NOT_FOUND);
         assertUrlContents("http://localhost:12345/bar", HttpServletResponse.SC_NOT_FOUND);

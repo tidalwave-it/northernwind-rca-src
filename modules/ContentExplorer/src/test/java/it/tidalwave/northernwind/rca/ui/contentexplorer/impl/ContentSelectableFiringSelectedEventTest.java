@@ -49,7 +49,7 @@ import static it.tidalwave.northernwind.rca.ui.event.ContentSelectedEventMatcher
  **********************************************************************************************************************/
 public class ContentSelectableFiringSelectedEventTest
   {
-    private ContentSelectableFiringSelectedEvent fixture;
+    private ContentSelectableFiringSelectedEvent underTest;
 
     private Content content;
 
@@ -61,13 +61,13 @@ public class ContentSelectableFiringSelectedEventTest
      *
      ******************************************************************************************************************/
     @BeforeMethod
-    public void setupFixture()
+    public void setup()
       throws Exception
       {
         context = new ClassPathXmlApplicationContext("ContentSelectableFiringSelectedEventTestBeans.xml");
         messageBus = context.getBean(MessageBus.class);
         content = mock(Content.class);
-        fixture = new ContentSelectableFiringSelectedEvent(content);
+        underTest = new ContentSelectableFiringSelectedEvent(content);
       }
 
     /*******************************************************************************************************************
@@ -76,7 +76,7 @@ public class ContentSelectableFiringSelectedEventTest
     @Test
     public void must_be_a_role_activated_only_in_the_controller_context()
       {
-        final DciRole dciRole = fixture.getClass().getAnnotation(DciRole.class);
+        final DciRole dciRole = underTest.getClass().getAnnotation(DciRole.class);
 
         assertThat(dciRole, is(not(nullValue())));
         // FIXME assertThat(... is()) is equivalent to isInstanceOf()
@@ -89,7 +89,7 @@ public class ContentSelectableFiringSelectedEventTest
     @Test
     public void must_fire_selection_event_on_the_message_bus_when_selected()
       {
-        fixture.select();
+        underTest.select();
 
         verify(messageBus).publish(eventWith(content));
         verifyNoMoreInteractions(messageBus);

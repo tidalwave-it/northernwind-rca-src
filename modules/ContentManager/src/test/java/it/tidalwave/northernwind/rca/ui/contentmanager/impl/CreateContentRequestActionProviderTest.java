@@ -49,38 +49,38 @@ import static org.mockito.Mockito.*;
  **********************************************************************************************************************/
 public class CreateContentRequestActionProviderTest
   {
-    private CreateContentRequestActionProvider fixture;
+    private CreateContentRequestActionProvider underTest;
 
     private Content content;
 
     private MessageBus messageBus;
 
     @BeforeMethod
-    public void setupFixture()
+    public void setup()
       {
         ContextManager.Locator.set(new DefaultContextManagerProvider()); // TODO: get rid of this
         messageBus = mock(MessageBus.class);
         content = mock(Content.class);
-        fixture = new CreateContentRequestActionProvider(content);
-        fixture.messageBus = messageBus;
+        underTest = new CreateContentRequestActionProvider(content);
+        underTest.messageBus = messageBus;
       }
 
     @Test
     public void must_return_only_a_New_Content_action()
       {
-        final Collection<? extends UserAction> actions = fixture.getActions();
+        final Collection<? extends UserAction> actions = underTest.getActions();
 
         assertThat(actions, is(not(nullValue())));
         assertThat(actions.size(), is(1));
         final UserAction action = actions.iterator().next();
-        assertThat(action, is(sameInstance(fixture.sendCreateContentRequestAction)));
+        assertThat(action, is(sameInstance(underTest.sendCreateContentRequestAction)));
         assertThat(action.as(Displayable.class).getDisplayName(), is("New content"));
       }
 
     @Test
     public void the_action_must_publish_a_proper_CreateContentRequest()
       {
-        fixture.sendCreateContentRequestAction.actionPerformed();
+        underTest.sendCreateContentRequestAction.actionPerformed();
 
         verify(messageBus).publish(eq(new CreateContentRequest(content)));
         verifyNoMoreInteractions(messageBus);

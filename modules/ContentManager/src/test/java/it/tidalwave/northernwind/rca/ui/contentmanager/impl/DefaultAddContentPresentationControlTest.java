@@ -101,7 +101,7 @@ public class DefaultAddContentPresentationControlTest
 
     private ApplicationContext context;
 
-    private DefaultAddContentPresentationControl fixture;
+    private DefaultAddContentPresentationControl underTest;
 
     private AddContentPresentation presentation;
 
@@ -125,11 +125,11 @@ public class DefaultAddContentPresentationControlTest
      *
      ******************************************************************************************************************/
     @BeforeMethod
-    public void setupFixture()
+    public void setup()
       {
         DateTimeUtils.setCurrentMillisFixed(dateTime.getMillis());
         context = new ClassPathXmlApplicationContext("DefaultAddContentPresentationControlTestBeans.xml");
-        fixture = context.getBean(DefaultAddContentPresentationControl.class);
+        underTest = context.getBean(DefaultAddContentPresentationControl.class);
         presentation = context.getBean(AddContentPresentation.class);
         content = mock(Content.class);
         contentChildCreator = mock(ContentChildCreator.class);
@@ -142,7 +142,7 @@ public class DefaultAddContentPresentationControlTest
     @Test
     public void must_properly_set_initial_values_and_show_up()
       {
-        fixture.onAddContentEvent(new CreateContentRequest(content));
+        underTest.onAddContentEvent(new CreateContentRequest(content));
 
         final Bindings expectedBindings = new Bindings();
         expectedBindings.publishingDateTime.set(ISO_FORMATTER.print(dateTime));
@@ -164,11 +164,11 @@ public class DefaultAddContentPresentationControlTest
         doAnswer(inputSetter.setInput()).when(presentation).bind(any(Bindings.class));
         doAnswer(CONFIRM).when(presentation).showUp(any(UserNotificationWithFeedback.class));
 
-        fixture.onAddContentEvent(new CreateContentRequest(content));
+        underTest.onAddContentEvent(new CreateContentRequest(content));
 
         final Map<Key<?>, Object> expectedPropertyValues = new HashMap<>(values);
         expectedPropertyValues.put(PROPERTY_CREATION_TIME, ISO_FORMATTER.print(dateTime));
-        expectedPropertyValues.put(PROPERTY_FULL_TEXT, fixture.xhtmlSkeleton);
+        expectedPropertyValues.put(PROPERTY_FULL_TEXT, underTest.xhtmlSkeleton);
 
         verify(contentChildCreator).createContent(eq(expectedFolderName), eq(expectedPropertyValues));
         verifyNoMoreInteractions(contentChildCreator);
@@ -182,7 +182,7 @@ public class DefaultAddContentPresentationControlTest
       {
         doAnswer(CANCEL).when(presentation).showUp(any(UserNotificationWithFeedback.class));
 
-        fixture.onAddContentEvent(new CreateContentRequest(content));
+        underTest.onAddContentEvent(new CreateContentRequest(content));
 
         verifyZeroInteractions(contentChildCreator);
       }

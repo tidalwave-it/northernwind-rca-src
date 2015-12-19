@@ -72,7 +72,7 @@ public class ResourcePropertiesBinderTest
                                                           + "</html>";
     private static final String ORIGINAL_PROPERTY_2_VALUE = "title";
 
-    private ResourcePropertiesBinder fixture;
+    private ResourcePropertiesBinder underTest;
 
     private ResourceProperties properties;
 
@@ -84,7 +84,7 @@ public class ResourcePropertiesBinderTest
      *
      ******************************************************************************************************************/
     @BeforeMethod
-    public void setupFixture()
+    public void setup()
       throws IOException
       {
         ContextManager.Locator.set(new DefaultContextManagerProvider());
@@ -100,7 +100,7 @@ public class ResourcePropertiesBinderTest
         properties = modelFactory.createProperties().build().withProperty(PROPERTY_1, ORIGINAL_PROPERTY_1_VALUE)
                                                             .withProperty(PROPERTY_2, ORIGINAL_PROPERTY_2_VALUE);
         callback = mock(UpdateCallback.class);
-        fixture = new ResourcePropertiesBinder(properties);
+        underTest = new ResourcePropertiesBinder(properties);
       }
 
     /*******************************************************************************************************************
@@ -116,8 +116,8 @@ public class ResourcePropertiesBinderTest
         final File epilog = new File("target/test-results/" + EDITOR_EPILOG);
         final File expectedProlog = new File("src/main/resources/" + EDITOR_PROLOG);
         final File expectedEpilog = new File("src/main/resources/" + EDITOR_EPILOG);
-        writeToFile(prolog, fixture.editorProlog);
-        writeToFile(epilog, fixture.editorEpilog);
+        writeToFile(prolog, underTest.editorProlog);
+        writeToFile(epilog, underTest.editorEpilog);
         assertSameContents(expectedProlog, prolog);
         assertSameContents(expectedEpilog, epilog);
       }
@@ -132,7 +132,7 @@ public class ResourcePropertiesBinderTest
         // given
         final BoundProperty<String> boundProperty = new BoundProperty<>();
         // when
-        fixture.bind(PROPERTY_2, boundProperty, callback);
+        underTest.bind(PROPERTY_2, boundProperty, callback);
         // then
         assertThat(boundProperty.get(), is(ORIGINAL_PROPERTY_2_VALUE));
         verifyZeroInteractions(callback);
@@ -147,7 +147,7 @@ public class ResourcePropertiesBinderTest
       {
         // given
         final BoundProperty<String> boundProperty = new BoundProperty<>();
-        fixture.bind(PROPERTY_2, boundProperty, callback);
+        underTest.bind(PROPERTY_2, boundProperty, callback);
         // when
         boundProperty.set("New title");
         // then
@@ -164,7 +164,7 @@ public class ResourcePropertiesBinderTest
       throws IOException
       {
         // given
-        final Document document = fixture.createBoundDocument(PROPERTY_1, callback);
+        final Document document = underTest.createBoundDocument(PROPERTY_1, callback);
         // then
         assertThat(document.getMimeType(), is("text/html"));
 
@@ -183,7 +183,7 @@ public class ResourcePropertiesBinderTest
       throws IOException
       {
         // given
-        final Document document = fixture.createBoundDocument(PROPERTY_1, callback);
+        final Document document = underTest.createBoundDocument(PROPERTY_1, callback);
         // when
         document.update("the updated body\n");
         // then

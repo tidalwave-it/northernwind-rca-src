@@ -65,7 +65,7 @@ public class DefaultContentEditorPresentationControlTest
   {
     private ClassPathXmlApplicationContext context;
 
-    private DefaultContentEditorPresentationControl fixture;
+    private DefaultContentEditorPresentationControl underTest;
 
     private ContentEditorPresentation presentation;
 
@@ -89,11 +89,11 @@ public class DefaultContentEditorPresentationControlTest
      *
      ******************************************************************************************************************/
     @BeforeMethod
-    public void setupFixture()
+    public void setup()
       {
         ContextManager.Locator.set(null);
         context = new ClassPathXmlApplicationContext("DefaultContentEditorPresentationControlTestBeans.xml");
-        fixture = context.getBean(DefaultContentEditorPresentationControl.class);
+        underTest = context.getBean(DefaultContentEditorPresentationControl.class);
         embeddedServer = context.getBean(EmbeddedServer.class);
         presentation = context.getBean(ContentEditorPresentation.class);
 
@@ -123,7 +123,7 @@ public class DefaultContentEditorPresentationControlTest
               }
           });
 
-        fixture.initialize();
+        underTest.initialize();
       }
 
     /*******************************************************************************************************************
@@ -132,7 +132,7 @@ public class DefaultContentEditorPresentationControlTest
     @Test
     public void must_be_a_MessageSubscriber()
       {
-        assertThat(fixture.getClass().getAnnotation(SimpleMessageSubscriber.class), is(not(nullValue())));
+        assertThat(underTest.getClass().getAnnotation(SimpleMessageSubscriber.class), is(not(nullValue())));
       }
 
     /*******************************************************************************************************************
@@ -141,7 +141,7 @@ public class DefaultContentEditorPresentationControlTest
     @Test
     public void must_bind()
       {
-        verify(presentation).bind(same(fixture.bindings));
+        verify(presentation).bind(same(underTest.bindings));
       }
 
     /*******************************************************************************************************************
@@ -152,10 +152,10 @@ public class DefaultContentEditorPresentationControlTest
       {
         reset(presentation);
 
-        fixture.onContentSelected(new ContentSelectedEvent());
+        underTest.onContentSelected(new ContentSelectedEvent());
 
         verify(presentation).clear();
-//        verify(presentation).bind(same(fixture.bindings));
+//        verify(presentation).bind(same(underTest.bindings));
         verifyNoMoreInteractions(presentation);
       }
 
@@ -170,22 +170,22 @@ public class DefaultContentEditorPresentationControlTest
         when(properties.getProperty(eq(PROPERTY_TITLE), anyString())).thenReturn("title");
         reset(presentation);
 
-        fixture.onContentSelected(new ContentSelectedEvent(content));
+        underTest.onContentSelected(new ContentSelectedEvent(content));
 
-        verify(propertyBinder).bind(eq(PROPERTY_TITLE), same(fixture.bindings.title), same(fixture.propertyUpdateCallback));
-        verify(propertyBinder).createBoundDocument(eq(PROPERTY_FULL_TEXT), same(fixture.propertyUpdateCallback));
+        verify(propertyBinder).bind(eq(PROPERTY_TITLE), same(underTest.bindings.title), same(underTest.propertyUpdateCallback));
+        verify(propertyBinder).createBoundDocument(eq(PROPERTY_FULL_TEXT), same(underTest.propertyUpdateCallback));
         verifyNoMoreInteractions(propertyBinder);
 
         verify(presentation).populateDocument(eq(registeredUrl));
         verify(presentation).populateProperties(same(pm));
         verify(presentation).showUp();
-        verify(presentation).bind(same(fixture.bindings));
+        verify(presentation).bind(same(underTest.bindings));
         verifyNoMoreInteractions(presentation);
 
         verify(embeddedServer).putDocument(eq("/"), eq(document));
         verifyNoMoreInteractions(embeddedServer);
 
-//        assertThat(fixture.bindings.title.get(), is("title")); no need for this, binding is separatedly tested
+//        assertThat(underTest.bindings.title.get(), is("title")); no need for this, binding is separatedly tested
       }
 
     // TODO: test propertyUpdateCallback
@@ -202,7 +202,7 @@ public class DefaultContentEditorPresentationControlTest
 
         reset(presentation);
 
-        fixture.onContentSelected(new ContentSelectedEvent(content));
+        underTest.onContentSelected(new ContentSelectedEvent(content));
 
         verify(presentation).clear();
         verifyNoMoreInteractions(presentation);

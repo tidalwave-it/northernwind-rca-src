@@ -54,7 +54,7 @@ import static org.mockito.Mockito.any;
  **********************************************************************************************************************/
 public class DefaultSiteOpenerPresentationControlTest
   {
-    private DefaultSiteOpenerPresentationControl fixture;
+    private DefaultSiteOpenerPresentationControl underTest;
 
     private ClassPathXmlApplicationContext context;
 
@@ -66,15 +66,15 @@ public class DefaultSiteOpenerPresentationControlTest
      *
      ******************************************************************************************************************/
     @BeforeMethod
-    public void setupFixture()
+    public void setup()
       {
         context = new ClassPathXmlApplicationContext("DefaultSiteOpenerPresentationControlTestBeans.xml");
 
-        fixture = context.getBean(DefaultSiteOpenerPresentationControl.class);
+        underTest = context.getBean(DefaultSiteOpenerPresentationControl.class);
         presentation = context.getBean(SiteOpenerPresentation.class);
         messageBus = context.getBean(MessageBus.class);
 
-        fixture.initialize(presentation);
+        underTest.initialize(presentation);
       }
 
     /*******************************************************************************************************************
@@ -83,9 +83,9 @@ public class DefaultSiteOpenerPresentationControlTest
     @Test
     public void initialize_must_bind_the_presentation_and_set_the_default_path_to_user_home()
       {
-        assertThat(fixture.folderToOpen.get().toFile().getAbsolutePath(), is(System.getProperty("user.home")));
+        assertThat(underTest.folderToOpen.get().toFile().getAbsolutePath(), is(System.getProperty("user.home")));
 
-        verify(presentation).bind(same(fixture.openSiteAction), same(fixture.folderToOpen));
+        verify(presentation).bind(same(underTest.openSiteAction), same(underTest.folderToOpen));
       }
 
     /*******************************************************************************************************************
@@ -96,9 +96,9 @@ public class DefaultSiteOpenerPresentationControlTest
     public void must_fire_OpenSiteEvent_when_openSite_invoked_and_the_user_selected_a_folder (final String folderPath)
       {
         doAnswer(confirm()).when(presentation).notifyInvitationToSelectAFolder(any(UserNotificationWithFeedback.class));
-        fixture.folderToOpen.set(new File(folderPath).toPath());
+        underTest.folderToOpen.set(new File(folderPath).toPath());
 
-        fixture.openSiteAction.actionPerformed();
+        underTest.openSiteAction.actionPerformed();
 
         verify(messageBus).publish(argThat(openSiteEvent().withRootPath(folderPath)));
       }
@@ -111,7 +111,7 @@ public class DefaultSiteOpenerPresentationControlTest
       {
         doAnswer(cancel()).when(presentation).notifyInvitationToSelectAFolder(any(UserNotificationWithFeedback.class));
 
-        fixture.openSiteAction.actionPerformed();
+        underTest.openSiteAction.actionPerformed();
 
         verifyZeroInteractions(messageBus);
       }

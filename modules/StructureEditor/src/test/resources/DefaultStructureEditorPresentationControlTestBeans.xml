@@ -59,7 +59,7 @@
 
     <aop:aspectj-autoproxy/>
 
-    <bean id="fixture"
+    <bean id="underTest"
           class="it.tidalwave.northernwind.rca.ui.structureeditor.spi.DefaultStructureEditorPresentationControl"
           lazy-init="true" /> <!-- To solve Mockito + Spring problems -->
 

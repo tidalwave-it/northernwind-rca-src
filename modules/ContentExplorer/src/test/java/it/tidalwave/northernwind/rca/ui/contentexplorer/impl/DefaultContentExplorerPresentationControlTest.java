@@ -61,7 +61,7 @@ import static it.tidalwave.util.MockAs.*;
  **********************************************************************************************************************/
 public class DefaultContentExplorerPresentationControlTest
   {
-    private DefaultContentExplorerPresentationControl fixture;
+    private DefaultContentExplorerPresentationControl underTest;
 
     private ClassPathXmlApplicationContext context;
 
@@ -83,12 +83,12 @@ public class DefaultContentExplorerPresentationControlTest
      *
      ******************************************************************************************************************/
     @BeforeMethod
-    public void setupFixture()
+    public void setup()
       {
         ContextManager.Locator.set(null);
         context = new ClassPathXmlApplicationContext("DefaultContentExplorerPresentationControlTestBeans.xml");
 
-        fixture = context.getBean(DefaultContentExplorerPresentationControl.class);
+        underTest = context.getBean(DefaultContentExplorerPresentationControl.class);
         presentation = context.getBean(ContentExplorerPresentation.class);
         messageBus = context.getBean(MessageBus.class);
         modelFactory = context.getBean(ModelFactory.class);
@@ -113,7 +113,7 @@ public class DefaultContentExplorerPresentationControlTest
         when(callBack.build(any(Content.Builder.class))).thenReturn(content);
         when(modelFactory.createContent()).thenReturn(new Content.Builder(modelFactory, callBack));
 
-        fixture.initialize();
+        underTest.initialize();
       }
 
     /*******************************************************************************************************************
@@ -122,7 +122,7 @@ public class DefaultContentExplorerPresentationControlTest
     @Test
     public void must_be_a_MessageSubscriber()
       {
-        assertThat(fixture.getClass().getAnnotation(SimpleMessageSubscriber.class), is(not(nullValue())));
+        assertThat(underTest.getClass().getAnnotation(SimpleMessageSubscriber.class), is(not(nullValue())));
       }
 
     /*******************************************************************************************************************
@@ -134,7 +134,7 @@ public class DefaultContentExplorerPresentationControlTest
       {
         reset(messageBus);
 
-        fixture.onOpenSite(event);
+        underTest.onOpenSite(event);
 
         verify(presentation).populate(argThat(presentationModel().withRole(Selectable.class)));
         verify(presentation).expandFirstLevel();

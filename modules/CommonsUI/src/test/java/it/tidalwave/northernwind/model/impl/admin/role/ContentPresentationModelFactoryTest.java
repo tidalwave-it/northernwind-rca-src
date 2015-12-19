@@ -50,7 +50,7 @@ public class ContentPresentationModelFactoryTest
   {
     private ApplicationContext context;
 
-    private ContentPresentationModelFactory fixture;
+    private ContentPresentationModelFactory underTest;
 
     private Content content;
 
@@ -59,11 +59,11 @@ public class ContentPresentationModelFactoryTest
     private Object role;
 
     @BeforeMethod
-    public void setupFixture()
+    public void setup()
       {
         AsDelegateProvider.Locator.set(new EmptyAsDelegateProvider());
         context = new ClassPathXmlApplicationContext("ContentPresentationModelFactoryTestBeans.xml");
-        fixture = new ContentPresentationModelFactory();
+        underTest = new ContentPresentationModelFactory();
         content = mock(Content.class);
         childContent = mock(Content.class);
         role = new Object();
@@ -73,22 +73,22 @@ public class ContentPresentationModelFactoryTest
     public void must_create_a_ContentPresentationModel_and_register_it()
       {
         // when
-        final PresentationModel pm = fixture.createPresentationModel(content, role);
+        final PresentationModel pm = underTest.createPresentationModel(content, role);
         // then
         assertThat(pm, is(notNullValue()));
         assertThat(pm, is(instanceOf(ContentPresentationModel.class)));
-        assertThat(fixture.map.containsKey(content), is(true));
+        assertThat(underTest.map.containsKey(content), is(true));
       }
 
     @Test(dependsOnMethods = "must_create_a_ContentPresentationModel_and_register_it")
     public void must_unregister_a_disposed_PresentationModel()
       {
         // given
-        final PresentationModel pm = fixture.createPresentationModel(content, role);
+        final PresentationModel pm = underTest.createPresentationModel(content, role);
         // when
         pm.dispose();
         // then
-        assertThat(fixture.map.containsKey(content), is(false));
+        assertThat(underTest.map.containsKey(content), is(false));
       }
 
     @Test(dependsOnMethods = "must_create_a_ContentPresentationModel_and_register_it")
@@ -96,9 +96,9 @@ public class ContentPresentationModelFactoryTest
       {
         // given
         final ContentPresentationModel pm = mock(ContentPresentationModel.class);
-        fixture.map.put(content, pm);
+        underTest.map.put(content, pm);
         // when
-        fixture.onContentCreated(new ContentCreatedEvent(content, childContent));
+        underTest.onContentCreated(new ContentCreatedEvent(content, childContent));
         // then
         verify(pm).onContentCreated();
         verifyNoMoreInteractions(pm);
