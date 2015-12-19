@@ -49,7 +49,12 @@
         <dependency>
             <groupId>it.tidalwave.northernwind</groupId>
             <artifactId>it-tidalwave-northernwind-core-default</artifactId>
-            <!--<scope>provided</scope>-->
+            <exclusions>
+                <exclusion>
+                    <groupId>org.aspectj</groupId>
+                    <artifactId>aspectjweaver</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
     </dependencies>
 
