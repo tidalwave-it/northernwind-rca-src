@@ -55,7 +55,7 @@ import static it.tidalwave.util.ui.UserNotificationWithFeedback.*;
 @Slf4j
 public class DefaultSiteOpenerPresentationControl implements SiteOpenerPresentationControl
   {
-    @Inject @Named("applicationMessageBus") @Nonnull
+    @Inject @Named("applicationMessageBus")
     private MessageBus messageBus;
 
     private SiteOpenerPresentation presentation;

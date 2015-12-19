@@ -49,7 +49,7 @@ import static it.tidalwave.role.ui.Presentable.*;
 @SimpleMessageSubscriber @Slf4j
 public class DefaultStructureEditorPresentationControl implements StructureEditorPresentationControl
   {
-    @Inject @Nonnull
+    @Inject
     private StructureEditorPresentation presentation;
 
     @Override

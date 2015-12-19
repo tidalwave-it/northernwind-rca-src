@@ -75,10 +75,10 @@ public class PatchedTextResourcePropertyResolver implements ResourceProperties.P
   {
     private static final ImmutableList<String> EXTENSIONS = ImmutableList.of(".xhtml", ".html", ".xml", ".txt");
 
-//    @Inject @Nonnull
+//    @Inject
 //    private RequestLocaleManager localeRequestManager;
 
-//    @Inject @Nonnull
+//    @Inject
 //    private Provider<FilterSetExpander> filterSetExpander;
 
     @Nonnull

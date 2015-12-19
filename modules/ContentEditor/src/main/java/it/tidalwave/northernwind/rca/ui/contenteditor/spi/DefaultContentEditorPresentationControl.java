@@ -27,7 +27,7 @@
  */
 package it.tidalwave.northernwind.rca.ui.contenteditor.spi;
 
-import javax.annotation.CheckForNull;
+import javax.annotation.Nullable;
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
 import java.io.IOException;
@@ -66,16 +66,16 @@ import static it.tidalwave.northernwind.rca.ui.contenteditor.spi.PropertyBinder.
 @SimpleMessageSubscriber @Slf4j
 public class DefaultContentEditorPresentationControl implements ContentEditorPresentationControl
   {
-    @Inject @Nonnull
+    @Inject
     private EmbeddedServer documentServer;
 
-    @Inject @Nonnull
+    @Inject
     private ContentEditorPresentation presentation;
 
-    @CheckForNull
+    @Nullable
     private Content content;
 
-    @CheckForNull
+    @Nullable
     private ResourceProperties properties;
 
     /*******************************************************************************************************************
@@ -112,7 +112,7 @@ public class DefaultContentEditorPresentationControl implements ContentEditorPre
      *
      *
      ******************************************************************************************************************/
-    @VisibleForTesting final PropertyBinder.UpdateCallback propertyUpdateCallback = (updatedProperties) -> 
+    @VisibleForTesting final PropertyBinder.UpdateCallback propertyUpdateCallback = (updatedProperties) ->
       {
         updatedProperties.as(Saveable).saveIn(content.getFile());
         unbindProperties();

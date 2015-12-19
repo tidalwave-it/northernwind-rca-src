@@ -25,33 +25,51 @@
  * *********************************************************************************************************************
  * #L%
  */
-package it.tidalwave.northernwind.rca.ui.impl.javafx.contenteditor;
+package it.tidalwave.northernwind.model.impl.admin;
 
+import java.util.List;
+import java.util.Locale;
+import it.tidalwave.northernwind.core.model.ResourceFileSystemProvider;
+import it.tidalwave.northernwind.core.model.ResourcePath;
+import it.tidalwave.northernwind.core.model.Site;
+import it.tidalwave.northernwind.core.model.SiteFinder;
 import javax.annotation.Nonnull;
-import javafx.scene.Node;
-import it.tidalwave.northernwind.rca.ui.contenteditor.ContentEditorPresentation;
-import lombok.Delegate;
-import lombok.Getter;
-import static it.tidalwave.ui.javafx.JavaFXSafeProxyCreator.*;
 
 /***********************************************************************************************************************
  *
- * @author  Fabrizio Giudici
+ * @author  Fabrizio Giudici (Fabrizio.Giudici@tidalwave.it)
  * @version $Id$
  *
  **********************************************************************************************************************/
-public class JavaFXContentEditorPresentation implements ContentEditorPresentation
+public class AdminSite implements Site
   {
-    @Getter @Nonnull
-    private final Node node;
-
-    @Delegate
-    private final ContentEditorPresentation delegate;
-
-    public JavaFXContentEditorPresentation()
+    @Override @Nonnull
+    public String getContextPath()
       {
-        final NodeAndDelegate nad = createNodeAndDelegate(getClass(), "ContentEditorPresentation.fxml");
-        node = nad.getNode();
-        delegate = nad.getDelegate();
+        throw new UnsupportedOperationException("Not supported yet.");
+      }
+
+    @Override @Nonnull
+    public String createLink (final @Nonnull ResourcePath relativeUri)
+      {
+        throw new UnsupportedOperationException("Not supported yet.");
+      }
+
+    @Override @Nonnull
+    public <Type> SiteFinder<Type> find (final @Nonnull Class<Type> type)
+      {
+        throw new UnsupportedOperationException("Not supported yet.");
+      }
+
+    @Override @Nonnull
+    public ResourceFileSystemProvider getFileSystemProvider()
+      {
+        throw new UnsupportedOperationException("Not supported yet.");
+      }
+
+    @Override @Nonnull
+    public List<Locale> getConfiguredLocales()
+      {
+        throw new UnsupportedOperationException("Not supported yet.");
       }
   }

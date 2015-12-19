@@ -31,6 +31,8 @@ import javax.annotation.Nonnull;
 import javafx.application.Platform;
 import java.io.File;
 import it.tidalwave.ui.javafx.JavaFXSpringApplication;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 /***********************************************************************************************************************
  *
@@ -45,11 +47,10 @@ public class Main extends JavaFXSpringApplication
         try
           {
             // FIXME: Mac OS X only
-            final File logfolder = new File(System.getProperty("user.home") + "/Library/Application Support/Zephyr/logs");
-            final String logFolderPath = logfolder.getAbsolutePath();
-            System.err.println("Logging folder: " + logFolderPath);
-            logfolder.mkdirs();
-            System.setProperty("it.tidalwave.northernwind.rca.logFolder", logFolderPath);
+            final Path logfolder = new File(System.getProperty("user.home") + "/Library/Application Support/Zephyr/logs").toPath();
+            System.err.println("Logging folder: " + logfolder);
+            Files.createDirectories(logfolder);
+            System.setProperty("it.tidalwave.northernwind.rca.logFolder", logfolder.toAbsolutePath().toString());
             Platform.setImplicitExit(true);
             launch(args);
           }

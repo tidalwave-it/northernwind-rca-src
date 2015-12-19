@@ -30,6 +30,7 @@ package it.tidalwave.northernwind.rca.ui.impl.javafx.structureeditor;
 import it.tidalwave.role.ui.javafx.StackPaneSelector;
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
+import javax.inject.Provider;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.layout.Pane;
@@ -49,11 +50,11 @@ import it.tidalwave.northernwind.rca.ui.structureeditor.StructureEditorPresentat
 @Configurable
 public class JavaFXStructureEditorPresentationDelegate implements StructureEditorPresentation
   {
-    @Inject @Nonnull
-    private JavaFXBinder binder;
+    @Inject
+    private Provider<JavaFXBinder> binder;
 
-    @Inject @Nonnull
-    private StackPaneSelector stackPaneSelector;
+    @Inject
+    private Provider<StackPaneSelector> stackPaneSelector;
 
     @FXML
     private Pane structureEditor;
@@ -71,7 +72,7 @@ public class JavaFXStructureEditorPresentationDelegate implements StructureEdito
     @Override
     public void showUp()
       {
-        stackPaneSelector.setShownNode(structureEditor);
+        stackPaneSelector.get().setShownNode(structureEditor);
       }
 
     @Override
@@ -90,7 +91,6 @@ public class JavaFXStructureEditorPresentationDelegate implements StructureEdito
     @Override
     public void populateProperties (final @Nonnull PresentationModel pm)
       {
-        binder.bind(structureEditorProperties, pm);
+        binder.get().bind(structureEditorProperties, pm);
       }
-
   }

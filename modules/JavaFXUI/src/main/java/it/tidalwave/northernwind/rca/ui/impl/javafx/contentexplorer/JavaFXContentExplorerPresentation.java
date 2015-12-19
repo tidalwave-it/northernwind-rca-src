@@ -27,13 +27,11 @@
  */
 package it.tidalwave.northernwind.rca.ui.impl.javafx.contentexplorer;
 
-import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
-import java.io.IOException;
 import javafx.scene.Node;
-import javafx.application.Platform;
 import it.tidalwave.northernwind.rca.ui.contentexplorer.ContentExplorerPresentation;
 import lombok.Delegate;
+import lombok.Getter;
 import static it.tidalwave.ui.javafx.JavaFXSafeProxyCreator.*;
 
 /***********************************************************************************************************************
@@ -48,25 +46,16 @@ import static it.tidalwave.ui.javafx.JavaFXSafeProxyCreator.*;
  **********************************************************************************************************************/
 public class JavaFXContentExplorerPresentation implements ContentExplorerPresentation
   {
-    @CheckForNull
-    private Node node;
+    @Getter @Nonnull
+    private final Node node;
 
     @Delegate
-    private ContentExplorerPresentation delegate;
+    private final ContentExplorerPresentation delegate;
 
-    @Nonnull
-    public Node getNode()
-      throws IOException
+    public JavaFXContentExplorerPresentation()
       {
-        assert Platform.isFxApplicationThread();
-
-        if (node == null)
-          {
-            final NodeAndDelegate nad = createNodeAndDelegate(getClass(), "ContentExplorerPresentation.fxml");
-            node = nad.getNode();
-            delegate = nad.getDelegate();
-          }
-
-        return node;
+        final NodeAndDelegate nad = createNodeAndDelegate(getClass(), "ContentExplorerPresentation.fxml");
+        node = nad.getNode();
+        delegate = nad.getDelegate();
       }
   }

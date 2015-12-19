@@ -74,7 +74,7 @@ public class DefaultAddContentPresentationControl implements AddContentPresentat
   {
     private final static DateTimeFormatter ISO_FORMATTER = ISODateTimeFormat.dateTime();
 
-    @Inject @Nonnull
+    @Inject
     private AddContentPresentation presentation;
 
     private final Bindings bindings = new ValidatingBindings();

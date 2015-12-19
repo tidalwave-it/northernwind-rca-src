@@ -41,6 +41,7 @@ import it.tidalwave.messagebus.annotation.ListensTo;
 import it.tidalwave.messagebus.annotation.SimpleMessageSubscriber;
 import it.tidalwave.northernwind.core.model.ModelFactory;
 import it.tidalwave.northernwind.core.model.ResourceFile;
+import it.tidalwave.northernwind.core.model.Site;
 import it.tidalwave.northernwind.core.model.SiteNode;
 import it.tidalwave.northernwind.rca.ui.event.OpenSiteEvent;
 import it.tidalwave.northernwind.rca.ui.event.SiteNodeSelectedEvent;
@@ -61,16 +62,19 @@ import static it.tidalwave.role.ui.Presentable.*;
 @DciContext @SimpleMessageSubscriber @Slf4j
 public class DefaultStructureExplorerPresentationControl implements StructureExplorerPresentationControl
   {
-    @Inject @Nonnull
+    @Inject
     private ModelFactory modelFactory;
 
-    @Inject @Named("applicationMessageBus") @Nonnull
+    @Inject
+    private Site site;
+
+    @Inject @Named("applicationMessageBus")
     private MessageBus messageBus;
 
-    @Inject @Nonnull
+    @Inject
     private StructureExplorerPresentation presentation;
 
-    @Inject @Nonnull
+    @Inject
     private ContextManager contextManager;
 
     /*******************************************************************************************************************
@@ -98,7 +102,7 @@ public class DefaultStructureExplorerPresentationControl implements StructureExp
                   {
                     log.debug("onOpenSite({})", event);
                     final ResourceFile root = event.getFileSystem().findFileByPath("/structure");
-                    final SiteNode siteNode = modelFactory.createSiteNode(null, root); // FIXME: pass a Site
+                    final SiteNode siteNode = modelFactory.createSiteNode(site, root);
                     presentation.populate(siteNode.as(Presentable).createPresentationModel());
                     presentation.expandFirstLevel();
                     messageBus.publish(new SiteNodeSelectedEvent());

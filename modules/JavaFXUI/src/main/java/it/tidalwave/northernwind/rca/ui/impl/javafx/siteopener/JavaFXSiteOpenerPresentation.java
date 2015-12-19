@@ -29,6 +29,7 @@ package it.tidalwave.northernwind.rca.ui.impl.javafx.siteopener;
 
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
+import javax.inject.Provider;
 import java.nio.file.Path;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
@@ -51,8 +52,8 @@ import org.springframework.beans.factory.annotation.Configurable;
 @Configurable
 public class JavaFXSiteOpenerPresentation implements SiteOpenerPresentation
   {
-    @Inject @Nonnull
-    private JavaFXBinder binder;
+    @Inject
+    private Provider<JavaFXBinder> binder;
 
     @Widget("btOpen")
     private Button button;
@@ -65,14 +66,14 @@ public class JavaFXSiteOpenerPresentation implements SiteOpenerPresentation
     @Override // FIXME: encapsulate args in Bindings
     public void bind (final @Nonnull UserAction action, final @Nonnull BoundProperty<Path> folderToOpen)
       {
-        binder.bind(button, action);
-        binder.bind(menuItem, action);
+        binder.get().bind(button, action);
+        binder.get().bind(menuItem, action);
         this.folderToOpen = folderToOpen;
       }
 
     @Override
     public void notifyInvitationToSelectAFolder (final @Nonnull UserNotificationWithFeedback notification)
       {
-        binder.openDirectoryChooserFor(notification, folderToOpen);
+        binder.get().openDirectoryChooserFor(notification, folderToOpen);
       }
   }

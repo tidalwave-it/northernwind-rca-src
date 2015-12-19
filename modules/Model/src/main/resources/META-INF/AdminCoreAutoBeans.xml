@@ -59,6 +59,8 @@
 
     <aop:aspectj-autoproxy/>
 
+    <bean id="site" class="it.tidalwave.northernwind.model.impl.admin.AdminSite" />
+
     <bean id="modelFactory"
           class="it.tidalwave.northernwind.model.impl.admin.AdminModelFactory" />
 

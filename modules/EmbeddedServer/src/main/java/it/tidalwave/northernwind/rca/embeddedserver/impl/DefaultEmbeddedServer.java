@@ -65,7 +65,7 @@ import lombok.extern.slf4j.Slf4j;
 @SimpleMessageSubscriber @Slf4j
 public class DefaultEmbeddedServer implements EmbeddedServer
   {
-    @Inject @Nonnull
+    @Inject
     private MimeTypeResolver mimeTypeResolver;
 
     @Getter @Setter
@@ -168,9 +168,13 @@ public class DefaultEmbeddedServer implements EmbeddedServer
       {
         try
           {
-            log.info("Stopping webserver...");
-            server.stop();
-            log.info(">>>> stopped");
+            if (server != null)
+              {
+                log.info("Stopping webserver...");
+                server.stop();
+                server = null;
+                log.info(">>>> stopped");
+              }
           }
         catch (Exception e)
           {
