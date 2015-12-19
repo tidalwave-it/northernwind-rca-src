@@ -27,7 +27,6 @@
  */
 package it.tidalwave.northernwind.rca.ui.structureexplorer.impl;
 
-import javax.annotation.Nonnull;
 import java.io.IOException;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import it.tidalwave.util.RoleFactory;
@@ -73,7 +72,7 @@ public class DefaultStructureExplorerPresentationControlTest
 
     private ResourceFile root;
 
-    private OpenSiteEvent event;
+    private OpenSiteEvent openSiteEvent;
 
     private ModelFactory modelFactory;
 
@@ -94,20 +93,13 @@ public class DefaultStructureExplorerPresentationControlTest
         messageBus = context.getBean(MessageBus.class);
         modelFactory = context.getBean(ModelFactory.class);
 
-        event = mock(OpenSiteEvent.class);
+        openSiteEvent = mock(OpenSiteEvent.class);
         fileSystem = mock(ResourceFileSystem.class);
         root = mock(ResourceFile.class);
-        node = mockWithAsSupport(SiteNode.class, new RoleFactory<SiteNode>()
-          {
-            @Override @Nonnull
-            public Object createRoleFor (final @Nonnull SiteNode node)
-              {
-                return new SimpleCompositePresentable(node);
-              }
-          });
+        node = mockWithAsSupport(SiteNode.class, (RoleFactory<SiteNode>)n -> new SimpleCompositePresentable(n));
 
         when(fileSystem.findFileByPath(eq("/structure"))).thenReturn(root);
-        when(event.getFileSystem()).thenReturn(fileSystem);
+        when(openSiteEvent.getFileSystem()).thenReturn(fileSystem);
         when(modelFactory.createSiteNode(any(Site.class), eq(root))).thenReturn(node);
 
         underTest.initialize();
@@ -139,7 +131,7 @@ public class DefaultStructureExplorerPresentationControlTest
       {
         reset(messageBus);
 
-        underTest.onOpenSite(event);
+        underTest.onOpenSite(openSiteEvent);
 
         verify(presentation).populate(argThat(presentationModel().withRole(Selectable.class)));
         verify(presentation).expandFirstLevel();
