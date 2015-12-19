@@ -29,6 +29,7 @@ package it.tidalwave.northernwind.rca.ui.impl.javafx;
 
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
+import javax.inject.Provider;
 import java.io.IOException;
 import javafx.fxml.FXML;
 import javafx.scene.control.SplitPane;
@@ -48,7 +49,7 @@ import it.tidalwave.northernwind.rca.ui.impl.javafx.siteopener.JavaFXSiteOpenerP
 import it.tidalwave.northernwind.rca.ui.impl.javafx.structureexplorer.JavaFXStructureExplorerPresentation;
 import it.tidalwave.northernwind.rca.ui.impl.javafx.structureeditor.JavaFXStructureEditorPresentation;
 import lombok.extern.slf4j.Slf4j;
-import static it.tidalwave.role.ui.javafx.impl.JavaFXSafeComponentBuilder.*;
+import static it.tidalwave.role.ui.javafx.impl.util.JavaFXSafeComponentBuilder.createInstance;
 
 /***********************************************************************************************************************
  *
@@ -60,34 +61,34 @@ import static it.tidalwave.role.ui.javafx.impl.JavaFXSafeComponentBuilder.*;
 public class JavaFXApplicationPresentationDelegate
   {
     @Inject @Nonnull
-    private SiteOpenerPresentationControl siteOpenerPresentationControl;
+    private Provider<SiteOpenerPresentationControl> siteOpenerPresentationControl;
 
     @Inject @Nonnull
-    private StackPaneSelector stackPaneSelector;
+    private Provider<StackPaneSelector> stackPaneSelector;
 
     @Inject @Nonnull
-    private ContentEditorPresentationControl contentEditorPresentationControl;
+    private Provider<ContentEditorPresentationControl> contentEditorPresentationControl;
 
     @Inject @Nonnull
-    private ContentExplorerPresentationControl contentExplorerPresentationControl;
+    private Provider<ContentExplorerPresentationControl> contentExplorerPresentationControl;
 
     @Inject @Nonnull
-    private StructureEditorPresentationControl structureEditorPresentationControl;
+    private Provider<StructureEditorPresentationControl> structureEditorPresentationControl;
 
     @Inject @Nonnull
-    private StructureExplorerPresentationControl structureExplorerPresentationControl;
+    private Provider<StructureExplorerPresentationControl> structureExplorerPresentationControl;
 
     @Inject @Nonnull
-    private JavaFXContentEditorPresentation contentEditorPresentation;
+    private Provider<JavaFXContentEditorPresentation> contentEditorPresentation;
 
     @Inject @Nonnull
-    private JavaFXContentExplorerPresentation contentExplorerPresentation;
+    private Provider<JavaFXContentExplorerPresentation> contentExplorerPresentation;
 
     @Inject @Nonnull
-    private JavaFXStructureEditorPresentation structureEditorPresentation;
+    private Provider<JavaFXStructureEditorPresentation> structureEditorPresentation;
 
     @Inject @Nonnull
-    private JavaFXStructureExplorerPresentation structurExplorerPresentation;
+    private Provider<JavaFXStructureExplorerPresentation> structurExplorerPresentation;
 
     @FXML
     private Button btOpen;
@@ -110,21 +111,21 @@ public class JavaFXApplicationPresentationDelegate
     public void initialize()
       throws IOException
       {
-        stackPaneSelector.registerArea("editorArea", stackPane);
-        stackPaneSelector.add("editorArea", structureEditorPresentation.getNode());
-        stackPaneSelector.add("editorArea", contentEditorPresentation.getNode());
+        stackPaneSelector.get().registerArea("editorArea", stackPane);
+        stackPaneSelector.get().add("editorArea", structureEditorPresentation.get().getNode());
+        stackPaneSelector.get().add("editorArea", contentEditorPresentation.get().getNode());
 
-        pnVerticalSplit.getItems().add(structurExplorerPresentation.getNode());
-        pnVerticalSplit.getItems().add(contentExplorerPresentation.getNode());
+        pnVerticalSplit.getItems().add(structurExplorerPresentation.get().getNode());
+        pnVerticalSplit.getItems().add(contentExplorerPresentation.get().getNode());
 
         // FIXME: controllers can't initialize in postconstruct
         // Too bad because with PAC+EventBus we'd get rid of the control interfaces
-        contentEditorPresentationControl.initialize();
-        contentExplorerPresentationControl.initialize();
-        structureEditorPresentationControl.initialize();
-        structureExplorerPresentationControl.initialize();
+        contentEditorPresentationControl.get().initialize();
+        contentExplorerPresentationControl.get().initialize();
+        structureEditorPresentationControl.get().initialize();
+        structureExplorerPresentationControl.get().initialize();
 
         // FIXME: this should be delegated to other handlers, as already done for the Editors
-        siteOpenerPresentationControl.initialize(createInstance(JavaFXSiteOpenerPresentation.class, this));
+        siteOpenerPresentationControl.get().initialize(createInstance(JavaFXSiteOpenerPresentation.class, this));
       }
   }

@@ -29,6 +29,7 @@ package it.tidalwave.northernwind.rca.ui.impl.javafx.contenteditor;
 
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
+import javax.inject.Provider;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.event.EventHandler;
@@ -55,10 +56,10 @@ import lombok.extern.slf4j.Slf4j;
 public class JavaFXContentEditorPresentationDelegate implements ContentEditorPresentation
   {
     @Inject @Nonnull
-    private JavaFXBinder binder;
+    private Provider<JavaFXBinder> binder;
 
     @Inject @Nonnull
-    private StackPaneSelector stackPaneSelector;
+    private Provider<StackPaneSelector> stackPaneSelector;
 
     @FXML
     private Pane contentEditor;
@@ -92,14 +93,14 @@ public class JavaFXContentEditorPresentationDelegate implements ContentEditorPre
     @Override
     public void bind (final @Nonnull Bindings bindings)
       {
-        binder.bindBidirectionally(contentTitle.textProperty(), bindings.title);
-        binder.bind(btOpenExternalEditor, bindings.openExternalEditor);
+        binder.get().bindBidirectionally(contentTitle.textProperty(), bindings.title);
+        binder.get().bind(btOpenExternalEditor, bindings.openExternalEditor);
       }
 
     @Override
     public void showUp()
       {
-        stackPaneSelector.setShownNode(contentEditor);
+        stackPaneSelector.get().setShownNode(contentEditor);
       }
 
     @Override
@@ -119,6 +120,6 @@ public class JavaFXContentEditorPresentationDelegate implements ContentEditorPre
     @Override
     public void populateProperties (final @Nonnull PresentationModel pm)
       {
-        binder.bind(contentEditorProperties, pm);
+        binder.get().bind(contentEditorProperties, pm);
       }
   }

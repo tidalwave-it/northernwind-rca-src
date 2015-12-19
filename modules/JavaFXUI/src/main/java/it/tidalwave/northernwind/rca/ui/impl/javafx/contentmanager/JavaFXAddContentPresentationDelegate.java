@@ -29,6 +29,7 @@ package it.tidalwave.northernwind.rca.ui.impl.javafx.contentmanager;
 
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
+import javax.inject.Provider;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import it.tidalwave.util.ui.UserNotificationWithFeedback;
@@ -47,7 +48,7 @@ import org.springframework.beans.factory.annotation.Configurable;
 public class JavaFXAddContentPresentationDelegate implements AddContentPresentation
   {
     @Inject @Nonnull
-    private JavaFXBinder binder;
+    private Provider<JavaFXBinder> binder;
 
     @FXML
     private TextField tfFolder;
@@ -67,12 +68,12 @@ public class JavaFXAddContentPresentationDelegate implements AddContentPresentat
     @Override
     public void bind (final @Nonnull Bindings bindings)
       {
-        binder.bindBidirectionally(tfFolder, bindings.folder, bindings.folderValid);
-        binder.bindBidirectionally(tfTitle, bindings.title, bindings.titleValid);
-        binder.bindBidirectionally(tfExposedUri, bindings.exposedUri, bindings.exposedUriValid);
-        binder.bindBidirectionally(tfTags, bindings.tags, bindings.tagsValid);
-        binder.bindBidirectionally(tfPublishingDateTime, bindings.publishingDateTime,
-                                                         bindings.publishingDateTimeValid);
+        binder.get().bindBidirectionally(tfFolder, bindings.folder, bindings.folderValid);
+        binder.get().bindBidirectionally(tfTitle, bindings.title, bindings.titleValid);
+        binder.get().bindBidirectionally(tfExposedUri, bindings.exposedUri, bindings.exposedUriValid);
+        binder.get().bindBidirectionally(tfTags, bindings.tags, bindings.tagsValid);
+        binder.get().bindBidirectionally(tfPublishingDateTime, bindings.publishingDateTime,
+                                                               bindings.publishingDateTimeValid);
       }
 
     @Override
