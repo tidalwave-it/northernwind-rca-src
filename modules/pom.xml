@@ -50,13 +50,6 @@
     <name>Zephyr (modules)</name>
     <description>The parent POM of all modules.</description>
 
-    <repositories>
-        <repository>
-            <id>spring-milestones</id>
-            <url>http://repo.spring.io/milestone</url>
-        </repository>
-    </repositories>
-
     <!-- ===============================================================================================================
 
         Here you declare some properties defining the version of dependencies used by this project. All dependencies
@@ -66,21 +59,13 @@
     <properties>
         <aquafx.version>0.2</aquafx.version>
         <guava.version>14.0.1</guava.version>
-        <slf4j.version>1.7.13</slf4j.version>
         <jetty.version>8.1.10.v20130312</jetty.version>
         <joda-time.version>2.8.1</joda-time.version>
         <jsoup.version>1.7.2</jsoup.version>
-        <logback.version>1.1.3</logback.version>
         <netbeans.version>RELEASE80</netbeans.version>
-        <northernwind.version>1.1-ALPHA-35</northernwind.version>
-        <spring.version>4.2.0.RELEASE</spring.version>
+        <northernwind.version>1.1-ALPHA-36-SNAPSHOT</northernwind.version>
         <steelblue.version>1.0-ALPHA-10</steelblue.version>
         <thesefoolishthings.version>1.39</thesefoolishthings.version>
-        <tft.lombok.version>1.16.4</tft.lombok.version>
-        <tft.jsr305.version>3.0.0</tft.jsr305.version>
-        <tft.jsr330.version>1</tft.jsr330.version>
-        <tft.junit.version>4.12</tft.junit.version>
-        <tft.testng.version>6.9.10</tft.testng.version>
     </properties>
 
     <!-- ===============================================================================================================
@@ -129,7 +114,7 @@
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-framework-bom</artifactId>
-                <version>${spring.version}</version>
+                <version>${tft.spring.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -175,22 +160,22 @@
             <dependency>
                 <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-api</artifactId>
-                <version>${slf4j.version}</version>
+                <version>${tft.slf4j.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.slf4j</groupId>
                 <artifactId>jcl-over-slf4j</artifactId>
-                <version>${slf4j.version}</version>
+                <version>${tft.slf4j.version}</version>
             </dependency>
             <dependency>
                 <groupId>ch.qos.logback</groupId>
                 <artifactId>logback-core</artifactId>
-                <version>${logback.version}</version>
+                <version>${tft.logback.version}</version>
             </dependency>
             <dependency>
                 <groupId>ch.qos.logback</groupId>
                 <artifactId>logback-classic</artifactId>
-                <version>${logback.version}</version>
+                <version>${tft.logback.version}</version>
             </dependency>
 
             <dependency>
@@ -261,43 +246,34 @@
         </dependency>
     </dependencies>
 
-    <profiles>
-    <!--================================================================================================================
-
-    This profile adds some required dependencies when AspectJ is used.
-    FIXME: push to Superpom, merge to tidalwave-aspectj-springaop-v1-profile
-
-    =================================================================================================================-->
-        <profile>
-            <id>tidalwave-aspectj-springaop-v1-supplement-profile</id>
-            <activation>
-                <file>
-                    <exists>src/config/activate-it.tidalwave-aspectj-springaop-v1-profile</exists>
-                </file>
-            </activation>
-            <dependencies>
-                <dependency>
-                    <groupId>org.springframework</groupId>
-                    <artifactId>spring-aspects</artifactId>
-                    <exclusions>
-                        <exclusion>
-                            <groupId>org.springframework</groupId>
-                            <artifactId>spring-test</artifactId>
-                        </exclusion>
-                        <exclusion>
-                            <groupId>org.aspectj</groupId>
-                            <artifactId>aspectjweaver</artifactId>
-                        </exclusion>
-                    </exclusions>
-                </dependency>
-                <dependency>
-                    <groupId>org.aspectj</groupId>
-                    <artifactId>aspectjrt</artifactId>
-                    <!--<scope>runtime</scope>-->
-                </dependency>
-            </dependencies>
-        </profile>
-    </profiles>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-enforcer-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>enforce-banned-dependencies</id>
+                        <goals>
+                            <goal>enforce</goal>
+                        </goals>
+                        <configuration>
+                            <rules>
+                                <bannedDependencies>
+                                    <excludes>
+                                        <exclude>commons-logging:commons-logging</exclude>
+                                        <exclude>org.aspectj:aspectjweaver</exclude>
+                                        <exclude>com.kenai.nbpwr:org-slf4j-jdk14</exclude>
+                                    </excludes>
+                                </bannedDependencies>
+                            </rules>
+                            <fail>true</fail>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 
     <!-- ===============================================================================================================
 
