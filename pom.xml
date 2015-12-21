@@ -31,7 +31,7 @@
     <parent>
         <groupId>it.tidalwave.superpom</groupId>
         <artifactId>superpom</artifactId>
-        <version>2.16</version>
+        <version>3.0</version>
         <relativePath />
     </parent>
 
@@ -49,8 +49,13 @@
     <artifactId>northernwind-rca</artifactId>
     <version>1.1-ALPHA-13-SNAPSHOT</version>
     <packaging>pom</packaging>
-    <name>Zephyr (master)</name>
+    <name>Zephyr</name>
     <inceptionYear>2013</inceptionYear>
+    <description>
+![Build Status](https://drone.io/bitbucket.org/tidalwave/northernwind-rca-src/status.png)](https://drone.io/bitbucket.org/tidalwave/northernwind-rca-src/latest)
+
+Zephyr is a rich client application for editing contents for the NorthernWind CMS.
+    </description>
 
     <!-- ===============================================================================================================
 
@@ -91,30 +96,12 @@
 
         <tft.test.maxMemory>1024M</tft.test.maxMemory>
 
-        <tft.javadoc.doclint>-Xdoclint:none</tft.javadoc.doclint>
-
         <!-- Clirr is not compatible with JDK 8 -->
         <tft.clirr.skip>true</tft.clirr.skip>
-
-        <!-- disables javancss since it's broken with JDK 1.8 -->
-        <tft.profile.metrics.defaultGoal>install findbugs:findbugs pmd:cpd pmd:pmd checkstyle:checkstyle clirr:clirr dependency:analyze</tft.profile.metrics.defaultGoal>
 
         <tft.UmlGraphDoc.version>5.4</tft.UmlGraphDoc.version>
         <tft.UmlGraphDoc.additionalParam>-views -attributes -operations -types -postfixpackage -nodefontpackagesize 6 -nodefontclasssize 8 -nodefontsize 7 -edgefontsize 7 -nodesep 0.05 -ranksep 0.1 -visibility -inferdep -inferrel -inferdepinpackage -hide java.*|javax.*|android.*</tft.UmlGraphDoc.additionalParam>
     </properties>
-
-    <mailingLists>
-        <mailingList>
-            <name>Continuous Integration</name>
-            <post>ci@northernwind.java.net</post>
-            <archive>http://java.net/projects/northernwind/lists/ci/archive</archive>
-        </mailingList>
-        <mailingList>
-            <name>Developers</name>
-            <post>dev@northernwind.java.net</post>
-            <archive>http://java.net/projects/northernwind/lists/dev/archive</archive>
-        </mailingList>
-    </mailingLists>
 
     <!-- ===============================================================================================================
 
