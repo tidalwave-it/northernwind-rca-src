@@ -45,6 +45,12 @@
         <dependency>
             <groupId>it.tidalwave.northernwind</groupId>
             <artifactId>it-tidalwave-northernwind-core</artifactId>
+            <exclusions>
+                <exclusion> <!-- TODO: this can be removed after upgrading to NW 1.1-ALPHA-36 -->
+                    <groupId>commons-logging</groupId>
+                    <artifactId>commons-logging</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>it.tidalwave.northernwind.rca</groupId>

@@ -1,7 +1,7 @@
 Zephyr
 ================================
 
-![Build Status](https://drone.io/bitbucket.org/tidalwave/northernwind-rca-src/status.png)](https://drone.io/bitbucket.org/tidalwave/northernwind-rca-src/latest)
+[![Build Status](https://drone.io/bitbucket.org/tidalwave/northernwind-rca-src/status.png)](https://drone.io/bitbucket.org/tidalwave/northernwind-rca-src/latest)
 
 Zephyr is a rich client application for editing contents for the NorthernWind CMS.
 
