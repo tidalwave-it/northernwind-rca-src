@@ -44,10 +44,28 @@ import lombok.RequiredArgsConstructor;
  *
  **********************************************************************************************************************/
 @RequiredArgsConstructor
-public abstract class ResourceFinder<T extends Resource> extends SimpleFinderSupport<T>
+public final class ResourceFinder<T extends Resource> extends SimpleFinderSupport<T>
   {
+    @FunctionalInterface
+    static interface ProductCreator<T>
+      {
+        @Nonnull
+        public T createProduct (final @Nonnull ResourceFile folder)
+          throws IOException, NotFoundException;
+      }
     @Nonnull
     private final ResourceFile resourceFile;
+
+    @Nonnull
+    private final ProductCreator<T> productCreator;
+
+    public ResourceFinder (final @Nonnull ResourceFinder<T> other, final @Nonnull Object override)
+      {
+        super(other, override);
+        final ResourceFinder<T> source = getSource(ResourceFinder.class, other, override);
+        this.resourceFile = source.resourceFile;
+        this.productCreator = source.productCreator;
+      }
 
     @Override @Nonnull
     protected List<? extends T> computeResults()
@@ -61,7 +79,7 @@ public abstract class ResourceFinder<T extends Resource> extends SimpleFinderSup
               {
                 try
                   {
-                    results.add(createProduct(childFile));
+                    results.add(productCreator.createProduct(childFile));
                   }
                 catch (IOException | NotFoundException e)
                   {
@@ -72,8 +90,4 @@ public abstract class ResourceFinder<T extends Resource> extends SimpleFinderSup
 
         return results;
       }
-
-    @Nonnull
-    protected abstract T createProduct (final @Nonnull ResourceFile folder)
-      throws IOException, NotFoundException;
   }

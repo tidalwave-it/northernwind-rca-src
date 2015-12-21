@@ -63,9 +63,10 @@
         <joda-time.version>2.8.1</joda-time.version>
         <jsoup.version>1.7.2</jsoup.version>
         <netbeans.version>RELEASE80</netbeans.version>
-        <northernwind.version>1.1-ALPHA-35</northernwind.version>
+        <northernwind.version>1.1-ALPHA-36-SNAPSHOT</northernwind.version>
         <steelblue.version>1.0-ALPHA-10</steelblue.version>
-        <thesefoolishthings.version>1.39</thesefoolishthings.version>
+        <!-- 2.5 breaks everything -->
+        <thesefoolishthings.version>2.4</thesefoolishthings.version>
     </properties>
 
     <!-- ===============================================================================================================

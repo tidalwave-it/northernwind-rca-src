@@ -79,8 +79,8 @@
     </bean>
 
     <bean id="applicationMessageBus"
-          class="it.tidalwave.messagebus.impl.spring.SpringMessageBus">
-        <property name="taskExecutor" ref="applicationMessageBusTaskExecutor"/>
+          class="it.tidalwave.messagebus.spi.SimpleMessageBus">
+        <constructor-arg ref="applicationMessageBusTaskExecutor"/>
     </bean>
 
 </beans>

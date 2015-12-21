@@ -32,7 +32,6 @@ import java.io.IOException;
 import it.tidalwave.util.Finder;
 import it.tidalwave.util.NotFoundException;
 import it.tidalwave.northernwind.core.model.Content;
-import it.tidalwave.northernwind.core.model.ResourceFile;
 import it.tidalwave.northernwind.core.model.ResourcePath;
 import it.tidalwave.northernwind.core.model.ResourceProperties;
 import it.tidalwave.northernwind.core.model.spi.ContentSupport;
@@ -60,14 +59,9 @@ public class AdminContent extends ContentSupport
     @Override @Nonnull
     public Finder<Content> findChildren()
       {
-        return new ResourceFinder<Content>(getResource().getFile())
-          {
-            @Override @Nonnull
-            protected Content createProduct (final @Nonnull ResourceFile folder)
-              {
-                return modelFactory.createContent().withFolder(folder).build();
-              }
-          };
+        return new ResourceFinder<>(
+                getResource().getFile(),
+                folder -> modelFactory.createContent().withFolder(folder).build());
       }
 
     @Override @Nonnull
