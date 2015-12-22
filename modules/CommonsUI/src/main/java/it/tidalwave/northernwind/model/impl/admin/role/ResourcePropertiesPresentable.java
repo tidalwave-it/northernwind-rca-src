@@ -27,8 +27,18 @@
  */
 package it.tidalwave.northernwind.model.impl.admin.role;
 
-import it.tidalwave.dci.annotation.DciRole;
-import it.tidalwave.northernwind.core.model.ResourceProperties;
+import javax.annotation.Nonnull;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.io.IOException;
+import it.tidalwave.util.Id;
+import it.tidalwave.util.Key;
+import it.tidalwave.util.NotFoundException;
+import it.tidalwave.util.spi.SimpleFinderSupport;
 import it.tidalwave.role.SimpleComposite;
 import it.tidalwave.role.spi.DefaultDisplayable;
 import it.tidalwave.role.spi.DefaultSimpleComposite;
@@ -36,18 +46,8 @@ import it.tidalwave.role.spi.MapAggregate;
 import it.tidalwave.role.ui.Presentable;
 import it.tidalwave.role.ui.PresentationModel;
 import it.tidalwave.role.ui.spi.DefaultPresentationModel;
-import it.tidalwave.util.Id;
-import it.tidalwave.util.Key;
-import it.tidalwave.util.NotFoundException;
-import it.tidalwave.util.spi.SimpleFinderSupport;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import javax.annotation.Nonnull;
+import it.tidalwave.dci.annotation.DciRole;
+import it.tidalwave.northernwind.core.model.ResourceProperties;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -94,14 +94,12 @@ public class ResourcePropertiesPresentable implements Presentable
                             map.put("Value", new DefaultPresentationModel(new DefaultDisplayable("" + p2.getProperty(key))));
                             results.add(new DefaultPresentationModel(properties, new MapAggregate<>(map)));
                           }
-                        catch (IOException e)
+                        catch (IOException | NotFoundException e)
                           {
                             log.warn("", e);
                           }
-                        catch (NotFoundException e)
-                          {
-                            log.warn("", e); // should never happen, we're cycling on available properties
-                          }
+                        // should never happen, we're cycling on available properties
+
                       }
                   }
 
