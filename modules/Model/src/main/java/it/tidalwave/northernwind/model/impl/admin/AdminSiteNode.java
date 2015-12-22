@@ -28,9 +28,7 @@
 package it.tidalwave.northernwind.model.impl.admin;
 
 import javax.annotation.Nonnull;
-import java.io.IOException;
 import it.tidalwave.util.Finder;
-import it.tidalwave.util.NotFoundException;
 import it.tidalwave.northernwind.core.model.ModelFactory;
 import it.tidalwave.northernwind.core.model.ResourceFile;
 import it.tidalwave.northernwind.core.model.ResourcePath;
@@ -73,14 +71,6 @@ public class AdminSiteNode extends SiteNodeSupport
     @Override @Nonnull
     public Finder<SiteNode> findChildren()
       {
-        return new ResourceFinder<SiteNode>(getResource().getFile())
-          {
-            @Override @Nonnull
-            protected SiteNode createProduct (final @Nonnull ResourceFile folder)
-              throws IOException, NotFoundException
-              {
-                return modelFactory.createSiteNode(site, folder);
-              }
-          };
+        return new ResourceFinder<>(getResource().getFile(), folder -> modelFactory.createSiteNode(site, folder));
       }
   }
