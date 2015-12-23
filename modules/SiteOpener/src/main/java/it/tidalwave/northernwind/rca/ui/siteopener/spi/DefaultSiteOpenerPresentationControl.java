@@ -10,7 +10,7 @@
  * *********************************************************************************************************************
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
+ * the License. You may obtain a copy withCallback the License at
  *
  *     http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -27,21 +27,21 @@
  */
 package it.tidalwave.northernwind.rca.ui.siteopener.spi;
 
-import com.google.common.annotations.VisibleForTesting;
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
 import java.nio.file.Path;
 import java.io.File;
-import java.io.IOException;
+import com.google.common.annotations.VisibleForTesting;
 import it.tidalwave.role.ui.BoundProperty;
-import it.tidalwave.role.ui.spi.UserActionSupport;
 import it.tidalwave.role.ui.UserAction;
+import it.tidalwave.role.ui.spi.UserActionSupport8;
 import it.tidalwave.messagebus.MessageBus;
 import it.tidalwave.northernwind.rca.ui.event.OpenSiteEvent;
 import it.tidalwave.northernwind.rca.ui.siteopener.SiteOpenerPresentation;
 import it.tidalwave.northernwind.rca.ui.siteopener.SiteOpenerPresentationControl;
 import lombok.extern.slf4j.Slf4j;
-import static it.tidalwave.util.ui.UserNotificationWithFeedback.*;
+import static it.tidalwave.util.ui.Feedback8.feedback;
+import static it.tidalwave.util.ui.UserNotificationWithFeedback.notificationWithFeedback;
 
 /***********************************************************************************************************************
  *
@@ -61,22 +61,13 @@ public class DefaultSiteOpenerPresentationControl implements SiteOpenerPresentat
 
     @VisibleForTesting final BoundProperty<Path> folderToOpen = new BoundProperty<>();
 
-    @VisibleForTesting final UserAction openSiteAction = new UserActionSupport()
+    @VisibleForTesting final UserAction openSiteAction = UserActionSupport8.withCallback(() ->
       {
-        @Override public void actionPerformed()
-          {
-            presentation.notifyInvitationToSelectAFolder(notificationWithFeedback()
-                                                        .withCaption("Select the site to open")
-                                                        .withFeedback(new Feedback()
-              {
-                @Override public void onConfirm()
-                  throws IOException
-                  {
-                    messageBus.publish(OpenSiteEvent.of(folderToOpen.get()));
-                  }
-              }));
-          }
-      };
+        presentation.notifyInvitationToSelectAFolder(notificationWithFeedback()
+            .withCaption("Select the site to open")
+            .withFeedback(feedback()
+                         .withOnConfirm(() -> messageBus.publish(OpenSiteEvent.of(folderToOpen.get())))));
+      });
 
     @Override
     public void initialize (final @Nonnull SiteOpenerPresentation presentation)
