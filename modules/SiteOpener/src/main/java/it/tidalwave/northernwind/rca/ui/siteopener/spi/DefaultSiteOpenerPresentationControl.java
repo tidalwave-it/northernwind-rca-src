@@ -30,7 +30,7 @@ package it.tidalwave.northernwind.rca.ui.siteopener.spi;
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
 import java.nio.file.Path;
-import java.io.File;
+import java.nio.file.Paths;
 import com.google.common.annotations.VisibleForTesting;
 import it.tidalwave.role.ui.BoundProperty;
 import it.tidalwave.role.ui.UserAction;
@@ -78,8 +78,8 @@ public class DefaultSiteOpenerPresentationControl implements SiteOpenerPresentat
       }
 
     @Nonnull
-    private Path getHomeFolder()
+    private static Path getHomeFolder()
       {
-        return new File(System.getProperty("user.home")).toPath();
+        return Paths.get(System.getProperty("user.home"));
       }
   }
