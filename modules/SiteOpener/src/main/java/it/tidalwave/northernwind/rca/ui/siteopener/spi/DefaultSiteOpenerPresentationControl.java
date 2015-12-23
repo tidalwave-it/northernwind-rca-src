@@ -72,7 +72,7 @@ public class DefaultSiteOpenerPresentationControl implements SiteOpenerPresentat
                 @Override public void onConfirm()
                   throws IOException
                   {
-                    messageBus.publish(new OpenSiteEvent(folderToOpen.get()));
+                    messageBus.publish(OpenSiteEvent.of(folderToOpen.get()));
                   }
               }));
           }

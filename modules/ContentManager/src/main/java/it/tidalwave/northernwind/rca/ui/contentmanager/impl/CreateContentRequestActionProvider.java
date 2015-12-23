@@ -72,7 +72,7 @@ public class CreateContentRequestActionProvider extends DefaultUserActionProvide
         @Override @Nonnull
         public void actionPerformed()
           {
-            messageBus.publish(new CreateContentRequest(content));
+            messageBus.publish(CreateContentRequest.of(content));
           }
       };
 

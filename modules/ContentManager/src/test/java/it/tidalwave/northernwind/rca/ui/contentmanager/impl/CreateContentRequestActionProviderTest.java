@@ -82,7 +82,7 @@ public class CreateContentRequestActionProviderTest
       {
         underTest.sendCreateContentRequestAction.actionPerformed();
 
-        verify(messageBus).publish(eq(new CreateContentRequest(content)));
+        verify(messageBus).publish(eq(CreateContentRequest.of(content)));
         verifyNoMoreInteractions(messageBus);
       }
 }
