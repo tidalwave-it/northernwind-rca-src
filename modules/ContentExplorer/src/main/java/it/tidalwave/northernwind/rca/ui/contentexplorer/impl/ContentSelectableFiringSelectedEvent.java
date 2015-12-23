@@ -39,7 +39,8 @@ import lombok.RequiredArgsConstructor;
 
 /***********************************************************************************************************************
  *
- * A {@link Selectable} that fires a {@link ContentSelectedEvent} message when selected.
+ * A {@link Selectable} for {@link Content} in the context of {@link DefaultContentExplorerPresentationControl}
+ * that fires a {@link ContentSelectedEvent} message when selected.
  *
  * @author  Fabrizio Giudici
  * @version $Id$

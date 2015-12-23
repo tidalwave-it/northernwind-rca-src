@@ -39,8 +39,8 @@ import lombok.RequiredArgsConstructor;
 
 /***********************************************************************************************************************
  *
- * This role is injected only in the context of DefaultStructureExplorerPresentationControl and publishes a selection
- * message whenever its {@link SiteNode} owner is selected on the UI.
+ * A {@link Selectable} for {@link SiteNode} in the context of {@link DefaultStructureExplorerPresentationControl}
+ * that fires a {@link SiteNodeSelectedEvent} message when selected.
  *
  * @author  Fabrizio Giudici
  * @version $Id$
