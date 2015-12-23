@@ -64,6 +64,54 @@ import lombok.extern.slf4j.Slf4j;
 @DciRole(datumType = ResourceProperties.class) @RequiredArgsConstructor @Slf4j
 public class ResourcePropertiesPresentable implements Presentable
   {
+    @RequiredArgsConstructor
+    static class PropertyPmFinder extends SimpleFinderSupport<PresentationModel>
+      {
+        private static final long serialVersionUID = 6614643999849054070L;
+
+        @Nonnull
+        private final ResourceProperties properties;
+
+        public PropertyPmFinder (final @Nonnull PropertyPmFinder other, final @Nonnull Object override)
+          {
+            super(other, override);
+            final PropertyPmFinder source = getSource(PropertyPmFinder.class, other, override);
+            this.properties = source.properties;
+          }
+
+        @Override
+        protected List<? extends PresentationModel> computeResults()
+          {
+            final List<PresentationModel> results = new ArrayList<>();
+            final Collection<Id> groupIds = properties.getGroupIds();
+            groupIds.add(new Id(""));
+
+            for (final Id groupId : groupIds)
+              {
+                final ResourceProperties p2 = groupId.equals(new Id("")) ? properties : properties.getGroup(groupId);
+
+                for (final Key<?> key : p2.getKeys())
+                  {
+                    try
+                      {
+                        final String prefix = groupId.stringValue().equals("") ? "" : groupId.stringValue() + ".";
+                        final Map<String, PresentationModel> map = new HashMap<>();
+                        map.put("Name", new DefaultPresentationModel(new DefaultDisplayable(prefix + key.stringValue())));
+                        map.put("Value", new DefaultPresentationModel(new DefaultDisplayable("" + p2.getProperty(key))));
+                        results.add(new DefaultPresentationModel(properties, new MapAggregate<>(map)));
+                      }
+                    // should never happen, we're cycling on available properties
+                    catch (IOException | NotFoundException e)
+                      {
+                        log.warn("", e);
+                      }
+                  }
+              }
+
+            return results;
+          }
+      }
+
     @Nonnull
     private final ResourceProperties properties;
 
@@ -71,42 +119,7 @@ public class ResourcePropertiesPresentable implements Presentable
     public PresentationModel createPresentationModel (final @Nonnull Object ... localRoles)
       {
         final SimpleComposite<PresentationModel> composite =
-                new DefaultSimpleComposite<>(new SimpleFinderSupport<PresentationModel>()
-          {
-            @Override
-            protected List<? extends PresentationModel> computeResults()
-              {
-                final List<PresentationModel> results = new ArrayList<>();
-                final Collection<Id> groupIds = properties.getGroupIds();
-                groupIds.add(new Id(""));
-
-                for (final Id groupId : groupIds)
-                  {
-                    final ResourceProperties p2 = groupId.equals(new Id("")) ? properties : properties.getGroup(groupId);
-
-                    for (final Key<?> key : p2.getKeys())
-                      {
-                        try
-                          {
-                            final String prefix = groupId.stringValue().equals("") ? "" : groupId.stringValue() + ".";
-                            final Map<String, PresentationModel> map = new HashMap<>();
-                            map.put("Name", new DefaultPresentationModel(new DefaultDisplayable(prefix + key.stringValue())));
-                            map.put("Value", new DefaultPresentationModel(new DefaultDisplayable("" + p2.getProperty(key))));
-                            results.add(new DefaultPresentationModel(properties, new MapAggregate<>(map)));
-                          }
-                        catch (IOException | NotFoundException e)
-                          {
-                            log.warn("", e);
-                          }
-                        // should never happen, we're cycling on available properties
-
-                      }
-                  }
-
-                return results;
-              }
-          });
-
+                new DefaultSimpleComposite<>(new PropertyPmFinder(properties));
         final List<Object> roles = new ArrayList<>(Arrays.asList(localRoles));
         roles.add(composite);
 
