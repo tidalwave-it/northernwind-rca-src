@@ -116,7 +116,7 @@ public class DefaultStructureEditorPresentationControlTest
       {
         reset(presentation);
 
-        underTest.onSiteNodeSelected(new SiteNodeSelectedEvent());
+        underTest.onSiteNodeSelected(SiteNodeSelectedEvent.emptySelectionEvent());
 
         verify(presentation).clear();
         verifyNoMoreInteractions(presentation);
@@ -134,7 +134,7 @@ public class DefaultStructureEditorPresentationControlTest
 
         reset(presentation);
 
-        underTest.onSiteNodeSelected(new SiteNodeSelectedEvent(siteNode));
+        underTest.onSiteNodeSelected(SiteNodeSelectedEvent.of(siteNode));
 
         verify(presentation).populate(matches("Viewer not implemented for .*"));
         verify(presentation).populateProperties(same(pm));

@@ -44,26 +44,17 @@ public class SiteNodeSelectedEventTest
     @Test
     public void must_represent_an_empty_selection_when_constructed_with_no_arguments()
       {
-        final SiteNodeSelectedEvent underTest = new SiteNodeSelectedEvent();
+        final SiteNodeSelectedEvent underTest = SiteNodeSelectedEvent.emptySelectionEvent();
 
-        assertThat(underTest.isEmptySelection(), is(true));
-      }
-
-    @Test(expectedExceptions = NullPointerException.class)
-    public void must_throw_NPE_when_getSiteNode_invoked_on_an_empty_selection()
-      {
-        final SiteNodeSelectedEvent underTest = new SiteNodeSelectedEvent();
-
-        underTest.getSiteNode();
+        assertThat(underTest.getSiteNode().isPresent(), is(false));
       }
 
     @Test
     public void must_return_the_original_SiteNode_when_constructed_with_arguments()
       {
         final SiteNode siteNode = mock(SiteNode.class);
-        final SiteNodeSelectedEvent underTest = new SiteNodeSelectedEvent(siteNode);
+        final SiteNodeSelectedEvent underTest = SiteNodeSelectedEvent.of(siteNode);
 
-        assertThat(underTest.isEmptySelection(), is(false));
-        assertThat(underTest.getSiteNode(), is(sameInstance(siteNode)));
+        assertThat(underTest.getSiteNode().get(), is(sameInstance(siteNode)));
       }
   }

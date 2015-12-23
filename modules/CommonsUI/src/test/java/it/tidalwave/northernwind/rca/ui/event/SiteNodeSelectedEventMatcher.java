@@ -73,10 +73,10 @@ public class SiteNodeSelectedEventMatcher extends BaseMatcher<SiteNodeSelectedEv
 
         if (emptySelection)
           {
-            return event.isEmptySelection();
+            return !event.getSiteNode().isPresent();
           }
 
-        return event.getSiteNode() == node;
+        return event.getSiteNode().get() == node;
       }
 
     @Override public void describeTo (Description description)

@@ -43,11 +43,11 @@ import it.tidalwave.northernwind.core.model.ResourceFile;
 import it.tidalwave.northernwind.core.model.Site;
 import it.tidalwave.northernwind.core.model.SiteNode;
 import it.tidalwave.northernwind.rca.ui.event.OpenSiteEvent;
-import it.tidalwave.northernwind.rca.ui.event.SiteNodeSelectedEvent;
 import it.tidalwave.northernwind.rca.ui.structureexplorer.StructureExplorerPresentation;
 import it.tidalwave.northernwind.rca.ui.structureexplorer.StructureExplorerPresentationControl;
 import lombok.extern.slf4j.Slf4j;
 import static it.tidalwave.role.ui.Presentable.*;
+import static it.tidalwave.northernwind.rca.ui.event.SiteNodeSelectedEvent.emptySelectionEvent;
 
 /***********************************************************************************************************************
  *
@@ -104,7 +104,7 @@ public class DefaultStructureExplorerPresentationControl implements StructureExp
                     final SiteNode siteNode = modelFactory.createSiteNode(site, root);
                     presentation.populate(siteNode.as(Presentable).createPresentationModel());
                     presentation.expandFirstLevel();
-                    messageBus.publish(new SiteNodeSelectedEvent());
+                    messageBus.publish(emptySelectionEvent());
                   }
                 catch (IOException | NotFoundException e)
                   {

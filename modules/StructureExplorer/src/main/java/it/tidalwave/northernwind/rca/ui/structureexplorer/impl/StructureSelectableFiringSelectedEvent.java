@@ -59,6 +59,6 @@ public class StructureSelectableFiringSelectedEvent implements Selectable
     @Override
     public void select()
       {
-        messageBus.publish(new SiteNodeSelectedEvent(siteNode));
+        messageBus.publish(SiteNodeSelectedEvent.of(siteNode));
       }
   }
