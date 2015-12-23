@@ -29,7 +29,6 @@ package it.tidalwave.northernwind.rca.ui.contentmanager.impl;
 
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
-import javax.inject.Named;
 import java.util.Map;
 import java.io.IOException;
 import org.springframework.beans.factory.annotation.Configurable;
@@ -59,7 +58,7 @@ import static it.tidalwave.northernwind.model.admin.role.Saveable.*;
 @Configurable @RequiredArgsConstructor @Slf4j
 public class DefaultContentChildCreator implements ContentChildCreator
   {
-    @Inject @Named("applicationMessageBus")
+    @Inject
     private MessageBus messageBus;
 
     @Inject

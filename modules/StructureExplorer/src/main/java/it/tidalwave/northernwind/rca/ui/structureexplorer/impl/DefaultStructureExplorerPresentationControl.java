@@ -29,7 +29,6 @@ package it.tidalwave.northernwind.rca.ui.structureexplorer.impl;
 
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
-import javax.inject.Named;
 import java.io.IOException;
 import com.google.common.annotations.VisibleForTesting;
 import it.tidalwave.util.NotFoundException;
@@ -68,7 +67,7 @@ public class DefaultStructureExplorerPresentationControl implements StructureExp
     @Inject
     private Site site;
 
-    @Inject @Named("applicationMessageBus")
+    @Inject
     private MessageBus messageBus;
 
     @Inject

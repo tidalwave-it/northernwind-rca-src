@@ -29,7 +29,6 @@ package it.tidalwave.northernwind.rca.ui.structureexplorer.impl;
 
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
-import javax.inject.Named;
 import org.springframework.beans.factory.annotation.Configurable;
 import it.tidalwave.role.ui.Selectable;
 import it.tidalwave.dci.annotation.DciRole;
@@ -51,7 +50,7 @@ import lombok.RequiredArgsConstructor;
 @Configurable @RequiredArgsConstructor
 public class StructureSelectableFiringSelectedEvent implements Selectable
   {
-    @Inject @Named("applicationMessageBus")
+    @Inject
     private MessageBus messageBus;
 
     @Nonnull

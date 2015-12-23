@@ -29,7 +29,6 @@ package it.tidalwave.northernwind.rca.ui.contentexplorer.impl;
 
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
-import javax.inject.Named;
 import org.springframework.beans.factory.annotation.Configurable;
 import it.tidalwave.role.ui.Selectable;
 import it.tidalwave.dci.annotation.DciRole;
@@ -40,8 +39,7 @@ import lombok.RequiredArgsConstructor;
 
 /***********************************************************************************************************************
  *
- * This role is injected only in the context of DefaultContentExplorerPresentationControl and publishes a selection
- * message whenever its {@link Content} owner is selected on the UI.
+ * A {@link Selectable} that fires a {@link ContentSelectedEvent} message when selected.
  *
  * @author  Fabrizio Giudici
  * @version $Id$
@@ -51,7 +49,7 @@ import lombok.RequiredArgsConstructor;
 @Configurable @RequiredArgsConstructor
 public class ContentSelectableFiringSelectedEvent implements Selectable
   {
-    @Inject @Named("applicationMessageBus")
+    @Inject
     private MessageBus messageBus;
 
     @Nonnull
