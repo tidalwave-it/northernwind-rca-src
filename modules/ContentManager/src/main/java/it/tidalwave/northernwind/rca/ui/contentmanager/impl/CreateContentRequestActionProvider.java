@@ -30,7 +30,6 @@ package it.tidalwave.northernwind.rca.ui.contentmanager.impl;
 import com.google.common.annotations.VisibleForTesting;
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
-import javax.inject.Named;
 import java.util.Collection;
 import java.util.Collections;
 import org.springframework.beans.factory.annotation.Configurable;
@@ -64,7 +63,7 @@ public class CreateContentRequestActionProvider extends DefaultUserActionProvide
     @Nonnull
     private final Content content;
 
-    @Inject @Named("applicationMessageBus")
+    @Inject
     @VisibleForTesting MessageBus messageBus;
 
     @VisibleForTesting final UserAction sendCreateContentRequestAction = new UserActionSupport(

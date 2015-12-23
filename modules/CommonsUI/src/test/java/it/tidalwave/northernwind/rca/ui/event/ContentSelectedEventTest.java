@@ -44,26 +44,17 @@ public class ContentSelectedEventTest
     @Test
     public void must_represent_an_empty_selection_when_constructed_with_no_arguments()
       {
-        final ContentSelectedEvent underTest = new ContentSelectedEvent();
+        final ContentSelectedEvent underTest = ContentSelectedEvent.emptySelectionEvent();
 
-        assertThat(underTest.isEmptySelection(), is(true));
-      }
-
-    @Test(expectedExceptions = NullPointerException.class)
-    public void must_throw_NPE_when_getSiteNode_invoked_on_an_empty_selection()
-      {
-        final ContentSelectedEvent underTest = new ContentSelectedEvent();
-
-        underTest.getContent();
+        assertThat(underTest.getContent().isPresent(), is(false));
       }
 
     @Test
     public void must_return_the_original_SiteNode_when_constructed_with_arguments()
       {
         final Content content = mock(Content.class);
-        final ContentSelectedEvent underTest = new ContentSelectedEvent(content);
+        final ContentSelectedEvent underTest = ContentSelectedEvent.of(content);
 
-        assertThat(underTest.isEmptySelection(), is(false));
-        assertThat(underTest.getContent(), is(sameInstance(content)));
+        assertThat(underTest.getContent().get(), is(sameInstance(content)));
       }
   }

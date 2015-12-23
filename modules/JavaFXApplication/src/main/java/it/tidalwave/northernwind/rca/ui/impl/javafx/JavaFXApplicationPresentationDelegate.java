@@ -53,6 +53,8 @@ import static it.tidalwave.role.ui.javafx.impl.util.JavaFXSafeComponentBuilder.c
 
 /***********************************************************************************************************************
  *
+ * The JavaFX delegate for the main GUI of the application. It assembles together all the pieces of the UI.
+ * 
  * @author Fabrizio Giudici
  * @version $Id$
  *
@@ -101,12 +103,6 @@ public class JavaFXApplicationPresentationDelegate
 
     @FXML
     private MenuItem openSiteMenu;
-
-//    @FXML
-//    private void onOpen (final @Nonnull ActionEvent event)
-//      {
-//        log.info("open: {}", event);
-//      }
 
     public void initialize()
       throws IOException

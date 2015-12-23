@@ -30,7 +30,6 @@ package it.tidalwave.northernwind.rca.ui.siteopener.spi;
 import com.google.common.annotations.VisibleForTesting;
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
-import javax.inject.Named;
 import java.nio.file.Path;
 import java.io.File;
 import java.io.IOException;
@@ -55,7 +54,7 @@ import static it.tidalwave.util.ui.UserNotificationWithFeedback.*;
 @Slf4j
 public class DefaultSiteOpenerPresentationControl implements SiteOpenerPresentationControl
   {
-    @Inject @Named("applicationMessageBus")
+    @Inject
     private MessageBus messageBus;
 
     private SiteOpenerPresentation presentation;

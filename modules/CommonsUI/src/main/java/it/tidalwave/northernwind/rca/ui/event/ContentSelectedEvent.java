@@ -27,13 +27,13 @@
  */
 package it.tidalwave.northernwind.rca.ui.event;
 
-import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
-import com.google.common.base.Preconditions;
+import java.util.Optional;
 import it.tidalwave.northernwind.core.model.Content;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
+import static lombok.AccessLevel.PRIVATE;
 
 /***********************************************************************************************************************
  *
@@ -41,30 +41,21 @@ import lombok.ToString;
  * @version $Id$
  *
  **********************************************************************************************************************/
-@RequiredArgsConstructor @Getter @ToString(doNotUseGetters = true)
+@RequiredArgsConstructor(access = PRIVATE) @ToString
 public class ContentSelectedEvent
   {
-    @CheckForNull
-    private final Content content;
+    @Getter @Nonnull
+    private final Optional<Content> content;
 
-    @Getter
-    private final boolean emptySelection;
-
-    public ContentSelectedEvent()
+    @Nonnull
+    public static ContentSelectedEvent emptySelectionEvent()
       {
-        this.content = null;
-        this.emptySelection = true;
-      }
-
-    public ContentSelectedEvent (final @Nonnull Content content)
-      {
-        this.content = content;
-        this.emptySelection = false;
+        return new ContentSelectedEvent(Optional.empty());
       }
 
     @Nonnull
-    public Content getContent()
+    public static ContentSelectedEvent of (final @Nonnull Content content)
       {
-        return Preconditions.checkNotNull(content);
+        return new ContentSelectedEvent(Optional.of(content));
       }
   }

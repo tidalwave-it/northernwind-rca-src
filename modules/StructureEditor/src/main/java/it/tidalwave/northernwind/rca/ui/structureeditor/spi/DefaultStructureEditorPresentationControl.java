@@ -57,17 +57,17 @@ public class DefaultStructureEditorPresentationControl implements StructureEdito
       {
       }
 
-    @VisibleForTesting void onSiteNodeSelected (final @ListensTo @Nonnull SiteNodeSelectedEvent event)
+    @VisibleForTesting void onSiteNodeSelected (final @ListensTo @Nonnull SiteNodeSelectedEvent selectionEvent)
       {
-        log.debug("onSiteNodeSelected({})", event);
+        log.debug("onSiteNodeSelected({})", selectionEvent);
 
-        if (event.isEmptySelection())
+        if (!selectionEvent.getSiteNode().isPresent())
           {
             presentation.clear();
           }
         else
           {
-            final SiteNode siteNode = event.getSiteNode();
+            final SiteNode siteNode = selectionEvent.getSiteNode().get();
             final ResourceProperties properties = siteNode.getProperties();
             log.debug(">>>> properties: {}", properties);
             presentation.populate("Viewer not implemented for " + siteNode.getFile());

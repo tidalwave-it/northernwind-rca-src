@@ -27,13 +27,13 @@
  */
 package it.tidalwave.northernwind.rca.ui.event;
 
-import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
-import com.google.common.base.Preconditions;
+import java.util.Optional;
 import it.tidalwave.northernwind.core.model.SiteNode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
+import static lombok.AccessLevel.PRIVATE;
 
 /***********************************************************************************************************************
  *
@@ -41,30 +41,21 @@ import lombok.ToString;
  * @version $Id$
  *
  **********************************************************************************************************************/
-@RequiredArgsConstructor @ToString(doNotUseGetters = true)
+@RequiredArgsConstructor(access = PRIVATE) @ToString
 public class SiteNodeSelectedEvent
   {
-    @CheckForNull
-    private final SiteNode siteNode;
+    @Getter @Nonnull
+    private final Optional<SiteNode> siteNode;
 
-    @Getter
-    private final boolean emptySelection;
-
-    public SiteNodeSelectedEvent()
+    @Nonnull
+    public static SiteNodeSelectedEvent emptySelectionEvent()
       {
-        this.siteNode = null;
-        this.emptySelection = true;
-      }
-
-    public SiteNodeSelectedEvent (final @Nonnull SiteNode siteNode)
-      {
-        this.siteNode = siteNode;
-        this.emptySelection = false;
+        return new SiteNodeSelectedEvent(Optional.empty());
       }
 
     @Nonnull
-    public SiteNode getSiteNode()
+    public static SiteNodeSelectedEvent of (final @Nonnull SiteNode siteNode)
       {
-        return Preconditions.checkNotNull(siteNode);
+        return new SiteNodeSelectedEvent(Optional.of(siteNode));
       }
   }

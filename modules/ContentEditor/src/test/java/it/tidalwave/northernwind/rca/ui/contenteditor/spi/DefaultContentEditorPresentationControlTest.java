@@ -48,8 +48,8 @@ import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 import static it.tidalwave.role.ui.Presentable.*;
 import static it.tidalwave.northernwind.model.admin.Properties.*;
-import static it.tidalwave.northernwind.rca.ui.contenteditor.spi.DefaultContentEditorPresentationControl.*;
 import static it.tidalwave.northernwind.rca.ui.contenteditor.spi.PropertyBinder.*;
+import static it.tidalwave.northernwind.rca.ui.event.ContentSelectedEvent.emptySelectionEvent;
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.CoreMatchers.*;
 import static org.mockito.Mockito.*;
@@ -152,7 +152,7 @@ public class DefaultContentEditorPresentationControlTest
       {
         reset(presentation);
 
-        underTest.onContentSelected(new ContentSelectedEvent());
+        underTest.onContentSelected(emptySelectionEvent());
 
         verify(presentation).clear();
 //        verify(presentation).bind(same(underTest.bindings));
@@ -170,7 +170,7 @@ public class DefaultContentEditorPresentationControlTest
         when(properties.getProperty(eq(PROPERTY_TITLE), anyString())).thenReturn("title");
         reset(presentation);
 
-        underTest.onContentSelected(new ContentSelectedEvent(content));
+        underTest.onContentSelected(ContentSelectedEvent.of(content));
 
         verify(propertyBinder).bind(eq(PROPERTY_TITLE), same(underTest.bindings.title), same(underTest.propertyUpdateCallback));
         verify(propertyBinder).createBoundDocument(eq(PROPERTY_FULL_TEXT), same(underTest.propertyUpdateCallback));
@@ -202,7 +202,7 @@ public class DefaultContentEditorPresentationControlTest
 
         reset(presentation);
 
-        underTest.onContentSelected(new ContentSelectedEvent(content));
+        underTest.onContentSelected(ContentSelectedEvent.of(content));
 
         verify(presentation).clear();
         verifyNoMoreInteractions(presentation);
