@@ -74,10 +74,10 @@ public class ContentSelectedEventMatcher extends BaseMatcher<ContentSelectedEven
 
         if (emptySelection)
           {
-            return event.isEmptySelection();
+            return !event.getContent().isPresent();
           }
 
-        return event.getContent() == content;
+        return event.getContent().get() == content;
       }
 
     @Override public void describeTo (Description description)

@@ -29,7 +29,6 @@ package it.tidalwave.northernwind.rca.ui.contentexplorer.impl;
 
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
-import javax.inject.Named;
 import com.google.common.annotations.VisibleForTesting;
 import it.tidalwave.dci.annotation.DciContext;
 import it.tidalwave.util.Task;
@@ -40,12 +39,12 @@ import it.tidalwave.messagebus.annotation.SimpleMessageSubscriber;
 import it.tidalwave.northernwind.core.model.Content;
 import it.tidalwave.northernwind.core.model.ModelFactory;
 import it.tidalwave.northernwind.core.model.ResourceFile;
-import it.tidalwave.northernwind.rca.ui.event.ContentSelectedEvent;
 import it.tidalwave.northernwind.rca.ui.contentexplorer.ContentExplorerPresentation;
 import it.tidalwave.northernwind.rca.ui.contentexplorer.ContentExplorerPresentationControl;
 import it.tidalwave.northernwind.rca.ui.event.OpenSiteEvent;
 import lombok.extern.slf4j.Slf4j;
 import static it.tidalwave.role.ui.Presentable.*;
+import static it.tidalwave.northernwind.rca.ui.event.ContentSelectedEvent.emptySelectionEvent;
 
 /***********************************************************************************************************************
  *
@@ -60,7 +59,7 @@ import static it.tidalwave.role.ui.Presentable.*;
 @DciContext @SimpleMessageSubscriber @Slf4j
 public class DefaultContentExplorerPresentationControl implements ContentExplorerPresentationControl
   {
-    @Inject @Named("applicationMessageBus")
+    @Inject
     protected MessageBus messageBus;
 
     @Inject
@@ -98,7 +97,7 @@ public class DefaultContentExplorerPresentationControl implements ContentExplore
                 final Content content = modelFactory.createContent().withFolder(root).build();
                 presentation.populate(content.as(Presentable).createPresentationModel());
                 presentation.expandFirstLevel();
-                messageBus.publish(new ContentSelectedEvent());
+                messageBus.publish(emptySelectionEvent());
                 return null;
               }
           });

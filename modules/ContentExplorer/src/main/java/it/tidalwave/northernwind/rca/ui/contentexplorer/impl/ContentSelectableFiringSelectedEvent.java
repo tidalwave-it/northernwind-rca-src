@@ -58,6 +58,6 @@ public class ContentSelectableFiringSelectedEvent implements Selectable
     @Override
     public void select()
       {
-        messageBus.publish(new ContentSelectedEvent(content));
+        messageBus.publish(ContentSelectedEvent.of(content));
       }
   }

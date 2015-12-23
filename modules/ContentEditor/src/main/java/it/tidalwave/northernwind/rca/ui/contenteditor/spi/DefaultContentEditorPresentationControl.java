@@ -27,9 +27,9 @@
  */
 package it.tidalwave.northernwind.rca.ui.contenteditor.spi;
 
-import javax.annotation.Nullable;
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
+import java.util.Optional;
 import java.io.IOException;
 import com.google.common.annotations.VisibleForTesting;
 import it.tidalwave.util.NotFoundException;
@@ -72,11 +72,11 @@ public class DefaultContentEditorPresentationControl implements ContentEditorPre
     @Inject
     private ContentEditorPresentation presentation;
 
-    @Nullable
-    private Content content;
+    @Nonnull
+    private Optional<Content> content;
 
-    @Nullable
-    private ResourceProperties properties;
+    @Nonnull
+    private Optional<ResourceProperties> properties;
 
     /*******************************************************************************************************************
      *
@@ -97,7 +97,7 @@ public class DefaultContentEditorPresentationControl implements ContentEditorPre
                               {
                                 @Override public Void run() throws Exception
                                   {
-                                    bindProperties();
+                                    properties.ifPresent(DefaultContentEditorPresentationControl.this::bindProperties);
                                     return null;
                                   }
                               })
@@ -114,12 +114,12 @@ public class DefaultContentEditorPresentationControl implements ContentEditorPre
      ******************************************************************************************************************/
     @VisibleForTesting final PropertyBinder.UpdateCallback propertyUpdateCallback = (updatedProperties) ->
       {
-        updatedProperties.as(Saveable).saveIn(content.getFile());
+        updatedProperties.as(Saveable).saveIn(content.get().getFile());
         unbindProperties();
-        properties = content.getProperties(); // reload them
+        properties = content.map(Content::getProperties); // reload them
         // FIXME: properties have to be re-bound, since they have been reloaded - but this makes the HTML editor
         // to flicker and the caret in text editor to reset at position 0 - and to loop forever
-        bindProperties();
+        properties.ifPresent(this::bindProperties);
       };
 
     /*******************************************************************************************************************
@@ -145,20 +145,19 @@ public class DefaultContentEditorPresentationControl implements ContentEditorPre
         log.debug("onContentSelected({})", selectionEvent);
 
         unbindProperties();
+        content = selectionEvent.getContent();
+        properties = content.map(Content::getProperties); // reload them
 
-        if (selectionEvent.isEmptySelection())
+        if (!content.isPresent())
           {
-            content = null;
-            properties = null;
             presentation.clear();
           }
         else
           {
-            content = selectionEvent.getContent();
-            properties = content.getProperties();
-            bindProperties();
             presentation.showUp();
           }
+
+        properties.ifPresent(this::bindProperties);
       }
 
     /*******************************************************************************************************************
@@ -166,7 +165,7 @@ public class DefaultContentEditorPresentationControl implements ContentEditorPre
      *
      *
      ******************************************************************************************************************/
-    private void bindProperties()
+    private void bindProperties (final @Nonnull ResourceProperties properties)
       {
         try
           {
