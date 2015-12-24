@@ -130,7 +130,7 @@ public class DefaultSiteOpenerPresentationControlTest
         for (int i = 0; i < result.length; i++)
           {
             final Path folder = Files.createTempDirectory(tempDir, "SampleFolder-");
-            Files.createDirectories(folder);
+            Files.createDirectories(folder); // FIXME: needed?
             folder.toFile().deleteOnExit();
             result[i][0] = folder;
           }
