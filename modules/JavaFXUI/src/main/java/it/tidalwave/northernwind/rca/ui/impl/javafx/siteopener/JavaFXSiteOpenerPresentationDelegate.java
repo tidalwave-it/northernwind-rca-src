@@ -41,6 +41,10 @@ import org.springframework.beans.factory.annotation.Configurable;
 
 /***********************************************************************************************************************
  *
+ * The JavaFX delegate for the function of opening a new site. It manages the related global menu and toolbar button.
+ * Note that this delegate is not associated with a specific FXML resource, but it is injected with @FXML resources
+ * copied from the application JavaFX delegate.
+ *
  * @stereotype Presentation
  *
  * @author  Fabrizio Giudici
@@ -53,10 +57,10 @@ public class JavaFXSiteOpenerPresentationDelegate implements SiteOpenerPresentat
     @Inject
     private Provider<JavaFXBinder> binder;
 
-    @Widget("btOpen")
+    @Widget("btOpen") // FIXME: replace with @FXML
     private Button btOpen;
 
-    @Widget("openSiteMenu")
+    @Widget("openSiteMenu") // FIXME: replace with @FXML
     private MenuItem openSiteMenu;
 
     private Bindings bindings;

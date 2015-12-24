@@ -108,7 +108,6 @@ public class JavaFXApplicationPresentationDelegate
         // Too bad because with PAC+EventBus we'd get rid of the control interfaces
         contentEditorPresentationControl.get().initialize();
 
-        // FIXME: this should be delegated to other handlers, as already done for the Editors
         siteOpenerPresentation.get().createDelegate(this);
         siteOpenerPresentationControl.get().initialize();
       }
