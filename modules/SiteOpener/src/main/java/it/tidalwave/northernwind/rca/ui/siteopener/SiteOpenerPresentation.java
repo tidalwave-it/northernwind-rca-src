@@ -32,7 +32,7 @@ import java.nio.file.Path;
 import it.tidalwave.util.ui.UserNotificationWithFeedback;
 import it.tidalwave.role.ui.BoundProperty;
 import it.tidalwave.role.ui.UserAction;
-import lombok.RequiredArgsConstructor;
+import lombok.Builder;
 
 /***********************************************************************************************************************
  *
@@ -44,7 +44,7 @@ import lombok.RequiredArgsConstructor;
  **********************************************************************************************************************/
 public interface SiteOpenerPresentation
   {
-    @RequiredArgsConstructor
+    @Builder
     public static class Bindings
       {
         @Nonnull
