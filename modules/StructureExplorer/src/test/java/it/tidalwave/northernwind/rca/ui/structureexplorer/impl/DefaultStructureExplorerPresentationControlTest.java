@@ -115,14 +115,6 @@ public class DefaultStructureExplorerPresentationControlTest
         context.close();
       }
 
-//    private void registerMock (final @Nonnull DefaultListableBeanFactory context,
-//                               final @Nonnull String name,
-//                               final @Nonnull Class<?> mockClass)
-//      {
-//        context.registerBeanDefinition(name, BeanDefinitionBuilder.rootBeanDefinition(Mockito.class)
-//                .setFactoryMethod("mock").addConstructorArgValue(mockClass.getName()).getBeanDefinition());
-//      }
-
     /*******************************************************************************************************************
      *
      ******************************************************************************************************************/
