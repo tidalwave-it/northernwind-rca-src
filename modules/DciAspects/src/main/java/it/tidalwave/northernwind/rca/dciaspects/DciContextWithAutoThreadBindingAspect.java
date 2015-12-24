@@ -64,7 +64,7 @@ public class DciContextWithAutoThreadBindingAspect
               {
                 log.trace("executing {}.{}() with context thread binding", shortId(context), pjp.getSignature().getName());
               }
-            
+
             // It looks like the @Inject approach creates bogus multiple instance of ContextManager
             final ContextManager contextManager = ContextManager.Locator.find();
             return contextManager.runWithContext(context, new Task<Object, Throwable>()
