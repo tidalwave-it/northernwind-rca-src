@@ -76,7 +76,7 @@ public class JavaFXApplicationPresentationDelegate
     private Provider<JavaFXStructureEditorPresentation> structureEditorPresentation;
 
     @Inject
-    private Provider<JavaFXStructureExplorerPresentation> structurExplorerPresentation;
+    private Provider<JavaFXStructureExplorerPresentation> structureExplorerPresentation;
 
     @Inject
     private Provider<JavaFXSiteOpenerPresentation> siteOpenerPresentation;
@@ -87,7 +87,7 @@ public class JavaFXApplicationPresentationDelegate
     @FXML
     private SplitPane pnVerticalSplit;
 
-    // Those below aren't use here, but replicated in JavaFXSiteOpenerPresentation
+    // Those below aren't used here, but replicated in JavaFXSiteOpenerPresentation
     @FXML
     private Button btOpen;
 
@@ -101,7 +101,7 @@ public class JavaFXApplicationPresentationDelegate
         stackPaneSelector.get().add("editorArea", structureEditorPresentation.get().getNode());
         stackPaneSelector.get().add("editorArea", contentEditorPresentation.get().getNode());
 
-        pnVerticalSplit.getItems().add(structurExplorerPresentation.get().getNode());
+        pnVerticalSplit.getItems().add(structureExplorerPresentation.get().getNode());
         pnVerticalSplit.getItems().add(contentExplorerPresentation.get().getNode());
 
         // FIXME: controllers can't initialize in postconstruct
