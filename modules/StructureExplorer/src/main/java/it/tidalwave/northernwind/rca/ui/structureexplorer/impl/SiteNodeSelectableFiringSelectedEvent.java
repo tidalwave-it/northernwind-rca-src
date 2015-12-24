@@ -48,7 +48,7 @@ import lombok.RequiredArgsConstructor;
  **********************************************************************************************************************/
 @DciRole(datumType = SiteNode.class, context = DefaultStructureExplorerPresentationControl.class)
 @Configurable @RequiredArgsConstructor
-public class StructureSelectableFiringSelectedEvent implements Selectable
+public class SiteNodeSelectableFiringSelectedEvent implements Selectable
   {
     @Inject
     private MessageBus messageBus;
