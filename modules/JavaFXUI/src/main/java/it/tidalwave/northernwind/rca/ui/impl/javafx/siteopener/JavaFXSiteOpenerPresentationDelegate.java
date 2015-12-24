@@ -66,11 +66,11 @@ public class JavaFXSiteOpenerPresentationDelegate implements SiteOpenerPresentat
     private Bindings bindings;
 
     @Override
-    public void bind (final @Nonnull UserAction action, final @Nonnull Bindings bindings)
+    public void bind (final @Nonnull Bindings bindings)
       {
         this.bindings = bindings;
-        binder.get().bind(btOpen, action);
-        binder.get().bind(openSiteMenu, action);
+        binder.get().bind(btOpen, bindings.openSiteAction);
+        binder.get().bind(openSiteMenu, bindings.openSiteAction);
       }
 
     @Override

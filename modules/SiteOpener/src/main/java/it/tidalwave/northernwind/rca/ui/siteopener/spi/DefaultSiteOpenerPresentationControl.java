@@ -38,9 +38,11 @@ import it.tidalwave.northernwind.rca.ui.event.OpenSiteEvent;
 import it.tidalwave.northernwind.rca.ui.siteopener.SiteOpenerPresentation;
 import it.tidalwave.northernwind.rca.ui.siteopener.SiteOpenerPresentation.Bindings;
 import it.tidalwave.northernwind.rca.ui.siteopener.SiteOpenerPresentationControl;
+import it.tidalwave.role.ui.BoundProperty;
 import lombok.extern.slf4j.Slf4j;
 import static it.tidalwave.util.ui.Feedback8.feedback;
 import static it.tidalwave.util.ui.UserNotificationWithFeedback.notificationWithFeedback;
+import java.io.IOException;
 
 /***********************************************************************************************************************
  *
@@ -59,26 +61,35 @@ public class DefaultSiteOpenerPresentationControl implements SiteOpenerPresentat
     @Inject
     private SiteOpenerPresentation presentation;
 
-    /* visible for testing */ final Bindings bindings = new Bindings();
+    /* visible for testing */ final Bindings bindings;
 
     /* visible for testing */ final UserAction openSiteAction = UserActionSupport8.withCallback(() ->
       {
         presentation.notifyInvitationToSelectAFolder(notificationWithFeedback()
             .withCaption("Select the site to open")
-            .withFeedback(feedback()
-                         .withOnConfirm(() -> messageBus.publish(OpenSiteEvent.of(bindings.folderToOpen.get())))));
+            .withFeedback(feedback().withOnConfirm(() -> publish())));
       });
+
+    public DefaultSiteOpenerPresentationControl()
+      {
+        bindings = new Bindings(new BoundProperty<>(getHomeFolder()), openSiteAction);
+      }
 
     @Override
     public void initialize()
       {
-        presentation.bind(openSiteAction, bindings);
-        bindings.folderToOpen.set(getHomeFolder());
+        presentation.bind(bindings);
       }
 
     @Nonnull
     private static Path getHomeFolder()
       {
         return Paths.get(System.getProperty("user.home"));
+      }
+
+    private void publish()
+      throws IOException
+      {
+        messageBus.publish(OpenSiteEvent.of(bindings.folderToOpen.get()));
       }
   }

@@ -85,7 +85,7 @@ public class DefaultSiteOpenerPresentationControlTest
       {
         assertThat(underTest.bindings.folderToOpen.get().toFile().getAbsolutePath(), is(System.getProperty("user.home")));
 
-        verify(presentation).bind(same(underTest.openSiteAction), same(underTest.bindings));
+        verify(presentation).bind(same(underTest.bindings));
       }
 
     /*******************************************************************************************************************
