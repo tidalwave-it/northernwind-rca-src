@@ -98,7 +98,7 @@ public class DefaultSiteOpenerPresentationControlTest
         doAnswer(confirm()).when(presentation).notifyInvitationToSelectAFolder(any(UserNotificationWithFeedback.class));
         underTest.bindings.folderToOpen.set(new File(folderPath).toPath());
 
-        underTest.openSiteAction.actionPerformed();
+        underTest.bindings.openSiteAction.actionPerformed();
 
         verify(messageBus).publish(argThat(openSiteEvent().withRootPath(folderPath)));
       }
@@ -111,7 +111,7 @@ public class DefaultSiteOpenerPresentationControlTest
       {
         doAnswer(cancel()).when(presentation).notifyInvitationToSelectAFolder(any(UserNotificationWithFeedback.class));
 
-        underTest.openSiteAction.actionPerformed();
+        underTest.bindings.openSiteAction.actionPerformed();
 
         verifyZeroInteractions(messageBus);
       }

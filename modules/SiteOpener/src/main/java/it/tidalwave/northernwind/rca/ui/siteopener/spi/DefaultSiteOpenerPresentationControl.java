@@ -63,16 +63,10 @@ public class DefaultSiteOpenerPresentationControl implements SiteOpenerPresentat
 
     /* visible for testing */ final Bindings bindings;
 
-    /* visible for testing */ final UserAction openSiteAction = UserActionSupport8.withCallback(() ->
-      {
-        presentation.notifyInvitationToSelectAFolder(notificationWithFeedback()
-            .withCaption("Select the site to open")
-            .withFeedback(feedback().withOnConfirm(() -> publish())));
-      });
-
     public DefaultSiteOpenerPresentationControl()
       {
-        bindings = new Bindings(new BoundProperty<>(getHomeFolder()), openSiteAction);
+        bindings = new Bindings(new BoundProperty<>(getHomeFolder()),
+                                UserActionSupport8.withCallback(this::askForOpeningSite));
       }
 
     @Override
@@ -81,15 +75,18 @@ public class DefaultSiteOpenerPresentationControl implements SiteOpenerPresentat
         presentation.bind(bindings);
       }
 
+    private void askForOpeningSite()
+      throws IOException
+      {
+        presentation.notifyInvitationToSelectAFolder(notificationWithFeedback()
+            .withCaption("Select the site to open")
+            .withFeedback(feedback()
+                         .withOnConfirm(() -> messageBus.publish(OpenSiteEvent.of(bindings.folderToOpen.get())))));
+      }
+
     @Nonnull
     private static Path getHomeFolder()
       {
         return Paths.get(System.getProperty("user.home"));
-      }
-
-    private void publish()
-      throws IOException
-      {
-        messageBus.publish(OpenSiteEvent.of(bindings.folderToOpen.get()));
       }
   }

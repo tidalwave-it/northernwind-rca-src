@@ -27,8 +27,10 @@
  */
 package it.tidalwave.role.ui.spi;
 
+import it.tidalwave.util.Callback;
 import javax.annotation.Nonnull;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 /***********************************************************************************************************************
  *
@@ -36,15 +38,22 @@ import lombok.RequiredArgsConstructor;
  * @version $Id$
  *
  **********************************************************************************************************************/
-@RequiredArgsConstructor(staticName = "withCallback")
+@RequiredArgsConstructor(staticName = "withCallback") @Slf4j
 public class UserActionSupport8 extends UserActionSupport
   {
     @Nonnull
-    private final Runnable callback;
+    private final Callback callback;
 
     @Override
     public final void actionPerformed()
       {
-        callback.run();
+        try
+          {
+            callback.run();
+          }
+        catch (Exception e)
+          {
+            log.error("", e);
+          }
       }
   }
