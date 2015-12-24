@@ -34,6 +34,18 @@
                 </exclusion>
             </exclusions>
         </dependency>
+
+        <!-- Test dependencies -->
+        <dependency>
+            <groupId>it.tidalwave.thesefoolishthings</groupId>
+            <artifactId>it-tidalwave-role-spring</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>jcl-over-slf4j</artifactId>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
 </project>
