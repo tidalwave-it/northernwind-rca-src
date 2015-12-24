@@ -56,7 +56,7 @@ import it.tidalwave.northernwind.rca.ui.contentmanager.AddContentPresentationCon
 import lombok.Cleanup;
 import lombok.extern.slf4j.Slf4j;
 import static it.tidalwave.util.ui.UserNotificationWithFeedback.*;
-import static it.tidalwave.util.ui.Feedback8.feedback;
+import static it.tidalwave.role.ui.spi.Feedback8.feedback;
 import static it.tidalwave.northernwind.model.admin.Properties.*;
 import static it.tidalwave.northernwind.rca.ui.contentmanager.impl.ContentChildCreator.ContentChildCreator;
 

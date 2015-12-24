@@ -40,7 +40,7 @@ import it.tidalwave.northernwind.rca.ui.siteopener.SiteOpenerPresentation;
 import it.tidalwave.northernwind.rca.ui.siteopener.SiteOpenerPresentation.Bindings;
 import it.tidalwave.northernwind.rca.ui.siteopener.SiteOpenerPresentationControl;
 import lombok.extern.slf4j.Slf4j;
-import static it.tidalwave.util.ui.Feedback8.feedback;
+import static it.tidalwave.role.ui.spi.Feedback8.feedback;
 import static it.tidalwave.util.ui.UserNotificationWithFeedback.notificationWithFeedback;
 
 /***********************************************************************************************************************

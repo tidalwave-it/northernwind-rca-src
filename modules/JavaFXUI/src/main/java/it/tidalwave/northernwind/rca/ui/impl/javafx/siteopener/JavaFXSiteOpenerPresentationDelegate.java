@@ -32,7 +32,6 @@ import javax.inject.Inject;
 import javax.inject.Provider;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
-import it.tidalwave.role.ui.UserAction;
 import it.tidalwave.role.ui.javafx.JavaFXBinder;
 import it.tidalwave.role.ui.javafx.Widget;
 import it.tidalwave.northernwind.rca.ui.siteopener.SiteOpenerPresentation;
