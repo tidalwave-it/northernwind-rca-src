@@ -210,6 +210,12 @@ Zephyr is a rich client application for editing contents for the NorthernWind CM
                 <artifactId>zephyr-macosx</artifactId>
                 <version>1.1-ALPHA-13-SNAPSHOT</version>
             </dependency>
+
+            <dependency>
+                <groupId>it.tidalwave.northernwind.rca</groupId>
+                <artifactId>it-tidalwave-northernwind-rca-dciaspects</artifactId>
+                <version>1.1-ALPHA-13-SNAPSHOT</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 

@@ -61,6 +61,11 @@
         </dependency>
 
         <dependency>
+            <groupId>it.tidalwave.northernwind.rca</groupId>
+            <artifactId>it-tidalwave-northernwind-rca-dciaspects</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>it.tidalwave.thesefoolishthings</groupId>
             <artifactId>it-tidalwave-role-spring</artifactId>
             <scope>test</scope>
@@ -122,6 +127,10 @@
                         <dependency>
                             <groupId>it.tidalwave.thesefoolishthings</groupId>
                             <artifactId>it-tidalwave-messagebus-spring</artifactId>
+                        </dependency>
+                        <dependency>
+                            <groupId>it.tidalwave.northernwind.rca</groupId>
+                            <artifactId>it-tidalwave-northernwind-rca-dciaspects</artifactId>
                         </dependency>
                     </aspectLibraries>
                 </configuration>

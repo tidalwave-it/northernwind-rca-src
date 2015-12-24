@@ -30,10 +30,7 @@ package it.tidalwave.northernwind.rca.ui.structureexplorer.impl;
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
 import java.io.IOException;
-import com.google.common.annotations.VisibleForTesting;
 import it.tidalwave.util.NotFoundException;
-import it.tidalwave.util.Task;
-import it.tidalwave.role.ContextManager;
 import it.tidalwave.dci.annotation.DciContext;
 import it.tidalwave.messagebus.MessageBus;
 import it.tidalwave.messagebus.annotation.ListensTo;
@@ -58,7 +55,7 @@ import static it.tidalwave.northernwind.rca.ui.event.SiteNodeSelectedEvent.empty
  * @version $Id$
  *
  **********************************************************************************************************************/
-@DciContext @SimpleMessageSubscriber @Slf4j
+@DciContext(autoThreadBinding = true) @SimpleMessageSubscriber @Slf4j
 public class DefaultStructureExplorerPresentationControl implements StructureExplorerPresentationControl
   {
     @Inject
@@ -73,9 +70,6 @@ public class DefaultStructureExplorerPresentationControl implements StructureExp
     @Inject
     private StructureExplorerPresentation presentation;
 
-    @Inject
-    private ContextManager contextManager;
-
     /*******************************************************************************************************************
      *
      * {@inheritDoc}
@@ -89,30 +83,20 @@ public class DefaultStructureExplorerPresentationControl implements StructureExp
     /*******************************************************************************************************************
      *
      ******************************************************************************************************************/
-    @VisibleForTesting void onOpenSite (final @ListensTo @Nonnull OpenSiteEvent event)
+    /* visible for testing */ void onOpenSite (final @ListensTo @Nonnull OpenSiteEvent event)
       {
-        // FIXME: use @DciContext(autoThreadBinding = true)
-        contextManager.runWithContext(this, new Task<Void, RuntimeException>()
+        try
           {
-            @Override
-            public Void run()
-              {
-                try
-                  {
-                    log.debug("onOpenSite({})", event);
-                    final ResourceFile root = event.getFileSystem().findFileByPath("/structure");
-                    final SiteNode siteNode = modelFactory.createSiteNode(site, root);
-                    presentation.populate(siteNode.as(Presentable).createPresentationModel());
-                    presentation.expandFirstLevel();
-                    messageBus.publish(emptySelectionEvent());
-                  }
-                catch (IOException | NotFoundException e)
-                  {
-                    log.warn("", e);
-                  }
-
-                return null;
-              }
-          });
+            log.debug("onOpenSite({})", event);
+            final ResourceFile root = event.getFileSystem().findFileByPath("/structure");
+            final SiteNode siteNode = modelFactory.createSiteNode(site, root);
+            presentation.populate(siteNode.as(Presentable).createPresentationModel());
+            presentation.expandFirstLevel();
+            messageBus.publish(emptySelectionEvent());
+          }
+        catch (IOException | NotFoundException e)
+          {
+            log.warn("", e);
+          }
       }
   }
