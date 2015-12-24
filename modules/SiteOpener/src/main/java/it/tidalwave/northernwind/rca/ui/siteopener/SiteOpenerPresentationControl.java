@@ -27,8 +27,6 @@
  */
 package it.tidalwave.northernwind.rca.ui.siteopener;
 
-import javax.annotation.Nonnull;
-
 /***********************************************************************************************************************
  *
  * @stereotype Control
