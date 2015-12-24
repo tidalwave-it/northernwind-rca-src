@@ -141,6 +141,8 @@ public class DefaultContentEditorPresentationControlTest
     @Test
     public void must_bind()
       {
+        // when just initialized
+        // then
         verify(presentation).bind(same(underTest.bindings));
       }
 

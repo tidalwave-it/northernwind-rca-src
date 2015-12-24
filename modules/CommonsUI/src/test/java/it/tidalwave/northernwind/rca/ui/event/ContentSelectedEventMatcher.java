@@ -27,9 +27,9 @@
  */
 package it.tidalwave.northernwind.rca.ui.event;
 
-import it.tidalwave.northernwind.core.model.Content;
-import it.tidalwave.northernwind.rca.ui.event.ContentSelectedEvent;
 import javax.annotation.Nonnull;
+import java.util.Optional;
+import it.tidalwave.northernwind.core.model.Content;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.hamcrest.BaseMatcher;
@@ -47,20 +47,19 @@ import org.mockito.Matchers;
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class ContentSelectedEventMatcher extends BaseMatcher<ContentSelectedEvent>
   {
-    private final boolean emptySelection;
-
-    private final Content content;
+    @Nonnull
+    private final Optional<Content> content;
 
     @Nonnull
     public static ContentSelectedEvent emptyEvent()
       {
-        return Matchers.argThat(new ContentSelectedEventMatcher(true, null));
+        return Matchers.argThat(new ContentSelectedEventMatcher(Optional.empty()));
       }
 
     @Nonnull
     public static ContentSelectedEvent eventWith (final @Nonnull Content content)
       {
-        return Matchers.argThat(new ContentSelectedEventMatcher(false, content));
+        return Matchers.argThat(new ContentSelectedEventMatcher(Optional.of(content)));
       }
 
     @Override public boolean matches (Object item)
@@ -71,13 +70,7 @@ public class ContentSelectedEventMatcher extends BaseMatcher<ContentSelectedEven
           }
 
         final ContentSelectedEvent event = (ContentSelectedEvent)item;
-
-        if (emptySelection)
-          {
-            return !event.getContent().isPresent();
-          }
-
-        return event.getContent().get() == content;
+        return this.content.equals(event.getContent());
       }
 
     @Override public void describeTo (Description description)

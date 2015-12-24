@@ -27,8 +27,9 @@
  */
 package it.tidalwave.northernwind.rca.ui.event;
 
-import it.tidalwave.northernwind.core.model.SiteNode;
 import javax.annotation.Nonnull;
+import java.util.Optional;
+import it.tidalwave.northernwind.core.model.SiteNode;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.hamcrest.BaseMatcher;
@@ -37,8 +38,6 @@ import org.mockito.Matchers;
 
 /***********************************************************************************************************************
  *
- * FIXME: this class is expensive to write
- *
  * @author  Fabrizio Giudici
  * @version $Id$
  *
@@ -46,21 +45,19 @@ import org.mockito.Matchers;
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class SiteNodeSelectedEventMatcher extends BaseMatcher<SiteNodeSelectedEvent>
   {
-    // FIXME: refactor with Optional?
-    private final boolean emptySelection;
-
-    private final SiteNode node;
+    @Nonnull
+    private final Optional<SiteNode> node;
 
     @Nonnull
     public static SiteNodeSelectedEvent emptySelectionEvent()
       {
-        return Matchers.argThat(new SiteNodeSelectedEventMatcher(true, null));
+        return Matchers.argThat(new SiteNodeSelectedEventMatcher(Optional.empty()));
       }
 
     @Nonnull
     public static SiteNodeSelectedEvent eventWith (final @Nonnull SiteNode node)
       {
-        return Matchers.argThat(new SiteNodeSelectedEventMatcher(false, node));
+        return Matchers.argThat(new SiteNodeSelectedEventMatcher(Optional.of(node)));
       }
 
     @Override public boolean matches (Object item)
@@ -71,13 +68,7 @@ public class SiteNodeSelectedEventMatcher extends BaseMatcher<SiteNodeSelectedEv
           }
 
         final SiteNodeSelectedEvent event = (SiteNodeSelectedEvent)item;
-
-        if (emptySelection)
-          {
-            return !event.getSiteNode().isPresent();
-          }
-
-        return event.getSiteNode().get() == node;
+        return this.node.equals(event.getSiteNode());
       }
 
     @Override public void describeTo (Description description)

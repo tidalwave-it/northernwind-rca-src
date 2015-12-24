@@ -170,12 +170,13 @@ public class DefaultContentChildCreatorTest
     public void must_properly_create_the_new_Content_and_store_it()
       throws IOException, NotFoundException
       {
+        // when
         final Map<Key<?>, Object> values = new HashMap<>();
         values.put(PROPERTY_1, "value 1");
         values.put(PROPERTY_2, "value 2");
 
         final Content content = underTest.createContent("foldername", values);
-
+        // then
         final MockSaveable saveable = modelFactory.getSaveable();
         final ResourceProperties properties = saveable.getProperties();
         assertThat(properties.getKeys().size(), is(2));

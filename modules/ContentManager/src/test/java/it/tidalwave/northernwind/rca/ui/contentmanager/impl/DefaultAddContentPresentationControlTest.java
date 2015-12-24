@@ -54,6 +54,8 @@ import static org.mockito.Mockito.*;
 import static org.mockito.Mockito.any;
 import static it.tidalwave.util.ui.UserNotificationWithFeedbackTestHelper.*;
 import static it.tidalwave.northernwind.model.admin.Properties.*;
+import java.util.function.Consumer;
+import lombok.RequiredArgsConstructor;
 
 /***********************************************************************************************************************
  *
@@ -66,16 +68,18 @@ public class DefaultAddContentPresentationControlTest
     /*******************************************************************************************************************
      *
      ******************************************************************************************************************/
-    static abstract class InputSetter
+    @RequiredArgsConstructor
+    static class InputSetter
       {
-        public abstract void setInput (@Nonnull Bindings bindings);
+        @Nonnull
+        private final Consumer<Bindings> initializer;
 
         @Nonnull
         public Answer<Void> setInput()
           {
             return invocation ->
               {
-                setInput((Bindings)invocation.getArguments()[0]);
+                initializer.accept(((Bindings)invocation.getArguments()[0]));
                 return null;
               };
           }
@@ -84,7 +88,7 @@ public class DefaultAddContentPresentationControlTest
         public String toString()
           {
             final Bindings bindings = new Bindings();
-            setInput(bindings);
+            initializer.accept(bindings);
             return bindings.toString().replaceAll("^AddContentPresentation\\.Bindings\\(", "")
                                       .replaceAll("\\)$", "")
                                       .replaceAll("BoundProperty\\(value=([^)]*)\\)", "$1");
@@ -195,16 +199,12 @@ public class DefaultAddContentPresentationControlTest
           {
             ////////////////////////////////////////////////////////////////////////////////////////////////////////////
               {
-                new InputSetter()
+                new InputSetter(bindings ->
                   {
-                    @Override
-                    public void setInput (Bindings bindings)
-                      {
-                        bindings.folder.set("the folder");
-                        bindings.title.set("the title");
-                        bindings.exposedUri.set("the-exposed-uri");
-                      }
-                  },
+                    bindings.folder.set("the folder");
+                    bindings.title.set("the title");
+                    bindings.exposedUri.set("the-exposed-uri");
+                  }),
                 // expected folder name
                 "the+folder",
                 // expected properties
@@ -214,17 +214,13 @@ public class DefaultAddContentPresentationControlTest
               },
             ////////////////////////////////////////////////////////////////////////////////////////////////////////////
               {
-                new InputSetter()
+                new InputSetter(bindings ->
                   {
-                    @Override
-                    public void setInput (Bindings bindings)
-                      {
-                        bindings.folder.set("the folder");
-                        bindings.title.set("the title");
-                        bindings.exposedUri.set("the-exposed-uri");
-                        bindings.tags.set("tag1, tag2");
-                      }
-                  },
+                    bindings.folder.set("the folder");
+                    bindings.title.set("the title");
+                    bindings.exposedUri.set("the-exposed-uri");
+                    bindings.tags.set("tag1, tag2");
+                  }),
                 // expected folder name
                 "the+folder",
                 // expected properties

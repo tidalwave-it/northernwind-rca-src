@@ -29,7 +29,6 @@ package it.tidalwave.northernwind.rca.ui.contentmanager.impl;
 
 import java.util.Collection;
 import it.tidalwave.role.ContextManager;
-import it.tidalwave.role.Displayable;
 import it.tidalwave.role.ui.UserAction;
 import it.tidalwave.role.spi.DefaultContextManagerProvider;
 import it.tidalwave.messagebus.MessageBus;
@@ -37,6 +36,7 @@ import it.tidalwave.northernwind.core.model.Content;
 import it.tidalwave.northernwind.rca.ui.event.CreateContentRequest;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import static it.tidalwave.role.Displayable.Displayable;
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.*;
@@ -58,7 +58,7 @@ public class CreateContentRequestActionProviderTest
     @BeforeMethod
     public void setup()
       {
-        ContextManager.Locator.set(new DefaultContextManagerProvider()); // TODO: get rid of this
+        ContextManager.Locator.set(new DefaultContextManagerProvider());
         messageBus = mock(MessageBus.class);
         content = mock(Content.class);
         underTest = new CreateContentRequestActionProvider(content);
@@ -66,23 +66,25 @@ public class CreateContentRequestActionProviderTest
       }
 
     @Test
-    public void must_return_only_a_New_Content_action()
+    public void must_provide_only_a_New_Content_action()
       {
+        // when just initialized
         final Collection<? extends UserAction> actions = underTest.getActions();
-
+        // then
         assertThat(actions, is(not(nullValue())));
         assertThat(actions.size(), is(1));
         final UserAction action = actions.iterator().next();
         assertThat(action, is(sameInstance(underTest.sendCreateContentRequestAction)));
-        assertThat(action.as(Displayable.class).getDisplayName(), is("New content"));
+        assertThat(action.as(Displayable).getDisplayName(), is("New content"));
       }
 
     @Test
     public void the_action_must_publish_a_proper_CreateContentRequest()
       {
+        // when just initialized
         underTest.sendCreateContentRequestAction.actionPerformed();
-
+        // then
         verify(messageBus).publish(eq(CreateContentRequest.of(content)));
         verifyNoMoreInteractions(messageBus);
       }
-}
+  }

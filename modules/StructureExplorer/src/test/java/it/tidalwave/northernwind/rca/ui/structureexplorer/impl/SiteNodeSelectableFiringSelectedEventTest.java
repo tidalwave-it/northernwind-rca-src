@@ -34,24 +34,12 @@ import it.tidalwave.northernwind.core.model.SiteNode;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import static org.testng.Assert.*;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.not;
-import static org.hamcrest.CoreMatchers.nullValue;
-import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.*;
-import static it.tidalwave.northernwind.rca.ui.event.SiteNodeSelectedEventMatcher.*;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.not;
-import static org.hamcrest.CoreMatchers.nullValue;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.not;
-import static org.hamcrest.CoreMatchers.nullValue;
-import static org.hamcrest.MatcherAssert.assertThat;
+import static it.tidalwave.northernwind.rca.ui.event.SiteNodeSelectedEventMatcher.eventWith;
 
 /***********************************************************************************************************************
  *
@@ -101,8 +89,9 @@ public class SiteNodeSelectableFiringSelectedEventTest
     @Test
     public void must_fire_selection_event_on_the_message_bus_when_selected()
       {
+        // when
         underTest.select();
-
+        // then
         verify(messageBus).publish(eventWith(node));
         verifyNoMoreInteractions(messageBus);
       }

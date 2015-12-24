@@ -27,18 +27,14 @@
  */
 package it.tidalwave.northernwind.frontend.filesystem.impl;
 
-import javax.annotation.Nonnull;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import org.openide.filesystems.FileLock;
 import org.openide.filesystems.FileObject;
 import it.tidalwave.role.Marshallable;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
 import lombok.extern.slf4j.Slf4j;
 import static org.mockito.Mockito.*;
 import static it.tidalwave.util.test.FileComparisonUtils.*;
@@ -76,43 +72,25 @@ public class ResourceFileNetBeansPlatformWritableFolderTest
         fileObject = mock(FileObject.class);
         when(fileObject.toString()).thenReturn("mockFileObject");
 
-        when(fileObject.getFileObject(anyString())).thenAnswer(new Answer<FileObject>()
+        when(fileObject.getFileObject(anyString())).thenAnswer(invocation ->
           {
-            @Override
-            public FileObject answer (final InvocationOnMock invocation)
-              throws Throwable
-              {
-                final String fileName = (String)invocation.getArguments()[0];
-                final FileObject childFile = mock(FileObject.class);
-                when(childFile.toString()).thenReturn("mockFileObject/" + fileName);
-                final FileLock lock = mock(FileLock.class);
-                when(childFile.lock()).thenReturn(lock); // prevent later NPE
+            final String fileName = (String)invocation.getArguments()[0];
+            final FileObject childFile = mock(FileObject.class);
+            when(childFile.toString()).thenReturn("mockFileObject/" + fileName);
+            final FileLock lock = mock(FileLock.class);
+            when(childFile.lock()).thenReturn(lock); // prevent later NPE
 
-                when(childFile.getOutputStream(any(FileLock.class))).thenAnswer(new Answer<OutputStream>()
-                  {
-                    @Override
-                    public OutputStream answer (InvocationOnMock invocation) throws IOException
-                      {
-                        return new FileOutputStream(new File(folder, fileName));
-                      }
-                  });
+            when(childFile.getOutputStream(any(FileLock.class))).thenAnswer(
+                    invocation1 -> new FileOutputStream(new File(folder, fileName)));
 
-                return childFile;
-              }
+            return childFile;
           });
 
         fileNetBeansPlatform = mock(ResourceFileNetBeansPlatform.class);
         when(fileNetBeansPlatform.getDelegate()).thenReturn(fileObject);
         underTest = new ResourceFileNetBeansPlatformWritableFolder(fileNetBeansPlatform);
 
-        marshallable = new Marshallable()
-          {
-            @Override
-            public void marshal (final @Nonnull OutputStream out) throws IOException
-              {
-                out.write("marshallable\n".getBytes("UTF-8"));
-              }
-          };
+        marshallable = out -> out.write("marshallable\n".getBytes("UTF-8"));
       }
 
     /*******************************************************************************************************************

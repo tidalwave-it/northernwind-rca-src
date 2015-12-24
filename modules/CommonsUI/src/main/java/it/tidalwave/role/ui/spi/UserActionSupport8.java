@@ -44,6 +44,18 @@ public class UserActionSupport8 extends UserActionSupport
     @Nonnull
     private final Callback callback;
 
+    private UserActionSupport8 (final @Nonnull Callback callback, final @Nonnull Object ... rolesOrFactories)
+      {
+        super(rolesOrFactories);
+        this.callback = callback;
+      }
+
+    @Nonnull
+    public UserActionSupport8 withRoles (final @Nonnull Object ... rolesOrFactories)
+      {
+        return new UserActionSupport8(callback, rolesOrFactories);
+      }
+
     @Override
     public final void actionPerformed()
       {

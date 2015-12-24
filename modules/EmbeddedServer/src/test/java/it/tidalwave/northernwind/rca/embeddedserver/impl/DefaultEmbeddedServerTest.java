@@ -93,8 +93,9 @@ public class DefaultEmbeddedServerTest
     public void start_must_properly_boot_the_webserver()
       throws InterruptedException
       {
+        // when
         nonSpringUnderTest.start();
-
+        // then
         assertThat(nonSpringUnderTest.server, is(not(nullValue())));
         assertThat(nonSpringUnderTest.server.isStarted(), is(true));
       }
@@ -106,10 +107,11 @@ public class DefaultEmbeddedServerTest
     public void stop_must_properly_shut_the_webserver_down()
       throws InterruptedException
       {
+        // when
         nonSpringUnderTest.start();
         Thread.sleep(2000);
         nonSpringUnderTest.stop();
-
+        // then
         assertThat(nonSpringUnderTest.server, is(not(nullValue())));
         assertThat(nonSpringUnderTest.server.isStopped(), is(true));
       }
@@ -121,10 +123,11 @@ public class DefaultEmbeddedServerTest
     public void must_properly_serve_loaded_documents()
       throws MalformedURLException, IOException
       {
+        // when
         final String url1 = underTest.putDocument("/",     new Document().withMimeType("text/html").withContent("document 1"));
         final String url2 = underTest.putDocument("/doc2", new Document().withMimeType("text/plain").withContent("document 2"));
         final String url3 = underTest.putDocument("/doc3", new Document().withMimeType("text/css").withContent("document 3"));
-
+        // then
         assertUrlContents(url1, "text/html; charset=UTF-8",  "document 1");
         assertUrlContents(url2, "text/plain; charset=UTF-8", "document 2");
         assertUrlContents(url3, "text/css; charset=UTF-8",   "document 3");
@@ -137,10 +140,11 @@ public class DefaultEmbeddedServerTest
     public void must_return_not_found_for_non_existing_documents()
       throws MalformedURLException, IOException
       {
+        // when
         underTest.putDocument("/",     new Document().withMimeType("text/html").withContent("document 1"));
         underTest.putDocument("/doc2", new Document().withMimeType("text/plain").withContent("document 2"));
         underTest.putDocument("/doc3", new Document().withMimeType("text/css").withContent("document 3"));
-
+        // then
         assertUrlContents("http://localhost:12345/foo", HttpServletResponse.SC_NOT_FOUND);
         assertUrlContents("http://localhost:12345/bar", HttpServletResponse.SC_NOT_FOUND);
       }
@@ -169,8 +173,7 @@ public class DefaultEmbeddedServerTest
     /*******************************************************************************************************************
      *
      ******************************************************************************************************************/
-    private void assertUrlContents (final @Nonnull String url,
-                                    final int expectedStatus)
+    private void assertUrlContents (final @Nonnull String url, final int expectedStatus)
       {
         final Client client = Client.create();
         final WebResource webResource = client.resource(url);
