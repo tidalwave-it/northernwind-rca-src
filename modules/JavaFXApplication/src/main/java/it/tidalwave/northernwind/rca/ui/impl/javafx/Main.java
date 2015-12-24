@@ -29,10 +29,10 @@ package it.tidalwave.northernwind.rca.ui.impl.javafx;
 
 import javax.annotation.Nonnull;
 import javafx.application.Platform;
-import java.io.File;
-import it.tidalwave.ui.javafx.JavaFXSpringApplication;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.io.File;
+import it.tidalwave.ui.javafx.JavaFXSpringApplication;
 
 /***********************************************************************************************************************
  *
