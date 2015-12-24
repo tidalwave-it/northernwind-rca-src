@@ -25,40 +25,47 @@
  * *********************************************************************************************************************
  * #L%
  */
-package it.tidalwave.northernwind.rca.ui.structureexplorer.impl;
+package it.tidalwave.util.ui;
 
 import javax.annotation.Nonnull;
-import javax.inject.Inject;
-import org.springframework.beans.factory.annotation.Configurable;
-import it.tidalwave.role.ui.Selectable;
-import it.tidalwave.dci.annotation.DciRole;
-import it.tidalwave.messagebus.MessageBus;
-import it.tidalwave.northernwind.core.model.SiteNode;
-import it.tidalwave.northernwind.rca.ui.event.SiteNodeSelectedEvent;
-import lombok.RequiredArgsConstructor;
+import it.tidalwave.util.Callback;
+import it.tidalwave.util.ui.UserNotificationWithFeedback.Feedback;
+import static lombok.AccessLevel.PRIVATE;
+import lombok.AllArgsConstructor;
+import lombok.experimental.Wither;
 
 /***********************************************************************************************************************
  *
- * This role is injected only in the context of DefaultStructureExplorerPresentationControl and publishes a selection
- * message whenever its {@link SiteNode} owner is selected on the UI.
- *
- * @author  Fabrizio Giudici
+ * @author  Fabrizio Giudici (Fabrizio.Giudici@tidalwave.it)
  * @version $Id$
  *
  **********************************************************************************************************************/
-@DciRole(datumType = SiteNode.class, context = DefaultStructureExplorerPresentationControl.class)
-@Configurable @RequiredArgsConstructor
-public class StructureSelectableFiringSelectedEvent implements Selectable
+@AllArgsConstructor(access = PRIVATE)
+public class Feedback8 extends Feedback
   {
-    @Inject
-    private MessageBus messageBus;
+    @Wither
+    private final Callback onConfirm;
+
+    @Wither
+    private final Callback onCancel;
 
     @Nonnull
-    private final SiteNode siteNode;
+    public static Feedback8 feedback()
+      {
+        return new Feedback8(Callback.EMPTY, Callback.EMPTY);
+      }
 
     @Override
-    public void select()
+    public final void onConfirm()
+      throws Exception
       {
-        messageBus.publish(SiteNodeSelectedEvent.of(siteNode));
+        onConfirm.run();
+      }
+
+    @Override
+    public final void onCancel()
+      throws Exception
+      {
+        onCancel.run();
       }
   }

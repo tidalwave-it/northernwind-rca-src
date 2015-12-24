@@ -25,18 +25,24 @@
  * *********************************************************************************************************************
  * #L%
  */
-package it.tidalwave.northernwind.rca.ui.contentexplorer;
+package it.tidalwave.util;
 
 /***********************************************************************************************************************
  *
- * The control for the {@link ContentExplorerPresentation}.
- *
- * @stereotype Control
- *
- * @author  Fabrizio Giudici
+ * @author  Fabrizio Giudici (Fabrizio.Giudici@tidalwave.it)
  * @version $Id$
  *
  **********************************************************************************************************************/
-public interface ContentExplorerPresentationControl
+public interface Callback
   {
+    public final static Callback EMPTY = new Callback()
+      {
+        @Override
+        public void run()
+          {
+          }
+      };
+
+    public void run()
+      throws Exception;
   }

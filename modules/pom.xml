@@ -286,6 +286,7 @@
         <module>ContentEditor</module>
         <module>ContentExplorer</module>
         <module>ContentManager</module>
+        <module>DciAspects</module>
         <module>EmbeddedServer</module>
         <module>Installers/JavaFX</module>
         <module>Installers/MacOSX</module>

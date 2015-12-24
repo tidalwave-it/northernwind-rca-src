@@ -79,7 +79,7 @@ public class DefaultContentChildCreator implements ContentChildCreator
 //        content.getProperties().merged(properties).as(Saveable).saveIn(content.getFile());
         properties.as(Saveable).saveIn(content.getFile());
 
-        messageBus.publish(new ContentCreatedEvent(parentContent, content));
+        messageBus.publish(ContentCreatedEvent.of(parentContent, content));
 
         return content;
       }

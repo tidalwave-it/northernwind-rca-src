@@ -25,18 +25,40 @@
  * *********************************************************************************************************************
  * #L%
  */
-package it.tidalwave.northernwind.rca.ui.contentexplorer;
+package it.tidalwave.northernwind.rca.ui.structureexplorer.impl;
+
+import javax.annotation.Nonnull;
+import javax.inject.Inject;
+import org.springframework.beans.factory.annotation.Configurable;
+import it.tidalwave.role.ui.Selectable;
+import it.tidalwave.dci.annotation.DciRole;
+import it.tidalwave.messagebus.MessageBus;
+import it.tidalwave.northernwind.core.model.SiteNode;
+import it.tidalwave.northernwind.rca.ui.event.SiteNodeSelectedEvent;
+import lombok.RequiredArgsConstructor;
 
 /***********************************************************************************************************************
  *
- * The control for the {@link ContentExplorerPresentation}.
- *
- * @stereotype Control
+ * A {@link Selectable} for {@link SiteNode} in the context of {@link DefaultStructureExplorerPresentationControl}
+ * that fires a {@link SiteNodeSelectedEvent} message when selected.
  *
  * @author  Fabrizio Giudici
  * @version $Id$
  *
  **********************************************************************************************************************/
-public interface ContentExplorerPresentationControl
+@DciRole(datumType = SiteNode.class, context = DefaultStructureExplorerPresentationControl.class)
+@Configurable @RequiredArgsConstructor
+public class SiteNodeSelectableFiringSelectedEvent implements Selectable
   {
+    @Inject
+    private MessageBus messageBus;
+
+    @Nonnull
+    private final SiteNode siteNode;
+
+    @Override
+    public void select()
+      {
+        messageBus.publish(SiteNodeSelectedEvent.of(siteNode));
+      }
   }

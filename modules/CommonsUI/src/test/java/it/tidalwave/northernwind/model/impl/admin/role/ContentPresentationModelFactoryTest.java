@@ -98,7 +98,7 @@ public class ContentPresentationModelFactoryTest
         final ContentPresentationModel pm = mock(ContentPresentationModel.class);
         underTest.map.put(content, pm);
         // when
-        underTest.onContentCreated(new ContentCreatedEvent(content, childContent));
+        underTest.onContentCreated(ContentCreatedEvent.of(content, childContent));
         // then
         verify(pm).onContentCreated();
         verifyNoMoreInteractions(pm);

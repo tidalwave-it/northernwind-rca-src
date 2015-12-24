@@ -10,7 +10,7 @@
  * *********************************************************************************************************************
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
+ * the License. You may obtain a copy withCallback the License at
  *
  *     http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -25,18 +25,26 @@
  * *********************************************************************************************************************
  * #L%
  */
-package it.tidalwave.northernwind.rca.ui.contentexplorer;
+package it.tidalwave.role.ui.spi;
+
+import javax.annotation.Nonnull;
+import lombok.RequiredArgsConstructor;
 
 /***********************************************************************************************************************
  *
- * The control for the {@link ContentExplorerPresentation}.
- *
- * @stereotype Control
- *
- * @author  Fabrizio Giudici
+ * @author  Fabrizio Giudici (Fabrizio.Giudici@tidalwave.it)
  * @version $Id$
  *
  **********************************************************************************************************************/
-public interface ContentExplorerPresentationControl
+@RequiredArgsConstructor(staticName = "withCallback")
+public class UserActionSupport8 extends UserActionSupport
   {
+    @Nonnull
+    private final Runnable callback;
+
+    @Override
+    public final void actionPerformed()
+      {
+        callback.run();
+      }
   }

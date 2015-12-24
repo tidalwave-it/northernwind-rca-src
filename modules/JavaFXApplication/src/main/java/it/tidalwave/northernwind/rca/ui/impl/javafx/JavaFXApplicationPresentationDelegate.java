@@ -54,7 +54,7 @@ import static it.tidalwave.role.ui.javafx.impl.util.JavaFXSafeComponentBuilder.c
 /***********************************************************************************************************************
  *
  * The JavaFX delegate for the main GUI of the application. It assembles together all the pieces of the UI.
- * 
+ *
  * @author Fabrizio Giudici
  * @version $Id$
  *
@@ -117,9 +117,7 @@ public class JavaFXApplicationPresentationDelegate
         // FIXME: controllers can't initialize in postconstruct
         // Too bad because with PAC+EventBus we'd get rid of the control interfaces
         contentEditorPresentationControl.get().initialize();
-        contentExplorerPresentationControl.get().initialize();
         structureEditorPresentationControl.get().initialize();
-        structureExplorerPresentationControl.get().initialize();
 
         // FIXME: this should be delegated to other handlers, as already done for the Editors
         siteOpenerPresentationControl.get().initialize(createInstance(JavaFXSiteOpenerPresentation.class, this));

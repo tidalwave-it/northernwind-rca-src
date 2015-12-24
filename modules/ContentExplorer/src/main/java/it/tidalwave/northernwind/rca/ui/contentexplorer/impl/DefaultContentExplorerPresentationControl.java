@@ -29,10 +29,7 @@ package it.tidalwave.northernwind.rca.ui.contentexplorer.impl;
 
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
-import com.google.common.annotations.VisibleForTesting;
 import it.tidalwave.dci.annotation.DciContext;
-import it.tidalwave.util.Task;
-import it.tidalwave.role.ContextManager;
 import it.tidalwave.messagebus.MessageBus;
 import it.tidalwave.messagebus.annotation.ListensTo;
 import it.tidalwave.messagebus.annotation.SimpleMessageSubscriber;
@@ -56,9 +53,11 @@ import static it.tidalwave.northernwind.rca.ui.event.ContentSelectedEvent.emptyS
  * @version $Id$
  *
  **********************************************************************************************************************/
-@DciContext @SimpleMessageSubscriber @Slf4j
+@DciContext(autoThreadBinding = true) @SimpleMessageSubscriber @Slf4j
 public class DefaultContentExplorerPresentationControl implements ContentExplorerPresentationControl
   {
+    /* package */ static final String ROOT_DOCUMENT_PATH = "/content/document";
+
     @Inject
     protected MessageBus messageBus;
 
@@ -68,38 +67,13 @@ public class DefaultContentExplorerPresentationControl implements ContentExplore
     @Inject
     private ContentExplorerPresentation presentation;
 
-    @Inject
-    private ContextManager contextManager;
-
-    /*******************************************************************************************************************
-     *
-     * {@inheritDoc}
-     *
-     ******************************************************************************************************************/
-    @Override
-    public void initialize()
+    /* visible for testing */ void onOpenSite (final @ListensTo @Nonnull OpenSiteEvent event)
       {
-      }
-
-    /*******************************************************************************************************************
-     *
-     ******************************************************************************************************************/
-    @VisibleForTesting void onOpenSite (final @ListensTo @Nonnull OpenSiteEvent event)
-      {
-        // FIXME: use @DciContext(autoThreadBinding = true)
-        contextManager.runWithContext(this, new Task<Void, RuntimeException>()
-          {
-            @Override
-            public Void run()
-              {
-                log.debug("onOpenSite({})", event);
-                final ResourceFile root = event.getFileSystem().findFileByPath("/content/document");
-                final Content content = modelFactory.createContent().withFolder(root).build();
-                presentation.populate(content.as(Presentable).createPresentationModel());
-                presentation.expandFirstLevel();
-                messageBus.publish(emptySelectionEvent());
-                return null;
-              }
-          });
+        log.debug("onOpenSite({})", event);
+        final ResourceFile root = event.getFileSystem().findFileByPath(ROOT_DOCUMENT_PATH);
+        final Content rootContent = modelFactory.createContent().withFolder(root).build();
+        presentation.populate(rootContent.as(Presentable).createPresentationModel());
+        presentation.expandFirstLevel();
+        messageBus.publish(emptySelectionEvent());
       }
   }

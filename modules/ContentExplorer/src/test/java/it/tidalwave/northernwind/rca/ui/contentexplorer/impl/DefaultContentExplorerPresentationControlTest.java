@@ -27,7 +27,6 @@
  */
 package it.tidalwave.northernwind.rca.ui.contentexplorer.impl;
 
-import javax.annotation.Nonnull;
 import java.io.IOException;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import it.tidalwave.util.RoleFactory;
@@ -52,6 +51,7 @@ import static org.hamcrest.CoreMatchers.*;
 import static org.mockito.Mockito.*;
 import static org.mockito.Mockito.any;
 import static it.tidalwave.util.MockAs.*;
+import static it.tidalwave.northernwind.rca.ui.contentexplorer.impl.DefaultContentExplorerPresentationControl.*;
 
 /***********************************************************************************************************************
  *
@@ -96,24 +96,24 @@ public class DefaultContentExplorerPresentationControlTest
         event = mock(OpenSiteEvent.class);
         fileSystem = mock(ResourceFileSystem.class);
         root = mock(ResourceFile.class);
-        content = mockWithAsSupport(Content.class, new RoleFactory<Content>()
-          {
-            @Override @Nonnull
-            public Object createRoleFor (final @Nonnull Content content)
-              {
-                return new SimpleCompositePresentable(content);
-              }
-          });
+        content = mockWithAsSupport(Content.class, (RoleFactory<Content>)(c -> new SimpleCompositePresentable(c)));
 
-        when(fileSystem.findFileByPath(eq("/content/document"))).thenReturn(root);
+        when(fileSystem.findFileByPath(eq(ROOT_DOCUMENT_PATH))).thenReturn(root);
         when(event.getFileSystem()).thenReturn(fileSystem);
         // FIXME: this is cumbersome
 //        when(modelFactory.createContent(eq(root))).thenReturn(content); FIXME!!!
         final Content.Builder.CallBack callBack = mock(Content.Builder.CallBack.class);
         when(callBack.build(any(Content.Builder.class))).thenReturn(content);
         when(modelFactory.createContent()).thenReturn(new Content.Builder(modelFactory, callBack));
+      }
 
-        underTest.initialize();
+    /*******************************************************************************************************************
+     *
+     ******************************************************************************************************************/
+    @AfterMethod
+    public void tearDown()
+      {
+        context.close();
       }
 
     /*******************************************************************************************************************

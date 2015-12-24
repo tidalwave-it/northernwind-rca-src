@@ -44,7 +44,7 @@ import lombok.ToString;
  * @version $Id$
  *
  **********************************************************************************************************************/
-@RequiredArgsConstructor @EqualsAndHashCode @ToString
+@RequiredArgsConstructor(staticName = "of") @EqualsAndHashCode @ToString
 public class CreateContentRequest
   {
     @Getter @Nonnull

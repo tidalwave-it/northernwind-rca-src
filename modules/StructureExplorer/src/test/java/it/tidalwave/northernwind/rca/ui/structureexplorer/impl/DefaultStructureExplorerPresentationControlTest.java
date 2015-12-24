@@ -42,6 +42,7 @@ import it.tidalwave.northernwind.core.model.Site;
 import it.tidalwave.northernwind.core.model.SiteNode;
 import it.tidalwave.northernwind.rca.ui.structureexplorer.StructureExplorerPresentation;
 import it.tidalwave.northernwind.rca.ui.event.OpenSiteEvent;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import static it.tidalwave.role.ui.PresentationModelMatcher.*;
@@ -51,6 +52,7 @@ import static org.hamcrest.CoreMatchers.*;
 import static org.mockito.Mockito.*;
 import static org.mockito.Mockito.any;
 import static it.tidalwave.util.MockAs.*;
+import static it.tidalwave.northernwind.rca.ui.structureexplorer.impl.DefaultStructureExplorerPresentationControl.*;
 
 /***********************************************************************************************************************
  *
@@ -96,22 +98,21 @@ public class DefaultStructureExplorerPresentationControlTest
         openSiteEvent = mock(OpenSiteEvent.class);
         fileSystem = mock(ResourceFileSystem.class);
         root = mock(ResourceFile.class);
-        node = mockWithAsSupport(SiteNode.class, (RoleFactory<SiteNode>)n -> new SimpleCompositePresentable(n));
+        node = mockWithAsSupport(SiteNode.class, (RoleFactory<SiteNode>)(n -> new SimpleCompositePresentable(n)));
 
-        when(fileSystem.findFileByPath(eq("/structure"))).thenReturn(root);
+        when(fileSystem.findFileByPath(eq(ROOT_SITE_NODE_PATH))).thenReturn(root);
         when(openSiteEvent.getFileSystem()).thenReturn(fileSystem);
         when(modelFactory.createSiteNode(any(Site.class), eq(root))).thenReturn(node);
-
-        underTest.initialize();
       }
 
-//    private void registerMock (final @Nonnull DefaultListableBeanFactory context,
-//                               final @Nonnull String name,
-//                               final @Nonnull Class<?> mockClass)
-//      {
-//        context.registerBeanDefinition(name, BeanDefinitionBuilder.rootBeanDefinition(Mockito.class)
-//                .setFactoryMethod("mock").addConstructorArgValue(mockClass.getName()).getBeanDefinition());
-//      }
+    /*******************************************************************************************************************
+     *
+     ******************************************************************************************************************/
+    @AfterMethod
+    public void tearDown()
+      {
+        context.close();
+      }
 
     /*******************************************************************************************************************
      *

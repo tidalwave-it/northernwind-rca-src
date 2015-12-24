@@ -28,7 +28,6 @@
 package it.tidalwave.northernwind.rca.ui.structureeditor.spi;
 
 import java.io.IOException;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import it.tidalwave.role.ui.Presentable;
 import it.tidalwave.role.ui.PresentationModel;
@@ -38,8 +37,9 @@ import it.tidalwave.northernwind.core.model.SiteNode;
 import it.tidalwave.northernwind.rca.ui.event.SiteNodeSelectedEvent;
 import it.tidalwave.northernwind.rca.ui.structureeditor.StructureEditorPresentation;
 import it.tidalwave.role.ContextManager;
-import org.testng.annotations.Test;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 import static it.tidalwave.role.ui.Presentable.*;
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.CoreMatchers.*;
@@ -53,7 +53,7 @@ import static org.mockito.Mockito.*;
  **********************************************************************************************************************/
 public class DefaultStructureEditorPresentationControlTest
   {
-    private ApplicationContext context;
+    private ClassPathXmlApplicationContext context;
 
     private DefaultStructureEditorPresentationControl underTest;
 
@@ -88,6 +88,15 @@ public class DefaultStructureEditorPresentationControlTest
         when(properties.as(eq(Presentable))).thenReturn(presentable);
 
         underTest.initialize();
+      }
+
+    /*******************************************************************************************************************
+     *
+     ******************************************************************************************************************/
+    @AfterMethod
+    public void tearDown()
+      {
+        context.close();
       }
 
     /*******************************************************************************************************************

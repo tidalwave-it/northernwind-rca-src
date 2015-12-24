@@ -35,6 +35,8 @@ import it.tidalwave.northernwind.core.model.ResourceFileSystem;
 import it.tidalwave.northernwind.core.model.Site;
 import it.tidalwave.northernwind.frontend.filesystem.basic.LocalFileSystemProvider;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import static lombok.AccessLevel.PRIVATE;
 
 /***********************************************************************************************************************
  *
@@ -44,6 +46,7 @@ import lombok.Getter;
  * @version $Id$
  *
  **********************************************************************************************************************/
+@RequiredArgsConstructor(access = PRIVATE)
 public class OpenSiteEvent
   {
     @Getter @Nonnull
@@ -52,12 +55,13 @@ public class OpenSiteEvent
     @VisibleForTesting @Getter @Nonnull
     private final LocalFileSystemProvider fileSystemProvider;
 
-    public OpenSiteEvent (final @Nonnull Path folder)
+    @Nonnull
+    public static OpenSiteEvent of (final @Nonnull Path folder)
       throws IOException
       {
-        fileSystemProvider = new LocalFileSystemProvider();
+        final LocalFileSystemProvider fileSystemProvider = new LocalFileSystemProvider();
         fileSystemProvider.setRootPath(folder.toFile().getAbsolutePath());
-        fileSystem = fileSystemProvider.getFileSystem();
+        return new OpenSiteEvent(fileSystemProvider.getFileSystem(), fileSystemProvider);
       }
 
     @Override @Nonnull

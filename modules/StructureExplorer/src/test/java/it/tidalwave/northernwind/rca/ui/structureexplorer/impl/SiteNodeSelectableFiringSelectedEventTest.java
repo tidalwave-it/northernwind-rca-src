@@ -40,6 +40,10 @@ import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.*;
 import static it.tidalwave.northernwind.rca.ui.event.SiteNodeSelectedEventMatcher.*;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.not;
+import static org.hamcrest.CoreMatchers.nullValue;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 /***********************************************************************************************************************
  *
@@ -47,9 +51,9 @@ import static it.tidalwave.northernwind.rca.ui.event.SiteNodeSelectedEventMatche
  * @version $Id$
  *
  **********************************************************************************************************************/
-public class StructureSelectableFiringSelectedEventTest
+public class SiteNodeSelectableFiringSelectedEventTest
   {
-    private StructureSelectableFiringSelectedEvent underTest;
+    private SiteNodeSelectableFiringSelectedEvent underTest;
 
     private SiteNode node;
 
@@ -64,10 +68,10 @@ public class StructureSelectableFiringSelectedEventTest
     public void setup()
       throws Exception
       {
-        context = new ClassPathXmlApplicationContext("StructureSelectableFiringSelectedEventTestBeans.xml");
+        context = new ClassPathXmlApplicationContext("SiteNodeSelectableFiringSelectedEventTestBeans.xml");
         messageBus = context.getBean(MessageBus.class);
         node = mock(SiteNode.class);
-        underTest = new StructureSelectableFiringSelectedEvent(node);
+        underTest = new SiteNodeSelectableFiringSelectedEvent(node);
       }
 
     /*******************************************************************************************************************
