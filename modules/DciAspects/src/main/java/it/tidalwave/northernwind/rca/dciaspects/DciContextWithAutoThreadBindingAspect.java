@@ -32,7 +32,6 @@ import javax.annotation.Nonnull;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.beans.factory.annotation.Configurable;
 import it.tidalwave.role.ContextManager;
 import it.tidalwave.role.spi.LogUtil;
