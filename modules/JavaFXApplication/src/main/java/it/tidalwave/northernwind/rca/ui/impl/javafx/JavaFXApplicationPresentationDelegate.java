@@ -117,7 +117,6 @@ public class JavaFXApplicationPresentationDelegate
         // FIXME: controllers can't initialize in postconstruct
         // Too bad because with PAC+EventBus we'd get rid of the control interfaces
         contentEditorPresentationControl.get().initialize();
-        structureEditorPresentationControl.get().initialize();
 
         // FIXME: this should be delegated to other handlers, as already done for the Editors
         siteOpenerPresentationControl.get().initialize(createInstance(JavaFXSiteOpenerPresentation.class, this));

@@ -31,7 +31,6 @@ import javax.annotation.Nonnull;
 import javax.inject.Inject;
 import java.util.Optional;
 import java.io.IOException;
-import com.google.common.annotations.VisibleForTesting;
 import it.tidalwave.util.NotFoundException;
 import it.tidalwave.util.Task;
 import it.tidalwave.role.ui.UserAction;
@@ -73,10 +72,10 @@ public class DefaultContentEditorPresentationControl implements ContentEditorPre
     private ContentEditorPresentation presentation;
 
     @Nonnull
-    private Optional<Content> content;
+    private Optional<Content> content = Optional.empty();
 
     @Nonnull
-    private Optional<ResourceProperties> properties;
+    private Optional<ResourceProperties> properties = Optional.empty();
 
     /*******************************************************************************************************************
      *
@@ -105,14 +104,14 @@ public class DefaultContentEditorPresentationControl implements ContentEditorPre
           }
       };
 
-    @VisibleForTesting final Bindings bindings = new Bindings(openExternalEditor);
+    /* visible for testing */ final Bindings bindings = new Bindings(openExternalEditor);
 
     /*******************************************************************************************************************
      *
      *
      *
      ******************************************************************************************************************/
-    @VisibleForTesting final PropertyBinder.UpdateCallback propertyUpdateCallback = (updatedProperties) ->
+    /* visible for testing */ final PropertyBinder.UpdateCallback propertyUpdateCallback = (updatedProperties) ->
       {
         updatedProperties.as(Saveable).saveIn(content.get().getFile());
         unbindProperties();
@@ -140,7 +139,7 @@ public class DefaultContentEditorPresentationControl implements ContentEditorPre
      * {@inheritDoc}
      *
      ******************************************************************************************************************/
-    @VisibleForTesting void onContentSelected (final @ListensTo @Nonnull ContentSelectedEvent selectionEvent)
+    /* visible for testing */ void onContentSelected (final @ListensTo @Nonnull ContentSelectedEvent selectionEvent)
       {
         log.debug("onContentSelected({})", selectionEvent);
 

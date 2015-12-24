@@ -45,7 +45,7 @@ import it.tidalwave.northernwind.core.model.Content;
  **********************************************************************************************************************/
 public interface ContentChildCreator
   {
-    public static final Class<ContentChildCreator> ContentCreator = ContentChildCreator.class;
+    public static final Class<ContentChildCreator> ContentChildCreator = ContentChildCreator.class;
 
     /*******************************************************************************************************************
      *

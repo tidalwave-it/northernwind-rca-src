@@ -28,12 +28,9 @@
 package it.tidalwave.northernwind.rca.ui.contenteditor.impl;
 
 import javax.annotation.Nonnull;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.io.InputStreamReader;
 import java.io.IOException;
 import java.io.Reader;
-import com.google.common.annotations.VisibleForTesting;
 import com.google.common.io.CharStreams;
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.core.io.ClassPathResource;
@@ -60,15 +57,15 @@ public class ResourcePropertiesBinder implements PropertyBinder
     @Nonnull
     private final ResourceProperties properties;
 
-    @VisibleForTesting final static String EDITOR_PROLOG =
+    /* visible for testing */ final static String EDITOR_PROLOG =
             "it/tidalwave/northernwind/rca/ui/contenteditor/spi/EditorProlog.txt";
 
-    @VisibleForTesting final static String EDITOR_EPILOG =
+    /* visible for testing */ final static String EDITOR_EPILOG =
             "it/tidalwave/northernwind/rca/ui/contenteditor/spi/EditorEpilog.txt";
 
-    @VisibleForTesting String editorProlog = "";
+    /* visible for testing */ String editorProlog = "";
 
-    @VisibleForTesting String editorEpilog = "";
+    /* visible for testing */ String editorEpilog = "";
 
     /*******************************************************************************************************************
      *
@@ -92,14 +89,8 @@ public class ResourcePropertiesBinder implements PropertyBinder
       throws NotFoundException, IOException
       {
         boundProperty.set(properties.getProperty(propertyName));
-        boundProperty.addPropertyChangeListener(new PropertyChangeListener()
-          {
-            @Override
-            public void propertyChange (final @Nonnull PropertyChangeEvent event)
-              {
-                callback.notify(properties.withProperty(propertyName, boundProperty.get()));
-              }
-          });
+        boundProperty.addPropertyChangeListener(
+                event -> callback.notify(properties.withProperty(propertyName, boundProperty.get())));
       }
 
     /*******************************************************************************************************************
@@ -120,14 +111,9 @@ public class ResourcePropertiesBinder implements PropertyBinder
             // FIXME: mime type - XHTML?
             return new EmbeddedServer.Document().withMimeType("text/html")
                                                 .withContent(editableDocument.asString())
-                                                .withUpdateListener(new EmbeddedServer.Document.UpdateListener()
-              {
-                @Override
-                public void onUpdate (final @Nonnull String text)
-                  {
-                    callback.notify(properties.withProperty(propertyName, originalDocument.withBody(text).asString()));
-                  }
-              });
+                                                .withUpdateListener(
+                text1 -> callback.notify(properties.withProperty(propertyName,
+                                                                 originalDocument.withBody(text1).asString())));
           }
         catch (IOException e)
           {
@@ -141,7 +127,7 @@ public class ResourcePropertiesBinder implements PropertyBinder
      *
      ******************************************************************************************************************/
     @Nonnull
-    @VisibleForTesting String loadResource (final @Nonnull String path)
+    /* visible for testing */String loadResource (final @Nonnull String path)
       {
         try
           {

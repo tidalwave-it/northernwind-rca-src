@@ -86,8 +86,6 @@ public class DefaultStructureEditorPresentationControlTest
         when(siteNode.getProperties()).thenReturn(properties);
         when(presentable.createPresentationModel(anyVararg())).thenReturn(pm);
         when(properties.as(eq(Presentable))).thenReturn(presentable);
-
-        underTest.initialize();
       }
 
     /*******************************************************************************************************************

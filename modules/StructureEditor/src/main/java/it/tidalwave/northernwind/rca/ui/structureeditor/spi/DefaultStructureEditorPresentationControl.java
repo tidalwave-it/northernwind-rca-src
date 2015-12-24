@@ -29,7 +29,6 @@ package it.tidalwave.northernwind.rca.ui.structureeditor.spi;
 
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
-import com.google.common.annotations.VisibleForTesting;
 import it.tidalwave.messagebus.annotation.ListensTo;
 import it.tidalwave.messagebus.annotation.SimpleMessageSubscriber;
 import it.tidalwave.northernwind.core.model.ResourceProperties;
@@ -52,12 +51,7 @@ public class DefaultStructureEditorPresentationControl implements StructureEdito
     @Inject
     private StructureEditorPresentation presentation;
 
-    @Override
-    public void initialize()
-      {
-      }
-
-    @VisibleForTesting void onSiteNodeSelected (final @ListensTo @Nonnull SiteNodeSelectedEvent selectionEvent)
+    /* visible for testing */ void onSiteNodeSelected (final @ListensTo @Nonnull SiteNodeSelectedEvent selectionEvent)
       {
         log.debug("onSiteNodeSelected({})", selectionEvent);
 
