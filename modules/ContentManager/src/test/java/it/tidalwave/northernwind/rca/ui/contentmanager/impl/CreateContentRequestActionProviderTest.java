@@ -58,7 +58,7 @@ public class CreateContentRequestActionProviderTest
     @BeforeMethod
     public void setup()
       {
-        ContextManager.Locator.set(new DefaultContextManagerProvider()); // TODO: get rid of this
+        ContextManager.Locator.set(new DefaultContextManagerProvider());
         messageBus = mock(MessageBus.class);
         content = mock(Content.class);
         underTest = new CreateContentRequestActionProvider(content);
