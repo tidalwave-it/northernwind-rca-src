@@ -27,7 +27,6 @@
  */
 package it.tidalwave.northernwind.rca.ui.impl.javafx;
 
-import javax.annotation.Nonnull;
 import javax.inject.Inject;
 import javax.inject.Provider;
 import java.io.IOException;
@@ -39,10 +38,7 @@ import javafx.scene.layout.StackPane;
 import org.springframework.beans.factory.annotation.Configurable;
 import it.tidalwave.role.ui.javafx.StackPaneSelector;
 import it.tidalwave.northernwind.rca.ui.contenteditor.ContentEditorPresentationControl;
-import it.tidalwave.northernwind.rca.ui.contentexplorer.ContentExplorerPresentationControl;
 import it.tidalwave.northernwind.rca.ui.siteopener.SiteOpenerPresentationControl;
-import it.tidalwave.northernwind.rca.ui.structureeditor.StructureEditorPresentationControl;
-import it.tidalwave.northernwind.rca.ui.structureexplorer.StructureExplorerPresentationControl;
 import it.tidalwave.northernwind.rca.ui.impl.javafx.contenteditor.JavaFXContentEditorPresentation;
 import it.tidalwave.northernwind.rca.ui.impl.javafx.contentexplorer.JavaFXContentExplorerPresentation;
 import it.tidalwave.northernwind.rca.ui.impl.javafx.siteopener.JavaFXSiteOpenerPresentation;
@@ -70,15 +66,6 @@ public class JavaFXApplicationPresentationDelegate
 
     @Inject
     private Provider<ContentEditorPresentationControl> contentEditorPresentationControl;
-
-    @Inject
-    private Provider<ContentExplorerPresentationControl> contentExplorerPresentationControl;
-
-    @Inject
-    private Provider<StructureEditorPresentationControl> structureEditorPresentationControl;
-
-    @Inject
-    private Provider<StructureExplorerPresentationControl> structureExplorerPresentationControl;
 
     @Inject
     private Provider<JavaFXContentEditorPresentation> contentEditorPresentation;
