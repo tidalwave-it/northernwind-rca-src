@@ -69,4 +69,6 @@
 
     <bean class="it.tidalwave.northernwind.rca.ui.impl.javafx.structureexplorer.JavaFXStructureExplorerPresentation" />
 
+    <bean class="it.tidalwave.northernwind.rca.ui.impl.javafx.siteopener.JavaFXSiteOpenerPresentation" />
+
 </beans>

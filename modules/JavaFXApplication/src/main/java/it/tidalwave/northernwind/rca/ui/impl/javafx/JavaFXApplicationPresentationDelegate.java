@@ -45,7 +45,6 @@ import it.tidalwave.northernwind.rca.ui.impl.javafx.siteopener.JavaFXSiteOpenerP
 import it.tidalwave.northernwind.rca.ui.impl.javafx.structureexplorer.JavaFXStructureExplorerPresentation;
 import it.tidalwave.northernwind.rca.ui.impl.javafx.structureeditor.JavaFXStructureEditorPresentation;
 import lombok.extern.slf4j.Slf4j;
-import static it.tidalwave.role.ui.javafx.impl.util.JavaFXSafeComponentBuilder.createInstance;
 
 /***********************************************************************************************************************
  *
@@ -79,6 +78,9 @@ public class JavaFXApplicationPresentationDelegate
     @Inject
     private Provider<JavaFXStructureExplorerPresentation> structurExplorerPresentation;
 
+    @Inject
+    private Provider<JavaFXSiteOpenerPresentation> siteOpenerPresentation;
+
     @FXML
     private StackPane stackPane;
 
@@ -107,6 +109,7 @@ public class JavaFXApplicationPresentationDelegate
         contentEditorPresentationControl.get().initialize();
 
         // FIXME: this should be delegated to other handlers, as already done for the Editors
-        siteOpenerPresentationControl.get().initialize(createInstance(JavaFXSiteOpenerPresentation.class, this));
+        siteOpenerPresentation.get().createDelegate(this);
+        siteOpenerPresentationControl.get().initialize();
       }
   }

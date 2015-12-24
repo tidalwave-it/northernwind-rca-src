@@ -10,7 +10,7 @@
  * *********************************************************************************************************************
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy withCallback the License at
+ * the License. You may obtain a copy of the License at
  *
  *     http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -25,60 +25,53 @@
  * *********************************************************************************************************************
  * #L%
  */
-package it.tidalwave.northernwind.rca.ui.siteopener.spi;
+package it.tidalwave.northernwind.rca.ui.impl.javafx.siteopener;
 
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import javax.inject.Provider;
+import javafx.scene.control.Button;
+import javafx.scene.control.MenuItem;
 import it.tidalwave.role.ui.UserAction;
-import it.tidalwave.role.ui.spi.UserActionSupport8;
-import it.tidalwave.messagebus.MessageBus;
-import it.tidalwave.northernwind.rca.ui.event.OpenSiteEvent;
+import it.tidalwave.role.ui.javafx.JavaFXBinder;
+import it.tidalwave.role.ui.javafx.Widget;
 import it.tidalwave.northernwind.rca.ui.siteopener.SiteOpenerPresentation;
-import it.tidalwave.northernwind.rca.ui.siteopener.SiteOpenerPresentation.Bindings;
-import it.tidalwave.northernwind.rca.ui.siteopener.SiteOpenerPresentationControl;
-import lombok.extern.slf4j.Slf4j;
-import static it.tidalwave.util.ui.Feedback8.feedback;
-import static it.tidalwave.util.ui.UserNotificationWithFeedback.notificationWithFeedback;
+import it.tidalwave.util.ui.UserNotificationWithFeedback;
+import org.springframework.beans.factory.annotation.Configurable;
 
 /***********************************************************************************************************************
  *
- * @stereotype Control
+ * @stereotype Presentation
  *
  * @author  Fabrizio Giudici
  * @version $Id$
  *
  **********************************************************************************************************************/
-@Slf4j
-public class DefaultSiteOpenerPresentationControl implements SiteOpenerPresentationControl
+@Configurable
+public class JavaFXSiteOpenerPresentationDelegate implements SiteOpenerPresentation
   {
     @Inject
-    private MessageBus messageBus;
+    private Provider<JavaFXBinder> binder;
 
-    @Inject
-    private SiteOpenerPresentation presentation;
+    @Widget("btOpen")
+    private Button btOpen;
 
-    /* visible for testing */ final Bindings bindings = new Bindings();
+    @Widget("openSiteMenu")
+    private MenuItem openSiteMenu;
 
-    /* visible for testing */ final UserAction openSiteAction = UserActionSupport8.withCallback(() ->
-      {
-        presentation.notifyInvitationToSelectAFolder(notificationWithFeedback()
-            .withCaption("Select the site to open")
-            .withFeedback(feedback()
-                         .withOnConfirm(() -> messageBus.publish(OpenSiteEvent.of(bindings.folderToOpen.get())))));
-      });
+    private Bindings bindings;
 
     @Override
-    public void initialize()
+    public void bind (final @Nonnull UserAction action, final @Nonnull Bindings bindings)
       {
-        presentation.bind(openSiteAction, bindings);
-        bindings.folderToOpen.set(getHomeFolder());
+        this.bindings = bindings;
+        binder.get().bind(btOpen, action);
+        binder.get().bind(openSiteMenu, action);
       }
 
-    @Nonnull
-    private static Path getHomeFolder()
+    @Override
+    public void notifyInvitationToSelectAFolder (final @Nonnull UserNotificationWithFeedback notification)
       {
-        return Paths.get(System.getProperty("user.home"));
+        binder.get().openDirectoryChooserFor(notification, bindings.folderToOpen);
       }
   }

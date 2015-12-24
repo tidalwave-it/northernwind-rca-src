@@ -74,7 +74,7 @@ public class DefaultSiteOpenerPresentationControlTest
         presentation = context.getBean(SiteOpenerPresentation.class);
         messageBus = context.getBean(MessageBus.class);
 
-        underTest.initialize(presentation);
+        underTest.initialize();
       }
 
     /*******************************************************************************************************************

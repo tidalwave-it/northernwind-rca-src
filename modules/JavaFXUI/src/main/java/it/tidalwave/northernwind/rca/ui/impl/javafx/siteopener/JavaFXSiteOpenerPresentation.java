@@ -28,16 +28,10 @@
 package it.tidalwave.northernwind.rca.ui.impl.javafx.siteopener;
 
 import javax.annotation.Nonnull;
-import javax.inject.Inject;
-import javax.inject.Provider;
-import javafx.scene.control.Button;
-import javafx.scene.control.MenuItem;
-import it.tidalwave.role.ui.UserAction;
-import it.tidalwave.util.ui.UserNotificationWithFeedback;
-import it.tidalwave.role.ui.javafx.JavaFXBinder;
-import it.tidalwave.role.ui.javafx.Widget;
-import it.tidalwave.northernwind.rca.ui.siteopener.SiteOpenerPresentation;
 import org.springframework.beans.factory.annotation.Configurable;
+import it.tidalwave.northernwind.rca.ui.siteopener.SiteOpenerPresentation;
+import lombok.Delegate;
+import static it.tidalwave.role.ui.javafx.impl.util.JavaFXSafeComponentBuilder.createInstance;
 
 /***********************************************************************************************************************
  *
@@ -50,28 +44,11 @@ import org.springframework.beans.factory.annotation.Configurable;
 @Configurable
 public class JavaFXSiteOpenerPresentation implements SiteOpenerPresentation
   {
-    @Inject
-    private Provider<JavaFXBinder> binder;
+    @Delegate
+    private SiteOpenerPresentation delegate;
 
-    private Bindings bindings;
-
-    @Widget("btOpen")
-    private Button btOpen;
-
-    @Widget("openSiteMenu")
-    private MenuItem openSiteMenu;
-
-    @Override
-    public void bind (final @Nonnull UserAction action, final @Nonnull Bindings bindings)
+    public void createDelegate (final @Nonnull Object referenceHolder)
       {
-        this.bindings = bindings;
-        binder.get().bind(btOpen, action);
-        binder.get().bind(openSiteMenu, action);
-      }
-
-    @Override
-    public void notifyInvitationToSelectAFolder (final @Nonnull UserNotificationWithFeedback notification)
-      {
-        binder.get().openDirectoryChooserFor(notification, bindings.folderToOpen);
+        delegate = createInstance(JavaFXSiteOpenerPresentationDelegate.class, referenceHolder);
       }
   }
