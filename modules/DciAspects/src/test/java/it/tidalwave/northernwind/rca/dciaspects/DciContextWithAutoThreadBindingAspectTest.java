@@ -27,16 +27,21 @@
  */
 package it.tidalwave.northernwind.rca.dciaspects;
 
+import javax.annotation.Nonnull;
+import java.lang.reflect.Method;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
+import it.tidalwave.util.Task;
 import it.tidalwave.role.ContextManager;
 import it.tidalwave.dci.annotation.DciContext;
-import it.tidalwave.util.Task;
-import java.lang.reflect.Method;
-import javax.annotation.Nonnull;
 import lombok.extern.slf4j.Slf4j;
 import org.testng.annotations.Test;
 import org.testng.annotations.BeforeClass;
-import static org.mockito.Mockito.*;
 import org.testng.annotations.DataProvider;
+import static org.mockito.Mockito.*;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 /***********************************************************************************************************************
  *
@@ -47,79 +52,99 @@ import org.testng.annotations.DataProvider;
 @Slf4j
 public class DciContextWithAutoThreadBindingAspectTest
   {
-    static class WithoutAnnotation
+    static class Support
       {
+        public Map<String, AtomicInteger> invocationCount = new HashMap<>();
+
         public void publicMethod()
           {
             log.info("publicMethod()");
+            invocationCount.computeIfAbsent("publicMethod", s -> new AtomicInteger(0)).incrementAndGet();
           }
 
         protected void protectedMethod()
           {
             log.info("protectedMethod()");
+            invocationCount.computeIfAbsent("protectedMethod", s -> new AtomicInteger(0)).incrementAndGet();
           }
 
-       /* package */ void packageMethod()
+        /* package */ void packageMethod()
           {
             log.info("packageMethod()");
+            invocationCount.computeIfAbsent("packageMethod", s -> new AtomicInteger(0)).incrementAndGet();
+          }
+      }
+
+    static class WithoutAnnotation extends Support
+      {
+        @Override
+        public void publicMethod()
+          {
+            super.publicMethod();
           }
 
-        private void privateMethod()
+        @Override
+        protected void protectedMethod()
           {
-            log.info("privateMethod()");
+            super.protectedMethod();
+          }
+
+        @Override
+        /* package */ void packageMethod()
+          {
+            super.packageMethod();
           }
       }
 
     @DciContext
-    static class WithAnnotationButNoAutoThreadBinding
+    static class WithAnnotationButNoAutoThreadBinding extends Support
       {
+        @Override
         public void publicMethod()
           {
-            log.info("publicMethod()");
+            super.publicMethod();
           }
 
+        @Override
         protected void protectedMethod()
           {
-            log.info("protectedMethod()");
+            super.protectedMethod();
           }
 
-       /* package */ void packageMethod()
+        @Override
+        /* package */ void packageMethod()
           {
-            log.info("packageMethod()");
-          }
-
-        private void privateMethod()
-          {
-            log.info("privateMethod()");
+            super.packageMethod();
           }
       }
 
     @DciContext(autoThreadBinding = true)
-    static class WithAnnotationAndAutoThreadBinding
+    static class WithAnnotationAndAutoThreadBinding extends Support
       {
+        @Override
         public void publicMethod()
           {
-            log.info("publicMethod()");
+            super.publicMethod();
           }
 
+        @Override
         protected void protectedMethod()
           {
-            log.info("protectedMethod()");
+            super.protectedMethod();
           }
 
-       /* package */ void packageMethod()
+        @Override
+        /* package */ void packageMethod()
           {
-            log.info("packageMethod()");
-          }
-
-        private void privateMethod()
-          {
-            log.info("privateMethod()");
+            super.packageMethod();
           }
       }
 
     private ContextManager contextManager;
 
+    /*******************************************************************************************************************
+     *
+     ******************************************************************************************************************/
     @BeforeClass
     public void setup()
       throws RuntimeException
@@ -135,57 +160,86 @@ public class DciContextWithAutoThreadBindingAspectTest
         ContextManager.Locator.set(() -> contextManager);
       }
 
+    /*******************************************************************************************************************
+     *
+     ******************************************************************************************************************/
     @Test(dataProvider = "methodNames")
     public void must_not_bind_context_when_no_annotation (final @Nonnull String methodName)
       throws Exception
       {
         // given
-        final Object object = new WithoutAnnotation();
+        final Support object = new WithoutAnnotation();
         // when
         invoke(object, methodName);
         // then
         verifyZeroInteractions(contextManager);
+        verifyMethodInvocations(object, methodName);
       }
 
+    /*******************************************************************************************************************
+     *
+     ******************************************************************************************************************/
     @Test(dataProvider = "methodNames")
     public void must_not_bind_context_when_annotation_present_but_no_autoThreadBinding(final @Nonnull String methodName)
       throws Exception
       {
         // given
-        final Object object = new WithAnnotationButNoAutoThreadBinding();
+        final Support object = new WithAnnotationButNoAutoThreadBinding();
         // when
         invoke(object, methodName);
         // then
         verifyZeroInteractions(contextManager);
+        verifyMethodInvocations(object, methodName);
       }
 
+    /*******************************************************************************************************************
+     *
+     ******************************************************************************************************************/
     @Test(dataProvider = "methodNames")
     public void must_bind_context_when_annotation_present_and_autoThreadBinding (final @Nonnull String methodName)
       throws Exception
       {
         // given
-        final Object object = new WithAnnotationAndAutoThreadBinding();
+        final Support object = new WithAnnotationAndAutoThreadBinding();
         // when
         invoke(object, methodName);
         // then
         verify(contextManager, times(1)).runWithContext(same(object), anyObject());
         verifyNoMoreInteractions(contextManager);
+        verifyMethodInvocations(object, methodName);
       }
 
+    /*******************************************************************************************************************
+     *
+     ******************************************************************************************************************/
     @DataProvider
     private static Object[][] methodNames()
       {
         return new Object[][]
           {
-            {"publicMethod"}, {"protectedMethod"}, {"packageMethod"}, {"privateMethod"}
+            {"publicMethod"}, {"protectedMethod"}, {"packageMethod"}
           };
       }
 
-    private void invoke (final @Nonnull Object context, final @Nonnull String methodName)
+    /*******************************************************************************************************************
+     *
+     ******************************************************************************************************************/
+    private void invoke (final @Nonnull Object object, final @Nonnull String methodName)
       throws Exception
       {
-        final Method method = context.getClass().getDeclaredMethod(methodName);
+        final Method method = object.getClass().getDeclaredMethod(methodName);
         method.setAccessible(true);
-        method.invoke(context);
+        method.invoke(object);
+      }
+
+    /*******************************************************************************************************************
+     *
+     ******************************************************************************************************************/
+    private void verifyMethodInvocations (final @Nonnull Support object, final @Nonnull String methodName)
+      {
+        assertThat("target method not invoked: " + methodName,
+                   object.invocationCount.size(), is(1));
+        assertThat("extra method invoked: " + methodName,
+                   object.invocationCount.getOrDefault(methodName, new AtomicInteger(0)).get(), is(1));
       }
   }
