@@ -56,6 +56,8 @@ import static it.tidalwave.northernwind.rca.ui.event.ContentSelectedEvent.emptyS
 @DciContext(autoThreadBinding = true) @SimpleMessageSubscriber @Slf4j
 public class DefaultContentExplorerPresentationControl implements ContentExplorerPresentationControl
   {
+    /* package */ static final String ROOT_DOCUMENT_PATH = "/content/document";
+
     @Inject
     protected MessageBus messageBus;
 
@@ -81,9 +83,9 @@ public class DefaultContentExplorerPresentationControl implements ContentExplore
     /* visible for testing */ void onOpenSite (final @ListensTo @Nonnull OpenSiteEvent event)
       {
         log.debug("onOpenSite({})", event);
-        final ResourceFile root = event.getFileSystem().findFileByPath("/content/document");
-        final Content content = modelFactory.createContent().withFolder(root).build();
-        presentation.populate(content.as(Presentable).createPresentationModel());
+        final ResourceFile root = event.getFileSystem().findFileByPath(ROOT_DOCUMENT_PATH);
+        final Content rootContent = modelFactory.createContent().withFolder(root).build();
+        presentation.populate(rootContent.as(Presentable).createPresentationModel());
         presentation.expandFirstLevel();
         messageBus.publish(emptySelectionEvent());
       }

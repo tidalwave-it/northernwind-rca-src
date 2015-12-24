@@ -52,6 +52,7 @@ import static org.hamcrest.CoreMatchers.*;
 import static org.mockito.Mockito.*;
 import static org.mockito.Mockito.any;
 import static it.tidalwave.util.MockAs.*;
+import static it.tidalwave.northernwind.rca.ui.structureexplorer.impl.DefaultStructureExplorerPresentationControl.*;
 
 /***********************************************************************************************************************
  *
@@ -99,7 +100,7 @@ public class DefaultStructureExplorerPresentationControlTest
         root = mock(ResourceFile.class);
         node = mockWithAsSupport(SiteNode.class, (RoleFactory<SiteNode>)(n -> new SimpleCompositePresentable(n)));
 
-        when(fileSystem.findFileByPath(eq("/structure"))).thenReturn(root);
+        when(fileSystem.findFileByPath(eq(ROOT_SITE_NODE_PATH))).thenReturn(root);
         when(openSiteEvent.getFileSystem()).thenReturn(fileSystem);
         when(modelFactory.createSiteNode(any(Site.class), eq(root))).thenReturn(node);
 

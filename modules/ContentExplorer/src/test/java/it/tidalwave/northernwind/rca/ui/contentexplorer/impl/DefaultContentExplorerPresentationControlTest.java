@@ -51,6 +51,7 @@ import static org.hamcrest.CoreMatchers.*;
 import static org.mockito.Mockito.*;
 import static org.mockito.Mockito.any;
 import static it.tidalwave.util.MockAs.*;
+import static it.tidalwave.northernwind.rca.ui.contentexplorer.impl.DefaultContentExplorerPresentationControl.*;
 
 /***********************************************************************************************************************
  *
@@ -97,7 +98,7 @@ public class DefaultContentExplorerPresentationControlTest
         root = mock(ResourceFile.class);
         content = mockWithAsSupport(Content.class, (RoleFactory<Content>)(c -> new SimpleCompositePresentable(c)));
 
-        when(fileSystem.findFileByPath(eq("/content/document"))).thenReturn(root);
+        when(fileSystem.findFileByPath(eq(ROOT_DOCUMENT_PATH))).thenReturn(root);
         when(event.getFileSystem()).thenReturn(fileSystem);
         // FIXME: this is cumbersome
 //        when(modelFactory.createContent(eq(root))).thenReturn(content); FIXME!!!

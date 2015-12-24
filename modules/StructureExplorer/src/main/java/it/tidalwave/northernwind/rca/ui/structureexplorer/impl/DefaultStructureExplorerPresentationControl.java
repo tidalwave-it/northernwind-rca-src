@@ -58,6 +58,8 @@ import static it.tidalwave.northernwind.rca.ui.event.SiteNodeSelectedEvent.empty
 @DciContext(autoThreadBinding = true) @SimpleMessageSubscriber @Slf4j
 public class DefaultStructureExplorerPresentationControl implements StructureExplorerPresentationControl
   {
+    /* package */ static final String ROOT_SITE_NODE_PATH = "/structure";
+
     @Inject
     private ModelFactory modelFactory;
 
@@ -88,9 +90,9 @@ public class DefaultStructureExplorerPresentationControl implements StructureExp
         try
           {
             log.debug("onOpenSite({})", event);
-            final ResourceFile root = event.getFileSystem().findFileByPath("/structure");
-            final SiteNode siteNode = modelFactory.createSiteNode(site, root);
-            presentation.populate(siteNode.as(Presentable).createPresentationModel());
+            final ResourceFile root = event.getFileSystem().findFileByPath(ROOT_SITE_NODE_PATH);
+            final SiteNode rootSiteNode = modelFactory.createSiteNode(site, root);
+            presentation.populate(rootSiteNode.as(Presentable).createPresentationModel());
             presentation.expandFirstLevel();
             messageBus.publish(emptySelectionEvent());
           }
