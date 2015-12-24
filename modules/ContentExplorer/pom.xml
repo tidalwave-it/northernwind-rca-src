@@ -53,16 +53,15 @@
 
         <dependency>
             <groupId>it.tidalwave.thesefoolishthings</groupId>
+            <artifactId>it-tidalwave-util-java8supplement</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>it.tidalwave.thesefoolishthings</groupId>
             <artifactId>it-tidalwave-messagebus-spring</artifactId>
         </dependency>
         <dependency>
             <groupId>it.tidalwave.thesefoolishthings</groupId>
-            <artifactId>it-tidalwave-util-java8supplement</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>it.tidalwave.northernwind.rca</groupId>
-            <artifactId>it-tidalwave-northernwind-rca-dciaspects</artifactId>
+            <artifactId>it-tidalwave-role-spring</artifactId>
         </dependency>
 
         <dependency>
@@ -82,11 +81,6 @@
             <groupId>it.tidalwave.thesefoolishthings</groupId>
             <artifactId>it-tidalwave-role</artifactId>
             <classifier>tests</classifier>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>it.tidalwave.thesefoolishthings</groupId>
-            <artifactId>it-tidalwave-role-spring</artifactId>
             <scope>test</scope>
         </dependency>
 
@@ -109,8 +103,8 @@
                             <artifactId>it-tidalwave-messagebus-spring</artifactId>
                         </dependency>
                         <dependency>
-                            <groupId>it.tidalwave.northernwind.rca</groupId>
-                            <artifactId>it-tidalwave-northernwind-rca-dciaspects</artifactId>
+                            <groupId>it.tidalwave.thesefoolishthings</groupId>
+                            <artifactId>it-tidalwave-role-spring</artifactId>
                         </dependency>
                     </aspectLibraries>
                 </configuration>
