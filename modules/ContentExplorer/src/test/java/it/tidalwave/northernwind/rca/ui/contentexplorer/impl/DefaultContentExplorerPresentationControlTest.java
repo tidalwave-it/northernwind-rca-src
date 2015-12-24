@@ -27,7 +27,6 @@
  */
 package it.tidalwave.northernwind.rca.ui.contentexplorer.impl;
 
-import javax.annotation.Nonnull;
 import java.io.IOException;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import it.tidalwave.util.RoleFactory;
@@ -96,14 +95,7 @@ public class DefaultContentExplorerPresentationControlTest
         event = mock(OpenSiteEvent.class);
         fileSystem = mock(ResourceFileSystem.class);
         root = mock(ResourceFile.class);
-        content = mockWithAsSupport(Content.class, new RoleFactory<Content>()
-          {
-            @Override @Nonnull
-            public Object createRoleFor (final @Nonnull Content content)
-              {
-                return new SimpleCompositePresentable(content);
-              }
-          });
+        content = mockWithAsSupport(Content.class, (RoleFactory<Content>)(c -> new SimpleCompositePresentable(c)));
 
         when(fileSystem.findFileByPath(eq("/content/document"))).thenReturn(root);
         when(event.getFileSystem()).thenReturn(fileSystem);
