@@ -52,6 +52,9 @@ import static org.hamcrest.MatcherAssert.assertThat;
 @Slf4j
 public class DciContextWithAutoThreadBindingAspectTest
   {
+    /*******************************************************************************************************************
+     *
+     ******************************************************************************************************************/
     static class Support
       {
         public Map<String, AtomicInteger> invocationCount = new HashMap<>();
@@ -78,6 +81,9 @@ public class DciContextWithAutoThreadBindingAspectTest
           }
       }
 
+    /*******************************************************************************************************************
+     *
+     ******************************************************************************************************************/
     static class WithoutAnnotation extends Support
       {
         @Override
@@ -99,6 +105,9 @@ public class DciContextWithAutoThreadBindingAspectTest
           }
       }
 
+    /*******************************************************************************************************************
+     *
+     ******************************************************************************************************************/
     @DciContext
     static class WithAnnotationButNoAutoThreadBinding extends Support
       {
@@ -121,6 +130,9 @@ public class DciContextWithAutoThreadBindingAspectTest
           }
       }
 
+    /*******************************************************************************************************************
+     *
+     ******************************************************************************************************************/
     @DciContext(autoThreadBinding = true)
     static class WithAnnotationAndAutoThreadBinding extends Support
       {
