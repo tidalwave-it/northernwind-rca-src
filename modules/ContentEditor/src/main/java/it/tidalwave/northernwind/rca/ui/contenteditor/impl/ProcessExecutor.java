@@ -33,8 +33,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.Executors;
 import java.io.IOException;
-import it.tidalwave.util.Task;
 import java.io.File;
+import it.tidalwave.util.Callback;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.Wither;
@@ -56,15 +56,7 @@ public class ProcessExecutor
     private List<String> arguments = new ArrayList<>();
 
     @Wither
-    private Task<Void, Exception> postMortemTask = new Task<Void, Exception>()
-      {
-        @Override
-        public Void run()
-          throws Exception
-          {
-            return null;
-          }
-      };
+    private Callback postMortemTask = Callback.EMPTY;
 
     @Nonnull
     public ProcessExecutor withArguments2 (final @Nonnull String ... arguments)
@@ -118,7 +110,7 @@ public class ProcessExecutor
                         log.debug(">>>> process terminated");
                         postMortemTask.run();
                       }
-                    catch (Exception e)
+                    catch (Throwable e)
                       {
                         log.error("", e);
                       }

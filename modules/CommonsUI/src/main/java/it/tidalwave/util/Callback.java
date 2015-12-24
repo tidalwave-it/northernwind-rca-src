@@ -44,5 +44,5 @@ public interface Callback
       };
 
     public void run()
-      throws Exception;
+      throws Throwable;
   }

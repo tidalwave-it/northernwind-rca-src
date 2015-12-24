@@ -45,12 +45,6 @@
         <dependency>
             <groupId>it.tidalwave.northernwind</groupId>
             <artifactId>it-tidalwave-northernwind-core</artifactId>
-            <exclusions>
-                <exclusion> <!-- TODO: this can be removed after upgrading to NW 1.1-ALPHA-36 -->
-                    <groupId>commons-logging</groupId>
-                    <artifactId>commons-logging</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>it.tidalwave.northernwind.rca</groupId>
@@ -66,26 +60,10 @@
         <dependency>
             <groupId>it.tidalwave.thesefoolishthings</groupId>
             <artifactId>it-tidalwave-role</artifactId>
-            <exclusions>
-                <exclusion>
-                    <artifactId>slf4j-jdk14</artifactId>
-                    <groupId>org.slf4j</groupId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>it.tidalwave.thesefoolishthings</groupId>
             <artifactId>it-tidalwave-util</artifactId>
-            <exclusions>
-                <exclusion>
-                    <artifactId>org-slf4j-jdk14</artifactId>
-                    <groupId>com.kenai.nbpwr</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>org-openide-util</artifactId>
-                    <groupId>org.netbeans.api</groupId>
-                </exclusion>
-            </exclusions>
         </dependency>
 
         <dependency>

@@ -39,5 +39,5 @@ import javax.annotation.Nonnull;
  **********************************************************************************************************************/
 public interface SiteOpenerPresentationControl
   {
-    public void initialize (@Nonnull SiteOpenerPresentation presentation);
+    public void initialize();
   }

@@ -32,9 +32,8 @@ import javax.inject.Inject;
 import java.util.Optional;
 import java.io.IOException;
 import it.tidalwave.util.NotFoundException;
-import it.tidalwave.util.Task;
-import it.tidalwave.role.ui.UserAction;
-import it.tidalwave.role.ui.spi.UserActionSupport;
+import it.tidalwave.role.ui.BoundProperty;
+import it.tidalwave.role.ui.spi.UserActionSupport8;
 import it.tidalwave.messagebus.annotation.ListensTo;
 import it.tidalwave.messagebus.annotation.SimpleMessageSubscriber;
 import it.tidalwave.northernwind.core.model.Content;
@@ -77,34 +76,10 @@ public class DefaultContentEditorPresentationControl implements ContentEditorPre
     @Nonnull
     private Optional<ResourceProperties> properties = Optional.empty();
 
-    /*******************************************************************************************************************
-     *
-     ******************************************************************************************************************/
-    private final UserAction openExternalEditor = new UserActionSupport()
-      {
-        @Override
-        public void actionPerformed()
-          {
-            log.info("Opening external editor...");
-            // FIXME
-            final String url = "http://localhost:12345/";
-
-//            ProcessExecutor.forExecutable("Google Chrome.app")
-            ProcessExecutor.forExecutable("Firefox.app")
-                           .withArguments2(url)
-                           .withPostMortemTask(new Task<Void, Exception>()
-                              {
-                                @Override public Void run() throws Exception
-                                  {
-                                    properties.ifPresent(DefaultContentEditorPresentationControl.this::bindProperties);
-                                    return null;
-                                  }
-                              })
-                           .execute();
-          }
-      };
-
-    /* visible for testing */ final Bindings bindings = new Bindings(openExternalEditor);
+    /* visible for testing */ final Bindings bindings = Bindings.builder()
+            .openExternalEditorAction(UserActionSupport8.withCallback(this::openExternalEditor))
+            .title(new BoundProperty<>(""))
+            .build();
 
     /*******************************************************************************************************************
      *
@@ -191,5 +166,23 @@ public class DefaultContentEditorPresentationControl implements ContentEditorPre
     private void unbindProperties()
       {
         bindings.title.unbindAll();
+      }
+
+    /*******************************************************************************************************************
+     *
+     *
+     *
+     ******************************************************************************************************************/
+    private void openExternalEditor()
+      {
+        log.info("openExternalEditor");
+        // FIXME
+        final String url = "http://localhost:12345/";
+
+//            ProcessExecutor.forExecutable("Google Chrome.app")
+        ProcessExecutor.forExecutable("Firefox.app")
+                       .withArguments2(url)
+                       .withPostMortemTask(() -> properties.ifPresent(p -> bindProperties(p)))
+                       .execute();
       }
   }

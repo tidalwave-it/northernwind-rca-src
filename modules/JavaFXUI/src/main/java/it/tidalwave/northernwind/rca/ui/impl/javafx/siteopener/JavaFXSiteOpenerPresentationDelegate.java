@@ -25,65 +25,57 @@
  * *********************************************************************************************************************
  * #L%
  */
-package it.tidalwave.util.ui;
+package it.tidalwave.northernwind.rca.ui.impl.javafx.siteopener;
 
 import javax.annotation.Nonnull;
-import it.tidalwave.util.Callback;
-import it.tidalwave.util.ui.UserNotificationWithFeedback.Feedback;
-import lombok.AllArgsConstructor;
-import lombok.SneakyThrows;
-import lombok.experimental.Wither;
-import static lombok.AccessLevel.PRIVATE;
-import org.openide.util.Exceptions;
+import javax.inject.Inject;
+import javax.inject.Provider;
+import javafx.scene.control.Button;
+import javafx.scene.control.MenuItem;
+import it.tidalwave.role.ui.UserAction;
+import it.tidalwave.role.ui.javafx.JavaFXBinder;
+import it.tidalwave.role.ui.javafx.Widget;
+import it.tidalwave.northernwind.rca.ui.siteopener.SiteOpenerPresentation;
+import it.tidalwave.util.ui.UserNotificationWithFeedback;
+import org.springframework.beans.factory.annotation.Configurable;
 
 /***********************************************************************************************************************
  *
- * @author  Fabrizio Giudici (Fabrizio.Giudici@tidalwave.it)
+ * The JavaFX delegate for the function of opening a new site. It manages the related global menu and toolbar button.
+ * Note that this delegate is not associated with a specific FXML resource, but it is injected with @FXML resources
+ * copied from the application JavaFX delegate.
+ *
+ * @stereotype Presentation
+ *
+ * @author  Fabrizio Giudici
  * @version $Id$
  *
  **********************************************************************************************************************/
-@AllArgsConstructor(access = PRIVATE)
-public class Feedback8 extends Feedback
+@Configurable
+public class JavaFXSiteOpenerPresentationDelegate implements SiteOpenerPresentation
   {
-    @Wither
-    private final Callback onConfirm;
+    @Inject
+    private Provider<JavaFXBinder> binder;
 
-    @Wither
-    private final Callback onCancel;
+    @Widget("btOpen") // FIXME: replace with @FXML
+    private Button btOpen;
 
-    @Nonnull
-    public static Feedback8 feedback()
+    @Widget("openSiteMenu") // FIXME: replace with @FXML
+    private MenuItem openSiteMenu;
+
+    private Bindings bindings;
+
+    @Override
+    public void bind (final @Nonnull Bindings bindings)
       {
-        return new Feedback8(Callback.EMPTY, Callback.EMPTY);
+        this.bindings = bindings;
+        binder.get().bind(btOpen, bindings.openSiteAction);
+        binder.get().bind(openSiteMenu, bindings.openSiteAction);
       }
 
     @Override
-//    @SneakyThrows(Throwable.class)
-    public final void onConfirm()
-      throws Exception
+    public void notifyInvitationToSelectAFolder (final @Nonnull UserNotificationWithFeedback notification)
       {
-        try
-          {
-            onConfirm.run();
-          }
-        catch (Throwable ex)
-          {
-            Exceptions.printStackTrace(ex);
-          }
-      }
-
-    @Override
-//    @SneakyThrows(Throwable.class)
-    public final void onCancel()
-      throws Exception
-      {
-        try
-          {
-            onCancel.run();
-          }
-        catch (Throwable ex)
-          {
-            Exceptions.printStackTrace(ex);
-          }
+        binder.get().openDirectoryChooserFor(notification, bindings.folderToOpen);
       }
   }

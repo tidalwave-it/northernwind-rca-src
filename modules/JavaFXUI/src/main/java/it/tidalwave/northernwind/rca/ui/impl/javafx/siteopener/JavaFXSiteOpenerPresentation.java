@@ -28,18 +28,10 @@
 package it.tidalwave.northernwind.rca.ui.impl.javafx.siteopener;
 
 import javax.annotation.Nonnull;
-import javax.inject.Inject;
-import javax.inject.Provider;
-import java.nio.file.Path;
-import javafx.scene.control.Button;
-import javafx.scene.control.MenuItem;
-import it.tidalwave.role.ui.BoundProperty;
-import it.tidalwave.role.ui.UserAction;
-import it.tidalwave.util.ui.UserNotificationWithFeedback;
-import it.tidalwave.role.ui.javafx.JavaFXBinder;
-import it.tidalwave.role.ui.javafx.Widget;
-import it.tidalwave.northernwind.rca.ui.siteopener.SiteOpenerPresentation;
 import org.springframework.beans.factory.annotation.Configurable;
+import it.tidalwave.northernwind.rca.ui.siteopener.SiteOpenerPresentation;
+import lombok.Delegate;
+import static it.tidalwave.role.ui.javafx.impl.util.JavaFXSafeComponentBuilder.createInstance;
 
 /***********************************************************************************************************************
  *
@@ -52,28 +44,11 @@ import org.springframework.beans.factory.annotation.Configurable;
 @Configurable
 public class JavaFXSiteOpenerPresentation implements SiteOpenerPresentation
   {
-    @Inject
-    private Provider<JavaFXBinder> binder;
+    @Delegate
+    private SiteOpenerPresentation delegate;
 
-    @Widget("btOpen")
-    private Button button;
-
-    @Widget("openSiteMenu")
-    private MenuItem menuItem;
-
-    private BoundProperty<Path> folderToOpen;
-
-    @Override // FIXME: encapsulate args in Bindings
-    public void bind (final @Nonnull UserAction action, final @Nonnull BoundProperty<Path> folderToOpen)
+    public void createDelegate (final @Nonnull Object referenceHolder)
       {
-        binder.get().bind(button, action);
-        binder.get().bind(menuItem, action);
-        this.folderToOpen = folderToOpen;
-      }
-
-    @Override
-    public void notifyInvitationToSelectAFolder (final @Nonnull UserNotificationWithFeedback notification)
-      {
-        binder.get().openDirectoryChooserFor(notification, folderToOpen);
+        delegate = createInstance(JavaFXSiteOpenerPresentationDelegate.class, referenceHolder);
       }
   }

@@ -27,7 +27,6 @@
  */
 package it.tidalwave.northernwind.rca.ui.impl.javafx;
 
-import javax.annotation.Nonnull;
 import javax.inject.Inject;
 import javax.inject.Provider;
 import java.io.IOException;
@@ -39,17 +38,13 @@ import javafx.scene.layout.StackPane;
 import org.springframework.beans.factory.annotation.Configurable;
 import it.tidalwave.role.ui.javafx.StackPaneSelector;
 import it.tidalwave.northernwind.rca.ui.contenteditor.ContentEditorPresentationControl;
-import it.tidalwave.northernwind.rca.ui.contentexplorer.ContentExplorerPresentationControl;
 import it.tidalwave.northernwind.rca.ui.siteopener.SiteOpenerPresentationControl;
-import it.tidalwave.northernwind.rca.ui.structureeditor.StructureEditorPresentationControl;
-import it.tidalwave.northernwind.rca.ui.structureexplorer.StructureExplorerPresentationControl;
 import it.tidalwave.northernwind.rca.ui.impl.javafx.contenteditor.JavaFXContentEditorPresentation;
 import it.tidalwave.northernwind.rca.ui.impl.javafx.contentexplorer.JavaFXContentExplorerPresentation;
 import it.tidalwave.northernwind.rca.ui.impl.javafx.siteopener.JavaFXSiteOpenerPresentation;
 import it.tidalwave.northernwind.rca.ui.impl.javafx.structureexplorer.JavaFXStructureExplorerPresentation;
 import it.tidalwave.northernwind.rca.ui.impl.javafx.structureeditor.JavaFXStructureEditorPresentation;
 import lombok.extern.slf4j.Slf4j;
-import static it.tidalwave.role.ui.javafx.impl.util.JavaFXSafeComponentBuilder.createInstance;
 
 /***********************************************************************************************************************
  *
@@ -72,15 +67,6 @@ public class JavaFXApplicationPresentationDelegate
     private Provider<ContentEditorPresentationControl> contentEditorPresentationControl;
 
     @Inject
-    private Provider<ContentExplorerPresentationControl> contentExplorerPresentationControl;
-
-    @Inject
-    private Provider<StructureEditorPresentationControl> structureEditorPresentationControl;
-
-    @Inject
-    private Provider<StructureExplorerPresentationControl> structureExplorerPresentationControl;
-
-    @Inject
     private Provider<JavaFXContentEditorPresentation> contentEditorPresentation;
 
     @Inject
@@ -92,14 +78,18 @@ public class JavaFXApplicationPresentationDelegate
     @Inject
     private Provider<JavaFXStructureExplorerPresentation> structurExplorerPresentation;
 
-    @FXML
-    private Button btOpen;
+    @Inject
+    private Provider<JavaFXSiteOpenerPresentation> siteOpenerPresentation;
 
     @FXML
     private StackPane stackPane;
 
     @FXML
     private SplitPane pnVerticalSplit;
+
+    // Those below aren't use here, but replicated in JavaFXSiteOpenerPresentation
+    @FXML
+    private Button btOpen;
 
     @FXML
     private MenuItem openSiteMenu;
@@ -118,7 +108,7 @@ public class JavaFXApplicationPresentationDelegate
         // Too bad because with PAC+EventBus we'd get rid of the control interfaces
         contentEditorPresentationControl.get().initialize();
 
-        // FIXME: this should be delegated to other handlers, as already done for the Editors
-        siteOpenerPresentationControl.get().initialize(createInstance(JavaFXSiteOpenerPresentation.class, this));
+        siteOpenerPresentation.get().createDelegate(this);
+        siteOpenerPresentationControl.get().initialize();
       }
   }

@@ -73,7 +73,7 @@ public class DefaultContentExplorerPresentationControlTest
 
     private ResourceFile root;
 
-    private OpenSiteEvent event;
+    private OpenSiteEvent openSiteEvent;
 
     private ModelFactory modelFactory;
 
@@ -93,13 +93,13 @@ public class DefaultContentExplorerPresentationControlTest
         messageBus = context.getBean(MessageBus.class);
         modelFactory = context.getBean(ModelFactory.class);
 
-        event = mock(OpenSiteEvent.class);
+        openSiteEvent = mock(OpenSiteEvent.class);
         fileSystem = mock(ResourceFileSystem.class);
         root = mock(ResourceFile.class);
         content = mockWithAsSupport(Content.class, (RoleFactory<Content>)(c -> new SimpleCompositePresentable(c)));
 
         when(fileSystem.findFileByPath(eq(ROOT_DOCUMENT_PATH))).thenReturn(root);
-        when(event.getFileSystem()).thenReturn(fileSystem);
+        when(openSiteEvent.getFileSystem()).thenReturn(fileSystem);
         // FIXME: this is cumbersome
 //        when(modelFactory.createContent(eq(root))).thenReturn(content); FIXME!!!
         final Content.Builder.CallBack callBack = mock(Content.Builder.CallBack.class);
@@ -132,10 +132,11 @@ public class DefaultContentExplorerPresentationControlTest
     public void when_a_Site_has_been_opened_must_properly_populate_the_presentation_and_publish_an_empty_selection()
       throws IOException
       {
+        // given
         reset(messageBus);
-
-        underTest.onOpenSite(event);
-
+        // when
+        underTest.onOpenSite(openSiteEvent);
+        // then
         verify(presentation).populate(argThat(presentationModel().withRole(Selectable.class)));
         verify(presentation).expandFirstLevel();
         verifyNoMoreInteractions(presentation);

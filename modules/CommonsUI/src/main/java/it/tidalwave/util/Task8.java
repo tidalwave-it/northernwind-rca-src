@@ -25,72 +25,83 @@
  * *********************************************************************************************************************
  * #L%
  */
-package it.tidalwave.northernwind.rca.ui.contenteditor;
+package it.tidalwave.util;
 
 import javax.annotation.Nonnull;
-import it.tidalwave.role.ui.BoundProperty;
-import it.tidalwave.role.ui.PresentationModel;
-import it.tidalwave.role.ui.UserAction;
-import it.tidalwave.northernwind.core.model.Content;
-import it.tidalwave.northernwind.core.model.ResourceProperties;
-import lombok.Builder;
+import java.util.concurrent.Callable;
 
 /***********************************************************************************************************************
  *
- * The Presentation of the {@link Content} Editor.
- *
- * @stereotype Presentation
- *
- * @author  Fabrizio Giudici
+ * @author  Fabrizio Giudici (Fabrizio.Giudici@tidalwave.it)
  * @version $Id$
  *
  **********************************************************************************************************************/
-public interface ContentEditorPresentation
+public abstract class Task8<T, E extends Throwable> extends Task<T, E>
   {
-    @Builder
-    public static class Bindings
+    /*******************************************************************************************************************
+     *
+     * Creates a {@code Task} from a {@link Runnable}.
+     *
+     * @param   runnable    the wrapped object
+     * @return              the {@code Task}
+     *
+     ******************************************************************************************************************/
+    @Nonnull
+    public static Task8<Void, RuntimeException> ofRunnable (final @Nonnull Runnable runnable)
       {
-        @Nonnull
-        public final UserAction openExternalEditorAction;
-
-        @Nonnull
-        public final BoundProperty<String> title;
+        return new Task8<Void, RuntimeException>()
+          {
+            @Override
+            public Void run()
+              {
+                runnable.run();
+                return null;
+              }
+          };
       }
 
     /*******************************************************************************************************************
      *
-     * Makes sure this presentation is visible on the UI.
+     * Creates a {@code Task} from a {@link Callable}.
+     *
+     * @param   callable    the wrapped object
+     * @return              the {@code Task}
      *
      ******************************************************************************************************************/
-    public void showUp();
+    @Nonnull
+    public static <T> Task8<T, Exception> ofCallable (final @Nonnull Callable<T> callable)
+      {
+        return new Task8<T, Exception>()
+          {
+            @Override
+            public T run()
+              throws Exception
+              {
+                return callable.call();
+              }
+          };
+      }
 
     /*******************************************************************************************************************
      *
-     * Clears the presentation.
+     * Creates a {@code Task} from a {@link Callback}.
+     *
+     * @param   callback    the wrapped object
+     * @return              the {@code Task}
      *
      ******************************************************************************************************************/
-    public void clear();
-
-    /*******************************************************************************************************************
-     *
-     *
-     *
-     ******************************************************************************************************************/
-    public void bind (@Nonnull Bindings bindings);
-
-    /*******************************************************************************************************************
-     *
-     *
-     *
-     ******************************************************************************************************************/
-    public void populateDocument (@Nonnull String url);
-
-    /*******************************************************************************************************************
-     *
-     * Populates the {@link ResourceProperties} of the {@link Content}.
-     *
-     * @param  pmProperties  the {@link PresentationModel} of the properties
-     *
-     ******************************************************************************************************************/
-    public void populateProperties (@Nonnull PresentationModel pmProperties);
+    @Nonnull
+    public static Task8<Void, Throwable> ofCallback (final @Nonnull Callback callback)
+      {
+        return new Task8<Void, Throwable>()
+          {
+            @Override
+            public Void run()
+              throws Throwable
+              {
+                callback.run();
+                return null;
+              }
+          };
+      }
   }

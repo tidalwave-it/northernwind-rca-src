@@ -45,13 +45,13 @@ import it.tidalwave.northernwind.rca.ui.event.OpenSiteEvent;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import static it.tidalwave.role.ui.PresentationModelMatcher.*;
-import static it.tidalwave.northernwind.rca.ui.event.SiteNodeSelectedEventMatcher.*;
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.CoreMatchers.*;
 import static org.mockito.Mockito.*;
-import static org.mockito.Mockito.any;
+import static org.mockito.Matchers.any;
 import static it.tidalwave.util.MockAs.*;
+import static it.tidalwave.role.ui.PresentationModelMatcher.*;
+import static it.tidalwave.northernwind.rca.ui.event.SiteNodeSelectedEventMatcher.*;
 import static it.tidalwave.northernwind.rca.ui.structureexplorer.impl.DefaultStructureExplorerPresentationControl.*;
 
 /***********************************************************************************************************************
@@ -130,14 +130,15 @@ public class DefaultStructureExplorerPresentationControlTest
     public void when_a_Site_has_been_opened_must_properly_populate_the_presentation_and_publish_an_empty_selection()
       throws IOException
       {
+        // given
         reset(messageBus);
-
+        // when
         underTest.onOpenSite(openSiteEvent);
-
+        // then
         verify(presentation).populate(argThat(presentationModel().withRole(Selectable.class)));
         verify(presentation).expandFirstLevel();
         verifyNoMoreInteractions(presentation);
-        verify(messageBus).publish(emptyEvent());
+        verify(messageBus).publish(emptySelectionEvent());
         verifyNoMoreInteractions(messageBus);
       }
   }
