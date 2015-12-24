@@ -42,6 +42,7 @@ import it.tidalwave.northernwind.core.model.Site;
 import it.tidalwave.northernwind.core.model.SiteNode;
 import it.tidalwave.northernwind.rca.ui.structureexplorer.StructureExplorerPresentation;
 import it.tidalwave.northernwind.rca.ui.event.OpenSiteEvent;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import static it.tidalwave.role.ui.PresentationModelMatcher.*;
@@ -103,6 +104,15 @@ public class DefaultStructureExplorerPresentationControlTest
         when(modelFactory.createSiteNode(any(Site.class), eq(root))).thenReturn(node);
 
         underTest.initialize();
+      }
+
+    /*******************************************************************************************************************
+     *
+     ******************************************************************************************************************/
+    @AfterMethod
+    public void tearDown()
+      {
+        context.close();
       }
 
 //    private void registerMock (final @Nonnull DefaultListableBeanFactory context,

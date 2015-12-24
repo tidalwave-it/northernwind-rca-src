@@ -43,6 +43,7 @@ import it.tidalwave.northernwind.rca.embeddedserver.EmbeddedServer.Document;
 import it.tidalwave.northernwind.rca.ui.contenteditor.ContentEditorPresentation;
 import it.tidalwave.northernwind.rca.ui.event.ContentSelectedEvent;
 import org.testng.annotations.Test;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
@@ -124,6 +125,15 @@ public class DefaultContentEditorPresentationControlTest
           });
 
         underTest.initialize();
+      }
+
+    /*******************************************************************************************************************
+     *
+     ******************************************************************************************************************/
+    @AfterMethod
+    public void tearDown()
+      {
+        context.close();
       }
 
     /*******************************************************************************************************************
