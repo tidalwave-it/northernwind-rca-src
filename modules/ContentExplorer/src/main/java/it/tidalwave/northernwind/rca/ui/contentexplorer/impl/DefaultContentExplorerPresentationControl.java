@@ -67,19 +67,6 @@ public class DefaultContentExplorerPresentationControl implements ContentExplore
     @Inject
     private ContentExplorerPresentation presentation;
 
-    /*******************************************************************************************************************
-     *
-     * {@inheritDoc}
-     *
-     ******************************************************************************************************************/
-    @Override
-    public void initialize()
-      {
-      }
-
-    /*******************************************************************************************************************
-     *
-     ******************************************************************************************************************/
     /* visible for testing */ void onOpenSite (final @ListensTo @Nonnull OpenSiteEvent event)
       {
         log.debug("onOpenSite({})", event);

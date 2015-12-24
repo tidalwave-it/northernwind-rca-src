@@ -105,8 +105,6 @@ public class DefaultContentExplorerPresentationControlTest
         final Content.Builder.CallBack callBack = mock(Content.Builder.CallBack.class);
         when(callBack.build(any(Content.Builder.class))).thenReturn(content);
         when(modelFactory.createContent()).thenReturn(new Content.Builder(modelFactory, callBack));
-
-        underTest.initialize();
       }
 
     /*******************************************************************************************************************

@@ -72,19 +72,6 @@ public class DefaultStructureExplorerPresentationControl implements StructureExp
     @Inject
     private StructureExplorerPresentation presentation;
 
-    /*******************************************************************************************************************
-     *
-     * {@inheritDoc}
-     *
-     ******************************************************************************************************************/
-    @Override
-    public void initialize()
-      {
-      }
-
-    /*******************************************************************************************************************
-     *
-     ******************************************************************************************************************/
     /* visible for testing */ void onOpenSite (final @ListensTo @Nonnull OpenSiteEvent event)
       {
         try

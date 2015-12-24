@@ -103,8 +103,6 @@ public class DefaultStructureExplorerPresentationControlTest
         when(fileSystem.findFileByPath(eq(ROOT_SITE_NODE_PATH))).thenReturn(root);
         when(openSiteEvent.getFileSystem()).thenReturn(fileSystem);
         when(modelFactory.createSiteNode(any(Site.class), eq(root))).thenReturn(node);
-
-        underTest.initialize();
       }
 
     /*******************************************************************************************************************
