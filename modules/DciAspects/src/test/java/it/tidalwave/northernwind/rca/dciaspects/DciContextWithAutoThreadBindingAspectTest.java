@@ -136,39 +136,39 @@ public class DciContextWithAutoThreadBindingAspectTest
       }
 
     @Test(dataProvider = "methodNames")
-    public void must_not_inject_context_when_no_DciContext_annotation (final @Nonnull String methodName)
+    public void must_not_bind_context_when_no_annotation (final @Nonnull String methodName)
       throws Exception
       {
         // given
-        final WithoutAnnotation context = new WithoutAnnotation();
+        final Object object = new WithoutAnnotation();
         // when
-        invoke(context, methodName);
+        invoke(object, methodName);
         // then
         verifyZeroInteractions(contextManager);
       }
 
     @Test(dataProvider = "methodNames")
-    public void must_not_inject_context_when_DciContext_annotation_present_but_no_autoThreadBinding(final @Nonnull String methodName)
+    public void must_not_bind_context_when_annotation_present_but_no_autoThreadBinding(final @Nonnull String methodName)
       throws Exception
       {
         // given
-        final WithAnnotationButNoAutoThreadBinding context = new WithAnnotationButNoAutoThreadBinding();
+        final Object object = new WithAnnotationButNoAutoThreadBinding();
         // when
-        invoke(context, methodName);
+        invoke(object, methodName);
         // then
         verifyZeroInteractions(contextManager);
       }
 
     @Test(dataProvider = "methodNames")
-    public void must_inject_context_when_DciContext_annotation_present_and_autoThreadBinding(final @Nonnull String methodName)
+    public void must_bind_context_when_annotation_present_and_autoThreadBinding (final @Nonnull String methodName)
       throws Exception
       {
         // given
-        final WithAnnotationAndAutoThreadBinding context = new WithAnnotationAndAutoThreadBinding();
+        final Object object = new WithAnnotationAndAutoThreadBinding();
         // when
-        invoke(context, methodName);
+        invoke(object, methodName);
         // then
-        verify(contextManager, times(1)).runWithContext(same(context), anyObject());
+        verify(contextManager, times(1)).runWithContext(same(object), anyObject());
         verifyNoMoreInteractions(contextManager);
       }
 
