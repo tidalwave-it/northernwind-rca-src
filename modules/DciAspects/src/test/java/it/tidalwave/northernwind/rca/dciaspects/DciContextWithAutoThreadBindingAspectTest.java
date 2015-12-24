@@ -165,7 +165,6 @@ public class DciContextWithAutoThreadBindingAspectTest
       throws RuntimeException
       {
         contextManager = mock(ContextManager.class);
-        // just to see the wrapped methods invoked in the log
         doAnswer(invocation ->
           {
             final Task task = (Task)invocation.getArguments()[1];
