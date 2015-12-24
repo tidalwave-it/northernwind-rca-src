@@ -46,12 +46,13 @@ import org.mockito.Matchers;
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class SiteNodeSelectedEventMatcher extends BaseMatcher<SiteNodeSelectedEvent>
   {
+    // FIXME: refactor with Optional?
     private final boolean emptySelection;
 
     private final SiteNode node;
 
     @Nonnull
-    public static SiteNodeSelectedEvent emptyEvent()
+    public static SiteNodeSelectedEvent emptySelectionEvent()
       {
         return Matchers.argThat(new SiteNodeSelectedEventMatcher(true, null));
       }

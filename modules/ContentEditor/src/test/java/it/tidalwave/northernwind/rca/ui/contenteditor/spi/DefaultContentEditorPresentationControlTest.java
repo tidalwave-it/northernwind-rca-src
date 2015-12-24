@@ -150,10 +150,11 @@ public class DefaultContentEditorPresentationControlTest
     @Test
     public void must_clear_the_presentation_on_reception_of_an_empty_selection()
       {
+        // given
         reset(presentation);
-
+        // when
         underTest.onContentSelected(emptySelectionEvent());
-
+        // then
         verify(presentation).clear();
 //        verify(presentation).bind(same(underTest.bindings));
         verifyNoMoreInteractions(presentation);
@@ -166,12 +167,13 @@ public class DefaultContentEditorPresentationControlTest
     public void must_populate_the_presentation_and_bind_properties_on_reception_of_selected_content()
       throws IOException, NotFoundException
       {
+        // given
         when(properties.getProperty(eq(PROPERTY_FULL_TEXT), anyString())).thenReturn("full text");
         when(properties.getProperty(eq(PROPERTY_TITLE), anyString())).thenReturn("title");
         reset(presentation);
-
+        // when
         underTest.onContentSelected(ContentSelectedEvent.of(content));
-
+        // then
         verify(propertyBinder).bind(eq(PROPERTY_TITLE), same(underTest.bindings.title), same(underTest.propertyUpdateCallback));
         verify(propertyBinder).createBoundDocument(eq(PROPERTY_FULL_TEXT), same(underTest.propertyUpdateCallback));
         verifyNoMoreInteractions(propertyBinder);
@@ -197,13 +199,14 @@ public class DefaultContentEditorPresentationControlTest
     public void must_clear_the_presentation_on_error()
       throws IOException, NotFoundException
       {
+        // given
         when(properties.getProperty(eq(PROPERTY_TITLE))).thenThrow(new IOException("test"));
         when(properties.getProperty(eq(PROPERTY_TITLE), anyString())).thenThrow(new IOException("test"));
 
         reset(presentation);
-
+        // when
         underTest.onContentSelected(ContentSelectedEvent.of(content));
-
+        // then
         verify(presentation).clear();
         verifyNoMoreInteractions(presentation);
       }

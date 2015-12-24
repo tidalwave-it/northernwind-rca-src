@@ -28,6 +28,7 @@
 package it.tidalwave.northernwind.rca.ui.contentmanager.impl;
 
 import javax.annotation.Nonnull;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.io.IOException;
@@ -43,7 +44,6 @@ import it.tidalwave.northernwind.core.model.Content;
 import it.tidalwave.northernwind.rca.ui.contentmanager.AddContentPresentation;
 import it.tidalwave.northernwind.rca.ui.contentmanager.AddContentPresentation.Bindings;
 import it.tidalwave.northernwind.rca.ui.event.CreateContentRequest;
-import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
@@ -54,7 +54,6 @@ import static org.mockito.Mockito.*;
 import static org.mockito.Mockito.any;
 import static it.tidalwave.util.ui.UserNotificationWithFeedbackTestHelper.*;
 import static it.tidalwave.northernwind.model.admin.Properties.*;
-import java.util.Arrays;
 
 /***********************************************************************************************************************
  *
@@ -74,15 +73,10 @@ public class DefaultAddContentPresentationControlTest
         @Nonnull
         public Answer<Void> setInput()
           {
-            return new Answer<Void>()
+            return invocation ->
               {
-                @Override
-                public Void answer (InvocationOnMock invocation)
-                  throws Throwable
-                  {
-                    setInput((Bindings)invocation.getArguments()[0]);
-                    return null;
-                  }
+                setInput((Bindings)invocation.getArguments()[0]);
+                return null;
               };
           }
 
@@ -142,8 +136,9 @@ public class DefaultAddContentPresentationControlTest
     @Test
     public void must_properly_set_initial_values_and_show_up()
       {
+        // when
         underTest.onAddContentEvent(CreateContentRequest.of(content));
-
+        // then
         final Bindings expectedBindings = new Bindings();
         expectedBindings.publishingDateTime.set(ISO_FORMATTER.print(dateTime));
         verify(presentation).bind(eq(expectedBindings));
@@ -158,19 +153,20 @@ public class DefaultAddContentPresentationControlTest
     public void must_create_Content_with_the_right_Properties_when_user_confirms
             (final @Nonnull InputSetter inputSetter,
              final @Nonnull String expectedFolderName,
-             final @Nonnull Map<Key<?>, Object> values)
+             final @Nonnull Map<Key<?>, Object> baseExpectedProperties)
       throws IOException
       {
+        // given
         doAnswer(inputSetter.setInput()).when(presentation).bind(any(Bindings.class));
         doAnswer(CONFIRM).when(presentation).showUp(any(UserNotificationWithFeedback.class));
-
+        // when
         underTest.onAddContentEvent(CreateContentRequest.of(content));
+        // then
+        final Map<Key<?>, Object> expectedProperties = new HashMap<>(baseExpectedProperties);
+        expectedProperties.put(PROPERTY_CREATION_TIME, ISO_FORMATTER.print(dateTime));
+        expectedProperties.put(PROPERTY_FULL_TEXT, underTest.xhtmlSkeleton);
 
-        final Map<Key<?>, Object> expectedPropertyValues = new HashMap<>(values);
-        expectedPropertyValues.put(PROPERTY_CREATION_TIME, ISO_FORMATTER.print(dateTime));
-        expectedPropertyValues.put(PROPERTY_FULL_TEXT, underTest.xhtmlSkeleton);
-
-        verify(contentChildCreator).createContent(eq(expectedFolderName), eq(expectedPropertyValues));
+        verify(contentChildCreator).createContent(eq(expectedFolderName), eq(expectedProperties));
         verifyNoMoreInteractions(contentChildCreator);
       }
 
@@ -178,19 +174,21 @@ public class DefaultAddContentPresentationControlTest
      *
      ******************************************************************************************************************/
     @Test
-    public void must_do_nothing_when_user_cancels() throws IOException
+    public void must_do_nothing_when_user_cancels()
+      throws IOException
       {
+        // given
         doAnswer(CANCEL).when(presentation).showUp(any(UserNotificationWithFeedback.class));
-
+        // when
         underTest.onAddContentEvent(CreateContentRequest.of(content));
-
+        // then
         verifyZeroInteractions(contentChildCreator);
       }
 
     /*******************************************************************************************************************
      *
      ******************************************************************************************************************/
-    @DataProvider(name = "inputProvider")
+    @DataProvider
     public Object[][] inputProvider()
       {
         return new Object[][]
@@ -207,9 +205,9 @@ public class DefaultAddContentPresentationControlTest
                         bindings.exposedUri.set("the-exposed-uri");
                       }
                   },
-
+                // expected folder name
                 "the+folder",
-
+                // expected properties
                 of(PROPERTY_PUBLISHING_TIME, ISO_FORMATTER.print(dateTime),
                    PROPERTY_TITLE,           "the title",
                    PROPERTY_EXPOSED_URI,     "the-exposed-uri")
@@ -227,9 +225,9 @@ public class DefaultAddContentPresentationControlTest
                         bindings.tags.set("tag1, tag2");
                       }
                   },
-
+                // expected folder name
                 "the+folder",
-
+                // expected properties
                 of(PROPERTY_PUBLISHING_TIME, ISO_FORMATTER.print(dateTime),
                    PROPERTY_TITLE,           "the title",
                    PROPERTY_EXPOSED_URI,     "the-exposed-uri",

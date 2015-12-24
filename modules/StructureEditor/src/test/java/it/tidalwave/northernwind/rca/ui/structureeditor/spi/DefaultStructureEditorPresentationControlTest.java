@@ -121,10 +121,11 @@ public class DefaultStructureEditorPresentationControlTest
     @Test
     public void must_clear_the_presentation_on_reception_of_an_empty_selection()
       {
+        // given
         reset(presentation);
-
+        // when
         underTest.onSiteNodeSelected(SiteNodeSelectedEvent.emptySelectionEvent());
-
+        // then
         verify(presentation).clear();
         verifyNoMoreInteractions(presentation);
       }
@@ -136,13 +137,13 @@ public class DefaultStructureEditorPresentationControlTest
     public void must_populate_the_presentation_on_reception_of_selected_node()
       throws IOException
       {
+        // given
 //        when(properties.getProperty(eq(PROPERTY_FULL_TEXT), anyString())).thenReturn("full text");
 //        when(properties.getProperty(eq(PROPERTY_TITLE), anyString())).thenReturn("title");
-
         reset(presentation);
-
+        // when
         underTest.onSiteNodeSelected(SiteNodeSelectedEvent.of(siteNode));
-
+        // then
         verify(presentation).populate(matches("Viewer not implemented for .*"));
         verify(presentation).populateProperties(same(pm));
         verify(presentation).showUp();

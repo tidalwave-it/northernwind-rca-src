@@ -33,7 +33,7 @@ import it.tidalwave.role.ui.PresentationModel;
 import it.tidalwave.role.ui.UserAction;
 import it.tidalwave.northernwind.core.model.Content;
 import it.tidalwave.northernwind.core.model.ResourceProperties;
-import lombok.RequiredArgsConstructor;
+import lombok.Builder;
 
 /***********************************************************************************************************************
  *
@@ -47,13 +47,14 @@ import lombok.RequiredArgsConstructor;
  **********************************************************************************************************************/
 public interface ContentEditorPresentation
   {
-    @RequiredArgsConstructor
+    @Builder
     public static class Bindings
       {
         @Nonnull
-        public final UserAction openExternalEditor;
+        public final UserAction openExternalEditorAction;
 
-        public final BoundProperty<String> title = new BoundProperty<>("");
+        @Nonnull
+        public final BoundProperty<String> title;
       }
 
     /*******************************************************************************************************************

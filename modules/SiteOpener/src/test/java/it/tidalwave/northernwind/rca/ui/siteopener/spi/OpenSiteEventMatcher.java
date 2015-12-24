@@ -28,6 +28,8 @@
 package it.tidalwave.northernwind.rca.ui.siteopener.spi;
 
 import javax.annotation.Nonnull;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import it.tidalwave.northernwind.rca.ui.event.OpenSiteEvent;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -46,7 +48,7 @@ import org.hamcrest.Description;
 public class OpenSiteEventMatcher extends BaseMatcher<OpenSiteEvent>
   {
     @Wither
-    private String rootPath;
+    private Path rootPath;
 
     @Override
     public boolean matches (final Object item)
@@ -57,7 +59,7 @@ public class OpenSiteEventMatcher extends BaseMatcher<OpenSiteEvent>
           }
 
         final OpenSiteEvent event = (OpenSiteEvent)item;
-        return event.getFileSystemProvider().getRootPath().equals(rootPath);
+        return Paths.get(event.getFileSystemProvider().getRootPath()).equals(rootPath);
       }
 
     @Override

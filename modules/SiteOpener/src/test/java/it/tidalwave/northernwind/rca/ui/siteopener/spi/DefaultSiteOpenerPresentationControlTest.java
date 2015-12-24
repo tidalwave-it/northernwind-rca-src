@@ -31,8 +31,9 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import it.tidalwave.messagebus.MessageBus;
+import java.nio.file.Paths;
 import it.tidalwave.util.ui.UserNotificationWithFeedback;
+import it.tidalwave.messagebus.MessageBus;
 import it.tidalwave.northernwind.rca.ui.siteopener.SiteOpenerPresentation;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.testng.annotations.BeforeMethod;
@@ -84,7 +85,6 @@ public class DefaultSiteOpenerPresentationControlTest
     public void initialize_must_bind_the_presentation_and_set_the_default_path_to_user_home()
       {
         assertThat(underTest.bindings.folderToOpen.get().toFile().getAbsolutePath(), is(System.getProperty("user.home")));
-
         verify(presentation).bind(same(underTest.bindings));
       }
 
@@ -93,14 +93,15 @@ public class DefaultSiteOpenerPresentationControlTest
      ******************************************************************************************************************/
     @Test(dataProvider = "pathsProvider",
           dependsOnMethods = "initialize_must_bind_the_presentation_and_set_the_default_path_to_user_home")
-    public void must_fire_OpenSiteEvent_when_openSite_invoked_and_the_user_selected_a_folder (final String folderPath)
+    public void must_fire_OpenSiteEvent_when_openSite_invoked_and_the_user_selected_a_folder (final Path folder)
       {
+        // given
         doAnswer(confirm()).when(presentation).notifyInvitationToSelectAFolder(any(UserNotificationWithFeedback.class));
-        underTest.bindings.folderToOpen.set(new File(folderPath).toPath());
-
+        underTest.bindings.folderToOpen.set(folder);
+        // when
         underTest.bindings.openSiteAction.actionPerformed();
-
-        verify(messageBus).publish(argThat(openSiteEvent().withRootPath(folderPath)));
+        // then
+        verify(messageBus).publish(argThat(openSiteEvent().withRootPath(folder)));
       }
 
     /*******************************************************************************************************************
@@ -109,30 +110,29 @@ public class DefaultSiteOpenerPresentationControlTest
     @Test(dependsOnMethods = "initialize_must_bind_the_presentation_and_set_the_default_path_to_user_home")
     public void must_do_nothing_when_openSite_invoked_and_the_user_cancelled_the_selection()
       {
+        // given
         doAnswer(cancel()).when(presentation).notifyInvitationToSelectAFolder(any(UserNotificationWithFeedback.class));
-
+        // when
         underTest.bindings.openSiteAction.actionPerformed();
-
+        // then
         verifyZeroInteractions(messageBus);
       }
 
     /*******************************************************************************************************************
      *
      ******************************************************************************************************************/
-    @DataProvider(name = "pathsProvider")
+    @DataProvider
     private Object[][] pathsProvider() throws IOException
       {
-        final String[][] result = new String[10][1];
-
+        final Path[][] result = new Path[10][1];
         final Path tempDir = new File(System.getProperty("java.io.tmpdir")).toPath();
 
         for (int i = 0; i < result.length; i++)
           {
-            // FIXME: the directory is not created in the temp directory
-            final File folder = Files.createTempDirectory(tempDir, "SampleFolder-").getFileName().toFile();
-            folder.mkdirs();
-            folder.deleteOnExit();
-            result[i][0] = folder.getAbsolutePath();
+            final Path folder = Files.createTempDirectory(tempDir, "SampleFolder-");
+            Files.createDirectories(folder);
+            folder.toFile().deleteOnExit();
+            result[i][0] = folder;
           }
 
         return result;
