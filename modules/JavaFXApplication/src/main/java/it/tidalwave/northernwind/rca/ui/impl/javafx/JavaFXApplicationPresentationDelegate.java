@@ -58,10 +58,10 @@ import lombok.extern.slf4j.Slf4j;
 public class JavaFXApplicationPresentationDelegate
   {
     @Inject
-    private Provider<SiteOpenerPresentationControl> siteOpenerPresentationControl;
+    private Provider<StackPaneSelector> stackPaneSelector;
 
     @Inject
-    private Provider<StackPaneSelector> stackPaneSelector;
+    private Provider<SiteOpenerPresentationControl> siteOpenerPresentationControl;
 
     @Inject
     private Provider<ContentEditorPresentationControl> contentEditorPresentationControl;
