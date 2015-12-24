@@ -38,11 +38,11 @@ public interface Callback
     public final static Callback EMPTY = new Callback()
       {
         @Override
-        public void run()
+        public void call()
           {
           }
       };
 
-    public void run()
+    public void call()
       throws Throwable;
   }

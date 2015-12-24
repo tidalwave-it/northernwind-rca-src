@@ -49,7 +49,7 @@ public class UserActionSupport8 extends UserActionSupport
       {
         try
           {
-            callback.run();
+            callback.call();
           }
         catch (Throwable e)
           {

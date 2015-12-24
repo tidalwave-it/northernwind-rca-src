@@ -108,7 +108,7 @@ public class ProcessExecutor
                         log.debug(">>>> waiting for the process to terminate...");
                         process.waitFor();
                         log.debug(">>>> process terminated");
-                        postMortemTask.run();
+                        postMortemTask.call();
                       }
                     catch (Throwable e)
                       {
