@@ -34,7 +34,6 @@ import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.experimental.Wither;
 import static lombok.AccessLevel.PRIVATE;
-import org.openide.util.Exceptions;
 
 /***********************************************************************************************************************
  *
@@ -58,32 +57,18 @@ public class Feedback8 extends Feedback
       }
 
     @Override
-//    @SneakyThrows(Throwable.class)
+    @SneakyThrows(Throwable.class)
     public final void onConfirm()
       throws Exception
       {
-        try
-          {
-            onConfirm.call();
-          }
-        catch (Throwable ex)
-          {
-            Exceptions.printStackTrace(ex);
-          }
+        onConfirm.call();
       }
 
     @Override
-//    @SneakyThrows(Throwable.class)
+    @SneakyThrows(Throwable.class)
     public final void onCancel()
       throws Exception
       {
-        try
-          {
-            onCancel.call();
-          }
-        catch (Throwable ex)
-          {
-            Exceptions.printStackTrace(ex);
-          }
+        onCancel.call();
       }
   }
