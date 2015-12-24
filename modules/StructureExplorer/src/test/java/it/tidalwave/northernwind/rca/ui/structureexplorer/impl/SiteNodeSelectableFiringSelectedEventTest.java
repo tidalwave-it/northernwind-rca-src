@@ -89,8 +89,9 @@ public class SiteNodeSelectableFiringSelectedEventTest
     @Test
     public void must_fire_selection_event_on_the_message_bus_when_selected()
       {
+        // when
         underTest.select();
-
+        // then
         verify(messageBus).publish(eventWith(node));
         verifyNoMoreInteractions(messageBus);
       }
