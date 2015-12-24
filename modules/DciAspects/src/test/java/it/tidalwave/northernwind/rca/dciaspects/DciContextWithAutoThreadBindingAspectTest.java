@@ -58,20 +58,23 @@ public class DciContextWithAutoThreadBindingAspectTest
 
         public void publicMethod()
           {
-            log.info("publicMethod()");
-            invocationCount.computeIfAbsent("publicMethod", s -> new AtomicInteger(0)).incrementAndGet();
+            registerMethodInvocation("publicMethod");
           }
 
         protected void protectedMethod()
           {
-            log.info("protectedMethod()");
-            invocationCount.computeIfAbsent("protectedMethod", s -> new AtomicInteger(0)).incrementAndGet();
+            registerMethodInvocation("protectedMethod");
           }
 
         /* package */ void packageMethod()
           {
-            log.info("packageMethod()");
-            invocationCount.computeIfAbsent("packageMethod", s -> new AtomicInteger(0)).incrementAndGet();
+            registerMethodInvocation("packageMethod");
+          }
+
+        private void registerMethodInvocation (final @Nonnull String methodName)
+          {
+            log.info("{}()", methodName);
+            invocationCount.computeIfAbsent(methodName, s -> new AtomicInteger(0)).incrementAndGet();
           }
       }
 
