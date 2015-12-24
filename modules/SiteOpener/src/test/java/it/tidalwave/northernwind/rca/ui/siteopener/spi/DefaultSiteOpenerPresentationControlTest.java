@@ -83,9 +83,9 @@ public class DefaultSiteOpenerPresentationControlTest
     @Test
     public void initialize_must_bind_the_presentation_and_set_the_default_path_to_user_home()
       {
-        assertThat(underTest.folderToOpen.get().toFile().getAbsolutePath(), is(System.getProperty("user.home")));
+        assertThat(underTest.bindings.folderToOpen.get().toFile().getAbsolutePath(), is(System.getProperty("user.home")));
 
-        verify(presentation).bind(same(underTest.openSiteAction), same(underTest.folderToOpen));
+        verify(presentation).bind(same(underTest.openSiteAction), same(underTest.bindings));
       }
 
     /*******************************************************************************************************************
@@ -96,7 +96,7 @@ public class DefaultSiteOpenerPresentationControlTest
     public void must_fire_OpenSiteEvent_when_openSite_invoked_and_the_user_selected_a_folder (final String folderPath)
       {
         doAnswer(confirm()).when(presentation).notifyInvitationToSelectAFolder(any(UserNotificationWithFeedback.class));
-        underTest.folderToOpen.set(new File(folderPath).toPath());
+        underTest.bindings.folderToOpen.set(new File(folderPath).toPath());
 
         underTest.openSiteAction.actionPerformed();
 

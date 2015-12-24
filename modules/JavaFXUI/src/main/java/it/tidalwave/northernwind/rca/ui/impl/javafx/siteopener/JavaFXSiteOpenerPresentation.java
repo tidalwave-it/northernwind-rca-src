@@ -30,10 +30,8 @@ package it.tidalwave.northernwind.rca.ui.impl.javafx.siteopener;
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
 import javax.inject.Provider;
-import java.nio.file.Path;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
-import it.tidalwave.role.ui.BoundProperty;
 import it.tidalwave.role.ui.UserAction;
 import it.tidalwave.util.ui.UserNotificationWithFeedback;
 import it.tidalwave.role.ui.javafx.JavaFXBinder;
@@ -55,25 +53,25 @@ public class JavaFXSiteOpenerPresentation implements SiteOpenerPresentation
     @Inject
     private Provider<JavaFXBinder> binder;
 
+    private Bindings bindings;
+
     @Widget("btOpen")
     private Button btOpen;
 
     @Widget("openSiteMenu")
     private MenuItem openSiteMenu;
 
-    private BoundProperty<Path> folderToOpen;
-
-    @Override // FIXME: encapsulate args in Bindings
-    public void bind (final @Nonnull UserAction action, final @Nonnull BoundProperty<Path> folderToOpen)
+    @Override
+    public void bind (final @Nonnull UserAction action, final @Nonnull Bindings bindings)
       {
+        this.bindings = bindings;
         binder.get().bind(btOpen, action);
         binder.get().bind(openSiteMenu, action);
-        this.folderToOpen = folderToOpen;
       }
 
     @Override
     public void notifyInvitationToSelectAFolder (final @Nonnull UserNotificationWithFeedback notification)
       {
-        binder.get().openDirectoryChooserFor(notification, folderToOpen);
+        binder.get().openDirectoryChooserFor(notification, bindings.folderToOpen);
       }
   }
