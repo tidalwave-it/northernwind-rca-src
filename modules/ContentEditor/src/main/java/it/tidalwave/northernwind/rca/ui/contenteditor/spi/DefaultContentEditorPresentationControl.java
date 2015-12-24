@@ -73,10 +73,10 @@ public class DefaultContentEditorPresentationControl implements ContentEditorPre
     private ContentEditorPresentation presentation;
 
     @Nonnull
-    private Optional<Content> content;
+    private Optional<Content> content = Optional.empty();
 
     @Nonnull
-    private Optional<ResourceProperties> properties;
+    private Optional<ResourceProperties> properties = Optional.empty();
 
     /*******************************************************************************************************************
      *
