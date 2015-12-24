@@ -27,7 +27,6 @@
  */
 package it.tidalwave.northernwind.rca.ui.contenteditor.spi;
 
-import javax.annotation.Nonnull;
 import java.io.IOException;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import it.tidalwave.util.Key;
@@ -45,8 +44,6 @@ import it.tidalwave.northernwind.rca.ui.event.ContentSelectedEvent;
 import org.testng.annotations.Test;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
 import static it.tidalwave.role.ui.Presentable.*;
 import static it.tidalwave.northernwind.model.admin.Properties.*;
 import static it.tidalwave.northernwind.rca.ui.contenteditor.spi.PropertyBinder.*;
@@ -115,14 +112,7 @@ public class DefaultContentEditorPresentationControlTest
                                  .withMimeType("text/html");
 
         when(propertyBinder.createBoundDocument(any(Key.class), any(PropertyBinder.UpdateCallback.class)))
-                .thenAnswer(new Answer<Document>()
-          {
-            @Override @Nonnull
-            public Document answer (final @Nonnull InvocationOnMock invocation)
-              {
-                return document;
-              }
-          });
+                           .thenAnswer(invocation -> document);
 
         underTest.initialize();
       }
