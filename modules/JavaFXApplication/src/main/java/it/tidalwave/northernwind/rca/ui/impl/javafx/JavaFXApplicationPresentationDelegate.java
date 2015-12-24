@@ -80,13 +80,14 @@ public class JavaFXApplicationPresentationDelegate
     private Provider<JavaFXStructureExplorerPresentation> structurExplorerPresentation;
 
     @FXML
-    private Button btOpen;
-
-    @FXML
     private StackPane stackPane;
 
     @FXML
     private SplitPane pnVerticalSplit;
+
+    // Those below aren't use here, but replicated in JavaFXSiteOpenerPresentation
+    @FXML
+    private Button btOpen;
 
     @FXML
     private MenuItem openSiteMenu;

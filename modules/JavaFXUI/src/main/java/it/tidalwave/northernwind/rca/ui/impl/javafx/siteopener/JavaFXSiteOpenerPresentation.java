@@ -56,18 +56,18 @@ public class JavaFXSiteOpenerPresentation implements SiteOpenerPresentation
     private Provider<JavaFXBinder> binder;
 
     @Widget("btOpen")
-    private Button button;
+    private Button btOpen;
 
     @Widget("openSiteMenu")
-    private MenuItem menuItem;
+    private MenuItem openSiteMenu;
 
     private BoundProperty<Path> folderToOpen;
 
     @Override // FIXME: encapsulate args in Bindings
     public void bind (final @Nonnull UserAction action, final @Nonnull BoundProperty<Path> folderToOpen)
       {
-        binder.get().bind(button, action);
-        binder.get().bind(menuItem, action);
+        binder.get().bind(btOpen, action);
+        binder.get().bind(openSiteMenu, action);
         this.folderToOpen = folderToOpen;
       }
 
