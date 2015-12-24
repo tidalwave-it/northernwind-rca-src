@@ -97,7 +97,7 @@ public class DefaultStructureExplorerPresentationControlTest
         openSiteEvent = mock(OpenSiteEvent.class);
         fileSystem = mock(ResourceFileSystem.class);
         root = mock(ResourceFile.class);
-        node = mockWithAsSupport(SiteNode.class, (RoleFactory<SiteNode>)n -> new SimpleCompositePresentable(n));
+        node = mockWithAsSupport(SiteNode.class, (RoleFactory<SiteNode>)(n -> new SimpleCompositePresentable(n)));
 
         when(fileSystem.findFileByPath(eq("/structure"))).thenReturn(root);
         when(openSiteEvent.getFileSystem()).thenReturn(fileSystem);
