@@ -27,8 +27,8 @@
  */
 package it.tidalwave.role.ui.spi;
 
-import it.tidalwave.util.Callback;
 import javax.annotation.Nonnull;
+import it.tidalwave.util.Callback;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -51,7 +51,7 @@ public class UserActionSupport8 extends UserActionSupport
           {
             callback.run();
           }
-        catch (Exception e)
+        catch (Throwable e)
           {
             log.error("", e);
           }

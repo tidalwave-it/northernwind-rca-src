@@ -30,9 +30,11 @@ package it.tidalwave.util.ui;
 import javax.annotation.Nonnull;
 import it.tidalwave.util.Callback;
 import it.tidalwave.util.ui.UserNotificationWithFeedback.Feedback;
-import static lombok.AccessLevel.PRIVATE;
 import lombok.AllArgsConstructor;
+import lombok.SneakyThrows;
 import lombok.experimental.Wither;
+import static lombok.AccessLevel.PRIVATE;
+import org.openide.util.Exceptions;
 
 /***********************************************************************************************************************
  *
@@ -56,16 +58,32 @@ public class Feedback8 extends Feedback
       }
 
     @Override
+//    @SneakyThrows(Throwable.class)
     public final void onConfirm()
       throws Exception
       {
-        onConfirm.run();
+        try
+          {
+            onConfirm.run();
+          }
+        catch (Throwable ex)
+          {
+            Exceptions.printStackTrace(ex);
+          }
       }
 
     @Override
+//    @SneakyThrows(Throwable.class)
     public final void onCancel()
       throws Exception
       {
-        onCancel.run();
+        try
+          {
+            onCancel.run();
+          }
+        catch (Throwable ex)
+          {
+            Exceptions.printStackTrace(ex);
+          }
       }
   }

@@ -27,7 +27,6 @@
  */
 package it.tidalwave.northernwind.rca.ui.siteopener.spi;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -70,7 +69,6 @@ public class DefaultSiteOpenerPresentationControlTest
     public void setup()
       {
         context = new ClassPathXmlApplicationContext("DefaultSiteOpenerPresentationControlTestBeans.xml");
-
         underTest = context.getBean(DefaultSiteOpenerPresentationControl.class);
         presentation = context.getBean(SiteOpenerPresentation.class);
         messageBus = context.getBean(MessageBus.class);
@@ -125,7 +123,7 @@ public class DefaultSiteOpenerPresentationControlTest
     private Object[][] pathsProvider() throws IOException
       {
         final Path[][] result = new Path[10][1];
-        final Path tempDir = new File(System.getProperty("java.io.tmpdir")).toPath();
+        final Path tempDir = Paths.get(System.getProperty("java.io.tmpdir"));
 
         for (int i = 0; i < result.length; i++)
           {

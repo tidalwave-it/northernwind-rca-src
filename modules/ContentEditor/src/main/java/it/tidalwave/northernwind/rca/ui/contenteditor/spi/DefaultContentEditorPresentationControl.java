@@ -32,7 +32,6 @@ import javax.inject.Inject;
 import java.util.Optional;
 import java.io.IOException;
 import it.tidalwave.util.NotFoundException;
-import it.tidalwave.util.Task;
 import it.tidalwave.role.ui.BoundProperty;
 import it.tidalwave.role.ui.spi.UserActionSupport8;
 import it.tidalwave.messagebus.annotation.ListensTo;
@@ -183,14 +182,7 @@ public class DefaultContentEditorPresentationControl implements ContentEditorPre
 //            ProcessExecutor.forExecutable("Google Chrome.app")
         ProcessExecutor.forExecutable("Firefox.app")
                        .withArguments2(url)
-                       .withPostMortemTask(new Task<Void, Exception>()
-                          {
-                            @Override public Void run() throws Exception
-                              {
-                                properties.ifPresent(p -> bindProperties(p));
-                                return null;
-                              }
-                          })
+                       .withPostMortemTask(() -> properties.ifPresent(p -> bindProperties(p)))
                        .execute();
       }
   }
