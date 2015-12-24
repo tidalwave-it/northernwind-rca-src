@@ -99,7 +99,7 @@ public abstract class Task8<T, E extends Throwable> extends Task<T, E>
             public Void run()
               throws Throwable
               {
-                callback.run();
+                callback.call();
                 return null;
               }
           };

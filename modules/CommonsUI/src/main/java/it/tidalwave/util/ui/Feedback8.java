@@ -64,7 +64,7 @@ public class Feedback8 extends Feedback
       {
         try
           {
-            onConfirm.run();
+            onConfirm.call();
           }
         catch (Throwable ex)
           {
@@ -79,7 +79,7 @@ public class Feedback8 extends Feedback
       {
         try
           {
-            onCancel.run();
+            onCancel.call();
           }
         catch (Throwable ex)
           {
