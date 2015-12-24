@@ -27,16 +27,15 @@
  */
 package it.tidalwave.northernwind.rca.dciaspects;
 
-import it.tidalwave.dci.annotation.DciContext;
 import javax.annotation.Nonnull;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.springframework.beans.factory.annotation.Configurable;
-import it.tidalwave.role.ContextManager;
-import it.tidalwave.role.spi.LogUtil;
 import it.tidalwave.util.Task;
+import it.tidalwave.role.ContextManager;
+import it.tidalwave.dci.annotation.DciContext;
 import lombok.extern.slf4j.Slf4j;
+import static it.tidalwave.role.spi.LogUtil.shortId;
 
 /***********************************************************************************************************************
  *
@@ -46,12 +45,9 @@ import lombok.extern.slf4j.Slf4j;
  * @version $Id$
  *
  **********************************************************************************************************************/
-@Configurable @Aspect @Slf4j
+@Aspect @Slf4j
 public class DciContextWithAutoThreadBindingAspect
   {
-//    @Inject
-//    private Provider<ContextManager> contextManager;
-
     @Around("within(@it.tidalwave.dci.annotation.DciContext *) && execution(* *(..))")
     public Object advice (final @Nonnull ProceedingJoinPoint pjp)
       throws Throwable
@@ -64,10 +60,12 @@ public class DciContextWithAutoThreadBindingAspect
           }
         else
           {
-            log.trace("executing {}.{}() with auto context thread binding",
-                      LogUtil.shortId(context), pjp.getSignature().getName());
+            if (log.isTraceEnabled())
+              {
+                log.trace("executing {}.{}() with context thread binding", shortId(context), pjp.getSignature().getName());
+              }
+
             // It looks like the @Inject approach creates bogus multiple instance of ContextManager
-//            final ContextManager contextManager = contextManager.get();
             final ContextManager contextManager = ContextManager.Locator.find();
             return contextManager.runWithContext(context, new Task<Object, Throwable>()
               {
