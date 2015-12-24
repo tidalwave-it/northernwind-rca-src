@@ -39,7 +39,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.URLEncoder;
-import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
 import com.google.common.io.CharStreams;
@@ -57,7 +56,9 @@ import it.tidalwave.northernwind.rca.ui.contentmanager.AddContentPresentationCon
 import lombok.Cleanup;
 import lombok.extern.slf4j.Slf4j;
 import static it.tidalwave.util.ui.UserNotificationWithFeedback.*;
+import static it.tidalwave.util.ui.Feedback8.feedback;
 import static it.tidalwave.northernwind.model.admin.Properties.*;
+import static it.tidalwave.northernwind.rca.ui.contentmanager.impl.ContentChildCreator.ContentChildCreator;
 
 /***********************************************************************************************************************
  *
@@ -79,13 +80,13 @@ public class DefaultAddContentPresentationControl implements AddContentPresentat
 
     private final Bindings bindings = new ValidatingBindings();
 
-    @VisibleForTesting String xhtmlSkeleton = "tbd";
+    /* visible for testing */ String xhtmlSkeleton = "tbd";
 
     /*******************************************************************************************************************
      *
      ******************************************************************************************************************/
     @PostConstruct
-    @VisibleForTesting void initialize()
+    /* visible for testing */ void initialize()
       throws IOException
       {
         xhtmlSkeleton = loadResource("Skeleton.xhtml");
@@ -94,39 +95,34 @@ public class DefaultAddContentPresentationControl implements AddContentPresentat
     /*******************************************************************************************************************
      *
      ******************************************************************************************************************/
-    @VisibleForTesting void onAddContentEvent (final @ListensTo @Nonnull CreateContentRequest event)
+    /* visible for testing */ void onAddContentEvent (final @ListensTo @Nonnull CreateContentRequest event)
       {
         log.info("onAddContentEvent({})", event);
         bindings.publishingDateTime.set(ISO_FORMATTER.print(new DateTime()));
         final DateTime creationDateTime = new DateTime();
         presentation.bind(bindings);
         presentation.showUp(notificationWithFeedback().withCaption("Create new content")
-                                                      .withFeedback(new Feedback()
+                                                      .withFeedback(feedback().withOnConfirm(() ->
           {
-            @Override
-            public void onConfirm()
-              throws Exception
+            final String folderName = urlEncoded(bindings.folder.get());
+            // TODO: use TypeSafeMap, with a safe put() method
+            final Map<Key<?>, Object> propertyValues = new HashMap<>();
+            putIfNonEmpty(propertyValues, PROPERTY_TITLE,           bindings.title.get());
+            putIfNonEmpty(propertyValues, PROPERTY_EXPOSED_URI,     bindings.exposedUri.get());
+            putIfNonEmpty(propertyValues, PROPERTY_CREATION_TIME,   ISO_FORMATTER.print(creationDateTime));
+            putIfNonEmpty(propertyValues, PROPERTY_PUBLISHING_TIME, bindings.publishingDateTime.get());
+            putIfNonEmpty(propertyValues, PROPERTY_FULL_TEXT,       xhtmlSkeleton);
+
+            final Splitter splitter = Splitter.on(',').trimResults().omitEmptyStrings();
+            final List<String> tags = Lists.newArrayList(splitter.split(bindings.tags.get()));
+
+            if (!tags.isEmpty())
               {
-                final String folderName = urlEncoded(bindings.folder.get());
-                // TODO: use TypeSafeMap, with a safe put() method
-                final Map<Key<?>, Object> propertyValues = new HashMap<>();
-                putIfNonEmpty(propertyValues, PROPERTY_TITLE,           bindings.title.get());
-                putIfNonEmpty(propertyValues, PROPERTY_EXPOSED_URI,     bindings.exposedUri.get());
-                putIfNonEmpty(propertyValues, PROPERTY_CREATION_TIME,   ISO_FORMATTER.print(creationDateTime));
-                putIfNonEmpty(propertyValues, PROPERTY_PUBLISHING_TIME, bindings.publishingDateTime.get());
-                putIfNonEmpty(propertyValues, PROPERTY_FULL_TEXT,       xhtmlSkeleton);
-
-                final Splitter splitter = Splitter.on(',').trimResults().omitEmptyStrings();
-                final List<String> tags = Lists.newArrayList(splitter.split(bindings.tags.get()));
-
-                if (!tags.isEmpty())
-                  {
-                    propertyValues.put(PROPERTY_TAGS, tags);
-                  }
-
-                event.getParentContent().as(ContentChildCreator.class).createContent(folderName, propertyValues);
+                propertyValues.put(PROPERTY_TAGS, tags);
               }
-          }));
+
+            event.getParentContent().as(ContentChildCreator).createContent(folderName, propertyValues);
+          })));
       }
 
     /*******************************************************************************************************************
@@ -162,7 +158,7 @@ public class DefaultAddContentPresentationControl implements AddContentPresentat
      *
      ******************************************************************************************************************/
     @Nonnull
-    @VisibleForTesting String loadResource (final @Nonnull String path)
+    /* visible for testing */ String loadResource (final @Nonnull String path)
       throws IOException
       {
         final String prefix = getClass().getPackage().getName().replace(".", "/");

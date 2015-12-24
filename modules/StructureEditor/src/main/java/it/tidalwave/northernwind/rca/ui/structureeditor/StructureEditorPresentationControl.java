@@ -35,5 +35,4 @@ package it.tidalwave.northernwind.rca.ui.structureeditor;
  **********************************************************************************************************************/
 public interface StructureEditorPresentationControl
   {
-    public void initialize();
   }

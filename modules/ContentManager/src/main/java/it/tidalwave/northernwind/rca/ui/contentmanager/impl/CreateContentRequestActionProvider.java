@@ -27,7 +27,6 @@
  */
 package it.tidalwave.northernwind.rca.ui.contentmanager.impl;
 
-import com.google.common.annotations.VisibleForTesting;
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
 import java.util.Collection;
@@ -35,13 +34,13 @@ import java.util.Collections;
 import org.springframework.beans.factory.annotation.Configurable;
 import it.tidalwave.dci.annotation.DciRole;
 import it.tidalwave.messagebus.MessageBus;
+import it.tidalwave.role.spi.DefaultDisplayable;
 import it.tidalwave.role.ui.UserAction;
 import it.tidalwave.role.ui.spi.DefaultUserActionProvider;
 import it.tidalwave.role.ui.spi.UserActionSupport;
+import it.tidalwave.role.ui.UserActionProvider;
 import it.tidalwave.northernwind.core.model.Content;
 import it.tidalwave.northernwind.rca.ui.event.CreateContentRequest;
-import it.tidalwave.role.spi.DefaultDisplayable;
-import it.tidalwave.role.ui.UserActionProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 
@@ -64,9 +63,9 @@ public class CreateContentRequestActionProvider extends DefaultUserActionProvide
     private final Content content;
 
     @Inject
-    @VisibleForTesting MessageBus messageBus;
+    /* visible for testing */ MessageBus messageBus;
 
-    @VisibleForTesting final UserAction sendCreateContentRequestAction = new UserActionSupport(
+    /* visible for testing */ final UserAction sendCreateContentRequestAction = new UserActionSupport(
             new DefaultDisplayable("New content"))
       {
         @Override @Nonnull

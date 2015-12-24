@@ -29,7 +29,6 @@ package it.tidalwave.northernwind.model.impl.admin.role;
 
 import javax.annotation.Nonnull;
 import java.util.WeakHashMap;
-import com.google.common.annotations.VisibleForTesting;
 import it.tidalwave.role.ui.PresentationModel;
 import it.tidalwave.role.ui.PresentationModelFactory;
 import it.tidalwave.messagebus.annotation.ListensTo;
@@ -52,7 +51,7 @@ import lombok.extern.slf4j.Slf4j;
 @SimpleMessageSubscriber @Slf4j
 public class ContentPresentationModelFactory implements PresentationModelFactory
   {
-    @VisibleForTesting final WeakHashMap<Content, ContentPresentationModel> map = new WeakHashMap<>();
+    /* visible for testing */ final WeakHashMap<Content, ContentPresentationModel> map = new WeakHashMap<>();
 
     @Override @Nonnull
     public PresentationModel createPresentationModel (final @Nonnull Object datum,
@@ -74,7 +73,7 @@ public class ContentPresentationModelFactory implements PresentationModelFactory
         return contentPM;
       }
 
-    @VisibleForTesting void onContentCreated (final @ListensTo @Nonnull ContentCreatedEvent event)
+    /* visible for testing */void onContentCreated (final @ListensTo @Nonnull ContentCreatedEvent event)
       {
         log.debug("onContentCreated({})", event);
         final ContentPresentationModel contentPm =  map.get(event.getParentContent());

@@ -31,7 +31,6 @@ import javax.annotation.Nonnull;
 import javax.inject.Inject;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import com.google.common.annotations.VisibleForTesting;
 import it.tidalwave.role.ui.BoundProperty;
 import it.tidalwave.role.ui.UserAction;
 import it.tidalwave.role.ui.spi.UserActionSupport8;
@@ -59,9 +58,9 @@ public class DefaultSiteOpenerPresentationControl implements SiteOpenerPresentat
 
     private SiteOpenerPresentation presentation;
 
-    @VisibleForTesting final BoundProperty<Path> folderToOpen = new BoundProperty<>();
+    /* visible for testing */ final BoundProperty<Path> folderToOpen = new BoundProperty<>();
 
-    @VisibleForTesting final UserAction openSiteAction = UserActionSupport8.withCallback(() ->
+    /* visible for testing */ final UserAction openSiteAction = UserActionSupport8.withCallback(() ->
       {
         presentation.notifyInvitationToSelectAFolder(notificationWithFeedback()
             .withCaption("Select the site to open")

@@ -30,7 +30,6 @@ package it.tidalwave.northernwind.rca.ui.event;
 import javax.annotation.Nonnull;
 import java.io.IOException;
 import java.nio.file.Path;
-import com.google.common.annotations.VisibleForTesting;
 import it.tidalwave.northernwind.core.model.ResourceFileSystem;
 import it.tidalwave.northernwind.core.model.Site;
 import it.tidalwave.northernwind.frontend.filesystem.basic.LocalFileSystemProvider;
@@ -40,7 +39,7 @@ import static lombok.AccessLevel.PRIVATE;
 
 /***********************************************************************************************************************
  *
- * An event that represents the opening of a {@link Site}.
+ * An event that notifies the opening of a {@link Site}.
  *
  * @author  Fabrizio Giudici
  * @version $Id$
@@ -52,7 +51,7 @@ public class OpenSiteEvent
     @Getter @Nonnull
     private final ResourceFileSystem fileSystem;
 
-    @VisibleForTesting @Getter @Nonnull
+    /* visible for testing */ @Getter @Nonnull
     private final LocalFileSystemProvider fileSystemProvider;
 
     @Nonnull

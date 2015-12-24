@@ -28,7 +28,6 @@
 package it.tidalwave.northernwind.model.impl.admin.role;
 
 import javax.annotation.Nonnull;
-import com.google.common.annotations.VisibleForTesting;
 import it.tidalwave.role.ui.spi.DefaultPresentationModel;
 import it.tidalwave.northernwind.core.model.Content;
 
@@ -45,7 +44,7 @@ public class ContentPresentationModel extends DefaultPresentationModel
         super(owner, rolesOrFactories);
       }
 
-    @VisibleForTesting void onContentCreated()
+    /* visible for testing */ void onContentCreated()
       {
         firePropertyChange(PROPERTY_CHILDREN, null, null);
       }

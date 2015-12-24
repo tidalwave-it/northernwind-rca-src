@@ -40,7 +40,6 @@ import java.io.FileNotFoundException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import com.google.common.annotations.VisibleForTesting;
 import com.google.common.io.ByteStreams;
 import org.springframework.core.io.ClassPathResource;
 import org.eclipse.jetty.server.Server;
@@ -72,7 +71,7 @@ public class DefaultEmbeddedServer implements EmbeddedServer
     private int port = 12345;
 
     @CheckForNull
-    @VisibleForTesting Server server;
+    /* visible for testing */ Server server;
 
     private final Map<String, Document> documentMapByUrl = new HashMap<>();
 
@@ -86,6 +85,8 @@ public class DefaultEmbeddedServer implements EmbeddedServer
      ******************************************************************************************************************/
     private final ServletAdapter servlet = new ServletAdapter()
       {
+        private static final long serialVersionUID = -2887261966375531858L;
+
         @Override
         protected void doGet (final @Nonnull HttpServletRequest request,
                               final @Nonnull HttpServletResponse response)
@@ -128,7 +129,7 @@ public class DefaultEmbeddedServer implements EmbeddedServer
      *
      *
      ******************************************************************************************************************/
-    @VisibleForTesting void onOpenSite (final @ListensTo @Nonnull OpenSiteEvent event)
+    /* visible for testing */ void onOpenSite (final @ListensTo @Nonnull OpenSiteEvent event)
       {
         log.debug("onOpenSite({})", event);
         fileSystem = event.getFileSystem();
@@ -298,7 +299,7 @@ public class DefaultEmbeddedServer implements EmbeddedServer
      *
      ******************************************************************************************************************/
     @Nonnull
-    @VisibleForTesting byte[] loadResource (final @Nonnull String path)
+    /* visible for testing */ byte[] loadResource (final @Nonnull String path)
       throws IOException
       {
         final ClassPathResource resource = new ClassPathResource(path);
