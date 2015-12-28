@@ -24,14 +24,15 @@
 
 *********************************************************************************************************************
 #L%
---><project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
         <groupId>it.tidalwave.superpom</groupId>
         <artifactId>superpom</artifactId>
-        <version>3.2</version>
+        <version>3.3</version>
         <relativePath />
     </parent>
 
@@ -52,8 +53,6 @@
     <name>Zephyr</name>
     <inceptionYear>2013</inceptionYear>
     <description>
-[![Build Status](https://drone.io/bitbucket.org/tidalwave/northernwind-rca-src/status.png)](https://drone.io/bitbucket.org/tidalwave/northernwind-rca-src/latest)
-
 Zephyr is a rich client application for editing contents for the NorthernWind CMS.
     </description>
 
