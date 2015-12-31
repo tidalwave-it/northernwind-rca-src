@@ -5,7 +5,7 @@
 
   NorthernWind
   %%
-  Copyright (C) 2013 - 2015 Tidalwave s.a.s. (http://tidalwave.it)
+  Copyright (C) 2013 - 2016 Tidalwave s.a.s. (http://tidalwave.it)
   %%
   *********************************************************************************************************************
 
@@ -48,7 +48,7 @@
 
     <groupId>it.tidalwave.northernwind.rca</groupId>
     <artifactId>northernwind-rca</artifactId>
-    <version>1.1-ALPHA-13-SNAPSHOT</version>
+    <version>1.1-ALPHA-14-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>Zephyr</name>
     <inceptionYear>2013</inceptionYear>
@@ -136,78 +136,78 @@ Zephyr is a rich client application for editing contents for the NorthernWind CM
             <dependency>
                 <groupId>it.tidalwave.northernwind.rca</groupId>
                 <artifactId>it-tidalwave-northernwind-rca-ui-commons</artifactId>
-                <version>1.1-ALPHA-13-SNAPSHOT</version>
+                <version>1.1-ALPHA-14-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>it.tidalwave.northernwind.rca</groupId>
                 <artifactId>it-tidalwave-northernwind-rca-ui-commons</artifactId>
-                <version>1.1-ALPHA-13-SNAPSHOT</version>
+                <version>1.1-ALPHA-14-SNAPSHOT</version>
                 <classifier>tests</classifier>
             </dependency>
             <dependency>
                 <groupId>it.tidalwave.northernwind.rca</groupId>
                 <artifactId>it-tidalwave-northernwind-model-core-stripped</artifactId>
-                <version>1.1-ALPHA-13-SNAPSHOT</version>
+                <version>1.1-ALPHA-14-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>it.tidalwave.northernwind.rca</groupId>
                 <artifactId>it-tidalwave-northernwind-rca-model</artifactId>
-                <version>1.1-ALPHA-13-SNAPSHOT</version>
+                <version>1.1-ALPHA-14-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>it.tidalwave.northernwind.rca</groupId>
                 <artifactId>it-tidalwave-northernwind-rca-embeddedserver</artifactId>
-                <version>1.1-ALPHA-13-SNAPSHOT</version>
+                <version>1.1-ALPHA-14-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>it.tidalwave.northernwind.rca</groupId>
                 <artifactId>it-tidalwave-northernwind-rca-ui-site-opener</artifactId>
-                <version>1.1-ALPHA-13-SNAPSHOT</version>
+                <version>1.1-ALPHA-14-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>it.tidalwave.northernwind.rca</groupId>
                 <artifactId>it-tidalwave-northernwind-rca-ui-content-explorer</artifactId>
-                <version>1.1-ALPHA-13-SNAPSHOT</version>
+                <version>1.1-ALPHA-14-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>it.tidalwave.northernwind.rca</groupId>
                 <artifactId>it-tidalwave-northernwind-rca-ui-structure-explorer</artifactId>
-                <version>1.1-ALPHA-13-SNAPSHOT</version>
+                <version>1.1-ALPHA-14-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>it.tidalwave.northernwind.rca</groupId>
                 <artifactId>it-tidalwave-northernwind-rca-ui-content-editor</artifactId>
-                <version>1.1-ALPHA-13-SNAPSHOT</version>
+                <version>1.1-ALPHA-14-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>it.tidalwave.northernwind.rca</groupId>
                 <artifactId>it-tidalwave-northernwind-rca-ui-content-manager</artifactId>
-                <version>1.1-ALPHA-13-SNAPSHOT</version>
+                <version>1.1-ALPHA-14-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>it.tidalwave.northernwind.rca</groupId>
                 <artifactId>it-tidalwave-northernwind-rca-ui-structure-editor</artifactId>
-                <version>1.1-ALPHA-13-SNAPSHOT</version>
+                <version>1.1-ALPHA-14-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>it.tidalwave.northernwind.rca</groupId>
                 <artifactId>it-tidalwave-northernwind-rca-ui-javafx</artifactId>
-                <version>1.1-ALPHA-13-SNAPSHOT</version>
+                <version>1.1-ALPHA-14-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>it.tidalwave.northernwind.rca</groupId>
                 <artifactId>it-tidalwave-northernwind-rca-application-javafx</artifactId>
-                <version>1.1-ALPHA-13-SNAPSHOT</version>
+                <version>1.1-ALPHA-14-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>it.tidalwave.northernwind.rca</groupId>
                 <artifactId>zephyr-macosx-embedded-jre</artifactId>
-                <version>1.1-ALPHA-13-SNAPSHOT</version>
+                <version>1.1-ALPHA-14-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>it.tidalwave.northernwind.rca</groupId>
                 <artifactId>zephyr-macosx</artifactId>
-                <version>1.1-ALPHA-13-SNAPSHOT</version>
+                <version>1.1-ALPHA-14-SNAPSHOT</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
