@@ -1,4 +1,4 @@
-Aloha.bind('aloha-editable-deactivated', function (event, myEditable)
+aloha.bind('aloha-editable-deactivated', function (event, myEditable)
   {
     $.post("/",
       {
