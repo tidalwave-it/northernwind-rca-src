@@ -31,14 +31,14 @@
     <parent>
         <groupId>it.tidalwave.northernwind.rca</groupId>
         <artifactId>northernwind-rca-modules</artifactId>
-        <version>1.1-ALPHA-13</version>
+        <version>1.1-ALPHA-14-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
     <groupId>it.tidalwave.northernwind.rca</groupId>
     <artifactId>it-tidalwave-northernwind-model-core-stripped</artifactId>
     <packaging>jar</packaging>
-    <version>1.1-ALPHA-13</version>
+    <version>1.1-ALPHA-14-SNAPSHOT</version>
     <name>Zephyr - Core Implementation Stripped</name>
     <description>
         This module contains a stripped subset of the default core implementation. Classes here should be probably
