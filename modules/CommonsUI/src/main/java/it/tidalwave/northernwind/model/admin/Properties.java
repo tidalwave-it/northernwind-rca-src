@@ -30,6 +30,7 @@ package it.tidalwave.northernwind.model.admin;
 import it.tidalwave.util.Key;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import org.joda.time.DateTime;
 
 /***********************************************************************************************************************
  *
@@ -51,6 +52,8 @@ public final class Properties
     public static final Key<String> PROPERTY_EXPOSED_URI = new Key<>("exposedUri");
 
     public static final Key<String> PROPERTY_CREATION_TIME = new Key<>("creationDateTime");
+
+    public static final Key<DateTime> PROPERTY_CREATION_TIME2 = new Key<>("creationDateTime");
 
     public static final Key<String> PROPERTY_PUBLISHING_TIME = new Key<>("publishingDateTime");
 
