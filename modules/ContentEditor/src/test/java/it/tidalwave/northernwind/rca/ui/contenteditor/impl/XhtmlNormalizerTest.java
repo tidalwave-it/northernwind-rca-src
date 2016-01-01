@@ -25,66 +25,43 @@
  * *********************************************************************************************************************
  * #L%
  */
-package it.tidalwave.northernwind.frontend.filesystem.impl;
+package it.tidalwave.northernwind.rca.ui.contenteditor.impl;
 
-import javax.annotation.Nonnull;
 import java.io.IOException;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.Writer;
-import org.openide.filesystems.FileObject;
-import it.tidalwave.dci.annotation.DciRole;
-import it.tidalwave.northernwind.model.admin.role.WritableFolder;
-import it.tidalwave.role.Marshallable;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import it.tidalwave.northernwind.util.test.TestHelper;
+import it.tidalwave.northernwind.util.test.TestHelper.TestResource;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
 /***********************************************************************************************************************
- *
- * @stereotype role
  *
  * @author  Fabrizio Giudici
  * @version $Id$
  *
  **********************************************************************************************************************/
-@DciRole(datumType = ResourceFileNetBeansPlatform.class) @RequiredArgsConstructor @Slf4j
-public class ResourceFileNetBeansPlatformWritableFolder implements WritableFolder
+public class XhtmlNormalizerTest
   {
-    @Nonnull
-    private final ResourceFileNetBeansPlatform file;
+    private final TestHelper helper = new TestHelper(this);
 
-    @Override @Nonnull
-    public synchronized void write (final @Nonnull String fileName, final @Nonnull String text)
-      throws IOException
+    private XhtmlNormalizer underTest;
+
+    @BeforeMethod
+    public void prepare()
       {
-        try (final Writer w = new OutputStreamWriter(openStream(fileName), "UTF-8"))
-          {
-            w.write(text);
-          }
+        underTest = new XhtmlNormalizer();
       }
 
-    @Override @Nonnull
-    public void write (final @Nonnull String fileName, final @Nonnull Marshallable marshallable)
+    @Test
+    public void must_properly_normalise_Xhtml()
       throws IOException
       {
-        try (final OutputStream os = openStream(fileName))
-          {
-            marshallable.marshal(os);
-          }
-      }
-
-    @Nonnull
-    private OutputStream openStream (final @Nonnull String fileName)
-      throws IOException
-      {
-        FileObject fileObject = file.getDelegate().getFileObject(fileName);
-
-        if (fileObject == null)
-          {
-            fileObject = file.getDelegate().createData(fileName);
-          }
-
-        log.debug("opening stream: {}", fileObject);
-        return fileObject.getOutputStream();
+        // given
+        final TestResource tr = helper.testResourceFor("1.xhtml");
+        final String html = tr.readStringFromResource();
+        // when
+        final String actual = underTest.asNormalizedString(html);
+        // then
+        tr.writeToActualFile(actual.replaceAll("\\n$", "")); // method adds a newline
+        tr.assertActualFileContentSameAsExpected();
       }
   }

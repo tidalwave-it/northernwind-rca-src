@@ -55,6 +55,7 @@ import lombok.Cleanup;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import static java.util.stream.Collectors.joining;
 
 /***********************************************************************************************************************
  *
@@ -118,13 +119,13 @@ public class DefaultEmbeddedServer implements EmbeddedServer
               }
           }
 
-        @Override // TODO: better a PUT but I don't know how to do in jQuery
-        protected void doPost (final @Nonnull HttpServletRequest request,
-                               final @Nonnull HttpServletResponse response)
+        @Override
+        protected void doPut (final @Nonnull HttpServletRequest request,
+                              final @Nonnull HttpServletResponse response)
           throws ServletException, IOException
           {
             final String uri = request.getRequestURI();
-            log.debug("doPost({})", uri);
+            log.debug("doPut({})", uri);
             updateRegisteredResource(request, response);
           }
       };
@@ -300,9 +301,10 @@ public class DefaultEmbeddedServer implements EmbeddedServer
      ******************************************************************************************************************/
     private void updateRegisteredResource (final @Nonnull HttpServletRequest request,
                                            final @Nonnull HttpServletResponse response)
+      throws IOException
       {
         final String uri = request.getRequestURI();
-        final String s = request.getParameter("content");
+        final String body = request.getReader().lines().collect(joining("\n"));
 
         final Document document = documentMapByUrl.get(uri);
 
@@ -313,7 +315,7 @@ public class DefaultEmbeddedServer implements EmbeddedServer
           }
         else
           {
-            document.update(s);
+            document.update(body);
             response.setStatus(HttpServletResponse.SC_OK);
           }
       }

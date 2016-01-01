@@ -28,9 +28,11 @@
 package it.tidalwave.northernwind.rca.ui.contenteditor.impl;
 
 import javax.annotation.Nonnull;
+import java.nio.charset.StandardCharsets;
 import com.google.common.base.Splitter;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Entities;
 import lombok.extern.slf4j.Slf4j;
 
 /***********************************************************************************************************************
@@ -51,9 +53,13 @@ public class XhtmlNormalizer
     public String asNormalizedString (final @Nonnull String text)
       {
         log.trace("asNormalizedString()\n{}", text);
-        final Document document = Jsoup.parse(text);
-        document.outputSettings().indentAmount(2).prettyPrint(true);
-        final String result = postNormalized(document.outerHtml());
+        final Document.OutputSettings os = new Document.OutputSettings()
+                .charset(StandardCharsets.UTF_8)
+                .escapeMode(Entities.EscapeMode.xhtml)
+                .indentAmount(2)
+                .prettyPrint(true)
+                .syntax(Document.OutputSettings.Syntax.xml);
+        final String result = finalCleanup(breakLongLines(Jsoup.parse(text).outputSettings(os).outerHtml()));
         log.trace(">>>> returning:\n{}", result);
         return result;
       }
@@ -64,7 +70,45 @@ public class XhtmlNormalizer
      *
      ******************************************************************************************************************/
     @Nonnull
-    private static String postNormalized (final @Nonnull String string)
+    private String breakLongLines (final @Nonnull String html)
+      {
+        final Document document = Jsoup.parse(html);
+        document.select("br").after("\n       ");
+
+        // Remove img attributes inserted by Aloha
+        document.select("img")
+                .removeAttr("draggable")
+                .removeAttr("contenteditable")
+                .forEach(element ->
+          {
+            final String style = element.attr("style");
+
+            if (!"".equals(style))
+              {
+                element.attr("style", style.replaceAll(" *cursor: -webkit-grab;", ""));
+              }
+          });
+
+        final Document.OutputSettings os = new Document.OutputSettings()
+                .charset(StandardCharsets.UTF_8)
+                .escapeMode(Entities.EscapeMode.xhtml)
+                .indentAmount(2)
+                .prettyPrint(false)
+                .syntax(Document.OutputSettings.Syntax.xml);
+        return document.outputSettings(os).outerHtml()
+                .replaceFirst("([^\\n])<html ", "$1\n<html ")
+                .replaceFirst("([^\\n]) *<head>", "$1\n  <head>")
+                .replaceFirst("([^\\n])\\n<\\/body>", "$1<\\/body>")
+                .replaceFirst("<\\/body>([^\\n])", "<\\/body>\n$1");
+      }
+
+    /*******************************************************************************************************************
+     *
+     * Jsoup doesn't do everything properly, so we're patching the results a bit.
+     *
+     ******************************************************************************************************************/
+    @Nonnull
+    private static String finalCleanup (final @Nonnull String string)
       {
         final StringBuilder buffer = new StringBuilder();
 
@@ -78,9 +122,9 @@ public class XhtmlNormalizer
               }
 
             first = false;
-            buffer.append(line.replaceAll(" *$", "")).append("\n");
+            buffer.append(line.replaceAll(" *$", "")).append("\n"); // trailing spaces
           }
 
-        return buffer.toString().replaceAll("\n$", "");
+        return buffer.toString();
       }
   }

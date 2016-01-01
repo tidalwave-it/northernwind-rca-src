@@ -194,7 +194,7 @@ public class ResourcePropertiesBinderTest
                                                                                    + "  <body>\n"
                                                                                    + "     the updated body\n"
                                                                                    + "  </body>\n"
-                                                                                   + "</html>")
+                                                                                   + "</html>\n")
                                                                     .put(PROPERTY_2, ORIGINAL_PROPERTY_2_VALUE))));
         verifyNoMoreInteractions(callback);
       }
