@@ -28,9 +28,10 @@
 package it.tidalwave.northernwind.model.admin;
 
 import it.tidalwave.util.Key;
+import it.tidalwave.util.Id;
+import org.joda.time.DateTime;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
-import org.joda.time.DateTime;
 
 /***********************************************************************************************************************
  *
@@ -58,4 +59,6 @@ public final class Properties
     public static final Key<String> PROPERTY_PUBLISHING_TIME = new Key<>("publishingDateTime");
 
     public static final Key<String> PROPERTY_TAGS = new Key<>("tags");
+
+    public static final Key<Id> PROPERTY_ID = new Key<>("id");
   }
