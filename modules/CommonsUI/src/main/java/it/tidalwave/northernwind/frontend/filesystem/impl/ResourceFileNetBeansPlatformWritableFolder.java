@@ -54,7 +54,7 @@ public class ResourceFileNetBeansPlatformWritableFolder implements WritableFolde
     private final ResourceFileNetBeansPlatform file;
 
     @Override @Nonnull
-    public void write (final @Nonnull String fileName, final @Nonnull String text)
+    public synchronized void write (final @Nonnull String fileName, final @Nonnull String text)
       throws IOException
       {
         try (final Writer w = new OutputStreamWriter(openStream(fileName), "UTF-8"))
