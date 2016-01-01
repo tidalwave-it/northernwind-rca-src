@@ -131,7 +131,20 @@ public class DefaultContentEditorPresentationControl implements ContentEditorPre
             presentation.showUp();
           }
 
-        properties.ifPresent(this::bindProperties);
+        properties.ifPresent(this::bindPropertiesAndLoadDocument);
+      }
+
+    /*******************************************************************************************************************
+     *
+     *
+     *
+     ******************************************************************************************************************/
+    private void bindPropertiesAndLoadDocument (final @Nonnull ResourceProperties properties)
+      {
+        bindProperties(properties);
+        final PropertyBinder propertyBinder = properties.as(PropertyBinder);
+        final Document document = propertyBinder.createBoundDocument(PROPERTY_FULL_TEXT, propertyUpdateCallback);
+        presentation.populateDocument(documentServer.putDocument("/", document));
       }
 
     /*******************************************************************************************************************
@@ -147,8 +160,6 @@ public class DefaultContentEditorPresentationControl implements ContentEditorPre
             presentation.bind(bindings); // FIXME: needed because of unbindAll()
             final PropertyBinder propertyBinder = properties.as(PropertyBinder);
             propertyBinder.bind(PROPERTY_TITLE, bindings.title, propertyUpdateCallback);
-            final Document document = propertyBinder.createBoundDocument(PROPERTY_FULL_TEXT, propertyUpdateCallback);
-            presentation.populateDocument(documentServer.putDocument("/", document));
             presentation.populateProperties(properties.as(Presentable).createPresentationModel());
           }
         catch (IOException | NotFoundException e)
@@ -182,7 +193,7 @@ public class DefaultContentEditorPresentationControl implements ContentEditorPre
 //            ProcessExecutor.forExecutable("Google Chrome.app")
         ProcessExecutor.forExecutable("Firefox.app")
                        .withArguments2(url)
-                       .withPostMortemTask(() -> properties.ifPresent(p -> bindProperties(p)))
+                       .withPostMortemTask(() -> properties.ifPresent(p -> bindPropertiesAndLoadDocument(p)))
                        .execute();
       }
   }
