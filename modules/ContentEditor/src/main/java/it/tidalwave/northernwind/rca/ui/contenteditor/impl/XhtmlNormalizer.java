@@ -28,12 +28,12 @@
 package it.tidalwave.northernwind.rca.ui.contenteditor.impl;
 
 import javax.annotation.Nonnull;
-import com.google.common.base.Splitter;
 import java.nio.charset.StandardCharsets;
+import com.google.common.base.Splitter;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import lombok.extern.slf4j.Slf4j;
 import org.jsoup.nodes.Entities;
+import lombok.extern.slf4j.Slf4j;
 
 /***********************************************************************************************************************
  *
@@ -59,7 +59,7 @@ public class XhtmlNormalizer
                 .indentAmount(2)
                 .prettyPrint(true)
                 .syntax(Document.OutputSettings.Syntax.xml);
-        String result = removeTrailingSpaces(breakLongLines(Jsoup.parse(text).outputSettings(os).outerHtml()));
+        final String result = finalCleanup(breakLongLines(Jsoup.parse(text).outputSettings(os).outerHtml()));
         log.trace(">>>> returning:\n{}", result);
         return result;
       }
@@ -74,6 +74,21 @@ public class XhtmlNormalizer
       {
         final Document document = Jsoup.parse(html);
         document.select("br").after("\n       ");
+
+        // Remove img attributes inserted by Aloha
+        document.select("img")
+                .removeAttr("draggable")
+                .removeAttr("contenteditable")
+                .forEach(element ->
+          {
+            final String style = element.attr("style");
+
+            if (!"".equals(style))
+              {
+                element.attr("style", style.replaceAll(" *cursor: -webkit-grab;", ""));
+              }
+          });
+
         final Document.OutputSettings os = new Document.OutputSettings()
                 .charset(StandardCharsets.UTF_8)
                 .escapeMode(Entities.EscapeMode.xhtml)
@@ -93,7 +108,7 @@ public class XhtmlNormalizer
      *
      ******************************************************************************************************************/
     @Nonnull
-    private static String removeTrailingSpaces (final @Nonnull String string)
+    private static String finalCleanup (final @Nonnull String string)
       {
         final StringBuilder buffer = new StringBuilder();
 
@@ -110,6 +125,6 @@ public class XhtmlNormalizer
             buffer.append(line.replaceAll(" *$", "")).append("\n"); // trailing spaces
           }
 
-        return buffer.toString().replaceAll("\n$", ""); // last newline
+        return buffer.toString();
       }
   }

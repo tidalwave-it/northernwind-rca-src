@@ -27,9 +27,9 @@
  */
 package it.tidalwave.northernwind.rca.ui.contenteditor.impl;
 
+import java.io.IOException;
 import it.tidalwave.northernwind.util.test.TestHelper;
 import it.tidalwave.northernwind.util.test.TestHelper.TestResource;
-import java.io.IOException;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -52,13 +52,16 @@ public class XhtmlNormalizerTest
       }
 
     @Test
-    public void testSomeMethod()
+    public void must_properly_normalise_Xhtml()
       throws IOException
       {
+        // given
         final TestResource tr = helper.testResourceFor("1.xhtml");
         final String html = tr.readStringFromResource();
+        // when
         final String actual = underTest.asNormalizedString(html);
-        tr.writeToActualFile(actual);
+        // then
+        tr.writeToActualFile(actual.replaceAll("\\n$", "")); // method adds a newline
         tr.assertActualFileContentSameAsExpected();
       }
   }
