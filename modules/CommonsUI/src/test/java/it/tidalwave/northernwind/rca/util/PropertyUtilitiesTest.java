@@ -44,6 +44,7 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import static org.junit.Assert.*;
 import static org.hamcrest.CoreMatchers.is;
+import org.joda.time.DateTimeZone;
 
 /***********************************************************************************************************************
  *
@@ -67,6 +68,7 @@ public class PropertyUtilitiesTest
                 .withProperty(Properties.PROPERTY_CREATION_TIME2, new DateTime(1342536534636L))
                 .withProperty(Properties.PROPERTY_TITLE, "the title");
         PropertyUtilities.setLocale(Locale.UK);
+        PropertyUtilities.setZone(DateTimeZone.forID("CET"));
       }
 
     @Test(dataProvider = "keysAndExpectedValues")

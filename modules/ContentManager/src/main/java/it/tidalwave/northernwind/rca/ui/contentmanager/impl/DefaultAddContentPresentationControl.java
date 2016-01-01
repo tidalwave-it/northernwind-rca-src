@@ -34,7 +34,6 @@ import javax.inject.Inject;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 import java.io.UnsupportedEncodingException;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -47,8 +46,8 @@ import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
 import org.springframework.core.io.ClassPathResource;
-import it.tidalwave.util.Id;
 import it.tidalwave.util.Key;
+import it.tidalwave.role.IdFactory;
 import it.tidalwave.messagebus.annotation.ListensTo;
 import it.tidalwave.messagebus.annotation.SimpleMessageSubscriber;
 import it.tidalwave.northernwind.rca.ui.event.CreateContentRequest;
@@ -79,6 +78,9 @@ public class DefaultAddContentPresentationControl implements AddContentPresentat
 
     @Inject
     private AddContentPresentation presentation;
+
+    @Inject
+    private IdFactory idFactory;
 
     private final Bindings bindings = new ValidatingBindings();
 
@@ -114,7 +116,7 @@ public class DefaultAddContentPresentationControl implements AddContentPresentat
             putIfNonEmpty(propertyValues, PROPERTY_CREATION_TIME,   ISO_FORMATTER.print(creationDateTime));
             putIfNonEmpty(propertyValues, PROPERTY_PUBLISHING_TIME, bindings.publishingDateTime.get());
             putIfNonEmpty(propertyValues, PROPERTY_FULL_TEXT,       xhtmlSkeleton);
-            putIfNonEmpty(propertyValues, PROPERTY_ID,              new Id(UUID.randomUUID()));
+            putIfNonEmpty(propertyValues, PROPERTY_ID,              idFactory.createId());
 
             final Splitter splitter = Splitter.on(',').trimResults().omitEmptyStrings();
             final List<String> tags = Lists.newArrayList(splitter.split(bindings.tags.get()));
