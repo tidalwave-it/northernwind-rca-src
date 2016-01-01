@@ -38,6 +38,7 @@ import it.tidalwave.northernwind.core.model.ModelFactory;
 import it.tidalwave.northernwind.core.model.ResourceProperties;
 import it.tidalwave.northernwind.model.admin.Properties;
 import it.tidalwave.northernwind.model.impl.admin.AdminModelFactory;
+import java.util.Locale;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -65,6 +66,7 @@ public class PropertyUtilitiesTest
         properties = factory.createProperties().build()
                 .withProperty(Properties.PROPERTY_CREATION_TIME2, new DateTime(1342536534636L))
                 .withProperty(Properties.PROPERTY_TITLE, "the title");
+        PropertyUtilities.setLocale(Locale.UK);
       }
 
     @Test(dataProvider = "keysAndExpectedValues")
@@ -83,7 +85,7 @@ public class PropertyUtilitiesTest
       {
         return new Object[][]
           {
-            { Properties.PROPERTY_CREATION_TIME2, "Tuesday, July 17, 2012 4:48:54 PM CEST" },
+            { Properties.PROPERTY_CREATION_TIME2, "Tuesday, 17 July 2012 16:48:54 o'clock CEST" },
             { Properties.PROPERTY_TITLE,          "the title" }
           };
       }
