@@ -25,40 +25,44 @@
  * *********************************************************************************************************************
  * #L%
  */
-package it.tidalwave.northernwind.model.admin;
+package it.tidalwave.northernwind.model.impl.admin;
 
-import it.tidalwave.util.Key;
-import it.tidalwave.util.Id;
-import org.joda.time.DateTime;
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
+import it.tidalwave.northernwind.core.model.Site;
+import it.tidalwave.northernwind.core.model.SiteProvider;
+import javax.inject.Inject;
 
 /***********************************************************************************************************************
  *
- * FIXME: these properties are redefined here, but the are also in NorthernWind. Use the original ones.
- *
- * @author  Fabrizio Giudici
+ * @author  Fabrizio Giudici (Fabrizio.Giudici@tidalwave.it)
  * @version $Id$
  *
  **********************************************************************************************************************/
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
-public final class Properties
+public class AdminSiteProvider implements SiteProvider
   {
-    public static final Key<String> PROPERTY_FULL_TEXT = new Key<>("fullText");
+    @Inject
+    private Site site;
 
-    public static final Key<String> PROPERTY_LATEST_MODIFICATION_DATE = new Key<>("latestModificationDateTime");
+    @Override
+    public Site getSite()
+      {
+        return site;
+      }
 
-    public static final Key<String> PROPERTY_TITLE = new Key<>("title");
+    @Override
+    public void reload()
+      {
+        throw new UnsupportedOperationException("Not supported.");
+      }
 
-    public static final Key<String> PROPERTY_EXPOSED_URI = new Key<>("exposedUri");
+    @Override
+    public boolean isSiteAvailable()
+      {
+        return true;
+      }
 
-    public static final Key<String> PROPERTY_CREATION_TIME = new Key<>("creationDateTime");
-
-    public static final Key<DateTime> PROPERTY_CREATION_TIME2 = new Key<>("creationDateTime");
-
-    public static final Key<String> PROPERTY_PUBLISHING_TIME = new Key<>("publishingDateTime");
-
-    public static final Key<String> PROPERTY_TAGS = new Key<>("tags");
-
-    public static final Key<Id> PROPERTY_ID = new Key<>("id");
+    @Override
+    public String getVersionString()
+      {
+        throw new UnsupportedOperationException("Not supported.");
+      }
   }

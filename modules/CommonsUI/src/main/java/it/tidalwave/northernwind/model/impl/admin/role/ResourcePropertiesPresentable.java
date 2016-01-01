@@ -50,6 +50,7 @@ import it.tidalwave.dci.annotation.DciRole;
 import it.tidalwave.northernwind.core.model.ResourceProperties;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import static it.tidalwave.northernwind.rca.util.PropertyUtilities.*;
 
 /***********************************************************************************************************************
  *
@@ -82,22 +83,23 @@ public class ResourcePropertiesPresentable implements Presentable
         @Override
         protected List<? extends PresentationModel> computeResults()
           {
+            final Id globalGroupId = new Id("");
             final List<PresentationModel> results = new ArrayList<>();
             final Collection<Id> groupIds = properties.getGroupIds();
-            groupIds.add(new Id(""));
+            groupIds.add(globalGroupId);
 
-            for (final Id groupId : groupIds)
+            groupIds.stream().forEach(groupId ->
               {
-                final ResourceProperties p2 = groupId.equals(new Id("")) ? properties : properties.getGroup(groupId);
+                final ResourceProperties propertyGroup = groupId.equals(globalGroupId) ? properties : properties.getGroup(groupId);
 
-                for (final Key<?> key : p2.getKeys())
+                propertyGroup.getKeys().stream().forEach(key ->
                   {
                     try
                       {
                         final String prefix = groupId.stringValue().equals("") ? "" : groupId.stringValue() + ".";
                         final Map<String, PresentationModel> map = new HashMap<>();
                         map.put("Name", new DefaultPresentationModel(new DefaultDisplayable(prefix + key.stringValue())));
-                        map.put("Value", new DefaultPresentationModel(new DefaultDisplayable("" + p2.getProperty(key))));
+                        map.put("Value", presentationModelForProperty(propertyGroup, key));
                         results.add(new DefaultPresentationModel(properties, new MapAggregate<>(map)));
                       }
                     // should never happen, we're cycling on available properties
@@ -105,10 +107,18 @@ public class ResourcePropertiesPresentable implements Presentable
                       {
                         log.warn("", e);
                       }
-                  }
-              }
+                  });
+              });
 
             return results;
+          }
+
+        @Nonnull
+        private PresentationModel presentationModelForProperty (final @Nonnull ResourceProperties properties,
+                                                                final @Nonnull Key<?> key)
+          throws IOException, NotFoundException
+          {
+            return new DefaultPresentationModel(displayableForValue(properties, key));
           }
       }
 

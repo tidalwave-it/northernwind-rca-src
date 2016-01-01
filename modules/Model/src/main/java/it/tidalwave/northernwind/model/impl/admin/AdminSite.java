@@ -52,7 +52,7 @@ public class AdminSite implements Site
     @Override @Nonnull
     public String createLink (final @Nonnull ResourcePath relativeUri)
       {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return relativeUri.asString();
       }
 
     @Override @Nonnull
