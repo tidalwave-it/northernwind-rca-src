@@ -61,6 +61,8 @@
 
     <bean id="site" class="it.tidalwave.northernwind.model.impl.admin.AdminSite" />
 
+    <bean id="siteProvider" class="it.tidalwave.northernwind.model.impl.admin.AdminSiteProvider" />
+
     <bean id="modelFactory"
           class="it.tidalwave.northernwind.model.impl.admin.AdminModelFactory" />
 
