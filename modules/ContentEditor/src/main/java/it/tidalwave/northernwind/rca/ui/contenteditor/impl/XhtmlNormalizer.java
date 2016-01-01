@@ -29,9 +29,11 @@ package it.tidalwave.northernwind.rca.ui.contenteditor.impl;
 
 import javax.annotation.Nonnull;
 import com.google.common.base.Splitter;
+import java.nio.charset.StandardCharsets;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import lombok.extern.slf4j.Slf4j;
+import org.jsoup.nodes.Entities;
 
 /***********************************************************************************************************************
  *
@@ -51,9 +53,13 @@ public class XhtmlNormalizer
     public String asNormalizedString (final @Nonnull String text)
       {
         log.trace("asNormalizedString()\n{}", text);
-        final Document document = Jsoup.parse(text);
-        document.outputSettings().indentAmount(2).prettyPrint(true);
-        final String result = postNormalized(document.outerHtml());
+        final Document.OutputSettings os = new Document.OutputSettings()
+                .charset(StandardCharsets.UTF_8)
+                .escapeMode(Entities.EscapeMode.xhtml)
+                .indentAmount(2)
+                .prettyPrint(true)
+                .syntax(Document.OutputSettings.Syntax.xml);
+        String result = removeTrailingSpaces(breakLongLines(Jsoup.parse(text).outputSettings(os).outerHtml()));
         log.trace(">>>> returning:\n{}", result);
         return result;
       }
@@ -64,7 +70,30 @@ public class XhtmlNormalizer
      *
      ******************************************************************************************************************/
     @Nonnull
-    private static String postNormalized (final @Nonnull String string)
+    private String breakLongLines (final @Nonnull String html)
+      {
+        final Document document = Jsoup.parse(html);
+        document.select("br").after("\n       ");
+        final Document.OutputSettings os = new Document.OutputSettings()
+                .charset(StandardCharsets.UTF_8)
+                .escapeMode(Entities.EscapeMode.xhtml)
+                .indentAmount(2)
+                .prettyPrint(false)
+                .syntax(Document.OutputSettings.Syntax.xml);
+        return document.outputSettings(os).outerHtml()
+                .replaceFirst("([^\\n])<html ", "$1\n<html ")
+                .replaceFirst("([^\\n]) *<head>", "$1\n  <head>")
+                .replaceFirst("([^\\n])\\n<\\/body>", "$1<\\/body>")
+                .replaceFirst("<\\/body>([^\\n])", "<\\/body>\n$1");
+      }
+
+    /*******************************************************************************************************************
+     *
+     * Jsoup doesn't do everything properly, so we're patching the results a bit.
+     *
+     ******************************************************************************************************************/
+    @Nonnull
+    private static String removeTrailingSpaces (final @Nonnull String string)
       {
         final StringBuilder buffer = new StringBuilder();
 
@@ -78,9 +107,9 @@ public class XhtmlNormalizer
               }
 
             first = false;
-            buffer.append(line.replaceAll(" *$", "")).append("\n");
+            buffer.append(line.replaceAll(" *$", "")).append("\n"); // trailing spaces
           }
 
-        return buffer.toString().replaceAll("\n$", "");
+        return buffer.toString().replaceAll("\n$", ""); // last newline
       }
   }
