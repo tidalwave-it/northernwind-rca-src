@@ -28,6 +28,7 @@
 package it.tidalwave.northernwind.rca.util;
 
 import javax.annotation.Nonnull;
+import java.util.Locale;
 import java.io.IOException;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
@@ -37,6 +38,8 @@ import it.tidalwave.util.NotFoundException;
 import it.tidalwave.role.Displayable;
 import it.tidalwave.role.spi.DefaultDisplayable;
 import it.tidalwave.northernwind.core.model.ResourceProperties;
+import lombok.Getter;
+import lombok.Setter;
 
 /***********************************************************************************************************************
  *
@@ -46,6 +49,9 @@ import it.tidalwave.northernwind.core.model.ResourceProperties;
  **********************************************************************************************************************/
 public class PropertyUtilities
   {
+    @Getter @Setter
+    private static Locale locale = Locale.getDefault();
+
     @FunctionalInterface
     static interface Format
       {
@@ -53,7 +59,9 @@ public class PropertyUtilities
         public String format (Object object);
 
         final static Format DEFAULT_FORMAT = object -> "" + object;
-        final static Format DATE_TIME_FORMAT = object -> DateTimeFormat.forStyle("FF").print((DateTime)object);
+        final static Format DATE_TIME_FORMAT = object -> DateTimeFormat.forStyle("FF")
+                                                                       .withLocale(locale)
+                                                                       .print((DateTime)object);
 
         // FIXME: should get the type from key, but it's not yet supported
         @Nonnull
