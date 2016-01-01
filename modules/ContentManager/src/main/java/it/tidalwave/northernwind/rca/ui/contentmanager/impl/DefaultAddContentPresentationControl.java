@@ -56,6 +56,7 @@ import it.tidalwave.northernwind.rca.ui.contentmanager.AddContentPresentation.Bi
 import it.tidalwave.northernwind.rca.ui.contentmanager.AddContentPresentationControl;
 import lombok.Cleanup;
 import lombok.extern.slf4j.Slf4j;
+import static java.util.stream.Collectors.joining;
 import static it.tidalwave.util.ui.UserNotificationWithFeedback.*;
 import static it.tidalwave.role.ui.spi.Feedback8.feedback;
 import static it.tidalwave.northernwind.model.admin.Properties.*;
@@ -123,7 +124,9 @@ public class DefaultAddContentPresentationControl implements AddContentPresentat
 
             if (!tags.isEmpty())
               {
-                propertyValues.put(PROPERTY_TAGS, tags);
+                // See NWRCA-69
+                propertyValues.put(PROPERTY_TAGS, tags.stream().collect(joining(",")));
+//                propertyValues.put(PROPERTY_TAGS, tags);
               }
 
             event.getParentContent().as(ContentChildCreator).createContent(folderName, propertyValues);
