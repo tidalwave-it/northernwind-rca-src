@@ -84,10 +84,13 @@
                                 <filter>
                                     <artifact>it.tidalwave.northernwind:it-tidalwave-northernwind-core-default</artifact>
                                     <includes>
+                                        <include>it/tidalwave/northernwind/core/impl/util/XhtmlMarkupSerializer*</include>
                                         <include>it/tidalwave/northernwind/core/impl/model/*Properties*</include>
                                         <include>it/tidalwave/northernwind/core/impl/model/TextResourcePropertyResolver*</include>
-                                        <include>it/tidalwave/northernwind/core/impl/util/XhtmlMarkupSerializer*</include>
+                                        <include>it/tidalwave/northernwind/core/impl/model/Filter*</include>
                                         <include>it/tidalwave/northernwind/core/impl/patches/*.res</include>
+                                        <include>it/tidalwave/northernwind/core/impl/filter/MediaLinkMacroFilter*</include>
+                                        <include>it/tidalwave/northernwind/core/impl/filter/MacroFilter*</include>
                                     </includes>
                                 </filter>
                                 <filter>

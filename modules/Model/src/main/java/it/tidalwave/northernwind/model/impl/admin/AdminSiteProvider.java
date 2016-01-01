@@ -27,13 +27,9 @@
  */
 package it.tidalwave.northernwind.model.impl.admin;
 
-import java.util.List;
-import java.util.Locale;
-import it.tidalwave.northernwind.core.model.ResourceFileSystemProvider;
-import it.tidalwave.northernwind.core.model.ResourcePath;
 import it.tidalwave.northernwind.core.model.Site;
-import it.tidalwave.northernwind.core.model.SiteFinder;
-import javax.annotation.Nonnull;
+import it.tidalwave.northernwind.core.model.SiteProvider;
+import javax.inject.Inject;
 
 /***********************************************************************************************************************
  *
@@ -41,35 +37,32 @@ import javax.annotation.Nonnull;
  * @version $Id$
  *
  **********************************************************************************************************************/
-public class AdminSite implements Site
+public class AdminSiteProvider implements SiteProvider
   {
-    @Override @Nonnull
-    public String getContextPath()
+    @Inject
+    private Site site;
+
+    @Override
+    public Site getSite()
       {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return site;
       }
 
-    @Override @Nonnull
-    public String createLink (final @Nonnull ResourcePath relativeUri)
+    @Override
+    public void reload()
       {
-        return relativeUri.asString();
+        throw new UnsupportedOperationException("Not supported.");
       }
 
-    @Override @Nonnull
-    public <Type> SiteFinder<Type> find (final @Nonnull Class<Type> type)
+    @Override
+    public boolean isSiteAvailable()
       {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return true;
       }
 
-    @Override @Nonnull
-    public ResourceFileSystemProvider getFileSystemProvider()
+    @Override
+    public String getVersionString()
       {
-        throw new UnsupportedOperationException("Not supported yet.");
-      }
-
-    @Override @Nonnull
-    public List<Locale> getConfiguredLocales()
-      {
-        throw new UnsupportedOperationException("Not supported yet.");
+        throw new UnsupportedOperationException("Not supported.");
       }
   }

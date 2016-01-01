@@ -45,6 +45,7 @@ import org.springframework.core.io.ClassPathResource;
 import org.eclipse.jetty.server.Server;
 import it.tidalwave.messagebus.annotation.ListensTo;
 import it.tidalwave.messagebus.annotation.SimpleMessageSubscriber;
+import it.tidalwave.northernwind.core.impl.filter.MediaLinkMacroFilter;
 import it.tidalwave.northernwind.core.model.MimeTypeResolver;
 import it.tidalwave.northernwind.core.model.ResourceFile;
 import it.tidalwave.northernwind.core.model.ResourceFileSystem;
@@ -87,23 +88,28 @@ public class DefaultEmbeddedServer implements EmbeddedServer
       {
         private static final long serialVersionUID = -2887261966375531858L;
 
+        private final MediaLinkMacroFilter mediaLinkMacroFilter = new MediaLinkMacroFilter();
+
         @Override
         protected void doGet (final @Nonnull HttpServletRequest request,
                               final @Nonnull HttpServletResponse response)
           throws ServletException, IOException
           {
-            final String uri = request.getRequestURI();
+            String uri = request.getRequestURI();
             log.debug("doGet({})", uri);
             // FIXME: use a pipeline for handling those requests - eventually integrate support already in Site
+
+            uri = mediaLinkMacroFilter.filter(uri, "");
+            uri = uri.replace("//", "/"); // Aloha puts a leading / before the macro
 
             if (uri.startsWith("/nwa/")) // FIXME - and use ResourcePath
               {
                 serveEditorResources(uri, response);
               }
 
-            else if (uri.startsWith("/library/")) // FIXME - and use ResourcePath
+            else if (uri.startsWith("/library/") || uri.startsWith("/media/")) // FIXME - and use ResourcePath
               {
-                serveLibraryResources(uri, response);
+                serveContentResources(uri, response);
               }
 
             else
@@ -224,10 +230,13 @@ public class DefaultEmbeddedServer implements EmbeddedServer
      *
      *
      ******************************************************************************************************************/
-    private void serveLibraryResources (final @Nonnull String uri,
+    private void serveContentResources (final @Nonnull String uri,
                                         final @Nonnull HttpServletResponse response)
       throws IOException
       {
+        log.debug("serveLibraryResources({})", uri);
+
+        // don't bother when there's no opened Site
         if (fileSystem == null)
           {
             response.setStatus(HttpServletResponse.SC_OK);
@@ -236,10 +245,26 @@ public class DefaultEmbeddedServer implements EmbeddedServer
           {
             final ResourceFile file = fileSystem.findFileByPath("/content" + uri); // FIXME
 
-            response.setCharacterEncoding("UTF-8");
-            response.setContentType(file.getMimeType());
+            if (file == null)
+              {
+                log.warn("5 - Not found: {}", "/content" + uri);
+                response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+                return;
+              }
+
+            final String mimeType = file.getMimeType();
+            response.setContentType(mimeType);
             response.setStatus(HttpServletResponse.SC_OK);
-            response.getWriter().write(file.asText("UTF-8"));
+
+            if (mimeType.startsWith("image"))
+              {
+                response.getOutputStream().write(file.asBytes());
+              }
+            else
+              {
+                response.setCharacterEncoding("UTF-8");
+                response.getWriter().write(file.asText("UTF-8"));
+              }
           }
       }
 
