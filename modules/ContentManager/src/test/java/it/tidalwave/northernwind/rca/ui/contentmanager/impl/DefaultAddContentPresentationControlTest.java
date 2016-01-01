@@ -54,6 +54,9 @@ import static org.mockito.Mockito.*;
 import static org.mockito.Mockito.any;
 import static it.tidalwave.util.ui.UserNotificationWithFeedbackTestHelper.*;
 import static it.tidalwave.northernwind.model.admin.Properties.*;
+import it.tidalwave.role.IdFactory;
+import it.tidalwave.util.Id;
+import java.util.UUID;
 import java.util.function.Consumer;
 import lombok.RequiredArgsConstructor;
 
@@ -109,6 +112,8 @@ public class DefaultAddContentPresentationControlTest
 
     private ContentChildCreator contentChildCreator;
 
+    private IdFactory idFactory;
+
     /*******************************************************************************************************************
      *
      ******************************************************************************************************************/
@@ -129,6 +134,7 @@ public class DefaultAddContentPresentationControlTest
         context = new ClassPathXmlApplicationContext("DefaultAddContentPresentationControlTestBeans.xml");
         underTest = context.getBean(DefaultAddContentPresentationControl.class);
         presentation = context.getBean(AddContentPresentation.class);
+        idFactory = context.getBean(IdFactory.class);
         content = mock(Content.class);
         contentChildCreator = mock(ContentChildCreator.class);
         when(content.as(eq(ContentChildCreator.class))).thenReturn(contentChildCreator);
@@ -163,12 +169,15 @@ public class DefaultAddContentPresentationControlTest
         // given
         doAnswer(inputSetter.setInput()).when(presentation).bind(any(Bindings.class));
         doAnswer(CONFIRM).when(presentation).showUp(any(UserNotificationWithFeedback.class));
+        final Id id = new Id(UUID.randomUUID());
+        when(idFactory.createId()).thenReturn(id);
         // when
         underTest.onAddContentEvent(CreateContentRequest.of(content));
         // then
         final Map<Key<?>, Object> expectedProperties = new HashMap<>(baseExpectedProperties);
         expectedProperties.put(PROPERTY_CREATION_TIME, ISO_FORMATTER.print(dateTime));
         expectedProperties.put(PROPERTY_FULL_TEXT, underTest.xhtmlSkeleton);
+        expectedProperties.put(PROPERTY_ID, id);
 
         verify(contentChildCreator).createContent(eq(expectedFolderName), eq(expectedProperties));
         verifyNoMoreInteractions(contentChildCreator);

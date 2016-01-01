@@ -68,4 +68,6 @@
 
     <bean class="it.tidalwave.northernwind.model.impl.admin.AdminMimeTypeResolver" />
 
+    <bean id="idFactory" class="it.tidalwave.northernwind.model.impl.admin.AdminIdFactory" />
+    
 </beans>

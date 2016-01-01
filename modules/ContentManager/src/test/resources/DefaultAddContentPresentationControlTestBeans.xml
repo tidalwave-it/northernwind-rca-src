@@ -77,4 +77,8 @@
     <bean id="contextManager"
          class="it.tidalwave.role.spi.DefaultContextManager" />
 
+    <bean id="idFactory" class="org.mockito.Mockito" factory-method="mock">
+        <constructor-arg value="it.tidalwave.role.IdFactory" />
+    </bean>
+
 </beans>
