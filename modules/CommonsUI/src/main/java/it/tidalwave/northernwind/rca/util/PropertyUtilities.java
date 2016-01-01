@@ -31,6 +31,7 @@ import javax.annotation.Nonnull;
 import java.util.Locale;
 import java.io.IOException;
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.ISODateTimeFormat;
 import it.tidalwave.util.Key;
@@ -52,6 +53,9 @@ public class PropertyUtilities
     @Getter @Setter
     private static Locale locale = Locale.getDefault();
 
+    @Getter @Setter
+    private static DateTimeZone zone = DateTimeZone.getDefault();
+
     @FunctionalInterface
     static interface Format
       {
@@ -61,6 +65,7 @@ public class PropertyUtilities
         final static Format DEFAULT_FORMAT = object -> "" + object;
         final static Format DATE_TIME_FORMAT = object -> DateTimeFormat.forStyle("FF")
                                                                        .withLocale(locale)
+                                                                       .withZone(zone)
                                                                        .print((DateTime)object);
 
         // FIXME: should get the type from key, but it's not yet supported
