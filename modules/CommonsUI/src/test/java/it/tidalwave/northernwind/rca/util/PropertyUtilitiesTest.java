@@ -29,6 +29,7 @@
 package it.tidalwave.northernwind.rca.util;
 
 import javax.annotation.Nonnull;
+import java.util.Locale;
 import java.io.IOException;
 import org.joda.time.DateTime;
 import it.tidalwave.util.Key;
@@ -38,12 +39,11 @@ import it.tidalwave.northernwind.core.model.ModelFactory;
 import it.tidalwave.northernwind.core.model.ResourceProperties;
 import it.tidalwave.northernwind.model.admin.Properties;
 import it.tidalwave.northernwind.model.impl.admin.AdminModelFactory;
-import java.util.Locale;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
-import org.junit.Assert;
-import org.hamcrest.CoreMatchers;
+import static org.junit.Assert.*;
+import static org.hamcrest.CoreMatchers.is;
 
 /***********************************************************************************************************************
  *
@@ -77,7 +77,7 @@ public class PropertyUtilitiesTest
         // when
         final Displayable displayable = PropertyUtilities.displayableForValue(properties, key);
         // then
-          Assert.assertThat(displayable.getDisplayName(), CoreMatchers.is(expectedValue));
+        assertThat(displayable.getDisplayName(), is(expectedValue));
       }
 
     @DataProvider
