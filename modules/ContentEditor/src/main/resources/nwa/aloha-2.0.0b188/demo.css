@@ -1,16 +1,4 @@
 .navbar { border: 0; }
-.navbar .container {max-width: 800px; }
-.navbar .brand {
-	height: 60px;
-	line-height: 60px;
-}
-@media (max-width: 600px) { .navbar .brand span { display: none; } }
-@media (max-width: 480px) {
-	.navbar .brand {
-		float: left;
-		width: auto;
-	}
-}
 
 /* `ui */
 
@@ -37,9 +25,9 @@
 	        transform-style: preserve-3d;
 }
 
-.aloha-ui.btn-toolbar { 
-	display: inline-block; 
-	float: right;
+.aloha-ui.btn-toolbar {
+	display: inline-block;
+	float: left;
 }
 
 .aloha-ui input,
@@ -66,14 +54,6 @@
 }
 .aloha-ui .glyphicon { top :0; }
 
-@media (max-width: 480px) {
-	.aloha-ui .btn {
-		min-width: 30px;
-		font-size: 14px;
-		padding: 0 10px;
-	}
-}
-
 .aloha-ui .btn.dropdown-toggle { transition: width 250ms; }
 
 .aloha-ui.btn-toolbar .dropdown-menu {
@@ -83,12 +63,6 @@
 	margin: 0;
 	font-size: 16px;
 }
-@media (max-width: 768px) {
-	.aloha-ui.btn-toolbar .dropdown-menu {
-		right: 0;
-		left: initial;
-	}
-}
 
 .aloha-ui .dropdown-menu>li>a { padding: 10px 20px; }
 
@@ -97,7 +71,7 @@
 .aloha-ui a:focus,
 .aloha-ui button,
 .aloha-ui button:focus,
-.aloha-ui .dropdown-menu a, 
+.aloha-ui .dropdown-menu a,
 .aloha-ui .dropdown-menu a:focus {
 	border: 0;
 	border-radius: 0;
