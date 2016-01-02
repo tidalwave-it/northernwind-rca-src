@@ -4,66 +4,6 @@
         <script src="/nwa/bootstrap-3.2.0/bootstrap.min.js"></script>
         <script src="/nwa/aloha-2.0.0b188/aloha.min.js"></script>
         <script src="/nwa/aloha-2.0.0b188/aloha-ui-links.js"></script>
-
-        <script>
-        (function ()
-          {
-            'use strict';
-            var commands = aloha.maps.merge(aloha.linksUi.commands, aloha.ui.commands);
-            var editables = aloha.dom.query('.editable', document).map(aloha);
-
-            for (var selector in commands)
-              {
-                $('.aloha-action-' + selector)
-                    .on('click', aloha.ui.command(editables, commands[selector]));
-              }
-
-            function middleware(event)
-              {
-                console.log('EVENT ' + event.type);
-
-                if ('keyup' === event.type)
-                  {
-                    console.log('Saving document...');
-                    var e = $('.editable')[0];
-
-                    $.ajax(
-                      {
-                        url: '/',
-                        data: e.innerHTML,
-                        type: 'PUT'
-                      });
-                  }
-
-                $('.aloha-ui .active, .aloha-ui.active').removeClass('active');
-
-                if ('leave' === event.type)
-                 {
-                    return event;
-                  }
-
-                var states = aloha.ui.states(commands, event);
-
-                for (var selector in states)
-                  {
-                    var $item = $('.aloha-action-' + selector).toggleClass('active', states[selector]);
-
-                    if (states[selector] && $item.parents('.dropdown-menu').length)
-                      {
-                        $item.closest('.btn-group').find('.dropdown-toggle')
-                                     .addClass('active')[0].firstChild.data = $item[0].textContent + ' ';
-                      }
-                  }
-
-                return event;
-              }
-
-            aloha.editor.stack.unshift(aloha.linksUi.middleware, middleware);
-
-            // Because Bootstrap dropdowm menu's use anchor tags containing
-            // "href='#'" which causes the page to jump to the top
-            $('.aloha-ui .dropdown-menu').on('click', function (event) { event.preventDefault(); });
-        }());
-        </script>
+        <script src="/nwa/aloha-integration.js"></script>
     </body>
 </html>
