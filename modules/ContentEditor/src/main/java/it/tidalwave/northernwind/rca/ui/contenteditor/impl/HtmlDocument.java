@@ -137,7 +137,7 @@ public class HtmlDocument
 
     /*******************************************************************************************************************
      *
-     * Returns the contents as a string, after having being normalised
+     * Returns the contents as a string, after having being normalised.
      *
      * @return      the string
      *
