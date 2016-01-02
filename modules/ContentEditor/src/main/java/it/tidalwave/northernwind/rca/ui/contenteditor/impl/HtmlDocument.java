@@ -86,16 +86,9 @@ public class HtmlDocument
                            final @Nonnull StringBuilder bodyBuilder,
                            final @Nonnull StringBuilder epilogBuilder)
               {
-                if (!line.contains("</body"))
-                  {
-                    bodyBuilder.append(line).append("\n");
-                  }
-                else
-                  {
-                    epilogBuilder.append(line).append("\n");
-                  }
-
-                return line.contains("</body") ? EPILOG : BODY;
+                final boolean containsEndBody = line.contains("</body");
+                (containsEndBody ? epilogBuilder : bodyBuilder).append(line).append("\n");
+                return containsEndBody ? EPILOG : BODY;
               }
           },
 
@@ -120,7 +113,10 @@ public class HtmlDocument
 
     /*******************************************************************************************************************
      *
+     * Creates a new document from a string.
      *
+     * @param       text        the string
+     * @return                  the document
      *
      ******************************************************************************************************************/
     @Nonnull
@@ -140,20 +136,11 @@ public class HtmlDocument
         return new HtmlDocument(prologBuilder.toString(), bodyBuilder.toString(), epilogBuilder.toString());
       }
 
-//    /*******************************************************************************************************************
-//     *
-//     *
-//     *
-//     ******************************************************************************************************************/
-//    @Nonnull
-//    public String asString()
-//      {
-//        return prolog + body + epilog;
-//      }
-//
     /*******************************************************************************************************************
      *
+     * Returns the contents as a string, after having being normalised
      *
+     * @return      the string
      *
      ******************************************************************************************************************/
     @Nonnull
