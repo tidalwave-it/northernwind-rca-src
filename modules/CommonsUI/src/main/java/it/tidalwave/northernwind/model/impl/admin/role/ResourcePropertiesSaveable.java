@@ -57,6 +57,7 @@ import static it.tidalwave.northernwind.model.admin.role.WritableFolder.*;
 @RequiredArgsConstructor @Slf4j
 public class ResourcePropertiesSaveable implements Saveable
   {
+    /** The properties that must be stored in a separate file. */
     private static final List<Key<?>> EXTERNAL_PROPERTIES = Arrays.<Key<?>>asList(PROPERTY_FULL_TEXT);
 
     private static final DateTimeFormatter ISO_FORMATTER = ISODateTimeFormat.dateTime();
@@ -69,33 +70,40 @@ public class ResourcePropertiesSaveable implements Saveable
       {
         try
           {
-            log.info("saveIn({}, {})", folder, properties);
+            log.debug("saveIn({}, {})", folder, properties);
             final WritableFolder writableFolder = folder.as(WritableFolder);
-
-            ResourceProperties p = properties.withProperty(PROPERTY_LATEST_MODIFICATION_DATE,
-                                                           ISO_FORMATTER.print(new DateTime()));
-
-            for (final Key<?> property : EXTERNAL_PROPERTIES)
-              {
-                // FIXME: localization
-                // FIXME: conversion to string when different types are used
-                try
-                  {
-                    writableFolder.write(property.stringValue() + "_en.xhtml", p.getProperty(property).toString());
-                    p = p.withoutProperty(property);
-                  }
-                catch (NotFoundException e)
-                  {
-                    // ok, property not found
-                  }
-              }
-
+            final ResourceProperties p1 = properties.withProperty(PROPERTY_LATEST_MODIFICATION_DATE,
+                                                                  ISO_FORMATTER.print(new DateTime()));
+            final ResourceProperties p2 = saveExternalProperties(p1, writableFolder);
             // FIXME: guess the localization (some properties go to Properties, some other to Properties_en.xml etc...
-            writableFolder.write("Properties.xml", p.as(Marshallable));
+            writableFolder.write("Properties.xml", p2.as(Marshallable));
           }
         catch (IOException e)
           {
             log.error("property class: " + properties.getClass(), e);
           }
+      }
+
+    @Nonnull
+    private ResourceProperties saveExternalProperties (@Nonnull ResourceProperties properties,
+                                                       final @Nonnull WritableFolder writableFolder)
+      throws IOException
+      {
+        for (final Key<?> property : EXTERNAL_PROPERTIES)
+          {
+            // FIXME: localization
+            // FIXME: conversion to string when different types are used
+            try
+              {
+                writableFolder.write(property.stringValue() + "_en.xhtml", properties.getProperty(property).toString());
+                properties = properties.withoutProperty(property);
+              }
+            catch (NotFoundException e)
+              {
+                // ok, property not found
+              }
+          }
+
+        return properties;
       }
   }
