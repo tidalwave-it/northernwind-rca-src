@@ -45,16 +45,17 @@ import lombok.extern.slf4j.Slf4j;
  * @version $Id$
  *
  **********************************************************************************************************************/
-@RequiredArgsConstructor(access = AccessLevel.PACKAGE) @Getter @EqualsAndHashCode @ToString @Slf4j
+@RequiredArgsConstructor(access = AccessLevel.PACKAGE)
+@Getter @Wither @EqualsAndHashCode @ToString @Slf4j
 public class HtmlDocument
   {
-    @Wither @Nonnull
+    @Nonnull
     private final String prolog;
 
-    @Wither @Nonnull
+    @Nonnull
     private final String body;
 
-    @Wither @Nonnull
+    @Nonnull
     private final String epilog;
 
     /*******************************************************************************************************************
