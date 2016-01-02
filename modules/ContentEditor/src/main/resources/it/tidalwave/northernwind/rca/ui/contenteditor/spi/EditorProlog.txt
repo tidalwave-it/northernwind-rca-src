@@ -5,6 +5,7 @@
         <link href='/nwa/css/Editing.css' type='text/css' rel='stylesheet' media='screen'/>
         <link href='/nwa/aloha-2.0.0b188/base.css' type='text/css' rel='stylesheet' media='screen'/>
         <link href='/nwa/aloha-2.0.0b188/demo.css' type='text/css' rel='stylesheet' media='screen'/>
+        <link href="$libraryLink(relativePath='/library/css/Typography-9.css')$" type='text/css' rel='stylesheet' media='screen'/>
     </head>
 
     <body>
@@ -36,16 +37,24 @@
                             <li><a href="#" class="aloha-action-pre">Preformatted</a></li>
                         </ul>
                     </div>
+                    <div class="btn-group">
+                        <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+                            Macros <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a href="#" class="xtra-insert-photo-macro">Photo</a></li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </nav>
 
         <div class="aloha-3d aloha-ui">
             <div class="rainbow-static aloha-link-toolbar btn-toolbar" role="toolbar">
-                <input type="text" name="href" placeholder="http://www.alohaeditor.org" value="">
+                <input type="text" name="href" placeholder="" value="">
                 <button class="aloha-action-target btn glyphicon glyphicon-new-window" title="Toggle to open link in new window"></button>
                 <a class="aloha-link-follow btn glyphicon glyphicon-share-alt" href="#" target="_blank" rel="noreferrer" title="Follow this link"></a>
             </div>
         </div>
 
-        <div class="editable">
+        <article class="content editable">
