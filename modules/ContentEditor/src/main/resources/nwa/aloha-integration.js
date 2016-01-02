@@ -13,6 +13,21 @@ var insertPhotoCommand =
       }
   };
 
+var insertJavaCodeCommand =
+  {
+    action: function (boundaries, selection, command, event)
+      {
+        // FIXME: should better find the parent
+        var parent = boundaries[0][0].parentElement;
+        $.get('/nwa/snippets/JavaCode.xhtml', function (snippet)
+          {
+            console.log("Snippet " + snippet);
+            $(parent).append(snippet);
+            save();
+          });
+      }
+  };
+
 function save()
   {
     console.log('Saving document...');
@@ -38,6 +53,7 @@ function save()
       }
 
     $('.xtra-insert-photo-macro').on('click', aloha.ui.command(editables, insertPhotoCommand));
+    $('.xtra-insert-javacode-macro').on('click', aloha.ui.command(editables, insertJavaCodeCommand));
 
     function middleware(event)
       {

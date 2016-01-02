@@ -42,6 +42,7 @@
                         </button>
                         <ul class="dropdown-menu">
                             <li><a href="#" class="xtra-insert-photo-macro">Photo</a></li>
+                            <li><a href="#" class="xtra-insert-javacode-macro">Java code</a></li>
                         </ul>
                     </div>
                 </div>
