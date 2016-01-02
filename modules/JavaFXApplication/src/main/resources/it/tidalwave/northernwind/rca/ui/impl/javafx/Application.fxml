@@ -2,14 +2,10 @@
 
 <?import java.lang.*?>
 <?import java.net.*?>
-<?import java.util.*?>
-<?import javafx.geometry.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.web.*?>
 
-<BorderPane fx:id="application" prefHeight="600.0" prefWidth="800.0" xmlns:fx="http://javafx.com/fxml" fx:controller="it.tidalwave.northernwind.rca.ui.impl.javafx.JavaFXApplicationPresentationDelegate">
+<BorderPane fx:id="application" prefHeight="600.0" prefWidth="800.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="it.tidalwave.northernwind.rca.ui.impl.javafx.JavaFXApplicationPresentationDelegate">
   <center>
     <BorderPane fx:id="main" prefHeight="600.0" prefWidth="800.0" style="-fx-background-color:#ededed;">
       <bottom>
@@ -20,7 +16,7 @@
           <items>
             <AnchorPane minHeight="0.0" minWidth="200.0" prefHeight="160.0" prefWidth="100.0">
               <children>
-                <SplitPane fx:id="pnVerticalSplit" focusTraversable="true" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                <SplitPane fx:id="pnVerticalSplit" focusTraversable="true" orientation="VERTICAL" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
               </children>
             </AnchorPane>
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" style="-fx-background-color:#ededed;">
@@ -48,7 +44,7 @@
       <menus>
         <Menu mnemonicParsing="false" text="File">
           <items>
-            <MenuItem mnemonicParsing="false" text="Open site..." fx:id="openSiteMenu" />
+            <MenuItem fx:id="openSiteMenu" mnemonicParsing="false" text="Open site..." />
           </items>
         </Menu>
         <Menu mnemonicParsing="false" text="Help">
