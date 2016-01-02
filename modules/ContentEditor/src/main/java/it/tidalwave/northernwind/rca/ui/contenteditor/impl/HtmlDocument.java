@@ -28,7 +28,6 @@
 package it.tidalwave.northernwind.rca.ui.contenteditor.impl;
 
 import javax.annotation.Nonnull;
-import com.google.common.base.Splitter;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -128,7 +127,7 @@ public class HtmlDocument
 
         State state = State.PROLOG;
 
-        for (final String line : Splitter.on("\n").trimResults().split(text))
+        for (final String line : text.split("\\n"))
           {
             state = state.process(line, prologBuilder, bodyBuilder, epilogBuilder);
           }
