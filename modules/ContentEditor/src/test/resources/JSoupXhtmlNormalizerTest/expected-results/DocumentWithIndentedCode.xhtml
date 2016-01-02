@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" media="screen" href="../../../../library/css/editing.css" type="text/css" />
+  </head>
+  <body>
+    <p class="">In these days I'm sorting out my code repositories, in particular by definitely tagging as "legacy" those that are dead and converting to <a class="" href="https://git-scm.com/">Git</a> the others (I've still a strong preference towards <a class="" href="https://www.mercurial-scm.org/">Mercurial</a>, but in the end most people use Git and some of my pet projects are also used as mentoring resources), a move that also made it possible to replicate the repositories to <a class="" href="https://github.com/tidalwave-it/">GitHub</a> (my primary repository remains <a class="" href="https://bitbucket.org/tidalwave/">BitBucket</a> though).</p>
+    <p class="">As part of the sorting up, I realised that most of my projects lacked a decent README file, that both BitBucket and GitHub render in the home page of the project as a nice introduction. A good README should contain both the description of the project and a few practical information, such as linking the issue tracker and a other relevant stuff, as well as provide information for quickly booting the project - in the case of a project whose artifacts are released through the Maven Repo Central, essentially you have to give their GAV coordinates. Furthermore, <a class="" href="http://shields.io/">Shields.io</a> provides a funny set of dynamic badges that can be populated with some info, such as the latest release deployed or information from a CI server.</p>
+    <p>Of course a consistent structure for a README should be provided for all of my projects and since I'm a lazy guy I really respect the DRY (Don't Repeat Yourself) principle, so I don't want to copy &amp; paste the description of the project from the POM. Recognising that all the required metadata for what I need are precisely in the POM, the idea is obvious: have a tool to create the README from the POM.</p>
+    <p>As usual, before creating something new it makes sense to search for a solution that someone perhaps already made. I found a Maven plugin made by the Apache Foundation, that they appear to use for their projects, but unfortunately it uses a template whose source is a URL hard-wired in the plugin, without the possibility to be overridden.</p>
+    <p>But before starting and writing my own plugin, I realised that a simple solution was straightforward: use the <code>maven-resource-plugin</code>. In fact it is able to copy a resource to a destination folder after having interpolated some properties defined in the POM. So I added this profile to my SuperPOM:</p>
+    <pre class="prettyprint lang-xml">&lt;profile&gt;
+    &lt;id&gt;it.tidalwave-generate-readme-md-v1&lt;/id&gt;
+    &lt;build&gt;
+        &lt;defaultGoal&gt;dependency:unpack resources:copy-resources&lt;/defaultGoal&gt;
+        &lt;plugins&gt;
+            &lt;plugin&gt;
+                &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;
+                &lt;artifactId&gt;maven-dependency-plugin&lt;/artifactId&gt;
+                &lt;configuration&gt;
+                    &lt;artifactItems&gt;
+                        &lt;artifactItem&gt;
+                            &lt;groupId&gt;it.tidalwave.thesefoolishthings&lt;/groupId&gt;
+                            &lt;artifactId&gt;superpom-config&lt;/artifactId&gt;
+                            &lt;version&gt;${tft.superpom.config.version}&lt;/version&gt;
+                            &lt;type&gt;jar&lt;/type&gt;
+                            &lt;overWrite&gt;true&lt;/overWrite&gt;
+                            &lt;outputDirectory&gt;${project.basedir}/target/superpom-resources&lt;/outputDirectory&gt;
+                        &lt;/artifactItem&gt;
+                    &lt;/artifactItems&gt;
+                &lt;/configuration&gt;
+            &lt;/plugin&gt;
+            &lt;plugin&gt;
+                &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;
+                &lt;artifactId&gt;maven-resources-plugin&lt;/artifactId&gt;
+                &lt;configuration&gt;
+                    &lt;resources&gt;
+                        &lt;resource&gt;
+                            &lt;directory&gt;${project.basedir}/target/superpom-resources/it/tidalwave/readme/&lt;/directory&gt;
+                            &lt;filtering&gt;true&lt;/filtering&gt;
+                        &lt;/resource&gt;
+                    &lt;/resources&gt;
+                    &lt;outputDirectory&gt;.&lt;/outputDirectory&gt;
+                &lt;/configuration&gt;
+            &lt;/plugin&gt;
+        &lt;/plugins&gt;
+    &lt;/build&gt;
+&lt;/profile&gt;</pre>
+    <p>It downloads and unpacks the template file (which is a <code>README.md</code> file under the directory <code>it/tidalwave/readme</code>) from another artefact previously deployed (<code>it.tidalwave.thesefoolishthings:superpom-config</code>) and copies it into the current directory. This is an excerpt of the template:</p>
+    <pre class="prettyprint">![Maven Central](https://img.shields.io/maven-central/v/${project.groupId}/${project.artifactId}.svg)
+[![Build Status](https://img.shields.io/jenkins/s/http/services.tidalwave.it/ci/${tidalwave.ci.view}_Build_from_Scratch.svg)](${project.ciManagement.url})
+[![Test Status](https://img.shields.io/jenkins/t/http/services.tidalwave.it/ci/${tidalwave.ci.view}.svg)](${project.ciManagement.url})
+[![Coverage](https://img.shields.io/jenkins/c/http/services.tidalwave.it/ci/${tidalwave.ci.view}.svg)](${project.ciManagement.url})
+
+${project.name}
+================================
+
+${project.description}
+
+
+Bootstrapping
+-------------
+
+In order to build the project, run from the command line:
+
+```mvn -DskipTests```
+
+The project can be opened and built by a recent version of the NetBeans, Eclipse or Idea IDEs.
+
+
+Documentation
+-------------
+
+More information can be found on the [homepage](${project.url}) of the project.
+
+...</pre>
+    <p>As you can see the required metadata can be inserted by using the syntax <code>${project.description}</code>. BTW, that specific property makes it possible to reuse the description of the project that is already in the POM, that at this point can be comfortably written in <a class="" href="http://daringfireball.net/projects/markdown/">markdown</a> syntax. All I need to do is running from the top directory of each project:</p>
+    <pre>mvn -Pit.tidalwave-generate-readme-md-v1 -N</pre>
+    <p>and the <code>README.md</code> is locally (re)created, ready to be committed and pushed. Too bad the coverage badge is broken because of a issue with my Jenkins, but it's another story.</p>
+    <div class="diagram">
+      <img alt="" src="$mediaLink(relativePath='/screenshots/20160102.jpg')$" style="" />
+    </div>
+  </body>
+</html>

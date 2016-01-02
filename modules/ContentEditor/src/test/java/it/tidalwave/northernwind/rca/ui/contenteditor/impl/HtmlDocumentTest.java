@@ -55,7 +55,8 @@ public class HtmlDocumentTest
     @BeforeMethod
     public void setup()
       {
-        underTest = new HtmlDocument(ORIGINAL_PROLOG, ORIGINAL_BODY, ORIGINAL_EPILOG);
+        underTest = new HtmlDocument(ORIGINAL_PROLOG, ORIGINAL_BODY, ORIGINAL_EPILOG,
+                                     new JSoupXhtmlNormalizer());
       }
 
     /*******************************************************************************************************************

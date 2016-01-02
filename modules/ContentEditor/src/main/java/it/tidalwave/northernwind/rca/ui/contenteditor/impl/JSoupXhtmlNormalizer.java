@@ -27,6 +27,7 @@
  */
 package it.tidalwave.northernwind.rca.ui.contenteditor.impl;
 
+import it.tidalwave.northernwind.rca.ui.contenteditor.spi.XhtmlNormalizer;
 import javax.annotation.Nonnull;
 import java.nio.charset.StandardCharsets;
 import com.google.common.base.Splitter;
@@ -42,7 +43,7 @@ import lombok.extern.slf4j.Slf4j;
  *
  **********************************************************************************************************************/
 @Slf4j
-public class XhtmlNormalizer
+public class JSoupXhtmlNormalizer implements XhtmlNormalizer
   {
     /*******************************************************************************************************************
      *
@@ -50,6 +51,7 @@ public class XhtmlNormalizer
      *
      ******************************************************************************************************************/
     @Nonnull
+    @Override
     public String asNormalizedString (final @Nonnull String text)
       {
         log.trace("asNormalizedString()\n{}", text);

@@ -28,13 +28,15 @@
 package it.tidalwave.northernwind.rca.ui.contenteditor.impl;
 
 import javax.annotation.Nonnull;
-import lombok.AccessLevel;
+import javax.annotation.concurrent.Immutable;
+import it.tidalwave.northernwind.rca.ui.contenteditor.spi.XhtmlNormalizer;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.Wither;
 import lombok.extern.slf4j.Slf4j;
+import static lombok.AccessLevel.PACKAGE;
 
 /***********************************************************************************************************************
  *
@@ -45,18 +47,22 @@ import lombok.extern.slf4j.Slf4j;
  * @version $Id$
  *
  **********************************************************************************************************************/
-@RequiredArgsConstructor(access = AccessLevel.PACKAGE)
-@Getter @Wither @EqualsAndHashCode @ToString @Slf4j
+@Immutable
+@RequiredArgsConstructor(access = PACKAGE)
+@EqualsAndHashCode @ToString @Slf4j
 public class HtmlDocument
   {
-    @Nonnull
+    @Getter @Wither @Nonnull
     private final String prolog;
 
-    @Nonnull
+    @Getter @Wither @Nonnull
     private final String body;
 
-    @Nonnull
+    @Getter @Wither @Nonnull
     private final String epilog;
+
+    @Nonnull
+    private final XhtmlNormalizer normalizer;
 
     /*******************************************************************************************************************
      *
@@ -133,7 +139,10 @@ public class HtmlDocument
             state = state.process(line, prologBuilder, bodyBuilder, epilogBuilder);
           }
 
-        return new HtmlDocument(prologBuilder.toString(), bodyBuilder.toString(), epilogBuilder.toString());
+        return new HtmlDocument(prologBuilder.toString(),
+                                bodyBuilder.toString(),
+                                epilogBuilder.toString(),
+                                new JSoupXhtmlNormalizer());
       }
 
     /*******************************************************************************************************************
@@ -146,7 +155,7 @@ public class HtmlDocument
     @Nonnull
     public String asString()
       {
-        return new XhtmlNormalizer().asNormalizedString(prolog + body + epilog);
+        return normalizer.asNormalizedString(prolog + body + epilog);
       }
   }
 
