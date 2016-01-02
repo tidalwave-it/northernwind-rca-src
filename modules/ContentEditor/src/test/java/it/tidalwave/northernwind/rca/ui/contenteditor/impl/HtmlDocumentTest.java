@@ -49,11 +49,11 @@ public class HtmlDocumentTest
     public void setup()
       {
         underTest = new HtmlDocument("<html>\n"
-                                 + "<head><meta name=\"prolog\"/></head>\n"
-                                 + "<body>\n",
-                                   "body\n",
-                                   "</body>\n"
-                                 + "</html>");
+                                   + "<head><meta name=\"prolog\"/></head>\n"
+                                   + "<body>\n",
+                                     "body\n",
+                                     "</body>\n"
+                                   + "</html>");
       }
 
     /*******************************************************************************************************************
@@ -74,12 +74,12 @@ public class HtmlDocumentTest
         final HtmlDocument underTest = HtmlDocument.createFromText(text);
         // then
         assertThat(underTest.getProlog(), is("<html>\n"
-                                         + "<head>\n"
-                                         + "</head>\n"
-                                         + "<body>\n"));
+                                           + "<head>\n"
+                                           + "</head>\n"
+                                           + "<body>\n"));
         assertThat(underTest.getBody(), is("the body\n"));
         assertThat(underTest.getEpilog(), is("</body>\n"
-                                         + "</html>\n"));
+                                           + "</html>\n"));
       }
 
     /*******************************************************************************************************************
@@ -90,8 +90,8 @@ public class HtmlDocumentTest
       {
         // when
         final HtmlDocument result = underTest.withProlog("<html>\n"
-                                                     + "<head><meta name=\"replaced prolog\"/></head>\n"
-                                                     + "<body>\n");
+                                                       + "<head><meta name=\"replaced prolog\"/></head>\n"
+                                                       + "<body>\n");
         // then
         assertThat(result.asString(), is("<!DOCTYPE html>\n"
                                        + "<html>\n"
@@ -133,11 +133,12 @@ public class HtmlDocumentTest
       {
         // when
         final HtmlDocument result = underTest.withProlog("<html>\n"
-                                                     + "<head><meta name=\"prolog\"/></head>\n"
-                                                     + "<body>\n"
-                                                     + "<div>\n")
-                                           .withEpilog("</div></body>\n"
-                                                     + "</html>");
+                                                       + "<head><meta name=\"prolog\"/></head>\n"
+                                                       + "<body>\n"
+                                                       + "<div>\n")
+                                             .withEpilog("</div>\n"
+                                                       + "</body>\n"
+                                                       + "</html>");
         // then
         assertThat(result.asString(), is("<!DOCTYPE html>\n"
                                        + "<html>\n"
