@@ -198,7 +198,8 @@ public class DefaultContentEditorPresentationControl implements ContentEditorPre
         // FIXME
         final String url = "http://localhost:12345/";
 
-        ProcessExecutor.forExecutable("Safari.app")
+        // Safari breaks Aloha editor
+        ProcessExecutor.forExecutable("Google Chrome.app")
                        .withArguments2(url)
                        .withPostMortemTask(() -> properties.ifPresent(p -> bindPropertiesAndLoadDocument(p)))
                        .execute();

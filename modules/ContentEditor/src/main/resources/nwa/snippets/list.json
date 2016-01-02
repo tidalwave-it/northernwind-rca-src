@@ -1,0 +1,11 @@
+  [
+    { "name": "Artistic Picture",            "url": "/nwa/snippets/ArtisticPicture.xhtml"                      },
+    { "name": "Diagram",                     "url": "/nwa/snippets/nwXsltMacro_Diagram.xhtml"                  },
+    { "name": "Java code",                   "url": "/nwa/snippets/JavaCode.xhtml"                             },
+    { "name": "Movie",                       "url": "/nwa/snippets/nwXsltMacro_Movie.xhtml"                    },
+    { "name": "Photo",                       "url": "/nwa/snippets/nwXsltMacro_Photo.xhtml"                    },
+    { "name": "Photo Comparator",            "url": "/nwa/snippets/nwXsltMacro_PhotoComparator.xhtml"          },
+    { "name": "Photo Comparator with Loupe", "url": "/nwa/snippets/nwXsltMacro_PhotoComparatorWithLoupe.xhtml" },
+    { "name": "Thumbnail",                   "url": "/nwa/snippets/nwXsltMacro_Thumbnail.xhtml"                },
+    { "name": "YouTube",                     "url": "/nwa/snippets/nwXsltMacro_YouTube.xhtml"                  }
+  ]

@@ -1,18 +1,3 @@
-var insertPhotoCommand =
-  {
-    action: function (boundaries, selection, command, event)
-      {
-        // FIXME: should better find the parent
-        var parent = boundaries[0][0].parentElement;
-        $.get('/nwa/snippets/nwXsltMacro_Photo.xhtml', function (snippet)
-          {
-            console.log("Snippet " + snippet);
-            $(parent).append(snippet);
-            save();
-          });
-      }
-  };
-
 function save()
   {
     console.log('Saving document...');
@@ -23,6 +8,44 @@ function save()
         url: '/',
         data: editable.innerHTML,
         type: 'PUT'
+      });
+  }
+
+function registerInsertSnippetCommand (editables, name, snippetUrl)
+  {
+    var command =
+      {
+        snippetUrl: snippetUrl,
+        action: function (boundaries, selection, command, event)
+          {
+            // FIXME: should better find the parent
+            var parent = boundaries[0][0].parentElement;
+            $.get(command.snippetUrl, function (snippet)
+              {
+                console.log("Snippet " + snippet);
+                $(parent).append(snippet);
+                save();
+              });
+          }
+      };
+
+    var ul = $('#insertSnippetMenu');
+    var li = $('<li/>').appendTo(ul);
+    $('<a/>').attr('href', '#').text(name).appendTo(li).on('click', aloha.ui.command(editables, command));
+
+    $('head').append('<link rel="stylesheet" href="' +
+            command.snippetUrl.replace('.xhtml', '.css') + '" type="text/css" />');
+  }
+
+function registerInsertSnippetsCommands (editables)
+  {
+    $.getJSON('/nwa/snippets/list.json', function (snippets)
+      {
+        snippets.map(function (snippet)
+          {
+            console.log("Snippet " + snippet.name + " URL " + snippet.url);
+            registerInsertSnippetCommand(editables, snippet.name, snippet.url);
+          });
       });
   }
 
@@ -37,7 +60,7 @@ function save()
         $('.aloha-action-' + selector).on('click', aloha.ui.command(editables, commands[selector]));
       }
 
-    $('.xtra-insert-photo-macro').on('click', aloha.ui.command(editables, insertPhotoCommand));
+    registerInsertSnippetsCommands(editables);
 
     function middleware(event)
       {
