@@ -5,7 +5,6 @@
         <link href='/nwa/css/Editing.css' type='text/css' rel='stylesheet' media='screen'/>
         <link href='/nwa/aloha-2.0.0b188/base.css' type='text/css' rel='stylesheet' media='screen'/>
         <link href='/nwa/aloha-2.0.0b188/demo.css' type='text/css' rel='stylesheet' media='screen'/>
-        <link href="$libraryLink(relativePath='/library/css/Typography-9.css')$" type='text/css' rel='stylesheet' media='screen'/>
     </head>
 
     <body>
