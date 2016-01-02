@@ -31,10 +31,13 @@ function registerInsertSnippetCommand (editables, name, snippetUrl)
 
     var ul = $('#insertSnippetMenu');
     var li = $('<li/>').appendTo(ul);
-    var a = $('<a/>').attr('href', '#').text(name).appendTo(li).on('click', aloha.ui.command(editables, command));
+    $('<a/>').attr('href', '#').text(name).appendTo(li).on('click', aloha.ui.command(editables, command));
+
+    $('head').append('<link rel="stylesheet" href="' +
+            command.snippetUrl.replace('.xhtml', '.css') + '" type="text/css" />');
   }
 
-function registerSnippets (editables)
+function registerInsertSnippetsCommands (editables)
   {
     $.getJSON('/nwa/snippets/list.json', function (snippets)
       {
@@ -44,18 +47,6 @@ function registerSnippets (editables)
             registerInsertSnippetCommand(editables, snippet.name, snippet.url);
           });
       });
-
-//    var snippets =
-//      [
-//        {
-//          name: 'Photo',
-//          url:  '/nwa/snippets/nwXsltMacro_Photo.xhtml'
-//        },
-//        {
-//          name: 'Java code',
-//          url:  '/nwa/snippets/JavaCode.xhtml'
-//        }
-//      ];
   }
 
 (function ()
@@ -69,7 +60,7 @@ function registerSnippets (editables)
         $('.aloha-action-' + selector).on('click', aloha.ui.command(editables, commands[selector]));
       }
 
-    registerSnippets(editables);
+    registerInsertSnippetsCommands(editables);
 
     function middleware(event)
       {

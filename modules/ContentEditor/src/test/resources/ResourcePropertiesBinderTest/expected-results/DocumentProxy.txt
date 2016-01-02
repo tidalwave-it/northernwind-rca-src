@@ -34,9 +34,8 @@
             </ul>
           </div>
           <div class="btn-group">
-            <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"> Macros <span class="caret"></span> </button>
-            <ul class="dropdown-menu">
-              <li><a href="#" class="xtra-insert-photo-macro">Photo</a></li>
+            <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"> Insert <span class="caret"></span> </button>
+            <ul class="dropdown-menu" id="insertSnippetMenu">
             </ul>
           </div>
         </div>
