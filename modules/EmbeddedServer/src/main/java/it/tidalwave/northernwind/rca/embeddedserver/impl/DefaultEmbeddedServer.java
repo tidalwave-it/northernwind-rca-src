@@ -45,6 +45,7 @@ import org.springframework.core.io.ClassPathResource;
 import org.eclipse.jetty.server.Server;
 import it.tidalwave.messagebus.annotation.ListensTo;
 import it.tidalwave.messagebus.annotation.SimpleMessageSubscriber;
+import it.tidalwave.northernwind.core.impl.filter.LibraryLinkMacroFilter;
 import it.tidalwave.northernwind.core.impl.filter.MediaLinkMacroFilter;
 import it.tidalwave.northernwind.core.model.MimeTypeResolver;
 import it.tidalwave.northernwind.core.model.ResourceFile;
@@ -90,6 +91,7 @@ public class DefaultEmbeddedServer implements EmbeddedServer
         private static final long serialVersionUID = -2887261966375531858L;
 
         private final MediaLinkMacroFilter mediaLinkMacroFilter = new MediaLinkMacroFilter();
+        private final LibraryLinkMacroFilter libraryLinkMacroFilter = new LibraryLinkMacroFilter();
 
         @Override
         protected void doGet (final @Nonnull HttpServletRequest request,
@@ -101,7 +103,9 @@ public class DefaultEmbeddedServer implements EmbeddedServer
             // FIXME: use a pipeline for handling those requests - eventually integrate support already in Site
 
             uri = mediaLinkMacroFilter.filter(uri, "");
+            uri = libraryLinkMacroFilter.filter(uri, "");
             uri = uri.replace("//", "/"); // Aloha puts a leading / before the macro
+            log.debug(">>> filtered {}", uri);
 
             if (uri.startsWith("/nwa/")) // FIXME - and use ResourcePath
               {

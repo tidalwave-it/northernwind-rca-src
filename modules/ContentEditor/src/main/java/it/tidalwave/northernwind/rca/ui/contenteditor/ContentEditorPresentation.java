@@ -51,6 +51,9 @@ public interface ContentEditorPresentation
     public static class Bindings
       {
         @Nonnull
+        public final UserAction openExternalEditorBrowserAction;
+
+        @Nonnull
         public final UserAction openExternalEditorAction;
 
         @Nonnull

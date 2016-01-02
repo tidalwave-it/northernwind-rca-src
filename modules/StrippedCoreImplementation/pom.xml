@@ -89,7 +89,7 @@
                                         <include>it/tidalwave/northernwind/core/impl/model/TextResourcePropertyResolver*</include>
                                         <include>it/tidalwave/northernwind/core/impl/model/Filter*</include>
                                         <include>it/tidalwave/northernwind/core/impl/patches/*.res</include>
-                                        <include>it/tidalwave/northernwind/core/impl/filter/MediaLinkMacroFilter*</include>
+                                        <include>it/tidalwave/northernwind/core/impl/filter/*MacroFilter*</include>
                                         <include>it/tidalwave/northernwind/core/impl/filter/MacroFilter*</include>
                                     </includes>
                                 </filter>

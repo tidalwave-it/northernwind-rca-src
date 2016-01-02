@@ -45,6 +45,8 @@ import it.tidalwave.northernwind.core.model.spi.ModelFactorySupport;
 import it.tidalwave.northernwind.rca.embeddedserver.EmbeddedServer.Document;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import it.tidalwave.northernwind.util.test.TestHelper;
+import it.tidalwave.northernwind.util.test.TestHelper.TestResource;
 import static it.tidalwave.util.test.FileComparisonUtils.assertSameContents;
 import static it.tidalwave.northernwind.rca.ui.contenteditor.impl.ResourcePropertiesBinder.*;
 import static it.tidalwave.northernwind.rca.ui.contenteditor.impl.ResourcePropertiesMatcher.*;
@@ -60,6 +62,8 @@ import static org.hamcrest.CoreMatchers.*;
  **********************************************************************************************************************/
 public class ResourcePropertiesBinderTest
   {
+    private final TestHelper helper = new TestHelper(this);
+
     private static final Key<String> PROPERTY_1 = new Key<>("property1");
     private static final Key<String> PROPERTY_2 = new Key<>("property2");
 
@@ -168,10 +172,9 @@ public class ResourcePropertiesBinderTest
         // then
         assertThat(document.getMimeType(), is("text/html"));
 
-        final File file = new File("target/test-results/DocumentProxy.txt");
-        final File expectedFile = new File("src/test/resources/ExpectedDocumentProxy.txt");
-        writeToFile(file, document.getContent());
-        assertSameContents(expectedFile, file);
+        final TestResource tr = helper.testResourceFor("DocumentProxy.txt");
+        tr.writeToActualFile(document.getContent().replaceAll("\\n$", ""));
+        tr.assertActualFileContentSameAsExpected();
         verifyZeroInteractions(callback);
       }
 

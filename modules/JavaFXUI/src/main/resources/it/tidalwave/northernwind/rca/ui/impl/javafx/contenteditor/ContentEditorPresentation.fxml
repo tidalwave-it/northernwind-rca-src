@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import java.lang.*?>
-<?import java.util.*?>
 <?import javafx.geometry.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.web.*?>
 
-<VBox id="application" fx:id="contentEditor" prefHeight="600.0" prefWidth="800.0" xmlns:fx="http://javafx.com/fxml" fx:controller="it.tidalwave.northernwind.rca.ui.impl.javafx.contenteditor.JavaFXContentEditorPresentationDelegate">
+<VBox id="application" fx:id="contentEditor" prefHeight="600.0" prefWidth="800.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="it.tidalwave.northernwind.rca.ui.impl.javafx.contenteditor.JavaFXContentEditorPresentationDelegate">
   <children>
     <FlowPane prefHeight="38.0" prefWidth="800.0">
       <children>
@@ -25,9 +23,10 @@
         <Insets fx:id="x1" />
       </VBox.margin>
     </WebView>
-    <FlowPane alignment="CENTER_LEFT" maxHeight="48.0" prefHeight="48.0" prefWidth="200.0" VBox.vgrow="NEVER">
+    <FlowPane alignment="CENTER_LEFT" hgap="10.0" maxHeight="48.0" prefHeight="48.0" prefWidth="200.0" VBox.vgrow="NEVER">
       <children>
         <Button fx:id="btOpenExternalEditor" mnemonicParsing="false" text="External editor" />
+<Button fx:id="btOpenExternalEditorBrowser" layoutX="10.0" layoutY="21.0" mnemonicParsing="false" text="External browser" />
       </children>
       <VBox.margin>
         <Insets bottom="4.0" left="4.0" right="4.0" top="4.0" />

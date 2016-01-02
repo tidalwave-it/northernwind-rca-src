@@ -76,6 +76,9 @@ public class JavaFXContentEditorPresentationDelegate implements ContentEditorPre
     @FXML
     private Button btOpenExternalEditor;
 
+    @FXML
+    private Button btOpenExternalEditorBrowser;
+
     private final EventHandler<WebEvent<String>> clickHijacker = new EventHandler<WebEvent<String>>()
       {
         @Override
@@ -95,6 +98,7 @@ public class JavaFXContentEditorPresentationDelegate implements ContentEditorPre
       {
         binder.get().bindBidirectionally(contentTitle.textProperty(), bindings.title);
         binder.get().bind(btOpenExternalEditor, bindings.openExternalEditorAction);
+        binder.get().bind(btOpenExternalEditorBrowser, bindings.openExternalEditorBrowserAction);
       }
 
     @Override

@@ -49,7 +49,14 @@ import lombok.extern.slf4j.Slf4j;
 import static it.tidalwave.role.ui.Presentable.*;
 import static it.tidalwave.northernwind.model.admin.Properties.*;
 import static it.tidalwave.northernwind.model.admin.role.Saveable.Saveable;
+import it.tidalwave.northernwind.rca.ui.contenteditor.impl.JSoupXhtmlNormalizer;
 import static it.tidalwave.northernwind.rca.ui.contenteditor.spi.PropertyBinder.*;
+import static java.nio.charset.StandardCharsets.UTF_8;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import static java.util.Arrays.asList;
+import static java.util.stream.Collectors.joining;
 
 /***********************************************************************************************************************
  *
@@ -78,6 +85,7 @@ public class DefaultContentEditorPresentationControl implements ContentEditorPre
 
     /* visible for testing */ final Bindings bindings = Bindings.builder()
             .openExternalEditorAction(UserActionSupport8.withCallback(this::openExternalEditor))
+            .openExternalEditorBrowserAction(UserActionSupport8.withCallback(this::openExternalEditorBrowser))
             .title(new BoundProperty<>(""))
             .build();
 
@@ -184,16 +192,60 @@ public class DefaultContentEditorPresentationControl implements ContentEditorPre
      *
      *
      ******************************************************************************************************************/
-    private void openExternalEditor()
+    private void openExternalEditorBrowser()
       {
-        log.info("openExternalEditor");
+        log.info("openExternalEditorBrowser");
         // FIXME
         final String url = "http://localhost:12345/";
 
-//            ProcessExecutor.forExecutable("Google Chrome.app")
-        ProcessExecutor.forExecutable("Firefox.app")
+        ProcessExecutor.forExecutable("Safari.app")
                        .withArguments2(url)
                        .withPostMortemTask(() -> properties.ifPresent(p -> bindPropertiesAndLoadDocument(p)))
                        .execute();
+      }
+
+    /*******************************************************************************************************************
+     *
+     *
+     *
+     ******************************************************************************************************************/
+    private void openExternalEditor()
+      {
+        log.info("openExternalEditor");
+        final String filePath = content.get().getFile().toFile().getAbsolutePath() + "/fullText_en.xhtml";
+
+        ProcessExecutor.forExecutable("BlueGriffon.app")
+                        // FIXME
+                        // .withArguments2(content.get().getFile().getPath().asString())
+                       .withArguments2(filePath)
+                       .withPostMortemTask(() -> properties.ifPresent(p -> fix(p, filePath)))
+                       .execute();
+      }
+
+    /*******************************************************************************************************************
+     *
+     *
+     *
+     ******************************************************************************************************************/
+    private void fix (final @Nonnull ResourceProperties properties, final @Nonnull String filePath)
+      {
+        try
+          {
+            final Path path = Paths.get(filePath);
+            final String s = Files.lines(path, UTF_8).collect(joining("\n"))
+                    .replace("%27", "'")
+                    .replace("%28", "(")
+                    .replace("%29", ")")
+                    .replace("%7B", "{")
+                    .replace("%7D", "}")
+                    .replace("%20", " ");
+            final JSoupXhtmlNormalizer normalizer = new JSoupXhtmlNormalizer();
+            Files.write(path, asList(normalizer.asNormalizedString(s)), UTF_8);
+            bindPropertiesAndLoadDocument(properties);
+          }
+        catch (IOException e)
+          {
+            log.error("", e);
+          }
       }
   }
