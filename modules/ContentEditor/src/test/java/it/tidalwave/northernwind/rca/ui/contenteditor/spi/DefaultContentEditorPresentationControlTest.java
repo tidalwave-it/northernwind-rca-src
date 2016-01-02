@@ -44,6 +44,7 @@ import it.tidalwave.northernwind.rca.ui.event.ContentSelectedEvent;
 import org.testng.annotations.Test;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
+import it.tidalwave.northernwind.util.test.TestHelper;
 import static it.tidalwave.role.ui.Presentable.*;
 import static it.tidalwave.northernwind.model.admin.Properties.*;
 import static it.tidalwave.northernwind.rca.ui.contenteditor.spi.PropertyBinder.*;
@@ -61,6 +62,8 @@ import static org.mockito.Mockito.any;
  **********************************************************************************************************************/
 public class DefaultContentEditorPresentationControlTest
   {
+    private final TestHelper helper = new TestHelper(this);
+
     private ClassPathXmlApplicationContext context;
 
     private DefaultContentEditorPresentationControl underTest;
@@ -90,7 +93,7 @@ public class DefaultContentEditorPresentationControlTest
     public void setup()
       {
         ContextManager.Locator.set(null);
-        context = new ClassPathXmlApplicationContext("DefaultContentEditorPresentationControlTestBeans.xml");
+        context = (ClassPathXmlApplicationContext)helper.createSpringContext();
         underTest = context.getBean(DefaultContentEditorPresentationControl.class);
         embeddedServer = context.getBean(EmbeddedServer.class);
         presentation = context.getBean(ContentEditorPresentation.class);
