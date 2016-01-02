@@ -49,7 +49,7 @@
         <a class="aloha-link-follow btn glyphicon glyphicon-share-alt" href="#" target="_blank" rel="noreferrer" title="Follow this link"></a>
       </div>
     </div>
-    <article class="editable">
+    <article class="content editable">
        the body
     </article>
     <script src="/nwa/jquery-1.11.1/jquery.min.js"></script>
