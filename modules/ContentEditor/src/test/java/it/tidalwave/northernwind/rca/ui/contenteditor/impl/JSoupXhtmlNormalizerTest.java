@@ -27,10 +27,12 @@
  */
 package it.tidalwave.northernwind.rca.ui.contenteditor.impl;
 
+import javax.annotation.Nonnull;
 import java.io.IOException;
 import it.tidalwave.northernwind.util.test.TestHelper;
 import it.tidalwave.northernwind.util.test.TestHelper.TestResource;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 /***********************************************************************************************************************
@@ -51,17 +53,27 @@ public class JSoupXhtmlNormalizerTest
         underTest = new JSoupXhtmlNormalizer();
       }
 
-    @Test
-    public void must_properly_normalise_Xhtml()
+    @Test(dataProvider = "documentNames")
+    public void must_properly_normalise_Xhtml (final @Nonnull String name)
       throws IOException
       {
         // given
-        final TestResource tr = helper.testResourceFor("1.xhtml");
+        final TestResource tr = helper.testResourceFor(name);
         final String html = tr.readStringFromResource();
         // when
         final String actual = underTest.asNormalizedString(html);
         // then
         tr.writeToActualFile(actual.replaceAll("\\n$", "")); // method adds a newline
         tr.assertActualFileContentSameAsExpected();
+      }
+
+    @DataProvider
+    private static Object[][] documentNames()
+      {
+        return new Object[][]
+          {
+            { "1.xhtml" },
+            { "DocumentWithIndentedCode.xhtml" }
+          };
       }
   }
