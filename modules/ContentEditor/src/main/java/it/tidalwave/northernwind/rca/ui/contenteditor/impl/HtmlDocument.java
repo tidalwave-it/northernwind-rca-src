@@ -28,7 +28,6 @@
 package it.tidalwave.northernwind.rca.ui.contenteditor.impl;
 
 import javax.annotation.Nonnull;
-import com.google.common.base.Splitter;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -40,22 +39,23 @@ import lombok.extern.slf4j.Slf4j;
 /***********************************************************************************************************************
  *
  * A container for HTML text that allow substitution of prolog and epilog in order to prepare a HTML document for
- * editing.
+ * editing. It keeps an internal representation where the prolog, the body and the epilog are separately stored.
  *
  * @author  Fabrizio Giudici
  * @version $Id$
  *
  **********************************************************************************************************************/
-@RequiredArgsConstructor(access = AccessLevel.PACKAGE) @Getter @EqualsAndHashCode @ToString @Slf4j
+@RequiredArgsConstructor(access = AccessLevel.PACKAGE)
+@Getter @Wither @EqualsAndHashCode @ToString @Slf4j
 public class HtmlDocument
   {
-    @Wither @Nonnull
+    @Nonnull
     private final String prolog;
 
-    @Wither @Nonnull
+    @Nonnull
     private final String body;
 
-    @Wither @Nonnull
+    @Nonnull
     private final String epilog;
 
     /*******************************************************************************************************************
@@ -86,16 +86,9 @@ public class HtmlDocument
                            final @Nonnull StringBuilder bodyBuilder,
                            final @Nonnull StringBuilder epilogBuilder)
               {
-                if (!line.contains("</body"))
-                  {
-                    bodyBuilder.append(line).append("\n");
-                  }
-                else
-                  {
-                    epilogBuilder.append(line).append("\n");
-                  }
-
-                return line.contains("</body") ? EPILOG : BODY;
+                final boolean containsEndBody = line.contains("</body");
+                (containsEndBody ? epilogBuilder : bodyBuilder).append(line).append("\n");
+                return containsEndBody ? EPILOG : BODY;
               }
           },
 
@@ -120,7 +113,10 @@ public class HtmlDocument
 
     /*******************************************************************************************************************
      *
+     * Creates a new document from a string.
      *
+     * @param       text        the string
+     * @return                  the document
      *
      ******************************************************************************************************************/
     @Nonnull
@@ -132,7 +128,7 @@ public class HtmlDocument
 
         State state = State.PROLOG;
 
-        for (final String line : Splitter.on("\n").trimResults().split(text))
+        for (final String line : text.split("\\n"))
           {
             state = state.process(line, prologBuilder, bodyBuilder, epilogBuilder);
           }
@@ -140,20 +136,11 @@ public class HtmlDocument
         return new HtmlDocument(prologBuilder.toString(), bodyBuilder.toString(), epilogBuilder.toString());
       }
 
-//    /*******************************************************************************************************************
-//     *
-//     *
-//     *
-//     ******************************************************************************************************************/
-//    @Nonnull
-//    public String asString()
-//      {
-//        return prolog + body + epilog;
-//      }
-//
     /*******************************************************************************************************************
      *
+     * Returns the contents as a string, after having being normalised.
      *
+     * @return      the string
      *
      ******************************************************************************************************************/
     @Nonnull

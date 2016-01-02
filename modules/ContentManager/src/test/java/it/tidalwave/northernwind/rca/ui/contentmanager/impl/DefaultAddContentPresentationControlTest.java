@@ -236,7 +236,8 @@ public class DefaultAddContentPresentationControlTest
                 of(PROPERTY_PUBLISHING_TIME, ISO_FORMATTER.print(dateTime),
                    PROPERTY_TITLE,           "the title",
                    PROPERTY_EXPOSED_URI,     "the-exposed-uri",
-                   PROPERTY_TAGS,            Arrays.asList("tag1", "tag2"))
+                   PROPERTY_TAGS,            "tag1,tag2") // See NWRCA-69
+//                   PROPERTY_TAGS,            Arrays.asList("tag1", "tag2"))
               }
           };
       }
