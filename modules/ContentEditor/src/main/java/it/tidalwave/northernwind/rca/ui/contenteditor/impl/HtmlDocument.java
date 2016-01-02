@@ -39,7 +39,7 @@ import lombok.extern.slf4j.Slf4j;
 /***********************************************************************************************************************
  *
  * A container for HTML text that allow substitution of prolog and epilog in order to prepare a HTML document for
- * editing.
+ * editing. It keeps an internal representation where the prolog, the body and the epilog are separately stored.
  *
  * @author  Fabrizio Giudici
  * @version $Id$
