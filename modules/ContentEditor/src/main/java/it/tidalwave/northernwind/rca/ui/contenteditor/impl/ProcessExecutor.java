@@ -97,6 +97,7 @@ public class ProcessExecutor
 
         try
           {
+            log.info("Executing {}", args);
             final Process process = Runtime.getRuntime().exec(args.toArray(new String[0]));
             Executors.newSingleThreadExecutor().submit(new Runnable() // FIXME; inject the executor
               {
