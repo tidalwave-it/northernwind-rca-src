@@ -44,18 +44,6 @@ function registerSnippets (editables)
             registerInsertSnippetCommand(editables, snippet.name, snippet.url);
           });
       });
-
-//    var snippets =
-//      [
-//        {
-//          name: 'Photo',
-//          url:  '/nwa/snippets/nwXsltMacro_Photo.xhtml'
-//        },
-//        {
-//          name: 'Java code',
-//          url:  '/nwa/snippets/JavaCode.xhtml'
-//        }
-//      ];
   }
 
 (function ()
