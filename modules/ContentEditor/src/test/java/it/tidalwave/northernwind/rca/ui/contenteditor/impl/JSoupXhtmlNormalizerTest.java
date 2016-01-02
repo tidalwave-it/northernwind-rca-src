@@ -39,16 +39,16 @@ import org.testng.annotations.Test;
  * @version $Id$
  *
  **********************************************************************************************************************/
-public class XhtmlNormalizerTest
+public class JSoupXhtmlNormalizerTest
   {
     private final TestHelper helper = new TestHelper(this);
 
-    private XhtmlNormalizer underTest;
+    private JSoupXhtmlNormalizer underTest;
 
     @BeforeMethod
     public void prepare()
       {
-        underTest = new XhtmlNormalizer();
+        underTest = new JSoupXhtmlNormalizer();
       }
 
     @Test
