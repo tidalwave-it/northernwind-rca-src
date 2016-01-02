@@ -34,7 +34,7 @@ function registerInsertSnippetCommand (editables, name, snippetUrl)
     var a = $('<a/>').attr('href', '#').text(name).appendTo(li).on('click', aloha.ui.command(editables, command));
   }
 
-function registerSnippets (editables)
+function registerInsertSnippetsCommands (editables)
   {
     $.getJSON('/nwa/snippets/list.json', function (snippets)
       {
@@ -57,7 +57,7 @@ function registerSnippets (editables)
         $('.aloha-action-' + selector).on('click', aloha.ui.command(editables, commands[selector]));
       }
 
-    registerSnippets(editables);
+    registerInsertSnippetsCommands(editables);
 
     function middleware(event)
       {
