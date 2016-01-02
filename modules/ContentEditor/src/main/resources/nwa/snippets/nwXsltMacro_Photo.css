@@ -1,0 +1,51 @@
+div.nwXsltMacro_Photo:before
+  {
+    font-size:        1em;
+    font-weight:      bold;
+    content:          "nwXsltMacro_Photo";
+  }
+
+p.nwXsltMacro_Photo_photoId:before,
+p.nwXsltMacro_Photo_title:before,
+p.nwXsltMacro_Photo_shootingData:before
+  {
+    font-weight:      bold;
+  }
+
+p.nwXsltMacro_Photo_photoId:before
+  {
+    content:          "Photo id: ";
+  }
+
+p.nwXsltMacro_Photo_title:before
+  {
+    content:          "Title: ";
+  }
+
+p.nwXsltMacro_Photo_shootingData:before
+  {
+    content:          "Shooting Data: ";
+  }
+
+p.nwXsltMacro_Photo_photoId,
+p.nwXsltMacro_Photo_title,
+p.nwXsltMacro_Photo_shootingData
+  {
+    border:           0;
+    background-color: #e0e0e0;
+    padding:          0.3em;
+  }
+
+div.nwXsltMacro_Photo
+  {
+    margin-left:      auto;
+    margin-right:     auto;
+    width:            80%;
+    background-color: #d0d0d0;
+    padding:          10px;
+    margin-top:       2px;
+    font-family:      sans-serif;
+    font-size:        0.8em;
+  }
+
+

@@ -1,0 +1,50 @@
+div.nwXsltMacro_PhotoComparator:before
+  {
+    font-size:        1em;
+    font-weight:      bold;
+    content:          "nwXsltMacro_PhotoComparator";
+  }
+
+p.nwXsltMacro_PhotoComparator_groupId:before,
+p.nwXsltMacro_PhotoComparator_mediaBasePath:before
+  {
+    font-weight:      bold;
+  }
+
+p.nwXsltMacro_PhotoComparator_groupId:before
+  {
+    content:          "Group id: ";
+  }
+
+p.nwXsltMacro_PhotoComparator_mediaBasePath:before
+  {
+    content:          "Media base path: ";
+  }
+
+p.nwXsltMacro_PhotoComparator_groupId,
+p.nwXsltMacro_PhotoComparator_mediaBasePath
+  {
+    border:           0;
+    background-color: #e0e0e0;
+    font-family:      sans-serif;
+    padding:          0.3em;
+  }
+
+div.nwXsltMacro_PhotoComparator
+  {
+    margin-left:      auto;
+    margin-right:     auto;
+    width:            80%;
+    background-color: #d0d0d0;
+    padding:          10px;
+    margin-top:       2px;
+  }
+
+table.nwXsltMacro_PhotoComparator_options
+  {
+    border:           1px solid black;
+    background-color: #e0e0e0;
+    font-size:        0.8em;
+  }
+
+

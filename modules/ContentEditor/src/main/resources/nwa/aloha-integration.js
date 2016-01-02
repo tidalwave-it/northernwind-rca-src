@@ -32,6 +32,9 @@ function registerInsertSnippetCommand (editables, name, snippetUrl)
     var ul = $('#insertSnippetMenu');
     var li = $('<li/>').appendTo(ul);
     $('<a/>').attr('href', '#').text(name).appendTo(li).on('click', aloha.ui.command(editables, command));
+
+    $('head').append('<link rel="stylesheet" href="' +
+            command.snippetUrl.replace('.xhtml', '.css') + '" type="text/css" />');
   }
 
 function registerInsertSnippetsCommands (editables)
