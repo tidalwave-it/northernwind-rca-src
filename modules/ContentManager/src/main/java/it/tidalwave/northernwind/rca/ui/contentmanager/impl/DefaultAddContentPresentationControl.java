@@ -108,7 +108,8 @@ public class DefaultAddContentPresentationControl implements AddContentPresentat
         presentation.bind(bindings);
         presentation.showUp(notificationWithFeedback()
                 .withCaption("Create new content")
-                .withFeedback(feedback().withOnConfirm(() -> createContent(event.getParentContent()))));
+                .withFeedback(feedback().withOnConfirm(() -> createContent(event.getParentContent()))
+                                        .withOnCancel(() -> {}))); // FIXME: withOnCancel(DO_NOTHING)
       }
 
     /*******************************************************************************************************************

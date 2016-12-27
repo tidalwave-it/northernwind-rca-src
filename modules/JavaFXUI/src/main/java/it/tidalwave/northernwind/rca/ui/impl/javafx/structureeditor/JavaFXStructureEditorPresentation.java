@@ -28,7 +28,8 @@
 package it.tidalwave.northernwind.rca.ui.impl.javafx.structureeditor;
 
 import javax.annotation.Nonnull;
-import javafx.scene.Node;
+import javax.inject.Inject;
+import it.tidalwave.role.ui.javafx.StackPaneSelector;
 import it.tidalwave.northernwind.rca.ui.structureeditor.StructureEditorPresentation;
 import lombok.Delegate;
 import lombok.Getter;
@@ -42,16 +43,23 @@ import static it.tidalwave.ui.javafx.JavaFXSafeProxyCreator.*;
  **********************************************************************************************************************/
 public class JavaFXStructureEditorPresentation implements StructureEditorPresentation
   {
-    @Getter @Nonnull
-    private final Node node;
-
-    @Delegate
-    private final StructureEditorPresentation delegate;
-
-    public JavaFXStructureEditorPresentation()
+    static interface Exclusions
       {
-        final NodeAndDelegate nad = createNodeAndDelegate(getClass(), "StructureEditorPresentation.fxml");
-        node = nad.getNode();
-        delegate = nad.getDelegate();
+        public void showUp();
+      }
+
+    @Getter @Nonnull
+    private final NodeAndDelegate nad = createNodeAndDelegate(getClass());
+
+    @Delegate(excludes = Exclusions.class)
+    private final StructureEditorPresentation delegate = nad.getDelegate();
+
+    @Inject
+    private StackPaneSelector stackPaneSelector;
+
+    @Override
+    public void showUp()
+      {
+        stackPaneSelector.setShownNode(nad.getNode());
       }
   }

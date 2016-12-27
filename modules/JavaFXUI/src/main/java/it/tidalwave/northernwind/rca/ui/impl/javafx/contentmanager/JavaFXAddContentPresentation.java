@@ -27,14 +27,8 @@
  */
 package it.tidalwave.northernwind.rca.ui.impl.javafx.contentmanager;
 
-import javax.annotation.Nonnull;
-import javax.inject.Inject;
-import java.io.IOException;
-import javafx.scene.Node;
-import it.tidalwave.util.ui.UserNotificationWithFeedback;
 import it.tidalwave.ui.javafx.JavaFXSafeProxyCreator.NodeAndDelegate;
 import it.tidalwave.northernwind.rca.ui.contentmanager.AddContentPresentation;
-import it.tidalwave.role.ui.javafx.JavaFXBinder;
 import lombok.Delegate;
 import static it.tidalwave.ui.javafx.JavaFXSafeProxyCreator.createNodeAndDelegate;
 
@@ -46,41 +40,8 @@ import static it.tidalwave.ui.javafx.JavaFXSafeProxyCreator.createNodeAndDelegat
  **********************************************************************************************************************/
 public class JavaFXAddContentPresentation implements AddContentPresentation
   {
-    interface Exclusions
-      {
-        public void bind (Bindings bindings);
-        public void showUp (UserNotificationWithFeedback notification);
-      }
+    private final NodeAndDelegate nad = createNodeAndDelegate(getClass());
 
-    @Inject
-    private JavaFXBinder binder;
-
-    private final Node node;
-
-    private Bindings bindings;
-
-    @Delegate(excludes = Exclusions.class)
-    private final AddContentPresentation delegate;
-
-    public JavaFXAddContentPresentation()
-      throws IOException
-      {
-        final NodeAndDelegate nad = createNodeAndDelegate(getClass(), "AddContentPresentation.fxml");
-        node = nad.getNode();
-        delegate = nad.getDelegate();
-      }
-
-    @Override
-    public void bind (final @Nonnull Bindings bindings)
-      {
-        this.bindings = bindings;
-        delegate.bind(bindings);
-      }
-
-    @Override
-    public void showUp (final @Nonnull UserNotificationWithFeedback notification)
-      {
-        assert bindings != null;
-        binder.showInModalDialog(node, notification, bindings.valid);
-      }
+    @Delegate
+    private final AddContentPresentation delegate = nad.getDelegate();
   }

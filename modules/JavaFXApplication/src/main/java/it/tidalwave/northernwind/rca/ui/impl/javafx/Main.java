@@ -29,10 +29,13 @@ package it.tidalwave.northernwind.rca.ui.impl.javafx;
 
 import javax.annotation.Nonnull;
 import javafx.application.Platform;
+import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.io.File;
+import org.springframework.context.ApplicationContext;
 import it.tidalwave.ui.javafx.JavaFXSpringApplication;
+import it.tidalwave.northernwind.rca.ui.contenteditor.ContentEditorPresentationControl;
+import it.tidalwave.northernwind.rca.ui.siteopener.SiteOpenerPresentationControl;
 
 /***********************************************************************************************************************
  *
@@ -60,5 +63,22 @@ public class Main extends JavaFXSpringApplication
             t.printStackTrace();
             System.exit(-1);
           }
+      }
+
+    @Override
+    public void init()
+      {
+//        setUseAquaFxOnMacOsX(true);
+        super.init();
+      }
+
+    @Override
+    protected void onStageCreated (final @Nonnull ApplicationContext applicationContext)
+      {
+        // FIXME: controllers can't initialize in postconstruct
+        // Too bad because with PAC+EventBus we'd get rid of the control interfaces
+        // Use PowerOnNotification message as in blueMarine II
+        applicationContext.getBean(ContentEditorPresentationControl.class).initialize();
+        applicationContext.getBean(SiteOpenerPresentationControl.class).initialize();
       }
   }

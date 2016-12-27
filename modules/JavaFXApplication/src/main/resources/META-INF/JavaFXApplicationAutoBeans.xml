@@ -59,4 +59,7 @@
 
     <aop:aspectj-autoproxy/>
 
+    <bean id="applicationInitializer"
+          class="it.tidalwave.northernwind.rca.ui.impl.javafx.ZephyrApplicationPresentationAssembler" />
+
 </beans>

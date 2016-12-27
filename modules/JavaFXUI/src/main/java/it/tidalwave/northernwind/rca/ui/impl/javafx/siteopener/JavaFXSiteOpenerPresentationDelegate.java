@@ -29,14 +29,12 @@ package it.tidalwave.northernwind.rca.ui.impl.javafx.siteopener;
 
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
-import javax.inject.Provider;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
-import it.tidalwave.role.ui.javafx.JavaFXBinder;
-import it.tidalwave.role.ui.javafx.Widget;
-import it.tidalwave.northernwind.rca.ui.siteopener.SiteOpenerPresentation;
+import javafx.fxml.FXML;
 import it.tidalwave.util.ui.UserNotificationWithFeedback;
-import org.springframework.beans.factory.annotation.Configurable;
+import it.tidalwave.role.ui.javafx.JavaFXBinder;
+import it.tidalwave.northernwind.rca.ui.siteopener.SiteOpenerPresentation;
 
 /***********************************************************************************************************************
  *
@@ -50,17 +48,16 @@ import org.springframework.beans.factory.annotation.Configurable;
  * @version $Id$
  *
  **********************************************************************************************************************/
-@Configurable
 public class JavaFXSiteOpenerPresentationDelegate implements SiteOpenerPresentation
   {
-    @Inject
-    private Provider<JavaFXBinder> binder;
-
-    @Widget("btOpen") // FIXME: replace with @FXML
+    @FXML
     private Button btOpen;
 
-    @Widget("openSiteMenu") // FIXME: replace with @FXML
+    @FXML
     private MenuItem openSiteMenu;
+
+    @Inject
+    private JavaFXBinder binder;
 
     private Bindings bindings;
 
@@ -68,13 +65,13 @@ public class JavaFXSiteOpenerPresentationDelegate implements SiteOpenerPresentat
     public void bind (final @Nonnull Bindings bindings)
       {
         this.bindings = bindings;
-        binder.get().bind(btOpen, bindings.openSiteAction);
-        binder.get().bind(openSiteMenu, bindings.openSiteAction);
+        binder.bind(btOpen, bindings.openSiteAction);
+        binder.bind(openSiteMenu, bindings.openSiteAction);
       }
 
     @Override
     public void notifyInvitationToSelectAFolder (final @Nonnull UserNotificationWithFeedback notification)
       {
-        binder.get().openDirectoryChooserFor(notification, bindings.folderToOpen);
+        binder.openDirectoryChooserFor(notification, bindings.folderToOpen);
       }
   }
