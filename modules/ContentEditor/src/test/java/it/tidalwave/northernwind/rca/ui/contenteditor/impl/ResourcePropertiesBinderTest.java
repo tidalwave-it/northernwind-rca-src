@@ -28,10 +28,7 @@
 package it.tidalwave.northernwind.rca.ui.contenteditor.impl;
 
 import javax.annotation.Nonnull;
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.PrintWriter;
 import com.google.common.collect.ImmutableMap;
 import it.tidalwave.util.Key;
 import it.tidalwave.util.NotFoundException;
@@ -47,7 +44,6 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import it.tidalwave.northernwind.util.test.TestHelper;
 import it.tidalwave.northernwind.util.test.TestHelper.TestResource;
-import static it.tidalwave.util.test.FileComparisonUtils.assertSameContents;
 import static it.tidalwave.northernwind.rca.ui.contenteditor.impl.ResourcePropertiesBinder.*;
 import static it.tidalwave.northernwind.rca.ui.contenteditor.impl.ResourcePropertiesMatcher.*;
 import static org.mockito.Mockito.*;
@@ -111,25 +107,23 @@ public class ResourcePropertiesBinderTest
      *
      ******************************************************************************************************************/
     @Test
-    public void must_properly_initialize()
+    public void must_properly_initialize_resources()
       throws IOException
       {
         // when just initialized
         // then
-        final File prolog = new File("target/test-results/" + EDITOR_PROLOG);
-        final File epilog = new File("target/test-results/" + EDITOR_EPILOG);
-        final File expectedProlog = new File("src/main/resources/" + EDITOR_PROLOG);
-        final File expectedEpilog = new File("src/main/resources/" + EDITOR_EPILOG);
-        writeToFile(prolog, underTest.editorProlog);
-        writeToFile(epilog, underTest.editorEpilog);
-        assertSameContents(expectedProlog, prolog);
-        assertSameContents(expectedEpilog, epilog);
+        final TestResource trProlog = helper.testResourceFor("EditorProlog.txt");
+        final TestResource trEpilog = helper.testResourceFor("EditorEpilog.txt");
+        trProlog.writeToActualFile(ResourcePropertiesBinder.EDITOR_PROLOG.replaceAll("\\n$", ""));
+        trEpilog.writeToActualFile(ResourcePropertiesBinder.EDITOR_EPILOG.replaceAll("\\n$", ""));
+        trProlog.assertActualFileContentSameAsExpected();
+        trEpilog.assertActualFileContentSameAsExpected();
       }
 
     /*******************************************************************************************************************
      *
      ******************************************************************************************************************/
-    @Test(dependsOnMethods = "must_properly_initialize")
+    @Test(dependsOnMethods = "must_properly_initialize_resources")
     public void must_properly_set_value_to_bound_property()
       throws NotFoundException, IOException
       {
@@ -145,7 +139,7 @@ public class ResourcePropertiesBinderTest
     /*******************************************************************************************************************
      *
      ******************************************************************************************************************/
-    @Test(dependsOnMethods = "must_properly_initialize")
+    @Test(dependsOnMethods = "must_properly_initialize_resources")
     public void must_be_notified_with_updated_ResourceProperties_when_bound_property_updated()
       throws NotFoundException, IOException
       {
@@ -163,7 +157,7 @@ public class ResourcePropertiesBinderTest
     /*******************************************************************************************************************
      *
      ******************************************************************************************************************/
-    @Test(dependsOnMethods = "must_properly_initialize")
+    @Test(dependsOnMethods = "must_properly_initialize_resources")
     public void must_properly_set_value_to_bound_document()
       throws IOException
       {
@@ -181,7 +175,7 @@ public class ResourcePropertiesBinderTest
     /*******************************************************************************************************************
      *
      ******************************************************************************************************************/
-    @Test(dependsOnMethods = "must_properly_initialize")
+    @Test(dependsOnMethods = "must_properly_initialize_resources")
     public void must_be_notified_with_updated_ResourceProperties_when_bound_document_updated()
       throws IOException
       {
@@ -200,21 +194,6 @@ public class ResourcePropertiesBinderTest
                                                                                    + "</html>\n")
                                                                     .put(PROPERTY_2, ORIGINAL_PROPERTY_2_VALUE))));
         verifyNoMoreInteractions(callback);
-      }
-
-    /*******************************************************************************************************************
-     *
-     ******************************************************************************************************************/
-    private void writeToFile (final @Nonnull File file, final @Nonnull String editorHeader)
-      throws FileNotFoundException
-      {
-        file.getParentFile().mkdirs();
-
-        try (final PrintWriter pw = new PrintWriter(file))
-          {
-            pw.print(editorHeader);
-            pw.flush();
-          }
       }
 
     /*******************************************************************************************************************

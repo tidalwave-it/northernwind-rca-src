@@ -147,7 +147,7 @@ public class DefaultAddContentPresentationControlTest
     public void must_properly_set_initial_values_and_show_up()
       {
         // when
-        underTest.onAddContentEvent(CreateContentRequest.of(content));
+        underTest.onCreateContentRequest(CreateContentRequest.of(content));
         // then
         final Bindings expectedBindings = new Bindings();
         expectedBindings.publishingDateTime.set(ISO_FORMATTER.print(dateTime));
@@ -172,7 +172,7 @@ public class DefaultAddContentPresentationControlTest
         final Id id = new Id(UUID.randomUUID());
         when(idFactory.createId()).thenReturn(id);
         // when
-        underTest.onAddContentEvent(CreateContentRequest.of(content));
+        underTest.onCreateContentRequest(CreateContentRequest.of(content));
         // then
         final Map<Key<?>, Object> expectedProperties = new HashMap<>(baseExpectedProperties);
         expectedProperties.put(PROPERTY_CREATION_TIME, ISO_FORMATTER.print(dateTime));
@@ -193,7 +193,7 @@ public class DefaultAddContentPresentationControlTest
         // given
         doAnswer(CANCEL).when(presentation).showUp(any(UserNotificationWithFeedback.class));
         // when
-        underTest.onAddContentEvent(CreateContentRequest.of(content));
+        underTest.onCreateContentRequest(CreateContentRequest.of(content));
         // then
         verifyZeroInteractions(contentChildCreator);
       }

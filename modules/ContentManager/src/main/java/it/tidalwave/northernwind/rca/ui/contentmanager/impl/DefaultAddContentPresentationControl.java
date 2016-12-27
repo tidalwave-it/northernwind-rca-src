@@ -50,6 +50,7 @@ import it.tidalwave.util.Key;
 import it.tidalwave.role.IdFactory;
 import it.tidalwave.messagebus.annotation.ListensTo;
 import it.tidalwave.messagebus.annotation.SimpleMessageSubscriber;
+import it.tidalwave.northernwind.core.model.Content;
 import it.tidalwave.northernwind.rca.ui.event.CreateContentRequest;
 import it.tidalwave.northernwind.rca.ui.contentmanager.AddContentPresentation;
 import it.tidalwave.northernwind.rca.ui.contentmanager.AddContentPresentation.Bindings;
@@ -100,45 +101,53 @@ public class DefaultAddContentPresentationControl implements AddContentPresentat
     /*******************************************************************************************************************
      *
      ******************************************************************************************************************/
-    /* visible for testing */ void onAddContentEvent (final @ListensTo @Nonnull CreateContentRequest event)
+    /* visible for testing */ void onCreateContentRequest (final @ListensTo @Nonnull CreateContentRequest event)
       {
-        log.info("onAddContentEvent({})", event);
+        log.info("onCreateContentRequest({})", event);
         bindings.publishingDateTime.set(ISO_FORMATTER.print(new DateTime()));
-        final DateTime creationDateTime = new DateTime();
         presentation.bind(bindings);
-        presentation.showUp(notificationWithFeedback().withCaption("Create new content")
-                                                      .withFeedback(feedback().withOnConfirm(() ->
-          {
-            final String folderName = urlEncoded(bindings.folder.get());
-            // TODO: use TypeSafeMap, with a safe put() method
-            final Map<Key<?>, Object> propertyValues = new HashMap<>();
-            putIfNonEmpty(propertyValues, PROPERTY_TITLE,           bindings.title.get());
-            putIfNonEmpty(propertyValues, PROPERTY_EXPOSED_URI,     bindings.exposedUri.get());
-            putIfNonEmpty(propertyValues, PROPERTY_CREATION_TIME,   ISO_FORMATTER.print(creationDateTime));
-            putIfNonEmpty(propertyValues, PROPERTY_PUBLISHING_TIME, bindings.publishingDateTime.get());
-            putIfNonEmpty(propertyValues, PROPERTY_FULL_TEXT,       xhtmlSkeleton);
-            putIfNonEmpty(propertyValues, PROPERTY_ID,              idFactory.createId());
-
-            final Splitter splitter = Splitter.on(',').trimResults().omitEmptyStrings();
-            final List<String> tags = Lists.newArrayList(splitter.split(bindings.tags.get()));
-
-            if (!tags.isEmpty())
-              {
-                // See NWRCA-69
-                propertyValues.put(PROPERTY_TAGS, tags.stream().collect(joining(",")));
-//                propertyValues.put(PROPERTY_TAGS, tags);
-              }
-
-            event.getParentContent().as(ContentChildCreator).createContent(folderName, propertyValues);
-          })));
+        presentation.showUp(notificationWithFeedback()
+                .withCaption("Create new content")
+                .withFeedback(feedback().withOnConfirm(() -> createContent(event.getParentContent()))
+                                        .withOnCancel(() -> {}))); // FIXME: withOnCancel(DO_NOTHING)
       }
 
     /*******************************************************************************************************************
      *
      ******************************************************************************************************************/
-    private <T> void putIfNonEmpty (final @Nonnull Map<Key<?>, Object> values,
-                                    final @Nonnull Key<T> key,
-                                    final @CheckForNull T value)
+    private void createContent (final @Nonnull Content parentContent)
+      throws IOException
+      {
+        final DateTime creationDateTime = new DateTime();
+        final String folderName = urlEncoded(bindings.folder.get());
+        // TODO: use TypeSafeMap, with a safe put() method
+        final Map<Key<?>, Object> propertyValues = new HashMap<>();
+        putIfNonEmpty(propertyValues, PROPERTY_TITLE,           bindings.title.get());
+        putIfNonEmpty(propertyValues, PROPERTY_EXPOSED_URI,     bindings.exposedUri.get());
+        putIfNonEmpty(propertyValues, PROPERTY_CREATION_TIME,   ISO_FORMATTER.print(creationDateTime));
+        putIfNonEmpty(propertyValues, PROPERTY_PUBLISHING_TIME, bindings.publishingDateTime.get());
+        putIfNonEmpty(propertyValues, PROPERTY_FULL_TEXT,       xhtmlSkeleton);
+        putIfNonEmpty(propertyValues, PROPERTY_ID,              idFactory.createId());
+
+        final Splitter splitter = Splitter.on(',').trimResults().omitEmptyStrings();
+        final List<String> tags = Lists.newArrayList(splitter.split(bindings.tags.get()));
+
+        if (!tags.isEmpty())
+          {
+            // See NWRCA-69
+            propertyValues.put(PROPERTY_TAGS, tags.stream().collect(joining(",")));
+//                propertyValues.put(PROPERTY_TAGS, tags);
+          }
+
+        parentContent.as(ContentChildCreator).createContent(folderName, propertyValues);
+      }
+
+    /*******************************************************************************************************************
+     *
+     ******************************************************************************************************************/
+    private static <T> void putIfNonEmpty (final @Nonnull Map<Key<?>, Object> values,
+                                           final @Nonnull Key<T> key,
+                                           final @CheckForNull T value)
       {
         if ((value != null) && !"".equals(value))
           {

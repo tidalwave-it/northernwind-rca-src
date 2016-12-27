@@ -64,8 +64,8 @@
         <jsoup.version>1.8.3</jsoup.version>
         <netbeans.version>RELEASE80</netbeans.version>
         <northernwind.version>1.1-ALPHA-37</northernwind.version>
-        <steelblue.version>1.0-ALPHA-10</steelblue.version>
-        <thesefoolishthings.version>3.0</thesefoolishthings.version>
+        <steelblue.version>1.0-ALPHA-13</steelblue.version>
+        <thesefoolishthings.version>3.0.3</thesefoolishthings.version>
     </properties>
 
     <!-- ===============================================================================================================
@@ -92,7 +92,7 @@
             </dependency>
             <dependency>
                 <groupId>it.tidalwave.steelblue</groupId>
-                <artifactId>it-tidalwave-steelblue</artifactId>
+                <artifactId>steelblue</artifactId>
                 <version>${steelblue.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
