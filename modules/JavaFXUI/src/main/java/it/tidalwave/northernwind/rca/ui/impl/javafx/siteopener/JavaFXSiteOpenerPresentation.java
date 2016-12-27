@@ -28,7 +28,6 @@
 package it.tidalwave.northernwind.rca.ui.impl.javafx.siteopener;
 
 import javax.annotation.Nonnull;
-import org.springframework.beans.factory.annotation.Configurable;
 import it.tidalwave.northernwind.rca.ui.siteopener.SiteOpenerPresentation;
 import lombok.Delegate;
 import static it.tidalwave.role.ui.javafx.impl.util.JavaFXSafeComponentBuilder.createInstance;
@@ -41,14 +40,13 @@ import static it.tidalwave.role.ui.javafx.impl.util.JavaFXSafeComponentBuilder.c
  * @version $Id$
  *
  **********************************************************************************************************************/
-@Configurable
 public class JavaFXSiteOpenerPresentation implements SiteOpenerPresentation
   {
     @Delegate
     private SiteOpenerPresentation delegate;
 
-    public void createDelegate (final @Nonnull Object referenceHolder)
+    public void createDelegate (final @Nonnull Object fxmlDelegate)
       {
-        delegate = createInstance(JavaFXSiteOpenerPresentationDelegate.class, referenceHolder);
+        delegate = createInstance(JavaFXSiteOpenerPresentationDelegate.class, fxmlDelegate);
       }
   }

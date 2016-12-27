@@ -27,16 +27,13 @@
  */
 package it.tidalwave.northernwind.rca.ui.impl.javafx.structureeditor;
 
-import it.tidalwave.role.ui.javafx.StackPaneSelector;
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
-import javax.inject.Provider;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.layout.Pane;
 import javafx.scene.control.TableView;
 import javafx.scene.web.WebView;
-import org.springframework.beans.factory.annotation.Configurable;
 import it.tidalwave.role.ui.PresentationModel;
 import it.tidalwave.role.ui.javafx.JavaFXBinder;
 import it.tidalwave.northernwind.rca.ui.structureeditor.StructureEditorPresentation;
@@ -47,15 +44,9 @@ import it.tidalwave.northernwind.rca.ui.structureeditor.StructureEditorPresentat
  * @version $Id$
  *
  **********************************************************************************************************************/
-@Configurable
+
 public class JavaFXStructureEditorPresentationDelegate implements StructureEditorPresentation
   {
-    @Inject
-    private Provider<JavaFXBinder> binder;
-
-    @Inject
-    private Provider<StackPaneSelector> stackPaneSelector;
-
     @FXML
     private Pane structureEditor;
 
@@ -65,6 +56,9 @@ public class JavaFXStructureEditorPresentationDelegate implements StructureEdito
     @FXML
     private TableView<PresentationModel> structureEditorProperties;
 
+    @Inject
+    private JavaFXBinder binder;
+
     public void initialize()
       {
       }
@@ -72,7 +66,7 @@ public class JavaFXStructureEditorPresentationDelegate implements StructureEdito
     @Override
     public void showUp()
       {
-        stackPaneSelector.get().setShownNode(structureEditor);
+        // never used
       }
 
     @Override
@@ -91,6 +85,6 @@ public class JavaFXStructureEditorPresentationDelegate implements StructureEdito
     @Override
     public void populateProperties (final @Nonnull PresentationModel pm)
       {
-        binder.get().bind(structureEditorProperties, pm);
+        binder.bind(structureEditorProperties, pm);
       }
   }

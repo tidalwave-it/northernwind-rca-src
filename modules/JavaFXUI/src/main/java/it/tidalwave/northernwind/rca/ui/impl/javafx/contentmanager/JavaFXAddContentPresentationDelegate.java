@@ -29,14 +29,13 @@ package it.tidalwave.northernwind.rca.ui.impl.javafx.contentmanager;
 
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
-import javax.inject.Provider;
 import javafx.fxml.FXML;
+import javafx.scene.layout.Pane;
 import javafx.scene.control.TextField;
 import it.tidalwave.util.ui.UserNotificationWithFeedback;
 import it.tidalwave.role.ui.javafx.JavaFXBinder;
 import it.tidalwave.northernwind.rca.ui.contentmanager.AddContentPresentation;
 import it.tidalwave.northernwind.rca.ui.contentmanager.AddContentPresentation.Bindings;
-import org.springframework.beans.factory.annotation.Configurable;
 
 /***********************************************************************************************************************
  *
@@ -44,11 +43,10 @@ import org.springframework.beans.factory.annotation.Configurable;
  * @version $Id$
  *
  **********************************************************************************************************************/
-@Configurable
 public class JavaFXAddContentPresentationDelegate implements AddContentPresentation
   {
-    @Inject
-    private Provider<JavaFXBinder> binder;
+    @FXML
+    private Pane pnPane;
 
     @FXML
     private TextField tfFolder;
@@ -65,20 +63,26 @@ public class JavaFXAddContentPresentationDelegate implements AddContentPresentat
     @FXML
     private TextField tfPublishingDateTime;
 
+    @Inject
+    private JavaFXBinder binder;
+
+    private Bindings bindings;
+
     @Override
     public void bind (final @Nonnull Bindings bindings)
       {
-        binder.get().bindBidirectionally(tfFolder, bindings.folder, bindings.folderValid);
-        binder.get().bindBidirectionally(tfTitle, bindings.title, bindings.titleValid);
-        binder.get().bindBidirectionally(tfExposedUri, bindings.exposedUri, bindings.exposedUriValid);
-        binder.get().bindBidirectionally(tfTags, bindings.tags, bindings.tagsValid);
-        binder.get().bindBidirectionally(tfPublishingDateTime, bindings.publishingDateTime,
-                                                               bindings.publishingDateTimeValid);
+        binder.bindBidirectionally(tfFolder, bindings.folder, bindings.folderValid);
+        binder.bindBidirectionally(tfTitle, bindings.title, bindings.titleValid);
+        binder.bindBidirectionally(tfExposedUri, bindings.exposedUri, bindings.exposedUriValid);
+        binder.bindBidirectionally(tfTags, bindings.tags, bindings.tagsValid);
+        binder.bindBidirectionally(tfPublishingDateTime, bindings.publishingDateTime,
+                                                         bindings.publishingDateTimeValid);
+        this.bindings = bindings;
       }
 
     @Override
     public void showUp (final @Nonnull UserNotificationWithFeedback notification)
       {
-        // never called - FIXME: get rid of this?
+        binder.showInModalDialog(pnPane, notification, bindings.valid);
       }
   }

@@ -28,7 +28,6 @@
 package it.tidalwave.northernwind.rca.ui.impl.javafx.structureexplorer;
 
 import javax.annotation.Nonnull;
-import javafx.scene.Node;
 import it.tidalwave.northernwind.rca.ui.structureexplorer.StructureExplorerPresentation;
 import lombok.Delegate;
 import lombok.Getter;
@@ -47,15 +46,8 @@ import static it.tidalwave.ui.javafx.JavaFXSafeProxyCreator.*;
 public class JavaFXStructureExplorerPresentation implements StructureExplorerPresentation
   {
     @Getter @Nonnull
-    private final Node node;
+    private final NodeAndDelegate nad = createNodeAndDelegate(getClass());
 
     @Delegate
-    private final StructureExplorerPresentation delegate;
-
-    public JavaFXStructureExplorerPresentation()
-      {
-        final NodeAndDelegate nad = createNodeAndDelegate(getClass(), "StructureExplorerPresentation.fxml");
-        node = nad.getNode();
-        delegate = nad.getDelegate();
-      }
+    private final StructureExplorerPresentation delegate = nad.getDelegate();
   }
