@@ -27,24 +27,14 @@
  */
 package it.tidalwave.northernwind.rca.ui.impl.javafx;
 
-import javax.inject.Inject;
-import javax.inject.Provider;
-import java.io.IOException;
+import javax.annotation.Nonnull;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
-import org.springframework.beans.factory.annotation.Configurable;
-import it.tidalwave.role.ui.javafx.StackPaneSelector;
-import it.tidalwave.northernwind.rca.ui.contenteditor.ContentEditorPresentationControl;
-import it.tidalwave.northernwind.rca.ui.siteopener.SiteOpenerPresentationControl;
-import it.tidalwave.northernwind.rca.ui.impl.javafx.contenteditor.JavaFXContentEditorPresentation;
-import it.tidalwave.northernwind.rca.ui.impl.javafx.contentexplorer.JavaFXContentExplorerPresentation;
-import it.tidalwave.northernwind.rca.ui.impl.javafx.siteopener.JavaFXSiteOpenerPresentation;
-import it.tidalwave.northernwind.rca.ui.impl.javafx.structureexplorer.JavaFXStructureExplorerPresentation;
-import it.tidalwave.northernwind.rca.ui.impl.javafx.structureeditor.JavaFXStructureEditorPresentation;
-import lombok.extern.slf4j.Slf4j;
+import lombok.Getter;
 
 /***********************************************************************************************************************
  *
@@ -54,34 +44,9 @@ import lombok.extern.slf4j.Slf4j;
  * @version $Id$
  *
  **********************************************************************************************************************/
-@Configurable @Slf4j
 public class JavaFXApplicationPresentationDelegate
   {
-    @Inject
-    private Provider<StackPaneSelector> stackPaneSelector;
-
-    @Inject
-    private Provider<SiteOpenerPresentationControl> siteOpenerPresentationControl;
-
-    @Inject
-    private Provider<ContentEditorPresentationControl> contentEditorPresentationControl;
-
-    @Inject
-    private Provider<JavaFXContentEditorPresentation> contentEditorPresentation;
-
-    @Inject
-    private Provider<JavaFXContentExplorerPresentation> contentExplorerPresentation;
-
-    @Inject
-    private Provider<JavaFXStructureEditorPresentation> structureEditorPresentation;
-
-    @Inject
-    private Provider<JavaFXStructureExplorerPresentation> structureExplorerPresentation;
-
-    @Inject
-    private Provider<JavaFXSiteOpenerPresentation> siteOpenerPresentation;
-
-    @FXML
+    @FXML @Getter
     private StackPane stackPane;
 
     @FXML
@@ -94,21 +59,8 @@ public class JavaFXApplicationPresentationDelegate
     @FXML
     private MenuItem openSiteMenu;
 
-    public void initialize()
-      throws IOException
+    public void setLeftVerticalSplitContents (final @Nonnull Node ... nodes)
       {
-        stackPaneSelector.get().registerArea("editorArea", stackPane);
-        stackPaneSelector.get().add("editorArea", structureEditorPresentation.get().getNode());
-        stackPaneSelector.get().add("editorArea", contentEditorPresentation.get().getNode());
-
-        pnVerticalSplit.getItems().add(structureExplorerPresentation.get().getNode());
-        pnVerticalSplit.getItems().add(contentExplorerPresentation.get().getNode());
-
-        // FIXME: controllers can't initialize in postconstruct
-        // Too bad because with PAC+EventBus we'd get rid of the control interfaces
-        contentEditorPresentationControl.get().initialize();
-
-        siteOpenerPresentation.get().createDelegate(this);
-        siteOpenerPresentationControl.get().initialize();
+        pnVerticalSplit.getItems().setAll(nodes);
       }
   }

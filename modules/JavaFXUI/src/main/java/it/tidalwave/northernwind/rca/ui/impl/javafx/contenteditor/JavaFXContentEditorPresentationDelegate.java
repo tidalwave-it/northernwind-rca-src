@@ -29,7 +29,6 @@ package it.tidalwave.northernwind.rca.ui.impl.javafx.contenteditor;
 
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
-import javax.inject.Provider;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.event.EventHandler;
@@ -39,11 +38,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.web.WebEvent;
 import javafx.scene.web.WebView;
 import javafx.scene.layout.Pane;
-import org.springframework.beans.factory.annotation.Configurable;
 import it.tidalwave.role.ui.PresentationModel;
 import it.tidalwave.role.ui.javafx.JavaFXBinder;
 import it.tidalwave.northernwind.rca.ui.contenteditor.ContentEditorPresentation;
-import it.tidalwave.role.ui.javafx.StackPaneSelector;
 import lombok.extern.slf4j.Slf4j;
 
 /***********************************************************************************************************************
@@ -52,15 +49,9 @@ import lombok.extern.slf4j.Slf4j;
  * @version $Id$
  *
  **********************************************************************************************************************/
-@Configurable @Slf4j
+@Slf4j
 public class JavaFXContentEditorPresentationDelegate implements ContentEditorPresentation
   {
-    @Inject
-    private Provider<JavaFXBinder> binder;
-
-    @Inject
-    private Provider<StackPaneSelector> stackPaneSelector;
-
     @FXML
     private Pane contentEditor;
 
@@ -79,6 +70,9 @@ public class JavaFXContentEditorPresentationDelegate implements ContentEditorPre
     @FXML
     private Button btOpenExternalEditorBrowser;
 
+    @Inject
+    private JavaFXBinder binder;
+
     private final EventHandler<WebEvent<String>> clickHijacker = new EventHandler<WebEvent<String>>()
       {
         @Override
@@ -96,15 +90,15 @@ public class JavaFXContentEditorPresentationDelegate implements ContentEditorPre
     @Override
     public void bind (final @Nonnull Bindings bindings)
       {
-        binder.get().bindBidirectionally(contentTitle.textProperty(), bindings.title);
-        binder.get().bind(btOpenExternalEditor, bindings.openExternalEditorAction);
-        binder.get().bind(btOpenExternalEditorBrowser, bindings.openExternalEditorBrowserAction);
+        binder.bindBidirectionally(contentTitle.textProperty(), bindings.title);
+        binder.bind(btOpenExternalEditor, bindings.openExternalEditorAction);
+        binder.bind(btOpenExternalEditorBrowser, bindings.openExternalEditorBrowserAction);
       }
 
     @Override
     public void showUp()
       {
-        stackPaneSelector.get().setShownNode(contentEditor);
+        // never used
       }
 
     @Override
@@ -124,6 +118,6 @@ public class JavaFXContentEditorPresentationDelegate implements ContentEditorPre
     @Override
     public void populateProperties (final @Nonnull PresentationModel pm)
       {
-        binder.get().bind(contentEditorProperties, pm);
+        binder.bind(contentEditorProperties, pm);
       }
   }

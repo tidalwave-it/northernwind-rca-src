@@ -29,10 +29,8 @@ package it.tidalwave.northernwind.rca.ui.impl.javafx.contentexplorer;
 
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
-import javax.inject.Provider;
 import javafx.scene.control.TreeView;
 import javafx.fxml.FXML;
-import org.springframework.beans.factory.annotation.Configurable;
 import it.tidalwave.role.ui.PresentationModel;
 import it.tidalwave.role.ui.javafx.JavaFXBinder;
 import it.tidalwave.northernwind.rca.ui.contentexplorer.ContentExplorerPresentation;
@@ -43,19 +41,19 @@ import it.tidalwave.northernwind.rca.ui.contentexplorer.ContentExplorerPresentat
  * @version $Id$
  *
  **********************************************************************************************************************/
-@Configurable
+
 public class JavaFXContentExplorerPresentationDelegate implements ContentExplorerPresentation
   {
-    @Inject
-    private Provider<JavaFXBinder> binder;
-
     @FXML
     private TreeView<PresentationModel> tvContent;
+
+    @Inject
+    private JavaFXBinder binder;
 
     @Override
     public void populate (final @Nonnull PresentationModel pm)
       {
-        binder.get().bind(tvContent, pm);
+        binder.bind(tvContent, pm);
       }
 
     @Override
