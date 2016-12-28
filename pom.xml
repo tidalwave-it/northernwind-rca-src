@@ -64,6 +64,10 @@ Zephyr is a rich client application for editing contents for the NorthernWind CM
 
     ================================================================================================================ -->
     <properties>
+        <scm.repo.url>ssh:git@bitbucket.org:tidalwave/northernwind-rca-src.git</scm.repo.url>
+        <scm.repo.readonly.url>https://tidalwave@bitbucket.org/tidalwave/northernwind-rca-src.git</scm.repo.readonly.url>
+        <scm.repo.browse.url>https://bitbucket.org/tidalwave/northernwind-rca-src/src</scm.repo.browse.url>
+
         <tft.project.url>http://northernwind.tidalwave.it</tft.project.url>
         <tft.project.description>NorthernWind - lightweight CMS, Rich Admin Client</tft.project.description>
         <tft.appbundle.name>Zephyr</tft.appbundle.name>
@@ -72,7 +76,7 @@ Zephyr is a rich client application for editing contents for the NorthernWind CM
         <!-- FIXME: user.home -->
         <tft.javafx.vmargs>-Dfile.encoding=UTF-8 -Dsun.jnu.encoding=UTF-8</tft.javafx.vmargs>
 
-        <tft.maven.requiredJdk>[1.8.0-0,1.8.0-999)</tft.maven.requiredJdk>
+        <tft.maven.requiredJdk>[1.8.0-0,)</tft.maven.requiredJdk>
         <tft.javac.source>1.8</tft.javac.source>
         <tft.javac.target>1.8</tft.javac.target>
 
@@ -86,10 +90,6 @@ Zephyr is a rich client application for editing contents for the NorthernWind CM
         <netbeans.checkstyle.format>true</netbeans.checkstyle.format>
         <netbeans.compile.on.save>all</netbeans.compile.on.save>
 
-        <scm.repo.url>ssh:git@bitbucket.org:tidalwave/northernwind-rca-src.git</scm.repo.url>
-        <scm.repo.readonly.url>https://tidalwave@bitbucket.org/tidalwave/northernwind-rca-src.git</scm.repo.readonly.url>
-        <scm.repo.browse.url>https://bitbucket.org/tidalwave/northernwind-rca-src/src</scm.repo.browse.url>
-        <tft.scm>git</tft.scm>
         <tidalwave.ci.view>Zephyr</tidalwave.ci.view>
         <tidalwave.issues>NWRCA</tidalwave.issues>
 
