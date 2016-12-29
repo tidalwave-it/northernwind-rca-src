@@ -38,7 +38,6 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
-import org.mockito.stubbing.Answer;
 import static it.tidalwave.util.ui.UserNotificationWithFeedbackTestHelper.*;
 import static it.tidalwave.northernwind.rca.ui.siteopener.spi.OpenSiteEventMatcher.*;
 import static org.hamcrest.CoreMatchers.*;
@@ -136,16 +135,5 @@ public class DefaultSiteOpenerPresentationControlTest
           }
 
         return result;
-      }
-
-    // FIXME: for stylistic consistency, CONFIRM and CANCEL should really be static methods
-    private static Answer<Void> confirm()
-      {
-        return CONFIRM;
-      }
-
-    private static Answer<Void> cancel()
-      {
-        return CANCEL;
       }
   }

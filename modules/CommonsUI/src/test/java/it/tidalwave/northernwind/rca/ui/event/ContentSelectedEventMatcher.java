@@ -27,14 +27,14 @@
  */
 package it.tidalwave.northernwind.rca.ui.event;
 
+import javax.annotation.Nullable;
 import javax.annotation.Nonnull;
 import java.util.Optional;
 import it.tidalwave.northernwind.core.model.Content;
-import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
-import org.hamcrest.BaseMatcher;
-import org.hamcrest.Description;
-import org.mockito.Matchers;
+import org.mockito.ArgumentMatcher;
+import org.mockito.ArgumentMatchers;
+import static lombok.AccessLevel.PRIVATE;
 
 /***********************************************************************************************************************
  *
@@ -44,8 +44,8 @@ import org.mockito.Matchers;
  * @version $Id$
  *
  **********************************************************************************************************************/
-@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
-public class ContentSelectedEventMatcher extends BaseMatcher<ContentSelectedEvent>
+@RequiredArgsConstructor(access = PRIVATE)
+public class ContentSelectedEventMatcher implements ArgumentMatcher<ContentSelectedEvent>
   {
     @Nonnull
     private final Optional<Content> content;
@@ -53,27 +53,24 @@ public class ContentSelectedEventMatcher extends BaseMatcher<ContentSelectedEven
     @Nonnull
     public static ContentSelectedEvent emptyEvent()
       {
-        return Matchers.argThat(new ContentSelectedEventMatcher(Optional.empty()));
+        return ArgumentMatchers.argThat(new ContentSelectedEventMatcher(Optional.empty()));
       }
 
     @Nonnull
     public static ContentSelectedEvent eventWith (final @Nonnull Content content)
       {
-        return Matchers.argThat(new ContentSelectedEventMatcher(Optional.of(content)));
+        return ArgumentMatchers.argThat(new ContentSelectedEventMatcher(Optional.of(content)));
       }
 
-    @Override public boolean matches (Object item)
+    @Override
+    public boolean matches (final @Nullable ContentSelectedEvent event)
       {
-        if (!(item instanceof ContentSelectedEvent))
-          {
-            return false;
-          }
-
-        final ContentSelectedEvent event = (ContentSelectedEvent)item;
-        return this.content.equals(event.getContent());
+        return (event != null) && this.content.equals(event.getContent());
       }
 
-    @Override public void describeTo (Description description)
+    @Override @Nonnull
+    public String toString()
       {
+        return String.format("ContentSelectedEvent(%s)", content);
       }
   }

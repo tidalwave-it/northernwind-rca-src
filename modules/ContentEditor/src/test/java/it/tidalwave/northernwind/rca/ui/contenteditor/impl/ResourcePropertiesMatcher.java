@@ -35,8 +35,7 @@ import com.google.common.collect.ImmutableMap;
 import it.tidalwave.util.Key;
 import it.tidalwave.util.NotFoundException;
 import it.tidalwave.northernwind.core.model.ResourceProperties;
-import org.hamcrest.BaseMatcher;
-import org.hamcrest.Description;
+import org.mockito.ArgumentMatcher;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 
@@ -48,7 +47,7 @@ import lombok.RequiredArgsConstructor;
  **********************************************************************************************************************/
 // FIXME: move to NW
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
-public class ResourcePropertiesMatcher extends BaseMatcher<ResourceProperties>
+public class ResourcePropertiesMatcher implements ArgumentMatcher<ResourceProperties>
   {
     @Nonnull
     private final Map<Key<String>, String> expectedValuesMap;
@@ -67,17 +66,10 @@ public class ResourcePropertiesMatcher extends BaseMatcher<ResourceProperties>
       }
 
     @Override
-    public boolean matches (final Object item)
+    public boolean matches (final ResourceProperties properties)
       {
-        if (!(item instanceof ResourceProperties))
-          {
-            return false;
-          }
-
         try
           {
-            final ResourceProperties properties = (ResourceProperties)item;
-
             for (final Entry<Key<String>, String> e : expectedValuesMap.entrySet())
               {
                 if (!e.getValue().equals(properties.getProperty(e.getKey())))
@@ -94,9 +86,9 @@ public class ResourcePropertiesMatcher extends BaseMatcher<ResourceProperties>
           }
       }
 
-    @Override
-    public void describeTo (final Description description)
+    @Override @Nonnull
+    public String toString()
       {
-        description.appendText("ResourceProperties with " + expectedValuesMap);
+        return String.format("ResourceProperties(%s)", expectedValuesMap);
       }
-    }
+  }
