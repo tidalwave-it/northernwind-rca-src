@@ -32,7 +32,7 @@
     <parent>
         <groupId>it.tidalwave.superpom</groupId>
         <artifactId>superpom</artifactId>
-        <version>4.0</version>
+        <version>4.0.1</version>
         <relativePath />
     </parent>
 
@@ -101,29 +101,6 @@ Zephyr is a rich client application for editing contents for the NorthernWind CM
         <tft.UmlGraphDoc.version>5.4</tft.UmlGraphDoc.version>
         <tft.UmlGraphDoc.additionalParam>-views -attributes -operations -types -postfixpackage -nodefontpackagesize 6 -nodefontclasssize 8 -nodefontsize 7 -edgefontsize 7 -nodesep 0.05 -ranksep 0.1 -visibility -inferdep -inferrel -inferdepinpackage -hide java.*|javax.*|android.*</tft.UmlGraphDoc.additionalParam>
     </properties>
-
-    <!-- ===============================================================================================================
-
-        The Sonatype Releases repository is useful as you're likely to use it as a stage repository towards Maven
-        Central. If you're depending on recently released stuff, you might find it there with a few hours of advance
-        in respect of Maven Central.
-        The Sonatype Snapshots repository is useful as you're likeky to use it to deploy your snaphots, and you might
-        depend on some snapshot.
-
-    ================================================================================================================ -->
-    <repositories>
-        <repository>
-            <id>snapshots-oss.sonatype.org</id>
-            <name>Sonatype Snapshots Repository</name>
-            <url>http://oss.sonatype.org/content/repositories/snapshots/</url>
-            <releases>
-                <enabled>false</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository>
-    </repositories>
 
     <!-- ===============================================================================================================
 
