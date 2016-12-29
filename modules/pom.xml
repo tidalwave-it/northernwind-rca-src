@@ -65,7 +65,7 @@
         <netbeans.version>RELEASE80</netbeans.version>
         <northernwind.version>1.1-ALPHA-37</northernwind.version>
         <steelblue.version>1.0-ALPHA-13</steelblue.version>
-        <thesefoolishthings.version>3.0.3</thesefoolishthings.version>
+        <thesefoolishthings.version>3.1-ALPHA-1</thesefoolishthings.version>
     </properties>
 
     <!-- ===============================================================================================================
@@ -111,13 +111,6 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-            <dependency>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-framework-bom</artifactId>
-                <version>${tft.spring.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
 
             <dependency>
                 <groupId>com.google.guava</groupId>
@@ -147,47 +140,11 @@
                 <artifactId>joda-time</artifactId>
                 <version>${joda-time.version}</version>
             </dependency>
-            <dependency>
-                <groupId>com.google.code.findbugs</groupId>
-                <artifactId>annotations</artifactId>
-                <version>${tft.jsr305.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>javax.inject</groupId>
-                <artifactId>javax.inject</artifactId>
-                <version>${tft.jsr330.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.slf4j</groupId>
-                <artifactId>slf4j-api</artifactId>
-                <version>${tft.slf4j.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.slf4j</groupId>
-                <artifactId>jcl-over-slf4j</artifactId>
-                <version>${tft.slf4j.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>ch.qos.logback</groupId>
-                <artifactId>logback-core</artifactId>
-                <version>${tft.logback.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>ch.qos.logback</groupId>
-                <artifactId>logback-classic</artifactId>
-                <version>${tft.logback.version}</version>
-            </dependency>
 
             <dependency>
                 <groupId>com.aquafx-project</groupId>
                 <artifactId>aquafx</artifactId>
                 <version>${aquafx.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.projectlombok</groupId>
-                <artifactId>lombok</artifactId>
-                <version>${tft.lombok.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -235,7 +192,7 @@
         </dependency>-->
         <dependency>
             <groupId>org.mockito</groupId>
-            <artifactId>mockito-all</artifactId>
+            <artifactId>mockito-core</artifactId>
             <scope>test</scope>
         </dependency>
 
