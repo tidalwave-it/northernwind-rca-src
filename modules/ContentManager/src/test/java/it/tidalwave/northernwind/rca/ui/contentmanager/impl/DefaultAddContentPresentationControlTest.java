@@ -28,9 +28,10 @@
 package it.tidalwave.northernwind.rca.ui.contentmanager.impl;
 
 import javax.annotation.Nonnull;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
+import java.util.function.Consumer;
 import java.io.IOException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -38,8 +39,10 @@ import org.joda.time.DateTime;
 import org.joda.time.DateTimeUtils;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
+import it.tidalwave.util.Id;
 import it.tidalwave.util.Key;
 import it.tidalwave.util.ui.UserNotificationWithFeedback;
+import it.tidalwave.role.IdFactory;
 import it.tidalwave.northernwind.core.model.Content;
 import it.tidalwave.northernwind.rca.ui.contentmanager.AddContentPresentation;
 import it.tidalwave.northernwind.rca.ui.contentmanager.AddContentPresentation.Bindings;
@@ -49,16 +52,13 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
+import lombok.RequiredArgsConstructor;
 import static com.google.common.collect.ImmutableMap.*;
+import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.*;
 import static org.mockito.Mockito.any;
 import static it.tidalwave.util.ui.UserNotificationWithFeedbackTestHelper.*;
 import static it.tidalwave.northernwind.model.admin.Properties.*;
-import it.tidalwave.role.IdFactory;
-import it.tidalwave.util.Id;
-import java.util.UUID;
-import java.util.function.Consumer;
-import lombok.RequiredArgsConstructor;
 
 /***********************************************************************************************************************
  *
@@ -168,7 +168,7 @@ public class DefaultAddContentPresentationControlTest
       {
         // given
         doAnswer(inputSetter.setInput()).when(presentation).bind(any(Bindings.class));
-        doAnswer(CONFIRM).when(presentation).showUp(any(UserNotificationWithFeedback.class));
+        doAnswer(confirm()).when(presentation).showUp(any(UserNotificationWithFeedback.class));
         final Id id = new Id(UUID.randomUUID());
         when(idFactory.createId()).thenReturn(id);
         // when
@@ -191,7 +191,7 @@ public class DefaultAddContentPresentationControlTest
       throws IOException
       {
         // given
-        doAnswer(CANCEL).when(presentation).showUp(any(UserNotificationWithFeedback.class));
+        doAnswer(cancel()).when(presentation).showUp(any(UserNotificationWithFeedback.class));
         // when
         underTest.onCreateContentRequest(CreateContentRequest.of(content));
         // then

@@ -30,11 +30,10 @@ package it.tidalwave.northernwind.rca.ui.event;
 import javax.annotation.Nonnull;
 import java.util.Optional;
 import it.tidalwave.northernwind.core.model.SiteNode;
+import org.mockito.ArgumentMatcher;
+import org.mockito.ArgumentMatchers;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
-import org.hamcrest.BaseMatcher;
-import org.hamcrest.Description;
-import org.mockito.Matchers;
 
 /***********************************************************************************************************************
  *
@@ -43,7 +42,7 @@ import org.mockito.Matchers;
  *
  **********************************************************************************************************************/
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
-public class SiteNodeSelectedEventMatcher extends BaseMatcher<SiteNodeSelectedEvent>
+public class SiteNodeSelectedEventMatcher implements ArgumentMatcher<SiteNodeSelectedEvent>
   {
     @Nonnull
     private final Optional<SiteNode> node;
@@ -51,27 +50,24 @@ public class SiteNodeSelectedEventMatcher extends BaseMatcher<SiteNodeSelectedEv
     @Nonnull
     public static SiteNodeSelectedEvent emptySelectionEvent()
       {
-        return Matchers.argThat(new SiteNodeSelectedEventMatcher(Optional.empty()));
+        return ArgumentMatchers.argThat(new SiteNodeSelectedEventMatcher(Optional.empty()));
       }
 
     @Nonnull
     public static SiteNodeSelectedEvent eventWith (final @Nonnull SiteNode node)
       {
-        return Matchers.argThat(new SiteNodeSelectedEventMatcher(Optional.of(node)));
+        return ArgumentMatchers.argThat(new SiteNodeSelectedEventMatcher(Optional.of(node)));
       }
 
-    @Override public boolean matches (Object item)
+    @Override
+    public boolean matches (final SiteNodeSelectedEvent event)
       {
-        if (!(item instanceof SiteNodeSelectedEvent))
-          {
-            return false;
-          }
-
-        final SiteNodeSelectedEvent event = (SiteNodeSelectedEvent)item;
-        return this.node.equals(event.getSiteNode());
+        return (event != null) && this.node.equals(event.getSiteNode());
       }
 
-    @Override public void describeTo (Description description)
+    @Override @Nonnull
+    public String toString()
       {
+        return String.format("SiteNodeSelectedEvent(%s)", node);
       }
   }

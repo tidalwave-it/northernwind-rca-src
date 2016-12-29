@@ -27,16 +27,16 @@
  */
 package it.tidalwave.northernwind.rca.ui.siteopener.spi;
 
-import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import it.tidalwave.northernwind.rca.ui.event.OpenSiteEvent;
-import lombok.AccessLevel;
+import javax.annotation.Nonnull;
+import org.mockito.ArgumentMatcher;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Wither;
-import org.hamcrest.BaseMatcher;
-import org.hamcrest.Description;
+import static lombok.AccessLevel.PRIVATE;
 
 /***********************************************************************************************************************
  *
@@ -44,27 +44,21 @@ import org.hamcrest.Description;
  * @version $Id$
  *
  **********************************************************************************************************************/
-@NoArgsConstructor(staticName = "openSiteEvent") @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class OpenSiteEventMatcher extends BaseMatcher<OpenSiteEvent>
+@NoArgsConstructor(staticName = "openSiteEvent") @AllArgsConstructor(access = PRIVATE)
+public class OpenSiteEventMatcher implements ArgumentMatcher<OpenSiteEvent>
   {
     @Wither
     private Path rootPath;
 
     @Override
-    public boolean matches (final Object item)
+    public boolean matches (final @Nullable OpenSiteEvent event)
       {
-        if (! (item instanceof OpenSiteEvent))
-          {
-            return false;
-          }
-
-        final OpenSiteEvent event = (OpenSiteEvent)item;
-        return Paths.get(event.getFileSystemProvider().getRootPath()).equals(rootPath);
+        return (event != null) && Paths.get(event.getFileSystemProvider().getRootPath()).equals(rootPath);
       }
 
-    @Override
-    public void describeTo (final @Nonnull Description description)
+    @Override @Nonnull
+    public String toString()
       {
-        description.appendText(String.format("OpenSiteEvent(root = %s)", rootPath));
+        return String.format("OpenSiteEvent(%s)", rootPath);
       }
   }
