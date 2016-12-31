@@ -73,14 +73,7 @@ public class JavaFXContentEditorPresentationDelegate implements ContentEditorPre
     @Inject
     private JavaFXBinder binder;
 
-    private final EventHandler<WebEvent<String>> clickHijacker = new EventHandler<WebEvent<String>>()
-      {
-        @Override
-        public void handle (final @Nonnull WebEvent<String> event)
-          {
-            log.debug("hijacked click: {}", event);
-          }
-      };
+    private final EventHandler<WebEvent<String>> clickHijacker = event -> log.debug("hijacked click: {}", event);
 
     public void initialize()
       {
