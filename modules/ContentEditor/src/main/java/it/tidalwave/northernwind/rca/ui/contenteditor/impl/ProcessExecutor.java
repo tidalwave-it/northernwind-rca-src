@@ -42,6 +42,8 @@ import lombok.extern.slf4j.Slf4j;
 
 /***********************************************************************************************************************
  *
+ * FIXME: merge to TFT.
+ * 
  * @author  Fabrizio Giudici
  * @version $Id$
  *
