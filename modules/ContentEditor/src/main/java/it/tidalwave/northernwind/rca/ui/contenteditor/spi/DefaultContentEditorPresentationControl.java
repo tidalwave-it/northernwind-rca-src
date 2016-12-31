@@ -94,7 +94,7 @@ public class DefaultContentEditorPresentationControl implements ContentEditorPre
      *
      *
      ******************************************************************************************************************/
-    /* visible for testing */ final PropertyBinder.UpdateCallback propertyUpdateCallback = (updatedProperties) ->
+    /* visible for testing */ final PropertyBinder.UpdateCallback propertyUpdateCallback = updatedProperties ->
       {
         updatedProperties.as(Saveable).saveIn(content.get().getFile());
         unbindProperties();
