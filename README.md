@@ -1,7 +1,7 @@
 ![Maven Central](https://img.shields.io/maven-central/v/it.tidalwave.northernwind.rca/northernwind-rca.svg)
-[![Build Status](https://img.shields.io/jenkins/s/http/services.tidalwave.it/ci/Zephyr_Build_from_Scratch.svg)](http://services.tidalwave.it/ci/view/Zephyr)
-[![Test Status](https://img.shields.io/jenkins/t/http/services.tidalwave.it/ci/Zephyr.svg)](http://services.tidalwave.it/ci/view/Zephyr)
-[![Coverage](https://img.shields.io/jenkins/c/http/services.tidalwave.it/ci/Zephyr.svg)](http://services.tidalwave.it/ci/view/Zephyr)
+[![Build Status](https://img.shields.io/jenkins/s/http/services.tidalwave.it/ci/job/Zephyr_Build_from_Scratch.svg)](http://services.tidalwave.it/ci/view/Zephyr)
+[![Test Status](https://img.shields.io/jenkins/t/http/services.tidalwave.it/ci/job/Zephyr.svg)](http://services.tidalwave.it/ci/view/Zephyr)
+[![Coverage](https://img.shields.io/jenkins/c/http/services.tidalwave.it/ci/job/Zephyr.svg)](http://services.tidalwave.it/ci/view/Zephyr)
 
 Zephyr
 ================================
@@ -27,6 +27,7 @@ More information can be found on the [homepage](http://tidalwave.tidalwave.it/no
 
 Where can I get the latest release?
 -----------------------------------
+
 You can download source and binaries from the [download page](https://bitbucket.org/tidalwave/northernwind-rca-src/src).
 
 Alternatively you can pull it from the central Maven repositories:
@@ -60,6 +61,7 @@ If you plan to contribute on a regular basis, please consider filing a contribut
 
 License
 -------
+
 Code is released under the [Apache Licence v2](https://www.apache.org/licenses/LICENSE-2.0.txt).
 
 
