@@ -5,7 +5,7 @@
  * These Foolish Things - Miscellaneous utilities
  * http://thesefoolishthings.java.net - hg clone https://bitbucket.org/tidalwave/thesefoolishthings-src
  * %%
- * Copyright (C) 2013 - 2016 Tidalwave s.a.s. (http://tidalwave.it)
+ * Copyright (C) 2013 - 2021 Tidalwave s.a.s. (http://tidalwave.it)
  * %%
  * *********************************************************************************************************************
  *
