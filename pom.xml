@@ -102,6 +102,20 @@ Zephyr is a rich client application for editing contents for the NorthernWind CM
         <tft.UmlGraphDoc.additionalParam>-views -attributes -operations -types -postfixpackage -nodefontpackagesize 6 -nodefontclasssize 8 -nodefontsize 7 -edgefontsize 7 -nodesep 0.05 -ranksep 0.1 -visibility -inferdep -inferrel -inferdepinpackage -hide java.*|javax.*|android.*</tft.UmlGraphDoc.additionalParam>
     </properties>
 
+    <repositories>
+        <!-- Until we depend on the NetBeans Platform FileSystem -->
+        <!-- repository>
+            <id>netbeans</id>
+            <name>NetBeans Platform Maven Repository</name>
+            <url>http://bits.netbeans.org/maven2/</url>
+        </repository -->
+        <repository>
+            <id>netbeans</id>
+            <name>NetBeans Platform Maven Repository</name>
+            <url>http://netbeans.apidesign.org/maven2/</url>
+        </repository>
+    </repositories>
+
     <!-- ===============================================================================================================
 
         Here you declare the versions for all the modules in your project. Don't declare here the versions for
