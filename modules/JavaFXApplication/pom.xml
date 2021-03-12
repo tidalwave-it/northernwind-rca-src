@@ -56,6 +56,13 @@
         <dependency>
             <groupId>it.tidalwave.steelblue</groupId>
             <artifactId>it-tidalwave-role-ui-javafx</artifactId>
+            <!-- FIXME: remove after NW upgrade -->
+            <exclusions>
+                <exclusion>
+                    <groupId>com.google.code.findbugs</groupId>
+                    <artifactId>annotations</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>
@@ -132,10 +139,24 @@
         <dependency>
             <groupId>it.tidalwave.northernwind</groupId>
             <artifactId>it-tidalwave-northernwind-core</artifactId>
+            <!-- FIXME: remove after NW upgrade -->
+            <exclusions>
+                <exclusion>
+                    <groupId>com.google.code.findbugs</groupId>
+                    <artifactId>annotations</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>it.tidalwave.northernwind</groupId>
             <artifactId>it-tidalwave-northernwind-core-filesystem-basic</artifactId>
+            <!-- FIXME: remove after NW upgrade -->
+            <exclusions>
+                <exclusion>
+                    <groupId>com.google.code.findbugs</groupId>
+                    <artifactId>annotations</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <!-- FIXME: temporary dependency -->
         <dependency>
@@ -151,6 +172,13 @@
             <groupId>it.tidalwave.northernwind</groupId>
             <artifactId>it-tidalwave-northernwind-core-marshalling-default</artifactId>
             <!--<scope>runtime</scope>-->
+            <!-- FIXME: remove after NW upgrade -->
+            <exclusions>
+                <exclusion>
+                    <groupId>com.google.code.findbugs</groupId>
+                    <artifactId>annotations</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>
