@@ -29,7 +29,7 @@ package it.tidalwave.northernwind.rca.ui.impl.javafx.siteopener;
 
 import javax.annotation.Nonnull;
 import it.tidalwave.northernwind.rca.ui.siteopener.SiteOpenerPresentation;
-import lombok.Delegate;
+import lombok.experimental.Delegate;
 import static it.tidalwave.role.ui.javafx.impl.util.JavaFXSafeComponentBuilder.createInstance;
 
 /***********************************************************************************************************************

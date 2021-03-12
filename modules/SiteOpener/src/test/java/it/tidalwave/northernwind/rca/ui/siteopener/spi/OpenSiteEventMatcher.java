@@ -35,7 +35,7 @@ import javax.annotation.Nonnull;
 import org.mockito.ArgumentMatcher;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
-import lombok.experimental.Wither;
+import lombok.With;
 import static lombok.AccessLevel.PRIVATE;
 
 /***********************************************************************************************************************
@@ -47,7 +47,7 @@ import static lombok.AccessLevel.PRIVATE;
 @NoArgsConstructor(staticName = "openSiteEvent") @AllArgsConstructor(access = PRIVATE)
 public class OpenSiteEventMatcher implements ArgumentMatcher<OpenSiteEvent>
   {
-    @Wither
+    @With
     private Path rootPath;
 
     @Override

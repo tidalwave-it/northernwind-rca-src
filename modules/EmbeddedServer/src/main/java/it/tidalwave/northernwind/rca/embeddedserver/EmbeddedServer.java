@@ -35,7 +35,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import lombok.experimental.Wither;
+import lombok.With;
 
 /***********************************************************************************************************************
  *
@@ -62,13 +62,13 @@ public interface EmbeddedServer
               };
           }
 
-        @Getter @Wither @Nonnull
+        @Getter @With @Nonnull
         private String mimeType = "";
 
-        @Getter @Wither @Nonnull
+        @Getter @With @Nonnull
         private String content = "";
 
-        @Getter @Wither @Nonnull
+        @Getter @With @Nonnull
         private UpdateListener updateListener = UpdateListener.VOID;
 
         public void update (final @Nonnull String content)

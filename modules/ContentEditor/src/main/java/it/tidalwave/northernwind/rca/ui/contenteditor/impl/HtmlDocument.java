@@ -34,7 +34,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
-import lombok.experimental.Wither;
+import lombok.With;
 import lombok.extern.slf4j.Slf4j;
 import static lombok.AccessLevel.PACKAGE;
 
@@ -52,13 +52,13 @@ import static lombok.AccessLevel.PACKAGE;
 @EqualsAndHashCode @ToString @Slf4j
 public class HtmlDocument
   {
-    @Getter @Wither @Nonnull
+    @Getter @With @Nonnull
     private final String prolog;
 
-    @Getter @Wither @Nonnull
+    @Getter @With @Nonnull
     private final String body;
 
-    @Getter @Wither @Nonnull
+    @Getter @With @Nonnull
     private final String epilog;
 
     @Nonnull

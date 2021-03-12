@@ -31,7 +31,7 @@ import javax.annotation.Nonnull;
 import javax.inject.Inject;
 import it.tidalwave.role.ui.javafx.StackPaneSelector;
 import it.tidalwave.northernwind.rca.ui.structureeditor.StructureEditorPresentation;
-import lombok.Delegate;
+import lombok.experimental.Delegate;
 import lombok.Getter;
 import static it.tidalwave.ui.javafx.JavaFXSafeProxyCreator.*;
 

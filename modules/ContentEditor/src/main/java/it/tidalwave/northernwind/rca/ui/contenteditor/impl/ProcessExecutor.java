@@ -37,7 +37,7 @@ import java.io.File;
 import it.tidalwave.util.Callback;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import lombok.experimental.Wither;
+import lombok.With;
 import lombok.extern.slf4j.Slf4j;
 
 /***********************************************************************************************************************
@@ -52,10 +52,10 @@ public class ProcessExecutor
     @Nonnull
     private final String executable;
 
-    @Wither
+    @With
     private List<String> arguments = new ArrayList<>();
 
-    @Wither
+    @With
     private Callback postMortemTask = Callback.EMPTY;
 
     @Nonnull

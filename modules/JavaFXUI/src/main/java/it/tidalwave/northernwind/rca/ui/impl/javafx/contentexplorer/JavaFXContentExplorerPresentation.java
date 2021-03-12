@@ -29,7 +29,7 @@ package it.tidalwave.northernwind.rca.ui.impl.javafx.contentexplorer;
 
 import javax.annotation.Nonnull;
 import it.tidalwave.northernwind.rca.ui.contentexplorer.ContentExplorerPresentation;
-import lombok.Delegate;
+import lombok.experimental.Delegate;
 import lombok.Getter;
 import static it.tidalwave.ui.javafx.JavaFXSafeProxyCreator.*;
 

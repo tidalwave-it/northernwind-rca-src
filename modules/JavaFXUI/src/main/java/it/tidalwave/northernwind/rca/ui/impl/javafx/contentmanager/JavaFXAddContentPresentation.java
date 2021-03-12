@@ -29,7 +29,7 @@ package it.tidalwave.northernwind.rca.ui.impl.javafx.contentmanager;
 
 import it.tidalwave.ui.javafx.JavaFXSafeProxyCreator.NodeAndDelegate;
 import it.tidalwave.northernwind.rca.ui.contentmanager.AddContentPresentation;
-import lombok.Delegate;
+import lombok.experimental.Delegate;
 import static it.tidalwave.ui.javafx.JavaFXSafeProxyCreator.createNodeAndDelegate;
 
 /***********************************************************************************************************************

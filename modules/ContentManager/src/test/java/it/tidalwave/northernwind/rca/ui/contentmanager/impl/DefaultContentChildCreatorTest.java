@@ -45,7 +45,7 @@ import it.tidalwave.northernwind.model.admin.role.Saveable;
 import it.tidalwave.northernwind.rca.ui.event.ContentCreatedEvent;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import lombok.Delegate;
+import lombok.experimental.Delegate;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import static org.mockito.Mockito.*;
