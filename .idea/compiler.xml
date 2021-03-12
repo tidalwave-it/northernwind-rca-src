@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="it-tidalwave-northernwind-rca-model" />
+        <module name="it-tidalwave-northernwind-rca-ui-content-explorer" />
+        <module name="it-tidalwave-northernwind-model-core-stripped" />
+        <module name="it-tidalwave-northernwind-rca-ui-site-opener" />
+        <module name="it-tidalwave-northernwind-rca-ui-structure-explorer" />
+        <module name="it-tidalwave-northernwind-rca-ui-structure-editor" />
+        <module name="it-tidalwave-northernwind-rca-ui-javafx" />
+        <module name="it-tidalwave-northernwind-rca-ui-content-editor" />
+        <module name="it-tidalwave-northernwind-rca-application-javafx" />
+        <module name="it-tidalwave-northernwind-rca-embeddedserver" />
+        <module name="it-tidalwave-northernwind-rca-ui-commons" />
+        <module name="it-tidalwave-northernwind-rca-ui-content-manager" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="it-tidalwave-northernwind-model-core-stripped" target="1.8" />
+      <module name="it-tidalwave-northernwind-rca-application-javafx" target="1.8" />
+      <module name="it-tidalwave-northernwind-rca-embeddedserver" target="1.8" />
+      <module name="it-tidalwave-northernwind-rca-model" target="1.8" />
+      <module name="it-tidalwave-northernwind-rca-ui-commons" target="1.8" />
+      <module name="it-tidalwave-northernwind-rca-ui-content-editor" target="1.8" />
+      <module name="it-tidalwave-northernwind-rca-ui-content-explorer" target="1.8" />
+      <module name="it-tidalwave-northernwind-rca-ui-content-manager" target="1.8" />
+      <module name="it-tidalwave-northernwind-rca-ui-javafx" target="1.8" />
+      <module name="it-tidalwave-northernwind-rca-ui-site-opener" target="1.8" />
+      <module name="it-tidalwave-northernwind-rca-ui-structure-editor" target="1.8" />
+      <module name="it-tidalwave-northernwind-rca-ui-structure-explorer" target="1.8" />
+      <module name="northernwind-rca" target="1.8" />
+      <module name="northernwind-rca-modules" target="1.8" />
+      <module name="zephyr-javafx" target="1.8" />
+      <module name="zephyr-macosx" target="1.8" />
+      <module name="zephyr-macosx-embedded-jre" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="it-tidalwave-northernwind-model-core-stripped" options="-Xlint:all" />
+      <module name="it-tidalwave-northernwind-rca-application-javafx" options="-Xlint:all" />
+      <module name="it-tidalwave-northernwind-rca-embeddedserver" options="-Xlint:all" />
+      <module name="it-tidalwave-northernwind-rca-model" options="-Xlint:all" />
+      <module name="it-tidalwave-northernwind-rca-ui-commons" options="-Xlint:all" />
+      <module name="it-tidalwave-northernwind-rca-ui-content-editor" options="-Xlint:all" />
+      <module name="it-tidalwave-northernwind-rca-ui-content-explorer" options="-Xlint:all" />
+      <module name="it-tidalwave-northernwind-rca-ui-content-manager" options="-Xlint:all" />
+      <module name="it-tidalwave-northernwind-rca-ui-javafx" options="-Xlint:all" />
+      <module name="it-tidalwave-northernwind-rca-ui-site-opener" options="-Xlint:all" />
+      <module name="it-tidalwave-northernwind-rca-ui-structure-editor" options="-Xlint:all" />
+      <module name="it-tidalwave-northernwind-rca-ui-structure-explorer" options="-Xlint:all" />
+    </option>
+  </component>
+</project>

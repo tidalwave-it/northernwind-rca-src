@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/modules/CommonsUI/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/modules/CommonsUI/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/modules/ContentEditor/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/modules/ContentEditor/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/modules/ContentExplorer/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/modules/ContentExplorer/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/modules/ContentManager/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/modules/ContentManager/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/modules/EmbeddedServer/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/modules/EmbeddedServer/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/modules/JavaFXApplication/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/modules/JavaFXApplication/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/modules/JavaFXUI/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/modules/JavaFXUI/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/modules/Model/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/modules/Model/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/modules/SiteOpener/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/modules/SiteOpener/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/modules/StrippedCoreImplementation/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/modules/StructureEditor/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/modules/StructureEditor/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/modules/StructureExplorer/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/modules/StructureExplorer/src/main/resources" charset="UTF-8" />
+  </component>
+</project>
