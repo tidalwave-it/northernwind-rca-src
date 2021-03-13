@@ -54,11 +54,6 @@
                     <groupId>org.aspectj</groupId>
                     <artifactId>aspectjweaver</artifactId>
                 </exclusion>
-                <!-- FIXME: remove after NW upgrade -->
-                <exclusion>
-                    <groupId>com.google.code.findbugs</groupId>
-                    <artifactId>annotations</artifactId>
-                </exclusion>
             </exclusions>
         </dependency>
     </dependencies>
