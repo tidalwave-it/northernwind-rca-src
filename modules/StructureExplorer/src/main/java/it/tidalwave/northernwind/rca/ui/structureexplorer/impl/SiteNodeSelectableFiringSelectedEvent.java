@@ -20,7 +20,6 @@
  *
  * *********************************************************************************************************************
  *
- * $Id$
  *
  * *********************************************************************************************************************
  * #L%
@@ -43,7 +42,6 @@ import lombok.RequiredArgsConstructor;
  * that fires a {@link SiteNodeSelectedEvent} message when selected.
  *
  * @author  Fabrizio Giudici
- * @version $Id$
  *
  **********************************************************************************************************************/
 @DciRole(datumType = SiteNode.class, context = DefaultStructureExplorerPresentationControl.class)

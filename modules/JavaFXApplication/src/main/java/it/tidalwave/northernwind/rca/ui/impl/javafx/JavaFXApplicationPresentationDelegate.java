@@ -20,7 +20,6 @@
  *
  * *********************************************************************************************************************
  *
- * $Id$
  *
  * *********************************************************************************************************************
  * #L%
@@ -41,7 +40,6 @@ import lombok.Getter;
  * The JavaFX delegate for the main GUI of the application. It assembles together all the pieces of the UI.
  *
  * @author Fabrizio Giudici
- * @version $Id$
  *
  **********************************************************************************************************************/
 public class JavaFXApplicationPresentationDelegate

@@ -10,7 +10,6 @@ package it.tidalwave.northernwind.rca.dummy;
 /***********************************************************************************************************************
  *
  * @author  fritz
- * @version $Id$
  *
  **********************************************************************************************************************/
 public class Dummy // Just to have sources and JavaDoc for publishing on Repo Central
