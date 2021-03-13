@@ -5,7 +5,7 @@
 
   NorthernWind
   %%
-  Copyright (C) 2013 - 2016 Tidalwave s.a.s. (http://tidalwave.it)
+  Copyright (C) 2013 - 2021 Tidalwave s.a.s. (http://tidalwave.it)
   %%
   *********************************************************************************************************************
 
@@ -31,7 +31,7 @@
     <parent>
         <groupId>it.tidalwave.northernwind.rca</groupId>
         <artifactId>northernwind-rca</artifactId>
-        <version>1.1-ALPHA-18-SNAPSHOT</version>
+        <version>1.2-ALPHA-1-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -45,7 +45,7 @@
 
     <groupId>it.tidalwave.northernwind.rca</groupId>
     <artifactId>northernwind-rca-modules</artifactId>
-    <version>1.1-ALPHA-18-SNAPSHOT</version>
+    <version>1.2-ALPHA-1-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>Zephyr (modules)</name>
     <description>The parent POM of all modules.</description>
@@ -57,14 +57,20 @@
 
     ================================================================================================================ -->
     <properties>
+        <!-- Should activate by itself with JDK 11+, but it fails with Jenkins Maven integration. -->
+        <tft.javafx.version>11.0.1</tft.javafx.version>
+
+        <activation.version>1.1.1</activation.version>
         <aquafx.version>0.2</aquafx.version>
         <guava.version>14.0.1</guava.version>
+        <jaxb.version>2.2.11</jaxb.version>
         <jetty.version>8.1.10.v20130312</jetty.version>
         <joda-time.version>2.8.1</joda-time.version>
         <jsoup.version>1.8.3</jsoup.version>
         <netbeans.version>RELEASE80</netbeans.version>
         <northernwind.version>1.1-ALPHA-37</northernwind.version>
-        <steelblue.version>1.0-ALPHA-15</steelblue.version>
+        <steelblue.version>1.0-ALPHA-16</steelblue.version>
+        <!-- Before upgrading this you must add {} to all new Key() and also upgrade NW -->
         <thesefoolishthings.version>3.1-ALPHA-4</thesefoolishthings.version>
     </properties>
 
@@ -110,6 +116,54 @@
                 <version>${netbeans.version}-1</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>javax.xml.bind</groupId>
+                <artifactId>jaxb-api</artifactId>
+                <version>${jaxb.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.sun.xml.bind</groupId>
+                <artifactId>jaxb-core</artifactId>
+                <version>${jaxb.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.sun.xml.bind</groupId>
+                <artifactId>jaxb-impl</artifactId>
+                <version>${jaxb.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>javax.activation</groupId>
+                <artifactId>activation</artifactId>
+                <version>${activation.version}</version>
+            </dependency>
+
+            <!-- Should activate by itself with JDK 11+, but it fails with Jenkins Maven integration. -->
+            <dependency>
+                <groupId>org.openjfx</groupId>
+                <artifactId>javafx-base</artifactId>
+                <version>${tft.javafx.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.openjfx</groupId>
+                <artifactId>javafx-graphics</artifactId>
+                <version>${tft.javafx.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.openjfx</groupId>
+                <artifactId>javafx-controls</artifactId>
+                <version>${tft.javafx.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.openjfx</groupId>
+                <artifactId>javafx-fxml</artifactId>
+                <version>${tft.javafx.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.openjfx</groupId>
+                <artifactId>javafx-web</artifactId>
+                <version>${tft.javafx.version}</version>
             </dependency>
 
             <dependency>
@@ -164,8 +218,8 @@
             <artifactId>javax.inject</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.google.code.findbugs</groupId>
-            <artifactId>annotations</artifactId>
+            <groupId>com.github.spotbugs</groupId>
+            <artifactId>spotbugs-annotations</artifactId>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -245,8 +299,7 @@
         <module>ContentManager</module>
         <module>EmbeddedServer</module>
         <module>Installers/JavaFX</module>
-        <module>Installers/MacOSX</module>
-        <module>Installers/MacOSXEmbeddedJRE</module>
+        <module>Installers/macOS</module>
         <module>Model</module>
         <module>JavaFXApplication</module>
         <module>JavaFXUI</module>

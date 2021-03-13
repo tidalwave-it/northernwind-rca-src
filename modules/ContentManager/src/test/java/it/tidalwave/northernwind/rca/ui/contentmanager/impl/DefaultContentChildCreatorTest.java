@@ -5,7 +5,7 @@
  * NorthernWind - lightweight CMS
  * http://northernwind.tidalwave.it - git clone git@bitbucket.org:tidalwave/northernwind-rca-src.git
  * %%
- * Copyright (C) 2013 - 2016 Tidalwave s.a.s. (http://tidalwave.it)
+ * Copyright (C) 2013 - 2021 Tidalwave s.a.s. (http://tidalwave.it)
  * %%
  * *********************************************************************************************************************
  *
@@ -45,7 +45,7 @@ import it.tidalwave.northernwind.model.admin.role.Saveable;
 import it.tidalwave.northernwind.rca.ui.event.ContentCreatedEvent;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import lombok.Delegate;
+import lombok.experimental.Delegate;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import static org.mockito.Mockito.*;

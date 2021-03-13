@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/modules/StrippedCoreImplementation/it-tidalwave-northernwind-model-core-stripped.iml" filepath="$PROJECT_DIR$/modules/StrippedCoreImplementation/it-tidalwave-northernwind-model-core-stripped.iml" />
+      <module fileurl="file://$PROJECT_DIR$/modules/JavaFXApplication/it-tidalwave-northernwind-rca-application-javafx.iml" filepath="$PROJECT_DIR$/modules/JavaFXApplication/it-tidalwave-northernwind-rca-application-javafx.iml" />
+      <module fileurl="file://$PROJECT_DIR$/modules/EmbeddedServer/it-tidalwave-northernwind-rca-embeddedserver.iml" filepath="$PROJECT_DIR$/modules/EmbeddedServer/it-tidalwave-northernwind-rca-embeddedserver.iml" />
+      <module fileurl="file://$PROJECT_DIR$/modules/Model/it-tidalwave-northernwind-rca-model.iml" filepath="$PROJECT_DIR$/modules/Model/it-tidalwave-northernwind-rca-model.iml" />
+      <module fileurl="file://$PROJECT_DIR$/modules/CommonsUI/it-tidalwave-northernwind-rca-ui-commons.iml" filepath="$PROJECT_DIR$/modules/CommonsUI/it-tidalwave-northernwind-rca-ui-commons.iml" />
+      <module fileurl="file://$PROJECT_DIR$/modules/ContentEditor/it-tidalwave-northernwind-rca-ui-content-editor.iml" filepath="$PROJECT_DIR$/modules/ContentEditor/it-tidalwave-northernwind-rca-ui-content-editor.iml" />
+      <module fileurl="file://$PROJECT_DIR$/modules/ContentExplorer/it-tidalwave-northernwind-rca-ui-content-explorer.iml" filepath="$PROJECT_DIR$/modules/ContentExplorer/it-tidalwave-northernwind-rca-ui-content-explorer.iml" />
+      <module fileurl="file://$PROJECT_DIR$/modules/ContentManager/it-tidalwave-northernwind-rca-ui-content-manager.iml" filepath="$PROJECT_DIR$/modules/ContentManager/it-tidalwave-northernwind-rca-ui-content-manager.iml" />
+      <module fileurl="file://$PROJECT_DIR$/modules/JavaFXUI/it-tidalwave-northernwind-rca-ui-javafx.iml" filepath="$PROJECT_DIR$/modules/JavaFXUI/it-tidalwave-northernwind-rca-ui-javafx.iml" />
+      <module fileurl="file://$PROJECT_DIR$/modules/SiteOpener/it-tidalwave-northernwind-rca-ui-site-opener.iml" filepath="$PROJECT_DIR$/modules/SiteOpener/it-tidalwave-northernwind-rca-ui-site-opener.iml" />
+      <module fileurl="file://$PROJECT_DIR$/modules/StructureEditor/it-tidalwave-northernwind-rca-ui-structure-editor.iml" filepath="$PROJECT_DIR$/modules/StructureEditor/it-tidalwave-northernwind-rca-ui-structure-editor.iml" />
+      <module fileurl="file://$PROJECT_DIR$/modules/StructureExplorer/it-tidalwave-northernwind-rca-ui-structure-explorer.iml" filepath="$PROJECT_DIR$/modules/StructureExplorer/it-tidalwave-northernwind-rca-ui-structure-explorer.iml" />
+      <module fileurl="file://$PROJECT_DIR$/northernwind-rca.iml" filepath="$PROJECT_DIR$/northernwind-rca.iml" />
+      <module fileurl="file://$PROJECT_DIR$/modules/northernwind-rca-modules.iml" filepath="$PROJECT_DIR$/modules/northernwind-rca-modules.iml" />
+      <module fileurl="file://$PROJECT_DIR$/modules/Installers/JavaFX/zephyr-javafx.iml" filepath="$PROJECT_DIR$/modules/Installers/JavaFX/zephyr-javafx.iml" />
+      <module fileurl="file://$PROJECT_DIR$/modules/Installers/MacOSXEmbeddedJRE/zephyr-macosx-embedded-jre.iml" filepath="$PROJECT_DIR$/modules/Installers/MacOSXEmbeddedJRE/zephyr-macosx-embedded-jre.iml" />
+    </modules>
+  </component>
+</project>

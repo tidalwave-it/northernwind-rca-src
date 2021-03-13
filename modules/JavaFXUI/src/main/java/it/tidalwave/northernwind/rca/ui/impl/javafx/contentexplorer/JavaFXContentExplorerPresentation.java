@@ -5,7 +5,7 @@
  * NorthernWind - lightweight CMS
  * http://northernwind.tidalwave.it - git clone git@bitbucket.org:tidalwave/northernwind-rca-src.git
  * %%
- * Copyright (C) 2013 - 2016 Tidalwave s.a.s. (http://tidalwave.it)
+ * Copyright (C) 2013 - 2021 Tidalwave s.a.s. (http://tidalwave.it)
  * %%
  * *********************************************************************************************************************
  *
@@ -29,7 +29,7 @@ package it.tidalwave.northernwind.rca.ui.impl.javafx.contentexplorer;
 
 import javax.annotation.Nonnull;
 import it.tidalwave.northernwind.rca.ui.contentexplorer.ContentExplorerPresentation;
-import lombok.Delegate;
+import lombok.experimental.Delegate;
 import lombok.Getter;
 import static it.tidalwave.ui.javafx.JavaFXSafeProxyCreator.*;
 
