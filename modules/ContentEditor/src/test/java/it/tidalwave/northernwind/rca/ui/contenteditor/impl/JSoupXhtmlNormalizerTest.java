@@ -29,8 +29,8 @@ package it.tidalwave.northernwind.rca.ui.contenteditor.impl;
 
 import javax.annotation.Nonnull;
 import java.io.IOException;
-import it.tidalwave.northernwind.util.test.TestHelper;
-import it.tidalwave.northernwind.util.test.TestHelper.TestResource;
+import it.tidalwave.northernwind.util.test.SpringTestHelper;
+import it.tidalwave.northernwind.util.test.SpringTestHelper.TestResource;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -43,7 +43,7 @@ import org.testng.annotations.Test;
  **********************************************************************************************************************/
 public class JSoupXhtmlNormalizerTest
   {
-    private final TestHelper helper = new TestHelper(this);
+    private final SpringTestHelper helper = new SpringTestHelper(this);
 
     private JSoupXhtmlNormalizer underTest;
 

@@ -30,9 +30,7 @@ package it.tidalwave.northernwind.model.impl.admin;
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
-import java.io.IOException;
-import it.tidalwave.util.NotFoundException;
-import it.tidalwave.util.spi.SimpleFinderSupport;
+import it.tidalwave.util.spi.SimpleFinder8Support;
 import it.tidalwave.northernwind.core.model.Resource;
 import it.tidalwave.northernwind.core.model.ResourceFile;
 import lombok.RequiredArgsConstructor;
@@ -44,15 +42,15 @@ import lombok.RequiredArgsConstructor;
  *
  **********************************************************************************************************************/
 @RequiredArgsConstructor
-public final class ResourceFinder<T extends Resource> extends SimpleFinderSupport<T>
+public final class ResourceFinder<T extends Resource> extends SimpleFinder8Support<T>
   {
     @FunctionalInterface
     static interface ProductCreator<T>
       {
         @Nonnull
-        public T createProduct (final @Nonnull ResourceFile folder)
-          throws IOException, NotFoundException;
+        public T createProduct (final @Nonnull ResourceFile folder);
       }
+
     @Nonnull
     private final ResourceFile resourceFile;
 
@@ -77,14 +75,7 @@ public final class ResourceFinder<T extends Resource> extends SimpleFinderSuppor
           {
             if (childFile.isFolder())
               {
-                try
-                  {
-                    results.add(productCreator.createProduct(childFile));
-                  }
-                catch (IOException | NotFoundException e)
-                  {
-                    throw new RuntimeException(e);
-                  }
+                results.add(productCreator.createProduct(childFile));
               }
           }
 

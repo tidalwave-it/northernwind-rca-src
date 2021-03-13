@@ -30,21 +30,21 @@ package it.tidalwave.northernwind.rca.util;
 
 import javax.annotation.Nonnull;
 import java.util.Locale;
-import java.io.IOException;
-import org.joda.time.DateTime;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import it.tidalwave.util.Key;
-import it.tidalwave.util.NotFoundException;
 import it.tidalwave.role.Displayable;
 import it.tidalwave.northernwind.core.model.ModelFactory;
 import it.tidalwave.northernwind.core.model.ResourceProperties;
 import it.tidalwave.northernwind.model.admin.Properties;
 import it.tidalwave.northernwind.model.impl.admin.AdminModelFactory;
+import it.tidalwave.role.ui.PresentationModel;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import static org.junit.Assert.*;
 import static org.hamcrest.CoreMatchers.is;
-import org.joda.time.DateTimeZone;
 
 /***********************************************************************************************************************
  *
@@ -65,15 +65,14 @@ public class PropertyUtilitiesTest
       {
         factory = new AdminModelFactory();
         properties = factory.createProperties().build()
-                .withProperty(Properties.PROPERTY_CREATION_TIME2, new DateTime(1342536534636L))
+                .withProperty(Properties.PROPERTY_CREATION_TIME, ZonedDateTime.ofInstant(Instant.ofEpochMilli(1342536534636L), ZoneId.of("CET")))
                 .withProperty(Properties.PROPERTY_TITLE, "the title");
         PropertyUtilities.setLocale(Locale.UK);
-        PropertyUtilities.setZone(DateTimeZone.forID("CET"));
+        PropertyUtilities.setZone(ZoneId.of("CET"));
       }
 
     @Test(dataProvider = "keysAndExpectedValues")
     public void must_create_proper_Displayables (final @Nonnull Key<?> key, final @Nonnull String expectedValue)
-      throws NotFoundException, IOException
       {
         // given the properties
         // when
@@ -87,8 +86,8 @@ public class PropertyUtilitiesTest
       {
         return new Object[][]
           {
-            { Properties.PROPERTY_CREATION_TIME2, "Tuesday, 17 July 2012 16:48:54 o'clock CEST" },
-            { Properties.PROPERTY_TITLE,          "the title" }
+            { Properties.PROPERTY_CREATION_TIME, "2012-07-17T16:48:54.636+02:00" },
+            { Properties.PROPERTY_TITLE,         "the title" }
           };
       }
 }

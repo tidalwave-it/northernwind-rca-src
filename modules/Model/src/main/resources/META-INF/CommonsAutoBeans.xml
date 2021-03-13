@@ -83,4 +83,7 @@
         <constructor-arg ref="applicationMessageBusTaskExecutor"/>
     </bean>
 
+    <bean id="timeProvider"
+          class="it.tidalwave.northernwind.model.impl.admin.DefaultTimeProvider" />
+
 </beans>

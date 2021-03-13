@@ -34,10 +34,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.io.IOException;
 import it.tidalwave.util.Id;
-import it.tidalwave.util.Key;
-import it.tidalwave.util.NotFoundException;
 import it.tidalwave.util.spi.SimpleFinderSupport;
 import it.tidalwave.role.SimpleComposite;
 import it.tidalwave.role.spi.DefaultDisplayable;
@@ -54,7 +51,8 @@ import static it.tidalwave.northernwind.rca.util.PropertyUtilities.*;
 
 /***********************************************************************************************************************
  *
- * A provider of a {@link PresentationModel} for {@link ResourceProperties}.
+ * A provider of a {@link PresentationModel} for {@link ResourceProperties} suitable for being rendered in a table.
+ * See {@link PropertyPmFinder#computeResults()} for more details.
  *
  * @stereotype Role
  *
@@ -65,6 +63,12 @@ import static it.tidalwave.northernwind.rca.util.PropertyUtilities.*;
 @DciRole(datumType = ResourceProperties.class) @RequiredArgsConstructor @Slf4j
 public class ResourcePropertiesPresentable implements Presentable
   {
+    /*******************************************************************************************************************
+     *
+     * A {@link it.tidalwave.util.Finder} of {@link PresentationModel}s for each property inside a given
+     * {@link ResourceProperties}.
+     *
+     ******************************************************************************************************************/
     @RequiredArgsConstructor
     static class PropertyPmFinder extends SimpleFinderSupport<PresentationModel>
       {
@@ -73,6 +77,11 @@ public class ResourcePropertiesPresentable implements Presentable
         @Nonnull
         private final ResourceProperties properties;
 
+        /***************************************************************************************************************
+         *
+         * The usual {@link it.tidalwave.util.Finder} copy constructor.
+         *
+         **************************************************************************************************************/
         public PropertyPmFinder (final @Nonnull PropertyPmFinder other, final @Nonnull Object override)
           {
             super(other, override);
@@ -80,7 +89,22 @@ public class ResourcePropertiesPresentable implements Presentable
             this.properties = source.properties;
           }
 
-        @Override
+        /***************************************************************************************************************
+         *
+         * Each item is a {@link PresentationModel} containing an {@link it.tidalwave.role.Aggregate} suitable
+         * for being rendered in a table with two columns. It's made of two named objects:
+         *
+         * <ul>
+         *   <li>{@code Name} contains a {@code PresentationModel} with a {@code Displayable} for the property
+         *   name;</li>
+         *   <li>{@code Value} contains a {@code PresentationModel} with a {@code Displayable} for the property
+         *   value;</li>
+         * </ul>
+         *
+         * @return
+         *
+         **************************************************************************************************************/
+        @Override @Nonnull
         protected List<? extends PresentationModel> computeResults()
           {
             final Id globalGroupId = new Id("");
@@ -94,45 +118,39 @@ public class ResourcePropertiesPresentable implements Presentable
 
                 propertyGroup.getKeys().stream().forEach(key ->
                   {
-                    try
-                      {
-                        final String prefix = groupId.stringValue().equals("") ? "" : groupId.stringValue() + ".";
-                        final Map<String, PresentationModel> map = new HashMap<>();
-                        map.put("Name", new DefaultPresentationModel(new DefaultDisplayable(prefix + key.stringValue())));
-                        map.put("Value", presentationModelForProperty(propertyGroup, key));
-                        results.add(new DefaultPresentationModel(properties, new MapAggregate<>(map)));
-                      }
-                    // should never happen, we're cycling on available properties
-                    catch (IOException | NotFoundException e)
-                      {
-                        log.warn("", e);
-                      }
+                    final String prefix = groupId.stringValue().equals("") ? "" : groupId.stringValue() + ".";
+                    final Map<String, PresentationModel> map = new HashMap<>();
+                    map.put("Name",  new DefaultPresentationModel(key,
+                                                                  new DefaultDisplayable(prefix + key.stringValue())));
+                    map.put("Value", new DefaultPresentationModel(key, displayableForValue(propertyGroup, key)));
+                    results.add(new DefaultPresentationModel(key, properties, new MapAggregate<>(map)));
                   });
               });
 
             return results;
           }
-
-        @Nonnull
-        private PresentationModel presentationModelForProperty (final @Nonnull ResourceProperties properties,
-                                                                final @Nonnull Key<?> key)
-          throws IOException, NotFoundException
-          {
-            return new DefaultPresentationModel(displayableForValue(properties, key));
-          }
       }
 
     @Nonnull
-    private final ResourceProperties properties;
+    private final ResourceProperties ownerProperties;
 
+    /*******************************************************************************************************************
+     *
+     * Creates a {@link PresentationModel} containing a {@link it.tidalwave.role.Composite} bound to the {@code
+     * PropertyPmFinder}.
+     *
+     * @param localRoles  optional additional roles
+     * @return the {@code PresentationModel}
+     *
+     ******************************************************************************************************************/
     @Override @Nonnull
     public PresentationModel createPresentationModel (final @Nonnull Object ... localRoles)
       {
         final SimpleComposite<PresentationModel> composite =
-                new DefaultSimpleComposite<>(new PropertyPmFinder(properties));
+                new DefaultSimpleComposite<>(new PropertyPmFinder(ownerProperties));
         final List<Object> roles = new ArrayList<>(Arrays.asList(localRoles));
         roles.add(composite);
 
-        return new DefaultPresentationModel(properties, roles.toArray());
+        return new DefaultPresentationModel(ownerProperties, roles.toArray());
       }
   }
