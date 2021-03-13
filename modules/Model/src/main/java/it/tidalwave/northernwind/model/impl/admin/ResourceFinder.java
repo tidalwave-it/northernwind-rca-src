@@ -29,11 +29,13 @@ package it.tidalwave.northernwind.model.impl.admin;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import it.tidalwave.util.spi.SimpleFinder8Support;
 import it.tidalwave.northernwind.core.model.Resource;
 import it.tidalwave.northernwind.core.model.ResourceFile;
 import lombok.RequiredArgsConstructor;
+import static it.tidalwave.role.Displayable.Displayable;
 
 /***********************************************************************************************************************
  *
@@ -78,6 +80,10 @@ public final class ResourceFinder<T extends Resource> extends SimpleFinder8Suppo
                 results.add(productCreator.createProduct(childFile));
               }
           }
+
+        // TODO: sorting should rather be done in the PresentationModel.
+        Collections.sort(results, (r1, r2) -> r1.as(Displayable).getDisplayName()
+                                      .compareTo(r2.as(Displayable).getDisplayName()));
 
         return results;
       }
