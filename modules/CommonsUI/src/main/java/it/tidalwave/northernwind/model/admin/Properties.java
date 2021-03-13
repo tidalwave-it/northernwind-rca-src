@@ -29,7 +29,7 @@ package it.tidalwave.northernwind.model.admin;
 
 import it.tidalwave.util.Key;
 import it.tidalwave.util.Id;
-import org.joda.time.DateTime;
+import java.time.ZonedDateTime;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
@@ -44,21 +44,19 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class Properties
   {
-    public static final Key<String> PROPERTY_FULL_TEXT = new Key<>("fullText");
+    public static final Key<String> PROPERTY_FULL_TEXT = new Key<String>("fullText") {};
 
-    public static final Key<String> PROPERTY_LATEST_MODIFICATION_DATE = new Key<>("latestModificationDateTime");
+    public static final Key<ZonedDateTime> PROPERTY_LATEST_MODIFICATION_DATE = new Key<ZonedDateTime>("latestModificationDateTime") {};
 
-    public static final Key<String> PROPERTY_TITLE = new Key<>("title");
+    public static final Key<String> PROPERTY_TITLE = new Key<String>("title") {};
 
-    public static final Key<String> PROPERTY_EXPOSED_URI = new Key<>("exposedUri");
+    public static final Key<String> PROPERTY_EXPOSED_URI = new Key<String>("exposedUri") {};
 
-    public static final Key<String> PROPERTY_CREATION_TIME = new Key<>("creationDateTime");
+    public static final Key<ZonedDateTime> PROPERTY_CREATION_TIME = new Key<ZonedDateTime>("creationDateTime") {};
 
-    public static final Key<DateTime> PROPERTY_CREATION_TIME2 = new Key<>("creationDateTime");
+    public static final Key<ZonedDateTime> PROPERTY_PUBLISHING_TIME = new Key<ZonedDateTime>("publishingDateTime") {};
 
-    public static final Key<String> PROPERTY_PUBLISHING_TIME = new Key<>("publishingDateTime");
+    public static final Key<String> PROPERTY_TAGS = new Key<String>("tags") {};
 
-    public static final Key<String> PROPERTY_TAGS = new Key<>("tags");
-
-    public static final Key<Id> PROPERTY_ID = new Key<>("id");
+    public static final Key<Id> PROPERTY_ID = new Key<Id>("id") {};
   }

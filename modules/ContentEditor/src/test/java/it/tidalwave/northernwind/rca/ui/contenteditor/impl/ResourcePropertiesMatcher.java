@@ -35,6 +35,7 @@ import com.google.common.collect.ImmutableMap;
 import it.tidalwave.util.Key;
 import it.tidalwave.util.NotFoundException;
 import it.tidalwave.northernwind.core.model.ResourceProperties;
+import java.util.NoSuchElementException;
 import org.mockito.ArgumentMatcher;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -72,7 +73,7 @@ public class ResourcePropertiesMatcher implements ArgumentMatcher<ResourceProper
           {
             for (final Entry<Key<String>, String> e : expectedValuesMap.entrySet())
               {
-                if (!e.getValue().equals(properties.getProperty(e.getKey())))
+                if (!e.getValue().equals(properties.getProperty(e.getKey()).get()))
                   {
                     return false;
                   }
@@ -80,7 +81,7 @@ public class ResourcePropertiesMatcher implements ArgumentMatcher<ResourceProper
 
             return true;
           }
-        catch (NotFoundException | IOException e)
+        catch (NoSuchElementException e)
           {
             return false;
           }

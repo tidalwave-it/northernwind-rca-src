@@ -29,8 +29,6 @@ package it.tidalwave.northernwind.rca.ui.structureexplorer.impl;
 
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
-import java.io.IOException;
-import it.tidalwave.util.NotFoundException;
 import it.tidalwave.dci.annotation.DciContext;
 import it.tidalwave.messagebus.MessageBus;
 import it.tidalwave.messagebus.annotation.ListensTo;
@@ -74,18 +72,11 @@ public class DefaultStructureExplorerPresentationControl implements StructureExp
 
     /* visible for testing */ void onOpenSite (final @ListensTo @Nonnull OpenSiteEvent event)
       {
-        try
-          {
-            log.debug("onOpenSite({})", event);
-            final ResourceFile root = event.getFileSystem().findFileByPath(ROOT_SITE_NODE_PATH);
-            final SiteNode rootSiteNode = modelFactory.createSiteNode(site, root);
-            presentation.populate(rootSiteNode.as(Presentable).createPresentationModel());
-            presentation.expandFirstLevel();
-            messageBus.publish(emptySelectionEvent());
-          }
-        catch (IOException | NotFoundException e)
-          {
-            log.warn("", e);
-          }
+        log.debug("onOpenSite({})", event);
+        final ResourceFile root = event.getFileSystem().findFileByPath(ROOT_SITE_NODE_PATH);
+        final SiteNode rootSiteNode = modelFactory.createSiteNode(site, root);
+        presentation.populate(rootSiteNode.as(Presentable).createPresentationModel());
+        presentation.expandFirstLevel();
+        messageBus.publish(emptySelectionEvent());
       }
   }

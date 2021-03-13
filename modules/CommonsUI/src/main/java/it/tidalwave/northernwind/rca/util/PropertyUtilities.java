@@ -29,13 +29,10 @@ package it.tidalwave.northernwind.rca.util;
 
 import javax.annotation.Nonnull;
 import java.util.Locale;
-import java.io.IOException;
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.ISODateTimeFormat;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAccessor;
 import it.tidalwave.util.Key;
-import it.tidalwave.util.NotFoundException;
 import it.tidalwave.role.Displayable;
 import it.tidalwave.role.spi.DefaultDisplayable;
 import it.tidalwave.northernwind.core.model.ResourceProperties;
@@ -54,7 +51,7 @@ public class PropertyUtilities
     private static Locale locale = Locale.getDefault();
 
     @Getter @Setter
-    private static DateTimeZone zone = DateTimeZone.getDefault();
+    private static ZoneId zone = ZoneId.systemDefault();
 
     @FunctionalInterface
     static interface Format
@@ -63,16 +60,13 @@ public class PropertyUtilities
         public String format (Object object);
 
         final static Format DEFAULT_FORMAT = object -> "" + object;
-        final static Format DATE_TIME_FORMAT = object -> DateTimeFormat.forStyle("FF")
-                                                                       .withLocale(locale)
-                                                                       .withZone(zone)
-                                                                       .print((DateTime)object);
+        final static Format DATE_TIME_FORMAT = object ->
+                DateTimeFormatter.ISO_DATE_TIME.format((TemporalAccessor)object).replaceAll("\\[.*\\]", "");
 
-        // FIXME: should get the type from key, but it's not yet supported
         @Nonnull
         public static Format formatFor (final @Nonnull Key<?> key)
           {
-            if (key.stringValue().endsWith("DateTime"))
+            if (TemporalAccessor.class.isAssignableFrom(key.getType()))
               {
                 return DATE_TIME_FORMAT;
               }
@@ -83,45 +77,17 @@ public class PropertyUtilities
 
     /*******************************************************************************************************************
      *
-     * Returns a 'fixed' value for a property. ResourceProperties at the moment manages each property as a string.
-     * This method converts them in the proper type.
+     * Creates a {@link Displayable} for a property value.
      *
-     * @param       properties          the properties to read
-     * @param       key                 the key
-     * @return                          the value
-     * @throws      NotFoundException   if the key is not found
-     *
-     ******************************************************************************************************************/
-    @Nonnull
-    public static Object getFixedPropertyValue (final @Nonnull ResourceProperties properties, final @Nonnull Key<?> key)
-      throws NotFoundException, IOException
-      {
-        Object property = properties.getProperty(key);
-
-        // FIXME: should be done by ResourceProperties and get the type from key, but it's not yet supported
-        if (key.stringValue().endsWith("DateTime"))
-          {
-            property = ISODateTimeFormat.dateTimeParser().parseDateTime(property.toString());
-          }
-
-        return property;
-      }
-
-    /*******************************************************************************************************************
-     *
-     * Returns a default {@link Displayable} for a property value.
-     *
-     * @param       properties          the properties to read
-     * @param       key                 the key
+     * @param       properties          the {@link ResourceProperties} containing the value
+     * @param       key                 the key associated to the value
      * @return                          the {@code Displayable}
-     * @throws      NotFoundException   if the key is not found
      *
      ******************************************************************************************************************/
     @Nonnull
     public static Displayable displayableForValue (final @Nonnull ResourceProperties properties, final @Nonnull Key<?> key)
-      throws NotFoundException, IOException
       {
-        final Object value = getFixedPropertyValue(properties, key);
-        return new DefaultDisplayable(Format.formatFor(key).format(value));
+        return properties.getProperty(key).map(value -> new DefaultDisplayable(Format.formatFor(key).format(value)))
+                .orElse((DefaultDisplayable)Displayable.DEFAULT);
       }
   }

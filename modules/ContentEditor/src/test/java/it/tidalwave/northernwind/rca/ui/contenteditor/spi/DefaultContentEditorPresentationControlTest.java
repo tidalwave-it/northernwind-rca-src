@@ -27,10 +27,10 @@
  */
 package it.tidalwave.northernwind.rca.ui.contenteditor.spi;
 
+import java.util.Optional;
 import java.io.IOException;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.context.ConfigurableApplicationContext;
 import it.tidalwave.util.Key;
-import it.tidalwave.util.NotFoundException;
 import it.tidalwave.role.ContextManager;
 import it.tidalwave.role.ui.PresentationModel;
 import it.tidalwave.role.ui.Presentable;
@@ -44,7 +44,7 @@ import it.tidalwave.northernwind.rca.ui.event.ContentSelectedEvent;
 import org.testng.annotations.Test;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
-import it.tidalwave.northernwind.util.test.TestHelper;
+import it.tidalwave.northernwind.util.test.SpringTestHelper;
 import static it.tidalwave.role.ui.Presentable.*;
 import static it.tidalwave.northernwind.model.admin.Properties.*;
 import static it.tidalwave.northernwind.rca.ui.contenteditor.spi.PropertyBinder.*;
@@ -62,9 +62,9 @@ import static org.mockito.Mockito.any;
  **********************************************************************************************************************/
 public class DefaultContentEditorPresentationControlTest
   {
-    private final TestHelper helper = new TestHelper(this);
+    private final SpringTestHelper helper = new SpringTestHelper(this);
 
-    private ClassPathXmlApplicationContext context;
+    private ConfigurableApplicationContext context;
 
     private DefaultContentEditorPresentationControl underTest;
 
@@ -93,7 +93,7 @@ public class DefaultContentEditorPresentationControlTest
     public void setup()
       {
         ContextManager.Locator.set(null);
-        context = (ClassPathXmlApplicationContext)helper.createSpringContext();
+        context = (ConfigurableApplicationContext)helper.createSpringContext();
         underTest = context.getBean(DefaultContentEditorPresentationControl.class);
         embeddedServer = context.getBean(EmbeddedServer.class);
         presentation = context.getBean(ContentEditorPresentation.class);
@@ -170,11 +170,10 @@ public class DefaultContentEditorPresentationControlTest
      ******************************************************************************************************************/
     @Test
     public void must_populate_the_presentation_and_bind_properties_on_reception_of_selected_content()
-      throws IOException, NotFoundException
       {
         // given
-        when(properties.getProperty(eq(PROPERTY_FULL_TEXT), anyString())).thenReturn("full text");
-        when(properties.getProperty(eq(PROPERTY_TITLE), anyString())).thenReturn("title");
+        when(properties.getProperty(eq(PROPERTY_FULL_TEXT))).thenReturn(Optional.of("full text"));
+        when(properties.getProperty(eq(PROPERTY_TITLE))).thenReturn(Optional.of("title"));
         reset(presentation);
         // when
         underTest.onContentSelected(ContentSelectedEvent.of(content));
@@ -202,11 +201,9 @@ public class DefaultContentEditorPresentationControlTest
      ******************************************************************************************************************/
     @Test(enabled = false)
     public void must_clear_the_presentation_on_error()
-      throws IOException, NotFoundException
       {
         // given
         when(properties.getProperty(eq(PROPERTY_TITLE))).thenThrow(new IOException("test"));
-        when(properties.getProperty(eq(PROPERTY_TITLE), anyString())).thenThrow(new IOException("test"));
 
         reset(presentation);
         // when

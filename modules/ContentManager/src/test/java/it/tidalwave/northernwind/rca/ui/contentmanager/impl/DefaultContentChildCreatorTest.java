@@ -30,11 +30,11 @@ package it.tidalwave.northernwind.rca.ui.contentmanager.impl;
 import javax.annotation.Nonnull;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.io.IOException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import it.tidalwave.util.Key;
-import it.tidalwave.util.NotFoundException;
 import it.tidalwave.messagebus.MessageBus;
 import it.tidalwave.northernwind.core.impl.model.DefaultResourceProperties;
 import it.tidalwave.northernwind.core.model.Content;
@@ -127,9 +127,9 @@ public class DefaultContentChildCreatorTest
           }
       }
 
-    private final static Key<String> PROPERTY_1 = new Key<>("Property1");
+    private final static Key<String> PROPERTY_1 = new Key<String>("Property1") {};
 
-    private final static Key<String> PROPERTY_2 = new Key<>("Property2");
+    private final static Key<String> PROPERTY_2 = new Key<String>("Property2") {};
 
     private ApplicationContext context;
 
@@ -168,7 +168,7 @@ public class DefaultContentChildCreatorTest
      ******************************************************************************************************************/
     @Test
     public void must_properly_create_the_new_Content_and_store_it()
-      throws IOException, NotFoundException
+      throws IOException
       {
         // when
         final Map<Key<?>, Object> values = new HashMap<>();
@@ -181,8 +181,8 @@ public class DefaultContentChildCreatorTest
         final ResourceProperties properties = saveable.getProperties();
         assertThat(properties.getKeys().size(), is(2));
         // FIXME: needs ResourcePropertiesMatcher to be moved to NW
-        assertThat(properties.getProperty(PROPERTY_1), is("value 1"));
-        assertThat(properties.getProperty(PROPERTY_2), is("value 2"));
+        assertThat(properties.getProperty(PROPERTY_1), is(Optional.of("value 1")));
+        assertThat(properties.getProperty(PROPERTY_2), is(Optional.of("value 2")));
         // END FIXME
 //        assertThat(argThat(resourcePropertiesWith(values)));
 

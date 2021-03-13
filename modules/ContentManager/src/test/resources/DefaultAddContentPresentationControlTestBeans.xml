@@ -81,4 +81,8 @@
         <constructor-arg value="it.tidalwave.role.IdFactory" />
     </bean>
 
+    <bean id="timeProvider" class="org.mockito.Mockito" factory-method="mock">
+        <constructor-arg value="it.tidalwave.northernwind.code.model.TimeProvider"/>
+    </bean>
+
 </beans>
