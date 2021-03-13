@@ -7,14 +7,14 @@
     <parent>
         <groupId>it.tidalwave.northernwind.rca</groupId>
         <artifactId>northernwind-rca</artifactId>
-        <version>1.2-ALPHA-1-SNAPSHOT</version>
+        <version>1.2-ALPHA-1</version>
         <relativePath>../../../pom.xml</relativePath>
     </parent>
 
     <groupId>it.tidalwave.northernwind.rca</groupId>
     <artifactId>zephyr-javafx</artifactId>
     <packaging>pom</packaging>
-    <version>1.2-ALPHA-1-SNAPSHOT</version>
+    <version>1.2-ALPHA-1</version>
     <name>Zephyr - Installer, JavaFX</name>
     <description>This module creates bundles by using the JavaFX Ant Task .</description>
 
