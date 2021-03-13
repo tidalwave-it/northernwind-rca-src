@@ -28,9 +28,9 @@
 package it.tidalwave.northernwind.model.impl.admin;
 
 import javax.annotation.Nonnull;
-import java.io.IOException;
-import it.tidalwave.util.Finder;
-import it.tidalwave.util.NotFoundException;
+import java.util.Optional;
+import it.tidalwave.role.SimpleComposite;
+import it.tidalwave.util.Finder8;
 import it.tidalwave.northernwind.core.model.Content;
 import it.tidalwave.northernwind.core.model.ResourcePath;
 import it.tidalwave.northernwind.core.model.ResourceProperties;
@@ -50,18 +50,16 @@ public class AdminContent extends ContentSupport
       }
 
     @Override @Nonnull
-    public ResourcePath getExposedUri()
-      throws NotFoundException, IOException
+    public Optional<ResourcePath> getExposedUri()
       {
         throw new UnsupportedOperationException("Not supported yet.");
       }
 
+    // Note that this works only thanks to class WorkaroundAdminContentSimpleComposite
     @Override @Nonnull
-    public Finder<Content> findChildren()
+    public Finder8<Content> findChildren()
       {
-        return new ResourceFinder<>(
-                getResource().getFile(),
-                folder -> modelFactory.createContent().withFolder(folder).build());
+        return new ResourceFinder<>(getFile(), folder -> modelFactory.createContent().withFolder(folder).build());
       }
 
     @Override @Nonnull

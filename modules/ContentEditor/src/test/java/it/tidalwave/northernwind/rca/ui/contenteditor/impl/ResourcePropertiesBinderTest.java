@@ -42,8 +42,8 @@ import it.tidalwave.northernwind.core.model.spi.ModelFactorySupport;
 import it.tidalwave.northernwind.rca.embeddedserver.EmbeddedServer.Document;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import it.tidalwave.northernwind.util.test.TestHelper;
-import it.tidalwave.northernwind.util.test.TestHelper.TestResource;
+import it.tidalwave.northernwind.util.test.SpringTestHelper;
+import it.tidalwave.northernwind.util.test.SpringTestHelper.TestResource;
 import static it.tidalwave.northernwind.rca.ui.contenteditor.impl.ResourcePropertiesBinder.*;
 import static it.tidalwave.northernwind.rca.ui.contenteditor.impl.ResourcePropertiesMatcher.*;
 import static org.hamcrest.CoreMatchers.is;
@@ -59,10 +59,10 @@ import static org.mockito.Mockito.*;
  **********************************************************************************************************************/
 public class ResourcePropertiesBinderTest
   {
-    private final TestHelper helper = new TestHelper(this);
+    private final SpringTestHelper helper = new SpringTestHelper(this);
 
-    private static final Key<String> PROPERTY_1 = new Key<>("property1");
-    private static final Key<String> PROPERTY_2 = new Key<>("property2");
+    private static final Key<String> PROPERTY_1 = new Key<String>("property1") {};
+    private static final Key<String> PROPERTY_2 = new Key<String>("property2") {};
 
     private static final String ORIGINAL_PROPERTY_1_VALUE = "<html>\n"
                                                           + "<head>\n"

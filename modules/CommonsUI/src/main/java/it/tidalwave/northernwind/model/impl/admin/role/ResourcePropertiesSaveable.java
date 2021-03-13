@@ -28,14 +28,12 @@
 package it.tidalwave.northernwind.model.impl.admin.role;
 
 import javax.annotation.Nonnull;
+import javax.inject.Inject;
 import java.util.Arrays;
 import java.util.List;
 import java.io.IOException;
-import org.joda.time.DateTime;
-import org.joda.time.format.DateTimeFormatter;
-import org.joda.time.format.ISODateTimeFormat;
+import it.tidalwave.northernwind.code.model.TimeProvider;
 import it.tidalwave.util.Key;
-import it.tidalwave.util.NotFoundException;
 import it.tidalwave.dci.annotation.DciRole;
 import it.tidalwave.northernwind.core.model.ResourceFile;
 import it.tidalwave.northernwind.core.model.ResourceProperties;
@@ -60,7 +58,8 @@ public class ResourcePropertiesSaveable implements Saveable
     /** The properties that must be stored in a separate file. */
     private static final List<Key<?>> EXTERNAL_PROPERTIES = Arrays.<Key<?>>asList(PROPERTY_FULL_TEXT);
 
-    private static final DateTimeFormatter ISO_FORMATTER = ISODateTimeFormat.dateTime();
+    @Inject @Nonnull
+    private TimeProvider timeProvider;
 
     @Nonnull
     private final ResourceProperties properties;
@@ -73,7 +72,7 @@ public class ResourcePropertiesSaveable implements Saveable
             log.debug("saveIn({}, {})", folder, properties);
             final WritableFolder writableFolder = folder.as(WritableFolder);
             final ResourceProperties p1 = properties.withProperty(PROPERTY_LATEST_MODIFICATION_DATE,
-                                                                  ISO_FORMATTER.print(new DateTime()));
+                                                                  timeProvider.getNow());
             final ResourceProperties p2 = saveExternalProperties(p1, writableFolder);
             // FIXME: guess the localization (some properties go to Properties, some other to Properties_en.xml etc...
             writableFolder.write("Properties.xml", p2.as(Marshallable));
@@ -93,15 +92,8 @@ public class ResourcePropertiesSaveable implements Saveable
           {
             // FIXME: localization
             // FIXME: conversion to string when different types are used
-            try
-              {
-                writableFolder.write(property.stringValue() + "_en.xhtml", properties.getProperty(property).toString());
-                properties = properties.withoutProperty(property);
-              }
-            catch (NotFoundException e)
-              {
-                // ok, property not found
-              }
+            writableFolder.write(property.stringValue() + "_en.xhtml", properties.getProperty(property).toString());
+            properties = properties.withoutProperty(property);
           }
 
         return properties;

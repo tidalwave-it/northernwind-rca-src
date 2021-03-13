@@ -105,9 +105,8 @@ public class ResourcePropertiesBinder implements PropertyBinder
     public <T> void bind (final @Nonnull Key<T> propertyName,
                           final @Nonnull BoundProperty<T> boundProperty,
                           final @Nonnull UpdateCallback callback)
-      throws NotFoundException, IOException
       {
-        boundProperty.set(properties.getProperty(propertyName));
+        properties.getProperty(propertyName).ifPresent(boundProperty::set);
         boundProperty.addPropertyChangeListener(
                 event -> callback.notify(properties.withProperty(propertyName, boundProperty.get())));
       }
@@ -121,22 +120,15 @@ public class ResourcePropertiesBinder implements PropertyBinder
     public EmbeddedServer.Document createBoundDocument (final @Nonnull Key<String> propertyName,
                                                         final @Nonnull UpdateCallback callback)
       {
-        try
-          {
-            final String text = properties.getProperty(propertyName, "");
-            final HtmlDocument originalDocument = HtmlDocument.createFromText(text);
-            final HtmlDocument editableDocument = originalDocument.withProlog(EDITOR_PROLOG)
-                                                                  .withEpilog(EDITOR_EPILOG);
-            // FIXME: mime type - XHTML?
-            return new EmbeddedServer.Document().withMimeType("text/html")
-                                                .withContent(editableDocument.asString())
-                                                .withUpdateListener(
-                text1 -> callback.notify(properties.withProperty(propertyName,
-                                                                 originalDocument.withBody(text1).asString())));
-          }
-        catch (IOException e)
-          {
-            throw new RuntimeException(e);
-          }
+        final String text = properties.getProperty(propertyName).orElse("");
+        final HtmlDocument originalDocument = HtmlDocument.createFromText(text);
+        final HtmlDocument editableDocument = originalDocument.withProlog(EDITOR_PROLOG)
+                                                              .withEpilog(EDITOR_EPILOG);
+        // FIXME: mime type - XHTML?
+        return new EmbeddedServer.Document().withMimeType("text/html")
+                                            .withContent(editableDocument.asString())
+                                            .withUpdateListener(
+            text1 -> callback.notify(properties.withProperty(propertyName,
+                                                             originalDocument.withBody(text1).asString())));
       }
   }

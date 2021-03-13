@@ -27,16 +27,11 @@
  */
 package it.tidalwave.northernwind.model.impl.admin;
 
+import it.tidalwave.northernwind.code.model.TimeProvider;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import javax.annotation.Nonnull;
-import it.tidalwave.util.Finder8;
-import it.tidalwave.northernwind.core.model.ModelFactory;
-import it.tidalwave.northernwind.core.model.ResourceFile;
-import it.tidalwave.northernwind.core.model.ResourcePath;
-import it.tidalwave.northernwind.core.model.Site;
-import it.tidalwave.northernwind.core.model.SiteNode;
-import it.tidalwave.northernwind.core.model.spi.SiteNodeSupport;
-import it.tidalwave.northernwind.frontend.ui.Layout;
-import lombok.Getter;
 
 /***********************************************************************************************************************
  *
@@ -44,40 +39,11 @@ import lombok.Getter;
  * @version $Id$
  *
  **********************************************************************************************************************/
-public class AdminSiteNode extends SiteNodeSupport
+public class DefaultTimeProvider implements TimeProvider
   {
-    @Getter @Nonnull
-    private final Site site;
-
-    public AdminSiteNode (final @Nonnull Site site,
-                          final @Nonnull ModelFactory modelFactory,
-                          final @Nonnull ResourceFile file)
-      {
-        super(modelFactory, file);
-        this.site = site;
-      }
-
-    @Override
-    public Layout getLayout()
-      {
-        throw new UnsupportedOperationException("Not supported yet.");
-      }
-
-    @Override
-    public ResourcePath getRelativeUri()
-      {
-        throw new UnsupportedOperationException("Not supported yet.");
-      }
-
     @Override @Nonnull
-    public Finder8<SiteNode> findChildren()
+    public ZonedDateTime getNow()
       {
-        return new ResourceFinder<>(getFile(), folder -> modelFactory.createSiteNode(site, folder));
-      }
-
-    @Override @Nonnull
-    public String toString()
-      {
-        return String.format("AdminSiteNode(%s)", getFile().getPath().asString());
+        return Instant.now().atZone(ZoneId.systemDefault());
       }
   }

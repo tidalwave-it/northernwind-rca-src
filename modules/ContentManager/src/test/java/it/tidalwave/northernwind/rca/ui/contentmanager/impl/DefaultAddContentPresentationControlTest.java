@@ -28,17 +28,17 @@
 package it.tidalwave.northernwind.rca.ui.contentmanager.impl;
 
 import javax.annotation.Nonnull;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 import java.util.function.Consumer;
 import java.io.IOException;
+import it.tidalwave.northernwind.code.model.TimeProvider;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeUtils;
-import org.joda.time.format.DateTimeFormatter;
-import org.joda.time.format.ISODateTimeFormat;
 import it.tidalwave.util.Id;
 import it.tidalwave.util.Key;
 import it.tidalwave.util.ui.UserNotificationWithFeedback;
@@ -98,8 +98,6 @@ public class DefaultAddContentPresentationControlTest
           }
       }
 
-    private final static DateTimeFormatter ISO_FORMATTER = ISODateTimeFormat.dateTime();
-
     private ApplicationContext context;
 
     private DefaultAddContentPresentationControl underTest;
@@ -108,7 +106,9 @@ public class DefaultAddContentPresentationControlTest
 
     private Content content;
 
-    private DateTime dateTime;
+    private ZonedDateTime now;
+
+    private TimeProvider timeProvider;
 
     private ContentChildCreator contentChildCreator;
 
@@ -120,8 +120,7 @@ public class DefaultAddContentPresentationControlTest
     @BeforeClass
     public void freezeTime()
       {
-//        dateTime = new DateTime();
-        dateTime = new DateTime(0);
+        now = Instant.now().atZone(ZoneId.systemDefault());
       }
 
     /*******************************************************************************************************************
@@ -130,11 +129,13 @@ public class DefaultAddContentPresentationControlTest
     @BeforeMethod
     public void setup()
       {
-        DateTimeUtils.setCurrentMillisFixed(dateTime.getMillis());
+//        DateTimeUtils.setCurrentMillisFixed(dateTime.getMillis());
         context = new ClassPathXmlApplicationContext("DefaultAddContentPresentationControlTestBeans.xml");
         underTest = context.getBean(DefaultAddContentPresentationControl.class);
         presentation = context.getBean(AddContentPresentation.class);
         idFactory = context.getBean(IdFactory.class);
+        timeProvider = context.getBean(TimeProvider.class);
+        when(timeProvider.getNow()).thenReturn(now);
         content = mock(Content.class);
         contentChildCreator = mock(ContentChildCreator.class);
         when(content.as(eq(ContentChildCreator.class))).thenReturn(contentChildCreator);
@@ -150,7 +151,7 @@ public class DefaultAddContentPresentationControlTest
         underTest.onCreateContentRequest(CreateContentRequest.of(content));
         // then
         final Bindings expectedBindings = new Bindings();
-        expectedBindings.publishingDateTime.set(ISO_FORMATTER.print(dateTime));
+        expectedBindings.publishingDateTime.set(now);
         verify(presentation).bind(eq(expectedBindings));
         verify(presentation).showUp(argThat(notificationWithFeedback("Create new content", "")));
         verifyNoMoreInteractions(presentation);
@@ -175,7 +176,7 @@ public class DefaultAddContentPresentationControlTest
         underTest.onCreateContentRequest(CreateContentRequest.of(content));
         // then
         final Map<Key<?>, Object> expectedProperties = new HashMap<>(baseExpectedProperties);
-        expectedProperties.put(PROPERTY_CREATION_TIME, ISO_FORMATTER.print(dateTime));
+        expectedProperties.put(PROPERTY_CREATION_TIME, now);
         expectedProperties.put(PROPERTY_FULL_TEXT, underTest.xhtmlSkeleton);
         expectedProperties.put(PROPERTY_ID, id);
 
@@ -217,9 +218,9 @@ public class DefaultAddContentPresentationControlTest
                 // expected folder name
                 "the+folder",
                 // expected properties
-                of(PROPERTY_PUBLISHING_TIME, ISO_FORMATTER.print(dateTime),
-                   PROPERTY_TITLE,           "the title",
-                   PROPERTY_EXPOSED_URI,     "the-exposed-uri")
+                of(PROPERTY_PUBLISHING_TIME, now,
+                   PROPERTY_TITLE, "the title",
+                   PROPERTY_EXPOSED_URI, "the-exposed-uri")
               },
             ////////////////////////////////////////////////////////////////////////////////////////////////////////////
               {
@@ -233,10 +234,10 @@ public class DefaultAddContentPresentationControlTest
                 // expected folder name
                 "the+folder",
                 // expected properties
-                of(PROPERTY_PUBLISHING_TIME, ISO_FORMATTER.print(dateTime),
-                   PROPERTY_TITLE,           "the title",
-                   PROPERTY_EXPOSED_URI,     "the-exposed-uri",
-                   PROPERTY_TAGS,            "tag1,tag2") // See NWRCA-69
+                of(PROPERTY_PUBLISHING_TIME, now,
+                   PROPERTY_TITLE, "the title",
+                   PROPERTY_EXPOSED_URI, "the-exposed-uri",
+                   PROPERTY_TAGS, "tag1,tag2") // See NWRCA-69
 //                   PROPERTY_TAGS,            Arrays.asList("tag1", "tag2"))
               }
           };

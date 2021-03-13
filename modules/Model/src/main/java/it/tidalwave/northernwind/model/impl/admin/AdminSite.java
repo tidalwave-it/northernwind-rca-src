@@ -29,10 +29,12 @@ package it.tidalwave.northernwind.model.impl.admin;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 import it.tidalwave.northernwind.core.model.ResourceFileSystemProvider;
 import it.tidalwave.northernwind.core.model.ResourcePath;
 import it.tidalwave.northernwind.core.model.Site;
 import it.tidalwave.northernwind.core.model.SiteFinder;
+import it.tidalwave.northernwind.core.model.Template;
 import javax.annotation.Nonnull;
 
 /***********************************************************************************************************************
@@ -69,6 +71,20 @@ public class AdminSite implements Site
 
     @Override @Nonnull
     public List<Locale> getConfiguredLocales()
+      {
+        throw new UnsupportedOperationException("Not supported yet.");
+      }
+
+    @Override @Nonnull
+    public Template getTemplate (@Nonnull Class<?> clazz,
+                                 @Nonnull Optional<ResourcePath> templatePath,
+                                 @Nonnull String embeddedResourceName)
+      {
+        throw new UnsupportedOperationException("Not supported yet.");
+      }
+
+    @Override @Nonnull
+    public Optional<String> getTemplate (@Nonnull Class<?> clazz, @Nonnull ResourcePath templatePath)
       {
         throw new UnsupportedOperationException("Not supported yet.");
       }

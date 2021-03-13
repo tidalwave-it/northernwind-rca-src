@@ -31,7 +31,9 @@ import javax.annotation.Nonnull;
 import javax.inject.Inject;
 import java.util.Optional;
 import java.io.IOException;
-import it.tidalwave.util.NotFoundException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import it.tidalwave.role.ui.BoundProperty;
 import it.tidalwave.role.ui.spi.UserActionSupport8;
 import it.tidalwave.messagebus.annotation.ListensTo;
@@ -44,17 +46,14 @@ import it.tidalwave.northernwind.rca.ui.event.ContentSelectedEvent;
 import it.tidalwave.northernwind.rca.ui.contenteditor.ContentEditorPresentation;
 import it.tidalwave.northernwind.rca.ui.contenteditor.ContentEditorPresentation.Bindings;
 import it.tidalwave.northernwind.rca.ui.contenteditor.ContentEditorPresentationControl;
+import it.tidalwave.northernwind.rca.ui.contenteditor.impl.JSoupXhtmlNormalizer;
 import it.tidalwave.northernwind.rca.ui.contenteditor.impl.ProcessExecutor;
 import lombok.extern.slf4j.Slf4j;
 import static it.tidalwave.role.ui.Presentable.*;
 import static it.tidalwave.northernwind.model.admin.Properties.*;
 import static it.tidalwave.northernwind.model.admin.role.Saveable.Saveable;
-import it.tidalwave.northernwind.rca.ui.contenteditor.impl.JSoupXhtmlNormalizer;
 import static it.tidalwave.northernwind.rca.ui.contenteditor.spi.PropertyBinder.*;
 import static java.nio.charset.StandardCharsets.UTF_8;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import static java.util.Arrays.asList;
 import static java.util.stream.Collectors.joining;
 
@@ -162,19 +161,11 @@ public class DefaultContentEditorPresentationControl implements ContentEditorPre
      ******************************************************************************************************************/
     private void bindProperties (final @Nonnull ResourceProperties properties)
       {
-        try
-          {
-            assert properties != null;
-            presentation.bind(bindings); // FIXME: needed because of unbindAll()
-            final PropertyBinder propertyBinder = properties.as(PropertyBinder);
-            propertyBinder.bind(PROPERTY_TITLE, bindings.title, propertyUpdateCallback);
-            presentation.populateProperties(properties.as(Presentable).createPresentationModel());
-          }
-        catch (IOException | NotFoundException e)
-          {
-            presentation.clear(); // FIXME: should notify error
-            log.warn("", e);
-          }
+        assert properties != null;
+        presentation.bind(bindings); // FIXME: needed because of unbindAll()
+        final PropertyBinder propertyBinder = properties.as(PropertyBinder);
+        propertyBinder.bind(PROPERTY_TITLE, bindings.title, propertyUpdateCallback);
+        presentation.populateProperties(properties.as(Presentable).createPresentationModel());
       }
 
     /*******************************************************************************************************************

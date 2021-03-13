@@ -75,8 +75,10 @@ public class JavaFXAddContentPresentationDelegate implements AddContentPresentat
         binder.bindBidirectionally(tfTitle, bindings.title, bindings.titleValid);
         binder.bindBidirectionally(tfExposedUri, bindings.exposedUri, bindings.exposedUriValid);
         binder.bindBidirectionally(tfTags, bindings.tags, bindings.tagsValid);
-        binder.bindBidirectionally(tfPublishingDateTime, bindings.publishingDateTime,
-                                                         bindings.publishingDateTimeValid);
+        // FIXME after NWRCA-95
+        // would be better binder.bind(tfPublishingDateTim, pm) with a pm with a Displayable and a Mutable.
+        // binder.bindBidirectionally(tfPublishingDateTime, bindings.publishingDateTime,
+        //                                                  bindings.publishingDateTimeValid);
         this.bindings = bindings;
       }
 

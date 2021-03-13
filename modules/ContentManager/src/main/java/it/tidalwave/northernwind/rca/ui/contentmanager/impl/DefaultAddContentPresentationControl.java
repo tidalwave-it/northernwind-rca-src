@@ -34,6 +34,8 @@ import javax.inject.Inject;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.time.Instant;
+import java.time.ZoneId;
 import java.io.UnsupportedEncodingException;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -42,15 +44,13 @@ import java.net.URLEncoder;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
 import com.google.common.io.CharStreams;
-import org.joda.time.DateTime;
-import org.joda.time.format.DateTimeFormatter;
-import org.joda.time.format.ISODateTimeFormat;
 import org.springframework.core.io.ClassPathResource;
 import it.tidalwave.util.Key;
 import it.tidalwave.role.IdFactory;
 import it.tidalwave.messagebus.annotation.ListensTo;
 import it.tidalwave.messagebus.annotation.SimpleMessageSubscriber;
 import it.tidalwave.northernwind.core.model.Content;
+import it.tidalwave.northernwind.code.model.TimeProvider;
 import it.tidalwave.northernwind.rca.ui.event.CreateContentRequest;
 import it.tidalwave.northernwind.rca.ui.contentmanager.AddContentPresentation;
 import it.tidalwave.northernwind.rca.ui.contentmanager.AddContentPresentation.Bindings;
@@ -76,13 +76,14 @@ import static it.tidalwave.northernwind.rca.ui.contentmanager.impl.ContentChildC
 @SimpleMessageSubscriber @Slf4j
 public class DefaultAddContentPresentationControl implements AddContentPresentationControl
   {
-    private final static DateTimeFormatter ISO_FORMATTER = ISODateTimeFormat.dateTime();
-
     @Inject
     private AddContentPresentation presentation;
 
     @Inject
     private IdFactory idFactory;
+
+    @Inject
+    private TimeProvider timeProvider;
 
     private final Bindings bindings = new ValidatingBindings();
 
@@ -104,7 +105,7 @@ public class DefaultAddContentPresentationControl implements AddContentPresentat
     /* visible for testing */ void onCreateContentRequest (final @ListensTo @Nonnull CreateContentRequest event)
       {
         log.info("onCreateContentRequest({})", event);
-        bindings.publishingDateTime.set(ISO_FORMATTER.print(new DateTime()));
+        bindings.publishingDateTime.set(timeProvider.getNow());
         presentation.bind(bindings);
         presentation.showUp(notificationWithFeedback()
                 .withCaption("Create new content")
@@ -118,13 +119,12 @@ public class DefaultAddContentPresentationControl implements AddContentPresentat
     private void createContent (final @Nonnull Content parentContent)
       throws IOException
       {
-        final DateTime creationDateTime = new DateTime();
         final String folderName = urlEncoded(bindings.folder.get());
         // TODO: use TypeSafeMap, with a safe put() method
         final Map<Key<?>, Object> propertyValues = new HashMap<>();
         putIfNonEmpty(propertyValues, PROPERTY_TITLE,           bindings.title.get());
         putIfNonEmpty(propertyValues, PROPERTY_EXPOSED_URI,     bindings.exposedUri.get());
-        putIfNonEmpty(propertyValues, PROPERTY_CREATION_TIME,   ISO_FORMATTER.print(creationDateTime));
+        putIfNonEmpty(propertyValues, PROPERTY_CREATION_TIME,   timeProvider.getNow());
         putIfNonEmpty(propertyValues, PROPERTY_PUBLISHING_TIME, bindings.publishingDateTime.get());
         putIfNonEmpty(propertyValues, PROPERTY_FULL_TEXT,       xhtmlSkeleton);
         putIfNonEmpty(propertyValues, PROPERTY_ID,              idFactory.createId());

@@ -29,8 +29,6 @@ package it.tidalwave.northernwind.model.impl.admin;
 
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
-import java.io.IOException;
-import it.tidalwave.util.NotFoundException;
 import it.tidalwave.northernwind.core.model.Content;
 import it.tidalwave.northernwind.core.model.Resource;
 import it.tidalwave.northernwind.core.model.ResourceFile;
@@ -65,7 +63,6 @@ public class AdminModelFactory extends ModelFactorySupport
 
     @Override @Nonnull
     public SiteNode createSiteNode (final @Nonnull Site site, final @Nonnull ResourceFile file)
-      throws IOException, NotFoundException
       {
         return new AdminSiteNode(site, this, file);
       }
