@@ -32,15 +32,14 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import it.tidalwave.role.ui.BoundProperty;
-import it.tidalwave.role.ui.spi.UserActionSupport8;
+import it.tidalwave.role.ui.UserAction;
 import it.tidalwave.messagebus.MessageBus;
 import it.tidalwave.northernwind.rca.ui.event.OpenSiteEvent;
 import it.tidalwave.northernwind.rca.ui.siteopener.SiteOpenerPresentation;
 import it.tidalwave.northernwind.rca.ui.siteopener.SiteOpenerPresentation.Bindings;
 import it.tidalwave.northernwind.rca.ui.siteopener.SiteOpenerPresentationControl;
 import lombok.extern.slf4j.Slf4j;
-import static it.tidalwave.role.ui.spi.Feedback8.feedback;
-import static it.tidalwave.util.ui.UserNotificationWithFeedback.notificationWithFeedback;
+import static it.tidalwave.util.ui.UserNotificationWithFeedback.*;
 
 /***********************************************************************************************************************
  *
@@ -60,7 +59,7 @@ public class DefaultSiteOpenerPresentationControl implements SiteOpenerPresentat
 
     /* visible for testing */ final Bindings bindings = Bindings.builder()
         .folderToOpen(new BoundProperty<>(getHomeFolder()))
-        .openSiteAction(UserActionSupport8.withCallback(this::askForOpeningSite))
+        .openSiteAction(UserAction.of(this::askForOpeningSite))
         .build();
 
     @Override

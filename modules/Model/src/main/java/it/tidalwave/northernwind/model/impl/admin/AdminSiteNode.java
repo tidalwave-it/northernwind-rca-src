@@ -27,7 +27,7 @@
 package it.tidalwave.northernwind.model.impl.admin;
 
 import javax.annotation.Nonnull;
-import it.tidalwave.util.Finder8;
+import it.tidalwave.util.Finder;
 import it.tidalwave.northernwind.core.model.ModelFactory;
 import it.tidalwave.northernwind.core.model.ResourceFile;
 import it.tidalwave.northernwind.core.model.ResourcePath;
@@ -68,7 +68,7 @@ public class AdminSiteNode extends SiteNodeSupport
       }
 
     @Override @Nonnull
-    public Finder8<SiteNode> findChildren()
+    public Finder<SiteNode> findChildren()
       {
         return new ResourceFinder<>(getFile(), folder -> modelFactory.createSiteNode(site, folder));
       }

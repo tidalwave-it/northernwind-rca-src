@@ -33,8 +33,8 @@ import java.io.OutputStreamWriter;
 import java.io.Writer;
 import org.openide.filesystems.FileObject;
 import it.tidalwave.dci.annotation.DciRole;
+import it.tidalwave.role.io.Marshallable;
 import it.tidalwave.northernwind.model.admin.role.WritableFolder;
-import it.tidalwave.role.Marshallable;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 

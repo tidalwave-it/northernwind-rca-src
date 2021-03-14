@@ -32,8 +32,7 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAccessor;
 import it.tidalwave.util.Key;
-import it.tidalwave.role.Displayable;
-import it.tidalwave.role.spi.DefaultDisplayable;
+import it.tidalwave.role.ui.Displayable;
 import it.tidalwave.northernwind.core.model.ResourceProperties;
 import lombok.Getter;
 import lombok.Setter;
@@ -85,7 +84,7 @@ public class PropertyUtilities
     @Nonnull
     public static Displayable displayableForValue (final @Nonnull ResourceProperties properties, final @Nonnull Key<?> key)
       {
-        return properties.getProperty(key).map(value -> new DefaultDisplayable(Format.formatFor(key).format(value)))
-                .orElse((DefaultDisplayable)Displayable.DEFAULT);
+        return properties.getProperty(key).map(value -> Displayable.of(Format.formatFor(key).format(value)))
+                                          .orElse(Displayable.DEFAULT);
       }
   }

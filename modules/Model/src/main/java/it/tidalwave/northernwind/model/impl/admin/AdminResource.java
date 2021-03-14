@@ -36,7 +36,7 @@ import it.tidalwave.northernwind.core.model.ResourceProperties;
 import it.tidalwave.northernwind.core.model.spi.ResourceSupport;
 import lombok.Cleanup;
 import lombok.extern.slf4j.Slf4j;
-import static it.tidalwave.role.Unmarshallable.*;
+import static it.tidalwave.role.io.Unmarshallable.*;
 
 /***********************************************************************************************************************
  *

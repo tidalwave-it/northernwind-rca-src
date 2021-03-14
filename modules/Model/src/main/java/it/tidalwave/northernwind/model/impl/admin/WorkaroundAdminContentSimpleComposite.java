@@ -36,8 +36,8 @@ import lombok.extern.slf4j.Slf4j;
 
 /***********************************************************************************************************************
  *
- * Workaround to TFT-206. AdminContent indirectly implements SimpleComposite8<Content> but it's not discovered
- * by RoleManagerSupport as a SimpleComposite, in spite of SimpleComposite8 extending SimpleComposite.
+ * Workaround to TFT-206. AdminContent indirectly implements SimpleComposite<Content> but it's not discovered
+ * by RoleManagerSupport as a SimpleComposite, in spite of SimpleComposite extending SimpleComposite.
  *
  * @author  Fabrizio Giudici
  *

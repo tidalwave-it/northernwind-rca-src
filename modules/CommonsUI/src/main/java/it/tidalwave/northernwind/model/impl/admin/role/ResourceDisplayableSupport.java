@@ -29,7 +29,7 @@ package it.tidalwave.northernwind.model.impl.admin.role;
 import javax.annotation.Nonnull;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
-import it.tidalwave.role.Displayable;
+import it.tidalwave.role.ui.Displayable;
 import it.tidalwave.northernwind.core.model.Resource;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;

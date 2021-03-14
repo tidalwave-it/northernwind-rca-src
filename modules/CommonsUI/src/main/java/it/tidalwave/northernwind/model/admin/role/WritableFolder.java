@@ -28,7 +28,7 @@ package it.tidalwave.northernwind.model.admin.role;
 
 import javax.annotation.Nonnull;
 import java.io.IOException;
-import it.tidalwave.role.Marshallable;
+import it.tidalwave.role.io.Marshallable;
 
 /***********************************************************************************************************************
  *

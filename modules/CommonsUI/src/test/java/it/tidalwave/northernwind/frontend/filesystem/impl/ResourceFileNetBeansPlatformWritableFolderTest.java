@@ -31,7 +31,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import org.openide.filesystems.FileLock;
 import org.openide.filesystems.FileObject;
-import it.tidalwave.role.Marshallable;
+import it.tidalwave.role.io.Marshallable;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import lombok.extern.slf4j.Slf4j;
