@@ -20,7 +20,6 @@
  *
  * *********************************************************************************************************************
  *
- * $Id$
  *
  * *********************************************************************************************************************
  * #L%
@@ -40,7 +39,6 @@ import static it.tidalwave.ui.javafx.JavaFXSafeProxyCreator.*;
  * @stereotype Presentation
  *
  * @author  Fabrizio Giudici
- * @version $Id$
  *
  **********************************************************************************************************************/
 public class JavaFXContentExplorerPresentation implements ContentExplorerPresentation

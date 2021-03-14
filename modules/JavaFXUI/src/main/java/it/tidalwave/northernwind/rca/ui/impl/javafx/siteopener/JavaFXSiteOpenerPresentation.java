@@ -20,7 +20,6 @@
  *
  * *********************************************************************************************************************
  *
- * $Id$
  *
  * *********************************************************************************************************************
  * #L%
@@ -37,7 +36,6 @@ import static it.tidalwave.role.ui.javafx.impl.util.JavaFXSafeComponentBuilder.c
  * @stereotype Presentation
  *
  * @author  Fabrizio Giudici
- * @version $Id$
  *
  **********************************************************************************************************************/
 public class JavaFXSiteOpenerPresentation implements SiteOpenerPresentation

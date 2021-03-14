@@ -20,7 +20,6 @@
  *
  * *********************************************************************************************************************
  *
- * $Id$
  *
  * *********************************************************************************************************************
  * #L%
@@ -43,7 +42,6 @@ import lombok.RequiredArgsConstructor;
  * that fires a {@link ContentSelectedEvent} message when selected.
  *
  * @author  Fabrizio Giudici
- * @version $Id$
  *
  **********************************************************************************************************************/
 @DciRole(datumType = Content.class, context = DefaultContentExplorerPresentationControl.class)

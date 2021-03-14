@@ -20,7 +20,6 @@
  *
  * *********************************************************************************************************************
  *
- * $Id$
  *
  * *********************************************************************************************************************
  * #L%
@@ -45,7 +44,6 @@ import it.tidalwave.northernwind.rca.ui.siteopener.SiteOpenerPresentation;
  * @stereotype Presentation
  *
  * @author  Fabrizio Giudici
- * @version $Id$
  *
  **********************************************************************************************************************/
 public class JavaFXSiteOpenerPresentationDelegate implements SiteOpenerPresentation

@@ -31,14 +31,14 @@
     <parent>
         <groupId>it.tidalwave.northernwind.rca</groupId>
         <artifactId>northernwind-rca-modules</artifactId>
-        <version>1.2-ALPHA-1-SNAPSHOT</version>
+        <version>1.2-ALPHA-2-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
     <groupId>it.tidalwave.northernwind.rca</groupId>
     <artifactId>it-tidalwave-northernwind-model-core-stripped</artifactId>
     <packaging>jar</packaging>
-    <version>1.2-ALPHA-1-SNAPSHOT</version>
+    <version>1.2-ALPHA-2-SNAPSHOT</version>
     <name>Zephyr - Core Implementation Stripped</name>
     <description>
         This module contains a stripped subset of the default core implementation. Classes here should be probably
@@ -53,11 +53,6 @@
                 <exclusion>
                     <groupId>org.aspectj</groupId>
                     <artifactId>aspectjweaver</artifactId>
-                </exclusion>
-                <!-- FIXME: remove after NW upgrade -->
-                <exclusion>
-                    <groupId>com.google.code.findbugs</groupId>
-                    <artifactId>annotations</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
