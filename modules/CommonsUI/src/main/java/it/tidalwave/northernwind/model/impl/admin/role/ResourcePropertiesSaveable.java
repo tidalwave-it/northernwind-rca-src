@@ -40,7 +40,7 @@ import it.tidalwave.northernwind.model.admin.role.WritableFolder;
 import it.tidalwave.northernwind.model.admin.role.Saveable;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import static it.tidalwave.role.Marshallable.*;
+import static it.tidalwave.role.io.Marshallable.*;
 import static it.tidalwave.northernwind.model.admin.Properties.*;
 import static it.tidalwave.northernwind.model.admin.role.WritableFolder.*;
 

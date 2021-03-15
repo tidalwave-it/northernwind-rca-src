@@ -34,7 +34,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import it.tidalwave.role.ui.BoundProperty;
-import it.tidalwave.role.ui.spi.UserActionSupport8;
+import it.tidalwave.role.ui.UserAction;
 import it.tidalwave.messagebus.annotation.ListensTo;
 import it.tidalwave.messagebus.annotation.SimpleMessageSubscriber;
 import it.tidalwave.northernwind.core.model.Content;
@@ -81,8 +81,8 @@ public class DefaultContentEditorPresentationControl implements ContentEditorPre
     private Optional<ResourceProperties> properties = Optional.empty();
 
     /* visible for testing */ final Bindings bindings = Bindings.builder()
-            .openExternalEditorAction(UserActionSupport8.withCallback(this::openExternalEditor))
-            .openExternalEditorBrowserAction(UserActionSupport8.withCallback(this::openExternalEditorBrowser))
+            .openExternalEditorAction(UserAction.of(this::openExternalEditor))
+            .openExternalEditorBrowserAction(UserAction.of(this::openExternalEditorBrowser))
             .title(new BoundProperty<>(""))
             .build();
 

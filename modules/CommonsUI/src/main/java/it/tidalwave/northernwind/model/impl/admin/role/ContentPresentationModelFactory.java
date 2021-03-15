@@ -27,7 +27,13 @@
 package it.tidalwave.northernwind.model.impl.admin.role;
 
 import javax.annotation.Nonnull;
+import java.beans.PropertyChangeSupport;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.WeakHashMap;
+import it.tidalwave.util.Callback;
+import it.tidalwave.util.NamedCallback;
 import it.tidalwave.role.ui.PresentationModel;
 import it.tidalwave.role.ui.PresentationModelFactory;
 import it.tidalwave.messagebus.annotation.ListensTo;
@@ -35,10 +41,12 @@ import it.tidalwave.messagebus.annotation.SimpleMessageSubscriber;
 import it.tidalwave.northernwind.core.model.Content;
 import it.tidalwave.northernwind.rca.ui.event.ContentCreatedEvent;
 import lombok.extern.slf4j.Slf4j;
+import static it.tidalwave.role.ui.PresentationModel.PROPERTY_CHILDREN;
+import static it.tidalwave.role.ui.PresentationModel.concat;
 
 /***********************************************************************************************************************
  *
- * An implementation of {@link PresentationModelFactory} for {@link ContentPresentationModel} that keeps track of
+ * An implementation of {@link PresentationModelFactory} for {@link Content} that keeps track of
  * created instances and dispatches {@link ContentCreatedEvent}s to them. This to avoid that every single
  * {@code ContentPresentationModel} subscribes to the message bus and have all of them but one to discard the received
  * event if it's not related to their datum.
@@ -49,36 +57,35 @@ import lombok.extern.slf4j.Slf4j;
 @SimpleMessageSubscriber @Slf4j
 public class ContentPresentationModelFactory implements PresentationModelFactory
   {
-    /* visible for testing */ final WeakHashMap<Content, ContentPresentationModel> map = new WeakHashMap<>();
+    /* visible for testing */ final WeakHashMap<Content, PresentationModel> map = new WeakHashMap<>();
 
     @Override @Nonnull
     public PresentationModel createPresentationModel (final @Nonnull Object datum,
                                                       final @Nonnull Object... rolesOrFactories)
       {
-        final ContentPresentationModel contentPM = new ContentPresentationModel((Content)datum, rolesOrFactories)
+        final Callback cb = NamedCallback.of(PresentationModel.CALLBACK_DISPOSE, () ->
           {
-            @Override
-            public void dispose()
-              {
-                super.dispose();
-                map.remove((Content)datum);
-                log.debug(">>>> unregistered: {}", this);
-              }
-          };
+            map.remove(datum);
+            log.debug(">>>> unregistered: {}", this);
+          });
 
+        final PresentationModel contentPM = PresentationModel.of(datum, concat(cb, rolesOrFactories));
         map.put((Content)datum, contentPM);
         log.debug(">>>> created and registered: {}", contentPM);
         return contentPM;
       }
 
-    /* visible for testing */void onContentCreated (final @ListensTo @Nonnull ContentCreatedEvent event)
+    /* visible for testing */ void onContentCreated (final @ListensTo @Nonnull ContentCreatedEvent event)
       {
         log.debug("onContentCreated({})", event);
-        final ContentPresentationModel contentPm =  map.get(event.getParentContent());
+        // FIXME: map.getOptional(event.getParentContent()).ifPresent(cpm -> ...);
+        final PresentationModel contentPM =  map.get(event.getParentContent());
 
-        if (contentPm != null)
+        if (contentPM != null)
           {
-            contentPm.onContentCreated();
+            log.debug(">>>> dispatching {} to ", event, contentPM);
+            // FIXME: this is an undocumented feature
+            contentPM.as(PropertyChangeSupport.class).firePropertyChange(PROPERTY_CHILDREN, null, null);
           }
       }
   }

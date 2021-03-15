@@ -29,7 +29,7 @@ package it.tidalwave.northernwind.model.impl.admin;
 import javax.annotation.Nonnull;
 import java.util.Optional;
 import it.tidalwave.role.SimpleComposite;
-import it.tidalwave.util.Finder8;
+import it.tidalwave.util.Finder;
 import it.tidalwave.northernwind.core.model.Content;
 import it.tidalwave.northernwind.core.model.ResourcePath;
 import it.tidalwave.northernwind.core.model.ResourceProperties;
@@ -55,7 +55,7 @@ public class AdminContent extends ContentSupport
 
     // Note that this works only thanks to class WorkaroundAdminContentSimpleComposite
     @Override @Nonnull
-    public Finder8<Content> findChildren()
+    public Finder<Content> findChildren()
       {
         return new ResourceFinder<>(getFile(), folder -> modelFactory.createContent().withFolder(folder).build());
       }

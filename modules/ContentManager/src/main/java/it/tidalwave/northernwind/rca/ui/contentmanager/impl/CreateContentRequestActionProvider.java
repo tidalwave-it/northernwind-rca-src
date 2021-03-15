@@ -33,13 +33,12 @@ import java.util.Collections;
 import org.springframework.beans.factory.annotation.Configurable;
 import it.tidalwave.dci.annotation.DciRole;
 import it.tidalwave.messagebus.MessageBus;
-import it.tidalwave.role.spi.DefaultDisplayable;
+import it.tidalwave.role.ui.Displayable;
 import it.tidalwave.role.ui.UserAction;
-import it.tidalwave.role.ui.spi.DefaultUserActionProvider;
 import it.tidalwave.role.ui.UserActionProvider;
+import it.tidalwave.role.ui.spi.DefaultUserActionProvider;
 import it.tidalwave.northernwind.core.model.Content;
 import it.tidalwave.northernwind.rca.ui.event.CreateContentRequest;
-import it.tidalwave.role.ui.spi.UserActionSupport8;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 
@@ -64,8 +63,7 @@ public class CreateContentRequestActionProvider extends DefaultUserActionProvide
     /* visible for testing */ MessageBus messageBus;
 
     /* visible for testing */ final UserAction sendCreateContentRequestAction =
-            UserActionSupport8.withCallback(this::publish)
-                              .withRoles(new DefaultDisplayable("New content"));
+            UserAction.of(this::publish, Displayable.of("New content"));
 
     @Override @Nonnull
     public Collection<? extends UserAction> getActions()

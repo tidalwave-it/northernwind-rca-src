@@ -30,11 +30,11 @@ import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import it.tidalwave.util.spi.SimpleFinder8Support;
+import it.tidalwave.text.AsDisplayableComparator;
+import it.tidalwave.util.spi.SimpleFinderSupport;
 import it.tidalwave.northernwind.core.model.Resource;
 import it.tidalwave.northernwind.core.model.ResourceFile;
 import lombok.RequiredArgsConstructor;
-import static it.tidalwave.role.Displayable.Displayable;
 
 /***********************************************************************************************************************
  *
@@ -42,7 +42,7 @@ import static it.tidalwave.role.Displayable.Displayable;
  *
  **********************************************************************************************************************/
 @RequiredArgsConstructor
-public final class ResourceFinder<T extends Resource> extends SimpleFinder8Support<T>
+public final class ResourceFinder<T extends Resource> extends SimpleFinderSupport<T>
   {
     @FunctionalInterface
     static interface ProductCreator<T>
@@ -80,8 +80,7 @@ public final class ResourceFinder<T extends Resource> extends SimpleFinder8Suppo
           }
 
         // TODO: sorting should rather be done in the PresentationModel.
-        Collections.sort(results, (r1, r2) -> r1.as(Displayable).getDisplayName()
-                                      .compareTo(r2.as(Displayable).getDisplayName()));
+        Collections.sort(results, AsDisplayableComparator.getInstance());
 
         return results;
       }

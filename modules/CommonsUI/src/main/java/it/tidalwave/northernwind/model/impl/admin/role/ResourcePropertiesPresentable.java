@@ -28,25 +28,21 @@ package it.tidalwave.northernwind.model.impl.admin.role;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import it.tidalwave.role.Aggregate;
 import it.tidalwave.util.Id;
 import it.tidalwave.util.spi.SimpleFinderSupport;
 import it.tidalwave.role.SimpleComposite;
-import it.tidalwave.role.spi.DefaultDisplayable;
-import it.tidalwave.role.spi.DefaultSimpleComposite;
-import it.tidalwave.role.spi.MapAggregate;
+import it.tidalwave.role.ui.Displayable;
 import it.tidalwave.role.ui.Presentable;
 import it.tidalwave.role.ui.PresentationModel;
-import it.tidalwave.role.ui.spi.DefaultPresentationModel;
 import it.tidalwave.dci.annotation.DciRole;
 import it.tidalwave.northernwind.core.model.ResourceProperties;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import static it.tidalwave.northernwind.rca.util.PropertyUtilities.*;
+import static it.tidalwave.role.ui.PresentationModel.concat;
 
 /***********************************************************************************************************************
  *
@@ -117,11 +113,10 @@ public class ResourcePropertiesPresentable implements Presentable
                 propertyGroup.getKeys().stream().forEach(key ->
                   {
                     final String prefix = groupId.stringValue().equals("") ? "" : groupId.stringValue() + ".";
-                    final Map<String, PresentationModel> map = new HashMap<>();
-                    map.put("Name",  new DefaultPresentationModel(key,
-                                                                  new DefaultDisplayable(prefix + key.stringValue())));
-                    map.put("Value", new DefaultPresentationModel(key, displayableForValue(propertyGroup, key)));
-                    results.add(new DefaultPresentationModel(key, properties, new MapAggregate<>(map)));
+                    final Aggregate<PresentationModel> aggregate = Aggregate
+                            .of("Name",  PresentationModel.of(key, Displayable.of(prefix + key.stringValue())))
+                            .with( "Value", PresentationModel.of(key, displayableForValue(propertyGroup, key)));
+                    results.add(PresentationModel.of(key, properties, aggregate));
                   });
               });
 
@@ -144,11 +139,7 @@ public class ResourcePropertiesPresentable implements Presentable
     @Override @Nonnull
     public PresentationModel createPresentationModel (final @Nonnull Object ... localRoles)
       {
-        final SimpleComposite<PresentationModel> composite =
-                new DefaultSimpleComposite<>(new PropertyPmFinder(ownerProperties));
-        final List<Object> roles = new ArrayList<>(Arrays.asList(localRoles));
-        roles.add(composite);
-
-        return new DefaultPresentationModel(ownerProperties, roles.toArray());
+        return PresentationModel.of(ownerProperties,
+                                    concat(SimpleComposite.of(new PropertyPmFinder(ownerProperties)), localRoles));
       }
   }
