@@ -68,7 +68,7 @@
         <jsoup.version>1.8.3</jsoup.version>
         <netbeans.version>RELEASE80</netbeans.version>
         <northernwind.version>1.2-ALPHA-5</northernwind.version>
-        <steelblue.version>1.0-ALPHA-17-SNAPSHOT</steelblue.version>
+        <steelblue.version>1.0-ALPHA-17</steelblue.version>
         <thesefoolishthings.version>3.2-ALPHA-1</thesefoolishthings.version>
     </properties>
 
