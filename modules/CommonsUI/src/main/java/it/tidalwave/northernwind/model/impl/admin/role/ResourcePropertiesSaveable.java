@@ -89,7 +89,7 @@ public class ResourcePropertiesSaveable implements Saveable
           {
             // FIXME: localization
             // FIXME: conversion to string when different types are used
-            writableFolder.write(property.stringValue() + "_en.xhtml", properties.getProperty(property).toString());
+            writableFolder.write(property.stringValue() + "_en.xhtml", properties.getProperty(property).get().toString());
             properties = properties.withoutProperty(property);
           }
 
