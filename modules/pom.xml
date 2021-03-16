@@ -69,6 +69,7 @@
         <jsoup.version>1.8.3</jsoup.version>
         <netbeans.version>RELEASE80</netbeans.version>
         <northernwind.version>1.2-ALPHA-5</northernwind.version>
+        <tft.spring.version>5.3.1</tft.spring.version>
         <steelblue.version>1.0-ALPHA-18</steelblue.version>
         <!-- Should activate by itself with JDK 11+, but it fails with Jenkins Maven integration. -->
         <tft.javafx.version>11.0.1</tft.javafx.version>
@@ -90,6 +91,13 @@
     ================================================================================================================ -->
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-framework-bom</artifactId>
+                <version>${tft.spring.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
             <dependency>
                 <groupId>it.tidalwave.thesefoolishthings</groupId>
                 <artifactId>thesefoolishthings</artifactId>
