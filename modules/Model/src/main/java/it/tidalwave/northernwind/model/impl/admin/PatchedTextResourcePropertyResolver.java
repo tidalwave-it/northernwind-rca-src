@@ -30,6 +30,7 @@ import javax.annotation.Nonnull;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import com.google.common.collect.ImmutableList;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Configurable;
 import it.tidalwave.util.Id;
 import it.tidalwave.util.Key;
@@ -68,7 +69,7 @@ import lombok.extern.slf4j.Slf4j;
  * @author  Fabrizio Giudici
  *
  **********************************************************************************************************************/
-@Configurable @Slf4j
+@RequiredArgsConstructor @Slf4j
 public class PatchedTextResourcePropertyResolver implements ResourceProperties.PropertyResolver
   {
     private static final ImmutableList<String> EXTENSIONS = ImmutableList.of(".xhtml", ".html", ".xml", ".txt");
@@ -81,16 +82,6 @@ public class PatchedTextResourcePropertyResolver implements ResourceProperties.P
 
     @Nonnull
     private final ResourceFile folder;
-
-    /*******************************************************************************************************************
-     *
-     *
-     *
-     ******************************************************************************************************************/
-    public PatchedTextResourcePropertyResolver (final @Nonnull ResourceFile folder)
-      {
-        this.folder = folder;
-      }
 
     /*******************************************************************************************************************
      *

@@ -28,6 +28,7 @@ package it.tidalwave.northernwind.rca.ui.contenteditor.impl;
 
 import javax.annotation.Nonnull;
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.core.io.ClassPathResource;
@@ -86,7 +87,7 @@ public class ResourcePropertiesBinder implements PropertyBinder
             EDITOR_PROLOG = prologBuilder.toString();
             EDITOR_EPILOG = epilogBuilder.toString();
           }
-        catch (Exception e)
+        catch (IOException e)
           {
             throw new ExceptionInInitializerError(e);
           }
