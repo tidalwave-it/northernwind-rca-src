@@ -32,7 +32,7 @@ import javax.inject.Inject;
 
 /***********************************************************************************************************************
  *
- * @author  Fabrizio Giudici (Fabrizio.Giudici@tidalwave.it)
+ * @author  Fabrizio Giudici
  *
  **********************************************************************************************************************/
 public class AdminSiteProvider implements SiteProvider
