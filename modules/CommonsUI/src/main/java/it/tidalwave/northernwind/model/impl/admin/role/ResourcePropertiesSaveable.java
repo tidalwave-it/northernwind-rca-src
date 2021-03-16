@@ -27,10 +27,11 @@
 package it.tidalwave.northernwind.model.impl.admin.role;
 
 import javax.annotation.Nonnull;
+import java.time.ZoneId;
 import java.util.Arrays;
 import java.util.List;
 import java.io.IOException;
-import it.tidalwave.northernwind.code.model.TimeProvider;
+import it.tidalwave.util.InstantProvider;
 import it.tidalwave.util.Key;
 import it.tidalwave.dci.annotation.DciRole;
 import it.tidalwave.northernwind.core.model.ResourceFile;
@@ -56,7 +57,7 @@ public class ResourcePropertiesSaveable implements Saveable
     private static final List<Key<?>> EXTERNAL_PROPERTIES = Arrays.<Key<?>>asList(PROPERTY_FULL_TEXT);
 
     @Nonnull
-    private final TimeProvider timeProvider;
+    private final InstantProvider instantProvider;
 
     @Nonnull
     private final ResourceProperties properties;
@@ -69,7 +70,7 @@ public class ResourcePropertiesSaveable implements Saveable
             log.debug("saveIn({}, {})", folder, properties);
             final WritableFolder writableFolder = folder.as(WritableFolder);
             final ResourceProperties p1 = properties.withProperty(PROPERTY_LATEST_MODIFICATION_DATE,
-                                                                  timeProvider.getNow());
+                                                                  instantProvider.getInstant().atZone(ZoneId.systemDefault()));
             final ResourceProperties p2 = saveExternalProperties(p1, writableFolder);
             // FIXME: guess the localization (some properties go to Properties, some other to Properties_en.xml etc...
             writableFolder.write("Properties.xml", p2.as(Marshallable));
