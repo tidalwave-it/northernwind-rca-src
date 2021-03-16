@@ -30,6 +30,7 @@ import it.tidalwave.northernwind.core.model.Site;
 import it.tidalwave.northernwind.core.model.SiteProvider;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import javax.annotation.Nonnull;
 
 /***********************************************************************************************************************
  *
@@ -39,7 +40,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class AdminSiteProvider implements SiteProvider
   {
-    @Getter
+    @Getter @Nonnull
     private final Site site;
 
     @Override
