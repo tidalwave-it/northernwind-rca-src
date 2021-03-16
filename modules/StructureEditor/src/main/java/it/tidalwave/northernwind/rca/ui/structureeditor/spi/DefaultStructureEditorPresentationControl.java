@@ -27,7 +27,6 @@
 package it.tidalwave.northernwind.rca.ui.structureeditor.spi;
 
 import javax.annotation.Nonnull;
-import javax.inject.Inject;
 import it.tidalwave.messagebus.annotation.ListensTo;
 import it.tidalwave.messagebus.annotation.SimpleMessageSubscriber;
 import it.tidalwave.northernwind.core.model.ResourceProperties;
@@ -35,6 +34,7 @@ import it.tidalwave.northernwind.core.model.SiteNode;
 import it.tidalwave.northernwind.rca.ui.event.SiteNodeSelectedEvent;
 import it.tidalwave.northernwind.rca.ui.structureeditor.StructureEditorPresentation;
 import it.tidalwave.northernwind.rca.ui.structureeditor.StructureEditorPresentationControl;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import static it.tidalwave.role.ui.Presentable.*;
 
@@ -43,11 +43,11 @@ import static it.tidalwave.role.ui.Presentable.*;
  * @author  Fabrizio Giudici
  *
  **********************************************************************************************************************/
-@SimpleMessageSubscriber @Slf4j
+@SimpleMessageSubscriber @RequiredArgsConstructor @Slf4j
 public class DefaultStructureEditorPresentationControl implements StructureEditorPresentationControl
   {
-    @Inject
-    private StructureEditorPresentation presentation;
+    @Nonnull
+    private final StructureEditorPresentation presentation;
 
     /* visible for testing */ void onSiteNodeSelected (final @ListensTo @Nonnull SiteNodeSelectedEvent selectionEvent)
       {

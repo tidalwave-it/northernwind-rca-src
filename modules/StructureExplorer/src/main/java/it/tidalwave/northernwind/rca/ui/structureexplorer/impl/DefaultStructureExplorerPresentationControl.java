@@ -27,7 +27,6 @@
 package it.tidalwave.northernwind.rca.ui.structureexplorer.impl;
 
 import javax.annotation.Nonnull;
-import javax.inject.Inject;
 import it.tidalwave.dci.annotation.DciContext;
 import it.tidalwave.messagebus.MessageBus;
 import it.tidalwave.messagebus.annotation.ListensTo;
@@ -39,6 +38,7 @@ import it.tidalwave.northernwind.core.model.SiteNode;
 import it.tidalwave.northernwind.rca.ui.event.OpenSiteEvent;
 import it.tidalwave.northernwind.rca.ui.structureexplorer.StructureExplorerPresentation;
 import it.tidalwave.northernwind.rca.ui.structureexplorer.StructureExplorerPresentationControl;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import static it.tidalwave.role.ui.Presentable.*;
 import static it.tidalwave.northernwind.rca.ui.event.SiteNodeSelectedEvent.emptySelectionEvent;
@@ -51,22 +51,22 @@ import static it.tidalwave.northernwind.rca.ui.event.SiteNodeSelectedEvent.empty
  * @author  Fabrizio Giudici
  *
  **********************************************************************************************************************/
-@DciContext(autoThreadBinding = true) @SimpleMessageSubscriber @Slf4j
+@DciContext(autoThreadBinding = true) @RequiredArgsConstructor @SimpleMessageSubscriber @Slf4j
 public class DefaultStructureExplorerPresentationControl implements StructureExplorerPresentationControl
   {
     /* package */ static final String ROOT_SITE_NODE_PATH = "/structure";
 
-    @Inject
-    private ModelFactory modelFactory;
+    @Nonnull
+    private final ModelFactory modelFactory;
 
-    @Inject
-    private Site site;
+    @Nonnull
+    private final Site site;
 
-    @Inject
-    private MessageBus messageBus;
+    @Nonnull
+    private final MessageBus messageBus;
 
-    @Inject
-    private StructureExplorerPresentation presentation;
+    @Nonnull
+    private final StructureExplorerPresentation presentation;
 
     /* visible for testing */ void onOpenSite (final @ListensTo @Nonnull OpenSiteEvent event)
       {

@@ -65,7 +65,7 @@ public class ContentSelectableFiringSelectedEventTest
         context = new ClassPathXmlApplicationContext("ContentSelectableFiringSelectedEventTestBeans.xml");
         messageBus = context.getBean(MessageBus.class);
         content = mock(Content.class);
-        underTest = new ContentSelectableFiringSelectedEvent(content);
+        underTest = new ContentSelectableFiringSelectedEvent(messageBus, content);
       }
 
     /*******************************************************************************************************************

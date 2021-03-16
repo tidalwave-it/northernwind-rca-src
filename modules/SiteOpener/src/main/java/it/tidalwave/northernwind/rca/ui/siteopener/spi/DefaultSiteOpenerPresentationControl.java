@@ -27,7 +27,6 @@
 package it.tidalwave.northernwind.rca.ui.siteopener.spi;
 
 import javax.annotation.Nonnull;
-import javax.inject.Inject;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -38,6 +37,7 @@ import it.tidalwave.northernwind.rca.ui.event.OpenSiteEvent;
 import it.tidalwave.northernwind.rca.ui.siteopener.SiteOpenerPresentation;
 import it.tidalwave.northernwind.rca.ui.siteopener.SiteOpenerPresentation.Bindings;
 import it.tidalwave.northernwind.rca.ui.siteopener.SiteOpenerPresentationControl;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import static it.tidalwave.util.ui.UserNotificationWithFeedback.*;
 
@@ -48,14 +48,14 @@ import static it.tidalwave.util.ui.UserNotificationWithFeedback.*;
  * @author  Fabrizio Giudici
  *
  **********************************************************************************************************************/
-@Slf4j
+@RequiredArgsConstructor @Slf4j
 public class DefaultSiteOpenerPresentationControl implements SiteOpenerPresentationControl
   {
-    @Inject
-    private MessageBus messageBus;
+    @Nonnull
+    private final MessageBus messageBus;
 
-    @Inject
-    private SiteOpenerPresentation presentation;
+    @Nonnull
+    private final SiteOpenerPresentation presentation;
 
     /* visible for testing */ final Bindings bindings = Bindings.builder()
         .folderToOpen(new BoundProperty<>(getHomeFolder()))

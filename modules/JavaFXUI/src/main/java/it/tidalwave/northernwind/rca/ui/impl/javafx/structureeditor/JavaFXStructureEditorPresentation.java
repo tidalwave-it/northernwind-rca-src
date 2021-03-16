@@ -27,9 +27,9 @@
 package it.tidalwave.northernwind.rca.ui.impl.javafx.structureeditor;
 
 import javax.annotation.Nonnull;
-import javax.inject.Inject;
 import it.tidalwave.role.ui.javafx.StackPaneSelector;
 import it.tidalwave.northernwind.rca.ui.structureeditor.StructureEditorPresentation;
+import lombok.RequiredArgsConstructor;
 import lombok.experimental.Delegate;
 import lombok.Getter;
 import static it.tidalwave.ui.javafx.JavaFXSafeProxyCreator.*;
@@ -39,6 +39,7 @@ import static it.tidalwave.ui.javafx.JavaFXSafeProxyCreator.*;
  * @author  Fabrizio Giudici
  *
  **********************************************************************************************************************/
+@RequiredArgsConstructor
 public class JavaFXStructureEditorPresentation implements StructureEditorPresentation
   {
     static interface Exclusions
@@ -46,14 +47,14 @@ public class JavaFXStructureEditorPresentation implements StructureEditorPresent
         public void showUp();
       }
 
-    @Getter @Nonnull
+    @Nonnull
+    private final StackPaneSelector stackPaneSelector;
+
+    @Getter
     private final NodeAndDelegate nad = createNodeAndDelegate(getClass());
 
     @Delegate(excludes = Exclusions.class)
     private final StructureEditorPresentation delegate = nad.getDelegate();
-
-    @Inject
-    private StackPaneSelector stackPaneSelector;
 
     @Override
     public void showUp()

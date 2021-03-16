@@ -31,7 +31,6 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import com.google.common.collect.ImmutableList;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Configurable;
 import it.tidalwave.util.Id;
 import it.tidalwave.util.Key;
 import it.tidalwave.util.NotFoundException;
@@ -74,10 +73,10 @@ public class PatchedTextResourcePropertyResolver implements ResourceProperties.P
   {
     private static final ImmutableList<String> EXTENSIONS = ImmutableList.of(".xhtml", ".html", ".xml", ".txt");
 
-//    @Inject
+//    @Nonnull
 //    private RequestLocaleManager localeRequestManager;
 
-//    @Inject
+//    @Nonnull
 //    private Provider<FilterSetExpander> filterSetExpander;
 
     @Nonnull

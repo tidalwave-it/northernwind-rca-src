@@ -59,8 +59,7 @@ public class CreateContentRequestActionProviderTest
         ContextManager.Locator.set(new DefaultContextManagerProvider());
         messageBus = mock(MessageBus.class);
         content = mock(Content.class);
-        underTest = new CreateContentRequestActionProvider(content);
-        underTest.messageBus = messageBus;
+        underTest = new CreateContentRequestActionProvider(messageBus, content);
       }
 
     @Test

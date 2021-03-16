@@ -29,7 +29,6 @@ package it.tidalwave.northernwind.rca.ui.contentmanager.impl;
 import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 import javax.annotation.PostConstruct;
-import javax.inject.Inject;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -41,6 +40,7 @@ import java.net.URLEncoder;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
 import com.google.common.io.CharStreams;
+import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.ClassPathResource;
 import it.tidalwave.util.Key;
 import it.tidalwave.role.IdFactory;
@@ -68,17 +68,17 @@ import static it.tidalwave.northernwind.rca.ui.contentmanager.impl.ContentChildC
  * @author  Fabrizio Giudici
  *
  **********************************************************************************************************************/
-@SimpleMessageSubscriber @Slf4j
+@SimpleMessageSubscriber @RequiredArgsConstructor @Slf4j
 public class DefaultAddContentPresentationControl implements AddContentPresentationControl
   {
-    @Inject
-    private AddContentPresentation presentation;
+    @Nonnull
+    private final AddContentPresentation presentation;
 
-    @Inject
-    private IdFactory idFactory;
+    @Nonnull
+    private final IdFactory idFactory;
 
-    @Inject
-    private TimeProvider timeProvider;
+    @Nonnull
+    private final TimeProvider timeProvider;
 
     private final Bindings bindings = new ValidatingBindings();
 

@@ -158,7 +158,7 @@ public class DefaultContentChildCreatorTest
         when(parentContent.getFile()).thenReturn(parentFolder);
         when(parentFolder.createFolder(anyString())).thenReturn(childFolder);
 
-        underTest = new DefaultContentChildCreator(parentContent);
+        underTest = new DefaultContentChildCreator(messageBus, modelFactory, parentContent);
       }
 
     /*******************************************************************************************************************

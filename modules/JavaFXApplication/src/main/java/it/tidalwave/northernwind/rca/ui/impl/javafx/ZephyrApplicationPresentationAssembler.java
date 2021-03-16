@@ -27,8 +27,6 @@
 package it.tidalwave.northernwind.rca.ui.impl.javafx;
 
 import javax.annotation.Nonnull;
-import javax.inject.Inject;
-import org.springframework.beans.factory.annotation.Configurable;
 import it.tidalwave.role.ui.javafx.ApplicationPresentationAssembler;
 import it.tidalwave.role.ui.javafx.StackPaneSelector;
 import it.tidalwave.northernwind.rca.ui.impl.javafx.contenteditor.JavaFXContentEditorPresentation;
@@ -36,6 +34,7 @@ import it.tidalwave.northernwind.rca.ui.impl.javafx.contentexplorer.JavaFXConten
 import it.tidalwave.northernwind.rca.ui.impl.javafx.siteopener.JavaFXSiteOpenerPresentation;
 import it.tidalwave.northernwind.rca.ui.impl.javafx.structureexplorer.JavaFXStructureExplorerPresentation;
 import it.tidalwave.northernwind.rca.ui.impl.javafx.structureeditor.JavaFXStructureEditorPresentation;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 /***********************************************************************************************************************
@@ -45,29 +44,29 @@ import lombok.extern.slf4j.Slf4j;
  * @author Fabrizio Giudici
  *
  **********************************************************************************************************************/
-@Configurable @Slf4j
+@RequiredArgsConstructor @Slf4j
 public class ZephyrApplicationPresentationAssembler
         implements ApplicationPresentationAssembler<JavaFXApplicationPresentationDelegate>
   {
     private static final String EDITOR_AREA = "editorArea";
 
-    @Inject
-    private StackPaneSelector stackPaneSelector;
+    @Nonnull
+    private final StackPaneSelector stackPaneSelector;
 
-    @Inject
-    private JavaFXContentEditorPresentation contentEditorPresentation;
+    @Nonnull
+    private final JavaFXContentEditorPresentation contentEditorPresentation;
 
-    @Inject
-    private JavaFXContentExplorerPresentation contentExplorerPresentation;
+    @Nonnull
+    private final JavaFXContentExplorerPresentation contentExplorerPresentation;
 
-    @Inject
-    private JavaFXStructureEditorPresentation structureEditorPresentation;
+    @Nonnull
+    private final JavaFXStructureEditorPresentation structureEditorPresentation;
 
-    @Inject
-    private JavaFXStructureExplorerPresentation structureExplorerPresentation;
+    @Nonnull
+    private final JavaFXStructureExplorerPresentation structureExplorerPresentation;
 
-    @Inject
-    private JavaFXSiteOpenerPresentation siteOpenerPresentation;
+    @Nonnull
+    private final JavaFXSiteOpenerPresentation siteOpenerPresentation;
 
     @Override
     public void assemble (final @Nonnull JavaFXApplicationPresentationDelegate applicationDelegate)
@@ -77,7 +76,7 @@ public class ZephyrApplicationPresentationAssembler
         stackPaneSelector.add(EDITOR_AREA, contentEditorPresentation.getNad().getNode());
 
         applicationDelegate.setLeftVerticalSplitContents(structureExplorerPresentation.getNad().getNode(),
-                                              contentExplorerPresentation.getNad().getNode());
+                                                         contentExplorerPresentation.getNad().getNode());
         siteOpenerPresentation.createDelegate(applicationDelegate);
       }
   }

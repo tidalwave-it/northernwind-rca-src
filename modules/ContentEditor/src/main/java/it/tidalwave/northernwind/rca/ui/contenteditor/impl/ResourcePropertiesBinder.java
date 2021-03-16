@@ -30,7 +30,6 @@ import javax.annotation.Nonnull;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.core.io.ClassPathResource;
 import it.tidalwave.util.Key;
 import it.tidalwave.role.ui.BoundProperty;
@@ -45,8 +44,7 @@ import lombok.RequiredArgsConstructor;
  * @author  Fabrizio Giudici
  *
  **********************************************************************************************************************/
-@DciRole(datumType = ResourceProperties.class)
-@Configurable @RequiredArgsConstructor
+@DciRole(datumType = ResourceProperties.class) @RequiredArgsConstructor
 public class ResourcePropertiesBinder implements PropertyBinder
   {
     private final static String EDITOR_TEMPLATE =

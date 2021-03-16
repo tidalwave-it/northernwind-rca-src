@@ -27,22 +27,25 @@
 package it.tidalwave.northernwind.rca.ui.impl.javafx.contentmanager;
 
 import javax.annotation.Nonnull;
-import javax.inject.Inject;
 import javafx.fxml.FXML;
 import javafx.scene.layout.Pane;
 import javafx.scene.control.TextField;
 import it.tidalwave.util.ui.UserNotificationWithFeedback;
 import it.tidalwave.role.ui.javafx.JavaFXBinder;
 import it.tidalwave.northernwind.rca.ui.contentmanager.AddContentPresentation;
-import it.tidalwave.northernwind.rca.ui.contentmanager.AddContentPresentation.Bindings;
+import lombok.RequiredArgsConstructor;
 
 /***********************************************************************************************************************
  *
  * @author  Fabrizio Giudici
  *
  **********************************************************************************************************************/
+@RequiredArgsConstructor
 public class JavaFXAddContentPresentationDelegate implements AddContentPresentation
   {
+    @Nonnull
+    private final JavaFXBinder binder;
+
     @FXML
     private Pane pnPane;
 
@@ -60,9 +63,6 @@ public class JavaFXAddContentPresentationDelegate implements AddContentPresentat
 
     @FXML
     private TextField tfPublishingDateTime;
-
-    @Inject
-    private JavaFXBinder binder;
 
     private Bindings bindings;
 

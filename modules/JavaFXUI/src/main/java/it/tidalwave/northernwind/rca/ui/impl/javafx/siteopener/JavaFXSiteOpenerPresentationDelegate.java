@@ -27,13 +27,13 @@
 package it.tidalwave.northernwind.rca.ui.impl.javafx.siteopener;
 
 import javax.annotation.Nonnull;
-import javax.inject.Inject;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
 import javafx.fxml.FXML;
 import it.tidalwave.util.ui.UserNotificationWithFeedback;
 import it.tidalwave.role.ui.javafx.JavaFXBinder;
 import it.tidalwave.northernwind.rca.ui.siteopener.SiteOpenerPresentation;
+import lombok.RequiredArgsConstructor;
 
 /***********************************************************************************************************************
  *
@@ -46,16 +46,17 @@ import it.tidalwave.northernwind.rca.ui.siteopener.SiteOpenerPresentation;
  * @author  Fabrizio Giudici
  *
  **********************************************************************************************************************/
+@RequiredArgsConstructor
 public class JavaFXSiteOpenerPresentationDelegate implements SiteOpenerPresentation
   {
+    @Nonnull
+    private final JavaFXBinder binder;
+
     @FXML
     private Button btOpen;
 
     @FXML
     private MenuItem openSiteMenu;
-
-    @Inject
-    private JavaFXBinder binder;
 
     private Bindings bindings;
 

@@ -27,7 +27,6 @@
 package it.tidalwave.northernwind.model.impl.admin.role;
 
 import javax.annotation.Nonnull;
-import javax.inject.Inject;
 import java.util.Arrays;
 import java.util.List;
 import java.io.IOException;
@@ -56,8 +55,8 @@ public class ResourcePropertiesSaveable implements Saveable
     /** The properties that must be stored in a separate file. */
     private static final List<Key<?>> EXTERNAL_PROPERTIES = Arrays.<Key<?>>asList(PROPERTY_FULL_TEXT);
 
-    @Inject @Nonnull
-    private TimeProvider timeProvider;
+    @Nonnull
+    private final TimeProvider timeProvider;
 
     @Nonnull
     private final ResourceProperties properties;
