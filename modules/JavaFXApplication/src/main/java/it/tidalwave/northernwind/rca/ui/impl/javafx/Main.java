@@ -48,6 +48,7 @@ public class Main extends JavaFXSpringApplication
           {
             System.setProperty(PreferencesHandler.PROP_APP_NAME, "Zephyr");
             final PreferencesHandler preferenceHandler = PreferencesHandler.getInstance();
+            preferenceHandler.setDefaultProperty(KEY_INITIAL_SIZE, 0.8);
             final Path logfolder = preferenceHandler.getLogFolder();
             System.setProperty("it.tidalwave.northernwind.rca.logFolder", logfolder.toAbsolutePath().toString());
             Platform.setImplicitExit(true);
