@@ -31,14 +31,14 @@
     <parent>
         <groupId>it.tidalwave.northernwind.rca</groupId>
         <artifactId>northernwind-rca-modules</artifactId>
-        <version>1.2-ALPHA-2-SNAPSHOT</version>
+        <version>1.2-ALPHA-2</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
     <groupId>it.tidalwave.northernwind.rca</groupId>
     <artifactId>it-tidalwave-northernwind-rca-ui-site-opener</artifactId>
     <packaging>jar</packaging>
-    <version>1.2-ALPHA-2-SNAPSHOT</version>
+    <version>1.2-ALPHA-2</version>
     <name>Zephyr - UI Site Opener</name>
 
     <dependencies>
