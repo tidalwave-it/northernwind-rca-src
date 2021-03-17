@@ -50,8 +50,12 @@ public class Main extends JavaFXSpringApplication
             PreferencesHandler.setAppName("Zephyr");
             final PreferencesHandler preferenceHandler = PreferencesHandler.getInstance();
             preferenceHandler.setDefaultProperty(KEY_INITIAL_SIZE, 0.8);
-            final Path logfolder = preferenceHandler.getLogFolder();
-            System.setProperty("it.tidalwave.northernwind.rca.logFolder", logfolder.toAbsolutePath().toString());
+            final Path logFolder = preferenceHandler.getLogFolder();
+            final Path configFolder = preferenceHandler.getAppFolder().resolve("config").toAbsolutePath();
+            final String logConfigOverride = configFolder.resolve("logback-override.xml").toString();
+            System.err.println("Logback override: " + logConfigOverride);
+            System.setProperty("it.tidalwave.northernwind.rca.logFolder", logFolder.toString());
+            System.setProperty("it.tidalwave.northernwind.rca.logConfigOverride", logConfigOverride);
             Platform.setImplicitExit(true);
             launch(args);
           }

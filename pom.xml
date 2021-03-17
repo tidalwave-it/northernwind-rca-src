@@ -31,7 +31,7 @@
     <parent>
         <groupId>it.tidalwave.superpom</groupId>
         <artifactId>superpom</artifactId>
-        <version>5.0-ALPHA-5</version>
+        <version>5.0-ALPHA-6</version>
         <relativePath />
     </parent>
 
@@ -81,6 +81,7 @@
         <scm.repo.readonly.url>https://tidalwave@bitbucket.org/tidalwave/northernwind-rca-src.git</scm.repo.readonly.url>
         <scm.repo.browse.url>https://bitbucket.org/tidalwave/northernwind-rca-src/src</scm.repo.browse.url>
         <tft.project.url>http://tidalwave.it/projects/zephyr</tft.project.url>
+        <release.profiles>release-sign-artifacts, installers</release.profiles>
     </properties>
 
     <repositories>
