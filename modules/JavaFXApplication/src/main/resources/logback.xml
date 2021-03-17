@@ -31,7 +31,7 @@
 
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>\${it.tidalwave.northernwind.rca.logFolder}/Zephyr.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <fileNamePattern>${it.tidalwave.northernwind.rca.logFolder}/Zephyr.%d{yyyy-MM-dd}.log</fileNamePattern>
             <maxHistory>5</maxHistory>
         </rollingPolicy>
         <encoder>
@@ -52,9 +52,9 @@
 
     <root level="DEBUG">
         <appender-ref ref="FILE" />
-        <appender-ref ref="STDERR" />
+        <!-- appender-ref ref="STDERR" / --> <!-- Don't in production! -->
     </root>
 
-    <include file="\${nw.logConfig}" optional="true" />
+    <include file="${it.tidalwave.northernwind.rca.logConfigOverride}" optional="true" />
 
 </configuration>

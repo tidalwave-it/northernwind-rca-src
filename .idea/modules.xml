@@ -17,7 +17,6 @@
       <module fileurl="file://$PROJECT_DIR$/northernwind-rca.iml" filepath="$PROJECT_DIR$/northernwind-rca.iml" />
       <module fileurl="file://$PROJECT_DIR$/modules/northernwind-rca-modules.iml" filepath="$PROJECT_DIR$/modules/northernwind-rca-modules.iml" />
       <module fileurl="file://$PROJECT_DIR$/modules/Installers/JavaFX/zephyr-javafx.iml" filepath="$PROJECT_DIR$/modules/Installers/JavaFX/zephyr-javafx.iml" />
-      <module fileurl="file://$PROJECT_DIR$/modules/Installers/macOS/zephyr-macosx.iml" filepath="$PROJECT_DIR$/modules/Installers/macOS/zephyr-macosx.iml" />
     </modules>
   </component>
 </project>
