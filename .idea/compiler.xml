@@ -22,22 +22,22 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="it-tidalwave-northernwind-model-core-stripped" target="1.8" />
-      <module name="it-tidalwave-northernwind-rca-application-javafx" target="1.8" />
-      <module name="it-tidalwave-northernwind-rca-embeddedserver" target="1.8" />
-      <module name="it-tidalwave-northernwind-rca-model" target="1.8" />
-      <module name="it-tidalwave-northernwind-rca-ui-commons" target="1.8" />
-      <module name="it-tidalwave-northernwind-rca-ui-content-editor" target="1.8" />
-      <module name="it-tidalwave-northernwind-rca-ui-content-explorer" target="1.8" />
-      <module name="it-tidalwave-northernwind-rca-ui-content-manager" target="1.8" />
-      <module name="it-tidalwave-northernwind-rca-ui-javafx" target="1.8" />
-      <module name="it-tidalwave-northernwind-rca-ui-site-opener" target="1.8" />
-      <module name="it-tidalwave-northernwind-rca-ui-structure-editor" target="1.8" />
-      <module name="it-tidalwave-northernwind-rca-ui-structure-explorer" target="1.8" />
+      <module name="it-tidalwave-northernwind-model-core-stripped" target="11" />
+      <module name="it-tidalwave-northernwind-rca-application-javafx" target="11" />
+      <module name="it-tidalwave-northernwind-rca-embeddedserver" target="11" />
+      <module name="it-tidalwave-northernwind-rca-model" target="11" />
+      <module name="it-tidalwave-northernwind-rca-ui-commons" target="11" />
+      <module name="it-tidalwave-northernwind-rca-ui-content-editor" target="11" />
+      <module name="it-tidalwave-northernwind-rca-ui-content-explorer" target="11" />
+      <module name="it-tidalwave-northernwind-rca-ui-content-manager" target="11" />
+      <module name="it-tidalwave-northernwind-rca-ui-javafx" target="11" />
+      <module name="it-tidalwave-northernwind-rca-ui-site-opener" target="11" />
+      <module name="it-tidalwave-northernwind-rca-ui-structure-editor" target="11" />
+      <module name="it-tidalwave-northernwind-rca-ui-structure-explorer" target="11" />
       <module name="northernwind-rca" target="1.8" />
-      <module name="northernwind-rca-modules" target="1.8" />
+      <module name="northernwind-rca-modules" target="11" />
       <module name="zephyr-javafx" target="1.8" />
-      <module name="zephyr-macosx" target="1.8" />
+      <module name="zephyr-macosx" target="11" />
       <module name="zephyr-macosx-embedded-jre" target="1.8" />
     </bytecodeTargetLevel>
   </component>
