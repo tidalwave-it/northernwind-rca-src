@@ -34,6 +34,7 @@ import org.springframework.context.ApplicationContext;
 import it.tidalwave.ui.javafx.JavaFXSpringApplication;
 import it.tidalwave.northernwind.rca.ui.contenteditor.ContentEditorPresentationControl;
 import it.tidalwave.northernwind.rca.ui.siteopener.SiteOpenerPresentationControl;
+import static it.tidalwave.util.PreferencesHandler.KEY_INITIAL_SIZE;
 
 /***********************************************************************************************************************
  *
@@ -46,8 +47,9 @@ public class Main extends JavaFXSpringApplication
       {
         try
           {
-            System.setProperty(PreferencesHandler.PROP_APP_NAME, "Zephyr");
+            PreferencesHandler.setAppName("Zephyr");
             final PreferencesHandler preferenceHandler = PreferencesHandler.getInstance();
+            preferenceHandler.setDefaultProperty(KEY_INITIAL_SIZE, 0.8);
             final Path logfolder = preferenceHandler.getLogFolder();
             System.setProperty("it.tidalwave.northernwind.rca.logFolder", logfolder.toAbsolutePath().toString());
             Platform.setImplicitExit(true);

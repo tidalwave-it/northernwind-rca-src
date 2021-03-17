@@ -27,8 +27,6 @@
 package it.tidalwave.northernwind.rca.ui.contentexplorer.impl;
 
 import javax.annotation.Nonnull;
-import javax.inject.Inject;
-import org.springframework.beans.factory.annotation.Configurable;
 import it.tidalwave.role.ui.Selectable;
 import it.tidalwave.dci.annotation.DciRole;
 import it.tidalwave.messagebus.MessageBus;
@@ -45,11 +43,11 @@ import lombok.RequiredArgsConstructor;
  *
  **********************************************************************************************************************/
 @DciRole(datumType = Content.class, context = DefaultContentExplorerPresentationControl.class)
-@Configurable @RequiredArgsConstructor
+@RequiredArgsConstructor
 public class ContentSelectableFiringSelectedEvent implements Selectable
   {
-    @Inject
-    private MessageBus messageBus;
+    @Nonnull
+    private final MessageBus messageBus;
 
     @Nonnull
     private final Content content;

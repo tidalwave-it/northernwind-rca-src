@@ -35,7 +35,7 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.function.Consumer;
 import java.io.IOException;
-import it.tidalwave.northernwind.code.model.TimeProvider;
+import it.tidalwave.util.spi.MockInstantProvider;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import it.tidalwave.util.Id;
@@ -52,6 +52,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import lombok.RequiredArgsConstructor;
+import static java.time.temporal.ChronoUnit.DAYS;
 import static com.google.common.collect.ImmutableMap.*;
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.*;
@@ -70,7 +71,7 @@ public class DefaultAddContentPresentationControlTest
      *
      ******************************************************************************************************************/
     @RequiredArgsConstructor
-    static class InputSetter
+    static class InputEmulator
       {
         @Nonnull
         private final Consumer<Bindings> initializer;
@@ -104,9 +105,11 @@ public class DefaultAddContentPresentationControlTest
 
     private Content content;
 
+    private Instant nowInstant;
+
     private ZonedDateTime now;
 
-    private TimeProvider timeProvider;
+    private ZonedDateTime tomorrow;
 
     private ContentChildCreator contentChildCreator;
 
@@ -118,7 +121,9 @@ public class DefaultAddContentPresentationControlTest
     @BeforeClass
     public void freezeTime()
       {
-        now = Instant.now().atZone(ZoneId.systemDefault());
+        nowInstant = Instant.now();
+        now = nowInstant.atZone(ZoneId.systemDefault());
+        tomorrow = now.plus(1, DAYS);
       }
 
     /*******************************************************************************************************************
@@ -127,13 +132,11 @@ public class DefaultAddContentPresentationControlTest
     @BeforeMethod
     public void setup()
       {
-//        DateTimeUtils.setCurrentMillisFixed(dateTime.getMillis());
         context = new ClassPathXmlApplicationContext("DefaultAddContentPresentationControlTestBeans.xml");
         underTest = context.getBean(DefaultAddContentPresentationControl.class);
         presentation = context.getBean(AddContentPresentation.class);
         idFactory = context.getBean(IdFactory.class);
-        timeProvider = context.getBean(TimeProvider.class);
-        when(timeProvider.getNow()).thenReturn(now);
+        context.getBean(MockInstantProvider.class).setInstant(nowInstant);
         content = mock(Content.class);
         contentChildCreator = mock(ContentChildCreator.class);
         when(content.as(eq(ContentChildCreator.class))).thenReturn(contentChildCreator);
@@ -160,13 +163,13 @@ public class DefaultAddContentPresentationControlTest
      ******************************************************************************************************************/
     @Test(dataProvider = "inputProvider")
     public void must_create_Content_with_the_right_Properties_when_user_confirms
-            (final @Nonnull InputSetter inputSetter,
+            (final @Nonnull InputEmulator inputEmulator,
              final @Nonnull String expectedFolderName,
              final @Nonnull Map<Key<?>, Object> baseExpectedProperties)
       throws IOException
       {
         // given
-        doAnswer(inputSetter.setInput()).when(presentation).bind(any(Bindings.class));
+        doAnswer(inputEmulator.setInput()).when(presentation).bind(any(Bindings.class));
         doAnswer(confirm()).when(presentation).showUp(any(UserNotificationWithFeedback.class));
         final Id id = new Id(UUID.randomUUID());
         when(idFactory.createId()).thenReturn(id);
@@ -207,7 +210,7 @@ public class DefaultAddContentPresentationControlTest
           {
             ////////////////////////////////////////////////////////////////////////////////////////////////////////////
               {
-                new InputSetter(bindings ->
+                new InputEmulator(bindings ->
                   {
                     bindings.folder.set("the folder");
                     bindings.title.set("the title");
@@ -222,19 +225,20 @@ public class DefaultAddContentPresentationControlTest
               },
             ////////////////////////////////////////////////////////////////////////////////////////////////////////////
               {
-                new InputSetter(bindings ->
+                new InputEmulator(bindings ->
                   {
-                    bindings.folder.set("the folder");
-                    bindings.title.set("the title");
-                    bindings.exposedUri.set("the-exposed-uri");
+                    bindings.folder.set("another folder");
+                    bindings.title.set("another title");
+                    bindings.exposedUri.set("another-exposed-uri");
+                    bindings.publishingDateTime.set(tomorrow);
                     bindings.tags.set("tag1, tag2");
                   }),
                 // expected folder name
-                "the+folder",
+                "another+folder",
                 // expected properties
-                of(PROPERTY_PUBLISHING_TIME, now,
-                   PROPERTY_TITLE, "the title",
-                   PROPERTY_EXPOSED_URI, "the-exposed-uri",
+                of(PROPERTY_TITLE, "another title",
+                   PROPERTY_EXPOSED_URI, "another-exposed-uri",
+                   PROPERTY_PUBLISHING_TIME, tomorrow,
                    PROPERTY_TAGS, "tag1,tag2") // See NWRCA-69
 //                   PROPERTY_TAGS,            Arrays.asList("tag1", "tag2"))
               }

@@ -27,10 +27,8 @@
 package it.tidalwave.northernwind.rca.ui.contentmanager.impl;
 
 import javax.annotation.Nonnull;
-import javax.inject.Inject;
 import java.util.Collection;
 import java.util.Collections;
-import org.springframework.beans.factory.annotation.Configurable;
 import it.tidalwave.dci.annotation.DciRole;
 import it.tidalwave.messagebus.MessageBus;
 import it.tidalwave.role.ui.Displayable;
@@ -52,15 +50,14 @@ import lombok.ToString;
  * @author  Fabrizio Giudici
  *
  **********************************************************************************************************************/
-@DciRole(datumType = Content.class)
-@Configurable @RequiredArgsConstructor @ToString(of = "content")
+@DciRole(datumType = Content.class) @RequiredArgsConstructor @ToString(of = "content")
 public class CreateContentRequestActionProvider extends DefaultUserActionProvider
   {
     @Nonnull
-    private final Content content;
+    private final MessageBus messageBus;
 
-    @Inject
-    /* visible for testing */ MessageBus messageBus;
+    @Nonnull
+    private final Content content;
 
     /* visible for testing */ final UserAction sendCreateContentRequestAction =
             UserAction.of(this::publish, Displayable.of("New content"));

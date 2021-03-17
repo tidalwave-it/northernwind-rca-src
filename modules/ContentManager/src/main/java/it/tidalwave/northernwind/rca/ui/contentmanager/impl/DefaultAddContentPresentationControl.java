@@ -29,12 +29,12 @@ package it.tidalwave.northernwind.rca.ui.contentmanager.impl;
 import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 import javax.annotation.PostConstruct;
-import javax.inject.Inject;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.time.Instant;
-import java.time.ZoneId;
 import java.io.UnsupportedEncodingException;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -43,13 +43,14 @@ import java.net.URLEncoder;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
 import com.google.common.io.CharStreams;
+import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.ClassPathResource;
 import it.tidalwave.util.Key;
 import it.tidalwave.role.IdFactory;
+import it.tidalwave.util.InstantProvider;
 import it.tidalwave.messagebus.annotation.ListensTo;
 import it.tidalwave.messagebus.annotation.SimpleMessageSubscriber;
 import it.tidalwave.northernwind.core.model.Content;
-import it.tidalwave.northernwind.code.model.TimeProvider;
 import it.tidalwave.northernwind.rca.ui.event.CreateContentRequest;
 import it.tidalwave.northernwind.rca.ui.contentmanager.AddContentPresentation;
 import it.tidalwave.northernwind.rca.ui.contentmanager.AddContentPresentation.Bindings;
@@ -70,17 +71,17 @@ import static it.tidalwave.northernwind.rca.ui.contentmanager.impl.ContentChildC
  * @author  Fabrizio Giudici
  *
  **********************************************************************************************************************/
-@SimpleMessageSubscriber @Slf4j
+@SimpleMessageSubscriber @RequiredArgsConstructor @Slf4j
 public class DefaultAddContentPresentationControl implements AddContentPresentationControl
   {
-    @Inject
-    private AddContentPresentation presentation;
+    @Nonnull
+    private final AddContentPresentation presentation;
 
-    @Inject
-    private IdFactory idFactory;
+    @Nonnull
+    private final IdFactory idFactory;
 
-    @Inject
-    private TimeProvider timeProvider;
+    @Nonnull
+    private final InstantProvider instantProvider;
 
     private final Bindings bindings = new ValidatingBindings();
 
@@ -102,7 +103,7 @@ public class DefaultAddContentPresentationControl implements AddContentPresentat
     /* visible for testing */ void onCreateContentRequest (final @ListensTo @Nonnull CreateContentRequest event)
       {
         log.info("onCreateContentRequest({})", event);
-        bindings.publishingDateTime.set(timeProvider.getNow());
+        bindings.publishingDateTime.set(toZonedDateTime(instantProvider.get()));
         presentation.bind(bindings);
         presentation.showUp(notificationWithFeedback()
                 .withCaption("Create new content")
@@ -121,7 +122,7 @@ public class DefaultAddContentPresentationControl implements AddContentPresentat
         final Map<Key<?>, Object> propertyValues = new HashMap<>();
         putIfNonEmpty(propertyValues, PROPERTY_TITLE,           bindings.title.get());
         putIfNonEmpty(propertyValues, PROPERTY_EXPOSED_URI,     bindings.exposedUri.get());
-        putIfNonEmpty(propertyValues, PROPERTY_CREATION_TIME,   timeProvider.getNow());
+        putIfNonEmpty(propertyValues, PROPERTY_CREATION_TIME,   toZonedDateTime(instantProvider.get()));
         putIfNonEmpty(propertyValues, PROPERTY_PUBLISHING_TIME, bindings.publishingDateTime.get());
         putIfNonEmpty(propertyValues, PROPERTY_FULL_TEXT,       xhtmlSkeleton);
         putIfNonEmpty(propertyValues, PROPERTY_ID,              idFactory.createId());
@@ -137,6 +138,15 @@ public class DefaultAddContentPresentationControl implements AddContentPresentat
           }
 
         parentContent.as(ContentChildCreator).createContent(folderName, propertyValues);
+      }
+
+    /*******************************************************************************************************************
+     *
+     ******************************************************************************************************************/
+    @Nonnull // FIXME: the new InstantProvider has getZonedDateTime().
+    private static ZonedDateTime toZonedDateTime (final @Nonnull Instant instant)
+      {
+        return ZonedDateTime.ofInstant(instant, ZoneId.systemDefault());
       }
 
     /*******************************************************************************************************************

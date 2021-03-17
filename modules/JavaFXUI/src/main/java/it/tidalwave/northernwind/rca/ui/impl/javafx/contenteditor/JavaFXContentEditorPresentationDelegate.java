@@ -27,7 +27,6 @@
 package it.tidalwave.northernwind.rca.ui.impl.javafx.contenteditor;
 
 import javax.annotation.Nonnull;
-import javax.inject.Inject;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.event.EventHandler;
@@ -40,6 +39,7 @@ import javafx.scene.layout.Pane;
 import it.tidalwave.role.ui.PresentationModel;
 import it.tidalwave.role.ui.javafx.JavaFXBinder;
 import it.tidalwave.northernwind.rca.ui.contenteditor.ContentEditorPresentation;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 /***********************************************************************************************************************
@@ -47,9 +47,12 @@ import lombok.extern.slf4j.Slf4j;
  * @author Fabrizio Giudici
  *
  **********************************************************************************************************************/
-@Slf4j
+@RequiredArgsConstructor @Slf4j
 public class JavaFXContentEditorPresentationDelegate implements ContentEditorPresentation
   {
+    @Nonnull
+    private final JavaFXBinder binder;
+
     @FXML
     private Pane contentEditor;
 
@@ -68,17 +71,7 @@ public class JavaFXContentEditorPresentationDelegate implements ContentEditorPre
     @FXML
     private Button btOpenExternalEditorBrowser;
 
-    @Inject
-    private JavaFXBinder binder;
-
-    private final EventHandler<WebEvent<String>> clickHijacker = new EventHandler<WebEvent<String>>()
-      {
-        @Override
-        public void handle (final @Nonnull WebEvent<String> event)
-          {
-            log.debug("hijacked click: {}", event);
-          }
-      };
+    private final EventHandler<WebEvent<String>> clickHijacker = event -> log.debug("hijacked click: {}", event);
 
     public void initialize()
       {

@@ -27,7 +27,6 @@
 package it.tidalwave.northernwind.rca.ui.contentexplorer.impl;
 
 import javax.annotation.Nonnull;
-import javax.inject.Inject;
 import it.tidalwave.dci.annotation.DciContext;
 import it.tidalwave.messagebus.MessageBus;
 import it.tidalwave.messagebus.annotation.ListensTo;
@@ -38,6 +37,7 @@ import it.tidalwave.northernwind.core.model.ResourceFile;
 import it.tidalwave.northernwind.rca.ui.contentexplorer.ContentExplorerPresentation;
 import it.tidalwave.northernwind.rca.ui.contentexplorer.ContentExplorerPresentationControl;
 import it.tidalwave.northernwind.rca.ui.event.OpenSiteEvent;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import static it.tidalwave.role.ui.Presentable.*;
 import static it.tidalwave.northernwind.rca.ui.event.ContentSelectedEvent.emptySelectionEvent;
@@ -51,18 +51,18 @@ import static it.tidalwave.northernwind.rca.ui.event.ContentSelectedEvent.emptyS
  * @author  Fabrizio Giudici
  *
  **********************************************************************************************************************/
-@DciContext(autoThreadBinding = true) @SimpleMessageSubscriber @Slf4j
+@DciContext(autoThreadBinding = true) @RequiredArgsConstructor @SimpleMessageSubscriber @Slf4j
 public class DefaultContentExplorerPresentationControl implements ContentExplorerPresentationControl
   {
     /* package */ static final String ROOT_DOCUMENT_PATH = "/content/document";
 
-    @Inject
+    @Nonnull
     protected MessageBus messageBus;
 
-    @Inject
+    @Nonnull
     private ModelFactory modelFactory;
 
-    @Inject
+    @Nonnull
     private ContentExplorerPresentation presentation;
 
     /* visible for testing */ void onOpenSite (final @ListensTo @Nonnull OpenSiteEvent event)

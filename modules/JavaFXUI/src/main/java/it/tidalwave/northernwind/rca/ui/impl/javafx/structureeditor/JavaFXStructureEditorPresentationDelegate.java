@@ -27,7 +27,6 @@
 package it.tidalwave.northernwind.rca.ui.impl.javafx.structureeditor;
 
 import javax.annotation.Nonnull;
-import javax.inject.Inject;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.layout.Pane;
@@ -36,15 +35,19 @@ import javafx.scene.web.WebView;
 import it.tidalwave.role.ui.PresentationModel;
 import it.tidalwave.role.ui.javafx.JavaFXBinder;
 import it.tidalwave.northernwind.rca.ui.structureeditor.StructureEditorPresentation;
+import lombok.RequiredArgsConstructor;
 
 /***********************************************************************************************************************
  *
  * @author Fabrizio Giudici
  *
  **********************************************************************************************************************/
-
+@RequiredArgsConstructor
 public class JavaFXStructureEditorPresentationDelegate implements StructureEditorPresentation
   {
+    @Nonnull
+    private final JavaFXBinder binder;
+
     @FXML
     private Pane structureEditor;
 
@@ -53,9 +56,6 @@ public class JavaFXStructureEditorPresentationDelegate implements StructureEdito
 
     @FXML
     private TableView<PresentationModel> structureEditorProperties;
-
-    @Inject
-    private JavaFXBinder binder;
 
     public void initialize()
       {

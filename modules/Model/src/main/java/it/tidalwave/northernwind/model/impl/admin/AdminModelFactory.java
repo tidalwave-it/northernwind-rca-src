@@ -27,7 +27,6 @@
 package it.tidalwave.northernwind.model.impl.admin;
 
 import javax.annotation.Nonnull;
-import javax.inject.Inject;
 import it.tidalwave.northernwind.core.model.Content;
 import it.tidalwave.northernwind.core.model.Resource;
 import it.tidalwave.northernwind.core.model.ResourceFile;
@@ -44,9 +43,6 @@ import it.tidalwave.northernwind.core.impl.model.DefaultResourceProperties;
  **********************************************************************************************************************/
 public class AdminModelFactory extends ModelFactorySupport
   {
-    @Inject
-    private Site site;
-
     @Override @Nonnull
     public Resource build (final @Nonnull Resource.Builder builder)
       {

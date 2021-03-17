@@ -27,25 +27,26 @@
 package it.tidalwave.northernwind.rca.ui.impl.javafx.structureexplorer;
 
 import javax.annotation.Nonnull;
-import javax.inject.Inject;
 import javafx.scene.control.TreeView;
 import javafx.fxml.FXML;
 import it.tidalwave.role.ui.PresentationModel;
 import it.tidalwave.role.ui.javafx.JavaFXBinder;
 import it.tidalwave.northernwind.rca.ui.structureexplorer.StructureExplorerPresentation;
+import lombok.RequiredArgsConstructor;
 
 /***********************************************************************************************************************
  *
  * @author Fabrizio Giudici
  *
  **********************************************************************************************************************/
+@RequiredArgsConstructor
 public class JavaFXStructureExplorerPresentationDelegate implements StructureExplorerPresentation
   {
+    @Nonnull
+    private final JavaFXBinder binder;
+
     @FXML
     private TreeView<PresentationModel> tvStructure;
-
-    @Inject
-    private JavaFXBinder binder;
 
     @Override
     public void populate (final @Nonnull PresentationModel pm)

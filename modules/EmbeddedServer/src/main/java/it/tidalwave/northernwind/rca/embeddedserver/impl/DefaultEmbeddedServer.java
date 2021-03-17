@@ -30,7 +30,6 @@ import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
-import javax.inject.Inject;
 import java.util.HashMap;
 import java.util.Map;
 import java.io.IOException;
@@ -40,6 +39,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import com.google.common.io.ByteStreams;
+import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.ClassPathResource;
 import org.eclipse.jetty.server.Server;
 import it.tidalwave.messagebus.annotation.ListensTo;
@@ -62,11 +62,11 @@ import static java.util.stream.Collectors.joining;
  * @author  Fabrizio Giudici
  *
  **********************************************************************************************************************/
-@SimpleMessageSubscriber @Slf4j
+@SimpleMessageSubscriber @RequiredArgsConstructor @Slf4j
 public class DefaultEmbeddedServer implements EmbeddedServer
   {
-    @Inject
-    private MimeTypeResolver mimeTypeResolver;
+    @Nonnull
+    private final MimeTypeResolver mimeTypeResolver;
 
     @Getter @Setter
     private int port = 12345;

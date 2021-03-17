@@ -27,10 +27,8 @@
 package it.tidalwave.northernwind.rca.ui.contentmanager.impl;
 
 import javax.annotation.Nonnull;
-import javax.inject.Inject;
 import java.util.Map;
 import java.io.IOException;
-import org.springframework.beans.factory.annotation.Configurable;
 import it.tidalwave.util.Key;
 import it.tidalwave.dci.annotation.DciRole;
 import it.tidalwave.messagebus.MessageBus;
@@ -52,15 +50,14 @@ import static it.tidalwave.northernwind.model.admin.role.Saveable.*;
  * @author  Fabrizio Giudici
  *
  **********************************************************************************************************************/
-@DciRole(datumType = Content.class)
-@Configurable @RequiredArgsConstructor @Slf4j
+@DciRole(datumType = Content.class) @RequiredArgsConstructor @Slf4j
 public class DefaultContentChildCreator implements ContentChildCreator
   {
-    @Inject
-    private MessageBus messageBus;
+    @Nonnull
+    private final MessageBus messageBus;
 
-    @Inject
-    private ModelFactory modelFactory; // TODO: get from content - depends on NW-197
+    @Nonnull
+    private final ModelFactory modelFactory; // TODO: get from content - depends on NW-197
 
     @Nonnull
     private final Content parentContent;

@@ -27,7 +27,6 @@
 package it.tidalwave.northernwind.rca.ui.contenteditor.spi;
 
 import javax.annotation.Nonnull;
-import javax.inject.Inject;
 import java.util.Optional;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -47,6 +46,7 @@ import it.tidalwave.northernwind.rca.ui.contenteditor.ContentEditorPresentation.
 import it.tidalwave.northernwind.rca.ui.contenteditor.ContentEditorPresentationControl;
 import it.tidalwave.northernwind.rca.ui.contenteditor.impl.JSoupXhtmlNormalizer;
 import it.tidalwave.northernwind.rca.ui.contenteditor.impl.ProcessExecutor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import static it.tidalwave.role.ui.Presentable.*;
 import static it.tidalwave.northernwind.model.admin.Properties.*;
@@ -65,14 +65,14 @@ import static java.util.stream.Collectors.joining;
  * @author  Fabrizio Giudici
  *
  **********************************************************************************************************************/
-@SimpleMessageSubscriber @Slf4j
+@RequiredArgsConstructor @SimpleMessageSubscriber @Slf4j
 public class DefaultContentEditorPresentationControl implements ContentEditorPresentationControl
   {
-    @Inject
-    private EmbeddedServer documentServer;
+    @Nonnull
+    private final EmbeddedServer documentServer;
 
-    @Inject
-    private ContentEditorPresentation presentation;
+    @Nonnull
+    private final ContentEditorPresentation presentation;
 
     @Nonnull
     private Optional<Content> content = Optional.empty();
@@ -91,7 +91,7 @@ public class DefaultContentEditorPresentationControl implements ContentEditorPre
      *
      *
      ******************************************************************************************************************/
-    /* visible for testing */ final PropertyBinder.UpdateCallback propertyUpdateCallback = (updatedProperties) ->
+    /* visible for testing */ final UpdateCallback propertyUpdateCallback = (updatedProperties) ->
       {
         updatedProperties.as(Saveable).saveIn(content.get().getFile());
         unbindProperties();

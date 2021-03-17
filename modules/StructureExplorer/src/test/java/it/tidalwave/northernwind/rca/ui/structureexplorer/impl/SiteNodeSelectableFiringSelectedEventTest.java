@@ -65,7 +65,7 @@ public class SiteNodeSelectableFiringSelectedEventTest
         context = new ClassPathXmlApplicationContext("SiteNodeSelectableFiringSelectedEventTestBeans.xml");
         messageBus = context.getBean(MessageBus.class);
         node = mock(SiteNode.class);
-        underTest = new SiteNodeSelectableFiringSelectedEvent(node);
+        underTest = new SiteNodeSelectableFiringSelectedEvent(messageBus, node);
       }
 
     /*******************************************************************************************************************

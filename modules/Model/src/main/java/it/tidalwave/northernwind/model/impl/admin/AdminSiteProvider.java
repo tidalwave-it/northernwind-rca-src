@@ -28,23 +28,20 @@ package it.tidalwave.northernwind.model.impl.admin;
 
 import it.tidalwave.northernwind.core.model.Site;
 import it.tidalwave.northernwind.core.model.SiteProvider;
-import javax.inject.Inject;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import javax.annotation.Nonnull;
 
 /***********************************************************************************************************************
  *
- * @author  Fabrizio Giudici (Fabrizio.Giudici@tidalwave.it)
+ * @author  Fabrizio Giudici
  *
  **********************************************************************************************************************/
+@RequiredArgsConstructor
 public class AdminSiteProvider implements SiteProvider
   {
-    @Inject
-    private Site site;
-
-    @Override
-    public Site getSite()
-      {
-        return site;
-      }
+    @Getter @Nonnull
+    private final Site site;
 
     @Override
     public void reload()

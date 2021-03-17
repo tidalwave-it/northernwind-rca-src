@@ -33,6 +33,7 @@ import java.net.MalformedURLException;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
+import it.tidalwave.northernwind.core.model.MimeTypeResolver;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import it.tidalwave.northernwind.rca.embeddedserver.EmbeddedServer.Document;
 import lombok.extern.slf4j.Slf4j;
@@ -64,7 +65,8 @@ public class DefaultEmbeddedServerTest
       {
         context = new ClassPathXmlApplicationContext("DefaultEmbeddedServerTestBeans.xml");
         underTest = context.getBean(DefaultEmbeddedServer.class);
-        nonSpringUnderTest = new DefaultEmbeddedServer();
+        final MimeTypeResolver mimeTypeResolver = context.getBean(MimeTypeResolver.class);
+        nonSpringUnderTest = new DefaultEmbeddedServer(mimeTypeResolver);
         nonSpringUnderTest.setPort(12346); // don't clash with the other underTest
       }
 

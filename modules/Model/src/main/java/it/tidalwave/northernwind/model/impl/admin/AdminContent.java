@@ -28,7 +28,6 @@ package it.tidalwave.northernwind.model.impl.admin;
 
 import javax.annotation.Nonnull;
 import java.util.Optional;
-import it.tidalwave.role.SimpleComposite;
 import it.tidalwave.util.Finder;
 import it.tidalwave.northernwind.core.model.Content;
 import it.tidalwave.northernwind.core.model.ResourcePath;

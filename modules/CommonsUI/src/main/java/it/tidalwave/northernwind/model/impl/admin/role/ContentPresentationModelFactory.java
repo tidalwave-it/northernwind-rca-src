@@ -28,9 +28,6 @@ package it.tidalwave.northernwind.model.impl.admin.role;
 
 import javax.annotation.Nonnull;
 import java.beans.PropertyChangeSupport;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.WeakHashMap;
 import it.tidalwave.util.Callback;
 import it.tidalwave.util.NamedCallback;

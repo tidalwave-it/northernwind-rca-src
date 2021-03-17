@@ -35,7 +35,7 @@ import it.tidalwave.role.IdFactory;
  *
  * The application factory for {@link Id}s.
  *
- * @author  Fabrizio Giudici (Fabrizio.Giudici@tidalwave.it)
+ * @author  Fabrizio Giudici
  *
  **********************************************************************************************************************/
 public class AdminIdFactory implements IdFactory

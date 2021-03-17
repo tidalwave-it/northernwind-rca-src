@@ -28,12 +28,10 @@ package it.tidalwave.northernwind.rca.ui.contenteditor.impl;
 
 import javax.annotation.Nonnull;
 import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.io.IOException;
-import org.springframework.beans.factory.annotation.Configurable;
+import java.io.InputStreamReader;
 import org.springframework.core.io.ClassPathResource;
 import it.tidalwave.util.Key;
-import it.tidalwave.util.NotFoundException;
 import it.tidalwave.role.ui.BoundProperty;
 import it.tidalwave.dci.annotation.DciRole;
 import it.tidalwave.northernwind.core.model.ResourceProperties;
@@ -46,8 +44,7 @@ import lombok.RequiredArgsConstructor;
  * @author  Fabrizio Giudici
  *
  **********************************************************************************************************************/
-@DciRole(datumType = ResourceProperties.class)
-@Configurable @RequiredArgsConstructor
+@DciRole(datumType = ResourceProperties.class) @RequiredArgsConstructor
 public class ResourcePropertiesBinder implements PropertyBinder
   {
     private final static String EDITOR_TEMPLATE =
@@ -88,7 +85,7 @@ public class ResourcePropertiesBinder implements PropertyBinder
             EDITOR_PROLOG = prologBuilder.toString();
             EDITOR_EPILOG = epilogBuilder.toString();
           }
-        catch (Exception e)
+        catch (IOException e)
           {
             throw new ExceptionInInitializerError(e);
           }
