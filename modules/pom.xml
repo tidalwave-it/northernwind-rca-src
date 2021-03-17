@@ -272,7 +272,6 @@
         <module>ContentExplorer</module>
         <module>ContentManager</module>
         <module>EmbeddedServer</module>
-        <module>Installers/macOS</module>
         <module>Model</module>
         <module>JavaFXApplication</module>
         <module>JavaFXUI</module>
@@ -281,5 +280,17 @@
         <module>StructureExplorer</module>
         <module>StructureEditor</module>
     </modules>
+
+    <!-- ===============================================================================================================
+
+    ================================================================================================================ -->
+    <profiles>
+        <profile>
+            <id>installers</id>
+            <modules>
+                <module>Installers/macOS</module>
+            </modules>
+        </profile>
+    </profiles>
 
 </project>
