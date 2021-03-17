@@ -264,7 +264,6 @@
         <module>ContentExplorer</module>
         <module>ContentManager</module>
         <module>EmbeddedServer</module>
-        <module>Installers/JavaFX</module>
         <module>Installers/macOS</module>
         <module>Model</module>
         <module>JavaFXApplication</module>
