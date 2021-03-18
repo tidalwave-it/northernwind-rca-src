@@ -35,7 +35,7 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.function.Consumer;
 import java.io.IOException;
-import it.tidalwave.util.spi.MockInstantProvider;
+import it.tidalwave.util.test.MockTimeProvider;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import it.tidalwave.util.Id;
@@ -136,7 +136,7 @@ public class DefaultAddContentPresentationControlTest
         underTest = context.getBean(DefaultAddContentPresentationControl.class);
         presentation = context.getBean(AddContentPresentation.class);
         idFactory = context.getBean(IdFactory.class);
-        context.getBean(MockInstantProvider.class).setInstant(nowInstant);
+        context.getBean(MockTimeProvider.class).setInstant(nowInstant);
         content = mock(Content.class);
         contentChildCreator = mock(ContentChildCreator.class);
         when(content.as(eq(ContentChildCreator.class))).thenReturn(contentChildCreator);

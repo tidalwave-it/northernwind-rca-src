@@ -83,7 +83,7 @@
         <constructor-arg ref="applicationMessageBusTaskExecutor"/>
     </bean>
 
-    <bean id="instantProvider"
-          class="it.tidalwave.util.spi.DefaultInstantProvider" />
+    <bean id="timeProvider" class="it.tidalwave.util.TimeProvider"
+          factory-method="getInstance"/>
 
 </beans>

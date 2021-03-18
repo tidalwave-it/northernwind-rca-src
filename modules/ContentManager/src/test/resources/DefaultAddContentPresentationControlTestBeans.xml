@@ -81,7 +81,7 @@
         <constructor-arg value="it.tidalwave.role.IdFactory" />
     </bean>
 
-    <bean id="instantProvider"
-          class="it.tidalwave.util.spi.MockInstantProvider"/>
+    <bean id="timeProvider"
+          class="it.tidalwave.util.test.MockTimeProvider"/>
 
 </beans>
