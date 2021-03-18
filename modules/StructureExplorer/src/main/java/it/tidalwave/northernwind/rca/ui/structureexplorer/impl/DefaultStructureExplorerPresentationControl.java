@@ -73,7 +73,7 @@ public class DefaultStructureExplorerPresentationControl implements StructureExp
         log.debug("onOpenSite({})", event);
         final ResourceFile root = event.getFileSystem().findFileByPath(ROOT_SITE_NODE_PATH);
         final SiteNode rootSiteNode = modelFactory.createSiteNode(site, root);
-        presentation.populate(rootSiteNode.as(Presentable).createPresentationModel());
+        presentation.populate(rootSiteNode.as(_Presentable_).createPresentationModel());
         presentation.expandFirstLevel();
         messageBus.publish(emptySelectionEvent());
       }

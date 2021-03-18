@@ -63,7 +63,7 @@ public class DefaultStructureEditorPresentationControl implements StructureEdito
             final ResourceProperties properties = siteNode.getProperties();
             log.debug(">>>> properties: {}", properties);
             presentation.populate("Viewer not implemented for " + siteNode.getFile());
-            presentation.populateProperties(properties.as(Presentable).createPresentationModel());
+            presentation.populateProperties(properties.as(_Presentable_).createPresentationModel());
             presentation.showUp();
           }
       }

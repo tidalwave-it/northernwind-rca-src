@@ -44,7 +44,7 @@ import it.tidalwave.northernwind.rca.embeddedserver.EmbeddedServer.Document;
  **********************************************************************************************************************/
 public interface PropertyBinder
   {
-    public static final Class<PropertyBinder> PropertyBinder = PropertyBinder.class;
+    public static final Class<PropertyBinder> _PropertyBinder_ = PropertyBinder.class;
 
     /*******************************************************************************************************************
      *

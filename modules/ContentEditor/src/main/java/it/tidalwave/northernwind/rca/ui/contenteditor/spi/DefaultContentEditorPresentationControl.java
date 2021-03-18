@@ -50,7 +50,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import static it.tidalwave.role.ui.Presentable.*;
 import static it.tidalwave.northernwind.model.admin.Properties.*;
-import static it.tidalwave.northernwind.model.admin.role.Saveable.Saveable;
+import static it.tidalwave.northernwind.model.admin.role.Saveable._Saveable_;
 import static it.tidalwave.northernwind.rca.ui.contenteditor.spi.PropertyBinder.*;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Arrays.asList;
@@ -93,7 +93,7 @@ public class DefaultContentEditorPresentationControl implements ContentEditorPre
      ******************************************************************************************************************/
     /* visible for testing */ final UpdateCallback propertyUpdateCallback = (updatedProperties) ->
       {
-        updatedProperties.as(Saveable).saveIn(content.get().getFile());
+        updatedProperties.as(_Saveable_).saveIn(content.get().getFile());
         unbindProperties();
         properties = content.map(Content::getProperties); // reload them
         // FIXME: properties have to be re-bound, since they have been reloaded - but this makes the HTML editor
@@ -147,7 +147,7 @@ public class DefaultContentEditorPresentationControl implements ContentEditorPre
     private void bindPropertiesAndLoadDocument (final @Nonnull ResourceProperties properties)
       {
         bindProperties(properties);
-        final PropertyBinder propertyBinder = properties.as(PropertyBinder);
+        final PropertyBinder propertyBinder = properties.as(_PropertyBinder_);
         final Document document = propertyBinder.createBoundDocument(PROPERTY_FULL_TEXT, propertyUpdateCallback);
         presentation.populateDocument(documentServer.putDocument("/", document));
       }
@@ -161,9 +161,9 @@ public class DefaultContentEditorPresentationControl implements ContentEditorPre
       {
         assert properties != null;
         presentation.bind(bindings); // FIXME: needed because of unbindAll()
-        final PropertyBinder propertyBinder = properties.as(PropertyBinder);
+        final PropertyBinder propertyBinder = properties.as(_PropertyBinder_);
         propertyBinder.bind(PROPERTY_TITLE, bindings.title, propertyUpdateCallback);
-        presentation.populateProperties(properties.as(Presentable).createPresentationModel());
+        presentation.populateProperties(properties.as(_Presentable_).createPresentationModel());
       }
 
     /*******************************************************************************************************************

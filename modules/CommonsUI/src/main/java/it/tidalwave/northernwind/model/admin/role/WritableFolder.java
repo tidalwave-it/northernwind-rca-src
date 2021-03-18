@@ -41,7 +41,7 @@ import it.tidalwave.role.io.Marshallable;
  **********************************************************************************************************************/
 public interface WritableFolder
   {
-    public static final Class<WritableFolder> WritableFolder = WritableFolder.class;
+    public static final Class<WritableFolder> _WritableFolder_ = WritableFolder.class;
 
     /*******************************************************************************************************************
      *

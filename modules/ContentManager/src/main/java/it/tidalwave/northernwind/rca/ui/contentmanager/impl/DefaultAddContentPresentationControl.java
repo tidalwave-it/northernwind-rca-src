@@ -60,7 +60,7 @@ import lombok.extern.slf4j.Slf4j;
 import static java.util.stream.Collectors.joining;
 import static it.tidalwave.util.ui.UserNotificationWithFeedback.*;
 import static it.tidalwave.northernwind.model.admin.Properties.*;
-import static it.tidalwave.northernwind.rca.ui.contentmanager.impl.ContentChildCreator.ContentChildCreator;
+import static it.tidalwave.northernwind.rca.ui.contentmanager.impl.ContentChildCreator._ContentChildCreator_;
 
 /***********************************************************************************************************************
  *
@@ -137,7 +137,7 @@ public class DefaultAddContentPresentationControl implements AddContentPresentat
 //                propertyValues.put(PROPERTY_TAGS, tags);
           }
 
-        parentContent.as(ContentChildCreator).createContent(folderName, propertyValues);
+        parentContent.as(_ContentChildCreator_).createContent(folderName, propertyValues);
       }
 
     /*******************************************************************************************************************

@@ -70,7 +70,7 @@ public class DefaultContentExplorerPresentationControl implements ContentExplore
         log.debug("onOpenSite({})", event);
         final ResourceFile root = event.getFileSystem().findFileByPath(ROOT_DOCUMENT_PATH);
         final Content rootContent = modelFactory.createContent().withFolder(root).build();
-        presentation.populate(rootContent.as(Presentable).createPresentationModel());
+        presentation.populate(rootContent.as(_Presentable_).createPresentationModel());
         presentation.expandFirstLevel();
         messageBus.publish(emptySelectionEvent());
       }

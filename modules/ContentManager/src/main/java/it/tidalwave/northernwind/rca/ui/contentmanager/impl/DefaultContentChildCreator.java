@@ -71,8 +71,8 @@ public class DefaultContentChildCreator implements ContentChildCreator
         final ResourceFile newFolder = parentContent.getFile().createFolder(folderName);
         final Content content = modelFactory.createContent().withFolder(newFolder).build();
         final ResourceProperties properties = modelFactory.createProperties().withValues(propertyValues).build();
-//        content.getProperties().merged(properties).as(Saveable).saveIn(content.getFile());
-        properties.as(Saveable).saveIn(content.getFile());
+//        content.getProperties().merged(properties).as(_Saveable_).saveIn(content.getFile());
+        properties.as(_Saveable_).saveIn(content.getFile());
 
         messageBus.publish(ContentCreatedEvent.of(parentContent, content));
 

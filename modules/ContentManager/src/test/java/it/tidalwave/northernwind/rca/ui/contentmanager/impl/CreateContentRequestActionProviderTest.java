@@ -35,7 +35,7 @@ import it.tidalwave.northernwind.core.model.Content;
 import it.tidalwave.northernwind.rca.ui.event.CreateContentRequest;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import static it.tidalwave.role.ui.Displayable.Displayable;
+import static it.tidalwave.role.ui.Displayable._Displayable_;
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.*;
@@ -72,7 +72,7 @@ public class CreateContentRequestActionProviderTest
         assertThat(actions.size(), is(1));
         final UserAction action = actions.iterator().next();
         assertThat(action, is(sameInstance(underTest.sendCreateContentRequestAction)));
-        assertThat(action.as(Displayable).getDisplayName(), is("New content"));
+        assertThat(action.as(_Displayable_).getDisplayName(), is("New content"));
       }
 
     @Test

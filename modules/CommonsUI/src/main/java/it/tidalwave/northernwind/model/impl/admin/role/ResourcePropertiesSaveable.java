@@ -68,12 +68,12 @@ public class ResourcePropertiesSaveable implements Saveable
         try
           {
             log.debug("saveIn({}, {})", folder, properties);
-            final WritableFolder writableFolder = folder.as(WritableFolder);
+            final WritableFolder writableFolder = folder.as(_WritableFolder_);
             final ResourceProperties p1 = properties.withProperty(PROPERTY_LATEST_MODIFICATION_DATE,
                                                                   instantProvider.getInstant().atZone(ZoneId.systemDefault()));
             final ResourceProperties p2 = saveExternalProperties(p1, writableFolder);
             // FIXME: guess the localization (some properties go to Properties, some other to Properties_en.xml etc...
-            writableFolder.write("Properties.xml", p2.as(Marshallable));
+            writableFolder.write("Properties.xml", p2.as(_Marshallable_));
           }
         catch (IOException e)
           {
