@@ -28,6 +28,7 @@ package it.tidalwave.northernwind.model.impl.admin.role;
 
 import javax.annotation.Nonnull;
 import java.beans.PropertyChangeSupport;
+import java.util.Collection;
 import java.util.WeakHashMap;
 import it.tidalwave.util.Callback;
 import it.tidalwave.util.NamedCallback;
@@ -39,7 +40,7 @@ import it.tidalwave.northernwind.core.model.Content;
 import it.tidalwave.northernwind.rca.ui.event.ContentCreatedEvent;
 import lombok.extern.slf4j.Slf4j;
 import static it.tidalwave.role.ui.PresentationModel.PROPERTY_CHILDREN;
-import static it.tidalwave.role.ui.PresentationModel.concat;
+import static it.tidalwave.util.Parameters.r;
 
 /***********************************************************************************************************************
  *
@@ -58,7 +59,7 @@ public class ContentPresentationModelFactory implements PresentationModelFactory
 
     @Override @Nonnull
     public PresentationModel createPresentationModel (final @Nonnull Object datum,
-                                                      final @Nonnull Object... rolesOrFactories)
+                                                      final @Nonnull Collection<Object> roles)
       {
         final Callback cb = NamedCallback.of(PresentationModel.CALLBACK_DISPOSE, () ->
           {
@@ -66,7 +67,7 @@ public class ContentPresentationModelFactory implements PresentationModelFactory
             log.debug(">>>> unregistered: {}", this);
           });
 
-        final PresentationModel contentPM = PresentationModel.of(datum, concat(cb, rolesOrFactories));
+        final PresentationModel contentPM = PresentationModel.of(datum, r(cb, roles));
         map.put((Content)datum, contentPM);
         log.debug(">>>> created and registered: {}", contentPM);
         return contentPM;

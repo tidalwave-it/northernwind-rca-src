@@ -45,6 +45,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import static it.tidalwave.role.ui.PresentationModelMatcher.*;
 import static it.tidalwave.northernwind.rca.ui.event.ContentSelectedEventMatcher.*;
+import static it.tidalwave.util.Parameters.r;
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.CoreMatchers.*;
 import static org.mockito.Mockito.*;
@@ -94,7 +95,7 @@ public class DefaultContentExplorerPresentationControlTest
         openSiteEvent = mock(OpenSiteEvent.class);
         fileSystem = mock(ResourceFileSystem.class);
         root = mock(ResourceFile.class);
-        content = mockWithAsSupport(Content.class, (RoleFactory<Content>)(c -> new SimpleCompositePresentable(c)));
+        content = mockWithAsSupport(Content.class, r((RoleFactory<Content>)(c -> new SimpleCompositePresentable(c))));
 
         when(fileSystem.findFileByPath(eq(ROOT_DOCUMENT_PATH))).thenReturn(root);
         when(openSiteEvent.getFileSystem()).thenReturn(fileSystem);

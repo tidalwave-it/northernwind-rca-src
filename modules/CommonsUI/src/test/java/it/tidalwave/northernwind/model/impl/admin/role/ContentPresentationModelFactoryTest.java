@@ -33,6 +33,7 @@ import it.tidalwave.role.ui.PresentationModel;
 import it.tidalwave.northernwind.core.model.Content;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import static it.tidalwave.util.Parameters.r;
 import static org.mockito.Mockito.*;
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.CoreMatchers.*;
@@ -80,7 +81,7 @@ public class ContentPresentationModelFactoryTest
     public void must_unregister_a_disposed_PresentationModel()
       {
         // given
-        final PresentationModel pm = underTest.createPresentationModel(content, role);
+        final PresentationModel pm = underTest.createPresentationModel(content, r(role));
         // when
         pm.dispose();
         // then

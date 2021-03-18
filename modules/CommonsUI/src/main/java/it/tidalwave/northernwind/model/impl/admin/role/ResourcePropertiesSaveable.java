@@ -27,7 +27,6 @@
 package it.tidalwave.northernwind.model.impl.admin.role;
 
 import javax.annotation.Nonnull;
-import java.time.ZoneId;
 import java.util.Arrays;
 import java.util.List;
 import java.io.IOException;

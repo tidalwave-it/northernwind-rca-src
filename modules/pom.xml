@@ -68,7 +68,7 @@
         <jetty.version>8.1.10.v20130312</jetty.version>
         <jsoup.version>1.8.3</jsoup.version>
         <netbeans.version>RELEASE80</netbeans.version>
-        <northernwind.version>1.2-ALPHA-5</northernwind.version>
+        <northernwind.version>1.2-ALPHA-6-SNAPSHOT</northernwind.version>
         <tft.spring.version>5.3.1</tft.spring.version>
         <steelblue.version>1.0-ALPHA-19</steelblue.version>
         <!-- Should activate by itself with JDK 11+, but it fails with Jenkins Maven integration. -->

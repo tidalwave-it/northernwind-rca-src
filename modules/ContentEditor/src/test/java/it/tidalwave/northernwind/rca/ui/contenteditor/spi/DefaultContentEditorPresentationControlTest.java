@@ -106,8 +106,8 @@ public class DefaultContentEditorPresentationControlTest
 
         when(content.getProperties()).thenReturn(properties);
         when(presentable.createPresentationModel(anyVararg())).thenReturn(pm);
-        when(properties.as(eq(Presentable))).thenReturn(presentable);
-        when(properties.as(eq(PropertyBinder))).thenReturn(propertyBinder);
+        when(properties.as(eq(_Presentable_))).thenReturn(presentable);
+        when(properties.as(eq(_PropertyBinder_))).thenReturn(propertyBinder);
 
         document = new Document().withContent("proxy for: full text")
                                  .withMimeType("text/html");

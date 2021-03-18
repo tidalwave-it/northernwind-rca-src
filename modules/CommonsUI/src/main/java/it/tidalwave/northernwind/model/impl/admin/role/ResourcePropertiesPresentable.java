@@ -42,7 +42,7 @@ import it.tidalwave.northernwind.core.model.ResourceProperties;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import static it.tidalwave.northernwind.rca.util.PropertyUtilities.*;
-import static it.tidalwave.role.ui.PresentationModel.concat;
+import static it.tidalwave.util.Parameters.r;
 
 /***********************************************************************************************************************
  *
@@ -116,7 +116,7 @@ public class ResourcePropertiesPresentable implements Presentable
                     final Aggregate<PresentationModel> aggregate = Aggregate
                             .of("Name",  PresentationModel.of(key, Displayable.of(prefix + key.stringValue())))
                             .with( "Value", PresentationModel.of(key, displayableForValue(propertyGroup, key)));
-                    results.add(PresentationModel.of(key, properties, aggregate));
+                    results.add(PresentationModel.of(key, r(properties, aggregate)));
                   });
               });
 
@@ -137,9 +137,9 @@ public class ResourcePropertiesPresentable implements Presentable
      *
      ******************************************************************************************************************/
     @Override @Nonnull
-    public PresentationModel createPresentationModel (final @Nonnull Object ... localRoles)
+    public PresentationModel createPresentationModel (final @Nonnull Collection<Object> localRoles)
       {
         return PresentationModel.of(ownerProperties,
-                                    concat(SimpleComposite.of(new PropertyPmFinder(ownerProperties)), localRoles));
+                                    r(SimpleComposite.of(new PropertyPmFinder(ownerProperties)), localRoles));
       }
   }
