@@ -31,6 +31,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
+import java.nio.charset.StandardCharsets;
 import org.openide.filesystems.FileObject;
 import it.tidalwave.dci.annotation.DciRole;
 import it.tidalwave.role.io.Marshallable;
@@ -51,18 +52,18 @@ public class ResourceFileNetBeansPlatformWritableFolder implements WritableFolde
     @Nonnull
     private final ResourceFileNetBeansPlatform file;
 
-    @Override @Nonnull
-    public synchronized void write (final @Nonnull String fileName, final @Nonnull String text)
+    @Override
+    public synchronized void write (@Nonnull final String fileName, @Nonnull final String text)
       throws IOException
       {
-        try (final Writer w = new OutputStreamWriter(openStream(fileName), "UTF-8"))
+        try (final Writer w = new OutputStreamWriter(openStream(fileName), StandardCharsets.UTF_8))
           {
             w.write(text);
           }
       }
 
-    @Override @Nonnull
-    public void write (final @Nonnull String fileName, final @Nonnull Marshallable marshallable)
+    @Override
+    public void write (@Nonnull final String fileName, @Nonnull final Marshallable marshallable)
       throws IOException
       {
         try (final OutputStream os = openStream(fileName))
@@ -72,7 +73,7 @@ public class ResourceFileNetBeansPlatformWritableFolder implements WritableFolde
       }
 
     @Nonnull
-    private OutputStream openStream (final @Nonnull String fileName)
+    private OutputStream openStream (@Nonnull final String fileName)
       throws IOException
       {
         FileObject fileObject = file.getDelegate().getFileObject(fileName);

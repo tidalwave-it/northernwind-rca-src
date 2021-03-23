@@ -87,8 +87,9 @@ public class PatchedTextResourcePropertyResolver implements ResourceProperties.P
      * {@inheritDoc}
      *
      ******************************************************************************************************************/
+    @Nonnull
     @Override @SuppressWarnings("unchecked")
-    public <Type> Type resolveProperty (final @Nonnull Id propertyGroupId, final @Nonnull Key<Type> propertyName)
+    public <Type> Type resolveProperty (@Nonnull final Id propertyGroupId, @Nonnull final Key<Type> propertyName)
       throws NotFoundException, IOException
       {
         log.trace("resolveProperty({})", propertyName);
@@ -96,7 +97,7 @@ public class PatchedTextResourcePropertyResolver implements ResourceProperties.P
         final ResourceFile propertyFile = findLocalizedFile(propertyName.stringValue());
         log.trace(">>>> reading from {}", propertyFile.getPath());
         final String mimeType = propertyFile.getMimeType();
-        final String charset = mimeType.equals("application/xhtml+xml") ? "UTF-8" : Charset.defaultCharset().name();
+        final String charset = "application/xhtml+xml".equals(mimeType) ? "UTF-8" : Charset.defaultCharset().name();
 
         try
           {
@@ -114,7 +115,7 @@ public class PatchedTextResourcePropertyResolver implements ResourceProperties.P
      *
      ******************************************************************************************************************/
     @Nonnull
-    private ResourceFile findLocalizedFile (final @Nonnull String fileName)
+    private ResourceFile findLocalizedFile (@Nonnull final String fileName)
       throws NotFoundException
       {
         log.trace("findLocalizedFile({})", fileName);

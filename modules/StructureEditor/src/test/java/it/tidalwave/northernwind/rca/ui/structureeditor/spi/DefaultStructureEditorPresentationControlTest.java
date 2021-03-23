@@ -133,7 +133,6 @@ public class DefaultStructureEditorPresentationControlTest
      ******************************************************************************************************************/
     @Test
     public void must_populate_the_presentation_on_reception_of_selected_node()
-      throws IOException
       {
         // given
 //        when(properties.getProperty(eq(PROPERTY_FULL_TEXT), anyString())).thenReturn("full text");

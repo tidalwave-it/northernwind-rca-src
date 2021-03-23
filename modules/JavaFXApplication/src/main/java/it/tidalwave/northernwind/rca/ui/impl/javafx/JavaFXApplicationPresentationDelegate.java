@@ -57,7 +57,7 @@ public class JavaFXApplicationPresentationDelegate
     @FXML
     private MenuItem openSiteMenu;
 
-    public void setLeftVerticalSplitContents (final @Nonnull Node ... nodes)
+    public void setLeftVerticalSplitContents (@Nonnull final Node ... nodes)
       {
         pnVerticalSplit.getItems().setAll(nodes);
       }

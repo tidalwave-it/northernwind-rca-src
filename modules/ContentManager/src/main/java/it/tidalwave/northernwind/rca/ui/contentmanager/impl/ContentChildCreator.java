@@ -40,6 +40,7 @@ import it.tidalwave.util.TypeSafeMap;
  * @author  Fabrizio Giudici
  *
  **********************************************************************************************************************/
+@FunctionalInterface
 public interface ContentChildCreator
   {
     public static final Class<ContentChildCreator> _ContentChildCreator_ = ContentChildCreator.class;

@@ -92,8 +92,8 @@ public class DefaultEmbeddedServer implements EmbeddedServer
         private final LibraryLinkMacroFilter libraryLinkMacroFilter = new LibraryLinkMacroFilter();
 
         @Override
-        protected void doGet (final @Nonnull HttpServletRequest request,
-                              final @Nonnull HttpServletResponse response)
+        protected void doGet (@Nonnull final HttpServletRequest request,
+                              @Nonnull final HttpServletResponse response)
           throws ServletException, IOException
           {
             String uri = request.getRequestURI();
@@ -122,8 +122,8 @@ public class DefaultEmbeddedServer implements EmbeddedServer
           }
 
         @Override
-        protected void doPut (final @Nonnull HttpServletRequest request,
-                              final @Nonnull HttpServletResponse response)
+        protected void doPut (@Nonnull final HttpServletRequest request,
+                              @Nonnull final HttpServletResponse response)
           throws ServletException, IOException
           {
             final String uri = request.getRequestURI();
@@ -138,7 +138,7 @@ public class DefaultEmbeddedServer implements EmbeddedServer
      *
      *
      ******************************************************************************************************************/
-    /* visible for testing */ void onOpenSite (final @ListensTo @Nonnull OpenSiteEvent event)
+    /* visible for testing */ void onOpenSite (@ListensTo @Nonnull final OpenSiteEvent event)
       {
         log.debug("onOpenSite({})", event);
         fileSystem = event.getFileSystem();
@@ -198,7 +198,7 @@ public class DefaultEmbeddedServer implements EmbeddedServer
      *
      ******************************************************************************************************************/
     @Override @Nonnull
-    public String putDocument (final @Nonnull String path, final @Nonnull Document document)
+    public String putDocument (@Nonnull final String path, @Nonnull final Document document)
       {
         documentMapByUrl.put(path, document);
         return String.format("http://localhost:%d%s", port, path);
@@ -209,8 +209,8 @@ public class DefaultEmbeddedServer implements EmbeddedServer
      *
      *
      ******************************************************************************************************************/
-    private void serveEditorResources (final @Nonnull String uri,
-                                       final @Nonnull HttpServletResponse response)
+    private void serveEditorResources (@Nonnull final String uri,
+                                       @Nonnull final HttpServletResponse response)
       throws IOException
       {
         try
@@ -233,8 +233,8 @@ public class DefaultEmbeddedServer implements EmbeddedServer
      *
      *
      ******************************************************************************************************************/
-    private void serveContentResources (final @Nonnull String uri,
-                                        final @Nonnull HttpServletResponse response)
+    private void serveContentResources (@Nonnull final String uri,
+                                        @Nonnull final HttpServletResponse response)
       throws IOException
       {
         log.debug("serveLibraryResources({})", uri);
@@ -276,8 +276,8 @@ public class DefaultEmbeddedServer implements EmbeddedServer
      *
      *
      ******************************************************************************************************************/
-    private void serveRegisteredResources (final @Nonnull String uri,
-                                           final @Nonnull HttpServletResponse response)
+    private void serveRegisteredResources (@Nonnull final String uri,
+                                           @Nonnull final HttpServletResponse response)
       throws IOException
       {
         final Document document = documentMapByUrl.get(uri);
@@ -301,8 +301,8 @@ public class DefaultEmbeddedServer implements EmbeddedServer
      *
      *
      ******************************************************************************************************************/
-    private void updateRegisteredResource (final @Nonnull HttpServletRequest request,
-                                           final @Nonnull HttpServletResponse response)
+    private void updateRegisteredResource (@Nonnull final HttpServletRequest request,
+                                           @Nonnull final HttpServletResponse response)
       throws IOException
       {
         final String uri = request.getRequestURI();
@@ -328,11 +328,11 @@ public class DefaultEmbeddedServer implements EmbeddedServer
      *
      ******************************************************************************************************************/
     @Nonnull
-    /* visible for testing */ byte[] loadResource (final @Nonnull String path)
+    /* visible for testing */ byte[] loadResource (@Nonnull final String path)
       throws IOException
       {
         final ClassPathResource resource = new ClassPathResource(path);
-        final @Cleanup DataInputStream is = new DataInputStream(resource.getInputStream());
+        @Cleanup final DataInputStream is = new DataInputStream(resource.getInputStream());
         return ByteStreams.toByteArray(is);
       }
   }

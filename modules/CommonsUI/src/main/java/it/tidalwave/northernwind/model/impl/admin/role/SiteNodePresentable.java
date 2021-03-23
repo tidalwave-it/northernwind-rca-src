@@ -39,7 +39,7 @@ import it.tidalwave.northernwind.core.model.SiteNode;
 @DciRole(datumType = SiteNode.class)
 public class SiteNodePresentable extends SimpleCompositePresentable
   {
-    public SiteNodePresentable (final @Nonnull SiteNode siteNode)
+    public SiteNodePresentable (@Nonnull final SiteNode siteNode)
       {
         super(siteNode);
       }

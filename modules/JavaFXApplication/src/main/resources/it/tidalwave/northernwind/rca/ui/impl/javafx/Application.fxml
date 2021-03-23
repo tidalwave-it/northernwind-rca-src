@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.net.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import java.net.URL?>
 <BorderPane fx:id="application" prefHeight="600.0" prefWidth="800.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="it.tidalwave.northernwind.rca.ui.impl.javafx.JavaFXApplicationPresentationDelegate">
   <center>
     <BorderPane fx:id="main" prefHeight="600.0" prefWidth="800.0" style="-fx-background-color:#ededed;">
@@ -13,25 +18,19 @@
       </bottom>
       <center>
         <SplitPane fx:id="pnHorizontalSplit" dividerPositions="0.29949874686716793" focusTraversable="true" prefHeight="160.0" prefWidth="200.0">
-          <items>
-            <AnchorPane minHeight="0.0" minWidth="200.0" prefHeight="160.0" prefWidth="100.0">
-              <children>
-                <SplitPane fx:id="pnVerticalSplit" focusTraversable="true" orientation="VERTICAL" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-              </children>
-            </AnchorPane>
-            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" style="-fx-background-color:#ededed;">
-              <children>
-                <StackPane id="StackPane" fx:id="stackPane" prefHeight="503.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-              </children>
-            </AnchorPane>
-          </items>
+          <AnchorPane minHeight="0.0" minWidth="200.0" prefHeight="160.0" prefWidth="100.0">
+            <SplitPane fx:id="pnVerticalSplit" focusTraversable="true" orientation="VERTICAL" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+                       AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0"/>
+          </AnchorPane>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" style="-fx-background-color:#ededed;">
+            <StackPane id="StackPane" fx:id="stackPane" prefHeight="503.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+                       AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0"/>
+          </AnchorPane>
         </SplitPane>
       </center>
       <top>
         <ToolBar maxHeight="48.0" minHeight="48.0" prefHeight="48.0">
-          <items>
-            <Button fx:id="btOpen" minHeight="32.0" minWidth="32.0" mnemonicParsing="false" />
-          </items>
+          <Button fx:id="btOpen" minHeight="32.0" minWidth="32.0" mnemonicParsing="false"/>
         </ToolBar>
       </top>
     </BorderPane>
@@ -41,18 +40,12 @@
   </stylesheets>
   <top>
     <MenuBar useSystemMenuBar="true">
-      <menus>
-        <Menu mnemonicParsing="false" text="File">
-          <items>
-            <MenuItem fx:id="openSiteMenu" mnemonicParsing="false" text="Open site..." />
-          </items>
-        </Menu>
-        <Menu mnemonicParsing="false" text="Help">
-          <items>
-            <MenuItem mnemonicParsing="false" text="About" />
-          </items>
-        </Menu>
-      </menus>
+      <Menu mnemonicParsing="false" text="File">
+        <MenuItem fx:id="openSiteMenu" mnemonicParsing="false" text="Open site..."/>
+      </Menu>
+      <Menu mnemonicParsing="false" text="Help">
+        <MenuItem mnemonicParsing="false" text="About"/>
+      </Menu>
     </MenuBar>
   </top>
 </BorderPane>

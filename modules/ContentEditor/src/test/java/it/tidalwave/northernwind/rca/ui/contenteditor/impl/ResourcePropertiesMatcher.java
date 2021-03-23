@@ -29,10 +29,8 @@ package it.tidalwave.northernwind.rca.ui.contenteditor.impl;
 import javax.annotation.Nonnull;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.io.IOException;
 import com.google.common.collect.ImmutableMap;
 import it.tidalwave.util.Key;
-import it.tidalwave.util.NotFoundException;
 import it.tidalwave.northernwind.core.model.ResourceProperties;
 import java.util.NoSuchElementException;
 import org.mockito.ArgumentMatcher;
@@ -46,20 +44,20 @@ import lombok.RequiredArgsConstructor;
  **********************************************************************************************************************/
 // FIXME: move to NW
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
-public class ResourcePropertiesMatcher implements ArgumentMatcher<ResourceProperties>
+public final class ResourcePropertiesMatcher implements ArgumentMatcher<ResourceProperties>
   {
     @Nonnull
     private final Map<Key<String>, String> expectedValuesMap;
 
     @Nonnull
     public static ResourcePropertiesMatcher resourcePropertiesWith
-            (final @Nonnull ImmutableMap.Builder<Key<String>, String> builder)
+            (@Nonnull final ImmutableMap.Builder<Key<String>, String> builder)
       {
         return new ResourcePropertiesMatcher(builder.build());
       }
 
     @Nonnull
-    public static ResourcePropertiesMatcher resourcePropertiesWith (final @Nonnull Map<Key<String>, String> map)
+    public static ResourcePropertiesMatcher resourcePropertiesWith (@Nonnull final Map<Key<String>, String> map)
       {
         return new ResourcePropertiesMatcher(map);
       }

@@ -49,11 +49,11 @@ public class DefaultStructureEditorPresentationControl implements StructureEdito
     @Nonnull
     private final StructureEditorPresentation presentation;
 
-    /* visible for testing */ void onSiteNodeSelected (final @ListensTo @Nonnull SiteNodeSelectedEvent selectionEvent)
+    /* visible for testing */ void onSiteNodeSelected (@ListensTo @Nonnull final SiteNodeSelectedEvent selectionEvent)
       {
         log.debug("onSiteNodeSelected({})", selectionEvent);
 
-        if (!selectionEvent.getSiteNode().isPresent())
+        if (selectionEvent.getSiteNode().isEmpty())
           {
             presentation.clear();
           }

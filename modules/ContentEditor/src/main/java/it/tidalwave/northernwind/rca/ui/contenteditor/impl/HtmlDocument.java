@@ -72,10 +72,10 @@ public class HtmlDocument
         PROLOG
           {
             @Override
-            State process (final @Nonnull String line,
-                           final @Nonnull StringBuilder prologBuilder,
-                           final @Nonnull StringBuilder bodyBuilder,
-                           final @Nonnull StringBuilder epilogBuilder)
+            State process (@Nonnull final String line,
+                           @Nonnull final StringBuilder prologBuilder,
+                           @Nonnull final StringBuilder bodyBuilder,
+                           @Nonnull final StringBuilder epilogBuilder)
               {
                 prologBuilder.append(line).append("\n");
                 return line.contains("<body") ? BODY : PROLOG;
@@ -85,10 +85,10 @@ public class HtmlDocument
         BODY
           {
             @Override
-            State process (final @Nonnull String line,
-                           final @Nonnull StringBuilder prologBuilder,
-                           final @Nonnull StringBuilder bodyBuilder,
-                           final @Nonnull StringBuilder epilogBuilder)
+            State process (@Nonnull final String line,
+                           @Nonnull final StringBuilder prologBuilder,
+                           @Nonnull final StringBuilder bodyBuilder,
+                           @Nonnull final StringBuilder epilogBuilder)
               {
                 final boolean containsEndBody = line.contains("</body");
                 (containsEndBody ? epilogBuilder : bodyBuilder).append(line).append("\n");
@@ -99,10 +99,10 @@ public class HtmlDocument
         EPILOG
           {
             @Override
-            State process (final @Nonnull String line,
-                           final @Nonnull StringBuilder prologBuilder,
-                           final @Nonnull StringBuilder bodyBuilder,
-                           final @Nonnull StringBuilder epilogBuilder)
+            State process (@Nonnull final String line,
+                           @Nonnull final StringBuilder prologBuilder,
+                           @Nonnull final StringBuilder bodyBuilder,
+                           @Nonnull final StringBuilder epilogBuilder)
               {
                 epilogBuilder.append(line).append("\n");
                 return EPILOG;
@@ -124,7 +124,7 @@ public class HtmlDocument
      *
      ******************************************************************************************************************/
     @Nonnull
-    public static HtmlDocument createFromText (final @Nonnull String text)
+    public static HtmlDocument createFromText (@Nonnull final String text)
       {
         final StringBuilder prologBuilder = new StringBuilder();
         final StringBuilder bodyBuilder = new StringBuilder();

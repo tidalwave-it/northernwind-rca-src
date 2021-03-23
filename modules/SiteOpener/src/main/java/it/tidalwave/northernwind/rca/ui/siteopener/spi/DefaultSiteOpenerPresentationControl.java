@@ -69,7 +69,6 @@ public class DefaultSiteOpenerPresentationControl implements SiteOpenerPresentat
       }
 
     private void askForOpeningSite()
-      throws IOException
       {
         presentation.notifyInvitationToSelectAFolder(notificationWithFeedback()
             .withCaption("Select the site to open")

@@ -38,12 +38,12 @@ import it.tidalwave.role.ui.function.UnaryBoundFunctionSupport;
 public class UriNormalizedFunction extends UnaryBoundFunctionSupport<String, String>
   {
     @Nonnull
-    public static UriNormalizedFunction uriNormalized (final @Nonnull ChangingSource<String> source)
+    public static UriNormalizedFunction uriNormalized (@Nonnull final ChangingSource<String> source)
       {
         return new UriNormalizedFunction(source);
       }
 
-    public UriNormalizedFunction (final @Nonnull ChangingSource<String> source)
+    public UriNormalizedFunction (@Nonnull final ChangingSource<String> source)
       {
         super(source);
       }

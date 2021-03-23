@@ -28,9 +28,6 @@ package it.tidalwave.northernwind.rca.ui.contentmanager.impl;
 
 import javax.annotation.Nonnull;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Map;
-import java.util.stream.Collectors;
 import it.tidalwave.dci.annotation.DciRole;
 import it.tidalwave.messagebus.MessageBus;
 import it.tidalwave.northernwind.core.model.Content;
@@ -65,7 +62,7 @@ public class DefaultContentChildCreator implements ContentChildCreator
     private final Content parentContent;
 
     @Override @Nonnull
-    public Content createContent (final @Nonnull String folderName, final @Nonnull TypeSafeMap propertyValues)
+    public Content createContent (@Nonnull final String folderName, @Nonnull final TypeSafeMap propertyValues)
       throws IOException
       {
         log.info("createContent({}, {}) - {}", folderName, propertyValues, parentContent);

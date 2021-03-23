@@ -53,7 +53,7 @@ public class OpenSiteEvent
     private final LocalFileSystemProvider fileSystemProvider;
 
     @Nonnull
-    public static OpenSiteEvent of (final @Nonnull Path folder)
+    public static OpenSiteEvent of (@Nonnull final Path folder)
       throws IOException
       {
         final LocalFileSystemProvider fileSystemProvider = new LocalFileSystemProvider();

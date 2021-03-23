@@ -29,10 +29,8 @@ package it.tidalwave.northernwind.rca.ui.contentmanager.impl;
 import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 import javax.annotation.PostConstruct;
-import java.util.HashMap;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
-import java.util.Map;
-import java.io.UnsupportedEncodingException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
@@ -55,7 +53,6 @@ import it.tidalwave.northernwind.rca.ui.contentmanager.AddContentPresentation.Bi
 import it.tidalwave.northernwind.rca.ui.contentmanager.AddContentPresentationControl;
 import lombok.Cleanup;
 import lombok.extern.slf4j.Slf4j;
-import static java.util.stream.Collectors.joining;
 import static it.tidalwave.util.ui.UserNotificationWithFeedback.*;
 import static it.tidalwave.northernwind.model.admin.Properties.*;
 import static it.tidalwave.northernwind.rca.ui.contentmanager.impl.ContentChildCreator._ContentChildCreator_;
@@ -98,7 +95,7 @@ public class DefaultAddContentPresentationControl implements AddContentPresentat
     /*******************************************************************************************************************
      *
      ******************************************************************************************************************/
-    /* visible for testing */ void onCreateContentRequest (final @ListensTo @Nonnull CreateContentRequest event)
+    /* visible for testing */ void onCreateContentRequest (@ListensTo @Nonnull final CreateContentRequest event)
       {
         log.info("onCreateContentRequest({})", event);
         bindings.publishingDateTime.set(timeProvider.currentZonedDateTime());
@@ -112,7 +109,7 @@ public class DefaultAddContentPresentationControl implements AddContentPresentat
     /*******************************************************************************************************************
      *
      ******************************************************************************************************************/
-    private void createContent (final @Nonnull Content parentContent)
+    private void createContent (@Nonnull final Content parentContent)
       throws IOException
       {
         final String folderName = urlEncoded(bindings.folder.get());
@@ -131,7 +128,7 @@ public class DefaultAddContentPresentationControl implements AddContentPresentat
         if (!tags.isEmpty())
           {
             // See NWRCA-69
-            map = map.with(PROPERTY_TAGS, tags.stream().collect(joining(",")));
+            map = map.with(PROPERTY_TAGS, String.join(",", tags));
 //                map.put(PROPERTY_TAGS, tags);
           }
 
@@ -142,8 +139,8 @@ public class DefaultAddContentPresentationControl implements AddContentPresentat
      *
      ******************************************************************************************************************/
     private static <T> TypeSafeMap putIfNonEmpty (@Nonnull TypeSafeMap values,
-                                                  final @Nonnull Key<T> key,
-                                                  final @CheckForNull T value)
+                                                  @Nonnull final Key<T> key,
+                                                  @CheckForNull final T value)
       {
         if ((value != null) && !"".equals(value))
           {
@@ -157,28 +154,21 @@ public class DefaultAddContentPresentationControl implements AddContentPresentat
      *
      ******************************************************************************************************************/
     @Nonnull
-    private static String urlEncoded (final @Nonnull String string)
+    private static String urlEncoded (@Nonnull final String string)
       {
-        try
-          {
-            return URLEncoder.encode(string, "UTF-8");
-          }
-        catch (UnsupportedEncodingException e)
-          {
-            throw new RuntimeException(e); // never happens
-          }
+        return URLEncoder.encode(string, StandardCharsets.UTF_8);
       }
 
     /*******************************************************************************************************************
      *
      ******************************************************************************************************************/
     @Nonnull
-    /* visible for testing */ String loadResource (final @Nonnull String path)
+    /* visible for testing */ String loadResource (@Nonnull final String path)
       throws IOException
       {
         final String prefix = getClass().getPackage().getName().replace(".", "/");
         final ClassPathResource resource = new ClassPathResource(prefix + "/" + path);
-        final @Cleanup Reader r = new InputStreamReader(resource.getInputStream(), "UTF-8");
+        @Cleanup final Reader r = new InputStreamReader(resource.getInputStream(), StandardCharsets.UTF_8);
         return CharStreams.toString(r);
       }
   }

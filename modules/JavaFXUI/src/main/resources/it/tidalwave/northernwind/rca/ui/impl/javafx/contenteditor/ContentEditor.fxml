@@ -1,42 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.web.*?>
-
-<VBox id="application" fx:id="contentEditor" prefHeight="600.0" prefWidth="800.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="it.tidalwave.northernwind.rca.ui.impl.javafx.contenteditor.JavaFXContentEditorPresentationDelegate">
-  <children>
-    <FlowPane prefHeight="38.0" prefWidth="800.0">
-      <children>
-        <Label prefHeight="38.0" text="Title:">
-          <FlowPane.margin>
-            <Insets left="4.0" right="4.0" />
-          </FlowPane.margin>
-        </Label>
-        <TextField fx:id="contentTitle" alignment="BASELINE_LEFT" prefHeight="24.0" prefWidth="453.0" />
-      </children>
-    </FlowPane>
-    <WebView fx:id="contentWebView" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
-      <VBox.margin>
-        <Insets fx:id="x1" />
-      </VBox.margin>
-    </WebView>
-    <FlowPane alignment="CENTER_LEFT" hgap="10.0" maxHeight="48.0" prefHeight="48.0" prefWidth="200.0" VBox.vgrow="NEVER">
-      <children>
-        <Button fx:id="btOpenExternalEditor" mnemonicParsing="false" text="External editor" />
-<Button fx:id="btOpenExternalEditorBrowser" layoutX="10.0" layoutY="21.0" mnemonicParsing="false" text="External browser" />
-      </children>
-      <VBox.margin>
-        <Insets bottom="4.0" left="4.0" right="4.0" top="4.0" />
-      </VBox.margin>
-    </FlowPane>
-    <TableView fx:id="contentEditorProperties" prefHeight="200.0" prefWidth="200.0" VBox.margin="$x1">
-      <columns>
-        <TableColumn editable="false" minWidth="200.0" prefWidth="200.0" text="Name" />
-        <TableColumn minWidth="400.0" prefWidth="400.0" sortable="false" text="Value" />
-      </columns>
-    </TableView>
-  </children>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.web.WebView?>
+<VBox id="application" fx:id="contentEditor" prefHeight="600.0" prefWidth="800.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8"
+      fx:controller="it.tidalwave.northernwind.rca.ui.impl.javafx.contenteditor.JavaFXContentEditorPresentationDelegate">
+  <FlowPane prefHeight="38.0" prefWidth="800.0">
+    <Label prefHeight="38.0" text="Title:">
+      <FlowPane.margin>
+        <Insets left="4.0" right="4.0"/>
+      </FlowPane.margin>
+    </Label>
+    <TextField fx:id="contentTitle" alignment="BASELINE_LEFT" prefHeight="24.0" prefWidth="453.0"/>
+  </FlowPane>
+  <WebView fx:id="contentWebView" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+    <VBox.margin>
+      <Insets fx:id="x1"/>
+    </VBox.margin>
+  </WebView>
+  <FlowPane alignment="CENTER_LEFT" hgap="10.0" maxHeight="48.0" prefHeight="48.0" prefWidth="200.0" VBox.vgrow="NEVER">
+    <VBox.margin>
+      <Insets bottom="4.0" left="4.0" right="4.0" top="4.0"/>
+    </VBox.margin>
+    <Button fx:id="btOpenExternalEditor" mnemonicParsing="false" text="External editor"/>
+    <Button fx:id="btOpenExternalEditorBrowser" layoutX="10.0" layoutY="21.0" mnemonicParsing="false" text="External browser"/>
+  </FlowPane>
+  <TableView fx:id="contentEditorProperties" prefHeight="200.0" prefWidth="200.0" VBox.margin="$x1">
+    <columns>
+      <TableColumn editable="false" minWidth="200.0" prefWidth="200.0" text="Name"/>
+      <TableColumn minWidth="400.0" prefWidth="400.0" sortable="false" text="Value"/>
+    </columns>
+  </TableView>
 </VBox>

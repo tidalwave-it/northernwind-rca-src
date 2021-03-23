@@ -57,15 +57,15 @@ public class DefaultContentExplorerPresentationControl implements ContentExplore
     /* package */ static final String ROOT_DOCUMENT_PATH = "/content/document";
 
     @Nonnull
-    protected MessageBus messageBus;
+    protected final MessageBus messageBus;
 
     @Nonnull
-    private ModelFactory modelFactory;
+    private final ModelFactory modelFactory;
 
     @Nonnull
-    private ContentExplorerPresentation presentation;
+    private final ContentExplorerPresentation presentation;
 
-    /* visible for testing */ void onOpenSite (final @ListensTo @Nonnull OpenSiteEvent event)
+    /* visible for testing */ void onOpenSite (@ListensTo @Nonnull final OpenSiteEvent event)
       {
         log.debug("onOpenSite({})", event);
         final ResourceFile root = event.getFileSystem().findFileByPath(ROOT_DOCUMENT_PATH);

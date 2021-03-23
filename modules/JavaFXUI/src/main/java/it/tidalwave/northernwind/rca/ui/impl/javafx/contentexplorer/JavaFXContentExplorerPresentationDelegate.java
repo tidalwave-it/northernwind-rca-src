@@ -49,7 +49,7 @@ public class JavaFXContentExplorerPresentationDelegate implements ContentExplore
     private TreeView<PresentationModel> tvContent;
 
     @Override
-    public void populate (final @Nonnull PresentationModel pm)
+    public void populate (@Nonnull final PresentationModel pm)
       {
         binder.bind(tvContent, pm);
       }

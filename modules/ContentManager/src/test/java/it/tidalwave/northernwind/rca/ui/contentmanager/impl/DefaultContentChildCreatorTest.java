@@ -27,12 +27,9 @@
 package it.tidalwave.northernwind.rca.ui.contentmanager.impl;
 
 import javax.annotation.Nonnull;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Optional;
 import java.io.IOException;
 import it.tidalwave.util.TypeSafeMap;
-import org.hamcrest.TypeSafeDiagnosingMatcher;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import it.tidalwave.util.Key;
@@ -70,7 +67,7 @@ public class DefaultContentChildCreatorTest
         private final ResourceProperties properties;
 
         @Override
-        public void saveIn (final @Nonnull ResourceFile folder)
+        public void saveIn (@Nonnull final ResourceFile folder)
           {
           }
       }
@@ -95,8 +92,8 @@ public class DefaultContentChildCreatorTest
         @Getter
         private final MockSaveable saveable = spy(new MockSaveable(this));
 
-        @Override
-        public <T> T as (final @Nonnull Class<T> roleType)
+        @Override @Nonnull
+        public <T> T as (@Nonnull final Class<T> roleType)
           {
             return roleType.equals(Saveable.class) ? roleType.cast(saveable) : delegate.as(roleType);
           }
@@ -111,7 +108,7 @@ public class DefaultContentChildCreatorTest
         private MockSaveable saveable;
 
         @Override @Nonnull
-        public Content build (final @Nonnull Content.Builder builder)
+        public Content build (@Nonnull final Content.Builder builder)
           {
             final Content content = mock(Content.class);
             when(content.getFile()).thenReturn(builder.getFolder());
@@ -119,7 +116,7 @@ public class DefaultContentChildCreatorTest
           }
 
         @Override @Nonnull
-        public ResourceProperties build (final @Nonnull ResourceProperties.Builder builder)
+        public ResourceProperties build (@Nonnull final ResourceProperties.Builder builder)
           {
             final ResourcePropertiesDecorator properties = new ResourcePropertiesDecorator(new DefaultResourceProperties(builder));
             saveable = properties.getSaveable();
@@ -127,9 +124,9 @@ public class DefaultContentChildCreatorTest
           }
       }
 
-    private final static Key<String> PROPERTY_1 = Key.of("Property1", String.class);
+    private static final Key<String> PROPERTY_1 = Key.of("Property1", String.class);
 
-    private final static Key<String> PROPERTY_2 = Key.of("Property2", String.class);
+    private static final Key<String> PROPERTY_2 = Key.of("Property2", String.class);
 
     private ApplicationContext context;
 

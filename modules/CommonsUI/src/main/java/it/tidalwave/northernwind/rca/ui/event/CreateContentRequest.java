@@ -43,7 +43,7 @@ import lombok.ToString;
  *
  **********************************************************************************************************************/
 @RequiredArgsConstructor(staticName = "of") @EqualsAndHashCode @ToString
-public class CreateContentRequest
+public final class CreateContentRequest
   {
     @Getter @Nonnull
     private final Content parentContent;

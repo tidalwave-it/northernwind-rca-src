@@ -30,7 +30,9 @@ import it.tidalwave.util.Key;
 import it.tidalwave.util.Id;
 import java.time.ZonedDateTime;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import lombok.experimental.UtilityClass;
 
 /***********************************************************************************************************************
  *
@@ -39,7 +41,7 @@ import lombok.NoArgsConstructor;
  * @author  Fabrizio Giudici
  *
  **********************************************************************************************************************/
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@UtilityClass
 public final class Properties
   {
     public static final Key<String> PROPERTY_FULL_TEXT = Key.of("fullText", String.class);

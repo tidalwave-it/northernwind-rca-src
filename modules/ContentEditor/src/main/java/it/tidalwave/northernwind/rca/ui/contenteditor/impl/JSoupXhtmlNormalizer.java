@@ -50,7 +50,7 @@ public class JSoupXhtmlNormalizer implements XhtmlNormalizer
      ******************************************************************************************************************/
     @Nonnull
     @Override
-    public String asNormalizedString (final @Nonnull String text)
+    public String asNormalizedString (@Nonnull final String text)
       {
         log.trace("asNormalizedString()\n{}", text);
         final Document.OutputSettings os = new Document.OutputSettings()
@@ -70,7 +70,7 @@ public class JSoupXhtmlNormalizer implements XhtmlNormalizer
      *
      ******************************************************************************************************************/
     @Nonnull
-    private String breakLongLines (final @Nonnull String html)
+    private static String breakLongLines (@Nonnull final String html)
       {
         final Document document = Jsoup.parse(html);
         document.select("br").after("\n       ");
@@ -108,7 +108,7 @@ public class JSoupXhtmlNormalizer implements XhtmlNormalizer
      *
      ******************************************************************************************************************/
     @Nonnull
-    private static String finalCleanup (final @Nonnull String string)
+    private static String finalCleanup (@Nonnull final String string)
       {
         final StringBuilder buffer = new StringBuilder();
 
@@ -116,7 +116,7 @@ public class JSoupXhtmlNormalizer implements XhtmlNormalizer
 
         for (final String line : Splitter.on("\n").split(string))
           {
-            if (first && !line.equals("<!DOCTYPE html>"))
+            if (first && !"<!DOCTYPE html>".equals(line))
               {
                 buffer.append("<!DOCTYPE html>").append("\n");
               }

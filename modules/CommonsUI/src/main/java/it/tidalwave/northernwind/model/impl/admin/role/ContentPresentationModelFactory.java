@@ -58,8 +58,8 @@ public class ContentPresentationModelFactory implements PresentationModelFactory
     /* visible for testing */ final WeakHashMap<Content, PresentationModel> map = new WeakHashMap<>();
 
     @Override @Nonnull
-    public PresentationModel createPresentationModel (final @Nonnull Object datum,
-                                                      final @Nonnull Collection<Object> roles)
+    public PresentationModel createPresentationModel (@Nonnull final Object datum,
+                                                      @Nonnull final Collection<Object> roles)
       {
         final Callback cb = NamedCallback.of(PresentationModel.CALLBACK_DISPOSE, () ->
           {
@@ -73,7 +73,7 @@ public class ContentPresentationModelFactory implements PresentationModelFactory
         return contentPM;
       }
 
-    /* visible for testing */ void onContentCreated (final @ListensTo @Nonnull ContentCreatedEvent event)
+    /* visible for testing */ void onContentCreated (@ListensTo @Nonnull final ContentCreatedEvent event)
       {
         log.debug("onContentCreated({})", event);
         // FIXME: map.getOptional(event.getParentContent()).ifPresent(cpm -> ...);
@@ -81,7 +81,7 @@ public class ContentPresentationModelFactory implements PresentationModelFactory
 
         if (contentPM != null)
           {
-            log.debug(">>>> dispatching {} to ", event, contentPM);
+            log.debug(">>>> dispatching {} to {}", event, contentPM);
             // FIXME: this is an undocumented feature
             contentPM.as(PropertyChangeSupport.class).firePropertyChange(PROPERTY_CHILDREN, null, null);
           }

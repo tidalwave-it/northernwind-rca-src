@@ -82,7 +82,7 @@ public class DefaultContentEditorPresentationControlTest
 
     private Document document;
 
-    private String registeredUrl = "http://localhost:12345/";
+    private final String registeredUrl = "http://localhost:12345/";
 
     /*******************************************************************************************************************
      *

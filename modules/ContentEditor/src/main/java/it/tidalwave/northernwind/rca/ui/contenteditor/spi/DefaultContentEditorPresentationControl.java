@@ -119,7 +119,7 @@ public class DefaultContentEditorPresentationControl implements ContentEditorPre
      * {@inheritDoc}
      *
      ******************************************************************************************************************/
-    /* visible for testing */ void onContentSelected (final @ListensTo @Nonnull ContentSelectedEvent selectionEvent)
+    /* visible for testing */ void onContentSelected (@ListensTo @Nonnull final ContentSelectedEvent selectionEvent)
       {
         log.debug("onContentSelected({})", selectionEvent);
 
@@ -127,7 +127,7 @@ public class DefaultContentEditorPresentationControl implements ContentEditorPre
         content = selectionEvent.getContent();
         properties = content.map(Content::getProperties); // reload them
 
-        if (!content.isPresent())
+        if (content.isEmpty())
           {
             presentation.clear();
           }
@@ -144,7 +144,7 @@ public class DefaultContentEditorPresentationControl implements ContentEditorPre
      *
      *
      ******************************************************************************************************************/
-    private void bindPropertiesAndLoadDocument (final @Nonnull ResourceProperties properties)
+    private void bindPropertiesAndLoadDocument (@Nonnull final ResourceProperties properties)
       {
         bindProperties(properties);
         final PropertyBinder propertyBinder = properties.as(_PropertyBinder_);
@@ -157,7 +157,7 @@ public class DefaultContentEditorPresentationControl implements ContentEditorPre
      *
      *
      ******************************************************************************************************************/
-    private void bindProperties (final @Nonnull ResourceProperties properties)
+    private void bindProperties (@Nonnull final ResourceProperties properties)
       {
         assert properties != null;
         presentation.bind(bindings); // FIXME: needed because of unbindAll()
@@ -190,7 +190,7 @@ public class DefaultContentEditorPresentationControl implements ContentEditorPre
         // Safari breaks Aloha editor
         ProcessExecutor.forExecutable("Google Chrome.app")
                        .withArguments2(url)
-                       .withPostMortemTask(() -> properties.ifPresent(p -> bindPropertiesAndLoadDocument(p)))
+                       .withPostMortemTask(() -> properties.ifPresent(this::bindPropertiesAndLoadDocument))
                        .execute();
       }
 
@@ -217,7 +217,7 @@ public class DefaultContentEditorPresentationControl implements ContentEditorPre
      *
      *
      ******************************************************************************************************************/
-    private void fix (final @Nonnull ResourceProperties properties, final @Nonnull String filePath)
+    private void fix (@Nonnull final ResourceProperties properties, @Nonnull final String filePath)
       {
         try
           {

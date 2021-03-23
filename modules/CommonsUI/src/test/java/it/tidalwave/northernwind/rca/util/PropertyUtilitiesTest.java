@@ -70,7 +70,7 @@ public class PropertyUtilitiesTest
       }
 
     @Test(dataProvider = "keysAndExpectedValues")
-    public void must_create_proper_Displayables (final @Nonnull Key<?> key, final @Nonnull String expectedValue)
+    public void must_create_proper_Displayables (@Nonnull final Key<?> key, @Nonnull final String expectedValue)
       {
         // given the properties
         // when

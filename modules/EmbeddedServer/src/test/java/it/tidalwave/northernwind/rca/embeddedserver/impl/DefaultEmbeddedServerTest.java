@@ -91,7 +91,6 @@ public class DefaultEmbeddedServerTest
      ******************************************************************************************************************/
     @Test
     public void start_must_properly_boot_the_webserver()
-      throws InterruptedException
       {
         // when
         nonSpringUnderTest.start();
@@ -121,7 +120,7 @@ public class DefaultEmbeddedServerTest
      ******************************************************************************************************************/
     @Test(dependsOnMethods = "start_must_properly_boot_the_webserver")
     public void must_properly_serve_loaded_documents()
-      throws MalformedURLException, IOException
+            throws IOException
       {
         // when
         final String url1 = underTest.putDocument("/",     new Document().withMimeType("text/html").withContent("document 1"));
@@ -138,7 +137,6 @@ public class DefaultEmbeddedServerTest
      ******************************************************************************************************************/
     @Test(dependsOnMethods = "start_must_properly_boot_the_webserver")
     public void must_return_not_found_for_non_existing_documents()
-      throws MalformedURLException, IOException
       {
         // when
         underTest.putDocument("/",     new Document().withMimeType("text/html").withContent("document 1"));
@@ -154,10 +152,9 @@ public class DefaultEmbeddedServerTest
     /*******************************************************************************************************************
      *
      ******************************************************************************************************************/
-    private static void assertUrlContents (final @Nonnull String url,
-                                           final @Nonnull String expectedMimeType,
-                                           final @Nonnull String expectedContent)
-      throws MalformedURLException, IOException
+    private static void assertUrlContents (@Nonnull final String url,
+                                           @Nonnull final String expectedMimeType,
+                                           @Nonnull final String expectedContent)
       {
         final Client client = Client.create();
         final WebResource webResource = client.resource(url);
@@ -173,7 +170,7 @@ public class DefaultEmbeddedServerTest
     /*******************************************************************************************************************
      *
      ******************************************************************************************************************/
-    private void assertUrlContents (final @Nonnull String url, final int expectedStatus)
+    private static void assertUrlContents (@Nonnull final String url, final int expectedStatus)
       {
         final Client client = Client.create();
         final WebResource webResource = client.resource(url);

@@ -55,7 +55,7 @@ public class AdminSiteProvider implements SiteProvider
         return true;
       }
 
-    @Override
+    @Override @Nonnull
     public String getVersionString()
       {
         throw new UnsupportedOperationException("Not supported.");

@@ -68,7 +68,7 @@ public class DefaultStructureExplorerPresentationControl implements StructureExp
     @Nonnull
     private final StructureExplorerPresentation presentation;
 
-    /* visible for testing */ void onOpenSite (final @ListensTo @Nonnull OpenSiteEvent event)
+    /* visible for testing */ void onOpenSite (@ListensTo @Nonnull final OpenSiteEvent event)
       {
         log.debug("onOpenSite({})", event);
         final ResourceFile root = event.getFileSystem().findFileByPath(ROOT_SITE_NODE_PATH);

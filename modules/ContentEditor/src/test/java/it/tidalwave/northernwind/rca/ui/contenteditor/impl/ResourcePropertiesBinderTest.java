@@ -47,7 +47,6 @@ import static it.tidalwave.northernwind.rca.ui.contenteditor.impl.ResourceProper
 import static it.tidalwave.northernwind.rca.ui.contenteditor.impl.ResourcePropertiesMatcher.*;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.*;
 
 /***********************************************************************************************************************
@@ -84,13 +83,12 @@ public class ResourcePropertiesBinderTest
      ******************************************************************************************************************/
     @BeforeMethod
     public void setup()
-      throws IOException
       {
         ContextManager.Locator.set(new DefaultContextManagerProvider());
         modelFactory = new ModelFactorySupport()
           {
             @Override @Nonnull
-            public ResourceProperties build (final @Nonnull ResourceProperties.Builder builder)
+            public ResourceProperties build (@Nonnull final ResourceProperties.Builder builder)
               {
                 return new DefaultResourceProperties(builder);
               }
@@ -124,7 +122,6 @@ public class ResourcePropertiesBinderTest
      ******************************************************************************************************************/
     @Test(dependsOnMethods = "must_properly_initialize_resources")
     public void must_properly_set_value_to_bound_property()
-      throws NotFoundException, IOException
       {
         // given
         final BoundProperty<String> boundProperty = new BoundProperty<>();
@@ -140,7 +137,6 @@ public class ResourcePropertiesBinderTest
      ******************************************************************************************************************/
     @Test(dependsOnMethods = "must_properly_initialize_resources")
     public void must_be_notified_with_updated_ResourceProperties_when_bound_property_updated()
-      throws NotFoundException, IOException
       {
         // given
         final BoundProperty<String> boundProperty = new BoundProperty<>();
@@ -176,7 +172,6 @@ public class ResourcePropertiesBinderTest
      ******************************************************************************************************************/
     @Test(dependsOnMethods = "must_properly_initialize_resources")
     public void must_be_notified_with_updated_ResourceProperties_when_bound_document_updated()
-      throws IOException
       {
         // given
         final Document document = underTest.createBoundDocument(PROPERTY_1, callback);

@@ -47,7 +47,7 @@ public final class ResourceFinder<T extends Resource> extends SimpleFinderSuppor
     static interface ProductCreator<T>
       {
         @Nonnull
-        public T createProduct (final @Nonnull ResourceFile folder);
+        public T createProduct (@Nonnull final ResourceFile folder);
       }
 
     @Nonnull
@@ -56,7 +56,7 @@ public final class ResourceFinder<T extends Resource> extends SimpleFinderSuppor
     @Nonnull
     private final ProductCreator<T> productCreator;
 
-    public ResourceFinder (final @Nonnull ResourceFinder<T> other, final @Nonnull Object override)
+    public ResourceFinder (@Nonnull final ResourceFinder<T> other, @Nonnull final Object override)
       {
         super(other, override);
         final ResourceFinder<T> source = getSource(ResourceFinder.class, other, override);

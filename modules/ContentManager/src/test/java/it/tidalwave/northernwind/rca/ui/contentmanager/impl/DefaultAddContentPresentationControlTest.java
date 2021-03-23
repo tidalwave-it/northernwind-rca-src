@@ -51,9 +51,7 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import lombok.RequiredArgsConstructor;
 import static java.time.temporal.ChronoUnit.DAYS;
-import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.*;
-import static org.mockito.Mockito.any;
 import static it.tidalwave.util.ui.UserNotificationWithFeedbackTestHelper.*;
 import static it.tidalwave.northernwind.model.admin.Properties.*;
 
@@ -160,9 +158,9 @@ public class DefaultAddContentPresentationControlTest
      ******************************************************************************************************************/
     @Test(dataProvider = "inputProvider")
     public void must_create_Content_with_the_right_Properties_when_user_confirms
-            (final @Nonnull InputEmulator inputEmulator,
-             final @Nonnull String expectedFolderName,
-             final @Nonnull TypeSafeMap baseExpectedProperties)
+            (@Nonnull final InputEmulator inputEmulator,
+             @Nonnull final String expectedFolderName,
+             @Nonnull final TypeSafeMap baseExpectedProperties)
       throws IOException
       {
         // given
@@ -187,7 +185,6 @@ public class DefaultAddContentPresentationControlTest
      ******************************************************************************************************************/
     @Test
     public void must_do_nothing_when_user_cancels()
-      throws IOException
       {
         // given
         doAnswer(cancel()).when(presentation).showUp(any(UserNotificationWithFeedback.class));
