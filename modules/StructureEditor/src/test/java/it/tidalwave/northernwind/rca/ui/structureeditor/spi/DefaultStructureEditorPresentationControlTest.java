@@ -26,7 +26,6 @@
  */
 package it.tidalwave.northernwind.rca.ui.structureeditor.spi;
 
-import java.io.IOException;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import it.tidalwave.role.ui.Presentable;
 import it.tidalwave.role.ui.PresentationModel;
@@ -61,9 +60,9 @@ public class DefaultStructureEditorPresentationControlTest
 
     private ResourceProperties properties;
 
-    private Presentable presentable;
+    private Presentable propertiesPresentable;
 
-    private PresentationModel pm;
+    private PresentationModel propertiesPm;
 
     /*******************************************************************************************************************
      *
@@ -78,12 +77,13 @@ public class DefaultStructureEditorPresentationControlTest
 
         siteNode = mock(SiteNode.class);
         properties = mock(ResourceProperties.class);
-        presentable = mock(Presentable.class);
-        pm = mock(PresentationModel.class);
+        propertiesPresentable = mock(Presentable.class);
+        propertiesPm = mock(PresentationModel.class);
 
         when(siteNode.getProperties()).thenReturn(properties);
-        when(presentable.createPresentationModel(anyVararg())).thenReturn(pm);
-        when(properties.as(eq(_Presentable_))).thenReturn(presentable);
+        when(propertiesPresentable.createPresentationModel()).thenCallRealMethod();
+        when(propertiesPresentable.createPresentationModel(anyCollection())).thenReturn(propertiesPm);
+        when(properties.as(eq(_Presentable_))).thenReturn(propertiesPresentable);
       }
 
     /*******************************************************************************************************************
@@ -143,7 +143,7 @@ public class DefaultStructureEditorPresentationControlTest
         underTest.onSiteNodeSelected(SiteNodeSelectedEvent.of(siteNode));
         // then
         verify(presentation).populate(matches("Viewer not implemented for .*"));
-        verify(presentation).populateProperties(same(pm));
+        verify(presentation).populateProperties(same(propertiesPm));
         verify(presentation).showUp();
         verifyNoMoreInteractions(presentation);
 //        assertThat(underTest.bindings.document.get(), is("full text"));

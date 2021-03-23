@@ -31,6 +31,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.io.IOException;
+import it.tidalwave.util.TypeSafeMap;
+import org.hamcrest.TypeSafeDiagnosingMatcher;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import it.tidalwave.util.Key;
@@ -125,9 +127,9 @@ public class DefaultContentChildCreatorTest
           }
       }
 
-    private final static Key<String> PROPERTY_1 = new Key<String>("Property1") {};
+    private final static Key<String> PROPERTY_1 = Key.of("Property1", String.class);
 
-    private final static Key<String> PROPERTY_2 = new Key<String>("Property2") {};
+    private final static Key<String> PROPERTY_2 = Key.of("Property2", String.class);
 
     private ApplicationContext context;
 
@@ -169,9 +171,9 @@ public class DefaultContentChildCreatorTest
       throws IOException
       {
         // when
-        final Map<Key<?>, Object> values = new HashMap<>();
-        values.put(PROPERTY_1, "value 1");
-        values.put(PROPERTY_2, "value 2");
+        final TypeSafeMap values = TypeSafeMap.newInstance().
+            with(PROPERTY_1, "value 1").
+            with(PROPERTY_2, "value 2");
 
         final Content content = underTest.createContent("foldername", values);
         // then

@@ -59,8 +59,8 @@ public class ResourcePropertiesBinderTest
   {
     private final SpringTestHelper helper = new SpringTestHelper(this);
 
-    private static final Key<String> PROPERTY_1 = new Key<String>("property1") {};
-    private static final Key<String> PROPERTY_2 = new Key<String>("property2") {};
+    private static final Key<String> PROPERTY_1 = Key.of("property1", String.class);
+    private static final Key<String> PROPERTY_2 = Key.of("property2", String.class);
 
     private static final String ORIGINAL_PROPERTY_1_VALUE = "<html>\n"
                                                           + "<head>\n"

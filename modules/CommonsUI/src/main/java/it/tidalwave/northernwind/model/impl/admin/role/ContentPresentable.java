@@ -37,7 +37,7 @@ import it.tidalwave.northernwind.core.model.Content;
  *
  **********************************************************************************************************************/
 @DciRole(datumType = Content.class)
-public class ContentPresentable extends SimpleCompositePresentable<Content>
+public class ContentPresentable extends SimpleCompositePresentable
   {
     public ContentPresentable (final @Nonnull Content content, final @Nonnull ContentPresentationModelFactory factory)
       {

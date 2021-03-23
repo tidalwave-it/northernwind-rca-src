@@ -72,9 +72,9 @@ public class DefaultContentEditorPresentationControlTest
 
     private ResourceProperties properties;
 
-    private Presentable presentable;
+    private Presentable propertiesPresentable;
 
-    private PresentationModel pm;
+    private PresentationModel propertiesPm;
 
     private PropertyBinder propertyBinder;
 
@@ -98,22 +98,23 @@ public class DefaultContentEditorPresentationControlTest
 
         content = mock(Content.class);
         properties = mock(ResourceProperties.class);
-        presentable = mock(Presentable.class);
-        pm = mock(PresentationModel.class);
+        propertiesPresentable = mock(Presentable.class);
+        propertiesPm = mock(PresentationModel.class);
         propertyBinder = mock(PropertyBinder.class);
 
         when(embeddedServer.putDocument(anyString(), any(Document.class))).thenReturn(registeredUrl);
 
         when(content.getProperties()).thenReturn(properties);
-        when(presentable.createPresentationModel(anyVararg())).thenReturn(pm);
-        when(properties.as(eq(_Presentable_))).thenReturn(presentable);
+        when(propertiesPresentable.createPresentationModel()).thenCallRealMethod();
+        when(propertiesPresentable.createPresentationModel(anyCollection())).thenReturn(propertiesPm);
+        when(properties.as(eq(_Presentable_))).thenReturn(propertiesPresentable);
         when(properties.as(eq(_PropertyBinder_))).thenReturn(propertyBinder);
 
         document = new Document().withContent("proxy for: full text")
                                  .withMimeType("text/html");
 
         when(propertyBinder.createBoundDocument(any(Key.class), any(PropertyBinder.UpdateCallback.class)))
-                           .thenAnswer(invocation -> document);
+                           .thenAnswer(__ -> document);
 
         underTest.initialize();
       }
@@ -180,9 +181,9 @@ public class DefaultContentEditorPresentationControlTest
         verify(propertyBinder).createBoundDocument(eq(PROPERTY_FULL_TEXT), same(underTest.propertyUpdateCallback));
         verifyNoMoreInteractions(propertyBinder);
 
-        verify(presentation).populateDocument(eq(registeredUrl));
-        verify(presentation).populateProperties(same(pm));
         verify(presentation).showUp();
+        verify(presentation).populateProperties(same(propertiesPm));
+        verify(presentation).populateDocument(eq(registeredUrl));
         verify(presentation).bind(same(underTest.bindings));
         verifyNoMoreInteractions(presentation);
 

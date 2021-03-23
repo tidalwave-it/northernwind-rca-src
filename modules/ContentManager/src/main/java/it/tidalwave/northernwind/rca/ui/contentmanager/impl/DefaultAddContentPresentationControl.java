@@ -40,6 +40,7 @@ import java.net.URLEncoder;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
 import com.google.common.io.CharStreams;
+import it.tidalwave.util.TypeSafeMap;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.ClassPathResource;
 import it.tidalwave.util.Key;
@@ -116,13 +117,13 @@ public class DefaultAddContentPresentationControl implements AddContentPresentat
       {
         final String folderName = urlEncoded(bindings.folder.get());
         // TODO: use TypeSafeMap, with a safe put() method
-        final Map<Key<?>, Object> propertyValues = new HashMap<>();
-        putIfNonEmpty(propertyValues, PROPERTY_TITLE,           bindings.title.get());
-        putIfNonEmpty(propertyValues, PROPERTY_EXPOSED_URI,     bindings.exposedUri.get());
-        putIfNonEmpty(propertyValues, PROPERTY_CREATION_TIME,   timeProvider.currentZonedDateTime());
-        putIfNonEmpty(propertyValues, PROPERTY_PUBLISHING_TIME, bindings.publishingDateTime.get());
-        putIfNonEmpty(propertyValues, PROPERTY_FULL_TEXT,       xhtmlSkeleton);
-        putIfNonEmpty(propertyValues, PROPERTY_ID,              idFactory.createId());
+        TypeSafeMap map = TypeSafeMap.newInstance();
+        map = putIfNonEmpty(map, PROPERTY_TITLE,           bindings.title.get());
+        map = putIfNonEmpty(map, PROPERTY_EXPOSED_URI,     bindings.exposedUri.get());
+        map = putIfNonEmpty(map, PROPERTY_CREATION_TIME,   timeProvider.currentZonedDateTime());
+        map = putIfNonEmpty(map, PROPERTY_PUBLISHING_TIME, bindings.publishingDateTime.get());
+        map = putIfNonEmpty(map, PROPERTY_FULL_TEXT,       xhtmlSkeleton);
+        map = putIfNonEmpty(map, PROPERTY_ID,              idFactory.createId());
 
         final Splitter splitter = Splitter.on(',').trimResults().omitEmptyStrings();
         final List<String> tags = Lists.newArrayList(splitter.split(bindings.tags.get()));
@@ -130,24 +131,26 @@ public class DefaultAddContentPresentationControl implements AddContentPresentat
         if (!tags.isEmpty())
           {
             // See NWRCA-69
-            propertyValues.put(PROPERTY_TAGS, tags.stream().collect(joining(",")));
-//                propertyValues.put(PROPERTY_TAGS, tags);
+            map = map.with(PROPERTY_TAGS, tags.stream().collect(joining(",")));
+//                map.put(PROPERTY_TAGS, tags);
           }
 
-        parentContent.as(_ContentChildCreator_).createContent(folderName, propertyValues);
+        parentContent.as(_ContentChildCreator_).createContent(folderName, map);
       }
 
     /*******************************************************************************************************************
      *
      ******************************************************************************************************************/
-    private static <T> void putIfNonEmpty (final @Nonnull Map<Key<?>, Object> values,
-                                           final @Nonnull Key<T> key,
-                                           final @CheckForNull T value)
+    private static <T> TypeSafeMap putIfNonEmpty (@Nonnull TypeSafeMap values,
+                                                  final @Nonnull Key<T> key,
+                                                  final @CheckForNull T value)
       {
         if ((value != null) && !"".equals(value))
           {
-            values.put(key, value);
+            values = values.with(key, value);
           }
+
+        return values;
       }
 
     /*******************************************************************************************************************
