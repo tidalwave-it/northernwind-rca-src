@@ -55,14 +55,10 @@
             <artifactId>it-tidalwave-messagebus-spring</artifactId>
         </dependency>
 
+        <!-- Test dependencies. -->
         <dependency>
             <groupId>it.tidalwave.thesefoolishthings</groupId>
             <artifactId>it-tidalwave-role-spring</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>it.tidalwave.thesefoolishthings</groupId>
-            <artifactId>it-tidalwave-util-test</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>
