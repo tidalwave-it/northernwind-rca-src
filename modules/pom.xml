@@ -67,7 +67,7 @@
         <netbeans.version>RELEASE80</netbeans.version>
         <northernwind.version>1.2-ALPHA-6</northernwind.version>
         <tft.spring.version>5.3.1</tft.spring.version>
-        <steelblue.version>1.1-ALPHA-1</steelblue.version>
+        <steelblue.version>1.1-ALPHA-2</steelblue.version>
         <!-- Should activate by itself with JDK 11+, but it fails with Jenkins Maven integration. -->
         <tft.javafx.version>11.0.1</tft.javafx.version>
         <thesefoolishthings.version>3.2-ALPHA-8</thesefoolishthings.version>
