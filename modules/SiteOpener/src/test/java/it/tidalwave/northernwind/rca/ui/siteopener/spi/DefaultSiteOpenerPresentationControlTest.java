@@ -112,7 +112,7 @@ public class DefaultSiteOpenerPresentationControlTest
         // when
         underTest.bindings.openSiteAction.actionPerformed();
         // then
-        verifyZeroInteractions(messageBus);
+        verifyNoInteractions(messageBus);
       }
 
     /*******************************************************************************************************************

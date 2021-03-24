@@ -128,7 +128,7 @@ public class ResourcePropertiesBinderTest
         underTest.bind(PROPERTY_2, boundProperty, callback);
         // then
         assertThat(boundProperty.get(), is(ORIGINAL_PROPERTY_2_VALUE));
-        verifyZeroInteractions(callback);
+        verifyNoInteractions(callback);
       }
 
     /*******************************************************************************************************************
@@ -165,7 +165,7 @@ public class ResourcePropertiesBinderTest
         final TestResource tr = helper.testResourceFor("DocumentProxy.txt");
         tr.writeToActualFile(document.getContent().replaceAll("\\n$", ""));
         tr.assertActualFileContentSameAsExpected();
-        verifyZeroInteractions(callback);
+        verifyNoInteractions(callback);
       }
 
     /*******************************************************************************************************************

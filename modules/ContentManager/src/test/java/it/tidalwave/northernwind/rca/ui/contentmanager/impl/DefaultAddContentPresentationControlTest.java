@@ -191,7 +191,7 @@ public class DefaultAddContentPresentationControlTest
         // when
         underTest.onCreateContentRequest(CreateContentRequest.of(content));
         // then
-        verifyZeroInteractions(contentChildCreator);
+        verifyNoInteractions(contentChildCreator);
       }
 
     /*******************************************************************************************************************

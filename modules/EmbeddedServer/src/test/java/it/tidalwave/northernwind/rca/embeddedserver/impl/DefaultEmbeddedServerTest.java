@@ -77,7 +77,7 @@ public class DefaultEmbeddedServerTest
     public void shutDown()
       throws Exception
       {
-        context.destroy();
+        context.close();
 
         if (nonSpringUnderTest.server != null)
           {
