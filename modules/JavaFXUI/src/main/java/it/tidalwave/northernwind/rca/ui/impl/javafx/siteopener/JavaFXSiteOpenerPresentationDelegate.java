@@ -61,7 +61,7 @@ public class JavaFXSiteOpenerPresentationDelegate implements SiteOpenerPresentat
     private Bindings bindings;
 
     @Override
-    public void bind (final @Nonnull Bindings bindings)
+    public void bind (@Nonnull final Bindings bindings)
       {
         this.bindings = bindings;
         binder.bind(btOpen, bindings.openSiteAction);
@@ -69,7 +69,7 @@ public class JavaFXSiteOpenerPresentationDelegate implements SiteOpenerPresentat
       }
 
     @Override
-    public void notifyInvitationToSelectAFolder (final @Nonnull UserNotificationWithFeedback notification)
+    public void notifyInvitationToSelectAFolder (@Nonnull final UserNotificationWithFeedback notification)
       {
         binder.openDirectoryChooserFor(notification, bindings.folderToOpen);
       }

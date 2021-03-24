@@ -60,7 +60,6 @@ public class SiteNodeSelectableFiringSelectedEventTest
      ******************************************************************************************************************/
     @BeforeMethod
     public void setup()
-      throws Exception
       {
         context = new ClassPathXmlApplicationContext("SiteNodeSelectableFiringSelectedEventTestBeans.xml");
         messageBus = context.getBean(MessageBus.class);

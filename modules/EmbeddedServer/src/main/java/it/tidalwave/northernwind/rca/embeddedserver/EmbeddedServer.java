@@ -28,11 +28,9 @@ package it.tidalwave.northernwind.rca.embeddedserver;
 
 import javax.annotation.Nonnull;
 import javax.annotation.concurrent.Immutable;
-import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.With;
 
@@ -43,33 +41,32 @@ import lombok.With;
  **********************************************************************************************************************/
 public interface EmbeddedServer
   {
-    @Immutable @AllArgsConstructor(access = AccessLevel.PRIVATE) @NoArgsConstructor
+    @Immutable @AllArgsConstructor // (access = AccessLevel.PRIVATE)
     @EqualsAndHashCode(exclude = "updateListener") @ToString
     public static class Document
       {
         public static interface UpdateListener
           {
-            public void onUpdate (final @Nonnull String content);
+            public void onUpdate (@Nonnull final String content);
 
-            public static final UpdateListener VOID = new UpdateListener()
-              {
-                @Override
-                public void onUpdate (final @Nonnull String content)
-                  {
-                  }
-              };
+            public static final UpdateListener VOID = content -> {};
           }
 
         @Getter @With @Nonnull
-        private String mimeType = "";
+        private final String mimeType;
 
         @Getter @With @Nonnull
-        private String content = "";
+        private final String content;
 
         @Getter @With @Nonnull
-        private UpdateListener updateListener = UpdateListener.VOID;
+        private final UpdateListener updateListener;
 
-        public void update (final @Nonnull String content)
+        public Document()
+          {
+            this("", "", UpdateListener.VOID);
+          }
+
+        public void update (@Nonnull final String content)
           {
             updateListener.onUpdate(content);
           }

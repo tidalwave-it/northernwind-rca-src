@@ -27,9 +27,7 @@
 package it.tidalwave.northernwind.rca.ui.contentmanager.impl;
 
 import javax.annotation.Nonnull;
-import java.util.Map;
 import java.io.IOException;
-import it.tidalwave.util.Key;
 import it.tidalwave.dci.annotation.DciRole;
 import it.tidalwave.messagebus.MessageBus;
 import it.tidalwave.northernwind.core.model.Content;
@@ -37,6 +35,7 @@ import it.tidalwave.northernwind.core.model.ModelFactory;
 import it.tidalwave.northernwind.core.model.ResourceFile;
 import it.tidalwave.northernwind.core.model.ResourceProperties;
 import it.tidalwave.northernwind.rca.ui.event.ContentCreatedEvent;
+import it.tidalwave.util.TypeSafeMap;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import static it.tidalwave.northernwind.model.admin.role.Saveable.*;
@@ -62,15 +61,14 @@ public class DefaultContentChildCreator implements ContentChildCreator
     @Nonnull
     private final Content parentContent;
 
-    @Override
-    public Content createContent (final @Nonnull String folderName,
-                                  final @Nonnull Map<Key<?>, Object> propertyValues)
+    @Override @Nonnull
+    public Content createContent (@Nonnull final String folderName, @Nonnull final TypeSafeMap propertyValues)
       throws IOException
       {
         log.info("createContent({}, {}) - {}", folderName, propertyValues, parentContent);
         final ResourceFile newFolder = parentContent.getFile().createFolder(folderName);
         final Content content = modelFactory.createContent().withFolder(newFolder).build();
-        final ResourceProperties properties = modelFactory.createProperties().withValues(propertyValues).build();
+        final ResourceProperties properties = modelFactory.createProperties().withSafeValues(propertyValues).build();
 //        content.getProperties().merged(properties).as(_Saveable_).saveIn(content.getFile());
         properties.as(_Saveable_).saveIn(content.getFile());
 

@@ -20,10 +20,9 @@
 
   *********************************************************************************************************************
 
-  $Id$
 
-*********************************************************************************************************************
-#L%
+  *********************************************************************************************************************
+  #L%
 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
@@ -40,6 +39,9 @@
     <packaging>jar</packaging>
     <version>1.2-ALPHA-3-SNAPSHOT</version>
     <name>Zephyr - UI Structure Explorer</name>
+    <description>
+        The implementation of the structure explorer.
+    </description>
 
     <dependencies>
         <dependency>
@@ -84,14 +86,15 @@
             <classifier>tests</classifier>
             <scope>test</scope>
         </dependency>
-
+        <!-- Required for mocking ModelFactory. -->
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>servlet-api</artifactId>
-            <scope>provided</scope>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
+    <!-- TODO: this shouldn't be needed... but it is. -->
     <build>
         <plugins>
             <plugin>

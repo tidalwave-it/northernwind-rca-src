@@ -39,7 +39,7 @@ import lombok.ToString;
 @DciRole(datumType = SiteNode.class) @ToString
 public class SiteNodeDisplayable extends ResourceDisplayableSupport
   {
-    public SiteNodeDisplayable (final @Nonnull SiteNode siteNode)
+    public SiteNodeDisplayable (@Nonnull final SiteNode siteNode)
       {
         super(siteNode);
       }

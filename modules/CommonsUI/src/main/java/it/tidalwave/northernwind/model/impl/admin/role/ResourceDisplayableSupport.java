@@ -27,8 +27,8 @@
 package it.tidalwave.northernwind.model.impl.admin.role;
 
 import javax.annotation.Nonnull;
-import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import it.tidalwave.role.ui.Displayable;
 import it.tidalwave.northernwind.core.model.Resource;
 import lombok.RequiredArgsConstructor;
@@ -45,16 +45,10 @@ public abstract class ResourceDisplayableSupport implements Displayable
     @Nonnull
     private final Resource resource;
 
+    @Nonnull
     @Override
     public String getDisplayName()
       {
-        try
-          {
-            return URLDecoder.decode(resource.getFile().getName(), "UTF-8") ;
-          }
-        catch (UnsupportedEncodingException e)
-          {
-            throw new RuntimeException(e); // never happens
-          }
+        return URLDecoder.decode(resource.getFile().getName(), StandardCharsets.UTF_8) ;
       }
   }

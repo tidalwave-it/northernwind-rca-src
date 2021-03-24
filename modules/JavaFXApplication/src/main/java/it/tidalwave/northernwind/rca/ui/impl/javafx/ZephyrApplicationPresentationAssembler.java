@@ -69,7 +69,7 @@ public class ZephyrApplicationPresentationAssembler
     private final JavaFXSiteOpenerPresentation siteOpenerPresentation;
 
     @Override
-    public void assemble (final @Nonnull JavaFXApplicationPresentationDelegate applicationDelegate)
+    public void assemble (@Nonnull final JavaFXApplicationPresentationDelegate applicationDelegate)
       {
         stackPaneSelector.registerArea(EDITOR_AREA, applicationDelegate.getStackPane());
         stackPaneSelector.add(EDITOR_AREA, structureEditorPresentation.getNad().getNode());

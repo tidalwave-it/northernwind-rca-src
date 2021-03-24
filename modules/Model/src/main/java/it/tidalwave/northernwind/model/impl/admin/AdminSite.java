@@ -50,13 +50,13 @@ public class AdminSite implements Site
       }
 
     @Override @Nonnull
-    public String createLink (final @Nonnull ResourcePath relativeUri)
+    public String createLink (@Nonnull final ResourcePath relativeUri)
       {
         return relativeUri.asString();
       }
 
     @Override @Nonnull
-    public <Type> SiteFinder<Type> find (final @Nonnull Class<Type> type)
+    public <Type> SiteFinder<Type> find (@Nonnull final Class<Type> type)
       {
         throw new UnsupportedOperationException("Not supported yet.");
       }
@@ -74,15 +74,15 @@ public class AdminSite implements Site
       }
 
     @Override @Nonnull
-    public Template getTemplate (@Nonnull Class<?> clazz,
-                                 @Nonnull Optional<ResourcePath> templatePath,
-                                 @Nonnull String embeddedResourceName)
+    public Template getTemplate (@Nonnull final Class<?> clazz,
+                                 @Nonnull final Optional<ResourcePath> templatePath,
+                                 @Nonnull final String embeddedResourceName)
       {
         throw new UnsupportedOperationException("Not supported yet.");
       }
 
     @Override @Nonnull
-    public Optional<String> getTemplate (@Nonnull Class<?> clazz, @Nonnull ResourcePath templatePath)
+    public Optional<String> getTemplate (@Nonnull final Class<?> clazz, @Nonnull final ResourcePath templatePath)
       {
         throw new UnsupportedOperationException("Not supported yet.");
       }

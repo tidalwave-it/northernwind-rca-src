@@ -49,7 +49,7 @@ public class AdminResource extends ResourceSupport
     @Nonnull
     private final PatchedTextResourcePropertyResolver propertyResolver;
 
-    public AdminResource (final @Nonnull Resource.Builder builder)
+    public AdminResource (@Nonnull final Resource.Builder builder)
       {
         super(builder);
         propertyResolver = new PatchedTextResourcePropertyResolver(getFile());

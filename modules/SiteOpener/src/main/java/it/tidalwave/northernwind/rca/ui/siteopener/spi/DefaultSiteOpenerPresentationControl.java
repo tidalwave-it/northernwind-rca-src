@@ -27,7 +27,6 @@
 package it.tidalwave.northernwind.rca.ui.siteopener.spi;
 
 import javax.annotation.Nonnull;
-import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import it.tidalwave.role.ui.BoundProperty;
@@ -37,6 +36,7 @@ import it.tidalwave.northernwind.rca.ui.event.OpenSiteEvent;
 import it.tidalwave.northernwind.rca.ui.siteopener.SiteOpenerPresentation;
 import it.tidalwave.northernwind.rca.ui.siteopener.SiteOpenerPresentation.Bindings;
 import it.tidalwave.northernwind.rca.ui.siteopener.SiteOpenerPresentationControl;
+import it.tidalwave.util.annotation.VisibleForTesting;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import static it.tidalwave.util.ui.UserNotificationWithFeedback.*;
@@ -57,10 +57,10 @@ public class DefaultSiteOpenerPresentationControl implements SiteOpenerPresentat
     @Nonnull
     private final SiteOpenerPresentation presentation;
 
-    /* visible for testing */ final Bindings bindings = Bindings.builder()
-        .folderToOpen(new BoundProperty<>(getHomeFolder()))
-        .openSiteAction(UserAction.of(this::askForOpeningSite))
-        .build();
+    @VisibleForTesting final Bindings bindings = Bindings.builder()
+         .folderToOpen(new BoundProperty<>(getHomeFolder()))
+         .openSiteAction(UserAction.of(this::askForOpeningSite))
+         .build();
 
     @Override
     public void initialize()
@@ -69,7 +69,6 @@ public class DefaultSiteOpenerPresentationControl implements SiteOpenerPresentat
       }
 
     private void askForOpeningSite()
-      throws IOException
       {
         presentation.notifyInvitationToSelectAFolder(notificationWithFeedback()
             .withCaption("Select the site to open")

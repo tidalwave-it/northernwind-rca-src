@@ -52,6 +52,7 @@ public interface PropertyBinder
      * a new instance of {@link ResourceProperties} with the updated values, notified through this callback.
      *
      ******************************************************************************************************************/
+    @FunctionalInterface
     public static interface UpdateCallback
       {
         public void notify (@Nonnull ResourceProperties properties);

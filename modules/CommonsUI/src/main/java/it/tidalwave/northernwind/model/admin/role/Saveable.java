@@ -38,6 +38,7 @@ import it.tidalwave.northernwind.core.model.ResourceFile;
  * @author  Fabrizio Giudici
  *
  **********************************************************************************************************************/
+@FunctionalInterface
 public interface Saveable
   {
     public static final Class<Saveable> _Saveable_ = Saveable.class;

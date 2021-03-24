@@ -29,10 +29,10 @@ package it.tidalwave.northernwind.rca.embeddedserver.impl;
 import javax.annotation.Nonnull;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.net.MalformedURLException;
-import com.sun.jersey.api.client.Client;
-import com.sun.jersey.api.client.ClientResponse;
-import com.sun.jersey.api.client.WebResource;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import it.tidalwave.northernwind.core.model.MimeTypeResolver;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import it.tidalwave.northernwind.rca.embeddedserver.EmbeddedServer.Document;
@@ -77,7 +77,7 @@ public class DefaultEmbeddedServerTest
     public void shutDown()
       throws Exception
       {
-        context.destroy();
+        context.close();
 
         if (nonSpringUnderTest.server != null)
           {
@@ -91,7 +91,6 @@ public class DefaultEmbeddedServerTest
      ******************************************************************************************************************/
     @Test
     public void start_must_properly_boot_the_webserver()
-      throws InterruptedException
       {
         // when
         nonSpringUnderTest.start();
@@ -121,16 +120,16 @@ public class DefaultEmbeddedServerTest
      ******************************************************************************************************************/
     @Test(dependsOnMethods = "start_must_properly_boot_the_webserver")
     public void must_properly_serve_loaded_documents()
-      throws MalformedURLException, IOException
+            throws IOException, InterruptedException
       {
         // when
         final String url1 = underTest.putDocument("/",     new Document().withMimeType("text/html").withContent("document 1"));
         final String url2 = underTest.putDocument("/doc2", new Document().withMimeType("text/plain").withContent("document 2"));
         final String url3 = underTest.putDocument("/doc3", new Document().withMimeType("text/css").withContent("document 3"));
         // then
-        assertUrlContents(url1, "text/html; charset=UTF-8",  "document 1");
-        assertUrlContents(url2, "text/plain; charset=UTF-8", "document 2");
-        assertUrlContents(url3, "text/css; charset=UTF-8",   "document 3");
+        assertUrlContents(url1, "text/html;charset=UTF-8",  "document 1");
+        assertUrlContents(url2, "text/plain;charset=UTF-8", "document 2");
+        assertUrlContents(url3, "text/css;charset=UTF-8",   "document 3");
       }
 
     /*******************************************************************************************************************
@@ -138,7 +137,7 @@ public class DefaultEmbeddedServerTest
      ******************************************************************************************************************/
     @Test(dependsOnMethods = "start_must_properly_boot_the_webserver")
     public void must_return_not_found_for_non_existing_documents()
-      throws MalformedURLException, IOException
+            throws IOException, InterruptedException
       {
         // when
         underTest.putDocument("/",     new Document().withMimeType("text/html").withContent("document 1"));
@@ -154,31 +153,30 @@ public class DefaultEmbeddedServerTest
     /*******************************************************************************************************************
      *
      ******************************************************************************************************************/
-    private static void assertUrlContents (final @Nonnull String url,
-                                           final @Nonnull String expectedMimeType,
-                                           final @Nonnull String expectedContent)
-      throws MalformedURLException, IOException
+    private static void assertUrlContents (@Nonnull final String url,
+                                           @Nonnull final String expectedMimeType,
+                                           @Nonnull final String expectedContent)
+            throws IOException, InterruptedException
       {
-        final Client client = Client.create();
-        final WebResource webResource = client.resource(url);
-        final ClientResponse response = webResource.accept(expectedMimeType).get(ClientResponse.class);
+        final HttpClient client = HttpClient.newBuilder().build();
+        final HttpRequest request = HttpRequest.newBuilder().GET().uri(URI.create(url)).build();
+        final HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
-        final String content = response.getEntity(String.class);
-
-        assertThat(response.getStatus(), is(HttpServletResponse.SC_OK));
-        assertThat(content, is(expectedContent));
-        assertThat(response.getType().toString(), is(expectedMimeType));
+        assertThat(response.statusCode(), is(HttpServletResponse.SC_OK));
+        assertThat(response.body(), is(expectedContent));
+        assertThat(response.headers().firstValue("content-type").get(), is(expectedMimeType));
       }
 
     /*******************************************************************************************************************
      *
      ******************************************************************************************************************/
-    private void assertUrlContents (final @Nonnull String url, final int expectedStatus)
+    private static void assertUrlContents (@Nonnull final String url, final int expectedStatus)
+            throws IOException, InterruptedException
       {
-        final Client client = Client.create();
-        final WebResource webResource = client.resource(url);
-        final ClientResponse response = webResource.get(ClientResponse.class);
+        final HttpClient client = HttpClient.newBuilder().build();
+        final HttpRequest request = HttpRequest.newBuilder().GET().uri(URI.create(url)).build();
+        final HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
-        assertThat(response.getStatus(), is(expectedStatus));
+        assertThat(response.statusCode(), is(expectedStatus));
       }
   }

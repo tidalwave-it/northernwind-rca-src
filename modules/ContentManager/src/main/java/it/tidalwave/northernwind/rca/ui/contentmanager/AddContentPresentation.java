@@ -51,7 +51,7 @@ public interface AddContentPresentation
         public final BoundProperty<String> title = new BoundProperty<>("");
         public final BoundProperty<String> tags = new BoundProperty<>("");
         public final BoundProperty<String> exposedUri = new BoundProperty<>("");
-        public final BoundProperty<ZonedDateTime> publishingDateTime = new BoundProperty<ZonedDateTime>(null);
+        public final BoundProperty<ZonedDateTime> publishingDateTime = new BoundProperty<>(null);
 
         public final BoundProperty<Boolean> folderValid = new BoundProperty<>(false);
         public final BoundProperty<Boolean> titleValid = new BoundProperty<>(false);

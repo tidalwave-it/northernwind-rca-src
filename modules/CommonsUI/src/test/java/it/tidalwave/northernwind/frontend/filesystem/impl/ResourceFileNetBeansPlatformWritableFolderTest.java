@@ -29,6 +29,7 @@ package it.tidalwave.northernwind.frontend.filesystem.impl;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import org.openide.filesystems.FileLock;
 import org.openide.filesystems.FileObject;
 import it.tidalwave.role.io.Marshallable;
@@ -88,7 +89,7 @@ public class ResourceFileNetBeansPlatformWritableFolderTest
         when(fileNetBeansPlatform.getDelegate()).thenReturn(fileObject);
         underTest = new ResourceFileNetBeansPlatformWritableFolder(fileNetBeansPlatform);
 
-        marshallable = out -> out.write("marshallable\n".getBytes("UTF-8"));
+        marshallable = out -> out.write("marshallable\n".getBytes(StandardCharsets.UTF_8));
       }
 
     /*******************************************************************************************************************

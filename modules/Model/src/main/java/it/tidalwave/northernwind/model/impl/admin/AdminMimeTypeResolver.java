@@ -41,7 +41,7 @@ import lombok.extern.slf4j.Slf4j;
 public class AdminMimeTypeResolver implements MimeTypeResolver
   {
     @Override @Nonnull
-    public String getMimeType (final @Nonnull String fileName)
+    public String getMimeType (@Nonnull final String fileName)
       {
         log.warn("MIME type resolver with temporary implementation");
 

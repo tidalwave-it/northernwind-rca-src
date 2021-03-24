@@ -44,25 +44,25 @@ import it.tidalwave.northernwind.core.impl.model.DefaultResourceProperties;
 public class AdminModelFactory extends ModelFactorySupport
   {
     @Override @Nonnull
-    public Resource build (final @Nonnull Resource.Builder builder)
+    public Resource build (@Nonnull final Resource.Builder builder)
       {
         return new AdminResource(builder);
       }
 
     @Override @Nonnull
-    public Content build (final @Nonnull Content.Builder builder)
+    public Content build (@Nonnull final Content.Builder builder)
       {
         return new AdminContent(builder);
       }
 
     @Override @Nonnull
-    public SiteNode createSiteNode (final @Nonnull Site site, final @Nonnull ResourceFile file)
+    public SiteNode createSiteNode (@Nonnull final Site site, @Nonnull final ResourceFile file)
       {
         return new AdminSiteNode(site, this, file);
       }
 
     @Override @Nonnull
-    public ResourceProperties build (final @Nonnull ResourceProperties.Builder builder)
+    public ResourceProperties build (@Nonnull final ResourceProperties.Builder builder)
       {
         return new DefaultResourceProperties(builder);
       }

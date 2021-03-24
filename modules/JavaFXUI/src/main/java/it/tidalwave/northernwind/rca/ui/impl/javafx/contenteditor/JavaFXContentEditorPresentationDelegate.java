@@ -79,7 +79,7 @@ public class JavaFXContentEditorPresentationDelegate implements ContentEditorPre
       }
 
     @Override
-    public void bind (final @Nonnull Bindings bindings)
+    public void bind (@Nonnull final Bindings bindings)
       {
         binder.bindBidirectionally(contentTitle.textProperty(), bindings.title);
         binder.bind(btOpenExternalEditor, bindings.openExternalEditorAction);
@@ -97,17 +97,17 @@ public class JavaFXContentEditorPresentationDelegate implements ContentEditorPre
       {
         contentWebView.getEngine().loadContent("");
         // FIXME: binder.unbind(contentEditorProperties)
-        contentEditorProperties.setItems(FXCollections.<PresentationModel>emptyObservableList());
+        contentEditorProperties.setItems(FXCollections.emptyObservableList());
       }
 
     @Override
-    public void populateDocument (final @Nonnull String url)
+    public void populateDocument (@Nonnull final String url)
       {
         contentWebView.getEngine().load(url);
       }
 
     @Override
-    public void populateProperties (final @Nonnull PresentationModel pm)
+    public void populateProperties (@Nonnull final PresentationModel pm)
       {
         binder.bind(contentEditorProperties, pm);
       }

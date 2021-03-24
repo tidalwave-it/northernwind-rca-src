@@ -35,7 +35,6 @@ import java.io.IOException;
 import java.io.File;
 import it.tidalwave.util.Callback;
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import lombok.With;
 import lombok.extern.slf4j.Slf4j;
 
@@ -44,28 +43,33 @@ import lombok.extern.slf4j.Slf4j;
  * @author  Fabrizio Giudici
  *
  **********************************************************************************************************************/
-@RequiredArgsConstructor @AllArgsConstructor @Slf4j
+@AllArgsConstructor @Slf4j
 public class ProcessExecutor
   {
     @Nonnull
     private final String executable;
 
     @With
-    private List<String> arguments = new ArrayList<>();
+    private final List<String> arguments;
 
     @With
-    private Callback postMortemTask = Callback.EMPTY;
+    private final Callback postMortemTask;
+
+    public ProcessExecutor()
+      {
+        this("", new ArrayList<>(), Callback.EMPTY);
+      }
 
     @Nonnull
-    public ProcessExecutor withArguments2 (final @Nonnull String ... arguments)
+    public ProcessExecutor withArguments2 (@Nonnull final String ... arguments)
       {
         return withArguments(Arrays.asList(arguments));
       }
 
     @Nonnull
-    public static ProcessExecutor forExecutable (final @Nonnull String executable)
+    public static ProcessExecutor forExecutable (@Nonnull final String executable)
       {
-        return new ProcessExecutor(executable);
+        return new ProcessExecutor(executable, new ArrayList<>(), Callback.EMPTY);
       }
 
     public void execute()
@@ -97,22 +101,19 @@ public class ProcessExecutor
           {
             log.info("Executing {}", args);
             final Process process = Runtime.getRuntime().exec(args.toArray(new String[0]));
-            Executors.newSingleThreadExecutor().submit(new Runnable() // FIXME; inject the executor
+            // FIXME; inject the executor
+            Executors.newSingleThreadExecutor().submit(() ->
               {
-                @Override
-                public void run()
+                try
                   {
-                    try
-                      {
-                        log.debug(">>>> waiting for the process to terminate...");
-                        process.waitFor();
-                        log.debug(">>>> process terminated");
-                        postMortemTask.call();
-                      }
-                    catch (Throwable e)
-                      {
-                        log.error("", e);
-                      }
+                    log.debug(">>>> waiting for the process to terminate...");
+                    process.waitFor();
+                    log.debug(">>>> process terminated");
+                    postMortemTask.call();
+                  }
+                catch (Throwable e)
+                  {
+                    log.error("", e);
                   }
               });
           }

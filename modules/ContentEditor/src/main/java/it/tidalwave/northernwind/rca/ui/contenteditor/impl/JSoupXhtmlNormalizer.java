@@ -29,7 +29,6 @@ package it.tidalwave.northernwind.rca.ui.contenteditor.impl;
 import it.tidalwave.northernwind.rca.ui.contenteditor.spi.XhtmlNormalizer;
 import javax.annotation.Nonnull;
 import java.nio.charset.StandardCharsets;
-import com.google.common.base.Splitter;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Entities;
@@ -50,7 +49,7 @@ public class JSoupXhtmlNormalizer implements XhtmlNormalizer
      ******************************************************************************************************************/
     @Nonnull
     @Override
-    public String asNormalizedString (final @Nonnull String text)
+    public String asNormalizedString (@Nonnull final String text)
       {
         log.trace("asNormalizedString()\n{}", text);
         final Document.OutputSettings os = new Document.OutputSettings()
@@ -70,7 +69,7 @@ public class JSoupXhtmlNormalizer implements XhtmlNormalizer
      *
      ******************************************************************************************************************/
     @Nonnull
-    private String breakLongLines (final @Nonnull String html)
+    private static String breakLongLines (@Nonnull final String html)
       {
         final Document document = Jsoup.parse(html);
         document.select("br").after("\n       ");
@@ -108,15 +107,15 @@ public class JSoupXhtmlNormalizer implements XhtmlNormalizer
      *
      ******************************************************************************************************************/
     @Nonnull
-    private static String finalCleanup (final @Nonnull String string)
+    private static String finalCleanup (@Nonnull final String string)
       {
         final StringBuilder buffer = new StringBuilder();
 
         boolean first = true;
 
-        for (final String line : Splitter.on("\n").split(string))
+        for (final String line : string.split("\n"))
           {
-            if (first && !line.equals("<!DOCTYPE html>"))
+            if (first && !"<!DOCTYPE html>".equals(line))
               {
                 buffer.append("<!DOCTYPE html>").append("\n");
               }

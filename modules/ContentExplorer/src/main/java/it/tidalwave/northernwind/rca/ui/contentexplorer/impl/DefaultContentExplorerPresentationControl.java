@@ -27,6 +27,7 @@
 package it.tidalwave.northernwind.rca.ui.contentexplorer.impl;
 
 import javax.annotation.Nonnull;
+import it.tidalwave.util.annotation.VisibleForTesting;
 import it.tidalwave.dci.annotation.DciContext;
 import it.tidalwave.messagebus.MessageBus;
 import it.tidalwave.messagebus.annotation.ListensTo;
@@ -37,9 +38,9 @@ import it.tidalwave.northernwind.core.model.ResourceFile;
 import it.tidalwave.northernwind.rca.ui.contentexplorer.ContentExplorerPresentation;
 import it.tidalwave.northernwind.rca.ui.contentexplorer.ContentExplorerPresentationControl;
 import it.tidalwave.northernwind.rca.ui.event.OpenSiteEvent;
+import it.tidalwave.role.ui.PresentationModel;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import static it.tidalwave.role.ui.Presentable.*;
 import static it.tidalwave.northernwind.rca.ui.event.ContentSelectedEvent.emptySelectionEvent;
 
 /***********************************************************************************************************************
@@ -57,20 +58,20 @@ public class DefaultContentExplorerPresentationControl implements ContentExplore
     /* package */ static final String ROOT_DOCUMENT_PATH = "/content/document";
 
     @Nonnull
-    protected MessageBus messageBus;
+    protected final MessageBus messageBus;
 
     @Nonnull
-    private ModelFactory modelFactory;
+    private final ModelFactory modelFactory;
 
     @Nonnull
-    private ContentExplorerPresentation presentation;
+    private final ContentExplorerPresentation presentation;
 
-    /* visible for testing */ void onOpenSite (final @ListensTo @Nonnull OpenSiteEvent event)
+    @VisibleForTesting void onOpenSite (@ListensTo @Nonnull final OpenSiteEvent event)
       {
         log.debug("onOpenSite({})", event);
         final ResourceFile root = event.getFileSystem().findFileByPath(ROOT_DOCUMENT_PATH);
         final Content rootContent = modelFactory.createContent().withFolder(root).build();
-        presentation.populate(rootContent.as(_Presentable_).createPresentationModel());
+        presentation.populate(PresentationModel.ofMaybePresentable(rootContent));
         presentation.expandFirstLevel();
         messageBus.publish(emptySelectionEvent());
       }

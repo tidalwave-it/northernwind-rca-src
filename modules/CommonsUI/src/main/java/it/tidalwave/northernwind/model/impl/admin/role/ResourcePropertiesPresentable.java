@@ -76,7 +76,7 @@ public class ResourcePropertiesPresentable implements Presentable
          * The usual {@link it.tidalwave.util.Finder} copy constructor.
          *
          **************************************************************************************************************/
-        public PropertyPmFinder (final @Nonnull PropertyPmFinder other, final @Nonnull Object override)
+        public PropertyPmFinder (@Nonnull final PropertyPmFinder other, @Nonnull final Object override)
           {
             super(other, override);
             final PropertyPmFinder source = getSource(PropertyPmFinder.class, other, override);
@@ -106,13 +106,13 @@ public class ResourcePropertiesPresentable implements Presentable
             final Collection<Id> groupIds = properties.getGroupIds();
             groupIds.add(globalGroupId);
 
-            groupIds.stream().forEach(groupId ->
+            groupIds.forEach(groupId ->
               {
                 final ResourceProperties propertyGroup = groupId.equals(globalGroupId) ? properties : properties.getGroup(groupId);
 
-                propertyGroup.getKeys().stream().forEach(key ->
+                propertyGroup.getKeys().forEach(key ->
                   {
-                    final String prefix = groupId.stringValue().equals("") ? "" : groupId.stringValue() + ".";
+                    final String prefix = "".equals(groupId.stringValue()) ? "" : groupId.stringValue() + ".";
                     final Aggregate<PresentationModel> aggregate = Aggregate
                             .of("Name",  PresentationModel.of(key, Displayable.of(prefix + key.stringValue())))
                             .with( "Value", PresentationModel.of(key, displayableForValue(propertyGroup, key)));
@@ -137,7 +137,7 @@ public class ResourcePropertiesPresentable implements Presentable
      *
      ******************************************************************************************************************/
     @Override @Nonnull
-    public PresentationModel createPresentationModel (final @Nonnull Collection<Object> localRoles)
+    public PresentationModel createPresentationModel (@Nonnull final Collection<Object> localRoles)
       {
         return PresentationModel.of(ownerProperties,
                                     r(SimpleComposite.of(new PropertyPmFinder(ownerProperties)), localRoles));
