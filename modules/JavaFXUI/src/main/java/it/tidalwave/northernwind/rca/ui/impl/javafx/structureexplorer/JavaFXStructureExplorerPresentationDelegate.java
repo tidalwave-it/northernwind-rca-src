@@ -49,7 +49,7 @@ public class JavaFXStructureExplorerPresentationDelegate implements StructureExp
     private TreeView<PresentationModel> tvStructure;
 
     @Override
-    public void populate (final @Nonnull PresentationModel pm)
+    public void populate (@Nonnull final PresentationModel pm)
       {
         binder.bind(tvStructure, pm);
       }

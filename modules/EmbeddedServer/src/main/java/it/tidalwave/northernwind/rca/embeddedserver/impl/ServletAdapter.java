@@ -47,10 +47,10 @@ public class ServletAdapter extends HttpServlet
     private final AbstractHandler handler = new AbstractHandler()
       {
         @Override
-        public void handle (final @Nonnull String target,
-                            final @Nonnull Request baseRequest,
-                            final @Nonnull HttpServletRequest request,
-                            final @Nonnull HttpServletResponse response)
+        public void handle (@Nonnull final String target,
+                            @Nonnull final Request baseRequest,
+                            @Nonnull final HttpServletRequest request,
+                            @Nonnull final HttpServletResponse response)
           throws IOException, ServletException
           {
 //            log.trace("handle({}, {}, {}, {}", target, baseRequest, request, response);

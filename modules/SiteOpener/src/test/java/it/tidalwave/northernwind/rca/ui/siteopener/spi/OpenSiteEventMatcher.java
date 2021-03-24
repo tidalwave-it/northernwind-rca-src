@@ -43,13 +43,13 @@ import static lombok.AccessLevel.PRIVATE;
  *
  **********************************************************************************************************************/
 @NoArgsConstructor(staticName = "openSiteEvent") @AllArgsConstructor(access = PRIVATE)
-public class OpenSiteEventMatcher implements ArgumentMatcher<OpenSiteEvent>
+public final class OpenSiteEventMatcher implements ArgumentMatcher<OpenSiteEvent>
   {
     @With
     private Path rootPath;
 
     @Override
-    public boolean matches (final @Nullable OpenSiteEvent event)
+    public boolean matches (@Nullable final OpenSiteEvent event)
       {
         return (event != null) && Paths.get(event.getFileSystemProvider().getRootPath()).equals(rootPath);
       }

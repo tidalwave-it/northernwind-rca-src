@@ -34,9 +34,10 @@ import it.tidalwave.northernwind.core.model.SiteNode;
 import it.tidalwave.northernwind.rca.ui.event.SiteNodeSelectedEvent;
 import it.tidalwave.northernwind.rca.ui.structureeditor.StructureEditorPresentation;
 import it.tidalwave.northernwind.rca.ui.structureeditor.StructureEditorPresentationControl;
+import it.tidalwave.util.annotation.VisibleForTesting;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import static it.tidalwave.role.ui.Presentable.*;
+import static it.tidalwave.role.ui.Presentable._Presentable_;
 
 /***********************************************************************************************************************
  *
@@ -49,11 +50,11 @@ public class DefaultStructureEditorPresentationControl implements StructureEdito
     @Nonnull
     private final StructureEditorPresentation presentation;
 
-    /* visible for testing */ void onSiteNodeSelected (final @ListensTo @Nonnull SiteNodeSelectedEvent selectionEvent)
+    @VisibleForTesting void onSiteNodeSelected (@ListensTo @Nonnull final SiteNodeSelectedEvent selectionEvent)
       {
         log.debug("onSiteNodeSelected({})", selectionEvent);
 
-        if (!selectionEvent.getSiteNode().isPresent())
+        if (selectionEvent.getSiteNode().isEmpty())
           {
             presentation.clear();
           }
@@ -64,6 +65,7 @@ public class DefaultStructureEditorPresentationControl implements StructureEdito
             log.debug(">>>> properties: {}", properties);
             presentation.populate("Viewer not implemented for " + siteNode.getFile());
             presentation.populateProperties(properties.as(_Presentable_).createPresentationModel());
+            // presentation.populateProperties(PresentationModel.ofMaybePresentable(properties));
             presentation.showUp();
           }
       }

@@ -29,8 +29,7 @@ package it.tidalwave.northernwind.model.admin;
 import it.tidalwave.util.Key;
 import it.tidalwave.util.Id;
 import java.time.ZonedDateTime;
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
+import lombok.experimental.UtilityClass;
 
 /***********************************************************************************************************************
  *
@@ -39,22 +38,22 @@ import lombok.NoArgsConstructor;
  * @author  Fabrizio Giudici
  *
  **********************************************************************************************************************/
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@UtilityClass
 public final class Properties
   {
-    public static final Key<String> PROPERTY_FULL_TEXT = new Key<String>("fullText") {};
+    public static final Key<String> PROPERTY_FULL_TEXT = Key.of("fullText", String.class);
 
-    public static final Key<ZonedDateTime> PROPERTY_LATEST_MODIFICATION_DATE = new Key<ZonedDateTime>("latestModificationDateTime") {};
+    public static final Key<ZonedDateTime> PROPERTY_LATEST_MODIFICATION_DATE = Key.of("latestModificationDateTime", ZonedDateTime.class);
 
-    public static final Key<String> PROPERTY_TITLE = new Key<String>("title") {};
+    public static final Key<String> PROPERTY_TITLE = Key.of("title", String.class);
 
-    public static final Key<String> PROPERTY_EXPOSED_URI = new Key<String>("exposedUri") {};
+    public static final Key<String> PROPERTY_EXPOSED_URI = Key.of("exposedUri", String.class);
 
-    public static final Key<ZonedDateTime> PROPERTY_CREATION_TIME = new Key<ZonedDateTime>("creationDateTime") {};
+    public static final Key<ZonedDateTime> PROPERTY_CREATION_TIME = Key.of("creationDateTime", ZonedDateTime.class);
 
-    public static final Key<ZonedDateTime> PROPERTY_PUBLISHING_TIME = new Key<ZonedDateTime>("publishingDateTime") {};
+    public static final Key<ZonedDateTime> PROPERTY_PUBLISHING_TIME = Key.of("publishingDateTime", ZonedDateTime.class);
 
-    public static final Key<String> PROPERTY_TAGS = new Key<String>("tags") {};
+    public static final Key<String> PROPERTY_TAGS = Key.of("tags", String.class);
 
-    public static final Key<Id> PROPERTY_ID = new Key<Id>("id") {};
+    public static final Key<Id> PROPERTY_ID = Key.of("id", Id.class);
   }

@@ -43,7 +43,7 @@ import static lombok.AccessLevel.PRIVATE;
  *
  **********************************************************************************************************************/
 @RequiredArgsConstructor(access = PRIVATE)
-public class ContentSelectedEventMatcher implements ArgumentMatcher<ContentSelectedEvent>
+public final class ContentSelectedEventMatcher implements ArgumentMatcher<ContentSelectedEvent>
   {
     @Nonnull
     private final Optional<Content> content;
@@ -55,13 +55,13 @@ public class ContentSelectedEventMatcher implements ArgumentMatcher<ContentSelec
       }
 
     @Nonnull
-    public static ContentSelectedEvent eventWith (final @Nonnull Content content)
+    public static ContentSelectedEvent eventWith (@Nonnull final Content content)
       {
         return ArgumentMatchers.argThat(new ContentSelectedEventMatcher(Optional.of(content)));
       }
 
     @Override
-    public boolean matches (final @Nullable ContentSelectedEvent event)
+    public boolean matches (@Nullable final ContentSelectedEvent event)
       {
         return (event != null) && this.content.equals(event.getContent());
       }

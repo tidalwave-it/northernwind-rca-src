@@ -41,7 +41,7 @@ import it.tidalwave.northernwind.core.model.spi.ContentSupport;
  **********************************************************************************************************************/
 public class AdminContent extends ContentSupport
   {
-    public AdminContent (final @Nonnull Builder builder)
+    public AdminContent (@Nonnull final Builder builder)
       {
         super(builder);
       }

@@ -38,9 +38,10 @@ import it.tidalwave.northernwind.core.model.SiteNode;
 import it.tidalwave.northernwind.rca.ui.event.OpenSiteEvent;
 import it.tidalwave.northernwind.rca.ui.structureexplorer.StructureExplorerPresentation;
 import it.tidalwave.northernwind.rca.ui.structureexplorer.StructureExplorerPresentationControl;
+import it.tidalwave.role.ui.PresentationModel;
+import it.tidalwave.util.annotation.VisibleForTesting;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import static it.tidalwave.role.ui.Presentable.*;
 import static it.tidalwave.northernwind.rca.ui.event.SiteNodeSelectedEvent.emptySelectionEvent;
 
 /***********************************************************************************************************************
@@ -68,12 +69,12 @@ public class DefaultStructureExplorerPresentationControl implements StructureExp
     @Nonnull
     private final StructureExplorerPresentation presentation;
 
-    /* visible for testing */ void onOpenSite (final @ListensTo @Nonnull OpenSiteEvent event)
+    @VisibleForTesting void onOpenSite (@ListensTo @Nonnull final OpenSiteEvent event)
       {
         log.debug("onOpenSite({})", event);
         final ResourceFile root = event.getFileSystem().findFileByPath(ROOT_SITE_NODE_PATH);
         final SiteNode rootSiteNode = modelFactory.createSiteNode(site, root);
-        presentation.populate(rootSiteNode.as(_Presentable_).createPresentationModel());
+        presentation.populate(PresentationModel.ofMaybePresentable(rootSiteNode));
         presentation.expandFirstLevel();
         messageBus.publish(emptySelectionEvent());
       }

@@ -32,6 +32,7 @@ import java.util.Collection;
 import java.util.WeakHashMap;
 import it.tidalwave.util.Callback;
 import it.tidalwave.util.NamedCallback;
+import it.tidalwave.util.annotation.VisibleForTesting;
 import it.tidalwave.role.ui.PresentationModel;
 import it.tidalwave.role.ui.PresentationModelFactory;
 import it.tidalwave.messagebus.annotation.ListensTo;
@@ -55,11 +56,11 @@ import static it.tidalwave.util.Parameters.r;
 @SimpleMessageSubscriber @Slf4j
 public class ContentPresentationModelFactory implements PresentationModelFactory
   {
-    /* visible for testing */ final WeakHashMap<Content, PresentationModel> map = new WeakHashMap<>();
+    @VisibleForTesting final WeakHashMap<Content, PresentationModel> map = new WeakHashMap<>();
 
     @Override @Nonnull
-    public PresentationModel createPresentationModel (final @Nonnull Object datum,
-                                                      final @Nonnull Collection<Object> roles)
+    public PresentationModel createPresentationModel (@Nonnull final Object datum,
+                                                      @Nonnull final Collection<Object> roles)
       {
         final Callback cb = NamedCallback.of(PresentationModel.CALLBACK_DISPOSE, () ->
           {
@@ -73,7 +74,7 @@ public class ContentPresentationModelFactory implements PresentationModelFactory
         return contentPM;
       }
 
-    /* visible for testing */ void onContentCreated (final @ListensTo @Nonnull ContentCreatedEvent event)
+    @VisibleForTesting void onContentCreated (@ListensTo @Nonnull final ContentCreatedEvent event)
       {
         log.debug("onContentCreated({})", event);
         // FIXME: map.getOptional(event.getParentContent()).ifPresent(cpm -> ...);
@@ -81,7 +82,7 @@ public class ContentPresentationModelFactory implements PresentationModelFactory
 
         if (contentPM != null)
           {
-            log.debug(">>>> dispatching {} to ", event, contentPM);
+            log.debug(">>>> dispatching {} to {}", event, contentPM);
             // FIXME: this is an undocumented feature
             contentPM.as(PropertyChangeSupport.class).firePropertyChange(PROPERTY_CHILDREN, null, null);
           }

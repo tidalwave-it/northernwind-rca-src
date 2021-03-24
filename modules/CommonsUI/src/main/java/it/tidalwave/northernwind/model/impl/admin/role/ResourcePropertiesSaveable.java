@@ -27,7 +27,6 @@
 package it.tidalwave.northernwind.model.impl.admin.role;
 
 import javax.annotation.Nonnull;
-import java.util.Arrays;
 import java.util.List;
 import java.io.IOException;
 import it.tidalwave.util.TimeProvider;
@@ -53,7 +52,7 @@ import static it.tidalwave.northernwind.model.admin.role.WritableFolder.*;
 public class ResourcePropertiesSaveable implements Saveable
   {
     /** The properties that must be stored in a separate file. */
-    private static final List<Key<?>> EXTERNAL_PROPERTIES = Arrays.<Key<?>>asList(PROPERTY_FULL_TEXT);
+    private static final List<Key<?>> EXTERNAL_PROPERTIES = List.of(PROPERTY_FULL_TEXT);
 
     @Nonnull
     private final TimeProvider timeProvider;
@@ -62,7 +61,7 @@ public class ResourcePropertiesSaveable implements Saveable
     private final ResourceProperties properties;
 
     @Override
-    public void saveIn (final @Nonnull ResourceFile folder)
+    public void saveIn (@Nonnull final ResourceFile folder)
       {
         try
           {
@@ -82,7 +81,7 @@ public class ResourcePropertiesSaveable implements Saveable
 
     @Nonnull
     private ResourceProperties saveExternalProperties (@Nonnull ResourceProperties properties,
-                                                       final @Nonnull WritableFolder writableFolder)
+                                                       @Nonnull final WritableFolder writableFolder)
       throws IOException
       {
         for (final Key<?> property : EXTERNAL_PROPERTIES)

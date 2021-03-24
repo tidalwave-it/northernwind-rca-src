@@ -21,12 +21,10 @@
 
   *********************************************************************************************************************
 
-  $Id$
 
-*********************************************************************************************************************
-#L%
+  *********************************************************************************************************************
+  #L%
 -->
-
 <configuration debug="true" scan="true" scanPeriod="30 seconds">
 
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
@@ -51,10 +49,10 @@
     <logger name="it.tidalwave.role.ui.javafx" level="INFO"/>
 
     <root level="DEBUG">
-        <appender-ref ref="FILE" />
+        <appender-ref ref="FILE"/>
         <!-- appender-ref ref="STDERR" / --> <!-- Don't in production! -->
     </root>
 
-    <include file="${it.tidalwave.northernwind.rca.logConfigOverride}" optional="true" />
+    <include file="${it.tidalwave.northernwind.rca.logConfigOverride}" optional="true"/>
 
 </configuration>

@@ -28,9 +28,8 @@ package it.tidalwave.northernwind.model.impl.admin;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import it.tidalwave.text.AsDisplayableComparator;
+import it.tidalwave.role.ui.Displayable;
 import it.tidalwave.util.spi.SimpleFinderSupport;
 import it.tidalwave.northernwind.core.model.Resource;
 import it.tidalwave.northernwind.core.model.ResourceFile;
@@ -48,7 +47,7 @@ public final class ResourceFinder<T extends Resource> extends SimpleFinderSuppor
     static interface ProductCreator<T>
       {
         @Nonnull
-        public T createProduct (final @Nonnull ResourceFile folder);
+        public T createProduct (@Nonnull final ResourceFile folder);
       }
 
     @Nonnull
@@ -57,7 +56,7 @@ public final class ResourceFinder<T extends Resource> extends SimpleFinderSuppor
     @Nonnull
     private final ProductCreator<T> productCreator;
 
-    public ResourceFinder (final @Nonnull ResourceFinder<T> other, final @Nonnull Object override)
+    public ResourceFinder (@Nonnull final ResourceFinder<T> other, @Nonnull final Object override)
       {
         super(other, override);
         final ResourceFinder<T> source = getSource(ResourceFinder.class, other, override);
@@ -80,7 +79,7 @@ public final class ResourceFinder<T extends Resource> extends SimpleFinderSuppor
           }
 
         // TODO: sorting should rather be done in the PresentationModel.
-        Collections.sort(results, AsDisplayableComparator.getInstance());
+        results.sort(Displayable.asComparing());
 
         return results;
       }

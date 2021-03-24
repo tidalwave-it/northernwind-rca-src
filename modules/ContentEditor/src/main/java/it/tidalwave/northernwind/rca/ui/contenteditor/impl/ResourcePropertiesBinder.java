@@ -30,6 +30,8 @@ import javax.annotation.Nonnull;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+import it.tidalwave.util.annotation.VisibleForTesting;
 import org.springframework.core.io.ClassPathResource;
 import it.tidalwave.util.Key;
 import it.tidalwave.role.ui.BoundProperty;
@@ -47,15 +49,15 @@ import lombok.RequiredArgsConstructor;
 @DciRole(datumType = ResourceProperties.class) @RequiredArgsConstructor
 public class ResourcePropertiesBinder implements PropertyBinder
   {
-    private final static String EDITOR_TEMPLATE =
+    private static final String EDITOR_TEMPLATE =
             "it/tidalwave/northernwind/rca/ui/contenteditor/spi/EditorTemplate.xhtml";
 
     @Nonnull
     private final ResourceProperties properties;
 
-    /* visible for testing */ final static String EDITOR_PROLOG;
+    @VisibleForTesting static final String EDITOR_PROLOG;
 
-    /* visible for testing */ final static String EDITOR_EPILOG;
+    @VisibleForTesting static final String EDITOR_EPILOG;
 
     /*******************************************************************************************************************
      *
@@ -65,7 +67,7 @@ public class ResourcePropertiesBinder implements PropertyBinder
     static
       {
         try (final BufferedReader r = new BufferedReader(new InputStreamReader(
-                    new ClassPathResource(EDITOR_TEMPLATE).getInputStream(), "UTF-8")))
+                new ClassPathResource(EDITOR_TEMPLATE).getInputStream(), StandardCharsets.UTF_8)))
           {
             final StringBuilder prologBuilder = new StringBuilder();
             final StringBuilder epilogBuilder = new StringBuilder();
@@ -73,7 +75,7 @@ public class ResourcePropertiesBinder implements PropertyBinder
 
             for (String line = r.readLine(); line != null; line = r.readLine())
               {
-                if (line.trim().equals("<!-- split here -->"))
+                if ("<!-- split here -->".equals(line.trim()))
                   {
                     prolog = false;
                     continue;
@@ -97,9 +99,9 @@ public class ResourcePropertiesBinder implements PropertyBinder
      *
      ******************************************************************************************************************/
     @Override
-    public <T> void bind (final @Nonnull Key<T> propertyName,
-                          final @Nonnull BoundProperty<T> boundProperty,
-                          final @Nonnull UpdateCallback callback)
+    public <T> void bind (@Nonnull final Key<T> propertyName,
+                          @Nonnull final BoundProperty<T> boundProperty,
+                          @Nonnull final UpdateCallback callback)
       {
         properties.getProperty(propertyName).ifPresent(boundProperty::set);
         boundProperty.addPropertyChangeListener(
@@ -112,8 +114,8 @@ public class ResourcePropertiesBinder implements PropertyBinder
      *
      ******************************************************************************************************************/
     @Override @Nonnull
-    public EmbeddedServer.Document createBoundDocument (final @Nonnull Key<String> propertyName,
-                                                        final @Nonnull UpdateCallback callback)
+    public EmbeddedServer.Document createBoundDocument (@Nonnull final Key<String> propertyName,
+                                                        @Nonnull final UpdateCallback callback)
       {
         final String text = properties.getProperty(propertyName).orElse("");
         final HtmlDocument originalDocument = HtmlDocument.createFromText(text);

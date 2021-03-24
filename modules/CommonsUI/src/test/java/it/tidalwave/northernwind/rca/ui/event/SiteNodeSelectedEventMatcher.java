@@ -40,7 +40,7 @@ import lombok.RequiredArgsConstructor;
  *
  **********************************************************************************************************************/
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
-public class SiteNodeSelectedEventMatcher implements ArgumentMatcher<SiteNodeSelectedEvent>
+public final class SiteNodeSelectedEventMatcher implements ArgumentMatcher<SiteNodeSelectedEvent>
   {
     @Nonnull
     private final Optional<SiteNode> node;
@@ -52,7 +52,7 @@ public class SiteNodeSelectedEventMatcher implements ArgumentMatcher<SiteNodeSel
       }
 
     @Nonnull
-    public static SiteNodeSelectedEvent eventWith (final @Nonnull SiteNode node)
+    public static SiteNodeSelectedEvent eventWith (@Nonnull final SiteNode node)
       {
         return ArgumentMatchers.argThat(new SiteNodeSelectedEventMatcher(Optional.of(node)));
       }

@@ -38,7 +38,7 @@ import java.io.FileNotFoundException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import com.google.common.io.ByteStreams;
+import it.tidalwave.util.annotation.VisibleForTesting;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.ClassPathResource;
 import org.eclipse.jetty.server.Server;
@@ -51,7 +51,6 @@ import it.tidalwave.northernwind.core.model.ResourceFile;
 import it.tidalwave.northernwind.core.model.ResourceFileSystem;
 import it.tidalwave.northernwind.rca.embeddedserver.EmbeddedServer;
 import it.tidalwave.northernwind.rca.ui.event.OpenSiteEvent;
-import lombok.Cleanup;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -72,7 +71,7 @@ public class DefaultEmbeddedServer implements EmbeddedServer
     private int port = 12345;
 
     @CheckForNull
-    /* visible for testing */ Server server;
+    @VisibleForTesting Server server;
 
     private final Map<String, Document> documentMapByUrl = new HashMap<>();
 
@@ -92,8 +91,8 @@ public class DefaultEmbeddedServer implements EmbeddedServer
         private final LibraryLinkMacroFilter libraryLinkMacroFilter = new LibraryLinkMacroFilter();
 
         @Override
-        protected void doGet (final @Nonnull HttpServletRequest request,
-                              final @Nonnull HttpServletResponse response)
+        protected void doGet (@Nonnull final HttpServletRequest request,
+                              @Nonnull final HttpServletResponse response)
           throws ServletException, IOException
           {
             String uri = request.getRequestURI();
@@ -122,8 +121,8 @@ public class DefaultEmbeddedServer implements EmbeddedServer
           }
 
         @Override
-        protected void doPut (final @Nonnull HttpServletRequest request,
-                              final @Nonnull HttpServletResponse response)
+        protected void doPut (@Nonnull final HttpServletRequest request,
+                              @Nonnull final HttpServletResponse response)
           throws ServletException, IOException
           {
             final String uri = request.getRequestURI();
@@ -138,7 +137,7 @@ public class DefaultEmbeddedServer implements EmbeddedServer
      *
      *
      ******************************************************************************************************************/
-    /* visible for testing */ void onOpenSite (final @ListensTo @Nonnull OpenSiteEvent event)
+    @VisibleForTesting void onOpenSite (@ListensTo @Nonnull final OpenSiteEvent event)
       {
         log.debug("onOpenSite({})", event);
         fileSystem = event.getFileSystem();
@@ -198,7 +197,7 @@ public class DefaultEmbeddedServer implements EmbeddedServer
      *
      ******************************************************************************************************************/
     @Override @Nonnull
-    public String putDocument (final @Nonnull String path, final @Nonnull Document document)
+    public String putDocument (@Nonnull final String path, @Nonnull final Document document)
       {
         documentMapByUrl.put(path, document);
         return String.format("http://localhost:%d%s", port, path);
@@ -209,8 +208,8 @@ public class DefaultEmbeddedServer implements EmbeddedServer
      *
      *
      ******************************************************************************************************************/
-    private void serveEditorResources (final @Nonnull String uri,
-                                       final @Nonnull HttpServletResponse response)
+    private void serveEditorResources (@Nonnull final String uri,
+                                       @Nonnull final HttpServletResponse response)
       throws IOException
       {
         try
@@ -233,8 +232,8 @@ public class DefaultEmbeddedServer implements EmbeddedServer
      *
      *
      ******************************************************************************************************************/
-    private void serveContentResources (final @Nonnull String uri,
-                                        final @Nonnull HttpServletResponse response)
+    private void serveContentResources (@Nonnull final String uri,
+                                        @Nonnull final HttpServletResponse response)
       throws IOException
       {
         log.debug("serveLibraryResources({})", uri);
@@ -276,8 +275,8 @@ public class DefaultEmbeddedServer implements EmbeddedServer
      *
      *
      ******************************************************************************************************************/
-    private void serveRegisteredResources (final @Nonnull String uri,
-                                           final @Nonnull HttpServletResponse response)
+    private void serveRegisteredResources (@Nonnull final String uri,
+                                           @Nonnull final HttpServletResponse response)
       throws IOException
       {
         final Document document = documentMapByUrl.get(uri);
@@ -301,8 +300,8 @@ public class DefaultEmbeddedServer implements EmbeddedServer
      *
      *
      ******************************************************************************************************************/
-    private void updateRegisteredResource (final @Nonnull HttpServletRequest request,
-                                           final @Nonnull HttpServletResponse response)
+    private void updateRegisteredResource (@Nonnull final HttpServletRequest request,
+                                           @Nonnull final HttpServletResponse response)
       throws IOException
       {
         final String uri = request.getRequestURI();
@@ -328,11 +327,14 @@ public class DefaultEmbeddedServer implements EmbeddedServer
      *
      ******************************************************************************************************************/
     @Nonnull
-    /* visible for testing */ byte[] loadResource (final @Nonnull String path)
+    @VisibleForTesting byte[] loadResource (@Nonnull final String path)
       throws IOException
       {
         final ClassPathResource resource = new ClassPathResource(path);
-        final @Cleanup DataInputStream is = new DataInputStream(resource.getInputStream());
-        return ByteStreams.toByteArray(is);
+
+        try (final DataInputStream is = new DataInputStream(resource.getInputStream()))
+          {
+            return is.readAllBytes();
+          }
       }
   }

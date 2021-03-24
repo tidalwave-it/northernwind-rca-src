@@ -20,10 +20,9 @@
 
   *********************************************************************************************************************
 
-  $Id$
 
-*********************************************************************************************************************
-#L%
+  *********************************************************************************************************************
+  #L%
 --><project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
@@ -63,22 +62,16 @@
 
         <activation.version>1.1.1</activation.version>
         <aquafx.version>0.2</aquafx.version>
-        <guava.version>14.0.1</guava.version>
         <jaxb.version>2.2.11</jaxb.version>
         <jetty.version>8.1.10.v20130312</jetty.version>
         <jsoup.version>1.8.3</jsoup.version>
         <netbeans.version>RELEASE80</netbeans.version>
-        <northernwind.version>1.2-ALPHA-6-SNAPSHOT</northernwind.version>
+        <northernwind.version>1.2-ALPHA-6</northernwind.version>
         <tft.spring.version>5.3.1</tft.spring.version>
-        <steelblue.version>1.0-ALPHA-19</steelblue.version>
+        <steelblue.version>1.1-ALPHA-1</steelblue.version>
         <!-- Should activate by itself with JDK 11+, but it fails with Jenkins Maven integration. -->
         <tft.javafx.version>11.0.1</tft.javafx.version>
-        <thesefoolishthings.version>3.2-ALPHA-4</thesefoolishthings.version>
-
-        <tft.embedded-jdk-artifactId>it-tidalwave-oraclejre8</tft.embedded-jdk-artifactId>
-        <tft.embedded-jdk-classifier>macosx-intel</tft.embedded-jdk-classifier>
-        <tft.embedded-jdk-name>jre1.8.0_66</tft.embedded-jdk-name>
-        <tft.embedded-jdk-version>1.8.0_66-1</tft.embedded-jdk-version>
+        <thesefoolishthings.version>3.2-ALPHA-8</thesefoolishthings.version>
 
         <tft.appbundle.name>Zephyr</tft.appbundle.name>
         <tft.appbundle.signature>TDLW</tft.appbundle.signature>
@@ -176,12 +169,6 @@
             </dependency>
 
             <dependency>
-                <groupId>com.google.guava</groupId>
-                <artifactId>guava</artifactId>
-                <version>${guava.version}</version>
-            </dependency>
-
-            <dependency>
                 <groupId>org.eclipse.jetty</groupId>
                 <artifactId>jetty-server</artifactId>
                 <version>${jetty.version}</version>
@@ -212,19 +199,8 @@
     ================================================================================================================ -->
     <dependencies>
         <dependency>
-            <groupId>javax.inject</groupId>
-            <artifactId>javax.inject</artifactId>
-        </dependency>
-        <dependency>
             <groupId>com.github.spotbugs</groupId>
             <artifactId>spotbugs-annotations</artifactId>
-        </dependency>
-
-        <!-- RUNTIME DEPENDENCIES -->
-        <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-classic</artifactId>
-            <scope>runtime</scope>
         </dependency>
 
         <dependency>
@@ -233,7 +209,7 @@
             <scope>provided</scope>
         </dependency>
 
-       <!-- TEST DEPENDENCIES -->
+        <!-- TEST DEPENDENCIES -->
         <dependency>
             <groupId>it.tidalwave.thesefoolishthings</groupId>
             <artifactId>it-tidalwave-util-test</artifactId>

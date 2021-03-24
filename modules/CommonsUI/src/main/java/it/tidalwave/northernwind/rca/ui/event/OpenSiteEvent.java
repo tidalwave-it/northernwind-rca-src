@@ -49,11 +49,11 @@ public class OpenSiteEvent
     @Getter @Nonnull
     private final ResourceFileSystem fileSystem;
 
-    /* visible for testing */ @Getter @Nonnull
+    @Getter @Nonnull
     private final LocalFileSystemProvider fileSystemProvider;
 
     @Nonnull
-    public static OpenSiteEvent of (final @Nonnull Path folder)
+    public static OpenSiteEvent of (@Nonnull final Path folder)
       throws IOException
       {
         final LocalFileSystemProvider fileSystemProvider = new LocalFileSystemProvider();

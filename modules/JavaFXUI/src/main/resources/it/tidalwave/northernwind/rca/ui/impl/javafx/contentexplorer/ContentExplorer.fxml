@@ -1,28 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.net.*?>
-<?import java.util.*?>
-<?import javafx.geometry.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.web.*?>
-
-<VBox id="VBox" alignment="CENTER" spacing="5.0" xmlns:fx="http://javafx.com/fxml" fx:controller="it.tidalwave.northernwind.rca.ui.impl.javafx.contentexplorer.JavaFXContentExplorerPresentationDelegate">
-  <children>
-    <FlowPane alignment="CENTER_LEFT" maxHeight="32.0" minHeight="32.0" prefHeight="32.0" prefWidth="200.0" styleClass="explorer-toolbar" VBox.margin="$x1" VBox.vgrow="NEVER">
-      <children>
-        <Label prefHeight="32.0" prefWidth="86.0" text="Content">
-          <FlowPane.margin>
-            <Insets fx:id="x1" />
-          </FlowPane.margin>
-        </Label>
-      </children>
-    </FlowPane>
-    <TreeView id="trContent" fx:id="tvContent" prefHeight="247.0" prefWidth="325.0" styleClass="explorer-view" VBox.margin="$x1" VBox.vgrow="ALWAYS" />
-  </children>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TreeView?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.VBox?>
+<?import java.net.URL?>
+<VBox id="VBox" alignment="CENTER" spacing="5.0" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="it.tidalwave.northernwind.rca.ui.impl.javafx.contentexplorer.JavaFXContentExplorerPresentationDelegate">
   <stylesheets>
-    <URL value="@../../../../../../../../../../../JavaFXApplication/src/main/resources/it/tidalwave/northernwind/rca/ui/impl/javafx/Application.css" />
+    <URL value="@../../../../../../../../../../../JavaFXApplication/src/main/resources/it/tidalwave/northernwind/rca/ui/impl/javafx/Application.css"/>
   </stylesheets>
+  <FlowPane alignment="CENTER_LEFT" maxHeight="32.0" minHeight="32.0" prefHeight="32.0" prefWidth="200.0" styleClass="explorer-toolbar" VBox.margin="$x1"
+            VBox.vgrow="NEVER">
+    <Label prefHeight="32.0" prefWidth="86.0" text="Content">
+      <FlowPane.margin>
+        <Insets fx:id="x1"/>
+      </FlowPane.margin>
+    </Label>
+  </FlowPane>
+  <TreeView id="trContent" fx:id="tvContent" prefHeight="247.0" prefWidth="325.0" styleClass="explorer-view" VBox.margin="$x1" VBox.vgrow="ALWAYS"/>
 </VBox>

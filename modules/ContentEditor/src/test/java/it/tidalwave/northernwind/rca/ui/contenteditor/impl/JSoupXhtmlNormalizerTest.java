@@ -52,7 +52,7 @@ public class JSoupXhtmlNormalizerTest
       }
 
     @Test(dataProvider = "documentNames")
-    public void must_properly_normalise_Xhtml (final @Nonnull String name)
+    public void must_properly_normalise_Xhtml (@Nonnull final String name)
       throws IOException
       {
         // given

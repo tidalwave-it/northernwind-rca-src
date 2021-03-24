@@ -30,16 +30,14 @@ import javax.annotation.Nonnull;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.UUID;
 import java.util.function.Consumer;
 import java.io.IOException;
+import it.tidalwave.util.TypeSafeMap;
 import it.tidalwave.util.test.MockTimeProvider;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import it.tidalwave.util.Id;
-import it.tidalwave.util.Key;
 import it.tidalwave.util.ui.UserNotificationWithFeedback;
 import it.tidalwave.role.IdFactory;
 import it.tidalwave.northernwind.core.model.Content;
@@ -53,10 +51,7 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import lombok.RequiredArgsConstructor;
 import static java.time.temporal.ChronoUnit.DAYS;
-import static com.google.common.collect.ImmutableMap.*;
-import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.*;
-import static org.mockito.Mockito.any;
 import static it.tidalwave.util.ui.UserNotificationWithFeedbackTestHelper.*;
 import static it.tidalwave.northernwind.model.admin.Properties.*;
 
@@ -163,9 +158,9 @@ public class DefaultAddContentPresentationControlTest
      ******************************************************************************************************************/
     @Test(dataProvider = "inputProvider")
     public void must_create_Content_with_the_right_Properties_when_user_confirms
-            (final @Nonnull InputEmulator inputEmulator,
-             final @Nonnull String expectedFolderName,
-             final @Nonnull Map<Key<?>, Object> baseExpectedProperties)
+            (@Nonnull final InputEmulator inputEmulator,
+             @Nonnull final String expectedFolderName,
+             @Nonnull final TypeSafeMap baseExpectedProperties)
       throws IOException
       {
         // given
@@ -176,10 +171,10 @@ public class DefaultAddContentPresentationControlTest
         // when
         underTest.onCreateContentRequest(CreateContentRequest.of(content));
         // then
-        final Map<Key<?>, Object> expectedProperties = new HashMap<>(baseExpectedProperties);
-        expectedProperties.put(PROPERTY_CREATION_TIME, now);
-        expectedProperties.put(PROPERTY_FULL_TEXT, underTest.xhtmlSkeleton);
-        expectedProperties.put(PROPERTY_ID, id);
+        final TypeSafeMap expectedProperties = baseExpectedProperties.
+            with(PROPERTY_CREATION_TIME, now).
+            with(PROPERTY_FULL_TEXT, underTest.xhtmlSkeleton).
+            with(PROPERTY_ID, id);
 
         verify(contentChildCreator).createContent(eq(expectedFolderName), eq(expectedProperties));
         verifyNoMoreInteractions(contentChildCreator);
@@ -190,14 +185,13 @@ public class DefaultAddContentPresentationControlTest
      ******************************************************************************************************************/
     @Test
     public void must_do_nothing_when_user_cancels()
-      throws IOException
       {
         // given
         doAnswer(cancel()).when(presentation).showUp(any(UserNotificationWithFeedback.class));
         // when
         underTest.onCreateContentRequest(CreateContentRequest.of(content));
         // then
-        verifyZeroInteractions(contentChildCreator);
+        verifyNoInteractions(contentChildCreator);
       }
 
     /*******************************************************************************************************************
@@ -219,9 +213,10 @@ public class DefaultAddContentPresentationControlTest
                 // expected folder name
                 "the+folder",
                 // expected properties
-                of(PROPERTY_PUBLISHING_TIME, now,
-                   PROPERTY_TITLE, "the title",
-                   PROPERTY_EXPOSED_URI, "the-exposed-uri")
+                TypeSafeMap.newInstance().
+                    with(PROPERTY_PUBLISHING_TIME, now).
+                    with(PROPERTY_TITLE, "the title").
+                    with(PROPERTY_EXPOSED_URI, "the-exposed-uri")
               },
             ////////////////////////////////////////////////////////////////////////////////////////////////////////////
               {
@@ -236,10 +231,11 @@ public class DefaultAddContentPresentationControlTest
                 // expected folder name
                 "another+folder",
                 // expected properties
-                of(PROPERTY_TITLE, "another title",
-                   PROPERTY_EXPOSED_URI, "another-exposed-uri",
-                   PROPERTY_PUBLISHING_TIME, tomorrow,
-                   PROPERTY_TAGS, "tag1,tag2") // See NWRCA-69
+                TypeSafeMap.newInstance().
+                    with(PROPERTY_TITLE, "another title").
+                    with(PROPERTY_EXPOSED_URI, "another-exposed-uri").
+                    with(PROPERTY_PUBLISHING_TIME, tomorrow).
+                    with(PROPERTY_TAGS, "tag1,tag2") // See NWRCA-69
 //                   PROPERTY_TAGS,            Arrays.asList("tag1", "tag2"))
               }
           };
