@@ -30,7 +30,7 @@
     <parent>
         <groupId>it.tidalwave.northernwind.rca</groupId>
         <artifactId>northernwind-rca</artifactId>
-        <version>1.2-ALPHA-3-SNAPSHOT</version>
+        <version>1.2-ALPHA-4-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -44,7 +44,7 @@
 
     <groupId>it.tidalwave.northernwind.rca</groupId>
     <artifactId>northernwind-rca-modules</artifactId>
-    <version>1.2-ALPHA-3-SNAPSHOT</version>
+    <version>1.2-ALPHA-4-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>Zephyr (modules)</name>
     <description>The parent POM of all modules.</description>
