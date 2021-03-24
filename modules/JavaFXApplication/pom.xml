@@ -57,12 +57,6 @@
             <artifactId>it-tidalwave-role-ui-javafx</artifactId>
         </dependency>
 
-        <!-- AquaFX depends on JDK 8 - we're using a patched CSS without Skins -->
-        <dependency>
-            <groupId>com.aquafx-project</groupId>
-            <artifactId>aquafx</artifactId>
-        </dependency>
-
         <dependency>
             <groupId>it.tidalwave.northernwind</groupId>
             <artifactId>it-tidalwave-northernwind-core</artifactId>
