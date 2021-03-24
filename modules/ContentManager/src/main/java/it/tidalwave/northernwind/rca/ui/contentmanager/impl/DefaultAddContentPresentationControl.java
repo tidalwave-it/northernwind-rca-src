@@ -37,6 +37,7 @@ import java.io.InputStreamReader;
 import java.net.URLEncoder;
 import java.util.stream.Collectors;
 import it.tidalwave.util.TypeSafeMap;
+import it.tidalwave.util.annotation.VisibleForTesting;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.ClassPathResource;
 import it.tidalwave.util.Key;
@@ -80,13 +81,13 @@ public class DefaultAddContentPresentationControl implements AddContentPresentat
 
     private final Bindings bindings = new ValidatingBindings();
 
-    /* visible for testing */ String xhtmlSkeleton = "tbd";
+    @VisibleForTesting String xhtmlSkeleton = "tbd";
 
     /*******************************************************************************************************************
      *
      ******************************************************************************************************************/
     @PostConstruct
-    /* visible for testing */ void initialize()
+    @VisibleForTesting void initialize()
       throws IOException
       {
         xhtmlSkeleton = loadResource("Skeleton.xhtml");
@@ -95,7 +96,7 @@ public class DefaultAddContentPresentationControl implements AddContentPresentat
     /*******************************************************************************************************************
      *
      ******************************************************************************************************************/
-    /* visible for testing */ void onCreateContentRequest (@ListensTo @Nonnull final CreateContentRequest event)
+    @VisibleForTesting void onCreateContentRequest (@ListensTo @Nonnull final CreateContentRequest event)
       {
         log.info("onCreateContentRequest({})", event);
         bindings.publishingDateTime.set(timeProvider.currentZonedDateTime());
@@ -165,7 +166,7 @@ public class DefaultAddContentPresentationControl implements AddContentPresentat
      *
      ******************************************************************************************************************/
     @Nonnull
-    /* visible for testing */ String loadResource (@Nonnull final String path)
+    @VisibleForTesting String loadResource (@Nonnull final String path)
       throws IOException
       {
         final String prefix = getClass().getPackage().getName().replace(".", "/");

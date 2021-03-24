@@ -39,6 +39,7 @@ import it.tidalwave.northernwind.rca.ui.event.OpenSiteEvent;
 import it.tidalwave.northernwind.rca.ui.structureexplorer.StructureExplorerPresentation;
 import it.tidalwave.northernwind.rca.ui.structureexplorer.StructureExplorerPresentationControl;
 import it.tidalwave.role.ui.PresentationModel;
+import it.tidalwave.util.annotation.VisibleForTesting;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import static it.tidalwave.northernwind.rca.ui.event.SiteNodeSelectedEvent.emptySelectionEvent;
@@ -68,7 +69,7 @@ public class DefaultStructureExplorerPresentationControl implements StructureExp
     @Nonnull
     private final StructureExplorerPresentation presentation;
 
-    /* visible for testing */ void onOpenSite (@ListensTo @Nonnull final OpenSiteEvent event)
+    @VisibleForTesting void onOpenSite (@ListensTo @Nonnull final OpenSiteEvent event)
       {
         log.debug("onOpenSite({})", event);
         final ResourceFile root = event.getFileSystem().findFileByPath(ROOT_SITE_NODE_PATH);

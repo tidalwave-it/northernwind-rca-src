@@ -49,7 +49,7 @@ public class OpenSiteEvent
     @Getter @Nonnull
     private final ResourceFileSystem fileSystem;
 
-    /* visible for testing */ @Getter @Nonnull
+    @Getter @Nonnull
     private final LocalFileSystemProvider fileSystemProvider;
 
     @Nonnull

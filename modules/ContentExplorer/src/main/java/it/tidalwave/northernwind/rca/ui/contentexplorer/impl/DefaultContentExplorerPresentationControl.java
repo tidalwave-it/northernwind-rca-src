@@ -27,6 +27,7 @@
 package it.tidalwave.northernwind.rca.ui.contentexplorer.impl;
 
 import javax.annotation.Nonnull;
+import it.tidalwave.util.annotation.VisibleForTesting;
 import it.tidalwave.dci.annotation.DciContext;
 import it.tidalwave.messagebus.MessageBus;
 import it.tidalwave.messagebus.annotation.ListensTo;
@@ -65,7 +66,7 @@ public class DefaultContentExplorerPresentationControl implements ContentExplore
     @Nonnull
     private final ContentExplorerPresentation presentation;
 
-    /* visible for testing */ void onOpenSite (@ListensTo @Nonnull final OpenSiteEvent event)
+    @VisibleForTesting void onOpenSite (@ListensTo @Nonnull final OpenSiteEvent event)
       {
         log.debug("onOpenSite({})", event);
         final ResourceFile root = event.getFileSystem().findFileByPath(ROOT_DOCUMENT_PATH);

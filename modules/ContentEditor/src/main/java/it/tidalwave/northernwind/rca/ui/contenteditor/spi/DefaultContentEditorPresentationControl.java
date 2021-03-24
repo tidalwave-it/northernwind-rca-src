@@ -47,6 +47,7 @@ import it.tidalwave.northernwind.rca.ui.contenteditor.ContentEditorPresentation.
 import it.tidalwave.northernwind.rca.ui.contenteditor.ContentEditorPresentationControl;
 import it.tidalwave.northernwind.rca.ui.contenteditor.impl.JSoupXhtmlNormalizer;
 import it.tidalwave.northernwind.rca.ui.contenteditor.impl.ProcessExecutor;
+import it.tidalwave.util.annotation.VisibleForTesting;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import static it.tidalwave.northernwind.model.admin.Properties.*;
@@ -81,18 +82,18 @@ public class DefaultContentEditorPresentationControl implements ContentEditorPre
     @Nonnull
     private Optional<ResourceProperties> properties = Optional.empty();
 
-    /* visible for testing */ final Bindings bindings = Bindings.builder()
-            .openExternalEditorAction(UserAction.of(this::openExternalEditor))
-            .openExternalEditorBrowserAction(UserAction.of(this::openExternalEditorBrowser))
-            .title(new BoundProperty<>(""))
-            .build();
+    @VisibleForTesting final Bindings bindings = Bindings.builder()
+             .openExternalEditorAction(UserAction.of(this::openExternalEditor))
+             .openExternalEditorBrowserAction(UserAction.of(this::openExternalEditorBrowser))
+             .title(new BoundProperty<>(""))
+             .build();
 
     /*******************************************************************************************************************
      *
      *
      *
      ******************************************************************************************************************/
-    /* visible for testing */ final UpdateCallback propertyUpdateCallback = (updatedProperties) ->
+    @VisibleForTesting final UpdateCallback propertyUpdateCallback = (updatedProperties) ->
       {
         updatedProperties.as(_Saveable_).saveIn(content.get().getFile());
         unbindProperties();
@@ -120,7 +121,7 @@ public class DefaultContentEditorPresentationControl implements ContentEditorPre
      * {@inheritDoc}
      *
      ******************************************************************************************************************/
-    /* visible for testing */ void onContentSelected (@ListensTo @Nonnull final ContentSelectedEvent selectionEvent)
+    @VisibleForTesting void onContentSelected (@ListensTo @Nonnull final ContentSelectedEvent selectionEvent)
       {
         log.debug("onContentSelected({})", selectionEvent);
 

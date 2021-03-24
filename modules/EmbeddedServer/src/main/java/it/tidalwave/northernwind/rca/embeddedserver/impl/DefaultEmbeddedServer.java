@@ -38,6 +38,7 @@ import java.io.FileNotFoundException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import it.tidalwave.util.annotation.VisibleForTesting;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.ClassPathResource;
 import org.eclipse.jetty.server.Server;
@@ -71,7 +72,7 @@ public class DefaultEmbeddedServer implements EmbeddedServer
     private int port = 12345;
 
     @CheckForNull
-    /* visible for testing */ Server server;
+    @VisibleForTesting Server server;
 
     private final Map<String, Document> documentMapByUrl = new HashMap<>();
 
@@ -137,7 +138,7 @@ public class DefaultEmbeddedServer implements EmbeddedServer
      *
      *
      ******************************************************************************************************************/
-    /* visible for testing */ void onOpenSite (@ListensTo @Nonnull final OpenSiteEvent event)
+    @VisibleForTesting void onOpenSite (@ListensTo @Nonnull final OpenSiteEvent event)
       {
         log.debug("onOpenSite({})", event);
         fileSystem = event.getFileSystem();
@@ -327,7 +328,7 @@ public class DefaultEmbeddedServer implements EmbeddedServer
      *
      ******************************************************************************************************************/
     @Nonnull
-    /* visible for testing */ byte[] loadResource (@Nonnull final String path)
+    @VisibleForTesting byte[] loadResource (@Nonnull final String path)
       throws IOException
       {
         final ClassPathResource resource = new ClassPathResource(path);

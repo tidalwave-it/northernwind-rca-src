@@ -31,6 +31,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
+import it.tidalwave.util.annotation.VisibleForTesting;
 import org.springframework.core.io.ClassPathResource;
 import it.tidalwave.util.Key;
 import it.tidalwave.role.ui.BoundProperty;
@@ -54,9 +55,9 @@ public class ResourcePropertiesBinder implements PropertyBinder
     @Nonnull
     private final ResourceProperties properties;
 
-    /* visible for testing */ static final String EDITOR_PROLOG;
+    @VisibleForTesting static final String EDITOR_PROLOG;
 
-    /* visible for testing */ static final String EDITOR_EPILOG;
+    @VisibleForTesting static final String EDITOR_EPILOG;
 
     /*******************************************************************************************************************
      *
