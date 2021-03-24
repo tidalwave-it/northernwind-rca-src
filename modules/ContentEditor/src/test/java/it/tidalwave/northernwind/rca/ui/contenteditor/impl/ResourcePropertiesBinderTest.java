@@ -28,9 +28,7 @@ package it.tidalwave.northernwind.rca.ui.contenteditor.impl;
 
 import javax.annotation.Nonnull;
 import java.io.IOException;
-import com.google.common.collect.ImmutableMap;
 import it.tidalwave.util.Key;
-import it.tidalwave.util.NotFoundException;
 import it.tidalwave.role.ContextManager;
 import it.tidalwave.role.ui.BoundProperty;
 import it.tidalwave.role.spi.DefaultContextManagerProvider;
@@ -39,6 +37,7 @@ import it.tidalwave.northernwind.core.impl.model.DefaultResourceProperties;
 import it.tidalwave.northernwind.core.model.ModelFactory;
 import it.tidalwave.northernwind.core.model.spi.ModelFactorySupport;
 import it.tidalwave.northernwind.rca.embeddedserver.EmbeddedServer.Document;
+import it.tidalwave.util.TypeSafeMap;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import it.tidalwave.northernwind.util.test.SpringTestHelper;
@@ -144,8 +143,10 @@ public class ResourcePropertiesBinderTest
         // when
         boundProperty.set("New title");
         // then
-        verify(callback).notify(argThat(resourcePropertiesWith(map().put(PROPERTY_1, ORIGINAL_PROPERTY_1_VALUE)
-                                                                    .put(PROPERTY_2, "New title"))));
+        final TypeSafeMap map = TypeSafeMap.newInstance()
+                .with(PROPERTY_1, ORIGINAL_PROPERTY_1_VALUE)
+                .with(PROPERTY_2, "New title");
+        verify(callback).notify(argThat(resourcePropertiesWith(map)));
         verifyNoMoreInteractions(callback);
       }
 
@@ -178,24 +179,17 @@ public class ResourcePropertiesBinderTest
         // when
         document.update("the updated body\n");
         // then
-        verify(callback).notify(argThat(resourcePropertiesWith(map().put(PROPERTY_1, "<!DOCTYPE html>\n"
-                                                                                   + "<html>\n"
-                                                                                   + "  <head>\n"
-                                                                                   + "  </head>\n"
-                                                                                   + "  <body>\n"
-                                                                                   + "     the updated body\n"
-                                                                                   + "  </body>\n"
-                                                                                   + "</html>\n")
-                                                                    .put(PROPERTY_2, ORIGINAL_PROPERTY_2_VALUE))));
+        final TypeSafeMap map = TypeSafeMap.newInstance()
+                                           .with(PROPERTY_1, "<!DOCTYPE html>\n"
+                                                            + "<html>\n"
+                                                            + "  <head>\n"
+                                                            + "  </head>\n"
+                                                            + "  <body>\n"
+                                                            + "     the updated body\n"
+                                                            + "  </body>\n"
+                                                            + "</html>\n")
+                                           .with(PROPERTY_2, ORIGINAL_PROPERTY_2_VALUE);
+        verify(callback).notify(argThat(resourcePropertiesWith(map)));
         verifyNoMoreInteractions(callback);
-      }
-
-    /*******************************************************************************************************************
-     *
-     ******************************************************************************************************************/
-    @Nonnull
-    private static ImmutableMap.Builder<Key<String>, String> map()
-      {
-        return new ImmutableMap.Builder<>();
       }
   }

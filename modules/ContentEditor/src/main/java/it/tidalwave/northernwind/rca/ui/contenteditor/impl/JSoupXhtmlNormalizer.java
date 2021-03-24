@@ -29,7 +29,6 @@ package it.tidalwave.northernwind.rca.ui.contenteditor.impl;
 import it.tidalwave.northernwind.rca.ui.contenteditor.spi.XhtmlNormalizer;
 import javax.annotation.Nonnull;
 import java.nio.charset.StandardCharsets;
-import com.google.common.base.Splitter;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Entities;
@@ -114,7 +113,7 @@ public class JSoupXhtmlNormalizer implements XhtmlNormalizer
 
         boolean first = true;
 
-        for (final String line : Splitter.on("\n").split(string))
+        for (final String line : string.split("\n"))
           {
             if (first && !"<!DOCTYPE html>".equals(line))
               {

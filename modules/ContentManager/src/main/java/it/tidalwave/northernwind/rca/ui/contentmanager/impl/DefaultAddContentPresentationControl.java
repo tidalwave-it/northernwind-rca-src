@@ -29,15 +29,13 @@ package it.tidalwave.northernwind.rca.ui.contentmanager.impl;
 import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 import javax.annotation.PostConstruct;
-import java.nio.charset.StandardCharsets;
+import java.io.BufferedReader;
+import java.util.Arrays;
 import java.util.List;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.Reader;
 import java.net.URLEncoder;
-import com.google.common.base.Splitter;
-import com.google.common.collect.Lists;
-import com.google.common.io.CharStreams;
+import java.util.stream.Collectors;
 import it.tidalwave.util.TypeSafeMap;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.ClassPathResource;
@@ -51,11 +49,13 @@ import it.tidalwave.northernwind.rca.ui.event.CreateContentRequest;
 import it.tidalwave.northernwind.rca.ui.contentmanager.AddContentPresentation;
 import it.tidalwave.northernwind.rca.ui.contentmanager.AddContentPresentation.Bindings;
 import it.tidalwave.northernwind.rca.ui.contentmanager.AddContentPresentationControl;
-import lombok.Cleanup;
 import lombok.extern.slf4j.Slf4j;
 import static it.tidalwave.util.ui.UserNotificationWithFeedback.*;
 import static it.tidalwave.northernwind.model.admin.Properties.*;
 import static it.tidalwave.northernwind.rca.ui.contentmanager.impl.ContentChildCreator._ContentChildCreator_;
+import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.util.function.Predicate.not;
+import static java.util.stream.Collectors.toList;
 
 /***********************************************************************************************************************
  *
@@ -122,8 +122,10 @@ public class DefaultAddContentPresentationControl implements AddContentPresentat
         map = putIfNonEmpty(map, PROPERTY_FULL_TEXT,       xhtmlSkeleton);
         map = putIfNonEmpty(map, PROPERTY_ID,              idFactory.createId());
 
-        final Splitter splitter = Splitter.on(',').trimResults().omitEmptyStrings();
-        final List<String> tags = Lists.newArrayList(splitter.split(bindings.tags.get()));
+        final List<String> tags = Arrays.stream(bindings.tags.get().split(","))
+                                        .map(String::trim)
+                                        .filter(not(String::isEmpty))
+                                        .collect(toList());
 
         if (!tags.isEmpty())
           {
@@ -156,7 +158,7 @@ public class DefaultAddContentPresentationControl implements AddContentPresentat
     @Nonnull
     private static String urlEncoded (@Nonnull final String string)
       {
-        return URLEncoder.encode(string, StandardCharsets.UTF_8);
+        return URLEncoder.encode(string, UTF_8);
       }
 
     /*******************************************************************************************************************
@@ -168,7 +170,10 @@ public class DefaultAddContentPresentationControl implements AddContentPresentat
       {
         final String prefix = getClass().getPackage().getName().replace(".", "/");
         final ClassPathResource resource = new ClassPathResource(prefix + "/" + path);
-        @Cleanup final Reader r = new InputStreamReader(resource.getInputStream(), StandardCharsets.UTF_8);
-        return CharStreams.toString(r);
+
+        try (final BufferedReader r = new BufferedReader(new InputStreamReader(resource.getInputStream(), UTF_8)))
+          {
+            return r.lines().collect(Collectors.joining("\n"));
+          }
       }
   }

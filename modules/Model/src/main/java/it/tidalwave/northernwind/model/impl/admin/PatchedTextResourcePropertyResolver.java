@@ -29,7 +29,6 @@ package it.tidalwave.northernwind.model.impl.admin;
 import javax.annotation.Nonnull;
 import java.io.IOException;
 import java.nio.charset.Charset;
-import com.google.common.collect.ImmutableList;
 import lombok.RequiredArgsConstructor;
 import it.tidalwave.util.Id;
 import it.tidalwave.util.Key;
@@ -37,6 +36,7 @@ import it.tidalwave.util.NotFoundException;
 import it.tidalwave.northernwind.core.model.ResourceFile;
 import it.tidalwave.northernwind.core.model.ResourceProperties;
 import java.util.Arrays;
+import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 
 /***********************************************************************************************************************
@@ -71,7 +71,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor @Slf4j
 public class PatchedTextResourcePropertyResolver implements ResourceProperties.PropertyResolver
   {
-    private static final ImmutableList<String> EXTENSIONS = ImmutableList.of(".xhtml", ".html", ".xml", ".txt");
+    private static final List<String> EXTENSIONS = List.of(".xhtml", ".html", ".xml", ".txt");
 
 //    @Nonnull
 //    private RequestLocaleManager localeRequestManager;

@@ -38,7 +38,6 @@ import java.io.FileNotFoundException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import com.google.common.io.ByteStreams;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.ClassPathResource;
 import org.eclipse.jetty.server.Server;
@@ -332,7 +331,10 @@ public class DefaultEmbeddedServer implements EmbeddedServer
       throws IOException
       {
         final ClassPathResource resource = new ClassPathResource(path);
-        @Cleanup final DataInputStream is = new DataInputStream(resource.getInputStream());
-        return ByteStreams.toByteArray(is);
+
+        try (final DataInputStream is = new DataInputStream(resource.getInputStream()))
+          {
+            return is.readAllBytes();
+          }
       }
   }
