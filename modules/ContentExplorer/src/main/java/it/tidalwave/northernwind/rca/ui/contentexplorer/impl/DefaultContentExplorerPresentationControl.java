@@ -37,9 +37,9 @@ import it.tidalwave.northernwind.core.model.ResourceFile;
 import it.tidalwave.northernwind.rca.ui.contentexplorer.ContentExplorerPresentation;
 import it.tidalwave.northernwind.rca.ui.contentexplorer.ContentExplorerPresentationControl;
 import it.tidalwave.northernwind.rca.ui.event.OpenSiteEvent;
+import it.tidalwave.role.ui.PresentationModel;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import static it.tidalwave.role.ui.Presentable.*;
 import static it.tidalwave.northernwind.rca.ui.event.ContentSelectedEvent.emptySelectionEvent;
 
 /***********************************************************************************************************************
@@ -70,7 +70,7 @@ public class DefaultContentExplorerPresentationControl implements ContentExplore
         log.debug("onOpenSite({})", event);
         final ResourceFile root = event.getFileSystem().findFileByPath(ROOT_DOCUMENT_PATH);
         final Content rootContent = modelFactory.createContent().withFolder(root).build();
-        presentation.populate(rootContent.as(_Presentable_).createPresentationModel());
+        presentation.populate(PresentationModel.ofMaybePresentable(rootContent));
         presentation.expandFirstLevel();
         messageBus.publish(emptySelectionEvent());
       }

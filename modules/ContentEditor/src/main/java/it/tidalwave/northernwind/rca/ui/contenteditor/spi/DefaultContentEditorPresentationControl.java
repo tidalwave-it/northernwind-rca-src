@@ -33,6 +33,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import it.tidalwave.role.ui.BoundProperty;
+import it.tidalwave.role.ui.PresentationModel;
 import it.tidalwave.role.ui.UserAction;
 import it.tidalwave.messagebus.annotation.ListensTo;
 import it.tidalwave.messagebus.annotation.SimpleMessageSubscriber;
@@ -48,10 +49,10 @@ import it.tidalwave.northernwind.rca.ui.contenteditor.impl.JSoupXhtmlNormalizer;
 import it.tidalwave.northernwind.rca.ui.contenteditor.impl.ProcessExecutor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import static it.tidalwave.role.ui.Presentable.*;
 import static it.tidalwave.northernwind.model.admin.Properties.*;
 import static it.tidalwave.northernwind.model.admin.role.Saveable._Saveable_;
 import static it.tidalwave.northernwind.rca.ui.contenteditor.spi.PropertyBinder.*;
+import static it.tidalwave.role.ui.Presentable._Presentable_;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Arrays.asList;
 import static java.util.stream.Collectors.joining;
@@ -164,6 +165,7 @@ public class DefaultContentEditorPresentationControl implements ContentEditorPre
         final PropertyBinder propertyBinder = properties.as(_PropertyBinder_);
         propertyBinder.bind(PROPERTY_TITLE, bindings.title, propertyUpdateCallback);
         presentation.populateProperties(properties.as(_Presentable_).createPresentationModel());
+        // presentation.populateProperties(PresentationModel.ofMaybePresentable(properties));
       }
 
     /*******************************************************************************************************************

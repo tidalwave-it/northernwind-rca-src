@@ -48,6 +48,7 @@ import static it.tidalwave.role.ui.Presentable.*;
 import static it.tidalwave.northernwind.model.admin.Properties.*;
 import static it.tidalwave.northernwind.rca.ui.contenteditor.spi.PropertyBinder.*;
 import static it.tidalwave.northernwind.rca.ui.event.ContentSelectedEvent.emptySelectionEvent;
+import static it.tidalwave.util.test.MoreAnswers.*;
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.CoreMatchers.*;
 import static org.mockito.Mockito.*;
@@ -98,14 +99,13 @@ public class DefaultContentEditorPresentationControlTest
 
         content = mock(Content.class);
         properties = mock(ResourceProperties.class);
-        propertiesPresentable = mock(Presentable.class);
+        propertiesPresentable = mock(Presentable.class, CALLS_DEFAULT_METHODS);
         propertiesPm = mock(PresentationModel.class);
         propertyBinder = mock(PropertyBinder.class);
 
         when(embeddedServer.putDocument(anyString(), any(Document.class))).thenReturn(registeredUrl);
 
         when(content.getProperties()).thenReturn(properties);
-        when(propertiesPresentable.createPresentationModel()).thenCallRealMethod();
         when(propertiesPresentable.createPresentationModel(anyCollection())).thenReturn(propertiesPm);
         when(properties.as(eq(_Presentable_))).thenReturn(propertiesPresentable);
         when(properties.as(eq(_PropertyBinder_))).thenReturn(propertyBinder);

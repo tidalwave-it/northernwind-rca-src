@@ -39,6 +39,7 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import static it.tidalwave.role.ui.Presentable.*;
+import static it.tidalwave.util.test.MoreAnswers.CALLS_DEFAULT_METHODS;
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.CoreMatchers.*;
 import static org.mockito.Mockito.*;
@@ -77,11 +78,10 @@ public class DefaultStructureEditorPresentationControlTest
 
         siteNode = mock(SiteNode.class);
         properties = mock(ResourceProperties.class);
-        propertiesPresentable = mock(Presentable.class);
+        propertiesPresentable = mock(Presentable.class, CALLS_DEFAULT_METHODS);
         propertiesPm = mock(PresentationModel.class);
 
         when(siteNode.getProperties()).thenReturn(properties);
-        when(propertiesPresentable.createPresentationModel()).thenCallRealMethod();
         when(propertiesPresentable.createPresentationModel(anyCollection())).thenReturn(propertiesPm);
         when(properties.as(eq(_Presentable_))).thenReturn(propertiesPresentable);
       }
