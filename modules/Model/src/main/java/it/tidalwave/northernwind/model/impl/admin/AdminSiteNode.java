@@ -47,21 +47,21 @@ public class AdminSiteNode extends SiteNodeSupport
     @Getter @Nonnull
     private final Site site;
 
-    public AdminSiteNode (final @Nonnull Site site,
-                          final @Nonnull ModelFactory modelFactory,
-                          final @Nonnull ResourceFile file)
+    public AdminSiteNode (@Nonnull final Site site,
+                          @Nonnull final ModelFactory modelFactory,
+                          @Nonnull final ResourceFile file)
       {
         super(modelFactory, file);
         this.site = site;
       }
 
-    @Override
+    @Override @Nonnull
     public Layout getLayout()
       {
         throw new UnsupportedOperationException("Not supported yet.");
       }
 
-    @Override
+    @Override @Nonnull
     public ResourcePath getRelativeUri()
       {
         throw new UnsupportedOperationException("Not supported yet.");

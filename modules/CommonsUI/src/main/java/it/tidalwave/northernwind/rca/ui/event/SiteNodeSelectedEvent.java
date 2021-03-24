@@ -40,7 +40,7 @@ import static lombok.AccessLevel.PRIVATE;
  *
  **********************************************************************************************************************/
 @RequiredArgsConstructor(access = PRIVATE) @ToString
-public class SiteNodeSelectedEvent
+public final class SiteNodeSelectedEvent
   {
     @Getter @Nonnull
     private final Optional<SiteNode> siteNode;
@@ -52,7 +52,7 @@ public class SiteNodeSelectedEvent
       }
 
     @Nonnull
-    public static SiteNodeSelectedEvent of (final @Nonnull SiteNode siteNode)
+    public static SiteNodeSelectedEvent of (@Nonnull final SiteNode siteNode)
       {
         return new SiteNodeSelectedEvent(Optional.of(siteNode));
       }

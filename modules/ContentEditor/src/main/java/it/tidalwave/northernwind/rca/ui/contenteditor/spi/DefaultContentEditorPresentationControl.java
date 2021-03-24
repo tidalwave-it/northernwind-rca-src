@@ -46,12 +46,13 @@ import it.tidalwave.northernwind.rca.ui.contenteditor.ContentEditorPresentation.
 import it.tidalwave.northernwind.rca.ui.contenteditor.ContentEditorPresentationControl;
 import it.tidalwave.northernwind.rca.ui.contenteditor.impl.JSoupXhtmlNormalizer;
 import it.tidalwave.northernwind.rca.ui.contenteditor.impl.ProcessExecutor;
+import it.tidalwave.util.annotation.VisibleForTesting;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import static it.tidalwave.role.ui.Presentable.*;
 import static it.tidalwave.northernwind.model.admin.Properties.*;
 import static it.tidalwave.northernwind.model.admin.role.Saveable._Saveable_;
 import static it.tidalwave.northernwind.rca.ui.contenteditor.spi.PropertyBinder.*;
+import static it.tidalwave.role.ui.Presentable._Presentable_;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Arrays.asList;
 import static java.util.stream.Collectors.joining;
@@ -80,18 +81,18 @@ public class DefaultContentEditorPresentationControl implements ContentEditorPre
     @Nonnull
     private Optional<ResourceProperties> properties = Optional.empty();
 
-    /* visible for testing */ final Bindings bindings = Bindings.builder()
-            .openExternalEditorAction(UserAction.of(this::openExternalEditor))
-            .openExternalEditorBrowserAction(UserAction.of(this::openExternalEditorBrowser))
-            .title(new BoundProperty<>(""))
-            .build();
+    @VisibleForTesting final Bindings bindings = Bindings.builder()
+             .openExternalEditorAction(UserAction.of(this::openExternalEditor))
+             .openExternalEditorBrowserAction(UserAction.of(this::openExternalEditorBrowser))
+             .title(new BoundProperty<>(""))
+             .build();
 
     /*******************************************************************************************************************
      *
      *
      *
      ******************************************************************************************************************/
-    /* visible for testing */ final UpdateCallback propertyUpdateCallback = (updatedProperties) ->
+    @VisibleForTesting final UpdateCallback propertyUpdateCallback = (updatedProperties) ->
       {
         updatedProperties.as(_Saveable_).saveIn(content.get().getFile());
         unbindProperties();
@@ -119,7 +120,7 @@ public class DefaultContentEditorPresentationControl implements ContentEditorPre
      * {@inheritDoc}
      *
      ******************************************************************************************************************/
-    /* visible for testing */ void onContentSelected (final @ListensTo @Nonnull ContentSelectedEvent selectionEvent)
+    @VisibleForTesting void onContentSelected (@ListensTo @Nonnull final ContentSelectedEvent selectionEvent)
       {
         log.debug("onContentSelected({})", selectionEvent);
 
@@ -127,7 +128,7 @@ public class DefaultContentEditorPresentationControl implements ContentEditorPre
         content = selectionEvent.getContent();
         properties = content.map(Content::getProperties); // reload them
 
-        if (!content.isPresent())
+        if (content.isEmpty())
           {
             presentation.clear();
           }
@@ -144,7 +145,7 @@ public class DefaultContentEditorPresentationControl implements ContentEditorPre
      *
      *
      ******************************************************************************************************************/
-    private void bindPropertiesAndLoadDocument (final @Nonnull ResourceProperties properties)
+    private void bindPropertiesAndLoadDocument (@Nonnull final ResourceProperties properties)
       {
         bindProperties(properties);
         final PropertyBinder propertyBinder = properties.as(_PropertyBinder_);
@@ -157,13 +158,14 @@ public class DefaultContentEditorPresentationControl implements ContentEditorPre
      *
      *
      ******************************************************************************************************************/
-    private void bindProperties (final @Nonnull ResourceProperties properties)
+    private void bindProperties (@Nonnull final ResourceProperties properties)
       {
         assert properties != null;
         presentation.bind(bindings); // FIXME: needed because of unbindAll()
         final PropertyBinder propertyBinder = properties.as(_PropertyBinder_);
         propertyBinder.bind(PROPERTY_TITLE, bindings.title, propertyUpdateCallback);
         presentation.populateProperties(properties.as(_Presentable_).createPresentationModel());
+        // presentation.populateProperties(PresentationModel.ofMaybePresentable(properties));
       }
 
     /*******************************************************************************************************************
@@ -190,7 +192,7 @@ public class DefaultContentEditorPresentationControl implements ContentEditorPre
         // Safari breaks Aloha editor
         ProcessExecutor.forExecutable("Google Chrome.app")
                        .withArguments2(url)
-                       .withPostMortemTask(() -> properties.ifPresent(p -> bindPropertiesAndLoadDocument(p)))
+                       .withPostMortemTask(() -> properties.ifPresent(this::bindPropertiesAndLoadDocument))
                        .execute();
       }
 
@@ -217,7 +219,7 @@ public class DefaultContentEditorPresentationControl implements ContentEditorPre
      *
      *
      ******************************************************************************************************************/
-    private void fix (final @Nonnull ResourceProperties properties, final @Nonnull String filePath)
+    private void fix (@Nonnull final ResourceProperties properties, @Nonnull final String filePath)
       {
         try
           {

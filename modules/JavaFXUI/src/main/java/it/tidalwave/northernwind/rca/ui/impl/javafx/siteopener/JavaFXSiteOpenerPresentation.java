@@ -43,7 +43,7 @@ public class JavaFXSiteOpenerPresentation implements SiteOpenerPresentation
     @Delegate
     private SiteOpenerPresentation delegate;
 
-    public void createDelegate (final @Nonnull Object fxmlDelegate)
+    public void createDelegate (@Nonnull final Object fxmlDelegate)
       {
         delegate = createInstance(JavaFXSiteOpenerPresentationDelegate.class, fxmlDelegate);
       }

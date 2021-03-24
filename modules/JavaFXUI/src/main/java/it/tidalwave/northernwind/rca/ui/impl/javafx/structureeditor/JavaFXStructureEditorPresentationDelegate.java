@@ -71,17 +71,17 @@ public class JavaFXStructureEditorPresentationDelegate implements StructureEdito
     public void clear()
       {
         structureWebView.getEngine().loadContent("");
-        structureEditorProperties.setItems(FXCollections.<PresentationModel>emptyObservableList());
+        structureEditorProperties.setItems(FXCollections.emptyObservableList());
       }
 
     @Override
-    public void populate (final @Nonnull String text)
+    public void populate (@Nonnull final String text)
       {
         structureWebView.getEngine().loadContent(text);
       }
 
     @Override
-    public void populateProperties (final @Nonnull PresentationModel pm)
+    public void populateProperties (@Nonnull final PresentationModel pm)
       {
         binder.bind(structureEditorProperties, pm);
       }

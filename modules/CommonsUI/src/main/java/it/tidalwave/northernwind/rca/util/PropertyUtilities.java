@@ -36,12 +36,14 @@ import it.tidalwave.role.ui.Displayable;
 import it.tidalwave.northernwind.core.model.ResourceProperties;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.UtilityClass;
 
 /***********************************************************************************************************************
  *
  * @author  Fabrizio Giudici
  *
  **********************************************************************************************************************/
+@UtilityClass
 public class PropertyUtilities
   {
     @Getter @Setter
@@ -56,12 +58,12 @@ public class PropertyUtilities
         @Nonnull
         public String format (Object object);
 
-        final static Format DEFAULT_FORMAT = object -> "" + object;
-        final static Format DATE_TIME_FORMAT = object ->
+        static final Format DEFAULT_FORMAT = object -> "" + object;
+        static final Format DATE_TIME_FORMAT = object ->
                 DateTimeFormatter.ISO_DATE_TIME.format((TemporalAccessor)object).replaceAll("\\[.*\\]", "");
 
         @Nonnull
-        public static Format formatFor (final @Nonnull Key<?> key)
+        public static Format formatFor (@Nonnull final Key<?> key)
           {
             if (TemporalAccessor.class.isAssignableFrom(key.getType()))
               {
@@ -82,7 +84,7 @@ public class PropertyUtilities
      *
      ******************************************************************************************************************/
     @Nonnull
-    public static Displayable displayableForValue (final @Nonnull ResourceProperties properties, final @Nonnull Key<?> key)
+    public static Displayable displayableForValue (@Nonnull final ResourceProperties properties, @Nonnull final Key<?> key)
       {
         return properties.getProperty(key).map(value -> Displayable.of(Format.formatFor(key).format(value)))
                                           .orElse(Displayable.DEFAULT);

@@ -29,17 +29,15 @@ package it.tidalwave.northernwind.rca.ui.contentmanager.impl;
 import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 import javax.annotation.PostConstruct;
-import java.util.HashMap;
+import java.io.BufferedReader;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
-import java.io.UnsupportedEncodingException;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.Reader;
 import java.net.URLEncoder;
-import com.google.common.base.Splitter;
-import com.google.common.collect.Lists;
-import com.google.common.io.CharStreams;
+import java.util.stream.Collectors;
+import it.tidalwave.util.TypeSafeMap;
+import it.tidalwave.util.annotation.VisibleForTesting;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.ClassPathResource;
 import it.tidalwave.util.Key;
@@ -52,12 +50,13 @@ import it.tidalwave.northernwind.rca.ui.event.CreateContentRequest;
 import it.tidalwave.northernwind.rca.ui.contentmanager.AddContentPresentation;
 import it.tidalwave.northernwind.rca.ui.contentmanager.AddContentPresentation.Bindings;
 import it.tidalwave.northernwind.rca.ui.contentmanager.AddContentPresentationControl;
-import lombok.Cleanup;
 import lombok.extern.slf4j.Slf4j;
-import static java.util.stream.Collectors.joining;
 import static it.tidalwave.util.ui.UserNotificationWithFeedback.*;
 import static it.tidalwave.northernwind.model.admin.Properties.*;
 import static it.tidalwave.northernwind.rca.ui.contentmanager.impl.ContentChildCreator._ContentChildCreator_;
+import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.util.function.Predicate.not;
+import static java.util.stream.Collectors.toList;
 
 /***********************************************************************************************************************
  *
@@ -82,13 +81,13 @@ public class DefaultAddContentPresentationControl implements AddContentPresentat
 
     private final Bindings bindings = new ValidatingBindings();
 
-    /* visible for testing */ String xhtmlSkeleton = "tbd";
+    @VisibleForTesting String xhtmlSkeleton = "tbd";
 
     /*******************************************************************************************************************
      *
      ******************************************************************************************************************/
     @PostConstruct
-    /* visible for testing */ void initialize()
+    @VisibleForTesting void initialize()
       throws IOException
       {
         xhtmlSkeleton = loadResource("Skeleton.xhtml");
@@ -97,7 +96,7 @@ public class DefaultAddContentPresentationControl implements AddContentPresentat
     /*******************************************************************************************************************
      *
      ******************************************************************************************************************/
-    /* visible for testing */ void onCreateContentRequest (final @ListensTo @Nonnull CreateContentRequest event)
+    @VisibleForTesting void onCreateContentRequest (@ListensTo @Nonnull final CreateContentRequest event)
       {
         log.info("onCreateContentRequest({})", event);
         bindings.publishingDateTime.set(timeProvider.currentZonedDateTime());
@@ -111,71 +110,71 @@ public class DefaultAddContentPresentationControl implements AddContentPresentat
     /*******************************************************************************************************************
      *
      ******************************************************************************************************************/
-    private void createContent (final @Nonnull Content parentContent)
+    private void createContent (@Nonnull final Content parentContent)
       throws IOException
       {
         final String folderName = urlEncoded(bindings.folder.get());
         // TODO: use TypeSafeMap, with a safe put() method
-        final Map<Key<?>, Object> propertyValues = new HashMap<>();
-        putIfNonEmpty(propertyValues, PROPERTY_TITLE,           bindings.title.get());
-        putIfNonEmpty(propertyValues, PROPERTY_EXPOSED_URI,     bindings.exposedUri.get());
-        putIfNonEmpty(propertyValues, PROPERTY_CREATION_TIME,   timeProvider.currentZonedDateTime());
-        putIfNonEmpty(propertyValues, PROPERTY_PUBLISHING_TIME, bindings.publishingDateTime.get());
-        putIfNonEmpty(propertyValues, PROPERTY_FULL_TEXT,       xhtmlSkeleton);
-        putIfNonEmpty(propertyValues, PROPERTY_ID,              idFactory.createId());
+        TypeSafeMap map = TypeSafeMap.newInstance();
+        map = putIfNonEmpty(map, PROPERTY_TITLE,           bindings.title.get());
+        map = putIfNonEmpty(map, PROPERTY_EXPOSED_URI,     bindings.exposedUri.get());
+        map = putIfNonEmpty(map, PROPERTY_CREATION_TIME,   timeProvider.currentZonedDateTime());
+        map = putIfNonEmpty(map, PROPERTY_PUBLISHING_TIME, bindings.publishingDateTime.get());
+        map = putIfNonEmpty(map, PROPERTY_FULL_TEXT,       xhtmlSkeleton);
+        map = putIfNonEmpty(map, PROPERTY_ID,              idFactory.createId());
 
-        final Splitter splitter = Splitter.on(',').trimResults().omitEmptyStrings();
-        final List<String> tags = Lists.newArrayList(splitter.split(bindings.tags.get()));
+        final List<String> tags = Arrays.stream(bindings.tags.get().split(","))
+                                        .map(String::trim)
+                                        .filter(not(String::isEmpty))
+                                        .collect(toList());
 
         if (!tags.isEmpty())
           {
             // See NWRCA-69
-            propertyValues.put(PROPERTY_TAGS, tags.stream().collect(joining(",")));
-//                propertyValues.put(PROPERTY_TAGS, tags);
+            map = map.with(PROPERTY_TAGS, String.join(",", tags));
+//                map.put(PROPERTY_TAGS, tags);
           }
 
-        parentContent.as(_ContentChildCreator_).createContent(folderName, propertyValues);
+        parentContent.as(_ContentChildCreator_).createContent(folderName, map);
       }
 
     /*******************************************************************************************************************
      *
      ******************************************************************************************************************/
-    private static <T> void putIfNonEmpty (final @Nonnull Map<Key<?>, Object> values,
-                                           final @Nonnull Key<T> key,
-                                           final @CheckForNull T value)
+    private static <T> TypeSafeMap putIfNonEmpty (@Nonnull TypeSafeMap values,
+                                                  @Nonnull final Key<T> key,
+                                                  @CheckForNull final T value)
       {
         if ((value != null) && !"".equals(value))
           {
-            values.put(key, value);
+            values = values.with(key, value);
           }
+
+        return values;
       }
 
     /*******************************************************************************************************************
      *
      ******************************************************************************************************************/
     @Nonnull
-    private static String urlEncoded (final @Nonnull String string)
+    private static String urlEncoded (@Nonnull final String string)
       {
-        try
-          {
-            return URLEncoder.encode(string, "UTF-8");
-          }
-        catch (UnsupportedEncodingException e)
-          {
-            throw new RuntimeException(e); // never happens
-          }
+        return URLEncoder.encode(string, UTF_8);
       }
 
     /*******************************************************************************************************************
      *
      ******************************************************************************************************************/
     @Nonnull
-    /* visible for testing */ String loadResource (final @Nonnull String path)
+    @VisibleForTesting String loadResource (@Nonnull final String path)
       throws IOException
       {
         final String prefix = getClass().getPackage().getName().replace(".", "/");
         final ClassPathResource resource = new ClassPathResource(prefix + "/" + path);
-        final @Cleanup Reader r = new InputStreamReader(resource.getInputStream(), "UTF-8");
-        return CharStreams.toString(r);
+
+        try (final BufferedReader r = new BufferedReader(new InputStreamReader(resource.getInputStream(), UTF_8)))
+          {
+            return r.lines().collect(Collectors.joining("\n"));
+          }
       }
   }

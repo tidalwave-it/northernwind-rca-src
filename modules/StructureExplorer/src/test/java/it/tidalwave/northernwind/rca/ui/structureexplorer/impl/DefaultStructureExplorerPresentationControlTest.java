@@ -26,7 +26,6 @@
  */
 package it.tidalwave.northernwind.rca.ui.structureexplorer.impl;
 
-import java.io.IOException;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import it.tidalwave.util.RoleFactory;
 import it.tidalwave.role.ContextManager;
@@ -84,7 +83,6 @@ public class DefaultStructureExplorerPresentationControlTest
      ******************************************************************************************************************/
     @BeforeMethod
     public void setup()
-      throws Exception
       {
         ContextManager.Locator.set(null);
         context = new ClassPathXmlApplicationContext("DefaultStructureExplorerPresentationControlTestBeans.xml");
@@ -97,7 +95,7 @@ public class DefaultStructureExplorerPresentationControlTest
         openSiteEvent = mock(OpenSiteEvent.class);
         fileSystem = mock(ResourceFileSystem.class);
         root = mock(ResourceFile.class);
-        node = mockWithAsSupport(SiteNode.class, r((RoleFactory<SiteNode>)(n -> new SimpleCompositePresentable(n))));
+        node = mockWithAsSupport(SiteNode.class, r((RoleFactory<SiteNode>)(SimpleCompositePresentable::new)));
 
         when(fileSystem.findFileByPath(eq(ROOT_SITE_NODE_PATH))).thenReturn(root);
         when(openSiteEvent.getFileSystem()).thenReturn(fileSystem);
@@ -127,7 +125,6 @@ public class DefaultStructureExplorerPresentationControlTest
      ******************************************************************************************************************/
     @Test
     public void when_a_Site_has_been_opened_must_properly_populate_the_presentation_and_publish_an_empty_selection()
-      throws IOException
       {
         // given
         reset(messageBus);

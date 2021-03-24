@@ -67,7 +67,7 @@ public class JavaFXAddContentPresentationDelegate implements AddContentPresentat
     private Bindings bindings;
 
     @Override
-    public void bind (final @Nonnull Bindings bindings)
+    public void bind (@Nonnull final Bindings bindings)
       {
         binder.bindBidirectionally(tfFolder, bindings.folder, bindings.folderValid);
         binder.bindBidirectionally(tfTitle, bindings.title, bindings.titleValid);
@@ -81,7 +81,7 @@ public class JavaFXAddContentPresentationDelegate implements AddContentPresentat
       }
 
     @Override
-    public void showUp (final @Nonnull UserNotificationWithFeedback notification)
+    public void showUp (@Nonnull final UserNotificationWithFeedback notification)
       {
         binder.showInModalDialog(pnPane, notification, bindings.valid);
       }

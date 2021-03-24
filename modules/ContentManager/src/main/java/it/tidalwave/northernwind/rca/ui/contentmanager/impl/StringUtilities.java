@@ -45,7 +45,7 @@ public final class StringUtilities
      *
      ******************************************************************************************************************/
     @Nonnull
-    public static String deAccent (final @Nonnull String string)
+    public static String deAccent (@Nonnull final String string)
       {
         final String nfdNormalizedString = java.text.Normalizer.normalize(string, java.text.Normalizer.Form.NFD);
         final Pattern pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");

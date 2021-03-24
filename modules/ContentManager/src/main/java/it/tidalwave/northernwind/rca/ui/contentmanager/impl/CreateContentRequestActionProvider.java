@@ -29,6 +29,7 @@ package it.tidalwave.northernwind.rca.ui.contentmanager.impl;
 import javax.annotation.Nonnull;
 import java.util.Collection;
 import java.util.Collections;
+import it.tidalwave.util.annotation.VisibleForTesting;
 import it.tidalwave.dci.annotation.DciRole;
 import it.tidalwave.messagebus.MessageBus;
 import it.tidalwave.role.ui.Displayable;
@@ -59,7 +60,7 @@ public class CreateContentRequestActionProvider extends DefaultUserActionProvide
     @Nonnull
     private final Content content;
 
-    /* visible for testing */ final UserAction sendCreateContentRequestAction =
+    @VisibleForTesting final UserAction sendCreateContentRequestAction =
             UserAction.of(this::publish, Displayable.of("New content"));
 
     @Override @Nonnull

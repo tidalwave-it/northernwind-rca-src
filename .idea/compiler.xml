@@ -10,15 +10,15 @@
         <module name="it-tidalwave-northernwind-rca-model" />
         <module name="it-tidalwave-northernwind-rca-ui-content-explorer" />
         <module name="it-tidalwave-northernwind-model-core-stripped" />
-        <module name="it-tidalwave-northernwind-rca-ui-site-opener" />
         <module name="it-tidalwave-northernwind-rca-ui-structure-explorer" />
+        <module name="it-tidalwave-northernwind-rca-ui-site-opener" />
         <module name="it-tidalwave-northernwind-rca-ui-structure-editor" />
-        <module name="it-tidalwave-northernwind-rca-ui-javafx" />
         <module name="it-tidalwave-northernwind-rca-ui-content-editor" />
+        <module name="it-tidalwave-northernwind-rca-ui-javafx" />
         <module name="it-tidalwave-northernwind-rca-application-javafx" />
         <module name="it-tidalwave-northernwind-rca-embeddedserver" />
-        <module name="it-tidalwave-northernwind-rca-ui-commons" />
         <module name="it-tidalwave-northernwind-rca-ui-content-manager" />
+        <module name="it-tidalwave-northernwind-rca-ui-commons" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>

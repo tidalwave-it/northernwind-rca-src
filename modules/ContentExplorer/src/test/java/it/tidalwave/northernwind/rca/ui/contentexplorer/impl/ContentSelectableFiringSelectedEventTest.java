@@ -60,7 +60,6 @@ public class ContentSelectableFiringSelectedEventTest
      ******************************************************************************************************************/
     @BeforeMethod
     public void setup()
-      throws Exception
       {
         context = new ClassPathXmlApplicationContext("ContentSelectableFiringSelectedEventTestBeans.xml");
         messageBus = context.getBean(MessageBus.class);

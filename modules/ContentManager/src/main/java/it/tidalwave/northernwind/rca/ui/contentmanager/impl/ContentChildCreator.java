@@ -27,10 +27,9 @@
 package it.tidalwave.northernwind.rca.ui.contentmanager.impl;
 
 import javax.annotation.Nonnull;
-import java.util.Map;
 import java.io.IOException;
-import it.tidalwave.util.Key;
 import it.tidalwave.northernwind.core.model.Content;
+import it.tidalwave.util.TypeSafeMap;
 
 /***********************************************************************************************************************
  *
@@ -41,6 +40,7 @@ import it.tidalwave.northernwind.core.model.Content;
  * @author  Fabrizio Giudici
  *
  **********************************************************************************************************************/
+@FunctionalInterface
 public interface ContentChildCreator
   {
     public static final Class<ContentChildCreator> _ContentChildCreator_ = ContentChildCreator.class;
@@ -54,7 +54,6 @@ public interface ContentChildCreator
      *
      ******************************************************************************************************************/
     @Nonnull
-    public Content createContent (@Nonnull String folderName,
-                                  @Nonnull Map<Key<?>, Object> propertyValues)
+    public Content createContent (@Nonnull String folderName, @Nonnull TypeSafeMap propertyValues)
       throws IOException;
   }

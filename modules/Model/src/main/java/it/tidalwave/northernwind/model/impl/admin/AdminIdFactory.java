@@ -47,13 +47,13 @@ public class AdminIdFactory implements IdFactory
       }
 
     @Override @Nonnull
-    public Id createId (final @Nonnull Class<?> objectClass)
+    public Id createId (@Nonnull final Class<?> objectClass)
       {
         return createId();
       }
 
     @Override @Nonnull
-    public Id createId (final @Nonnull Class<?> objectClass, final @Nonnull Object object)
+    public Id createId (@Nonnull final Class<?> objectClass, @Nonnull final Object object)
       {
         return createId(objectClass);
       }

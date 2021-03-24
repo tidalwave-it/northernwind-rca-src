@@ -26,7 +26,6 @@
  */
 package it.tidalwave.northernwind.rca.ui.contentexplorer.impl;
 
-import java.io.IOException;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import it.tidalwave.util.RoleFactory;
 import it.tidalwave.role.ContextManager;
@@ -95,7 +94,7 @@ public class DefaultContentExplorerPresentationControlTest
         openSiteEvent = mock(OpenSiteEvent.class);
         fileSystem = mock(ResourceFileSystem.class);
         root = mock(ResourceFile.class);
-        content = mockWithAsSupport(Content.class, r((RoleFactory<Content>)(c -> new SimpleCompositePresentable(c))));
+        content = mockWithAsSupport(Content.class, r((RoleFactory<Content>)(SimpleCompositePresentable::new)));
 
         when(fileSystem.findFileByPath(eq(ROOT_DOCUMENT_PATH))).thenReturn(root);
         when(openSiteEvent.getFileSystem()).thenReturn(fileSystem);
@@ -129,7 +128,6 @@ public class DefaultContentExplorerPresentationControlTest
      ******************************************************************************************************************/
     @Test
     public void when_a_Site_has_been_opened_must_properly_populate_the_presentation_and_publish_an_empty_selection()
-      throws IOException
       {
         // given
         reset(messageBus);

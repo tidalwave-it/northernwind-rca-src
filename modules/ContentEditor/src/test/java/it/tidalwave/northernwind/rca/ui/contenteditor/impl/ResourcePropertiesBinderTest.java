@@ -28,9 +28,7 @@ package it.tidalwave.northernwind.rca.ui.contenteditor.impl;
 
 import javax.annotation.Nonnull;
 import java.io.IOException;
-import com.google.common.collect.ImmutableMap;
 import it.tidalwave.util.Key;
-import it.tidalwave.util.NotFoundException;
 import it.tidalwave.role.ContextManager;
 import it.tidalwave.role.ui.BoundProperty;
 import it.tidalwave.role.spi.DefaultContextManagerProvider;
@@ -39,6 +37,7 @@ import it.tidalwave.northernwind.core.impl.model.DefaultResourceProperties;
 import it.tidalwave.northernwind.core.model.ModelFactory;
 import it.tidalwave.northernwind.core.model.spi.ModelFactorySupport;
 import it.tidalwave.northernwind.rca.embeddedserver.EmbeddedServer.Document;
+import it.tidalwave.util.TypeSafeMap;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import it.tidalwave.northernwind.util.test.SpringTestHelper;
@@ -47,7 +46,6 @@ import static it.tidalwave.northernwind.rca.ui.contenteditor.impl.ResourceProper
 import static it.tidalwave.northernwind.rca.ui.contenteditor.impl.ResourcePropertiesMatcher.*;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.*;
 
 /***********************************************************************************************************************
@@ -59,8 +57,8 @@ public class ResourcePropertiesBinderTest
   {
     private final SpringTestHelper helper = new SpringTestHelper(this);
 
-    private static final Key<String> PROPERTY_1 = new Key<String>("property1") {};
-    private static final Key<String> PROPERTY_2 = new Key<String>("property2") {};
+    private static final Key<String> PROPERTY_1 = Key.of("property1", String.class);
+    private static final Key<String> PROPERTY_2 = Key.of("property2", String.class);
 
     private static final String ORIGINAL_PROPERTY_1_VALUE = "<html>\n"
                                                           + "<head>\n"
@@ -84,13 +82,12 @@ public class ResourcePropertiesBinderTest
      ******************************************************************************************************************/
     @BeforeMethod
     public void setup()
-      throws IOException
       {
         ContextManager.Locator.set(new DefaultContextManagerProvider());
         modelFactory = new ModelFactorySupport()
           {
             @Override @Nonnull
-            public ResourceProperties build (final @Nonnull ResourceProperties.Builder builder)
+            public ResourceProperties build (@Nonnull final ResourceProperties.Builder builder)
               {
                 return new DefaultResourceProperties(builder);
               }
@@ -124,7 +121,6 @@ public class ResourcePropertiesBinderTest
      ******************************************************************************************************************/
     @Test(dependsOnMethods = "must_properly_initialize_resources")
     public void must_properly_set_value_to_bound_property()
-      throws NotFoundException, IOException
       {
         // given
         final BoundProperty<String> boundProperty = new BoundProperty<>();
@@ -132,7 +128,7 @@ public class ResourcePropertiesBinderTest
         underTest.bind(PROPERTY_2, boundProperty, callback);
         // then
         assertThat(boundProperty.get(), is(ORIGINAL_PROPERTY_2_VALUE));
-        verifyZeroInteractions(callback);
+        verifyNoInteractions(callback);
       }
 
     /*******************************************************************************************************************
@@ -140,7 +136,6 @@ public class ResourcePropertiesBinderTest
      ******************************************************************************************************************/
     @Test(dependsOnMethods = "must_properly_initialize_resources")
     public void must_be_notified_with_updated_ResourceProperties_when_bound_property_updated()
-      throws NotFoundException, IOException
       {
         // given
         final BoundProperty<String> boundProperty = new BoundProperty<>();
@@ -148,8 +143,10 @@ public class ResourcePropertiesBinderTest
         // when
         boundProperty.set("New title");
         // then
-        verify(callback).notify(argThat(resourcePropertiesWith(map().put(PROPERTY_1, ORIGINAL_PROPERTY_1_VALUE)
-                                                                    .put(PROPERTY_2, "New title"))));
+        final TypeSafeMap map = TypeSafeMap.newInstance()
+                .with(PROPERTY_1, ORIGINAL_PROPERTY_1_VALUE)
+                .with(PROPERTY_2, "New title");
+        verify(callback).notify(argThat(resourcePropertiesWith(map)));
         verifyNoMoreInteractions(callback);
       }
 
@@ -168,7 +165,7 @@ public class ResourcePropertiesBinderTest
         final TestResource tr = helper.testResourceFor("DocumentProxy.txt");
         tr.writeToActualFile(document.getContent().replaceAll("\\n$", ""));
         tr.assertActualFileContentSameAsExpected();
-        verifyZeroInteractions(callback);
+        verifyNoInteractions(callback);
       }
 
     /*******************************************************************************************************************
@@ -176,31 +173,23 @@ public class ResourcePropertiesBinderTest
      ******************************************************************************************************************/
     @Test(dependsOnMethods = "must_properly_initialize_resources")
     public void must_be_notified_with_updated_ResourceProperties_when_bound_document_updated()
-      throws IOException
       {
         // given
         final Document document = underTest.createBoundDocument(PROPERTY_1, callback);
         // when
         document.update("the updated body\n");
         // then
-        verify(callback).notify(argThat(resourcePropertiesWith(map().put(PROPERTY_1, "<!DOCTYPE html>\n"
-                                                                                   + "<html>\n"
-                                                                                   + "  <head>\n"
-                                                                                   + "  </head>\n"
-                                                                                   + "  <body>\n"
-                                                                                   + "     the updated body\n"
-                                                                                   + "  </body>\n"
-                                                                                   + "</html>\n")
-                                                                    .put(PROPERTY_2, ORIGINAL_PROPERTY_2_VALUE))));
+        final TypeSafeMap map = TypeSafeMap.newInstance()
+                                           .with(PROPERTY_1, "<!DOCTYPE html>\n"
+                                                            + "<html>\n"
+                                                            + "  <head>\n"
+                                                            + "  </head>\n"
+                                                            + "  <body>\n"
+                                                            + "     the updated body\n"
+                                                            + "  </body>\n"
+                                                            + "</html>\n")
+                                           .with(PROPERTY_2, ORIGINAL_PROPERTY_2_VALUE);
+        verify(callback).notify(argThat(resourcePropertiesWith(map)));
         verifyNoMoreInteractions(callback);
-      }
-
-    /*******************************************************************************************************************
-     *
-     ******************************************************************************************************************/
-    @Nonnull
-    private static ImmutableMap.Builder<Key<String>, String> map()
-      {
-        return new ImmutableMap.Builder<>();
       }
   }
