@@ -61,14 +61,13 @@
         <tft.javac.release>11</tft.javac.release>
 
         <activation.version>1.1.1</activation.version>
-        <aquafx.version>0.2</aquafx.version>
         <jaxb.version>2.2.11</jaxb.version>
         <jetty.version>8.1.10.v20130312</jetty.version>
         <jsoup.version>1.8.3</jsoup.version>
         <netbeans.version>RELEASE80</netbeans.version>
         <northernwind.version>1.2-ALPHA-6</northernwind.version>
         <tft.spring.version>5.3.1</tft.spring.version>
-        <steelblue.version>1.1-ALPHA-1</steelblue.version>
+        <steelblue.version>1.1-ALPHA-2</steelblue.version>
         <!-- Should activate by itself with JDK 11+, but it fails with Jenkins Maven integration. -->
         <tft.javafx.version>11.0.1</tft.javafx.version>
         <thesefoolishthings.version>3.2-ALPHA-8</thesefoolishthings.version>
@@ -184,12 +183,6 @@
                 <groupId>org.jsoup</groupId>
                 <artifactId>jsoup</artifactId>
                 <version>${jsoup.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.aquafx-project</groupId>
-                <artifactId>aquafx</artifactId>
-                <version>${aquafx.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
