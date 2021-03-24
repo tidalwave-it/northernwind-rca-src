@@ -29,9 +29,6 @@ package it.tidalwave.northernwind.model.admin;
 import it.tidalwave.util.Key;
 import it.tidalwave.util.Id;
 import java.time.ZonedDateTime;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import lombok.experimental.UtilityClass;
 
 /***********************************************************************************************************************

@@ -34,7 +34,6 @@ import it.tidalwave.northernwind.core.model.SiteNode;
 import it.tidalwave.northernwind.rca.ui.event.SiteNodeSelectedEvent;
 import it.tidalwave.northernwind.rca.ui.structureeditor.StructureEditorPresentation;
 import it.tidalwave.northernwind.rca.ui.structureeditor.StructureEditorPresentationControl;
-import it.tidalwave.role.ui.PresentationModel;
 import it.tidalwave.util.annotation.VisibleForTesting;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

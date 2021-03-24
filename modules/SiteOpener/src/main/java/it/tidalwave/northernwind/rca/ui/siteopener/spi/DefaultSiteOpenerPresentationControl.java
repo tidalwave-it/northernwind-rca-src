@@ -27,7 +27,6 @@
 package it.tidalwave.northernwind.rca.ui.siteopener.spi;
 
 import javax.annotation.Nonnull;
-import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import it.tidalwave.role.ui.BoundProperty;

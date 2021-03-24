@@ -26,7 +26,6 @@
  */
 package it.tidalwave.northernwind.rca.ui.structureexplorer.impl;
 
-import java.io.IOException;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import it.tidalwave.util.RoleFactory;
 import it.tidalwave.role.ContextManager;

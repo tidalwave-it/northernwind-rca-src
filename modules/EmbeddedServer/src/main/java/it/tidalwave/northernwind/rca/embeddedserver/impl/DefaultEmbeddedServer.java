@@ -51,7 +51,6 @@ import it.tidalwave.northernwind.core.model.ResourceFile;
 import it.tidalwave.northernwind.core.model.ResourceFileSystem;
 import it.tidalwave.northernwind.rca.embeddedserver.EmbeddedServer;
 import it.tidalwave.northernwind.rca.ui.event.OpenSiteEvent;
-import lombok.Cleanup;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;

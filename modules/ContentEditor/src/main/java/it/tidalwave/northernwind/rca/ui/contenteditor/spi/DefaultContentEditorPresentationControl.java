@@ -33,7 +33,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import it.tidalwave.role.ui.BoundProperty;
-import it.tidalwave.role.ui.PresentationModel;
 import it.tidalwave.role.ui.UserAction;
 import it.tidalwave.messagebus.annotation.ListensTo;
 import it.tidalwave.messagebus.annotation.SimpleMessageSubscriber;
